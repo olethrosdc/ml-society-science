@@ -1,0 +1,91 @@
+* Part 1. Classification.
+
+Project: Credit risk for mortgages. [Aim: Privacy and Fairness]
+
+** Lecture 1: ML Intro
+
+Machine learning as science: hypotheses, experiments and conclusions.
+kNN example: What is classification? What is clustering? Making sure you formalise the problem.
+Feature engineering: how you can classify everything perfectly with kNN (in the training set).
+Reproducibility: Finding ‘important features’ in a small dataset.  The fallacy of p-values.
+The aim of this lecture is to introduce students to the use and mis-use of automated decision making algorithms for problems in science and society.
+
+** Lecture 2: Decision Problems
+   CLOCK: [2018-03-19 mån 12:04]
+
+Decision Problems, Classification: (1) Choosing the classifier family (2) Selecting a classifier from the family (algorithmic) (3) The decisions made by the classifier (inherent in the classifier).
+
+Fairness. Conditional Independence, Lipschitz functions.
+Introduction to the COMPAS dataset and analysis
+Deriving a fair College admissions decision rule.
+
+The purpose of this lecture is to familiarise students with all the decisions made from the beginning to the end of the data science process, and with the possible externalities when an algorithm is applied to real data.
+
+*** Notes
+
+Classification is the problem of selecting a classifier so as to make
+
+** Lecture 3: Privacy
+
+Privacy. Differential Privacy, Databases
+The Random Response Mechanism. Laplace Mechanism.
+
+The purpose of this lecture is to introduce the students to basic database concepts, as well as to privacy problems that can occur when allowing access to a database to a third party.
+
+** Lecture 4: Statistical Inference
+
+*Privacy* Differential Privacy, Statistical Inference, and Discrete Bayesian Networks.
+Exponential mechanism.
+Construction of a simple DBN for lung cancer.
+
+The purpose of this lecture is to more generally talk about statistical queries on databases.
+
+* Part 2. Structured/unsupervised learning (social networks)
+
+Project: Fake news. [Network Influence algorithm, Latent Dirichlet Allocation]
+
+** Lecture 1: Clustering
+
+Unstructured databases.
+Clustering / Anomaly detection.
+
+The purpose of this lecture is to talk about non-matrix data, like graphs, and make a link to graphical models and simple problems like anomaly detection.
+
+** Lecture 2: DNA Testing
+
+DNA testing and HMMs.
+
+Here we talk more about unstructured data, in this case about DNA data.
+
+** Lecture 3: The web
+
+Web data, ontologies, crawling.
+Knowledge representation.
+ 
+This is web-structured data, which typically has some meta-information. 
+ 
+** Lecture 4: Recommendation systems
+
+Matrix Factorisation / LDA: Recommendation systems I (user similarity)
+
+This lecture introduces analysis of text data, and an application to recommendation systems.
+
+* Part 3. Experiment design
+
+Project: Experiment design for energy policy or Medical Diagnostics [Aim: Reproducibility]
+
+** Lecture 1. Online data collection. Optimal stopping (expensive labels) A/B Testing, Bandit Problems.
+
+This lecture introduces the concept of online data collection, rather than going through existing data. The applications considered are manual labelling via AMT or advertising.
+
+** Lecture 2. Markov decision processes and Dynamic Programming (active learning and experiment design more generally)
+
+The optimal data collection procedure can be formalised as an MDP, and this is explained here.
+
+** Lecture 3. Safety: Risk-Sensitive Decision Making
+
+Sometimes we are risk averse… what do we mean by this, and what algorithms can we use?
+
+** Lecture 4. Safety: Model validation and importance Sampling
+
+When we have developed an algorithm, how sure can we be that it works well in the real world? 
