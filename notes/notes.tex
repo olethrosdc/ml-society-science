@@ -1,9 +1,48 @@
-\documentclass{book}
+\documentclass[a4paper,twoside]{book}
 
+\usepackage[notheorems]{beamerarticle}
+
+
+\mode<presentation>{
+  % \useinnertheme{rectangles}
+  %\useoutertheme{infolines}
+  % \usecolortheme{crane}
+  % \usecolortheme{rose}
+}
+\input{../preamble}
+
+
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{automata}
+\usetikzlibrary{topaths}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.markings}
+
+\tikzstyle{place}=[circle,draw=black,inner sep=0mm, minimum size=6mm]
+\tikzstyle{utility}=[diamond,draw=black,draw=blue!50,fill=blue!20,inner sep=0mm, minimum size=8mm]
+\tikzstyle{select}=[rectangle,draw=black,draw=blue!50,fill=blue!20,inner sep=0mm, minimum size=6mm]
+\tikzstyle{hidden}=[circle,draw=black,draw=green,fill=green!20,inner sep=0mm, minimum size=6mm]
+\tikzstyle{transition}=[rectangle,draw=black!50,fill=black!20,thick]
+\tikzstyle{observed}=[circle,draw=black,draw=blue!50,fill=blue!20,inner sep=0mm, minimum size=6mm]
+\tikzstyle{someset}=[circle,draw=black,minimum size=8mm]
+\tikzstyle{point}=[circle,draw=black,fill=black]
+
+\usepackage{multimedia}
+
+\usepackage[sort&compress,comma,super]{natbib}
+\def\newblock{} % To avoid a compilation error about a function \newblock undefined
+
+\title{Machine learning in science and society}
+\subtitle{From automated science to beneficial artificial intelligence}
+\author[C. Dimitrakakis]{Christos Dimitrakakis}
 \begin{document}
 
-\chapter{Simple decision problems}
-\include{ml-intro}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\input{ml-intro}
 \chapter{Structured problems}
 
 \chapter{Experiment design}

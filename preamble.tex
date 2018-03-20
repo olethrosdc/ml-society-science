@@ -1,0 +1,394 @@
+%% Pre-amble - commonly defined macros.
+
+%% Packages
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{isomath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+%%\usepackage{theorem}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{mathrsfs}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{makeidx} 
+\usepackage{color}
+%\usepackage{psfrag}
+%\usepackage{pstricks}
+%\usepackage{pst-node}
+%\usepackage{multido} 
+%\usepackage{varioref}
+\usepackage{tikz}
+%\usepackage[T1]{fontenc}
+%\usepackage{textcomp}
+%\usepackage[utf8x]{inputenc}
+\usepackage{gnuplot-lua-tikz}
+%%\usepackage{preview}
+\usepackage{pgfplots}
+\usepackage{xspace}
+\usepackage{multirow}
+\usepackage{bigdelim}
+\usepackage{rotating}
+\usetikzlibrary{pgfplots.groupplots,external,shapes.callouts}
+\usepgfplotslibrary{patchplots,colormaps}
+ % \pgfplotsset{compat=newest} 
+% \pgfplotsset{plot coordinates/math parser=false}
+\tikzstyle{na} = [baseline=-.5ex]
+\tikzstyle{every picture}+=[remember picture]
+
+%\tikzexternalize
+
+%\usepackage{setspace} %% for using halfspaces
+
+%\usepackage[left=2.5cm,right=2.5cm]{geometry}
+%\usepackage[french, english]{babel}
+
+\numberwithin{equation}{section} 
+
+%\theoremstyle{plain} \newtheorem{remark}{Remark}[section]
+%\theoremstyle{plain} \newtheorem{definition}{Definition}[section]
+%\theoremstyle{plain} \newtheorem{example}{Example}[section]
+\theoremstyle{plain} \newtheorem{assumption}{Assumption}[section]
+%\theoremstyle{plain} \newtheorem{conjecture}{Conjecture}[section]
+%\theoremstyle{plain} \newtheorem{theorem}{Theorem}[section]
+%\theoremstyle{plain} \newtheorem{proposition}{Proposition}[section]
+%\theoremstyle{plain} \newtheorem{lemma}{Lemma}[section]
+%\theoremstyle{plain} \newtheorem{corollary}{Corollary}[section]
+
+
+%\newenvironment{proof}[1][Proof]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newcommand{\qed}{\nobreak \ifvmode \relax \else
+%      \ifdim\lastskip<1.5em \hskip-\lastskip
+%      \hskip1.5em plus0em minus0.5em \fi \nobreak
+%      \vrule height0.5em width0.5em depth0.25em\fi}
+
+\newcommand \E {\mathop{\mbox{\ensuremath{\mathbb{E}}}}\nolimits}
+\newcommand \hE {\hat{\mathop{\mbox{\ensuremath{\mathbb{E}}}}\nolimits}}
+\renewcommand \Pr {\mathop{\mbox{\ensuremath{\mathbb{P}}}}\nolimits}
+\newcommand \given {\mathrel{|}}
+\newcommand \gvn {|}
+\newcommand \eq {{=}}
+\newcommand{\set}[1]{\left\{\, #1 \,\right\} }
+\newcommand{\cset}[2]{\left\{\, #1 ~\middle|~ #2 \,\right\} }
+\newcommand{\meas}[1]{\mu\left(#1\right)}
+
+%% Special characters
+\newcommand\Reals {{\mathbb{R}}}
+\newcommand\Naturals {{\mathbb{N}}} 
+
+\newcommand \FB {{\mathfrak{B}}}
+\newcommand \FD {{\mathfrak{D}}}
+\newcommand \FF {{\mathfrak{F}}}
+\newcommand \FM {{\mathfrak{M}}}
+\newcommand \FK {{\mathfrak{K}}}
+\newcommand \FJ {{\mathfrak{J}}}
+\newcommand \FL {{\mathfrak{L}}}
+\newcommand \FO {{\mathfrak{O}}}
+\newcommand \FS {{\mathfrak{S}}}
+\newcommand \FT {{\mathfrak{T}}}
+\newcommand \FP {{\mathfrak{P}}}
+\newcommand \FR {{\mathfrak{R}}}
+
+
+\newcommand \CA {{\mathcal{A}}}
+\newcommand \CB {{\mathcal{B}}}
+\newcommand \CC {{\mathcal{C}}}
+\newcommand \CD {{\mathcal{D}}}
+\newcommand \CE {{\mathcal{E}}}
+\newcommand \CF {{\mathcal{F}}}
+\newcommand \CG {{\mathcal{G}}}
+\newcommand \CH {{\mathcal{H}}}
+\newcommand \CJ {{\mathcal{J}}}
+\newcommand \CL {{\mathcal{L}}}
+\newcommand \CM {{\mathcal{M}}}
+\newcommand \CN {{\mathcal{N}}}
+\newcommand \CO {{\mathcal{O}}}
+\newcommand \CP {{\mathcal{P}}}
+\newcommand \CQ {{\mathcal{Q}}}
+\newcommand \CR {{\mathcal{R}}}
+\newcommand \CS {{\mathcal{S}}}
+\newcommand \CT {{\mathcal{T}}}
+\newcommand \CU {{\mathcal{U}}}
+\newcommand \CV {{\mathcal{V}}}
+\newcommand \CW {{\mathcal{W}}}
+\newcommand \CX {{\mathcal{X}}}
+\newcommand \CY {{\mathcal{Y}}}
+\newcommand \CZ {{\mathcal{Z}}}
+
+\newcommand \BA {{\mathbb{A}}}
+\newcommand \BI {{\mathbb{I}}}
+\newcommand \BS {{\mathbb{S}}}
+
+\newcommand \bx {{\mathbf{x}}}
+\newcommand \by {{\mathbf{y}}}
+\newcommand \bu {{\mathbf{u}}}
+\newcommand \bw {{\mathbf{w}}}
+\newcommand \ba {{\mathbf{a}}}
+\newcommand \bat {{\mathbf{a}_t}}
+\newcommand \bh {{\mathbf{h}}}
+\newcommand \bo {{\mathbf{o}}}
+\newcommand \bp {{\mathbf{p}}}
+\newcommand \bs {{\mathbf{s}}}
+\newcommand \br {{\mathbf{r}}}
+
+\newcommand \SA {\mathscr{A}}
+\newcommand \SB {\mathscr{B}}
+\newcommand \SC {\mathscr{C}}
+\newcommand \SF {\mathscr{F}}
+\newcommand \SG {\mathscr{G}}
+\newcommand \SH {\mathscr{H}}
+\newcommand \SJ {\mathscr{J}}
+\newcommand \SL {\mathscr{L}}
+\newcommand \SP {\mathscr{P}}
+%%\newcommand \SS {\mathscr{S}}
+\newcommand \ST {\mathscr{T}}
+\newcommand \SU {\mathscr{U}}
+\newcommand \SV {\mathscr{V}}
+\newcommand \SW {\mathscr{W}}
+
+\newcommand \hM {\widehat{M}}
+
+\newcommand \p {\partial}
+
+\newcommand \then{\Rightarrow}
+\newcommand \defn {\mathrel{\triangleq}}
+%\newcommand \StateSet {{\CQ}}
+
+
+%% Commands
+
+\newcommand \argmax{\mathop{\rm arg\,max}}
+\newcommand \argmin{\mathop{\rm arg\,min}}
+\newcommand \dtan{\mathop{\rm dtan}}
+\newcommand \sgn{\mathop{\rm sgn}}
+\newcommand \trace{\mathop{\rm tr}}
+
+\newcommand \onenorm[1]{\left\|#1\right\|_1}
+\newcommand \pnorm[2]{\left\|#1\right\|_{#2}}
+\newcommand \inftynorm[1]{\left\right\|#1\|_\infty}
+\newcommand \norm[1]{\left\|#1\right\|}
+
+%%\newcommand \defn {\triangleq}
+%%\newcommand \defn {\equiv}
+%%\newcommand \defn {\coloneq}
+%%\newcommand \defn {\stackrel{\text{\tiny def}}{=}}
+%%\newcommand \defn {\stackrel{\text{def}}{\hbox{\equalsfill}}}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\newcommand \Normal {\mathop{\mathpzc{N}}\nolimits}
+\newcommand \Poisson {\mathop{\mathpzc{Poisson}}\nolimits}
+\newcommand \Multinomial {\mathop{\mathpzc{Multinomial}}\nolimits}
+\newcommand \Dirichlet {\mathop{\mathpzc{Dirichlet}}\nolimits}
+\newcommand \Student {\mathop{\mathpzc{Student}}\nolimits}
+\newcommand \Bernoulli {\mathop{\mathpzc{Bernoulli}}\nolimits}
+\newcommand \BetaDist   {\mathop{\mathpzc{Beta}}\nolimits}
+\newcommand \GammaDist {\mathop{\mathpzc{Gamma}}\nolimits}
+\newcommand \Softmax{\mathop{\mathpzc{Softmax}}\nolimits}
+\newcommand \Exp{\mathop{\mathpzc{Exp}}\nolimits}
+\newcommand \Uniform{\mathop{\mathpzc{Unif}}\nolimits}
+\newcommand \Laplace {\mathop{\mathpzc{Laplace}}\nolimits}
+
+\newcommand \Params {\Theta}
+\newcommand \param {\theta}
+\newcommand \family {\mathcal{F}}
+\newcommand{\ie}{\emph{i.e.}\xspace}
+\newcommand{\eg}{\emph{e.g.}\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+\newcommand{\constg}{}
+\newcommand{\Bels}{\Xi}
+\newcommand \Bay {\ensuremath{\mathscr{B}}}
+\newcommand \Adv {\ensuremath{\mathscr{A}}}
+
+\newcommand \Beliefs {\xi}
+\newcommand \Actions {\CA}
+\newcommand \States {\CS}
+
+\newcommand \Borel[1] {\FF(#1)}
+\newcommand \Probs[1] {\FM(#1)}
+
+
+\newcommand \pol {\pi}
+\newcommand \Pols {\Pi}
+\newcommand \mdp {\mu}
+\newcommand \MDPs {\CM}
+\newcommand \meanMDP {{\bar{\mdp}_\xi}}
+
+\newcommand {\msqr} {\vrule height0.33cm width0.44cm}
+\newcommand {\bsqr} {\vrule height0.55cm width0.66cm}
+
+\newcommand\ind[1]{\mathop{\mbox{\ensuremath{\mathbb{I}}}}\left\{#1\right\}}
+\newcommand\Ind{\mbox{\bf{I}}}
+
+\newcommand\dd{\,\mathrm{d}}
+
+\newcommand \seq[2]{#1^{#2}}
+\newcommand \pseq[3]{#1_{#2}^{#3}}
+\newcommand \sam[2]{#1^{(#2)}}
+
+
+\newcommand \eqlike {\eqsim}
+\newcommand \gtlike {\succ}
+\newcommand \ltlike {\prec}
+\newcommand \gelike {\succsim}
+\newcommand \lelike {\precsim}
+
+\newcommand \eqpref {\eqsim^*}
+\newcommand \gtpref {\succ^*}
+\newcommand \ltpref {\prec^*}
+\newcommand \gepref {\succsim^*}
+\newcommand \lepref {\precsim^*}
+
+\newcommand \Util {U}
+\newcommand \BUtil {U^*}
+\newcommand \MUtil {\matrixsym{U}}
+\newcommand \risk {\sigma}
+\newcommand \Brisk {\sigma^*}
+\newcommand \Loss {\ell}
+\newcommand \Regret {L}
+\newcommand \regret {\ell}
+\newcommand \act {a}
+\newcommand \Acts {\CA}
+\newcommand \decision {d}
+\newcommand \Decisions {\mathcal{D}}
+\newcommand \dec {\delta}
+\newcommand \Decs {\mathscr{D}}
+\newcommand \dprior {\pi}
+\newcommand \DPriors {\Pi}
+
+
+\newcommand \eye {\matrixsym{I}}
+\newcommand \MA {\matrixsym{A}}
+\newcommand \MX {\matrixsym{X}}
+\newcommand \MY {\matrixsym{Y}}
+\newcommand \MB {\matrixsym{B}}
+\newcommand \MV {\matrixsym{V}}
+\newcommand \MW {\matrixsym{W}}
+\newcommand \MP {\matrixsym{P}}
+\newcommand \vs {\vectorsym{s}}
+\newcommand \vx {\vectorsym{x}}
+\newcommand \vr {\vectorsym{r}}
+\newcommand \vm {\vectorsym{m}}
+\newcommand \vb {\vectorsym{b}}
+\newcommand \vt {\vectorsym{\theta}}
+
+\newcommand \pn[1] {\vx_{[#1]}}
+
+\newcommand \basis {f}
+\newcommand \bel {\xi}
+\newcommand \hyper {\omega}
+\newcommand \mbel {\bel^D}
+\newcommand \pbel {\bel^C}
+
+\newcommand \pmean {\matrixsym{M}}
+\newcommand \pcov {\matrixsym{C}}
+\newcommand \pwish {\matrixsym{W}}
+\newcommand \porder {n}
+
+\newcommand \Syx {\matrixsym{\Sigma}_{yx}}
+\newcommand \Sxx {\matrixsym{\Sigma}_{xx}}
+\newcommand \Syy {\matrixsym{\Sigma}_{yy}}
+\newcommand \Symx {\matrixsym{\Sigma}_{y\mid x}}
+
+\newcommand \trans[1] {#1^\top}
+
+\newcommand \noise {\vectorsym{\varepsilon}}
+
+\newcommand \node[1] {\nu_{#1}}
+\newcommand \pt {p_t}
+
+
+\newcommand \CSet {G}
+\newcommand \Parent[1] {\mathfrak{P}(#1)}
+\newcommand \Children[1] {\mathfrak{C}(#1)}
+\newcommand \Ancestors[1] {\mathfrak{A}(#1)}
+\newcommand \Descendants[1] {\mathfrak{D}(#1)}
+\newcommand \metric[2] {\nu(#1, #2)}
+\newcommand \zooming {\zeta}
+\newcommand \depth[1] {d(#1)}
+
+\newcommand \disc {\gamma}
+
+\newcommand \dist[2]{D\left(#1 ~\middle\|~ #2\right)}
+\newcommand \marg {\phi}
+\newcommand \Ae {A_\epsilon^\hist}
+
+\newcommand \lrdist[2]{d_{lr}(#1, #2)}
+\newcommand \xdistChar{\rho}
+\newcommand \xdist[2]{\xdistChar(#1, #2)}
+\newcommand \pdist[2]{\kappa(#1, #2)}
+\newcommand{\constScale}{\omega}
+\newcommand{\constScaleB}{\kappa}
+
+\newcommand \fields[1]{\sigma(#1)}
+
+\newcommand \hist {h}
+
+\newcommand \abs[1] {\left|#1\right|}
+
+\newcommand{\errorband}[5][]{ % x column, y column, error column, optional argument for setting style of the area plot
+\pgfplotstableread[col sep=comma, skip first n=2]{#2}\datatable
+    % Lower bound (invisible plot)
+    \addplot [draw=none, stack plots=y, forget plot] table [
+        x={#3},
+        y expr=\thisrow{#4}-\thisrow{#5}
+    ] {\datatable};
+
+    % Stack twice the error, draw as area plot
+    \addplot [draw=none, fill=gray!40, stack plots=y, area legend, #1] table [
+        x={#3},
+        y expr=2*\thisrow{#5}
+    ] {\datatable} \closedcycle;
+
+    % Reset stack using invisible plot
+    \addplot [forget plot, stack plots=y,draw=none] table [x={#3}, y expr=-(\thisrow{#4}+\thisrow{#5})] {\datatable};
+}
+
+
+%%% macros to make things smalller
+% For comparison, the existing overlap macros:
+% \def\llap#1{\hbox to 0pt{\hss#1}}
+% \def\rlap#1{\hbox to 0pt{#1\hss}}
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}
+\def\mathllap{\mathpalette\mathllapinternal}
+\def\mathrlap{\mathpalette\mathrlapinternal}
+\def\mathclap{\mathpalette\mathclapinternal}
+\def\mathllapinternal#1#2{%
+           \llap{$\mathsurround=0pt#1{#2}$}}
+\def\mathrlapinternal#1#2{%
+           \rlap{$\mathsurround=0pt#1{#2}$}}
+\def\mathclapinternal#1#2{%
+           \clap{$\mathsurround=0pt#1{#2}$}}
+
+
+
+
+\usetikzlibrary{automata}
+\usetikzlibrary{topaths}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{intersections}
+
+
+\tikzstyle{utility}=[diamond,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=8mm]
+\tikzstyle{select}=[rectangle,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=6mm]
+\tikzstyle{hidden}=[dashed,draw=black,fill=red!10]
+\tikzstyle{RV}=[circle,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=6mm]
+\tikzstyle{place}=[circle,draw=black,draw=blue!50,fill=blue!20,inner sep=0mm, minimum size=9mm]
+\tikzstyle{select}=[rectangle,draw=black,draw=blue!50,fill=blue!20,inner sep=0mm, minimum size=6mm]
+\tikzstyle{transition}=[rectangle,draw=black!50,fill=black!20,thick]
+\tikzstyle{observed}=[circle,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=6mm]
+\tikzstyle{someset}=[circle,draw=black,minimum size=8mm]
+
+\tikzstyle{known}=[rectangle,draw=green!50,fill=green!20,thick]
+\tikzstyle{queried}=[rectangle,draw=blue!50,fill=blue!20,thick]
+%\tikzstyle{transition}=[rectangle,draw=black!50,fill=black!20,thick]
+
+
+\definecolor{dark-green}{rgb}{0,0.5,0}
