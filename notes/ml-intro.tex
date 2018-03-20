@@ -664,11 +664,10 @@ All machine learning problems are essentially decision problems. This essentiall
 \begin{frame}
   \frametitle{Preferences}
 
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{block}{Food}
-        \begin{itemize}
-        \item[A] McDonald's cheeseburger
+  \begin{example}
+    \begin{block}{Food}
+      \begin{itemize}
+      \item[A] McDonald's cheeseburger
         \item[B] Surstromming
         \item[C] Oatmeal
         \end{itemize}
@@ -687,29 +686,24 @@ All machine learning problems are essentially decision problems. This essentiall
         \item[C] Ticket to Nutcracker
         \end{itemize}
       \end{block}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \uncover<2->{
-        \begin{itemize}
-        \item Each choice is a \alert{reward} $r \in \CR$.
-        \item There is a \alert{utility function} $U : \CR \to \Reals$.
-        \item We (weakly) prefer $A$ to $B$ iff $U(A) \geq U(B)$.
-        \end{itemize}
-      }
-      \uncover<3->{
-        \begin{exercise}
-          From your individual preferences, derive a \alert{common utility function} that reflects everybody's preferences.
-        \end{exercise}
-      }
-    \end{column}
-  \end{columns}
+  \end{example}
+
+  \only<article>{The simplest decision problem involves selecting one item from a set of choices.}  
+  \begin{itemize}
+  \item Each choice is called a \alert{reward} $r \in \CR$.
+  \item There is a \alert{utility function} $U : \CR \to \Reals$, assigning values to reward.
+  \item We (weakly) prefer $A$ to $B$ iff $U(A) \geq U(B)$.
+  \end{itemize}
+
+  \begin{exercise}
+    From your individual preferences, derive a \alert{common utility function} that reflects everybody's preferences in the class.
+  \end{exercise}
 \end{frame}
-
-
 
 
 \begin{frame}
   \frametitle{Uncertain rewards}
+  \only<article>{However, in real life, there are many cases where we can only choose between uncertain outcomes. The simplest example are lottery tickets, where rewards are essentially random. However, in many cases the rewards are not really random, but simply uncertain. In those cases it is useful to represent our uncertainty with probabilities as well, even though there is nothing really random.}
   \begin{example}%ro: rather an exercise?
     You are going to work, and it might rain.
     What do you do?
@@ -815,35 +809,47 @@ All machine learning problems are essentially decision problems. This essentiall
 
 
 \subsection{Decision rules}
-\begin{frame}
-  \tableofcontents[currentsection,currentsubsection]
-\end{frame}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+\only<article>{We now move from simple decisions to decisions that
+  depend on some observation. This is most easily embodied through the
+  problem of classification. }
 \begin{frame}
   \frametitle{Deciding a class given a model}
+  \only<article>{In the simplest classification problem, we observe some features $x_t$ and want to make a guess $\decision_t$ about the true class label $y_t$. Assuming we have some probabilistic model $P(y_t \mid x_t)$, we want to define a decision rule $\pol(\decision_t \mid x_t)$ that is optimal, in the sense that it maximises expected utility for $P$.}
   \begin{itemize}
   \item Features $x_t \in \CX$.
   \item Label $y_t \in \CY$.
   \item Decisions $\decision_t \in \CA$.
   \item Decision rule $\pol(\decision_t \mid x_t)$ assigns probabilities to actions.
   \end{itemize}
-
+  
   \begin{block}{Standard classification problem}
-    $\CA = \CY$ and $U(\decision, y) = \ind{\decision = y}$.
+    \only<article>{In the simplest case, the set of decisions we make are the same as the set of classes}
+    \[
+    \CA = \CY, \qquad
+    U(\decision, y) = \ind{\decision = y}
+    \]
   \end{block}
 
   \begin{exercise}
     If we have a model $P(y_t \mid x_t)$, and a suitable $U$, what is the optimal decision to make?
   \end{exercise}
-  \uncover<2->{
-    \[
+  \only<presentation>{
+    \uncover<2->{
+      \[
       \decision_t \in \argmax_{\decision \in \Decisions} \sum_y P(y_t = y \mid x_t) \Util(\decision, y)
-    \]
-  }
-  \uncover<3>{
-    For standard classification,
-    \[
+      \]
+    }
+    \uncover<3>{
+      For standard classification,
+      \[
       \decision_t \in \argmax_{\decision \in \Decisions} P(y_t = \decision \mid x_t)
-    \]
+      \]
+    }
   }
 \end{frame}
 
