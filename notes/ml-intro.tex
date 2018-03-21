@@ -1,6 +1,10 @@
 \chapter{Simple decision problems}
 
-\section{Introduction to achine learning}
+\only<article>{This chapter deals with simple decision problems, whereby a decision maker (DM) makes a simple choice among many. In some of this problems the DM has to make a decision after first observing some side-information. Then the DM uses a \emph{decision rule} to assign a probability to each possible decision for each possible side-information. However, designing the decision rule is not trivial , as it relies on previously collected data. A higher-level decision includes choosing the decision rule itself. The problems of classification and regression fall within this framework. While most steps in the process can be automated and formalised, a lot of decisions are actual design choices made by humans. This creates scope for errors and misinterpretation of results.
+
+In this chapter, we shall formalise all these simple decision problems from the point of view of statistical decision theory. The first question is, given a real world application, what type of decision problem does it map to? Then, what kind of machine learning algorithms can we use to solve it? What are the underlying assumptions and how valid are our conclusions? Does application of the method have a societal impact? In particular, is there scope for privacy violations, reinforcing racial biases or creating other negative externalities?
+}
+\section{Introduction to machine learning}
  
 
 \only<article>{
@@ -130,12 +134,12 @@
  justice, and disease control which use machine learning.  In all
  those cases, we have to worry about a great many things that are
  outside the scope of the machine learning problems itself. These
- are privacy - you don't want your data used in ways that you have
- not consented to - fairness, you don't want minorities to be
- disadvantaged - and safety - you don't want your car to crash.
+ are (a) privacy: you don't want your data used in ways that you have
+ not consented to (b) fairness: you don't want minorities to be
+ disadvantaged and (c) safety: you don't want your car to crash.
 }
 
-\section{Data analysis}
+\subsection{Data analysis}
 
 \only<article>{
   To make the above more concrete, let's have a look at a number of problems. 
@@ -146,30 +150,32 @@
   \centering
   \Huge{What can machine learning do?}
 \end{frame}
-
+}
 \begin{frame}
   \frametitle{Can machines learn from data?}
   \begin{center}
     \only<1>{\includegraphics[width=0.8\textwidth]{../figures/text-cloud}
       \\
-      {\Large An usupervised learning problem: topic modelling}
+
+      {\large An unsupervised learning problem: topic modelling}
     }
     \only<2>{\includegraphics[width=0.8\textwidth]{../figures/Face-Recognition}
       \\
-      {\Large A supervised learning problem: object recognition}
+
+      {\large A supervised learning problem: object recognition}
     }
   \end{center}
 \end{frame}
-}
+
 
 \only<article>{
-You can can machine learning just to analyse, or find structure in
+You can use machine learning just to analyse, or find structure in
 the data. This is generally called unsupervised learning. One such
 example is topic modelling, where you let the algorithm find topics
 from a corpus of text.  These days machines are used to learn from
 in many applications.  These include speech recognition, facial
 authentication, weather prediction, etc. In general, in these
-problems we are given a *labelled* dataset with, say, example
+problems we are given a \emph{labelled} dataset with, say, example
 images from each class. Unfortunately this does not scale very
 well, because obtaining labels is expensive.
 
@@ -182,18 +188,17 @@ perhaps because we found that our model is wrong.
 
 
 
-\only<presentations>{
 \begin{frame}
   \frametitle{Can machines learn from their mistakes?}
   \begin{center}
-    \movie{\includegraphics[width=0.7\textwidth]{../figures/rl_interaction}}{Pancakes.mp4}
+    \includegraphics[width=0.7\textwidth]{../figures/rl_interaction}
   \end{center}
   \begin{block}{Reinforcement learning}
     Take actions $a_1, \ldots, a_t$, so as to maximise utility
     $U = \sum_{t=1}^T r_t$
   \end{block}
 \end{frame}
-}
+
 
 \only<article>{
 So, what happens when we make a mistake? Can we somehow recognise
@@ -211,34 +216,31 @@ the rat takes a series of actions; at each step it also obtains a
 reward, let's say equal to 0 when it has no cheese, and 1 when it
 eats cheese. Then we can declare that the rat's utility is the sum
 of all rewards over time, i.e. the total amount of cheese it can
-eat before it dies.
+eat before it dies. The rat needs to explore the environment in order to be able to
+get to the cheese. 
 
-The rat needs to explore the environment in order to be able to
-get to the cheese. Here is a robotics example. Let us say that we
-are trying to teach a robot to flip pancakes. One easy thing we
-can try is to show the robot how to do it, and then let it just
-copy the demonstrated movement. However, this doesn't work! The
-robot needs to explore variations of the movement, until it
-manages to successfully flip pancakes. Again, we can formulate
-this as a reinforcement learning problem, with a reward that is
-high whenever the pancake's position is flipped, and on the pan;
-and low everywhere else. Then the robot can learn to perform this
-behaviour through trial and error. It's important to note that in
-this example, merely demonstration is not enough. Neither is
-reinforcement learning enough. The same thing is true for the
-recent success of AlphaGo in beating a master human: apart from
-planning, they used both demonstration data and self-play, so that
-it could learn through trial and error.
-}
+An example in robotics is trying to teach a
+robot to flip pancakes. One easy thing we can try is to show the robot
+how to do it, and then let it just copy the demonstrated
+movement. However, this doesn't work! The robot needs to explore
+variations of the movement, until it manages to successfully flip
+pancakes. Again, we can formulate this as a reinforcement learning
+problem, with a reward that is high whenever the pancake's position is
+flipped, and on the pan; and low everywhere else. Then the robot can
+learn to perform this behaviour through trial and error. It's
+important to note that in this example, merely demonstration is not
+enough. Neither is reinforcement learning enough. The same thing is
+true for the recent success of AlphaGo in beating a master human:
+apart from planning, they used both demonstration data and self-play,
+so that it could learn through trial and error.  }
 
-\only<presentation>{
 \begin{frame}
-  \frametitle{Can machines make decisions?}
+  \frametitle{Can machines make complex plans?}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{../figures/619px-FloorGoban}
   \end{center}
 \end{frame}
-}
+
 
 \only<article>{
  I suppose the first question is whether machines can plan
@@ -247,14 +249,13 @@ it could learn through trial and error.
  achieved?
 }
 
-\only<presentation>{
 \begin{frame}
-  \frametitle{Machines can make decisions!}
+  \frametitle{Machines can make complex plans!}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{../figures/Tic-tac-toe-game-tree}
   \end{center}
 \end{frame}
-}
+
 
 \only<article>{
 The basic construction is the planning tree. This is an enumeration
@@ -295,13 +296,13 @@ trade-off and it appears in many problems of experiment design for
 science.
 }
 
-\only<presentation>{
+
 \begin{frame}
   \frametitle{Adam, the robot scientist}
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/robot-scientist}
 \end{frame}
-}
+
 
 \only<article>{
  Let's say we want to build a robot scientist and tell it to
@@ -309,13 +310,13 @@ science.
 }
 
 
-\only<presentation>{
+
 \begin{frame}
   \frametitle{Drug discovery}
   \centering
   \includegraphics[width=\columnwidth]{../figures/drug-discovery-000}
 \end{frame}
-}
+
 
 \only<article>{
 Simplifying the problem a bit, consider that you have a large
@@ -334,7 +335,7 @@ more drugs to screen. This cycle, consequently has two parts:
 \begin{frame}
   \frametitle{Drawing conclusions from results}
   \centering
-  \begin{tikzpicture}[line width=2pt, >={Stealth[length=5mm]}]
+  \begin{tikzpicture}[line width=2pt]
     \node at (0,0) (bt) {hypothesis};
     \node[select] at (0,2) (at) {experiment};
     \node[utility] at (3,-2) (rt) {result};
@@ -356,15 +357,14 @@ more drugs to screen. This cycle, consequently has two parts:
 }
 
 \subsection{Bayesian inference.}
-\only<presentation>{
 \begin{frame}
   \frametitle{Tycho Brahe's minute eye measurements}
   \begin{columns}
     \begin{column}{0.5\textwidth}
-      \includegraphics[width=\columnwidth]{../figures/circular-orbits}
+      \includegraphics[width=0.5\textwidth]{../figures/circular-orbits}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \includegraphics[width=\columnwidth]{../figures/tycho-observations}
+      \includegraphics[width=0.5\textwidth]{../figures/tycho-observations}
     \end{column}
   \end{columns}
   \begin{itemize}
@@ -372,7 +372,7 @@ more drugs to screen. This cycle, consequently has two parts:
   \item Conclusion: \alert{Specific} circular orbits
   \end{itemize}
 \end{frame}
-}
+
 
 \only<article>{
   Let's take the example of planetary orbits. Here Tycho famously
@@ -381,15 +381,15 @@ more drugs to screen. This cycle, consequently has two parts:
   didn't know which were the right orbits. When he tried to fit his data to this hypothesis, he concluded a specific circular orbit for Mars \ldots around Earth.
 }
 
-\only<presentation>{
+
 \begin{frame}
   \frametitle{Johannes Kepler's alternative hypothesis}
   \begin{columns}
     \begin{column}{0.5\textwidth}
-      \includegraphics[width=\columnwidth]{../figures/orbits}
+      \includegraphics[width=0.5\textwidth]{../figures/orbits}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \includegraphics[width=\columnwidth]{../figures/tycho-observations}
+      \includegraphics[width=0.5\textwidth]{../figures/tycho-observations}
     \end{column}
   \end{columns}
   \begin{itemize}
@@ -397,7 +397,7 @@ more drugs to screen. This cycle, consequently has two parts:
   \item Conclusion: Specific \alert{elliptic} orbits
   \end{itemize}
 \end{frame}
-}
+
 
 \only<article>{
 Kepler had a more general hypothesis: that orbits could be
@@ -408,7 +408,7 @@ actual verification that all things do not revolve around earth,
 requires different experiments.
 }
 
-\only<presentation>{
+
 \begin{frame}
   \frametitle{200 years later, Gauss formalised this statistically}
   \begin{columns}
@@ -420,18 +420,18 @@ requires different experiments.
     \end{column}
   \end{columns}
 \end{frame}
-}
+
 
 \only<article>{
 Later on, Gauss collected even more experimental data to calculate the orbit of Ceres. He did this using one of the first formal statistical methods; this allowed him to avoid cheating (like Kepler did, to accentuate his finding that orbits were elliptical).
 }
 
-\only<presentation>{
+
 \begin{frame}
   \frametitle{A warning: The dead salmon mirage}
   \includegraphics[width=\textwidth]{../figures/fmri-salmon}
 \end{frame}
-}
+
 
 \only<article>{
 It is quite easy to draw the wrong conclusions from applying
@@ -454,7 +454,7 @@ such mistakes.
 \begin{frame}
   \frametitle{Planning future experiments}
   \centering
-  \begin{tikzpicture}[line width=2pt, >={Stealth[length=5mm]}]
+  \begin{tikzpicture}[line width=2pt]
     \node at (0,0) (bt) {hypothesis};
     \node[select] at (0,2) (at) {experiment};
     \node[utility] at (3,-2) (rt) {result};
@@ -467,20 +467,20 @@ such mistakes.
 \end{frame}
 
 \only<article>{
-I mentioned before that we must decide what experiment to do. This is indeed difficult, especially in setting such as drug discovery where the number of experiments is huge. 
+I mentioned before that we must decide what experiment to do. This is indeed difficult, especially in setting such as drug discovery where the number of experiments is huge.  However, conceptually, there is a simple and elegant solution to this problem.
 }
 
-\only<presentation>{
+
 \begin{frame}
   \frametitle{Planning experiments is like Tic-Tac-Toe}
   \begin{center}
     \includegraphics[width=\textwidth]{../figures/Tic-tac-toe-game-tree}
   \end{center}
 \end{frame}
-}
+
 
 \only<article>{
-  The basic idea is to think of experiment design as a game between the scientist and Nature. At every step, the scientist plays an X to  denote an experiment. Then Nature responds with an Observation. The main difference is that Nature is probably not adversarial. We can also generalise this idea to problems in robotics, etc.
+  The basic idea is to think of experiment design as a game between the scientist and Nature. At every step, the scientist plays an X to  denote an experiment. Then Nature responds with an Observation. The main difference from a game is that Nature is (probably) not adversarial. We can also generalise this idea to problems in robotics, etc.
 }
 
 \only<presentation>{
@@ -491,10 +491,10 @@ I mentioned before that we must decide what experiment to do. This is indeed dif
 \end{frame}
 }
 \only<article>{
- These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot that recently (re)-discovered a malaria drug.
+ These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot, called Eve, that recently (re)-discovered a malaria drug.
 }
 
-\section{Course overview}
+\subsection{Course overview}
 
 \begin{frame}
   \frametitle{Machine learning in practice}
@@ -525,7 +525,6 @@ internet and send a continuous stream of data to companies. In
 addition, many companies and government actors use machine
 learning algorithms to make or support decisions. This creates a
 number of problems in privacy, fairness and safety.
-add in image
 }
 
 
@@ -858,23 +857,23 @@ All machine learning problems are essentially decision problems. This essentiall
   \frametitle{Deciding the class given a model family}
   \begin{itemize}
   \item Training data $S = (x_1, y_1, \ldots, x_n, y_n)$
-  \item Models $\cset{P_\outcome}{\outcome \in \Outcomes}$
-  \item Prior $\bel$ on $\Outcomes$.
+  \item Models $\cset{P_\outcome}{\outcome \in \Outcome}$
+  \item Prior $\bel$ on $\Outcome$.
   \end{itemize}
   \[
     \bel(\outcome \mid S)
     = \frac{P_\outcome(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\outcome)}
-    {\sum_{\outcome' \in \Outcomes} P_{\outcome'}(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\outcome')}
+    {\sum_{\outcome' \in \Outcome} P_{\outcome'}(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\outcome')}
   \]
   We can then calculate the posterior marginal marginal label probability
   \[
     P_{\bel \mid S}(y_t \mid x_t) \defn
     P_{\bel}(y_t \mid x_t, S) = 
-    \sum_{\outcome \in \Outcomes} P_\outcome(y_t \mid x_t) \bel(\omega \mid S).
+    \sum_{\outcome \in \Outcome} P_\outcome(y_t \mid x_t) \bel(\omega \mid S).
   \]
   We can then construct the following simple decision rule:
   \[
-    \decision_t \in \argmax_{\decision \in \CY}\sum_{\outcome \in \Outcomes} P_\outcome(y_t \mid x_t) \bel(\omega \mid S),
+    \decision_t \in \argmax_{\decision \in \CY}\sum_{\outcome \in \Outcome} P_\outcome(y_t \mid x_t) \bel(\omega \mid S),
   \]
   otherwise known as the \alert{Bayes rule}.
 \end{frame}

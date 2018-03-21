@@ -16,43 +16,43 @@
 \usepackage{epsfig}
 \usepackage{subfigure}
 \usepackage{makeidx} 
-\usepackage{color}
-%\usepackage{psfrag}
-%\usepackage{pstricks}
-%\usepackage{pst-node}
-%\usepackage{multido} 
-%\usepackage{varioref}
-\usepackage{tikz}
-%\usepackage[T1]{fontenc}
-%\usepackage{textcomp}
-%\usepackage[utf8x]{inputenc}
-\usepackage{gnuplot-lua-tikz}
-%%\usepackage{preview}
-\usepackage{pgfplots}
-\usepackage{xspace}
+\usepackage{colortbl}
+\usepackage{enumerate}
 \usepackage{multirow}
-\usepackage{bigdelim}
-\usepackage{rotating}
-\usetikzlibrary{pgfplots.groupplots,external,shapes.callouts}
-\usepgfplotslibrary{patchplots,colormaps}
- % \pgfplotsset{compat=newest} 
-% \pgfplotsset{plot coordinates/math parser=false}
-\tikzstyle{na} = [baseline=-.5ex]
-\tikzstyle{every picture}+=[remember picture]
+\usepackage[sort&compress,comma,super]{natbib}
+\def\newblock{} % To avoid a compilation error about a function \newblock undefined
 
-%\tikzexternalize
-
-%\usepackage{setspace} %% for using halfspaces
-
-%\usepackage[left=2.5cm,right=2.5cm]{geometry}
-%\usepackage[french, english]{babel}
 
 \numberwithin{equation}{section} 
-
-%\theoremstyle{plain} \newtheorem{remark}{Remark}[section]
-%\theoremstyle{plain} \newtheorem{definition}{Definition}[section]
-%\theoremstyle{plain} \newtheorem{example}{Example}[section]
-\theoremstyle{plain} \newtheorem{assumption}{Assumption}[section]
+\mode<article>{
+    \theoremstyle{plain}
+    %    \newtheorem{assumption}{Assumption}[section]
+    \newtheorem{lemma}{Lemma}[section]
+    \newtheorem{theorem}{Theorem}[section]
+    \newtheorem{corollary}{Corollary}[section]
+    \theoremstyle{definition}
+    \newtheorem{definition}{Definition}[section]
+    \theoremstyle{remark}
+    \newtheorem{remark}{Remark}[section]
+    
+    %\theoremstyle{plain} \newtheorem{remark}{Remark}[section]
+    %\theoremstyle{plain} \newtheorem{definition}{Definition}[section]
+    \theoremstyle{plain} \newtheorem{assumption}{Assumption}[section]
+    
+    %%% Examples %%%%
+    \newtheoremstyle{example}  % Name
+    {1em}       % Space above 
+    {1em}       % Space below
+    {\small}      % Body font
+    {}          % Indent amount 
+    {\scshape}  % Theorem head font
+    {.}         % Punctuation after theorem head
+    {.5em}      % Space after theorem head
+    {}          % Theorem head spec
+    \theoremstyle{example}
+    \newtheorem{example}{Example}
+    \newtheorem{exercise}{Exercise}
+}
 %\theoremstyle{plain} \newtheorem{conjecture}{Conjecture}[section]
 %\theoremstyle{plain} \newtheorem{theorem}{Theorem}[section]
 %\theoremstyle{plain} \newtheorem{proposition}{Proposition}[section]
@@ -153,7 +153,7 @@
 
 \newcommand \hM {\widehat{M}}
 
-\newcommand \p {\partial}
+%\newcommand \p {\partial}
 
 \newcommand \then{\Rightarrow}
 \newcommand \defn {\mathrel{\triangleq}}
@@ -252,6 +252,11 @@
 \newcommand \Loss {\ell}
 \newcommand \Regret {L}
 \newcommand \regret {\ell}
+\newcommand \Rewards {CR}
+\newcommand \reward {r}
+\newcommand \Rew {\rho}
+\newcommand \outcome {\omega}
+\newcommand \Outcome {\Omega}
 \newcommand \act {a}
 \newcommand \Acts {\CA}
 \newcommand \decision {d}
@@ -366,6 +371,11 @@
            \clap{$\mathsurround=0pt#1{#2}$}}
 
 
+\usepackage{tikz}
+
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/]
+\usepackage{gnuplot-lua-tikz}
 
 
 \usetikzlibrary{automata}
@@ -374,6 +384,7 @@
 \usetikzlibrary{arrows}
 \usetikzlibrary{decorations.markings}
 \usetikzlibrary{intersections}
+
 
 
 \tikzstyle{utility}=[diamond,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=8mm]
