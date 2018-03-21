@@ -1,9 +1,3 @@
-\chapter{Simple decision problems}
-
-\only<article>{This chapter deals with simple decision problems, whereby a decision maker (DM) makes a simple choice among many. In some of this problems the DM has to make a decision after first observing some side-information. Then the DM uses a \emph{decision rule} to assign a probability to each possible decision for each possible side-information. However, designing the decision rule is not trivial , as it relies on previously collected data. A higher-level decision includes choosing the decision rule itself. The problems of classification and regression fall within this framework. While most steps in the process can be automated and formalised, a lot of decisions are actual design choices made by humans. This creates scope for errors and misinterpretation of results.
-
-In this chapter, we shall formalise all these simple decision problems from the point of view of statistical decision theory. The first question is, given a real world application, what type of decision problem does it map to? Then, what kind of machine learning algorithms can we use to solve it? What are the underlying assumptions and how valid are our conclusions? Does application of the method have a societal impact? In particular, is there scope for privacy violations, reinforcing racial biases or creating other negative externalities?
-}
 \section{Introduction to machine learning}
  
 
@@ -656,13 +650,16 @@ between two spectral lines.
 All machine learning problems are essentially decision problems. This essentially means replacing some human decisions with machine decisions. One of the simplest decision problems is classification, where you want an algorithm to decide the correct class of some data, but even within this simple framework there is a multitude of decisions to be made. The first is how to frame the classification problem the first place. The second is how to collect, process and annotate the data. The third is choosing the type of classification model to use. The fourth is how to use the collected data to find an optimal classifier within the selected type. After all this has been done, there is the problem of classifying new data. In this course, we will take a holistic view of the problem, and consider each problem in turn, starting from the lowest level and working our way up.}
 
 \section{Hierarchies of decision making problems}
+
+\only<presentation>>{
 \begin{frame}
   \tableofcontents[currentsection]
 \end{frame}
+}
 \subsection{Simple decision problems}
 \begin{frame}
   \frametitle{Preferences}
-
+  \only<article>{The simplest decision problem involves selecting one item from a set of choices, such as in the following examples}  
   \begin{example}
     \begin{block}{Food}
       \begin{itemize}
@@ -687,15 +684,20 @@ All machine learning problems are essentially decision problems. This essentiall
       \end{block}
   \end{example}
 
-  \only<article>{The simplest decision problem involves selecting one item from a set of choices.}  
+  \only<article>{In the decision theoretic framework, the things we receive are called rewards, and we assign a utility value to each one of them, showing which one we prefer.}
   \begin{itemize}
   \item Each choice is called a \alert{reward} $r \in \CR$.
   \item There is a \alert{utility function} $U : \CR \to \Reals$, assigning values to reward.
   \item We (weakly) prefer $A$ to $B$ iff $U(A) \geq U(B)$.
   \end{itemize}
-
+  \only<article>{In each case, given $U$ the choice between each reward is trivial. We just select the reward:
+    \[
+    r^* \in \argmax_r U(r)
+    \]
+    The main difficult is actually selecting the appropriate utility function. In a behavioural context, we simply assume that humans act with respect to a specific utility function. However, figuring out this function from behavioural data is non trivial. ven when this assumption is correct, individuals do not have a common utility function.
+  }
   \begin{exercise}
-    From your individual preferences, derive a \alert{common utility function} that reflects everybody's preferences in the class.
+    From your individual preferences, derive a \alert{common utility function} that reflects everybody's preferences in the class for each of the three examples. Is there a simple algorithm for deciding this? Would you consider the outcome fair?
   \end{exercise}
 \end{frame}
 
@@ -703,6 +705,13 @@ All machine learning problems are essentially decision problems. This essentiall
 \begin{frame}
   \frametitle{Uncertain rewards}
   \only<article>{However, in real life, there are many cases where we can only choose between uncertain outcomes. The simplest example are lottery tickets, where rewards are essentially random. However, in many cases the rewards are not really random, but simply uncertain. In those cases it is useful to represent our uncertainty with probabilities as well, even though there is nothing really random.}
+  \begin{itemize}
+  \item Decisions $\decision \in \Decision$
+  \item Each choice is called a \alert{reward} $r \in \CR$.
+  \item There is a \alert{utility function} $U : \CR \to \Reals$, assigning values to reward.
+  \item We (weakly) prefer $A$ to $B$ iff $U(A) \geq U(B)$.
+  \end{itemize}
+
   \begin{example}%ro: rather an exercise?
     You are going to work, and it might rain.
     What do you do?
