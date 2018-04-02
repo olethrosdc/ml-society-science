@@ -11,7 +11,10 @@ Reproducibility: Finding ‘important features’ in a small dataset.  The falla
 The aim of this lecture is to introduce students to the use and mis-use of automated decision making algorithms for problems in science and society.
 
 ** Lecture 2: Decision Problems
+   :LOGBOOK:
+   CLOCK: [2018-04-02 Mon 21:25]
    CLOCK: [2018-03-19 mån 12:04]--[2018-03-20 tis 15:57] => 27:53
+   :END:
 
 Decision Problems, Classification: (1) Choosing the classifier family (2) Selecting a classifier from the family (algorithmic) (3) The decisions made by the classifier (inherent in the classifier).
 

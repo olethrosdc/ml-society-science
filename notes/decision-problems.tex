@@ -1,0 +1,272 @@
+\section{Decision problems}
+
+\only<article>{
+All machine learning problems are essentially decision problems. This essentially means replacing some human decisions with machine decisions. One of the simplest decision problems is classification, where you want an algorithm to decide the correct class of some data, but even within this simple framework there is a multitude of decisions to be made. The first is how to frame the classification problem the first place. The second is how to collect, process and annotate the data. The third is choosing the type of classification model to use. The fourth is how to use the collected data to find an optimal classifier within the selected type. After all this has been done, there is the problem of classifying new data. In this course, we will take a holistic view of the problem, and consider each problem in turn, starting from the lowest level and working our way up.}
+
+\section{Hierarchies of decision making problems}
+
+\only<presentation>>{
+\begin{frame}
+  \tableofcontents[currentsection]
+\end{frame}
+}
+\subsection{Simple decision problems}
+\begin{frame}
+  \frametitle{Preferences}
+  \only<article>{The simplest decision problem involves selecting one item from a set of choices, such as in the following examples}  
+  \begin{example}
+    \begin{block}{Food}
+      \begin{itemize}
+      \item[A] McDonald's cheeseburger
+        \item[B] Surstromming
+        \item[C] Oatmeal
+        \end{itemize}
+      \end{block}
+      \begin{block}{Money}
+        \begin{itemize}
+        \item[A] 10,000,000 SEK
+        \item[B] 10,000,000 USD
+        \item[C] 10,000,000 BTC
+        \end{itemize}
+      \end{block}
+      \begin{block}{Entertainment}
+        \begin{itemize}
+        \item[A] Ticket to Liseberg
+        \item[B] Ticket to Rebstar
+        \item[C] Ticket to Nutcracker
+        \end{itemize}
+      \end{block}
+  \end{example}
+
+  \only<article>{In the decision theoretic framework, the things we receive are called rewards, and we assign a utility value to each one of them, showing which one we prefer.}
+  \begin{itemize}
+  \item Each choice is called a \alert{reward} $r \in \CR$.
+  \item There is a \alert{utility function} $U : \CR \to \Reals$, assigning values to reward.
+  \item We (weakly) prefer $A$ to $B$ iff $U(A) \geq U(B)$.
+  \end{itemize}
+  \only<article>{In each case, given $U$ the choice between each reward is trivial. We just select the reward:
+    \[
+    r^* \in \argmax_r U(r)
+    \]
+    The main difficult is actually selecting the appropriate utility function. In a behavioural context, we simply assume that humans act with respect to a specific utility function. However, figuring out this function from behavioural data is non trivial. ven when this assumption is correct, individuals do not have a common utility function.
+  }
+  \begin{exercise}
+    From your individual preferences, derive a \alert{common utility function} that reflects everybody's preferences in the class for each of the three examples. Is there a simple algorithm for deciding this? Would you consider the outcome fair?
+  \end{exercise}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Uncertain rewards}
+  \only<article>{However, in real life, there are many cases where we can only choose between uncertain outcomes. The simplest example are lottery tickets, where rewards are essentially random. However, in many cases the rewards are not really random, but simply uncertain. In those cases it is useful to represent our uncertainty with probabilities as well, even though there is nothing really random.}
+  \begin{itemize}
+  \item Decisions $\decision \in \Decision$
+  \item Each choice is called a \alert{reward} $r \in \CR$.
+  \item There is a \alert{utility function} $U : \CR \to \Reals$, assigning values to reward.
+  \item We (weakly) prefer $A$ to $B$ iff $U(A) \geq U(B)$.
+  \end{itemize}
+
+  \begin{example}%ro: rather an exercise?
+    You are going to work, and it might rain.
+    What do you do?
+    \begin{itemize}
+    \item $\decision_1$: Take the umbrella.
+    \item $\decision_2$: Risk it!
+    \item $\outcome_1$: rain
+    \item $\outcome_2$: dry
+    \end{itemize}
+    \begin{table}
+      \centering
+      \begin{tabular}{c|c|c}
+        $\Rew(\outcome,\decision)$ & $\decision_1$ & $\decision_2$ \\ %ro: U has only one argument.
+        \hline
+        $\outcome_1$ & dry, carrying umbrella & wet\\
+        $\outcome_2$ & dry, carrying umbrella & dry\\
+        \hline
+        \hline
+        $U[\Rew(\outcome,\decision)]$ & $\decision_1$ & $\decision_2$ \\
+        \hline
+        $\outcome_1$ & 0 & -10\\
+        $\outcome_2$ & 0 & 1
+      \end{tabular}
+      \caption{Rewards and utilities.}
+      \label{tab:rain-utility-function}
+    \end{table}
+
+    \begin{itemize}
+    \item<2-> $\max_\decision \min_\outcome U = 0$
+    \item<3-> $\min_\outcome \max_\decision  U = 0$
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Expected utility}
+  \[
+    \E (U \mid a) = \sum_r U[\Rew(\outcome, \decision)] \Pr(\outcome \mid \decision)
+  \]
+  \begin{example}%ro: rather an exercise?
+    You are going to work, and it might rain. The forecast said that
+    the probability of rain $(\outcome_1)$ was $20\%$. What do you do?
+    \begin{itemize}
+    \item $\decision_1$: Take the umbrella.
+    \item $\decision_2$: Risk it!
+    \end{itemize}
+    \begin{table}
+      \centering
+      \begin{tabular}{c|c|c}
+        $\Rew(\outcome,\decision)$ & $\decision_1$ & $\decision_2$ \\ %ro: U has only one argument.
+        \hline
+        $\outcome_1$ & dry, carrying umbrella & wet\\
+        $\outcome_2$ & dry, carrying umbrella & dry\\
+        \hline
+        \hline
+        $U[\Rew(\outcome,\decision)]$ & $\decision_1$ & $\decision_2$ \\
+        \hline
+        $\outcome_1$ & 0 & -10\\
+        $\outcome_2$ & 0 & 1\\
+        \hline
+        \hline
+        $\E_P(U \mid \decision)$ & 0 &  -1.2 \\ 
+      \end{tabular}
+      \caption{Rewards, utilities, expected utility for $20\%$ probability of rain.}
+      \label{tab:rain-utility-function}
+    \end{table}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Preferences among random outcomes}
+  \begin{example}
+    Would you rather \ldots
+    \begin{itemize}
+    \item[A] Have 100 EUR now?
+    \item[B] Flip a coin, and get 200 EUR if it comes heads?
+    \end{itemize}    
+  \end{example}
+  \uncover<2->{
+    \begin{block}{The expected utility hypothesis}
+      Rational decision makers prefer choice $A$ to $B$ if
+      \[
+        \E(U | A) \geq \E(U | B),
+      \]
+      where the expected utility is
+      \[
+        \E(U | A) = \sum_r U(r) \Pr(r | A).
+      \]
+    \end{block}
+    In the above example, $r \in \{0, 100, 200\}$ and $U(r)$ is
+    increasing, and the coin is fair.
+  }
+  \begin{itemize}
+  \item<3-> If $U$ is convex, we prefer B.
+  \item<4-> If $U$ is concave, we prefer A.
+  \item<5-> If $U$ is linear, we don't care.
+  \end{itemize}
+\end{frame}
+
+
+
+
+\subsection{Decision rules}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+\only<article>{We now move from simple decisions to decisions that
+  depend on some observation. This is most easily embodied through the
+  problem of classification. }
+\begin{frame}
+  \frametitle{Deciding a class given a model}
+  \only<article>{In the simplest classification problem, we observe some features $x_t$ and want to make a guess $\decision_t$ about the true class label $y_t$. Assuming we have some probabilistic model $P(y_t \mid x_t)$, we want to define a decision rule $\pol(\decision_t \mid x_t)$ that is optimal, in the sense that it maximises expected utility for $P$.}
+  \begin{itemize}
+  \item Features $x_t \in \CX$.
+  \item Label $y_t \in \CY$.
+  \item Decisions $\decision_t \in \CA$.
+  \item Decision rule $\pol(\decision_t \mid x_t)$ assigns probabilities to actions.
+  \end{itemize}
+  
+  \begin{block}{Standard classification problem}
+    \only<article>{In the simplest case, the set of decisions we make are the same as the set of classes}
+    \[
+    \CA = \CY, \qquad
+    U(\decision, y) = \ind{\decision = y}
+    \]
+  \end{block}
+
+  \begin{exercise}
+    If we have a model $P(y_t \mid x_t)$, and a suitable $U$, what is the optimal decision to make?
+  \end{exercise}
+  \only<presentation>{
+    \uncover<2->{
+      \[
+      \decision_t \in \argmax_{\decision \in \Decisions} \sum_y P(y_t = y \mid x_t) \Util(\decision, y)
+      \]
+    }
+    \uncover<3>{
+      For standard classification,
+      \[
+      \decision_t \in \argmax_{\decision \in \Decisions} P(y_t = \decision \mid x_t)
+      \]
+    }
+  }
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Deciding the class given a model family}
+  \begin{itemize}
+  \item Training data $S = (x_1, y_1, \ldots, x_n, y_n)$
+  \item Models $\cset{P_\outcome}{\outcome \in \Outcome}$
+  \item Prior $\bel$ on $\Outcome$.
+  \end{itemize}
+  \[
+    \bel(\outcome \mid S)
+    = \frac{P_\outcome(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\outcome)}
+    {\sum_{\outcome' \in \Outcome} P_{\outcome'}(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\outcome')}
+  \]
+  We can then calculate the posterior marginal marginal label probability
+  \[
+    P_{\bel \mid S}(y_t \mid x_t) \defn
+    P_{\bel}(y_t \mid x_t, S) = 
+    \sum_{\outcome \in \Outcome} P_\outcome(y_t \mid x_t) \bel(\omega \mid S).
+  \]
+  We can then construct the following simple decision rule:
+  \[
+    \decision_t \in \argmax_{\decision \in \CY}\sum_{\outcome \in \Outcome} P_\outcome(y_t \mid x_t) \bel(\omega \mid S),
+  \]
+  otherwise known as the \alert{Bayes rule}.
+\end{frame}
+
+\section{Bayes decisions}
+\begin{frame}
+  \frametitle{Bayes decision rules}
+  Consider the case where outcomes are independent of decisions:
+  \[
+    \Util (P, \decision) \defn \sum_{\outcome}  \Util (\outcome, \decision) P(\outcome)
+  \]
+  This corresponds e.g. to the case where $P(\omega)$ is the belief about an unknown world.
+  \begin{definition}[Bayes utility]
+    \label{def:bayes-utility}
+    The maximising decision for $P$ has an expected utility equal to:
+    \begin{equation}
+      \BUtil(P) \defn \sup_{\decision \in \Decisions} \Util (P, \decision).
+      \label{eq:bayes-utility}
+    \end{equation}
+  \end{definition}
+\end{frame}
+
+
+\only<article>{
+  One of the simplest decision problems is classification. At the simplest level, this is the problem of observing some data point $x_t \in \CX$ and making a decision about what class $\CY$ it belongs to. Typically, a fixed classifier is defined as a decision rule $\pi(a | x)$ making decisions $a \in \CA$, where the decision space includes the class labels, so that if we observe some point $x_t$ and choose $a_t = 1$, we essentially declare that $y_t = 1$.
+
+  Typically, we wish to have a classification policy that minimises classification error.
+}
+\begin{frame}
+  \begin{definition}[Classification error of a fixed decision rule]
+    
+  \end{definition}
+\end{frame}
