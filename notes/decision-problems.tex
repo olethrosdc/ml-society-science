@@ -5,11 +5,7 @@ All machine learning problems are essentially decision problems. This essentiall
 
 \section{Hierarchies of decision making problems}
 
-\only<presentation>>{
-\begin{frame}
-  \tableofcontents[currentsection]
-\end{frame}
-}
+
 \subsection{Simple decision problems}
 \begin{frame}
   \frametitle{Preferences}
@@ -171,11 +167,7 @@ All machine learning problems are essentially decision problems. This essentiall
 
 
 \subsection{Decision rules}
-\only<presentation>{
-  \begin{frame}
-    \tableofcontents[currentsection,currentsubsection]
-  \end{frame}
-}
+
 \only<article>{We now move from simple decisions to decisions that
   depend on some observation. This is most easily embodied through the
   problem of classification. }
@@ -203,13 +195,13 @@ All machine learning problems are essentially decision problems. This essentiall
   \only<presentation>{
     \uncover<2->{
       \[
-      \decision_t \in \argmax_{\decision \in \Decisions} \sum_y P(y_t = y \mid x_t) \Util(\decision, y)
+      \decision_t \in \argmax_{\decision \in \Decision} \sum_y P(y_t = y \mid x_t) \Util(\decision, y)
       \]
     }
     \uncover<3>{
       For standard classification,
       \[
-      \decision_t \in \argmax_{\decision \in \Decisions} P(y_t = \decision \mid x_t)
+      \decision_t \in \argmax_{\decision \in \Decision} P(y_t = \decision \mid x_t)
       \]
     }
   }
@@ -253,7 +245,7 @@ All machine learning problems are essentially decision problems. This essentiall
     \label{def:bayes-utility}
     The maximising decision for $P$ has an expected utility equal to:
     \begin{equation}
-      \BUtil(P) \defn \sup_{\decision \in \Decisions} \Util (P, \decision).
+      \BUtil(P) \defn \sup_{\decision \in \Decision} \Util (P, \decision).
       \label{eq:bayes-utility}
     \end{equation}
   \end{definition}
@@ -266,7 +258,18 @@ All machine learning problems are essentially decision problems. This essentiall
   Typically, we wish to have a classification policy that minimises classification error.
 }
 \begin{frame}
-  \begin{definition}[Classification error of a fixed decision rule]
-    
-  \end{definition}
+  \begin{block}{Classification accuracy of a fixed decision rule}
+    \only<article>{If $\param$ is the true parameter, then the classification accuracy of a decision rule $\pol$ is}
+    \begin{align}
+      \Pr^\pol_\param(a_t = y_t) &= 
+      \int_\CX \Pr^\pol_\param(a_t = y_t \mid x) dP_\param(x)
+      \\
+                                 &=\int_\CX \sum_{y} \pol(a_t = y \mid x_t = x) P_\param(y_t = y \mid x_t = x) \dd P_\param(x) 
+    \end{align}
+    \only<article>{If we however simply have a subjective belief $\bel$ about the parameter $\param$ then we can write the expected classification accuracy as}
+    \begin{align}
+      \Pr^\pol_\bel(a_t = y_t) &= \int_\Param \Pr^\pol_\param(a_t = y_t) \dd \bel(\param)
+    \end{align}
+  \end{block}
 \end{frame}
+
