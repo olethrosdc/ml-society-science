@@ -12,7 +12,8 @@ The aim of this lecture is to introduce students to the use and mis-use of autom
 
 ** Lecture 2: Decision Problems
    :LOGBOOK:
-   CLOCK: [2018-04-03 Tue 20:58]
+   CLOCK: [2018-04-04 Wed 09:22]--[2018-04-04 Wed 10:30] =>  1:08
+   CLOCK: [2018-04-03 Tue 20:58]--[2018-04-03 Tue 21:16] =>  0:18
    CLOCK: [2018-04-02 Mon 21:25]--[2018-04-02 Mon 22:25] =>  1:00
    CLOCK: [2018-03-19 mån 12:04]--[2018-03-20 tis 15:57] => 27:53
    :END:
