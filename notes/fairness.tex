@@ -11,6 +11,7 @@
     For our example regarding disadvantaged populations, consider the example of bail decisions in the US court system. When a defendant is charged, the judge has the option to either place them in jail pending trial, or set them free, under the condition that the defendant pays some amount of bail. The amount of bail (if any) is set to an amount that would be expected to deter flight or a relapse. 
   }
 
+  \only<presentation>{
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \centering
@@ -43,12 +44,18 @@
       \uncover<7->{
         \includegraphics[width=\textwidth]{../figures/judge-fairness}
       }
-      \only<article>{
-        In some cases, it appears as though automating this procedure might lead to better outcomes. But is that generally true?
-      }
     \end{column}
-    
   \end{columns}
+}
+    
+\only<article>{
+  \begin{figure}
+    \includegraphics[width=\textwidth]{../figures/judge-fairness}
+    \caption{In some cases, it appears as though automating this procedure might lead to better outcomes. But is that generally true?}
+    \label{fig:judge-fairness}
+  \end{figure}
+}
+
 \end{frame}
 
 \begin{frame}
