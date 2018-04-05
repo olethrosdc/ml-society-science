@@ -179,8 +179,8 @@
 \end{frame}
 
 
+\subsection{Fairness as independence}
 \begin{frame}
-  \frametitle{Fairness as independence}
   \only<article>{So how can we reframe the above fairness notions in a more precise way? Both of them involve conditional independence between $y, a$ and a sensitive attribute $z$, such as race. The first notion says that the actions of the judge (or equivalently, the scores of the algorithm) are \emph{calibrated} with respect to the outcomes. The second says that they are \emph{balanced}, so that were the outcome known to the judge, she would be making a decision independently of the defendant's race.}
   \only<presentation>{
     \only<1>{
@@ -236,9 +236,11 @@
   \only<article>{In both cases, we defined conditional independence for a fixed probability distribution $P_\param(x,y,z)$ on the various variables.}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Fairness as meritocracy.}
+\subsection{Fairness as meritocracy.}
   \only<article>{Another idea of fairness has to do with meritocracy. If one candidate is better than another, shouldn't that candidate be always preferred? How can we formalise this?}
+
+
+\begin{frame}
 
   \only<article>{Let us consider merit from the point of view of the decision maker, who can either hire $(a_t = 1)$ or not hire $(a_t = 0)$ the $t$-th applicant. If the applicant has characteristics $x_t$ and merit $y_t$, the DM's decision has utility $U(a_t, y_t)$. In order to model meritocracy, we assign an inherent \emph{quality} to $y$, expressed as an ordering, so that $U(1, y) \geq U(1, y')$ if $y \geq y'$. Assuming $P_\param(x_t, y_t)$ is known to the DM then clearly she should make the decision by solving the following maximisation problem:
   }
@@ -252,16 +254,14 @@
     Here, the notion of meritocracy is defined through our utility function.
   }
 \end{frame}
+\subsection{Fairness as similarity.}
 \begin{frame}
-  \frametitle{Fairness as similarity.}
-  \only<article>{It makes sense to combine the idea of meritocracy with that of similarity. That is, similar people should be treated similarly.}
-  \begin{block}{Find a policy $\pol$ that}
-    \begin{itemize}
-    \item Maximises utility $\util$.
-    \item Makes similar decisions $a$ for people with similar data $x,x'$
-    \end{itemize}
-  \end{block}
-  \centering
+  \only<article>{It makes sense to combine the idea of meritocracy with that of similarity. That is, similar people should be treated similarly. This means that we should find a policy $\pol$ that maximises utility $\util$ and makes similar decisions for similar people. We can formalize this as}
+  \[
+  D(\pol(a \mid x), \pol(a \mid x')
+  \leq 
+  \rho(x, x').
+  \]
   \begin{tikzpicture}[scale=2,thick,domain=-2:2]
     \draw[->] (-2,0) -- (2,0) node[right] {$x$};
     \draw[->] (0,0) -- (0,1) node[above] {$\pol(a \mid x)$};
