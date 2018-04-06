@@ -6,7 +6,9 @@ Project: Credit risk for mortgages. [Aim: Privacy and Fairness]
 
 Machine learning as science: hypotheses, experiments and conclusions.
 kNN example: What is classification? What is clustering? Making sure you formalise the problem.
+
 Feature engineering: how you can classify everything perfectly with kNN (in the training set).
+
 Reproducibility: Finding ‘important features’ in a small dataset.  The fallacy of p-values.
 The aim of this lecture is to introduce students to the use and mis-use of automated decision making algorithms for problems in science and society.
 
