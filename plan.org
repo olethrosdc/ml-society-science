@@ -9,7 +9,8 @@ kNN example: What is classification? What is clustering? Making sure you formali
 
 *** Feature engineering: how you can classify everything perfectly with kNN (in the training set).
 	:LOGBOOK:
-	CLOCK: [2018-04-06 Fri 15:20]
+	CLOCK: [2018-04-06 Fri 20:46]--[2018-04-06 Fri 22:15] =>  1:29
+	CLOCK: [2018-04-06 Fri 15:20]--[2018-04-06 Fri 1X5:46] =>  0:26
 	:END:
 
 
