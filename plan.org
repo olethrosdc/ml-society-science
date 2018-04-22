@@ -33,7 +33,7 @@ The purpose of this lecture is to familiarise students with all the decisions ma
 Classification is the problem of selecting a classifier so as to make
 
 ** Lecture 3: Privacy
-   CLOCK: [2018-04-22 sön 17:16]
+   CLOCK: [2018-04-22 sön 17:16]--[2018-04-22 sön 19:19] =>  2:03
 
 Privacy. Differential Privacy, Databases
 The Random Response Mechanism. Laplace Mechanism.
