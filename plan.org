@@ -9,7 +9,7 @@ kNN example: What is classification? What is clustering? Making sure you formali
 
 *** Feature engineering: how you can classify everything perfectly with kNN (in the training set).
 	:LOGBOOK:
-	CLOCK: [2018-04-06 Fri 15:20]
+	CLOCK: [2018-04-06 Fri 15:20]--[2018-04-06 fre 16:20] =>  1:00
 	:END:
 
 
@@ -101,3 +101,10 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 ** Lecture 4. Safety: Model validation and importance Sampling
 
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
+* Meetings
+** DS overview
+   CLOCK: [2018-04-23 mån 10:10]
+
+Admission qualifications are quie sringent.
+
+Maximum number of students supervised.
