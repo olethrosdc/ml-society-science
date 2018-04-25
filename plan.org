@@ -37,6 +37,7 @@ The purpose of this lecture is to familiarise students with all the decisions ma
 Classification is the problem of selecting a classifier so as to make
 
 ** Lecture 3: Privacy
+   CLOCK: [2018-04-24 tis 16:18]--[2018-04-24 tis 16:44] =>  0:26
    CLOCK: [2018-04-22 sön 17:16]--[2018-04-22 sön 19:19] =>  2:03
 
 Privacy. Differential Privacy, Databases
@@ -47,6 +48,7 @@ The purpose of this lecture is to introduce the students to basic database conce
 ** Lecture 4: Statistical Inference
 
 *Privacy* Differential Privacy, Statistical Inference, and Discrete Bayesian Networks.
+
 Exponential mechanism.
 Construction of a simple DBN for lung cancer.
 
@@ -103,8 +105,9 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 * Meetings
 ** DS overview
-   CLOCK: [2018-04-23 mån 10:10]
+   CLOCK: [2018-04-23 mån 10:10]--[2018-04-23 mån 11:10] =>  1:00
 
 Admission qualifications are quie sringent.
 
 Maximum number of students supervised.
+6 Master theses seems to be 
