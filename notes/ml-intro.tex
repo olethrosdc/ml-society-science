@@ -655,11 +655,24 @@ between two spectral lines.
 \subsection{Reproducibility}
 \begin{frame}
   \frametitle{Finding important features}
-  
+  \only<article>{What features can best explain a difference between two classes?}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Compare the average difference of features between two classes.}
 \end{frame}
 
 \begin{frame}
   \frametitle{The fallacy of $p$-values}
+  \only<article>{A $p$-value has a uniform distribution under the null hypothesis. More precisely,let $x$ is our data and $H_0$ is our null hypothesis. If $H_0$ is true then $x \sim P_0$. Let}
+  \[
+    f(x) \tag{$p$-statistic}
+  \]
+  \only<article>{be a statistic on the data designed to have the property:}
+  \[
+    P_0(\cset{x}{f(x) \leq p}) = p.
+  \]
+  \only<article>{This ensures that the probability of rejecting the null hypothesis when it is true is actually $p$. But note that this is the definition of the uniform distribution, so $f(x)$ has a uniform distribution under $H_0$. Hence the value of $f(x)$ itself is uninformative. In theory we should simply choose $p$ before seeing the data and just accept or reject based on whether $f(x) \leq p$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all.}
 \end{frame}
 
 \begin{frame}
@@ -686,5 +699,5 @@ between two spectral lines.
 
 %%% Local Variables: 
 %%% mode: latex
-%%% TeX-master: t
+%%% TeX-master: "notes.tex"
 %%% End: 
