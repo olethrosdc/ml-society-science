@@ -57,7 +57,7 @@
   \only<presentation>{
     \uncover<2>{
       \[
-      p = 1/2 + q/2 \Rightarrow q = 1/2
+        p = 1/2 + q/2 \Rightarrow q = 1/2
       \]
     }
   }
@@ -70,7 +70,7 @@
   \begin{definition}[Randomised response]
     The $i$-th user, whose data is $x_i \in \CX$ , responds with $y_i \in \CX$ with probability
     \[
-    \Pr(y_i = j \mid x_i = k) = p_{kj},
+      \Pr(y_i = j \mid x_i = k) = p_{kj},
     \]
     where $p_{kk} > p_{kj} \forall J$.
   \end{definition}
@@ -183,12 +183,50 @@
   \end{definition}
   \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
 
-
-
 \end{frame}
 
-
-
+\subsection{Bayesian networks}
+\only<article>{
+  A Bayesian network is a collection of $n$ random variables $x_i : \Omega \to X_i$, and let $X \defn \prod_i X_i$, with underlying probability measure $P$ on $\Omega$.
+  Let $\bx = (x_i)_{i=1}^n$ and for any subset $B \subset[n]$ let
+  \begin{align}
+    \bx_B &\defn (x_i)_{i \in B}\\
+    \bx_{-j} &\defn (x_i)_{i \neq i}
+  \end{align}
+}
+\begin{block}{Joint probability}
+  Let $\bx = (x_1, \ldots, x_n)$. Then $\bx : \Omega \to X$, $X = \prod_i X_i$ and:
+  \[
+    \Pr(\bx \in A) = P(\cset{\omega \in \Omega}{\bx(\omega) \in A}).
+  \]
+\end{block}
+\only<article>{
+  When $X_i$ are finite, we can typically write
+  \[
+    \Pr(\bx = \ba) = P(\cset{\omega \in \Omega}{\bx(\omega) = \ba}),
+  \]
+  for the probability that $x_i = a_i$ for all $i \in [n]$.
+}
+  \begin{block}{Factorisation}
+    \only<article>{
+      For any subsets $B \subset [n]$ and its complement $C$ so that
+      $\bx_B = (x_i)_{i \in B}$,     $\bx_C = (x_i)_{i \notin B}$
+    }
+    \[
+      \Pr(\bx) = \Pr(\bx_B \mid \bx_C) \Pr(\bx_C)
+    \]
+  \end{block}
+  \begin{block}{Conditional independence}
+    We say $x_i$ is conditionally independent of $\bx_B$ given $\bx_D$ and write $x_i \mid \bx_D \indep \bx_B$ iff
+    \[
+      \Pr(x_i, \bx_B \mid \bx_D)
+      =
+      \Pr(x_i \mid \bx_D)
+      \Pr(\bx_B \mid \bx_D).
+    \]
+  \end{block}
+  
+\end{document}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex

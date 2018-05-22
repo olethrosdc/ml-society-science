@@ -47,6 +47,9 @@ The Random Response Mechanism. Laplace Mechanism.
 The purpose of this lecture is to introduce the students to basic database concepts, as well as to privacy problems that can occur when allowing access to a database to a third party.
 
 ** Lecture 4: Statistical Inference
+   :LOGBOOK:
+   CLOCK: [2018-05-22 Tue 13:57]
+   :END:
 
 *Privacy* Differential Privacy, Statistical Inference, and Discrete Bayesian Networks.
 
