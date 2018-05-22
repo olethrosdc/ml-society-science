@@ -37,7 +37,7 @@
   \end{tikzpicture}
   \caption{If two people contribute their data $x = (x_1, x_2)$ to a medical database, and an algorithm $\pol$ computes some public output $a$ from $x$, then it should be hard infer anything about the data from the public output.}
 \end{figure}
-\section{The random response mechanism.}
+\subsection{Differential privacy.}
 \begin{frame}
   \frametitle{Asking about drug use}
 
@@ -143,7 +143,43 @@
   \end{remark}
 \end{frame}
 
-\section{Statistical inference}
+\begin{frame}
+  \frametitle{The Laplace mechanism.}
+  \only<article>{
+    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise. 
+  }
+  \begin{definition}[The Laplace mechanism]
+    For any function $f : \CX \to \Reals$, 
+    \begin{equation}
+      \label{eq:laplace-mechanism}
+      \pol(a \mid x) = \Laplace(f(x), \lambda).
+    \end{equation}
+  \end{definition}
+  \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Exponential Mechanism.}
+  \only<article>{
+    Here we assume that we can answer queries $q$, whereby each possible answer $a$ to the query has a different utility to the DM: $\util(q, a, x)$.
+    Let $\Delta \util(q) \defn \sup_{x N x'} |\util(q, a, x) -\util(q, a, x)|$ denote the sensitivity of a query. Then the following mechanism is $\epsilon$-differentially private.
+  }
+  \begin{definition}[The Exponential mechanism]
+    For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy
+    \begin{equation}
+      \label{eq:exponential-mechanism}
+      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \Delta \util(q)}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \Delta \util(q)}}
+    \end{equation}
+  \end{definition}
+  \only<article>{
+    Clearly, when $\epsilon \to 0$, this mechanism is uniformly random. When $\epsilon \to \infty$ the action maximising $\util(q,a,x)$ is always chosen.
+  }
+\end{frame}
+
+
+
+\subsection{Statistical inference}
 \only<article>{Statistical inference is the problem estimating quantities from data. Many machine learning problems lie within the statistical inference framework. While there are many paradigms within this framework, one typically tries to calculate probability distributions of some random variables from data. These are usually expressed in terms of parametrised distributions. In the Bayesian setting in particular, the goal is to quantify our uncertainty about these unknown parameters in terms of another probability distribution.}
 \begin{frame}
   \frametitle{Bayesian inference} \only<article>{ Bayesian statistical
@@ -164,26 +200,10 @@
       \label{eq:posterior}
     \end{equation}
   \end{definition}
-  \only<article>{But ...}
 \end{frame}
 
 
 
-\begin{frame}
-  \frametitle{The Laplace mechanism.}
-  \only<article>{
-    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise. 
-  }
-  \begin{definition}[The Laplace mechanism]
-    For any function $f : \CX \to \Reals$, 
-    \begin{equation}
-      \label{eq:laplace-mechanism}
-      \pol(a \mid x) = \Laplace(f(x), \lambda).
-    \end{equation}
-  \end{definition}
-  \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
-
-\end{frame}
 
 \subsection{Bayesian networks}
 \only<article>{
@@ -194,19 +214,21 @@
     \bx_{-j} &\defn (x_i)_{i \neq i}
   \end{align}
 }
-\begin{block}{Joint probability}
-  Let $\bx = (x_1, \ldots, x_n)$. Then $\bx : \Omega \to X$, $X = \prod_i X_i$ and:
-  \[
-    \Pr(\bx \in A) = P(\cset{\omega \in \Omega}{\bx(\omega) \in A}).
-  \]
-\end{block}
-\only<article>{
-  When $X_i$ are finite, we can typically write
-  \[
-    \Pr(\bx = \ba) = P(\cset{\omega \in \Omega}{\bx(\omega) = \ba}),
-  \]
-  for the probability that $x_i = a_i$ for all $i \in [n]$.
-}
+\begin{frame}
+  \frametitle{Bayesian networks and independence}
+  \begin{block}{Joint probability}
+    Let $\bx = (x_1, \ldots, x_n)$. Then $\bx : \Omega \to X$, $X = \prod_i X_i$ and:
+    \[
+      \Pr(\bx \in A) = P(\cset{\omega \in \Omega}{\bx(\omega) \in A}).
+    \]
+  \end{block}
+  \only<article>{
+    When $X_i$ are finite, we can typically write
+    \[
+      \Pr(\bx = \ba) = P(\cset{\omega \in \Omega}{\bx(\omega) = \ba}),
+    \]
+    for the probability that $x_i = a_i$ for all $i \in [n]$.
+  }
   \begin{block}{Factorisation}
     \only<article>{
       For any subsets $B \subset [n]$ and its complement $C$ so that
@@ -222,10 +244,24 @@
       \Pr(x_i, \bx_B \mid \bx_D)
       =
       \Pr(x_i \mid \bx_D)
-      \Pr(\bx_B \mid \bx_D).
+      \Pr(\bx_D \mid \bx_B).
     \]
   \end{block}
-  
+  \only<article>{In a Bayesian network, conditional independence is represented through directed edges.}
+  \begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (xi) {$x_i$};
+      \node[RV] at (0,0) (xB) {$x_j$};
+      \node[RV] at (1,0) (xD) {$x_k$};
+      \draw[->] (xB)--(xD);
+      \draw[->] (xD)--(xi);
+    \end{tikzpicture}
+    \label{fig:bn}
+    \caption{Bayesian network exhibiting the factorisation $\Pr(x_i \mid x_j) \Pr(x_j \mid x_k)$.}
+  \end{figure}
+\end{frame}
+
 \end{document}
 %%% Local Variables:
 %%% mode: latex
