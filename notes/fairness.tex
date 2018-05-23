@@ -250,19 +250,25 @@
       \int_\CY U(a_t, y) \E_\param(U \mid a_t, x_t) 
   \end{align}
   
-  \only<article>{
-    Here, the notion of meritocracy is defined through our utility function.
-  }
+  \only<article>{ Here, the notion of meritocracy is defined through
+    our utility function.  Although it would be better to consider the
+    candidate's utility instead, this is in practice difficult.  }
 \end{frame}
 \subsection{Fairness as similarity.}
 \begin{frame}
-  \only<article>{It makes sense to combine the idea of meritocracy with that of similarity. That is, similar people should be treated similarly. This means that we should find a policy $\pol$ that maximises utility $\util$ and makes similar decisions for similar people. We can formalize this as}
-  \[
-  D(\pol(a \mid x), \pol(a \mid x')
-  \leq 
-  \rho(x, x').
-  \]
-  \begin{tikzpicture}[scale=2,thick,domain=-2:2]
+  \only<article>{It makes sense to combine the idea of meritocracy with that of similarity. That is, similar people should be treated similarly. This means that we should find a policy $\pol$ that maximises utility $\util$ and makes similar decisions for similar people. 
+
+    Let $\CX$ be equipped with a metric $\rho$, and let $D$ be a divergence between distributions, such as the KL-divergence. We can then formalise the above intuition as follows:}
+  \begin{equation}
+    D[\pol(a \mid x), \pol(a \mid x')]
+    \leq 
+    \rho(x, x').
+    \label{eq:lipschitz-policies}
+  \end{equation}
+  \only<article>{
+    This is a so-called Lipschitz condition on the policy, and is illustrated in the figure below.
+  }    
+\begin{tikzpicture}[scale=2,thick,domain=-2:2]
     \draw[->] (-2,0) -- (2,0) node[right] {$x$};
     \draw[->] (0,0) -- (0,1) node[above] {$\pol(a \mid x)$};
     \draw[color=blue] plot (\x,{0.5 + 0.5 * tanh(\x)}); % node[right] {$f(x) = \frac{1}{20} \mathrm e^x$};
