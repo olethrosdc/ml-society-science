@@ -601,8 +601,9 @@ BUT.
 \begin{frame}
 \frametitle{Comparing spectral data}
   \only<1>{\input{../figures/difference1.tikz}}
-  \only<2>{\input{../figures/difference2.tikz}}
+  \only<presentation>{\only<2>{\input{../figures/difference2.tikz}}}
 \end{frame}
+
 \only<article>{
 The choice of distance in this kind of algorithm is important,
 particularly for very high dimensions. For something like a
@@ -615,14 +616,16 @@ between two spectral lines.
   \only<presentation>{
     \only<2>{\Large \alert{What if it a \textbf{completely different strain}?}}
   }
+  \only<article>{Given that the $+$ points represent the BUT type, and the $\times$ points the VVJ type, what type of bacterium could the circle point be?}
 \end{frame}
 
+\only<presentation>{
 \begin{frame}
   \frametitle{Hands on with Python console}
   
 
 \end{frame}
-
+}
 \subsection{Feature engineering}
 
 \only<article>{
