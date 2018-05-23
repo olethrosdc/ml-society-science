@@ -195,7 +195,7 @@ All machine learning problems are essentially decision problems. This essentiall
   \only<presentation>{
     \uncover<2->{
       \[
-      \decision_t \in \argmax_{\decision \in \Decision} \sum_y P(y_t = y \mid x_t) \Util(\decision, y)
+      \decision_t \in \argmax_{\decision \in \Decision} \sum_y P(y_t = y \mid x_t) \util(\decision, y)
       \]
     }
     \uncover<3>{
@@ -238,14 +238,14 @@ All machine learning problems are essentially decision problems. This essentiall
   \frametitle{Bayes decision rules}
   Consider the case where outcomes are independent of decisions:
   \[
-    \Util (P, \decision) \defn \sum_{\outcome}  \Util (\outcome, \decision) P(\outcome)
+    \util (P, \decision) \defn \sum_{\outcome}  \util (\outcome, \decision) P(\outcome)
   \]
   This corresponds e.g. to the case where $P(\omega)$ is the belief about an unknown world.
   \begin{definition}[Bayes utility]
     \label{def:bayes-utility}
     The maximising decision for $P$ has an expected utility equal to:
     \begin{equation}
-      \BUtil(P) \defn \sup_{\decision \in \Decision} \Util (P, \decision).
+      \BUtil(P) \defn \sup_{\decision \in \Decision} \util (P, \decision).
       \label{eq:bayes-utility}
     \end{equation}
   \end{definition}
@@ -272,4 +272,8 @@ All machine learning problems are essentially decision problems. This essentiall
     \end{align}
   \end{block}
 \end{frame}
+
+\subsection{Model uncertainty}
+
+
 

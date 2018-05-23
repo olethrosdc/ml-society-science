@@ -6,7 +6,14 @@ Project: Credit risk for mortgages. [Aim: Privacy and Fairness]
 
 Machine learning as science: hypotheses, experiments and conclusions.
 kNN example: What is classification? What is clustering? Making sure you formalise the problem.
-Feature engineering: how you can classify everything perfectly with kNN (in the training set).
+
+*** Feature engineering: how you can classify everything perfectly with kNN (in the training set).
+	:LOGBOOK:
+	CLOCK: [2018-04-06 Fri 20:46]--[2018-04-06 Fri 22:15] =>  1:29
+	CLOCK: [2018-04-06 Fri 15:20]--[2018-04-06 fre 16:20] =>  1:00
+	:END:
+
+
 Reproducibility: Finding ‘important features’ in a small dataset.  The fallacy of p-values.
 The aim of this lecture is to introduce students to the use and mis-use of automated decision making algorithms for problems in science and society.
 
@@ -31,6 +38,8 @@ The purpose of this lecture is to familiarise students with all the decisions ma
 Classification is the problem of selecting a classifier so as to make
 
 ** Lecture 3: Privacy
+   CLOCK: [2018-04-24 tis 16:18]--[2018-04-24 tis 16:44] =>  0:26
+   CLOCK: [2018-04-22 sön 17:16]--[2018-04-22 sön 19:19] =>  2:03
 
 Privacy. Differential Privacy, Databases
 The Random Response Mechanism. Laplace Mechanism.
@@ -38,8 +47,12 @@ The Random Response Mechanism. Laplace Mechanism.
 The purpose of this lecture is to introduce the students to basic database concepts, as well as to privacy problems that can occur when allowing access to a database to a third party.
 
 ** Lecture 4: Statistical Inference
+   :LOGBOOK:
+   CLOCK: [2018-05-22 Tue 13:57]
+   :END:
 
 *Privacy* Differential Privacy, Statistical Inference, and Discrete Bayesian Networks.
+
 Exponential mechanism.
 Construction of a simple DBN for lung cancer.
 
@@ -94,3 +107,11 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 ** Lecture 4. Safety: Model validation and importance Sampling
 
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
+* Meetings
+** DS overview
+   CLOCK: [2018-04-23 mån 10:10]--[2018-04-23 mån 11:10] =>  1:00
+
+Admission qualifications are quie sringent.
+
+Maximum number of students supervised.
+6 Master theses seems to be 

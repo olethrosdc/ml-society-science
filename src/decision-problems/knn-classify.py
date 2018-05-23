@@ -12,8 +12,14 @@ iris = datasets.load_iris()
 
 # we only take the first two features. We could avoid this ugly
 # slicing by using a two-dim dataset
-X = iris.data[:, :2]
+n_inputs = 2
+n_features= 16;
+X = iris.data[:, :n_inputs]
+
 y = iris.target
+
+A = np.random.rand(n_inputs, n_features)
+W = np.matmul(X, A)
 
 h = .02  # step size in the mesh
 

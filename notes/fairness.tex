@@ -237,7 +237,7 @@
 \end{frame}
 
 \subsection{Fairness as meritocracy.}
-  \only<article>{Another idea of fairness has to do with meritocracy. If one candidate is better than another, shouldn't that candidate be always preferred? How can we formalise this?}
+  \only<article>{A different concept of fairness is meritocracy. For example, if one candidate for a job is better than another, shouldn't that candidate be always preferred? How can we formalise this?}
 
 
 \begin{frame}
@@ -252,7 +252,11 @@
   
   \only<article>{ Here, the notion of meritocracy is defined through
     our utility function.  Although it would be better to consider the
-    candidate's utility instead, this is in practice difficult.  }
+    candidate's utility instead, this is in practice difficult,
+    because we'd have to somehow estimate each individual's utility
+    function.  Finally, we are taking the expectation here is because
+    we may not know for certain what the quality attribute of a given
+    person might be.  }
 \end{frame}
 \subsection{Fairness as similarity.}
 \begin{frame}
@@ -276,101 +280,6 @@
   \end{tikzpicture}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Summary of fairness conditions}
-  \begin{itemize}
-  \item<1-> Calibration: Given decision, outcome doesn't depend on race.
-  \item<2-> Balance: Given outcome,  decision doesn't depend on race.
-  \item<3-> Similarity: Similar people should be treated similarly.
-  \item<4-> Meritocracy: Better people should be treated better.
-  \end{itemize}
-
-  \begin{alertblock}{Open issues}
-    \begin{itemize}
-    \item<5-> Can these conditions be satisfied when $\param$ is unknown?
-    \item<6-> What is ``similar'' anyway?
-    \end{itemize}
-  \end{alertblock}
-  \uncover<7>{Our solutions: Subjective fairness and informational similarity.}
-\end{frame}
-
-\begin{frame}
-  \frametitle{The Bayesian fairness framework}
-  \begin{center}
-    \includegraphics[width=0.5\textwidth]{../figures/bias}
-
-    From prior and data $\Rightarrow$ belief
-    $\bel(\param)$
-  \end{center}
-  
-  \begin{definition}[Bayes rule]
-    The optimal decision rule simply maximises expected utility:
-    \begin{align}
-      \pol^*(a \mid x) &= \argmax_a \E_\bel(U \mid a, x)
-      \\
-      \E_\bel(U \mid a, x) &= \int_\Param \E_\param(U \mid a, x) \dd \bel(\param)
-    \end{align}
-  \end{definition}
-\end{frame}
-\begin{frame}
-  \frametitle{Example: Balanced decision rules.}
-  \begin{definition}[Balanced decision rule]
-    A decision rule $\pol$ is balanced with respect to $\param$ if
-    \begin{align*}
-      C_\param^\pol(y,z) &\defn \Pr_\param^\pol(a, z \mid y) -  \Pr_\param^\pol(a  \mid y)  \Pr_\param^\pol(z  \mid y) = 0 &&\forall x, y, z
-    \end{align*}
-    i.e. $a \indep z \mid y, \pol, \param$.
-  \end{definition}
-
-  \begin{block}{When $\param$ is unknown}
-
-    \[
-      \max_\pol \int_\Param \dd \bel(\param) [U(\param, \pol) - \lambda \max_{y, z} C_\param^\pol(y,z)]
-    \]
-  \end{block}
-  where $\Delta$ measures dependence.
-\end{frame}
-
-\begin{frame}
-  \frametitle{Informational fairness}
-
-  ``Similar people should be treated similarly''
-
-  \begin{tikzpicture}[scale=2,thick,domain=-2:2]
-    \draw<1->[->] (-2,0) -- (2,0) node[right] {$y$};
-    \draw<1->[->] (0,0) -- (0,1);
-    \draw<2->[color=blue] plot (\x,{exp(-(\x - 1)^2)}) node[right] {$\Pr_{\bel}(y|x)$};
-    \draw<3->[color=red] plot (\x,{exp(-(\x + 1)^2)}) node[above] {$\Pr_{\bel}(y|x')$};
-  \end{tikzpicture}
-  \uncover<4->{
-    \begin{block}{Thompson sampling}
-      \begin{itemize}
-      \item $\hat{\param} \sim \bel$
-      \item $a = \argmax_a \E_{\hat{\param}} [U \mid x, a]$
-      \end{itemize}
-    \end{block}
-    \begin{block}{Stochastic dominance sampling}
-      \begin{itemize}
-      \item $\hat{\param} \sim \bel$
-      \item $\hat{y} \sim \Pr_\param$
-      \item $\pol(a | x) = \argmax_a U(\hat{y},a)$
-      \end{itemize}
-    \end{block}
-    
-  }
-\end{frame}
-
-\begin{frame}
-  \frametitle{Current status}
-  \begin{itemize}
-  \item Link between smoothness and independence under uncertainty.
-  \item Optimality of Thompson sampling with respect to subjective meritocracy.
-  \item Introduced calibrated fairness for which stochastic dominance is optimal.
-  \item Application to bandit problems.
-  \item More general decision settings are an open problem.
-  \end{itemize}
-
-\end{frame}
 
 
 

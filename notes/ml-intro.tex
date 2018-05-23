@@ -601,8 +601,9 @@ BUT.
 \begin{frame}
 \frametitle{Comparing spectral data}
   \only<1>{\input{../figures/difference1.tikz}}
-  \only<2>{\input{../figures/difference2.tikz}}
+  \only<presentation>{\only<2>{\input{../figures/difference2.tikz}}}
 \end{frame}
+
 \only<article>{
 The choice of distance in this kind of algorithm is important,
 particularly for very high dimensions. For something like a
@@ -615,12 +616,66 @@ between two spectral lines.
   \only<presentation>{
     \only<2>{\Large \alert{What if it a \textbf{completely different strain}?}}
   }
+  \only<article>{Given that the $+$ points represent the BUT type, and the $\times$ points the VVJ type, what type of bacterium could the circle point be?}
 \end{frame}
 
+\only<presentation>{
 \begin{frame}
   \frametitle{Hands on with Python console}
   
 
+\end{frame}
+}
+\subsection{Feature engineering}
+
+\only<article>{
+  A lot of time in applying machine learning is focused on engineering the ``right'' features. Strictly speaking, the selection of features is not independent from the selection of the learning algorithm. However,  it is always possible to find a rich enough feature set that you can fit any type of data you want.} 
+\begin{frame}
+  \frametitle{The too-perfect features}
+  \begin{definition}[Feature map]
+    Given an input space $\CX$, any function $f : \CX \to \Phi$ is called a feature map.
+  \end{definition}
+
+  \begin{example}[Random features]
+    Original input $\CX \subset \Reals^n$, feature space $\Phi \subset \Reals^m$, $m \gg n$. First select a random matrix $A \in \Reals^{n \times m}$. Then, define the function,
+    \[
+      f(x) = h(Ax)
+    \]
+    where $h \Reals^m \to \Reals^m$ is any arbitrary non-linear transformation. In particular, we can use a component-wise non-linearity
+    \[
+      h(z) = \left(u(z_i)\right)_{i=1}^m,
+    \]
+    where $u : \Reals \to \Reals$ is a simple non-linear function such as $\tanh$ or a step function. 
+  \end{example}
+  \only<article>{
+    It is a good idea to use a random matrix with entries drawn from a Normal distribution.
+  }
+  \begin{alertblock}{Overfitting}
+    As $m \to \infty$ it becomes quite easy to overfit.
+  \end{alertblock}
+\end{frame}
+
+\subsection{Reproducibility}
+\begin{frame}
+  \frametitle{Finding important features}
+  \only<article>{What features can best explain a difference between two classes?}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Compare the average difference of features between two classes.}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The fallacy of $p$-values}
+  \only<article>{A $p$-value has a uniform distribution under the null hypothesis. More precisely,let $x$ is our data and $H_0$ is our null hypothesis. If $H_0$ is true then $x \sim P_0$. Let}
+  \[
+    f(x) \tag{$p$-statistic}
+  \]
+  \only<article>{be a statistic on the data designed to have the property:}
+  \[
+    P_0(\cset{x}{f(x) \leq p}) = p.
+  \]
+  \only<article>{This ensures that the probability of rejecting the null hypothesis when it is true is actually $p$. But note that this is the definition of the uniform distribution, so $f(x)$ has a uniform distribution under $H_0$. Hence the value of $f(x)$ itself is uninformative. In theory we should simply choose $p$ before seeing the data and just accept or reject based on whether $f(x) \leq p$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all.}
 \end{frame}
 
 \begin{frame}
@@ -645,13 +700,7 @@ between two spectral lines.
 \end{frame}
 
 
-
-\bibliographystyle{apalike}
-\bibliography{../../bib/mine,../../bib/misc}
-
-\end{document}
-
 %%% Local Variables: 
 %%% mode: latex
-%%% TeX-master: t
+%%% TeX-master: "notes.tex"
 %%% End: 
