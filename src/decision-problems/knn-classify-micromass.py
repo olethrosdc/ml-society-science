@@ -8,9 +8,11 @@ import scipy.io as sio
 
 original = sio.loadmat("../../data/micromass/data.mat")
 
-X = originaldata['X']
-
-y = originaldata['Y']
+n_train = 300
+X_train = original['X'][:n_train]
+y_train = original['Y'][:n_train]
+X_test = original['X'][n_train:]
+y_test = original['Y'][n_train:]
 
 ### Create color maps
 ### Now we can classify
@@ -18,14 +20,16 @@ y = originaldata['Y']
 for weights in ['uniform', 'distance']:
     # we create an instance of Neighbours Classifier and fit the data.
     clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
-    clf.fit(X, y)
+    clf.fit(X_train, y_train.ravel())
+    accuracy = 0
+    prediction = clf.predict(X_train)
+    T = y.size
+    for t in range(1, T):
+        if (prediction[t]==y[t]): accuracy+=1
+    accuracy /= T
 
-    # Plot the decision boundary. For that, we will assign a color to each
-    # point in the mesh [x_min, x_max]x[y_min, y_max].
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+        
+    
+
 
 
