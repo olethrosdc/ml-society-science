@@ -6,7 +6,7 @@ from matplotlib.colors import ListedColormap
 from sklearn import neighbors, datasets
 from skimage import data
 
-original = skimage.data.imread("../../data/fmri/normal-brain.jpg")
+original = data.imread("../../data/fmri/normal-brain.jpg")
 n_neighbors = 15
 
 # import some data to play with
