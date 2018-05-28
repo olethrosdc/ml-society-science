@@ -18,10 +18,12 @@ y_train = original['Y'][:n_train]
 X_test = original['X'][n_train:]
 y_test = original['Y'][n_train:]
 n_dim = X_train.shape[1]
-mean_A = np.zeros([1, n_dim])
-mean_B = np.zeros([1, n_dim])
+mean_A = np.zeros([n_dim])
+mean_B = np.zeros([n_dim])
 n_A = 0
 n_B = 0
+
+## Get the most distinguishing feature
 for t in range (n_train):
     if (y_train[t] == 0):
         n_A += 1
@@ -33,7 +35,7 @@ for t in range (n_train):
 diff = mean_A - mean_B
 max_features = np.argmax(abs(diff))
 
-
-plt.plot(mean_A)
-plt.plot(mean_B)
+plt.plot(abs(diff))
+plt.plot([max_features, max_features], [0,abs(diff[max_features])])
+plt.show()
 
