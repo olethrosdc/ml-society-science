@@ -7,8 +7,14 @@ Project: Credit risk for mortgages. [Aim: Privacy and Fairness]
 Machine learning as science: hypotheses, experiments and conclusions.
 kNN example: What is classification? What is clustering? Making sure you formalise the problem.
 
+*** Training vs test in kNN
+	:LOGBOOK:
+	CLOCK: [2018-05-27 Sun 14:10]--[2018-05-27 Sun 22:01] =>  7:51
+	:END:
+
 *** Feature engineering: how you can classify everything perfectly with kNN (in the training set).
 	:LOGBOOK:
+	CLOCK: [2018-05-28 Mon 14:49]
 	CLOCK: [2018-04-06 Fri 20:46]--[2018-04-06 Fri 22:15] =>  1:29
 	CLOCK: [2018-04-06 Fri 15:20]--[2018-04-06 fre 16:20] =>  1:00
 	:END:
@@ -48,7 +54,7 @@ The purpose of this lecture is to introduce the students to basic database conce
 
 ** Lecture 4: Statistical Inference
    :LOGBOOK:
-   CLOCK: [2018-05-22 Tue 13:57]
+   CLOCK: [2018-05-22 Tue 13:57]--[2018-05-22 Tue 14:57] =>  1:00
    :END:
 
 *Privacy* Differential Privacy, Statistical Inference, and Discrete Bayesian Networks.
