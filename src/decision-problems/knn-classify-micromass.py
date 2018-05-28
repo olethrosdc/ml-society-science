@@ -24,7 +24,7 @@ def Accuracy(clf, X, y):
     accuracy = 0
     prediction = clf.predict(X)
     T = y.size
-    for t in range(1, T):
+    for t in range(T):
         if (prediction[t]==y[t]): accuracy+=1
     accuracy /= T
     return accuracy
