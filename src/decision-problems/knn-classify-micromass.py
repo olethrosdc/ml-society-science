@@ -1,10 +1,10 @@
-print(__doc__)
-
 ## Import required libraries
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-from sklearn import neighbors, datasets
+from sklearn import neighbors
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 import scipy.io as sio
 
 ## Load a simple spectral dataset
@@ -12,42 +12,27 @@ original = sio.loadmat("../../data/micromass/data.mat")
 
 
 ## split data into training and test sets
-n_train = 300 # number of training points
-X_train = original['X'][:n_train]
-y_train = original['Y'][:n_train]
-X_test = original['X'][n_train:]
-y_test = original['Y'][n_train:]
-n_neighbors = 1
-
-## Utility function for calculating accuracy
-def Accuracy(clf, X, y):
-    accuracy = 0
-    prediction = clf.predict(X)
-    T = y.size
-    for t in range(T):
-        if (prediction[t]==y[t]): accuracy+=1
-    accuracy /= T
-    return accuracy
-
-k = 0
-train_accuracy = [None] * 14
-test_accuracy = [None] * 14
-KNarray = [None] * 14
-KWarray = [None] * 14
+n_train = 300  # number of training points
+X_train, X_test, y_train, y_test = train_test_split(original['X'],
+                                                    original['Y'],
+                                                    train_size=n_train)
+train_accuracy = {}
+test_accuracy = {}
+weights = ['uniform', 'distance']
+n_neighbors = [1, 2, 4, 8, 16, 32, 64]
 
 # cycle through all the parameters and see what we get
-for weights in ['uniform', 'distance']:
-    for n_neighbors in [1, 2, 4, 8, 16, 32, 64]:
+for weight in weights:
+    train_accuracy[weight], test_accuracy[weight] = [], []
+    for n_neighbor in n_neighbors:
         # we create an instance of Neighbours Classifier and fit the data.
-        clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
+        clf = neighbors.KNeighborsClassifier(n_neighbor, weights=weight)
         clf.fit(X_train, y_train.ravel())
-        train_accuracy[k] = Accuracy(clf, X_train, y_train)
-        test_accuracy[k] = Accuracy(clf, X_test, y_test)
-        KNarray[k] = n_neighbors
-        KWarray[k] = weights
-        print(KNarray[k], KWarray[k], train_accuracy[k], test_accuracy[k])
-        k+=1
-    
-
-
-
+        train_accuracy[weight].append(
+            accuracy_score(y_train, clf.predict(X_train)))
+        test_accuracy[weight].append(
+            accuracy_score(y_test, clf.predict(X_test)))
+        print(n_neighbor,
+              weight,
+              train_accuracy[weight][-1],
+              test_accuracy[weight][-1])
