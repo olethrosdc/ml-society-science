@@ -12,7 +12,7 @@ original = sio.loadmat("../../data/micromass/data.mat")
 
 
 ## split data into training and test sets
-n_train = 300  # number of training points
+n_train = 128 # number of training points
 X_train, X_test, y_train, y_test = train_test_split(original['X'],
                                                     original['Y'],
                                                     train_size=n_train)
@@ -36,3 +36,13 @@ for weight in weights:
               weight,
               train_accuracy[weight][-1],
               test_accuracy[weight][-1])
+
+plt.figure(1)
+plt.plot(n_neighbors, train_accuracy['uniform'])
+plt.plot(n_neighbors, test_accuracy['uniform'])
+plt.title("Uniform")
+plt.figure(2)
+plt.plot(n_neighbors, train_accuracy['distance'])
+plt.plot(n_neighbors, test_accuracy['distance'])
+plt.title("Distance")
+plt.show()
