@@ -610,6 +610,25 @@ particularly for very high dimensions. For something like a
 spectrogram, one idea is look at the total area of the difference
 between two spectral lines. 
 }
+
+\begin{frame}
+  \frametitle{The nearest neighbour algorithm}
+  \begin{algorithm}[h]
+    \begin{algorithmic}
+      \State \textbf{Input} Data $D = \{(x_1, y_1), \ldots, (x_T, y_T)\}$, neighbourhood $k \geq 1$, distance $d : \CX \times \CX \to \Reals_+$, new point $x \in \CX$
+      \State $D = \texttt{Sort}(D, d)$ \% \textsf{ Sort $D$ so that $d(x, x_i) \leq d(x, x_{i+1})$}.
+      \State $p_y = \sum_{i=1}^k \ind{y_i = y} / k$ for $y \in \CY$.
+      \State \textbf{Return} $\argmax_y p_y$
+    \end{algorithmic}
+    \caption{$k$-NN Classify}
+    \label{alg:kNN-classify}
+  \end{algorithm}
+  \only<article>{The nearest neighbour algorithm for classification (Alg.~\ref{alg:kNN-classify}) does not include any complicated learning. Given a training dataset $D$, it returns a classification decision for any new point $x$ by simply comparing it to its closest $k$ neighbours in the dataset. It then estimates the probability $p_y$ of each class $y$ by calculating the average number of times the neighbours take the class $y$.
+  }
+  \only<presentation>{
+    What does the algorithm output when $k = T$?
+  }
+\end{frame}
 \begin{frame}
   \frametitle{Nearest neighbour: What type is the new bacterium?}
   \input{../figures/separation2.tikz}
