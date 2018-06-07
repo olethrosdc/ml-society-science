@@ -1,4 +1,4 @@
-* Part 1. Classification.
+* Part 1. Classification, privacy, fairness
 
 Project: Credit risk for mortgages. [Aim: Privacy and Fairness]
 
@@ -23,7 +23,7 @@ kNN example: What is classification? What is clustering? Making sure you formali
 Reproducibility: Finding ‘important features’ in a small dataset.  The fallacy of p-values.
 The aim of this lecture is to introduce students to the use and mis-use of automated decision making algorithms for problems in science and society.
 
-** Lecture 2: Decision Problems
+** Lecture 2: Decision Problems and fairness
    :LOGBOOK:
    CLOCK: [2018-04-04 Wed 09:22]--[2018-04-04 Wed 10:30] =>  1:08
    CLOCK: [2018-04-03 Tue 20:58]--[2018-04-03 Tue 21:16] =>  0:18
@@ -37,7 +37,10 @@ Fairness. Conditional Independence, Lipschitz functions.
 Introduction to the COMPAS dataset and analysis
 Deriving a fair College admissions decision rule.
 
-The purpose of this lecture is to familiarise students with all the decisions made from the beginning to the end of the data science process, and with the possible externalities when an algorithm is applied to real data.
+The purpose of this lecture is to familiarise students with all the
+decisions made from the beginning to the end of the data science
+process, and with the possible externalities when an algorithm is
+applied to real data.
 
 *** Notes
 
@@ -96,7 +99,7 @@ This lecture introduces analysis of text data, and an application to recommendat
 
 * Part 3. Experiment design
 
-Project: Experiment design for energy policy or Medical Diagnostics [Aim: Reproducibility]
+Project: Experiment design for energy policy or Medical Diagnostics [Aim: Reproducibility, Safety]
 
 ** Lecture 1. Online data collection. Optimal stopping (expensive labels) A/B Testing, Bandit Problems.
 
