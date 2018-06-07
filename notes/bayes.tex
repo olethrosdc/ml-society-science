@@ -1,50 +1,3 @@
-% \documentclass{beamer}
-\documentclass{article}
-\usepackage[notheorems]{beamerarticle}
-\input{presentation_preamble}
-\usepackage{listings}
-
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-
-\lstset{ %
-  basicstyle=\tt,        % the size of the fonts that are used for the code
-  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-  breaklines=true,                 % sets automatic line breaking
-  captionpos=b,                    % sets the caption-position to bottom
-  commentstyle=\color{mygreen},    % comment style
-  deletekeywords={...},            % if you want to delete keywords from the given language
-  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-  % frame=single,	                   % adds a frame around the code
-  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{blue},       % keyword style
-  language=R,                 % the language of the code
-  otherkeywords={*,...},           % if you want to add more keywords to the set
-  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-  numbersep=5pt,                   % how far the line-numbers are from the code
-  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-  showstringspaces=false,          % underline spaces within strings only
-  showtabs=false,                  % show tabs within strings adding particular underscores
-  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
-  stringstyle=\color{mymauve},     % string literal style
-  tabsize=2,	                   % sets default tabsize to 2 spaces
-  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
-}
-
-
-\title{Naive Bayes classification}
-\author{Christos Dimitrakakis}
-
-\begin{document}
-
-\only<article>
-{
-  \maketitle
-}
-\frame{\titlepage}
-
 
 \section{Introduction}
 
@@ -225,7 +178,12 @@
     where $n_k$ is the number of values that the $k$-th attribute can take. This is necessary, because we want $\sum_{i=1}^{n_k} \Pr(x(k) = i \mid C) = 1$. (You can check that this is indeed the case as a simple exercise).
   \end{remark}
 
+  \begin{remark}
+    In fact, the Laplace smoothing model corresponds to a so-called Dirichelt prior over polynomial parameters with a marginal probability of observation equal to the Laplace smoothing.
+  \end{remark}
 }
+
+
 
 \begin{block}{Continuous attribute model.}
   \only<article>{Here we can use a Gaussian model for each continuous dimension.}
@@ -345,6 +303,90 @@ model <- naiveBayes(Class ~ ., data = Training, laplace = lambda)
     \end{enumerate}
   \end{enumerate}
 \end{exercise}
+
+\subsection{Full Bayesian inference}
+\only<article>{Statistical inference is the problem estimating quantities from data. Many machine learning problems lie within the statistical inference framework. While there are many paradigms within this framework, one typically tries to calculate probability distributions of some random variables from data. These are usually expressed in terms of parametrised distributions. In the Bayesian setting in particular, the goal is to quantify our uncertainty about these unknown parameters in terms of another probability distribution.}
+\begin{frame}
+  \frametitle{Bayesian inference} \only<article>{ Bayesian statistical
+    inference is the problem of inferring distributions (of
+    parameters) from data. Typically, given some prior distribution
+    $\bel(\param)$ on parameters $\param \in \Param$, such that for
+    every possible parameter value the probability $P_\param(x)$ is
+    well defined for any $x \in \CX$, we wish to infer a posterior
+    distribution from any given data $x$.}
+  \begin{definition}[Posterior distribution]
+    \only<article>{Given a prior $\bel$ on the parameter set $\Param$
+      and a family $\{P_\param\}$ of distributions on $\CX$, the
+      posterior distribution of parameter $\param$ for any data
+      $x \in \CX$ is}
+    \begin{equation}
+      \bel(\param \mid x) \defn \frac{P_\param(x) \bel(\param)}{\sum_{\param' \in \Param}
+        P_{\param'}(x) \bel(\param')}.
+      \label{eq:posterior}
+    \end{equation}
+  \end{definition}
+\end{frame}
+
+
+
+
+\subsection{Bayesian networks}
+\only<article>{
+  A Bayesian network is a collection of $n$ random variables $x_i : \Omega \to X_i$, and let $X \defn \prod_i X_i$, with underlying probability measure $P$ on $\Omega$.
+  Let $\bx = (x_i)_{i=1}^n$ and for any subset $B \subset[n]$ let
+  \begin{align}
+    \bx_B &\defn (x_i)_{i \in B}\\
+    \bx_{-j} &\defn (x_i)_{i \neq i}
+  \end{align}
+}
+\begin{frame}
+  \frametitle{Bayesian networks and independence}
+  \begin{block}{Joint probability}
+    Let $\bx = (x_1, \ldots, x_n)$. Then $\bx : \Omega \to X$, $X = \prod_i X_i$ and:
+    \[
+      \Pr(\bx \in A) = P(\cset{\omega \in \Omega}{\bx(\omega) \in A}).
+    \]
+  \end{block}
+  \only<article>{
+    When $X_i$ are finite, we can typically write
+    \[
+      \Pr(\bx = \ba) = P(\cset{\omega \in \Omega}{\bx(\omega) = \ba}),
+    \]
+    for the probability that $x_i = a_i$ for all $i \in [n]$.
+  }
+  \begin{block}{Factorisation}
+    \only<article>{
+      For any subsets $B \subset [n]$ and its complement $C$ so that
+      $\bx_B = (x_i)_{i \in B}$,     $\bx_C = (x_i)_{i \notin B}$
+    }
+    \[
+      \Pr(\bx) = \Pr(\bx_B \mid \bx_C) \Pr(\bx_C)
+    \]
+  \end{block}
+  \begin{block}{Conditional independence}
+    We say $x_i$ is conditionally independent of $\bx_B$ given $\bx_D$ and write $x_i \mid \bx_D \indep \bx_B$ iff
+    \[
+      \Pr(x_i, \bx_B \mid \bx_D)
+      =
+      \Pr(x_i \mid \bx_D)
+      \Pr(\bx_D \mid \bx_B).
+    \]
+  \end{block}
+  \only<article>{In a Bayesian network, conditional independence is represented through directed edges.}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (xi) {$x_i$};
+      \node[RV] at (0,0) (xB) {$x_j$};
+      \node[RV] at (1,0) (xD) {$x_k$};
+      \draw[->] (xB)--(xD);
+      \draw[->] (xD)--(xi);
+    \end{tikzpicture}
+    \label{fig:bn}
+    \caption{Bayesian network exhibiting the factorisation $\Pr(x_i \mid x_j) \Pr(x_j \mid x_k)$.}
+  \end{figure}
+\end{frame}
+
 
 \end{document}
 %%% Local Variables:
