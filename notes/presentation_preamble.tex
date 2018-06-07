@@ -1,0 +1,420 @@
+%% Pre-amble - commonly defined macros.
+\mode<presentation>
+{
+%  \useinnertheme{rectangles}
+  \useoutertheme{infolines}
+%  \usecolortheme{crane}
+  \usecolortheme{rose}
+}
+
+\mode<article>
+{
+\usepackage{framed}
+  \renewenvironment{block}[1]
+  {\framed \par \textbf{#1} \newline}
+  {\par \endframed}
+
+  \renewenvironment{exampleblock}[1]
+  {\framed \par \textit{#1} \newline \bigskip}
+  {\par \endframed}
+
+  \renewenvironment{alertblock}[1]
+  {\framed \par \textit{\textbf{#1}} \newline \hrule \bigskip}
+  {\par \endframed}
+}
+
+%% Packages
+\mode<article>{
+\usepackage[pdfauthor={Christos Dimitrakakis},
+            pdftitle={Introduction to data mining},
+            pdfsubject={Data mining},
+            pdfkeywords={Data mining, Statistics, Machine Learning},
+            pdfproducer={Latex with hyperref},
+            pdfcreator={LaTex}]{hyperref}
+}
+\usepackage{cleveref}
+\usepackage{xfrac}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{isomath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{mathrsfs}
+\usepackage{dsfont}
+%\usepackage{epic}
+\usepackage{psfrag}
+\usepackage{svg}
+
+%\usepackage[bbgreekl]{mathbbol}
+%\usepackage{subfigure}
+\usepackage{tikz}
+
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/]
+\usepackage{gnuplot-lua-tikz}
+\usepackage{pgfplots}
+\usepackage{colortbl}
+\usepackage{enumerate}
+
+
+%\usepackage[sort&compress]{natbib}
+\usepackage{natbib}
+\def\newblock{} % To avoid a compilation error about a function \newblock undefined for natbib
+
+%\usepackage{epstopdf}
+
+\newcommand \indexmargin[1] {\marginpar{\emph{#1}}\index{#1}}
+\newcommand \marginref[2] {\marginpar{\emph{#1}}\emph{#1}\index{#2}}
+\newcommand \emindex[1] {\emph{#1}\marginpar{\emph{#1}}\index{#1}}
+
+%% Special characters
+
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+
+\newcommand\Reals {{\mathds{R}}}
+\newcommand\Simplex {\mathbbold{\Delta}}
+\newcommand\PSD {{\mathds{S}}}
+\newcommand\Naturals {{\mathds{N}}} 
+\newcommand\Integers {{\mathds{Z}}} 
+
+\newcommand \FB {{\mathfrak{B}}}
+\newcommand \FD {{\mathfrak{D}}}
+\newcommand \FF {{\mathfrak{F}}}
+\newcommand \FK {{\mathfrak{K}}}
+\newcommand \FJ {{\mathfrak{J}}}
+\newcommand \FL {{\mathfrak{L}}}
+\newcommand \FO {{\mathfrak{O}}}
+\newcommand \FS {{\mathfrak{S}}}
+\newcommand \FT {{\mathfrak{T}}}
+\newcommand \FP {{\mathfrak{P}}}
+\newcommand \FR {{\mathfrak{R}}}
+
+\newcommand \Borel[1] {\mathfrak{B}\left(#1\right)}
+\newcommand \Dist[1] {\Simplex \left(#1\right)}
+
+\newcommand \CA {{\mathcal{A}}}
+\newcommand \CB {{\mathcal{B}}}
+\newcommand \CC {{\mathcal{C}}}
+\newcommand \CD {{\mathcal{D}}}
+\newcommand \CE {{\mathcal{E}}}
+\newcommand \CF {{\mathcal{F}}}
+\newcommand \CG {{\mathcal{G}}}
+\newcommand \CH {{\mathcal{H}}}
+\newcommand \CJ {{\mathcal{J}}}
+\newcommand \CL {{\mathcal{L}}}
+\newcommand \CM {{\mathcal{M}}}
+\newcommand \CN {{\mathcal{N}}}
+\newcommand \CO {{\mathcal{O}}}
+\newcommand \CP {{\mathcal{P}}}
+\newcommand \CQ {{\mathcal{Q}}}
+\newcommand \CR {{\mathcal{R}}}
+\newcommand \CS {{\mathcal{S}}}
+\newcommand \CT {{\mathcal{T}}}
+\newcommand \CU {{\mathcal{U}}}
+\newcommand \CV {{\mathcal{V}}}
+\newcommand \CW {{\mathcal{W}}}
+\newcommand \CX {{\mathcal{X}}}
+\newcommand \CY {{\mathcal{Y}}}
+\newcommand \CZ {{\mathcal{Z}}}
+
+\newcommand \BA {{\mathbb{A}}}
+\newcommand \BI {{\mathbb{I}}}
+\newcommand \BS {{\mathbb{S}}}
+
+\newcommand \bA {{\vectorsym{A}}}
+\newcommand \bX {{\vectorsym{X}}}
+\newcommand \bR {{\vectorsym{R}}}
+\newcommand \bS {{\vectorsym{S}}}
+\newcommand \bT {{\vectorsym{T}}}
+\newcommand \bU {{\vectorsym{U}}}
+\newcommand \bV {{\vectorsym{V}}}
+
+
+
+\newcommand \bz {{\vectorsym{z}}}
+\newcommand \bx {{\vectorsym{x}}}
+\newcommand \by {{\vectorsym{y}}}
+\newcommand \bu {{\vectorsym{u}}}
+\newcommand \bw {{\vectorsym{w}}}
+\newcommand \ba {{\vectorsym{a}}}
+\newcommand \bh {{\vectorsym{h}}}
+\newcommand \bo {{\vectorsym{o}}}
+\newcommand \bn {{\vectorsym{n}}}
+\newcommand \bp {{\vectorsym{p}}}
+\newcommand \bq {{\vectorsym{q}}}
+\newcommand \bs {{\vectorsym{s}}}
+
+\newcommand \SA {\mathscr{A}}
+\newcommand \SB {\mathscr{B}}
+\newcommand \SC {\mathscr{C}}
+\newcommand \SF {\mathscr{F}}
+\newcommand \SG {\mathscr{G}}
+\newcommand \SH {\mathscr{H}}
+\newcommand \SJ {\mathscr{J}}
+\newcommand \SL {\mathscr{L}}
+\newcommand \SP {\mathscr{P}}
+\newcommand \SR {\mathscr{R}}
+\newcommand \ST {\mathscr{T}}
+\newcommand \SU {\mathscr{U}}
+\newcommand \SV {\mathscr{V}}
+\newcommand \SW {\mathscr{W}}
+
+\newcommand \p {\partial}
+\newcommand \deriv[1] {\nabla_{#1}}
+
+
+
+
+\newcommand\then{\Rightarrow}
+%\newcommand \StateSet {{\CQ}}
+\newcommand \States {\CS}
+\newcommand \Actions {\CA}
+
+\newcommand \stat {\phi}
+
+%% Commands
+
+\newcommand\argmax{\mathop{\rm arg\,max}}
+\newcommand\argmin{\mathop{\rm arg\,min}}
+\newcommand\dtan{\mathop{\rm dtan}}
+\newcommand\sgn{\mathop{\rm sgn}}
+\newcommand\trace{\mathop{\rm trace}}
+\newcommand\diag{\mathop{\rm diag}}
+%\newcommand\dim{\mathop{\rm dim}}
+
+\newcommand\ind[1]{\mathop{\mbox{\ensuremath{\mathbb{I}}}}\left\{#1\right\}}
+\newcommand\Ind{\mbox{\bf{I}}}
+\newcommand\I[1]{\mathop{\mbox{\ensuremath{\mathbbold{1}_{#1}}}}}
+
+\newcommand \E {\mathop{\mbox{\ensuremath{\mathbb{E}}}}\nolimits}
+\newcommand \hE {\mathop{\mbox{\ensuremath{\hat{\mathbb{E}}}}}\nolimits}
+\newcommand \Var {\mathop{\mbox{\ensuremath{\mathbb{V}}}}\nolimits}
+\renewcommand \Pr {\mathop{\mbox{\ensuremath{\mathbb{P}}}}\nolimits}
+%\newcommand \complement[1] {\bar{#1}}
+\newcommand \transpose[1] {#1^\top}
+\newcommand \defn {\mathrel{\triangleq}}
+\newcommand\set[1] {\left\{#1\right\}}
+\newcommand\tuple[1] {\left\langle #1\right\rangle}
+\newcommand\cset[2] {\left\{#1 ~\middle|~ #2\right\}}
+\newcommand \ceil[1]{\left\lceil #1 \right\rceil}
+\newcommand \floor[1]{\left\lfloor #1 \right\rfloor}
+\newcommand \norm[1]{\left\|#1\right\|}
+\newcommand \pnorm[2]{\left\|#1\right\|_{#2}}
+\newcommand \meas[1]{\mu\left\{#1\right\}}
+\newcommand \dd{\, \mathrm{d}}
+\newcommand \eq {=}
+
+\newcommand \setdiff {\mathrel{\triangle}}
+
+\newcommand \KL[2] {D\left( #1 ~\middle\|~ #2 \right)}
+
+\numberwithin{equation}{section}
+
+\setbeamertemplate{theorems}[numbered] 
+\mode<presentation>{
+\theoremstyle{plain}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+}
+\mode<article>{
+\theoremstyle{plain}
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+}
+
+\newcommand \eqlike {\eqsim}
+\newcommand \gtlike {\succ}
+\newcommand \ltlike {\prec}
+\newcommand \gelike {\succsim}
+\newcommand \lelike {\precsim}
+
+\newcommand \eqpref {\eqsim^*}
+\newcommand \gtpref {\succ^*}
+\newcommand \ltpref {\prec^*}
+\newcommand \gepref {\succsim^*}
+\newcommand \lepref {\precsim^*}
+
+\newcommand \Util {U}
+\newcommand \BUtil {U^*}
+\newcommand \MUtil {\matrixsym{U}}
+\newcommand \risk {\kappa}
+\newcommand \Brisk {\kappa^*}
+\newcommand \Loss {\ell}
+\newcommand \Regret {L}
+\newcommand \regret {\ell}
+\newcommand \act {a}
+\newcommand \Acts {\CA}
+%% Make decisions and decision functions synonyms to actions and policies
+\newcommand \decision {\act}
+\newcommand \Decisions {\Acts}
+\newcommand \stopfun {\decfun_s}
+\newcommand \decrule {\decfun_d}
+\newcommand \strategy {\sigma}
+\newcommand \Strategies {\Sigma}
+\newcommand \decfun {\pol}
+\newcommand \Decfuns {\Pols}
+%\newcommand \dprior {\pi}
+%\newcommand \DPriors {\Pi}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\newcommand \Softmax {{\mathpzc{Softmax}}}
+\newcommand \GammaDist {{\mathpzc{Gamma}}}
+\newcommand \Dirichlet {{\mathpzc{Dir}}}
+\newcommand \Uniform {{\mathpzc{Unif}}}
+\newcommand \Bernoulli {{\mathpzc{Bern}}}
+\newcommand \Binomial {{\mathpzc{Binom}}}
+\newcommand \Beta {{\mathpzc{Beta}}}
+\newcommand \Geometric {{\mathpzc{Geom}}}
+\newcommand \Normal {{\mathpzc{N}}}
+\newcommand \Multinomial {{\mathpzc{Mult}}}
+\newcommand \Wishart {{\mathpzc{Wish}}}
+
+
+
+\newcommand \rmax {r_\mathrm{max}}
+
+\newcommand \ident {\matrixsym{I}}
+\newcommand \trans {\matrixsym{P}}
+\newcommand \rew {\vectorsym{r}}
+\newcommand \RewValues {\mathcal{R}}
+\newcommand \Rew {\rho}
+\newcommand \Rews {\mathscr{R}}
+
+\newcommand \agrew {\rew_{\mathrm{a}}}
+\newcommand \agpol {\pol_{\mathrm{a}}}
+
+\newcommand \temp {\eta}
+\newcommand \gammaA {\zeta}
+\newcommand \gammaB {\theta}
+
+\newcommand \outcome {\omega}
+\newcommand \Outcomes {\Omega}
+
+\newcommand \vomega {\vectorsym{\omega}}
+
+\newcommand \hbel {\omega}
+\newcommand \jbel {\phi}
+\newcommand \rbel {\xi}
+\newcommand \pbel {\psi}
+
+
+\newcommand \aval {\vectorsym{u}}
+\newcommand \Value {V}
+\newcommand \val {\vectorsym{v}}
+\newcommand \Vals {\mathcal{V}}
+\newcommand \qval {\vectorsym{q}}
+\newcommand \Qvals {\mathcal{Q}}
+\newcommand \blm {\mathscr{L}}
+\newcommand \tdm {\mathscr{D}}
+\newcommand \pim {\mathscr{B}}
+\newcommand \disc {\gamma}
+\newcommand \hist {h_t}
+
+\newcommand \horizon {T}
+
+\newcommand \Pmp {\Pr_\mdp^\pol}
+\newcommand \pol {\pi}
+\newcommand \Pols {\Pi}
+\newcommand \vpol {\vectorsym{\pol}}
+\newcommand \marginal {P_\bel}
+\newcommand \nmarginal[1] {P_{\bel_{#1}}}
+\newcommand \bel {\xi}
+\newcommand \Bels {\Xi}
+\newcommand \field {\FF}
+\newcommand \family {\SP}
+\newcommand \funfamily {\SF}
+\newcommand \hyper {\theta}
+\newcommand \Hypers {\Theta}
+
+\newcommand {\MH} {\matrixsym{H}}
+
+\newcommand \alg {\lambda}
+\newcommand \model {\mu}
+\newcommand \Models {\CM}
+\newcommand \Datasets {\Omega}
+\newcommand \Data {\CD}
+\newcommand \Training {\CD_T}
+\newcommand \Holdout {\CD_H}
+\newcommand \Testing {\CD^*}
+\newcommand \error {\epsilon}
+\newcommand \obs {x}
+\newcommand \Obs {\CX}
+\newcommand \Att {\CA}
+\newcommand \att {a}
+\newcommand \attv {v}
+\newcommand \Attv {\CV}
+\newcommand \cls {y}
+\newcommand \Cls {\CY}
+\newcommand \Entropy {\mathbb{H}}
+\newcommand \Gain {\mathbb{G}}
+
+
+\newcommand \IDThree {\texttt{ID3}}
+
+\newcommand \nactions {k}
+\newcommand \nstates{n}
+\newcommand \nobservations {m}
+
+\newcommand \figwidth {0.6\textwidth}
+\newcommand \figheight {0.4\textwidth}
+
+%%% macros to make things smalller
+% For comparison, the existing overlap macros:
+% \def\llap#1{\hbox to 0pt{\hss#1}}
+% \def\rlap#1{\hbox to 0pt{#1\hss}}
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}
+\def\mathllap{\mathpalette\mathllapinternal}
+\def\mathrlap{\mathpalette\mathrlapinternal}
+\def\mathclap{\mathpalette\mathclapinternal}
+\def\mathllapinternal#1#2{%
+           \llap{$\mathsurround=0pt#1{#2}$}}
+\def\mathrlapinternal#1#2{%
+           \rlap{$\mathsurround=0pt#1{#2}$}}
+\def\mathclapinternal#1#2{%
+           \clap{$\mathsurround=0pt#1{#2}$}}
+
+
+
+
+\usetikzlibrary{automata}
+\usetikzlibrary{topaths}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{intersections}
+
+\tikzstyle{place}=[circle,draw=black,inner sep=0mm, minimum size=6mm]
+
+\tikzstyle{utility}=[diamond,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=8mm]
+\tikzstyle{select}=[rectangle,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=6mm]
+\tikzstyle{hidden}=[dashed,draw=black,fill=red!10]
+\tikzstyle{RV}=[circle,draw=black,draw=blue!50,fill=blue!10,inner sep=0mm, minimum size=6mm]
+\tikzstyle{arrow}=[->,>=triangle 60]
+
+
+\tikzstyle{transition}=[rectangle,draw=black!50,fill=black!20,thick]
+\tikzstyle{someset}=[circle,draw=black,minimum size=8mm]
+\tikzstyle{point}=[circle,draw=black,fill=black]
+
+
+
+%%% Local Variables:
+%%% mode: plain-tex
+%%% TeX-master: t
+%%% End:
