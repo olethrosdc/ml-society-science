@@ -12,16 +12,21 @@ kNN example: What is classification? What is clustering? Making sure you formali
 	CLOCK: [2018-05-27 Sun 14:10]--[2018-05-27 Sun 22:01] =>  7:51
 	:END:
 
-*** Feature engineering: how you can classify everything perfectly with kNN (in the training set).
+*** Replication and feature engineering: how you can classify everything perfectly with kNN (in the training set).
 	:LOGBOOK:
+        CLOCK: [2018-06-23 Sat 14:40]
 	CLOCK: [2018-05-28 Mon 14:49]--[2018-05-28 Mon 23:33] =>  8:44
 	CLOCK: [2018-04-06 Fri 20:46]--[2018-04-06 Fri 22:15] =>  1:29
 	CLOCK: [2018-04-06 Fri 15:20]--[2018-04-06 fre 16:20] =>  1:00
 	:END:
 
 
-Reproducibility: Finding ‘important features’ in a small dataset.  The fallacy of p-values.
-The aim of this lecture is to introduce students to the use and mis-use of automated decision making algorithms for problems in science and society.
+Reproducibility: Finding ‘important features’ in a small dataset.  The
+fallacy of p-values.  The aim of this lecture is to introduce students
+to the use and mis-use of automated decision making algorithms for
+problems in science and society.
+
+
 
 ** Lecture 2: Decision Problems and fairness
    :LOGBOOK:
@@ -61,7 +66,6 @@ The purpose of this lecture is to introduce the students to basic database conce
    :END:
 
 *Privacy* Differential Privacy, Statistical Inference, and Discrete Bayesian Networks.
-
 Exponential mechanism.
 Construction of a simple DBN for lung cancer.
 
@@ -69,20 +73,23 @@ The purpose of this lecture is to more generally talk about statistical queries 
 
 * Part 2. Structured/unsupervised learning (social networks)
 
-Project: Fake news. [Network Influence algorithm, Latent Dirichlet Allocation]
+  Project: Fake news. [Network Influence algorithm, Latent Dirichlet Allocation]
 
 ** Lecture 1: Clustering
 
 Unstructured databases.
 Clustering / Anomaly detection.
 
-The purpose of this lecture is to talk about non-matrix data, like graphs, and make a link to graphical models and simple problems like anomaly detection.
+The purpose of this lecture is to talk about non-matrix data, like
+graphs, and make a link to graphical models and simple problems like
+anomaly detection.
 
 ** Lecture 2: DNA Testing
 
 DNA testing and HMMs.
 
-Here we talk more about unstructured data, in this case about DNA data.
+Here we talk more about unstructured data, in this case about DNA
+data.
 
 ** Lecture 3: The web
 
