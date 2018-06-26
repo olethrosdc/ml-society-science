@@ -1,6 +1,6 @@
 * Part 1. Classification, privacy, fairness
 
-Project: Credit risk for mortgages. [Aim: Privacy and Fairness]
+Project: Credit risk for mortgages. [Aim: Reproducibility, Privacy and Fairness]
 
 ** Lecture 1: ML Intro
 
@@ -73,7 +73,7 @@ The purpose of this lecture is to more generally talk about statistical queries 
 
 * Part 2. Structured/unsupervised learning (social networks)
 
-  Project: Fake news. [Network Influence algorithm, Latent Dirichlet Allocation]
+  Project: Fake news. [Aim: Reproducibility, Privacy, Fake news]
 
 ** Lecture 1: Clustering
 
