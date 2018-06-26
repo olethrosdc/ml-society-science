@@ -17,7 +17,7 @@
       }
     \end{tikzpicture}
     \label{fig:bn-cluster}
-    \caption{Bayesian network for independent data from a cluster distribution.}
+    \caption{Graphical model for independent data from a cluster distribution.}
   \end{figure}
   \begin{block}{The clustering distribution}
     \only<presentation>{
@@ -46,17 +46,20 @@
   \begin{itemize}
   \item Prior $\bel$ on parameter space $\Param$.
   \item Data $x^T = x_1, \ldots, x_T$.
-  \item Posterior $\bel(\cdot \mid x^T, c^T)$.
+  \item Posterior $\bel(\cdot \mid x^T)$.
   \end{itemize}
   \begin{block}{Marginal posterior prediction}
     \[
-    P_\bel(c_t \mid x_t, x^T, c^T) = 
-    \int_\Params P_\param(c_t \mid x_t) \dd \bel
+    P_\bel(c_t \mid x_t, x^T) = 
+    \int_\Param P_\param(c_t \mid x_t) \dd \bel(\param \mid x^T)
     \]
   \end{block}
 \end{frame}
 
-\end{document}
+\begin{frame}
+  \frametitle{Example for clustering}
+  ?
+\end{frame}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
