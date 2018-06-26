@@ -1,4 +1,17 @@
 \section{Project: Credit risk for mortgages}
 
-Consider an insurer that must design a decision rule for giving mortgages to individuals. In this particular case, some of each individual's characteristics are partially known to the insurer.  We can assume that the insurer has a linear utility for money and wishes to maximise expected utility. Assume that the $t$-th individual is associated with relevant information $x_t$, sensitive information $z_t$ and a potential outcome $y_t$, which is whether or not they will default on their mortgage. For each individual $t$, the decision rule chooses $a \in \CA$ with probability $\pol(a_t = a \mid x_t)$. The decision rule must:
+Consider a bank that must design a decision rule for giving loans to individuals. In this particular case, some of each individual's characteristics are partially known to the bank.  We can assume that the insurer has a linear utility for money and wishes to maximise expected utility. Assume that the $t$-th individual is associated with relevant information $x_t$, sensitive information $z_t$ and a potential outcome $y_t$, which is whether or not they will default on their mortgage. For each individual $t$, the decision rule chooses $a \in \CA$ with probability $\pol(a_t = a \mid x_t)$.
+
+As an example, take a look at the historical data in \texttt{data/credit/german.data-mumeric}, described in \texttt{data/credit/german.doc}. Here there are some attributes related to financial situation, as well as some attributes related to personal information such as gender and marital status. 
+
+For this project, you must
+\begin{enumerate}
+\item Design a policy for giving or denying credit to individuals, given their probability for being credit-worthy. Assuming that if an individual is credit-worthy, you will obtain a return on investement of $0.5\%$ per month. If an individual is not credit-worthy you will lose your investment. Ignore macroenomic aspects, such as inflation.
+\item Use a model for calculating the probability of credit-worthiness from the german data. What are the implicit assumptions about the labelling process?
+\item Combine the model with the first policy to obtain a policy for giving credit, given only the information about the individual.
+\item How can you ensure that your policy maximises revenue? How can you take into account the uncertainty due to the limited and/or biased data?
+\item Does the existence of this database raise any privacy concerns? If the database was secret (and only known by the bank), but the credit decisions were public, how would that affect privacy?
+\item Choose one concept of fairness, e.g. balance of decisions with respect to gender. How do you ensure that your policy is fair? How can you measure it?
+\end{enumerate}
+
 
