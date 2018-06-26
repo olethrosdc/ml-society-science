@@ -1,0 +1,64 @@
+\section{Clustering}
+\only<article>{Clustering is the problem of automatically seggregating data of different types into clusters. When the goal is \alert{anomaly detection}, then there are typically two clusters. When the goal is \alert{compression} or \alert{auto-encoding} then there are typically as many clusters as needed for sufficienlty good accuracy.}
+
+
+\begin{frame}
+\frametitle{Clusters as latent variables}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (data) {$x_t$};
+      \node[RV,hidden] at (0,0) (cluster) {$c_{t}$};
+      \draw[->] (cluster)--(data);
+      \uncover<2>{
+        \node[RV,hidden] at (0,1) (param) {$\param$};
+        \draw[->] (param)--(cluster);
+        \draw[->] (param)--(data);
+      }
+    \end{tikzpicture}
+    \label{fig:bn-cluster}
+    \caption{Bayesian network for independent data from a cluster distribution.}
+  \end{figure}
+  \begin{block}{The clustering distribution}
+    \only<presentation>{
+      \begin{itemize}
+      \item Cluster $c_t$
+      \item Observation $x_t$
+      \item Parameter $\param$.
+      \end{itemize}
+    }
+    \only<article>{The learning problem is to estimate the parameter $\param$ describing the distribution of observations $x_t$ and clusters $c_t$.}
+    \[
+    x_t \mid c_t = c, \param \sim P_\param(x | c), \qquad c_t \mid \param \sim P_\param(c)
+    \]
+    \only<article>{
+      Given a parameter $\param$, the clustering problem is to estimate the probability of each cluster for each new observation.
+    }
+    \[
+    P_\param(c_t \mid x_t) = 
+    \uncover<2>{\frac{P_\param(x_t \mid c_t) P_\param(c_t)}{\sum_{c'}P_\param(x_t \mid c_t = c') P_\param(c_t = c')}}
+    \]
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Bayesian formulation of the clustering problem}
+  \begin{itemize}
+  \item Prior $\bel$ on parameter space $\Param$.
+  \item Data $x^T = x_1, \ldots, x_T$.
+  \item Posterior $\bel(\cdot \mid x^T, c^T)$.
+  \end{itemize}
+  \begin{block}{Marginal posterior prediction}
+    \[
+    P_\bel(c_t \mid x_t, x^T, c^T) = 
+    \int_\Params P_\param(c_t \mid x_t) \dd \bel
+    \]
+  \end{block}
+\end{frame}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: "notes.tex"
+%%% End:
