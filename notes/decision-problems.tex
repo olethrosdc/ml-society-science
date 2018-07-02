@@ -1,9 +1,7 @@
 \section{Decision problems}
 
 \only<article>{
-All machine learning problems are essentially decision problems. This essentially means replacing some human decisions with machine decisions. One of the simplest decision problems is classification, where you want an algorithm to decide the correct class of some data, but even within this simple framework there is a multitude of decisions to be made. The first is how to frame the classification problem the first place. The second is how to collect, process and annotate the data. The third is choosing the type of classification model to use. The fourth is how to use the collected data to find an optimal classifier within the selected type. After all this has been done, there is the problem of classifying new data. In this course, we will take a holistic view of the problem, and consider each problem in turn, starting from the lowest level and working our way up.}
-
-\section{Hierarchies of decision making problems}
+  All machine learning problems are essentially decision problems. This essentially means replacing some human decisions with machine decisions. One of the simplest decision problems is classification, where you want an algorithm to decide the correct class of some data, but even within this simple framework there is a multitude of decisions to be made. The first is how to frame the classification problem the first place. The second is how to collect, process and annotate the data. The third is choosing the type of classification model to use. The fourth is how to use the collected data to find an optimal classifier within the selected type. After all this has been done, there is the problem of classifying new data. In this course, we will take a holistic view of the problem, and consider each problem in turn, starting from the lowest level and working our way up.}
 
 
 \subsection{Simple decision problems}
@@ -14,24 +12,24 @@ All machine learning problems are essentially decision problems. This essentiall
     \begin{block}{Food}
       \begin{itemize}
       \item[A] McDonald's cheeseburger
-        \item[B] Surstromming
-        \item[C] Oatmeal
-        \end{itemize}
-      \end{block}
-      \begin{block}{Money}
-        \begin{itemize}
-        \item[A] 10,000,000 SEK
-        \item[B] 10,000,000 USD
-        \item[C] 10,000,000 BTC
-        \end{itemize}
-      \end{block}
-      \begin{block}{Entertainment}
-        \begin{itemize}
-        \item[A] Ticket to Liseberg
-        \item[B] Ticket to Rebstar
-        \item[C] Ticket to Nutcracker
-        \end{itemize}
-      \end{block}
+      \item[B] Surstromming
+      \item[C] Oatmeal
+      \end{itemize}
+    \end{block}
+    \begin{block}{Money}
+      \begin{itemize}
+      \item[A] 10,000,000 SEK
+      \item[B] 10,000,000 USD
+      \item[C] 10,000,000 BTC
+      \end{itemize}
+    \end{block}
+    \begin{block}{Entertainment}
+      \begin{itemize}
+      \item[A] Ticket to Liseberg
+      \item[B] Ticket to Rebstar
+      \item[C] Ticket to Nutcracker
+      \end{itemize}
+    \end{block}
   \end{example}
 
   \only<article>{In the decision theoretic framework, the things we receive are called rewards, and we assign a utility value to each one of them, showing which one we prefer.}
@@ -42,7 +40,7 @@ All machine learning problems are essentially decision problems. This essentiall
   \end{itemize}
   \only<article>{In each case, given $U$ the choice between each reward is trivial. We just select the reward:
     \[
-    r^* \in \argmax_r U(r)
+      r^* \in \argmax_r U(r)
     \]
     The main difficult is actually selecting the appropriate utility function. In a behavioural context, we simply assume that humans act with respect to a specific utility function. However, figuring out this function from behavioural data is non trivial. ven when this assumption is correct, individuals do not have a common utility function.
   }
@@ -184,8 +182,8 @@ All machine learning problems are essentially decision problems. This essentiall
   \begin{block}{Standard classification problem}
     \only<article>{In the simplest case, the set of decisions we make are the same as the set of classes}
     \[
-    \CA = \CY, \qquad
-    U(\decision, y) = \ind{\decision = y}
+      \CA = \CY, \qquad
+      U(\decision, y) = \ind{\decision = y}
     \]
   \end{block}
 
@@ -195,13 +193,13 @@ All machine learning problems are essentially decision problems. This essentiall
   \only<presentation>{
     \uncover<2->{
       \[
-      \decision_t \in \argmax_{\decision \in \Decision} \sum_y P(y_t = y \mid x_t) \util(\decision, y)
+        \decision_t \in \argmax_{\decision \in \Decision} \sum_y P(y_t = y \mid x_t) \util(\decision, y)
       \]
     }
     \uncover<3>{
       For standard classification,
       \[
-      \decision_t \in \argmax_{\decision \in \Decision} P(y_t = \decision \mid x_t)
+        \decision_t \in \argmax_{\decision \in \Decision} P(y_t = \decision \mid x_t)
       \]
     }
   }
@@ -212,33 +210,33 @@ All machine learning problems are essentially decision problems. This essentiall
   \frametitle{Deciding the class given a model family}
   \begin{itemize}
   \item Training data $S = (x_1, y_1, \ldots, x_n, y_n)$
-  \item Models $\cset{P_\outcome}{\outcome \in \Outcome}$
-  \item Prior $\bel$ on $\Outcome$.
+  \item Models $\cset{P_\model}{\model \in \Model}$
+  \item Prior $\bel$ on $\Model$.
   \end{itemize}
   \[
-    \bel(\outcome \mid S)
-    = \frac{P_\outcome(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\outcome)}
-    {\sum_{\outcome' \in \Outcome} P_{\outcome'}(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\outcome')}
+    \bel(\model \mid S)
+    = \frac{P_\model(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\model)}
+    {\sum_{\model' \in \Model} P_{\model'}(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\model')}
   \]
   We can then calculate the posterior marginal marginal label probability
   \[
     P_{\bel \mid S}(y_t \mid x_t) \defn
     P_{\bel}(y_t \mid x_t, S) = 
-    \sum_{\outcome \in \Outcome} P_\outcome(y_t \mid x_t) \bel(\omega \mid S).
+    \sum_{\model \in \Model} P_\model(y_t \mid x_t) \bel(\omega \mid S).
   \]
   We can then construct the following simple decision rule:
   \[
-    \decision_t \in \argmax_{\decision \in \CY}\sum_{\outcome \in \Outcome} P_\outcome(y_t \mid x_t) \bel(\omega \mid S),
+    \decision_t \in \argmax_{\decision \in \CY}\sum_{\model \in \Model} P_\model(y_t \mid x_t) \bel(\omega \mid S),
   \]
   otherwise known as the \alert{Bayes rule}.
 \end{frame}
 
-\section{Bayes decisions}
+\subsection{Bayes decisions}
 \begin{frame}
   \frametitle{Bayes decision rules}
   Consider the case where outcomes are independent of decisions:
   \[
-    \util (P, \decision) \defn \sum_{\outcome}  \util (\outcome, \decision) P(\outcome)
+    \util (P, \decision) \defn \sum_{\model}  \util (\model, \decision) P(\model)
   \]
   This corresponds e.g. to the case where $P(\omega)$ is the belief about an unknown world.
   \begin{definition}[Bayes utility]
@@ -259,21 +257,77 @@ All machine learning problems are essentially decision problems. This essentiall
 }
 \begin{frame}
   \begin{block}{Classification accuracy of a fixed decision rule}
-    \only<article>{If $\param$ is the true parameter, then the classification accuracy of a decision rule $\pol$ is}
+    \only<article>{If $P_\model$ is the true model, then the classification accuracy of a decision rule $\pol$ is}
     \begin{align}
-      \Pr^\pol_\param(a_t = y_t) &= 
-      \int_\CX \Pr^\pol_\param(a_t = y_t \mid x) dP_\param(x)
+      f(\pol, \model) & = \Pr^\pol_\model(a_t = y_t) = 
+                                   \int_\CX \Pr^\pol_\model(a_t = y_t \mid x) dP_\model(x)
       \\
-                                 &=\int_\CX \sum_{y} \pol(a_t = y \mid x_t = x) P_\param(y_t = y \mid x_t = x) \dd P_\param(x) 
+                                 &=\int_\CX \sum_{y} \pol(a_t = y \mid x_t = x) P_\model(y_t = y \mid x_t = x) \dd P_\model(x) 
     \end{align}
-    \only<article>{If we however simply have a subjective belief $\bel$ about the parameter $\param$ then we can write the expected classification accuracy as}
+    \only<article>{If we however simply have a subjective belief $\bel$ about the parameter $\model$ then we can write the expected classification accuracy $f$ as}
     \begin{align}
-      \Pr^\pol_\bel(a_t = y_t) &= \int_\Param \Pr^\pol_\param(a_t = y_t) \dd \bel(\param)
+      f(\pol, \bel) \defn \Pr^\pol_\bel(a_t = y_t) = \int_\model \Pr^\pol_\model(a_t = y_t) \dd \bel(\model)
     \end{align}
   \end{block}
 \end{frame}
 
 
 
+\subsection{Classification rules via stochastic gradient descent}
 
+\begin{frame}
+  \frametitle{Linear classifiers.}
+  \only<article>{Finding the optimal policy for our belief $\bel$ is not normally very difficult. However, it requires that we maintain the complete distribution $\bel$ and that we also nder some probability distribution $P$. In simple decision problems, e.g. where $a$ is finite, it is possible to do this calculation on-the-fly. However, the policies that we wish to find might be much simpler than the Bayes-optimal policy. For example, we might consider linear classifiers.}
 
+  \begin{definition}{Linear classifier}
+    \only<article>{A linear classifier is parametrised by the matrix $\Param = [\param_1 \cdots \param_{|\CY|}]$}
+    \[
+      \pol_\Param(a \mid x) = e^{\param_a^\top x} / \sum_{a'} e^{\param_{a'}^\top x}
+    \]
+  \end{definition}
+  \only<article>{Even though the classifier has a linear structure, the final non-linearity at the end is there to ensure that it defines a proper probability distribution over decisions.}
+
+  \begin{block}{The $\model$-optimal classifier}
+    \only<article>{Since the performance measure is simply an expectation, it is intuitive to directly optimise the decision rule with respect to an approximation of the expectation}
+    \[
+      \max_\Param f(\pol_\Param, \model)  \approx \max_\Param \sum_{t=1}^T  \pol(a_t = y_t \mid x_t ) P_\model(y_t \mid x_t), \qquad (x_t, y_t) \sim P_\model.
+    \]
+    \only<article>{In practice, this is the empirical expectation on the training set $\cset{(x_t, y_t)}{t=1, \ldots, T}$. However, when the amount of data is insufficient, this expectation may be far from reality, and so our classification rule might be far from optimal.}
+  \end{block}
+
+  \begin{block}{The Bayes-optimal classifier}
+    \only<article>{An alternative idea is to use our uncertainty to create a distribution over models, and then use this distribution to obtain a single classifier that does take the uncertainty into account.}
+    \[
+      \max_\Param f(\pol_\Param, \bel)
+      \approx
+      \max_\Param N^{-1} \sum_{n=1}^N
+      \pol(a_t = y_n \mid x_t = x_n),
+      \qquad
+      (x_n, y_n) \sim P_{\model_n}, \model_n \sim \bel.
+    \]
+    \only<article>{In this case, the integrals are replaced by sampling models $\model_n$ from the belief, and then sampling $(x_n, y_n)$ pairs from $P_{\model_n}$.}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Stochastic gradient methdos}
+  \only<article>{To find the maximum of a differentiable function $g$, we can use gradient descent}
+  \begin{block}{Gradient ascent}
+    \[
+      \param_{i+1} = \param_i + \alpha \nabla_\param g(\param_i).
+    \]
+  \end{block}
+
+  \only<article>{When $f$ is an expectation, we don't need to calculate the full gradient. In fact, we only need to take one sample from the related distribution.}
+  \begin{block}{Stochastic gradient ascent}
+    \[
+      g(\param) = \int_\Model f(\param, \model) \dd \bel(\model)
+    \]
+    \[
+      \param_{i+1} = \param_i + \alpha \nabla_\param f(\param_i, \model_i), \qquad \model_i \sim \bel.
+    \]
+  \end{block}
+  \only<article>{Stochastic gradient methods are commonly employed in neural networks.} 
+  
+\end{frame}

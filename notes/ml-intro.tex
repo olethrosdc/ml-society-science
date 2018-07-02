@@ -1,136 +1,136 @@
 \section{Introduction to machine learning}
- 
+
 
 \only<article>{
- What are the central problems in machine learning?
+  What are the central problems in machine learning?
 
- Problems in machine learning are similar to problems in science.
- Scientists must plan experiments intelligently and collect data.
- The must be able to use the data to verify a different hypothesis.
- More generally, they must be able to make decisions under
- uncertainty (Without uncertainty, there would be no need to gather more data).
- Similar problems appear in more mundane tasks, like learning to drive a car.
+  Problems in machine learning are similar to problems in science.
+  Scientists must plan experiments intelligently and collect data.
+  The must be able to use the data to verify a different hypothesis.
+  More generally, they must be able to make decisions under
+  uncertainty (Without uncertainty, there would be no need to gather more data).
+  Similar problems appear in more mundane tasks, like learning to drive a car.
 }
 \only<presentation>{
- \begin{frame}
-   \frametitle{Scientific applications}
-   \centering
-   \begin{columns}
-     \begin{column}{0.5\textwidth}
-       \centering
-       \includegraphics[width=0.8\columnwidth]{../figures/climate.jpg}\\
-       \includegraphics[width=\columnwidth]{../figures/networks-2.jpg}
-     \end{column}
-     \begin{column}{0.5\textwidth}
-       \includegraphics[width=\columnwidth]{../figures/dark_matter.jpg}
-       \\
-       \includegraphics[width=\columnwidth]{../figures/protein.jpg}
-     \end{column}
-   \end{columns}
-  \only<2>{
-    \begin{tikzpicture}[remember picture,overlay]
-      \draw[fill=black,opacity=0.75] 
-      (current page.north east) rectangle (current page.south west);
-      \node at (current page.center) {
-        {\Huge \alert{Interpretability, Reproducibility}}
-      };
-    \end{tikzpicture}}
-\end{frame}
+  \begin{frame}
+    \frametitle{Scientific applications}
+    \centering
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{../figures/climate.jpg}\\
+        \includegraphics[width=\columnwidth]{../figures/networks-2.jpg}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \includegraphics[width=\columnwidth]{../figures/dark_matter.jpg}
+        \\
+        \includegraphics[width=\columnwidth]{../figures/protein.jpg}
+      \end{column}
+    \end{columns}
+    \only<2>{
+      \begin{tikzpicture}[remember picture,overlay]
+        \draw[fill=black,opacity=0.75] 
+        (current page.north east) rectangle (current page.south west);
+        \node at (current page.center) {
+          {\Huge \alert{Interpretability, Reproducibility}}
+        };
+      \end{tikzpicture}}
+  \end{frame}
 }
 
 \only<article>{
- For that reason, science is a very natural application area for
- machine learning.  We can model the effects of climate change and
- how to mitigate it; discover structure in social networks; map
- the existence of dark matter in the universe by intelligently
- shifting through weak gravitational lens data, and not only study
- the mechanisms of protein folding, but discover methods to
- synthesize new drugs.
+  For that reason, science is a very natural application area for
+  machine learning.  We can model the effects of climate change and
+  how to mitigate it; discover structure in social networks; map
+  the existence of dark matter in the universe by intelligently
+  shifting through weak gravitational lens data, and not only study
+  the mechanisms of protein folding, but discover methods to
+  synthesize new drugs.
 
- We must be careful, however. In many cases we need to be able to
- interpret what our model tells us. We also must make sure that
- the any results we obtain are reproducible. This is something
- that we shall emphasize in this course.
+  We must be careful, however. In many cases we need to be able to
+  interpret what our model tells us. We also must make sure that
+  the any results we obtain are reproducible. This is something
+  that we shall emphasize in this course.
 }
 
 \only<presentation>{
-\begin{frame}
-  \frametitle{Pervasive ``intelligent'' systems}
-  \begin{columns}
-    \begin{column}{0.3\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../figures/echo-home.jpg}
-      \\
-      Home assistants
+  \begin{frame}
+    \frametitle{Pervasive ``intelligent'' systems}
+    \begin{columns}
+      \begin{column}{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/echo-home.jpg}
+        \\
+        Home assistants
 
-      \vspace{\fill}
+        \vspace{\fill}
 
-      \bigskip
+        \bigskip
 
-      \includegraphics[width=\textwidth]{../figures/tesla.jpg}
-      \\
-      Autonomous vehicles
-    \end{column}
-    \begin{column}{0.3\textwidth}
-      \centering 
-      \includegraphics[width=\textwidth]{../figures/web-ads.png}
-      \\
-      Web advertising
+        \includegraphics[width=\textwidth]{../figures/tesla.jpg}
+        \\
+        Autonomous vehicles
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        \centering 
+        \includegraphics[width=\textwidth]{../figures/web-ads.png}
+        \\
+        Web advertising
 
-      \vspace{\fill}
+        \vspace{\fill}
 
-      \bigskip
+        \bigskip
 
-      \includegraphics[width=\textwidth]{../figures/uber-here-maps.jpg}
-      \\
-      Ridesharing
-    \end{column}
-    \begin{column}{0.3\textwidth}
-      \centering 
-      \\
-      \includegraphics[width=\textwidth,clip = true, trim=0 0 0 42.5cm]{../figures/lending.pdf}
-      \\
-      Lending
+        \includegraphics[width=\textwidth]{../figures/uber-here-maps.jpg}
+        \\
+        Ridesharing
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        \centering 
+        \\
+        \includegraphics[width=\textwidth,clip = true, trim=0 0 0 42.5cm]{../figures/lending.pdf}
+        \\
+        Lending
 
-      \vspace{\fill}
+        \vspace{\fill}
 
-      \bigskip
+        \bigskip
 
-      \includegraphics[width=\textwidth]{../figures/algorithms-public.jpg}
-      \\
-      Public policy
-    \end{column}
-  \end{columns}
-  \only<2>{
-    \begin{tikzpicture}[remember picture,overlay]
-      \draw[fill=black,opacity=0.75] 
-      (current page.north east) rectangle (current page.south west);
-      \node at (current page.center) {
-        {\Huge \alert{Privacy, Fairness, Safety}}
-      };
-    \end{tikzpicture}}
-\end{frame}
+        \includegraphics[width=\textwidth]{../figures/algorithms-public.jpg}
+        \\
+        Public policy
+      \end{column}
+    \end{columns}
+    \only<2>{
+      \begin{tikzpicture}[remember picture,overlay]
+        \draw[fill=black,opacity=0.75] 
+        (current page.north east) rectangle (current page.south west);
+        \node at (current page.center) {
+          {\Huge \alert{Privacy, Fairness, Safety}}
+        };
+      \end{tikzpicture}}
+  \end{frame}
 }
 
 \only<article>{
- While machine learning models in science are typically carefully
- handcrafted by scientists and experts in machine learning and
- statistics, this is not typically the case in everyday
- applications. Nevertheless, well-known or home-grown machine
- learning models are being deployed across the application
- spectrum. This involve home assistants that try and get you want,
- web advertising, which tries to find new things for you to want,
- lending, which tries to optimally lend you money so that you buy
- what you didn't need before. We also have autonomous vehicles,
- which take you were you want to go, and ridesharing services,
- which do the same thing, but use humans instead. Finally, there
- are many applications in public policy, such as crime prevention,
- justice, and disease control which use machine learning.  In all
- those cases, we have to worry about a great many things that are
- outside the scope of the machine learning problems itself. These
- are (a) privacy: you don't want your data used in ways that you have
- not consented to (b) fairness: you don't want minorities to be
- disadvantaged and (c) safety: you don't want your car to crash.
+  While machine learning models in science are typically carefully
+  handcrafted by scientists and experts in machine learning and
+  statistics, this is not typically the case in everyday
+  applications. Nevertheless, well-known or home-grown machine
+  learning models are being deployed across the application
+  spectrum. This involve home assistants that try and get you want,
+  web advertising, which tries to find new things for you to want,
+  lending, which tries to optimally lend you money so that you buy
+  what you didn't need before. We also have autonomous vehicles,
+  which take you were you want to go, and ridesharing services,
+  which do the same thing, but use humans instead. Finally, there
+  are many applications in public policy, such as crime prevention,
+  justice, and disease control which use machine learning.  In all
+  those cases, we have to worry about a great many things that are
+  outside the scope of the machine learning problems itself. These
+  are (a) privacy: you don't want your data used in ways that you have
+  not consented to (b) fairness: you don't want minorities to be
+  disadvantaged and (c) safety: you don't want your car to crash.
 }
 
 \subsection{Data analysis}
@@ -140,10 +140,10 @@
 }
 
 \only<presentation>{
-\begin{frame}
-  \centering
-  \Huge{What can machine learning do?}
-\end{frame}
+  \begin{frame}
+    \centering
+    \Huge{What can machine learning do?}
+  \end{frame}
 }
 \begin{frame}
   \frametitle{Can machines learn from data?}
@@ -163,21 +163,21 @@
 
 
 \only<article>{
-You can use machine learning just to analyse, or find structure in
-the data. This is generally called unsupervised learning. One such
-example is topic modelling, where you let the algorithm find topics
-from a corpus of text.  These days machines are used to learn from
-in many applications.  These include speech recognition, facial
-authentication, weather prediction, etc. In general, in these
-problems we are given a \emph{labelled} dataset with, say, example
-images from each class. Unfortunately this does not scale very
-well, because obtaining labels is expensive.
+  You can use machine learning just to analyse, or find structure in
+  the data. This is generally called unsupervised learning. One such
+  example is topic modelling, where you let the algorithm find topics
+  from a corpus of text.  These days machines are used to learn from
+  in many applications.  These include speech recognition, facial
+  authentication, weather prediction, etc. In general, in these
+  problems we are given a \emph{labelled} dataset with, say, example
+  images from each class. Unfortunately this does not scale very
+  well, because obtaining labels is expensive.
 
-This is partially how science works, because what we need to do
-is to find a general rule of nature from data. Starting from some
-hypothesis and some data, we reach a conclusion. However, many
-times we may need to actively experiment to obtain more data,
-perhaps because we found that our model is wrong.
+  This is partially how science works, because what we need to do
+  is to find a general rule of nature from data. Starting from some
+  hypothesis and some data, we reach a conclusion. However, many
+  times we may need to actively experiment to obtain more data,
+  perhaps because we found that our model is wrong.
 }
 
 
@@ -195,38 +195,38 @@ perhaps because we found that our model is wrong.
 
 
 \only<article>{
-So, what happens when we make a mistake? Can we somehow recognise
-it? Humans and other animals can actually learn from their
-mistakes. Consider the proverbial rat in the maze. At some
-intervals, the experimenter places some cheese in there, and the
-rat must do a series of actions to obtain it, such as navigating
-the maze and pulling some levers. It doesn't know how to get to
-the cheese easily, but it slowly learns the layout of the maze
-through observation, and in the end, through trial-and-error it
-is able to get to the cheese very efficiently.
+  So, what happens when we make a mistake? Can we somehow recognise
+  it? Humans and other animals can actually learn from their
+  mistakes. Consider the proverbial rat in the maze. At some
+  intervals, the experimenter places some cheese in there, and the
+  rat must do a series of actions to obtain it, such as navigating
+  the maze and pulling some levers. It doesn't know how to get to
+  the cheese easily, but it slowly learns the layout of the maze
+  through observation, and in the end, through trial-and-error it
+  is able to get to the cheese very efficiently.
 
-We can formalise this as a reinforcement learning problem, where
-the rat takes a series of actions; at each step it also obtains a
-reward, let's say equal to 0 when it has no cheese, and 1 when it
-eats cheese. Then we can declare that the rat's utility is the sum
-of all rewards over time, i.e. the total amount of cheese it can
-eat before it dies. The rat needs to explore the environment in order to be able to
-get to the cheese. 
+  We can formalise this as a reinforcement learning problem, where
+  the rat takes a series of actions; at each step it also obtains a
+  reward, let's say equal to 0 when it has no cheese, and 1 when it
+  eats cheese. Then we can declare that the rat's utility is the sum
+  of all rewards over time, i.e. the total amount of cheese it can
+  eat before it dies. The rat needs to explore the environment in order to be able to
+  get to the cheese. 
 
-An example in robotics is trying to teach a
-robot to flip pancakes. One easy thing we can try is to show the robot
-how to do it, and then let it just copy the demonstrated
-movement. However, this doesn't work! The robot needs to explore
-variations of the movement, until it manages to successfully flip
-pancakes. Again, we can formulate this as a reinforcement learning
-problem, with a reward that is high whenever the pancake's position is
-flipped, and on the pan; and low everywhere else. Then the robot can
-learn to perform this behaviour through trial and error. It's
-important to note that in this example, merely demonstration is not
-enough. Neither is reinforcement learning enough. The same thing is
-true for the recent success of AlphaGo in beating a master human:
-apart from planning, they used both demonstration data and self-play,
-so that it could learn through trial and error.  }
+  An example in robotics is trying to teach a
+  robot to flip pancakes. One easy thing we can try is to show the robot
+  how to do it, and then let it just copy the demonstrated
+  movement. However, this doesn't work! The robot needs to explore
+  variations of the movement, until it manages to successfully flip
+  pancakes. Again, we can formulate this as a reinforcement learning
+  problem, with a reward that is high whenever the pancake's position is
+  flipped, and on the pan; and low everywhere else. Then the robot can
+  learn to perform this behaviour through trial and error. It's
+  important to note that in this example, merely demonstration is not
+  enough. Neither is reinforcement learning enough. The same thing is
+  true for the recent success of AlphaGo in beating a master human:
+  apart from planning, they used both demonstration data and self-play,
+  so that it could learn through trial and error.  }
 
 \begin{frame}
   \frametitle{Can machines make complex plans?}
@@ -237,10 +237,10 @@ so that it could learn through trial and error.  }
 
 
 \only<article>{
- I suppose the first question is whether machines can plan
- ahead. Indeed, even for large problems, such as Go, machines can
- now perform at least as well as top-rated humans. How is this
- achieved?
+  I suppose the first question is whether machines can plan
+  ahead. Indeed, even for large problems, such as Go, machines can
+  now perform at least as well as top-rated humans. How is this
+  achieved?
 }
 
 \begin{frame}
@@ -252,13 +252,13 @@ so that it could learn through trial and error.  }
 
 
 \only<article>{
-The basic construction is the planning tree. This is an enumeration
-of all possible future events. If a complete enumeration is
-impossible, a partial tree is constructed. However this requires
-evaluating non-terminal game positions. In the old times, this was
-done with heuristics, but now this is data-driven, both through the
-use of expert databases, and through self-play and reinforcement
-learning.
+  The basic construction is the planning tree. This is an enumeration
+  of all possible future events. If a complete enumeration is
+  impossible, a partial tree is constructed. However this requires
+  evaluating non-terminal game positions. In the old times, this was
+  done with heuristics, but now this is data-driven, both through the
+  use of expert databases, and through self-play and reinforcement
+  learning.
 }
 
 
@@ -277,17 +277,17 @@ learning.
 
 
 \only<article>{
-An example that typifies trial and error learning are bandit
-problems. Imagine that you are in a Casino and you wish to
-maximise the amount of money you make during the night. There are
-a lot of machines to play. If you knew which one was the best,
-then you'd just play it all night long. However, you must also
-spend time trying out different machines, in order to get an
-estimate of how much money each one gives out. The trade off
-between trying out different machines and playing the one you
-currently think is best is called the exploration-exploitation
-trade-off and it appears in many problems of experiment design for
-science.
+  An example that typifies trial and error learning are bandit
+  problems. Imagine that you are in a Casino and you wish to
+  maximise the amount of money you make during the night. There are
+  a lot of machines to play. If you knew which one was the best,
+  then you'd just play it all night long. However, you must also
+  spend time trying out different machines, in order to get an
+  estimate of how much money each one gives out. The trade off
+  between trying out different machines and playing the one you
+  currently think is best is called the exploration-exploitation
+  trade-off and it appears in many problems of experiment design for
+  science.
 }
 
 
@@ -299,8 +299,8 @@ science.
 
 
 \only<article>{
- Let's say we want to build a robot scientist and tell it to
- discover a cure for cancer. What does the scientist do and how can the robot replicate it??
+  Let's say we want to build a robot scientist and tell it to
+  discover a cure for cancer. What does the scientist do and how can the robot replicate it??
 }
 
 
@@ -313,16 +313,16 @@ science.
 
 
 \only<article>{
-Simplifying the problem a bit, consider that you have a large
-number of drug candidates for cancer and you wish to discover
-those that are active against it. The ideas is that you select
-some of them, then screen them, to sort them into active and
-inactive. However, there are too many drugs to screen, so the
-process is interactive. At each cycle, we select some drugs to
-screen, classify them, and then use this information to select
-more drugs to screen. This cycle, consequently has two parts:
-1. Selecting some drugs given our current knowledge.
-2. Updating our knowledge given new evidence.
+  Simplifying the problem a bit, consider that you have a large
+  number of drug candidates for cancer and you wish to discover
+  those that are active against it. The ideas is that you select
+  some of them, then screen them, to sort them into active and
+  inactive. However, there are too many drugs to screen, so the
+  process is interactive. At each cycle, we select some drugs to
+  screen, classify them, and then use this information to select
+  more drugs to screen. This cycle, consequently has two parts:
+  1. Selecting some drugs given our current knowledge.
+  2. Updating our knowledge given new evidence.
 }
 
 
@@ -394,12 +394,12 @@ more drugs to screen. This cycle, consequently has two parts:
 
 
 \only<article>{
-Kepler had a more general hypothesis: that orbits could be
-circular or elliptic, and he actually accepted that the planets
-orbited the sun. This led him to the broadly correct model of all
-planets being in elliptical orbits around the sun. However, the
-actual verification that all things do not revolve around earth,
-requires different experiments.
+  Kepler had a more general hypothesis: that orbits could be
+  circular or elliptic, and he actually accepted that the planets
+  orbited the sun. This led him to the broadly correct model of all
+  planets being in elliptical orbits around the sun. However, the
+  actual verification that all things do not revolve around earth,
+  requires different experiments.
 }
 
 
@@ -417,7 +417,7 @@ requires different experiments.
 
 
 \only<article>{
-Later on, Gauss collected even more experimental data to calculate the orbit of Ceres. He did this using one of the first formal statistical methods; this allowed him to avoid cheating (like Kepler did, to accentuate his finding that orbits were elliptical).
+  Later on, Gauss collected even more experimental data to calculate the orbit of Ceres. He did this using one of the first formal statistical methods; this allowed him to avoid cheating (like Kepler did, to accentuate his finding that orbits were elliptical).
 }
 
 
@@ -428,20 +428,20 @@ Later on, Gauss collected even more experimental data to calculate the orbit of 
 
 
 \only<article>{
-It is quite easy to draw the wrong conclusions from applying
-machine learning / statistics to your data. For example, it was
-fashionable to perform fMRI studies in humans to see whether some
-neurons have a particular functional role. There were even
-articles saying that "we found the neurons encoding for Angelina
-Jolie". So some scientists tried to replicate those results. They
-took a dead salmon, and put it an fMRI scanner. They checked its
-brain activity when it was shown images of happy or sad
-people. Perhaps surprisingly, they found an area of the brain that
-was correlated with the pictures - so it seemed, as though the
-dead salmon could distinguish photos of happy people from sad
-ones. However, this was all due to a misapplication of
-statistics. In this course, we will try and teach you to avoid
-such mistakes.
+  It is quite easy to draw the wrong conclusions from applying
+  machine learning / statistics to your data. For example, it was
+  fashionable to perform fMRI studies in humans to see whether some
+  neurons have a particular functional role. There were even
+  articles saying that "we found the neurons encoding for Angelina
+  Jolie". So some scientists tried to replicate those results. They
+  took a dead salmon, and put it an fMRI scanner. They checked its
+  brain activity when it was shown images of happy or sad
+  people. Perhaps surprisingly, they found an area of the brain that
+  was correlated with the pictures - so it seemed, as though the
+  dead salmon could distinguish photos of happy people from sad
+  ones. However, this was all due to a misapplication of
+  statistics. In this course, we will try and teach you to avoid
+  such mistakes.
 }
 
 
@@ -461,7 +461,7 @@ such mistakes.
 \end{frame}
 
 \only<article>{
-I mentioned before that we must decide what experiment to do. This is indeed difficult, especially in setting such as drug discovery where the number of experiments is huge.  However, conceptually, there is a simple and elegant solution to this problem.
+  I mentioned before that we must decide what experiment to do. This is indeed difficult, especially in setting such as drug discovery where the number of experiments is huge.  However, conceptually, there is a simple and elegant solution to this problem.
 }
 
 
@@ -478,14 +478,14 @@ I mentioned before that we must decide what experiment to do. This is indeed dif
 }
 
 \only<presentation>{
-\begin{frame}
-  \frametitle{Eve, another robot scientist}
-  \centering \movie{\includegraphics[width=\textwidth]{../figures/eve.jpg}}{Eve-video.mp4}
-  Discovered a malaria drug
-\end{frame}
+  \begin{frame}
+    \frametitle{Eve, another robot scientist}
+    \centering \movie{\includegraphics[width=\textwidth]{../figures/eve.jpg}}{Eve-video.mp4}
+    Discovered a malaria drug
+  \end{frame}
 }
 \only<article>{
- These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot, called Eve, that recently (re)-discovered a malaria drug.
+  These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot, called Eve, that recently (re)-discovered a malaria drug.
 }
 
 \subsection{Course overview}
@@ -509,16 +509,16 @@ I mentioned before that we must decide what experiment to do. This is indeed dif
 \end{frame}
 
 \only<article>{
-One of the things we want to do in this course is teach you to
-avoid common pitfalls.
+  One of the things we want to do in this course is teach you to
+  avoid common pitfalls.
 
-Now I want to get into a different track. So far everything has
-been about pure research, but now machine learning is pervasive:
-Our phones, cars, watches, bathrooms, kettles are connected to the
-internet and send a continuous stream of data to companies. In
-addition, many companies and government actors use machine
-learning algorithms to make or support decisions. This creates a
-number of problems in privacy, fairness and safety.
+  Now I want to get into a different track. So far everything has
+  been about pure research, but now machine learning is pervasive:
+  Our phones, cars, watches, bathrooms, kettles are connected to the
+  internet and send a continuous stream of data to companies. In
+  addition, many companies and government actors use machine
+  learning algorithms to make or support decisions. This creates a
+  number of problems in privacy, fairness and safety.
 }
 
 
@@ -572,13 +572,13 @@ number of problems in privacy, fairness and safety.
 
 \only<article>{
   Let's tackle the problem of discriminating between different
-disease vectors. Ideally, we'd like to have a simple test that
-tells us what ails us. One kind of test is mass spectrometry. This
-graph shows spectrometry results for two types of bacteria. There
-is plenty of variation within each type, both due to measurement
-error and due to changes in the bacterial strains. Here, we plot
-the average and maximum energies measured for about 100 different
-examples from each strain.
+  disease vectors. Ideally, we'd like to have a simple test that
+  tells us what ails us. One kind of test is mass spectrometry. This
+  graph shows spectrometry results for two types of bacteria. There
+  is plenty of variation within each type, both due to measurement
+  error and due to changes in the bacterial strains. Here, we plot
+  the average and maximum energies measured for about 100 different
+  examples from each strain.
 }
 
 \begin{frame}
@@ -588,27 +588,27 @@ examples from each strain.
 
 \only<article>{
   Now, is it possible to identify an unknown strain based on this
-data? Actually, this is possible. Sometimes, very simple algorithms
-work very well. One of the simplest one involves just measuring the
-distance between the decsription of a new unknown strain and known
-ones. In this visualisation, I projected the 1300-dimensional data
-into a 2-dimensional space. Here you can clearly see that it is
-possible to separate the two strains. In order to classify a new
-point, you just need to see whether it's closer to the train VVT or
-BUT.
+  data? Actually, this is possible. Sometimes, very simple algorithms
+  work very well. One of the simplest one involves just measuring the
+  distance between the decsription of a new unknown strain and known
+  ones. In this visualisation, I projected the 1300-dimensional data
+  into a 2-dimensional space. Here you can clearly see that it is
+  possible to separate the two strains. In order to classify a new
+  point, you just need to see whether it's closer to the train VVT or
+  BUT.
 }
 
 \begin{frame}
-\frametitle{Comparing spectral data}
+  \frametitle{Comparing spectral data}
   \only<1>{\input{../figures/difference1.tikz}}
   \only<presentation>{\only<2>{\input{../figures/difference2.tikz}}}
 \end{frame}
 
 \only<article>{
-The choice of distance in this kind of algorithm is important,
-particularly for very high dimensions. For something like a
-spectrogram, one idea is look at the total area of the difference
-between two spectral lines. 
+  The choice of distance in this kind of algorithm is important,
+  particularly for very high dimensions. For something like a
+  spectrogram, one idea is look at the total area of the difference
+  between two spectral lines. 
 }
 
 \begin{frame}
@@ -639,11 +639,11 @@ between two spectral lines.
 \end{frame}
 
 \only<presentation>{
-\begin{frame}
-  \frametitle{Hands on with Python console}
-  \hyperlink{../src/decision-problems/knn-classify.py}{\beamerbutton{KNN example}}
-  %% Use knn-classify to simply demonstrate a kNN classifier.
-\end{frame}
+  \begin{frame}
+    \frametitle{Hands on with Python console}
+    \hyperlink{../src/decision-problems/knn-classify.py}{\beamerbutton{KNN example}}
+    %% Use knn-classify to simply demonstrate a kNN classifier.
+  \end{frame}
 }
 \subsection{Feature engineering}
 
@@ -705,7 +705,7 @@ between two spectral lines.
       The interval $I(\delta)$ for an estimator $\hat{\theta}$ of a parameter $\theta$ from data $x$ under the modelling assumptions $\mu$ is simply a set in $\Theta$ such that the true parameter lies in $I(\delta)$ with probability $1 - \delta$, i.e.
     }
     \[
-    \Pr_\mu(\hat{\theta} \in I(\theta, \delta)) \geq 1 - \delta.
+      \Pr_\mu(\hat{\theta} \in I(\theta, \delta)) \geq 1 - \delta.
     \]
   \end{block}
   This is a property of the estimator $\hat{\theta} : \CX \to \Theta$ and tells us \emph{nothing direct} about our specific estimate $\hat{\theta(x)}$. \only<article>{It only tells that if we repeatedly apply this produre, we will only get an estimate outside of the interval a $\delta$-fraction of the time.}
