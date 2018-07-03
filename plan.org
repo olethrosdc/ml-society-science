@@ -7,12 +7,23 @@ Project: Credit risk for mortgages. [Aim: Reproducibility, Privacy and Fairness]
 Machine learning as science: hypotheses, experiments and conclusions.
 kNN example: What is classification? What is clustering? Making sure you formalise the problem.
 
+1. KNN.
+2. Reproducibility
+3. Bootstrapping
+4. Decision hierarchies
+5. Bayesian inference
+6. Optimisation and SGD.
+
+The purpose of this lecture is to familiarise students with all the
+decisions made from the beginning to the end of the data science
+process, and with the possible externalities when an algorithm is
+applied to real data.
+
 *** Training vs test in kNN
 	:LOGBOOK:
 	CLOCK: [2018-05-27 Sun 14:10]--[2018-05-27 Sun 22:01] =>  7:51
 	:END:
 
-*** Replication and feature engineering: how you can classify everything perfectly with kNN (in the training set).
 	:LOGBOOK:
         CLOCK: [2018-06-23 Sat 14:40]
 	CLOCK: [2018-05-28 Mon 14:49]--[2018-05-28 Mon 23:33] =>  8:44
@@ -26,8 +37,7 @@ fallacy of p-values.  The aim of this lecture is to introduce students
 to the use and mis-use of automated decision making algorithms for
 problems in science and society.
 
-
-** Lecture 2: Decision Problems and fairness
+** Lecture 2: Model interpretability
    :LOGBOOK:
    CLOCK: [2018-04-04 Wed 09:22]--[2018-04-04 Wed 10:30] =>  1:08
    CLOCK: [2018-04-03 Tue 20:58]--[2018-04-03 Tue 21:16] =>  0:18
@@ -35,16 +45,14 @@ problems in science and society.
    CLOCK: [2018-03-19 mån 12:04]--[2018-03-20 tis 15:57] => 27:53
    :END:
 
-Decision Problems, Classification: (1) Choosing the classifier family (2) Selecting a classifier from the family (algorithmic) (3) The decisions made by the classifier (inherent in the classifier).
+1. Linear models
+2. Neural networks
+3. Confidence and $p$-values
+4. Naive Bayes: Model mismatch
+5. $p$-values and model mismatch
+6. Cross-validation vs Bootstrapping
 
-Fairness. Conditional Independence, Lipschitz functions.
-Introduction to the COMPAS dataset and analysis
-Deriving a fair College admissions decision rule.
 
-The purpose of this lecture is to familiarise students with all the
-decisions made from the beginning to the end of the data science
-process, and with the possible externalities when an algorithm is
-applied to real data.
 
 *** Notes
 
@@ -54,21 +62,27 @@ Classification is the problem of selecting a classifier so as to make
    CLOCK: [2018-04-24 tis 16:18]--[2018-04-24 tis 16:44] =>  0:26
    CLOCK: [2018-04-22 sön 17:16]--[2018-04-22 sön 19:19] =>  2:03
 
-Privacy. Differential Privacy, Databases
-The Random Response Mechanism. Laplace Mechanism.
+1. Privacy in databases.
+2. k-anonymity.
+3. Differential Privacy.
+4. The Random Response Mechanism. 
+5. Laplace Mechanism.
+6. Exponential mechanism.
 
 The purpose of this lecture is to introduce the students to basic database concepts, as well as to privacy problems that can occur when allowing access to a database to a third party.
 
-** Lecture 4: Statistical Inference
+** Lecture 4: Fairness
    :LOGBOOK:
    CLOCK: [2018-05-22 Tue 13:57]--[2018-05-22 Tue 14:57] =>  1:00
    :END:
 
-*Privacy* Differential Privacy, Statistical Inference, and Discrete Bayesian Networks.
-Exponential mechanism.
-Construction of a simple DBN for lung cancer.
+1. Graphical Models.
+2. Fairness as independence.
+3. Decision diagrams.
+4. Fairness as smoothness.
+5. Fairness as meritocracy.
+6. Bayesian notions of fairness.
 
-The purpose of this lecture is to more generally talk about statistical queries on databases.
 
 * Part 2. Structured/unsupervised learning (social networks)
 
