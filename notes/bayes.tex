@@ -22,30 +22,30 @@
 
   Answering these questions requires us to clearly define what are the possible hypotheses we wish to consider. Taking the first example, we can define two:
   \begin{enumerate}
-  \item hypothesis $M$, that John is a medium.
-  \item hypothesis $\neg M$, that John is not a medium.
+  \item hypothesis $\model_1$, that John is a medium.
+  \item hypothesis $\model_0$, that John is not a medium.
   \end{enumerate}
   We can also define a probability model for the number of successful predictions that John would make in either case. 
 
   Let $x_t$ be $0$ if John makes an incorrect prediction at time $t$ and $x_t = 1$ if he makes a correct prediction. John's claim that he can predict our tosses perfectly means that for a sequence of tosses $\bx = x_1, \ldots, x_n$,
   \[
-  \Pr(\bx \mid M) = \begin{cases}
+  \Pr(\bx \mid \model_1) = \begin{cases}
     1, & x_t = 1 \forall t \in [n]\\
     0, & \exists t \in [n] : x_t = 0.
   \end{cases}
   \]
   That is, the probability of perfectly correct predictions is 1, and that of one or more incorrect prediction is 0. For the other model, we can assume that all draws are independently and identically distributed from a fair coin. Consequently, no matter what John's predictions are, we have that:
   \[
-  \Pr(\bx \mid \neg M) = 2^{-n}.
+  \Pr(\bx \mid \model_0) = 2^{-n}.
   \]
   So, for the given example, as stated, we have the following facts:
   \begin{itemize}
-  \item If John makes one or more mistakes, then $\Pr(\bx \mid M) = 0$ and $\Pr(\bx \mid \neg M) = 2^{-n}$. Thus, we should perhaps say that then John is not a medium
+  \item If John makes one or more mistakes, then $\Pr(\bx \mid \model_1) = 0$ and $\Pr(\bx \mid \model_0) = 2^{-n}$. Thus, we should perhaps say that then John is not a medium
   \item If John makes no mistakes at all, then 
     \begin{align}
-      \Pr(\bx \mid M) &= 1,
+      \Pr(\bx \mid \model_1) &= 1,
       &
-        \Pr(\bx \mid \neg M) &= 2^{-n}.
+        \Pr(\bx \mid \model_0) &= 2^{-n}.
     \end{align}
   \end{itemize}
   Does that mean that we must conclude that John is a medium? What if
@@ -96,13 +96,13 @@
 \only<article>{
   Now let us apply this idea to our specific problem. This allows us to calculate the probability of John being a medium, given the data:
   \[
-  \Pr(M \mid \bx) = \frac{\Pr(\bx \mid M) \Pr(M)}{\Pr(\bx)},
+  \Pr(\model_1 \mid \bx) = \frac{\Pr(\bx \mid \model_1) \Pr(\model_1)}{\Pr(\bx)},
   \]
   where
   \[
-  \Pr(\bx) = \Pr(\bx \mid M) \Pr(M) + \Pr(\bx \mid \neg M) \Pr(\neg M).
+  \Pr(\bx) = \Pr(\bx \mid \model_1) \Pr(\model_1) + \Pr(\bx \mid \model_0) \Pr(\model_0).
   \]
-  The only thing left to specify is $\Pr(M)$, the probability that John is a medium before seeing the data. This is our subjective prior belief that mediums exist and that John is one of them. 
+  The only thing left to specify is $\Pr(\model_1)$, the probability that John is a medium before seeing the data. This is our subjective prior belief that mediums exist and that John is one of them. 
 
   More generally, we can think of Bayesian inference as follows: 
   \begin{itemize}
@@ -300,18 +300,18 @@ model <- naiveBayes(Class ~ ., data = Training, laplace = lambda)
   \frametitle{Bayesian inference} \only<article>{ Bayesian statistical
     inference is the problem of inferring distributions (of
     parameters) from data. Typically, given some prior distribution
-    $\bel(\param)$ on parameters $\param \in \Param$, such that for
-    every possible parameter value the probability $P_\param(x)$ is
+    $\bel(\model)$ on parameters $\model \in \Model$, such that for
+    every possible parameter value the probability $P_\model(x)$ is
     well defined for any $x \in \CX$, we wish to infer a posterior
     distribution from any given data $x$.}
   \begin{definition}[Posterior distribution]
-    \only<article>{Given a prior $\bel$ on the parameter set $\Param$
-      and a family $\{P_\param\}$ of distributions on $\CX$, the
-      posterior distribution of parameter $\param$ for any data
+    \only<article>{Given a prior $\bel$ on the parameter set $\Model$
+      and a family $\{P_\model\}$ of distributions on $\CX$, the
+      posterior distribution of parameter $\model$ for any data
       $x \in \CX$ is}
     \begin{equation}
-      \bel(\param \mid x) \defn \frac{P_\param(x) \bel(\param)}{\sum_{\param' \in \Param}
-        P_{\param'}(x) \bel(\param')}.
+      \bel(\model \mid x) \defn \frac{P_\model(x) \bel(\model)}{\sum_{\model' \in \Model}
+        P_{\model'}(x) \bel(\model')}.
       \label{eq:posterior}
     \end{equation}
   \end{definition}
