@@ -1,0 +1,25 @@
+\section{Social networks}
+
+\begin{frame}
+  \frametitle{Network model}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV,hidden] at (0,0) (x1) {$x_1$};
+      \node[RV,hidden] at (2,0) (x2) {$x_2$};
+      \node[RV,hidden] at (0,2) (x3) {$x_3$};
+      \node[RV,hidden] at (2,2) (x4) {$x_4$};
+      \node[RV] at (1,1) (y1) {$y_1$};
+      \node[RV] at (3,1) (y2) {$y_2$};
+      \node[RV] at (1,3) (y3) {$y_3$};
+      \node[RV] at (3,3) (y4) {$y_4$};
+    \end{tikzpicture}
+    \label{fig:bn-cluster}
+    \caption{Graphical model for independent data from a cluster distribution.}
+  \end{figure}
+\end{frame}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "notes.tex"
+%%% End:
