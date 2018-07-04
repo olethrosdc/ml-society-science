@@ -335,8 +335,17 @@ model <- naiveBayes(Class ~ ., data = Training, laplace = lambda)
   \only<article>{Assume you have $n$ meteorologists. At each day $t$, each meteorologist $i$ gives a probability $p_{t,\model_i}$ for rain, so that
   }
   \[
-  p_{t,\model_i} \defn  \Pr(x_t = \textrm{rain} \mid \model_i) 
+    p_{t,\model_i} \defn  \Pr(x_t = \textrm{rain} \mid \model_i) 
   \]
+  \only<article>{Consider the case of there being three meteorologists, and each one making the following prediction for the weeks.}
+  \begin{tabular}{c|l|l|l|l|l|l|l}
+    &M&T&W&T&F&S&S\\
+    CNN & 0.5 & 0.6 & 0.7 & 0.9 & 0.5 & 0.3 & 0.1\\
+    SMHI & 0.3 & 0.7 & 0.8 & 0.9 & 0.5 & 0.2 & 0.1\\
+    YR & 0.6 & 0.9 & 0.8 & 0.5 & 0.4 & 0.1 & 0.1\\
+    \hline
+    Rain? & Y & Y & Y & N & Y & N & N
+  \end{tabular}
   \end{exercise}
 \end{frame}
 
