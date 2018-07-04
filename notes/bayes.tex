@@ -337,16 +337,33 @@ model <- naiveBayes(Class ~ ., data = Training, laplace = lambda)
   \[
     p_{t,\model_i} \defn  \Pr(x_t = \textrm{rain} \mid \model_i) 
   \]
-  \only<article>{Consider the case of there being three meteorologists, and each one making the following prediction for the weeks.}
-  \begin{tabular}{c|l|l|l|l|l|l|l}
-    &M&T&W&T&F&S&S\\
-    CNN & 0.5 & 0.6 & 0.7 & 0.9 & 0.5 & 0.3 & 0.1\\
-    SMHI & 0.3 & 0.7 & 0.8 & 0.9 & 0.5 & 0.2 & 0.1\\
-    YR & 0.6 & 0.9 & 0.8 & 0.5 & 0.4 & 0.1 & 0.1\\
-    \hline
-    Rain? & Y & Y & Y & N & Y & N & N
-  \end{tabular}
-  \end{exercise}
+  \only<article>{Consider the case of there being three meteorologists, and each one making the following prediction for the coming week. Start with a uniform prior $\bel(\model) = 1/3$ for each model.}
+  \begin{table}[h]
+    \begin{tabular}{c|l|l|l|l|l|l|l}
+      &M&T&W&T&F&S&S\\
+      CNN & 0.5 & 0.6 & 0.7 & 0.9 & 0.5 & 0.3 & 0.1\\
+      SMHI & 0.3 & 0.7 & 0.8 & 0.9 & 0.5 & 0.2 & 0.1\\
+      YR & 0.6 & 0.9 & 0.8 & 0.5 & 0.4 & 0.1 & 0.1\\
+      \hline
+      Rain? & Y & Y & Y & N & Y & N & N
+    \end{tabular}
+    \label{tab:meteorologists}
+  \end{table}
+  \begin{itemize}
+  \item What is your belief about the quality of each meteorologist after each day? (i.e. your posterior)
+  \item What is your belief about the probability of rain each day? (i.e. the marginal probability of rain)
+    \[
+      \Pr_\bel(x_t = \textrm{rain} \mid x_1, x_2, \ldots x_{t-1})
+      =
+      \sum_{\model \in \Model} \bel(\model \mid x_1, x_2, \ldots x_{t-1}) \Pr(x_t = \textrm{rain} \mid \model)
+    \]
+  \item Assume you can decide whether or not to go running each
+    day. If you go running and it does not rain, your utility is 1. If
+    it rains, it's -10. If you don't go running, your utility is
+    0. What is the decision maximising utility in expectation (with respect to the posterior) each
+    day?
+  \end{itemize}
+\end{exercise}
 \end{frame}
 
 
