@@ -645,6 +645,7 @@
     %% Use knn-classify to simply demonstrate a kNN classifier.
   \end{frame}
 }
+
 \subsection{Feature engineering}
 
 \only<article>{
@@ -675,56 +676,52 @@
 \end{frame}
 
 \subsection{Reproducibility and holdout sets}
-\begin{frame}
-  \frametitle{Finding important features}
-  \only<article>{What features can best explain a difference between two classes?}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Compare the average difference of features between two classes.}
-\end{frame}
+\only<article>{
+  One of the main problems in science is reproducibility: when we are trying to draw conclusions from one specific data set, it is easy to make a mistake. For that reason, the scientific process requires us to use our conclusions to make testable predictions, and then test those predictions with new experiments. The same thing can be done in when dealing purely with data, by making sure we use some of the data as input to the algorithm, and other data to measure the quality of the algorithm itself. In the following, we assume we have some algorithm $\alg : \Datasets \to \CY$, where $\Datasets$ is the universe of possible input data and $\CY$ the possible outputs, e.g. all possible classification rules. We also assume the existence of some quality measure $U$.
+}
 
 \begin{frame}
   \frametitle{Holdout sets}
+  \begin{itemize}
+  \item Original data $\Data$, e.g. $\Data = (x_1, \ldots, x_T)$.
+  \item Training data $\Training \subset \Data$, e.g. $\Training = x_1, \ldots, x_n$, $n < T$.
+  \item Holdout data $\Holdout = D \setminus \Training$, used to measure the quality of the result.
+  \item Get algorithm output $y = \alg(\Training)$.
+  \item Calculate quality of output $U(y, \Holdout)$
+  \end{itemize}
   \only<article>{
-    Your typical algorithm $\alg$ will take some data $x$ and produce some output $y$. Before even trying to interpret this $y$, you must consider first how the $y$ 
-  }
-  \only<presentation>{
-    \begin{itemize}
-    \item
-    \end{itemize}
+    As typically algorithms are maximising the quality metric on the training data, 
+    \[
+      \alg(\Training) = \argmax_y U(y, \Training)
+    \]
+    we typically obtain a biased estimate.
   }
 \end{frame}
 
 \begin{frame}
   \frametitle{Bootstrapping}
-  \only<article>{Bootstrapping is a general technique that can be used to }
+  Bootstrapping is a general technique that can be used to.
   \begin{itemize}
   \item Estimate the sensitivity of $\alg$ to the data $x$
   \item Obtain a distribution of estimates $y$ from $\alg$ and the data $x$.
   \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{What have we learned}
-  \begin{block}{Machine Learning background}
+  \begin{block}{Bootstrapping}
     \begin{itemize}
-    \item Many \alert{technical} problem types.
-    \item \alert{Scientific} applications.
-    \item \alert{Societal} issues.
-    \item Machine learning as science.
+    \item \textbf{Input} Training data $\Training$, number of samples $k$.
+    \item \textbf{For} $i = 1, \ldots, k$
+    \item \quad $\Data^{(i)} = \textrm{Bootstrap}(\Training)$
+    \item \quad $y_i = \alg(\Data^{(i)})$
+    \item \textbf{return} $\{y_1, \ldots, y_i\}$.
     \end{itemize}
+    where  $\textrm{Bootstrap}(\Training)$ samples with replacement $|\Training|$ points.
   \end{block}
 
-  \begin{block}{Methodology}
-    \begin{itemize}
-    \item \alert{Classification} Problems: \only<3->{$k$-nearest neighbour algorithm.}
-    \item Elementary \alert{variable selection}.
-    \item \alert{Verifying} your \alert{conclusions}: \only<3->{Validation/Test sets.}
-    \item Verifying your \alert{assumptions}: \only<4->{(How?)}
-    \end{itemize}
-  \end{block}
 \end{frame}
+
+\only<article>{
+  In general, it is worthwhile to have some indication of how certain we should be about our prediction. Bayesian inference offers a principled way to do this.
+}
+
 
 
 %%% Local Variables: 
