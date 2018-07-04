@@ -1,5 +1,5 @@
 
-\section{Bayesian inference}
+\section{Probability and Bayesian inference}
 \only<article>{One of the most important methods in machine learning
   and statistics is that of Bayesian inference.  This is the most
   fundamental method of drawing conclusions from data and explicit
@@ -56,6 +56,51 @@
   It is this latter idea that we'll try and exploit. We'd like to combine the weight of the evidence, with the weight of our prior beliefs about reality.
   To do this, we first recall the definition of conditional probability. 
 }
+
+\subsection{Full Bayesian inference}
+\only<article>{Statistical inference is the problem estimating quantities from data. Many machine learning problems lie within the statistical inference framework. While there are many paradigms within this framework, one typically tries to calculate probability distributions of some random variables from data. These are usually expressed in terms of parametrised distributions. In the Bayesian setting in particular, the goal is to quantify our uncertainty about these unknown parameters in terms of another probability distribution.}
+\begin{frame}
+  \frametitle{Bayesian inference} \only<article>{ Bayesian statistical
+    inference is the problem of inferring distributions (of
+    parameters) from data. Typically, given some prior distribution
+    $\bel(\model)$ on parameters $\model \in \Model$, such that for
+    every possible parameter value the probability $P_\model(x)$ is
+    well defined for any $x \in \CX$, we wish to infer a posterior
+    distribution from any given data $x$.}
+  \begin{definition}[Posterior distribution]
+    \only<article>{Given a prior $\bel$ on the parameter set $\Model$
+      and a family $\{P_\model\}$ of distributions on $\CX$, the
+      posterior distribution of parameter $\model$ for any data
+      $x \in \CX$ is}
+    \begin{equation}
+      \bel(\model \mid x) \defn \frac{P_\model(x) \bel(\model)}{\sum_{\model' \in \Model}
+        P_{\model'}(x) \bel(\model')}.
+      \label{eq:posterior}
+    \end{equation}
+  \end{definition}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{The $n$-meteorologists problem}
+  \begin{exercise}
+      \only<presentation>{
+    \begin{itemize}
+    \item Meteorological models $\CM = \set{\model_1, \ldots, \model_n}$
+    \item Rain predictions at time $t$: $p_{t,\model}$.
+    \item Prior probability $\bel(\model) = 1/n$ for each model.
+    \item Should we take the umbrella?
+    \end{itemize}
+  }
+  \only<article>{Assume you have $n$ meteorologists. At each day $t$, each meteorologist $i$ gives a probability $p_{t,\model_i}$ for rain, so that
+  }
+  \[
+  p_{t,\model_i} \defn  \Pr(x_t = \textrm{rain} \mid \model_i) 
+  \]
+  \end{exercise}
+\end{frame}
+
+
 \subsection{Conditional probability and Bayesian inference}
 \only<article>{
   Let $A$ and $B$ be two events. Let $P(A)$ be the probability of event $A$ and $P(B)$ the probability of event $B$. We can think of the probability of an event as the \emph{relative size} of the event in the space of probabilities.\footnote{More formally, probability is a measure; a function similar to volume, area, length and mass.} 
@@ -294,48 +339,6 @@ model <- naiveBayes(Class ~ ., data = Training, laplace = lambda)
   \end{enumerate}
 \end{exercise}
 
-\section{Full Bayesian inference}
-\only<article>{Statistical inference is the problem estimating quantities from data. Many machine learning problems lie within the statistical inference framework. While there are many paradigms within this framework, one typically tries to calculate probability distributions of some random variables from data. These are usually expressed in terms of parametrised distributions. In the Bayesian setting in particular, the goal is to quantify our uncertainty about these unknown parameters in terms of another probability distribution.}
-\begin{frame}
-  \frametitle{Bayesian inference} \only<article>{ Bayesian statistical
-    inference is the problem of inferring distributions (of
-    parameters) from data. Typically, given some prior distribution
-    $\bel(\model)$ on parameters $\model \in \Model$, such that for
-    every possible parameter value the probability $P_\model(x)$ is
-    well defined for any $x \in \CX$, we wish to infer a posterior
-    distribution from any given data $x$.}
-  \begin{definition}[Posterior distribution]
-    \only<article>{Given a prior $\bel$ on the parameter set $\Model$
-      and a family $\{P_\model\}$ of distributions on $\CX$, the
-      posterior distribution of parameter $\model$ for any data
-      $x \in \CX$ is}
-    \begin{equation}
-      \bel(\model \mid x) \defn \frac{P_\model(x) \bel(\model)}{\sum_{\model' \in \Model}
-        P_{\model'}(x) \bel(\model')}.
-      \label{eq:posterior}
-    \end{equation}
-  \end{definition}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{The $n$-meteorologists problem}
-  \begin{exercise}
-      \only<presentation>{
-    \begin{itemize}
-    \item Meteorological models $\CM = \set{\model_1, \ldots, \model_n}$
-    \item Rain predictions at time $t$: $p_{t,\model}$.
-    \item Prior probability $\bel(\model) = 1/n$ for each model.
-    \item Should we take the umbrella?
-    \end{itemize}
-  }
-  \only<article>{Assume you have $n$ meteorologists. At each day $t$, each meteorologist $i$ gives a probability $p_{t,\model_i}$ for rain, so that
-  }
-  \[
-  p_{t,\model_i} \defn  \Pr(x_t = \textrm{rain} \mid \model_i) 
-  \]
-  \end{exercise}
-\end{frame}
 
 \subsection{Graphical models}
 \only<article>{
