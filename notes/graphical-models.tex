@@ -1,0 +1,59 @@
+\subsection{Graphical models}
+\only<article>{
+  A graphical model is a convenient way to represent known dependencies between variables. There are many variants of graphical models, whose name is context dependent. Other names used in the literature are probabilistic graphical models, Bayesian networks, causal graphs, or decision diagrams. In this set of notes we focus on directed graphical models that depict dependencies between ranom variables.
+
+ \begin{definition}[Directed graphical model] is a collection of $n$ random variables $x_i : \Omega \to X_i$, and let $X \defn \prod_i X_i$, with underlying probability measure $P$ on $\Omega$.
+  Let $\bx = (x_i)_{i=1}^n$ and for any subset $B \subset[n]$ let
+  \begin{align}
+    \bx_B &\defn (x_i)_{i \in B}\\
+    \bx_{-j} &\defn (x_i)_{i \neq i}
+  \end{align}
+\end{definition}
+}
+\begin{frame}
+  \frametitle{Graphical models and independence}
+  \begin{block}{Joint probability}
+    Let $\bx = (x_1, \ldots, x_n)$. Then $\bx : \Omega \to X$, $X = \prod_i X_i$ and:
+    \[
+      \Pr(\bx \in A) = P(\cset{\omega \in \Omega}{\bx(\omega) \in A}).
+    \]
+  \end{block}
+  \only<article>{
+    When $X_i$ are finite, we can typically write
+    \[
+      \Pr(\bx = \ba) = P(\cset{\omega \in \Omega}{\bx(\omega) = \ba}),
+    \]
+    for the probability that $x_i = a_i$ for all $i \in [n]$.
+  }
+  \begin{block}{Factorisation}
+    \only<article>{
+      For any subsets $B \subset [n]$ and its complement $C$ so that
+      $\bx_B = (x_i)_{i \in B}$,     $\bx_C = (x_i)_{i \notin B}$
+    }
+    \[
+      \Pr(\bx) = \Pr(\bx_B \mid \bx_C) \Pr(\bx_C)
+    \]
+  \end{block}
+  \begin{block}{Conditional independence}
+    We say $x_i$ is conditionally independent of $\bx_B$ given $\bx_D$ and write $x_i \mid \bx_D \indep \bx_B$ iff
+    \[
+      \Pr(x_i, \bx_B \mid \bx_D)
+      =
+      \Pr(x_i \mid \bx_D)
+      \Pr(\bx_D \mid \bx_B).
+    \]
+  \end{block}
+  \only<article>{In a Graphical model, conditional independence is represented through directed edges.}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (xi) {$x_i$};
+      \node[RV] at (0,0) (xB) {$x_j$};
+      \node[RV] at (1,0) (xD) {$x_k$};
+      \draw[->] (xB)--(xD);
+      \draw[->] (xD)--(xi);
+    \end{tikzpicture}
+    \label{fig:bn}
+    \caption{Graphical model exhibiting the factorisation $\Pr(x_i \mid x_j) \Pr(x_j \mid x_k)$.}
+  \end{figure}
+\end{frame}

@@ -49,8 +49,8 @@ problems in science and society.
 2. Neural networks
 3. Confidence and $p$-values
 4. Naive Bayes: Model mismatch
-5. $p$-values and model mismatch
-6. Cross-validation vs Bootstrapping
+5. $p$-values, cross-validation and  model mismatch
+
 
 
 
