@@ -136,6 +136,32 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 ** Lecture 4. Safety: Model validation and importance Sampling
 
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
+* Timetable
+
+1. 22-23 August. Lecture: Machine Learning intro, kNN, Reproducibility, decision theory.
+2. 29-30 August. Tutorial: Reproducibility. Lab: Mortgage classification and decisions.
+
+Project 1: Mortgage decisions
+
+3. 5-6 September. Lecture: Privacy, anonymity, differential privacy.
+4. 12-13 September. Tutorial:  Privacy. Lab: Privacy in classification.
+5. 19-20 September. Lecture: Fairness and Bayesian Networks
+6. 26-27 September. Tutorial: Bayesian networks. Lab: COMPAS Dataset
+
+Project 2: Social networks
+
+7. 3-4 October. Lecture: Clustering, DNA testing.
+8. 10-11 October. Tutorial: Bayesian Networks. Lab: DNA Testing
+9. 17-18 October. Lecture: Recommendation systems.
+10. 24-25 October. Tutorial: Lab
+
+Project 3: Experiment design
+
+11. 31 Oct-1 Nov. Lecture: Bandit problems.
+12. 7-8 November. Tutorial: Function optimisation. Lab: Experiment design
+13. 14-15 November. Lecture: Markov decision processes.
+14. 21-22 November. Tutorial: Reinforcement learning. Lab: Q-learning
+
 * Meetings
 ** DS overview
    CLOCK: [2018-04-23 mån 10:10]--[2018-04-23 mån 11:10] =>  1:00
