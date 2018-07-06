@@ -1,3 +1,30 @@
+\section{Privacy in databases}
+
+\begin{frame}
+  \frametitle{Record linkage}
+  \begin{example}[Typical relational database in a tax office]
+    \begin{tabular}{l|l|l}
+      ID & Name & Deposits & Age & Postcode & Profession\\
+      \hline
+      1959060783 & Mike Pence &  150,000 & 1e6 & 60 & 1001 & Politician\\
+      1946061408 & Donald Trump &  300,000 & -1e9 & 72 & 1001 & Rentier\\
+      2100010101 & A. B. Student &  10,000 & 100,000 & 40 & 1001 & Time Traveller
+    \end{tabular}
+  \end{example}
+
+  \begin{example}[Typical relational database in Tinder]
+    \begin{tabular}{l|l|l}
+      Birthday & Name & Height  & Weight & Salary & Deposits & Age Range & Postcode & Profession\\
+      \hline
+      0607 & Mike Pence & 190cm & 80kg & 150,000 & 1e6 & 60+ & 1001 & Politician\\
+      0614 & Donald Trump & 185cm & 110kg & 300,000 & -1e9 & 60+ & 1001 & Rentier\\
+      0101 & A. B. Student & 170cm & 70kg & 10,000 & 100,000 & 40-60 & 1001 & Time Traveller
+    \end{tabular}
+  \end{example}
+\end{frame}
+
+
+
 \section{Privacy in machine learning}
 
 \only<article>{ Consider a researcher wishing to collect data for a

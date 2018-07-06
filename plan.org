@@ -1,9 +1,13 @@
-* Part 1. Classification, privacy, fairness
+* Lecture plan
 
-Project: Credit risk for mortgages. [Aim: Reproducibility, Privacy and Fairness]
 
-** Lecture 1: ML Intro
-
+** Week 1: ML Intro and interpretability
+   :LOGBOOK:
+   CLOCK: [2018-04-04 Wed 09:22]--[2018-04-04 Wed 10:30] =>  1:08
+   CLOCK: [2018-04-03 Tue 20:58]--[2018-04-03 Tue 21:16] =>  0:18
+   CLOCK: [2018-04-02 Mon 21:25]--[2018-04-02 Mon 22:25] =>  1:00
+   CLOCK: [2018-03-19 mån 12:04]--[2018-03-20 tis 15:57] => 27:53
+   :END:
 Machine learning as science: hypotheses, experiments and conclusions.
 kNN example: What is classification? What is clustering? Making sure you formalise the problem.
 
@@ -13,6 +17,15 @@ kNN example: What is classification? What is clustering? Making sure you formali
 4. Decision hierarchies
 5. Bayesian inference
 6. Optimisation and SGD.
+
+*** Modelling :TUTORIAL:
+
+1. Linear models
+2. Neural networks
+3. Confidence and $p$-values
+4. Naive Bayes: Model mismatch
+5. $p$-values, cross-validation and  model mismatch
+
 
 The purpose of this lecture is to familiarise students with all the
 decisions made from the beginning to the end of the data science
@@ -25,7 +38,7 @@ applied to real data.
 	:END:
 
 	:LOGBOOK:
-        CLOCK: [2018-06-23 Sat 14:40]
+        CLOCK: [2018-06-23 Sat 14:40]--[2018-06-23 Sat 15:40] =>  1:00
 	CLOCK: [2018-05-28 Mon 14:49]--[2018-05-28 Mon 23:33] =>  8:44
 	CLOCK: [2018-04-06 Fri 20:46]--[2018-04-06 Fri 22:15] =>  1:29
 	CLOCK: [2018-04-06 Fri 15:20]--[2018-04-06 fre 16:20] =>  1:00
@@ -37,30 +50,14 @@ fallacy of p-values.  The aim of this lecture is to introduce students
 to the use and mis-use of automated decision making algorithms for
 problems in science and society.
 
-** Lecture 2: Model interpretability
+
+** Project start: Credit risk for mortgages. [Aim: Reproducibility, Privacy and Fairness]
+** Week 2: Privacy
    :LOGBOOK:
-   CLOCK: [2018-04-04 Wed 09:22]--[2018-04-04 Wed 10:30] =>  1:08
-   CLOCK: [2018-04-03 Tue 20:58]--[2018-04-03 Tue 21:16] =>  0:18
-   CLOCK: [2018-04-02 Mon 21:25]--[2018-04-02 Mon 22:25] =>  1:00
-   CLOCK: [2018-03-19 mån 12:04]--[2018-03-20 tis 15:57] => 27:53
-   :END:
-
-1. Linear models
-2. Neural networks
-3. Confidence and $p$-values
-4. Naive Bayes: Model mismatch
-5. $p$-values, cross-validation and  model mismatch
-
-
-
-
-*** Notes
-
-Classification is the problem of selecting a classifier so as to make
-
-** Lecture 3: Privacy
-   CLOCK: [2018-04-24 tis 16:18]--[2018-04-24 tis 16:44] =>  0:26
+   CLOCK: [2018-07-06 Fri 15:39]
    CLOCK: [2018-04-22 sön 17:16]--[2018-04-22 sön 19:19] =>  2:03
+   CLOCK: [2018-04-24 tis 16:18]--[2018-04-24 tis 16:44] =>  0:26
+   :END:
 
 1. Privacy in databases.
 2. k-anonymity.
@@ -71,7 +68,7 @@ Classification is the problem of selecting a classifier so as to make
 
 The purpose of this lecture is to introduce the students to basic database concepts, as well as to privacy problems that can occur when allowing access to a database to a third party.
 
-** Lecture 4: Fairness
+** Week 3: Fairness
    :LOGBOOK:
    CLOCK: [2018-05-22 Tue 13:57]--[2018-05-22 Tue 14:57] =>  1:00
    :END:
@@ -84,11 +81,9 @@ The purpose of this lecture is to introduce the students to basic database conce
 6. Bayesian notions of fairness.
 
 
-* Part 2. Structured/unsupervised learning (social networks)
+** Poject start: Fake news.
 
-  Project: Fake news. [Aim: Reproducibility, Privacy, Fake news]
-
-** Lecture 1: Clustering
+** Week 4: Clustering
 
 Unstructured databases.
 Clustering / Anomaly detection.
@@ -97,29 +92,24 @@ The purpose of this lecture is to talk about non-matrix data, like
 graphs, and make a link to graphical models and simple problems like
 anomaly detection.
 
-** Lecture 2: DNA Testing
 
 DNA testing and HMMs.
 
 Here we talk more about unstructured data, in this case about DNA
 data.
 
-** Lecture 3: The web
+** Week 5: The web and recommendation systems
 
 Web data, ontologies, crawling.
 Knowledge representation.
  
 This is web-structured data, which typically has some meta-information. 
- 
-** Lecture 4: Recommendation systems
 
 Matrix Factorisation / LDA: Recommendation systems I (user similarity)
 
 This lecture introduces analysis of text data, and an application to recommendation systems.
 
-* Part 3. Experiment design
-
-Project: Experiment design for energy policy or Medical Diagnostics [Aim: Reproducibility, Safety]
+** Project start: Experiment design for energy policy or Medical Diagnostics [Aim: Reproducibility, Safety] :PROJECT:
 
 ** Lecture 1. Online data collection. Optimal stopping (expensive labels) A/B Testing, Bandit Problems.
 
