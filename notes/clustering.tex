@@ -3,7 +3,7 @@
 
 
 \begin{frame}
-\frametitle{Clusters as latent variables}
+  \frametitle{Clusters as latent variables}
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
@@ -29,14 +29,14 @@
     }
     \only<article>{The learning problem is to estimate the parameter $\param$ describing the distribution of observations $x_t$ and clusters $c_t$.}
     \[
-    x_t \mid c_t = c, \param \sim P_\param(x | c), \qquad c_t \mid \param \sim P_\param(c)
+      x_t \mid c_t = c, \param \sim P_\param(x | c), \qquad c_t \mid \param \sim P_\param(c)
     \]
     \only<article>{
       Given a parameter $\param$, the clustering problem is to estimate the probability of each cluster for each new observation.
     }
     \[
-    P_\param(c_t \mid x_t) = 
-    \uncover<2>{\frac{P_\param(x_t \mid c_t) P_\param(c_t)}{\sum_{c'}P_\param(x_t \mid c_t = c') P_\param(c_t = c')}}
+      P_\param(c_t \mid x_t) = 
+      \uncover<2>{\frac{P_\param(x_t \mid c_t) P_\param(c_t)}{\sum_{c'}P_\param(x_t \mid c_t = c') P_\param(c_t = c')}}
     \]
   \end{block}
 \end{frame}
@@ -50,8 +50,8 @@
   \end{itemize}
   \begin{block}{Marginal posterior prediction}
     \[
-    P_\bel(c_t \mid x_t, x^T) = 
-    \int_\Param P_\param(c_t \mid x_t) \dd \bel(\param \mid x^T)
+      P_\bel(c_t \mid x_t, x^T) = 
+      \int_\Param P_\param(c_t \mid x_t) \dd \bel(\param \mid x^T)
     \]
   \end{block}
 \end{frame}
