@@ -11,11 +11,26 @@
     2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 1001 & Time Traveller
   \end{tabular}
 \end{example}
+
   \begin{block}{Database access}
     \begin{itemize}
-    \item Direct table look-up.
+    \item When owning the database: Direct look-up.
+    \item When accessing a server etc: Query model.
     \end{itemize}
   \end{block}
+
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node at (0,0) (python) {Python program};
+        \node at (2,0) (database) {Database System};
+        \draw[->, >=latex, blue!20!white, line width=15pt]   (python) to node[black]{Query} (database) ;
+      \end{tikzpicture}
+    \label{fig:database-access}
+    \caption{Database access model}
+  \end{figure}
+
+  
 \end{frame}
 
 
