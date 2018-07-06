@@ -24,6 +24,16 @@
 \def\newblock{} % To avoid a compilation error about a function \newblock undefined
 \usepackage{hyperref}
 
+\setbeamertemplate{theorems}[numbered] 
+\mode<presentation>{
+\theoremstyle{plain}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+}
+
 \numberwithin{equation}{section} 
 \mode<article>{
     \theoremstyle{plain}
