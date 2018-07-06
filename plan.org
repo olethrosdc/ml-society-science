@@ -138,7 +138,7 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 * Timetable
 
-1. 22-23 August. Lecture: Machine Learning intro, kNN, Reproducibility, decision theory.
+1. 22-23 August. Lecture: Machine Learning intro, kNN, Reproducibility, probability and decision theory.
 2. 29-30 August. Tutorial: Reproducibility. Lab: Mortgage classification and decisions.
 
 Project 1: Mortgage decisions
