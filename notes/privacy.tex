@@ -1,28 +1,121 @@
 \section{Privacy in databases}
 
 \begin{frame}
+  \frametitle{Anonymisation}
+  \only<article>{If we wish to publish a database, frequently we need to protect identities of people involved.}
+  
+  \begin{example}[Typical relational database in Tinder]
+    \begin{tabular}{l|l|l|l|l|l|l}
+      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+      \hline
+      06/07 & \only<1>{Mike Pence} & 190 & 80 & 60+ & 1001 & Politician\\
+      06/14 & \only<1>{Donald Trump} & 185 & 110 & 60+ & 1001 & Rentier\\
+      01/01 & \only<1>{A. B. Student} & 170 & 70 & 40-60 & 6732 & Time Traveller
+    \end{tabular}
+  \end{example}
+
+  \only<2>{The simple act of hiding or using random identifiers for people is called anonymisation. A good anonymity concept is $k$-anonymity.}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{$k$-anonymity}
+  \begin{figure}[H]
+   \centering \subfigure[Samarati]{\includegraphics[width=0.25\textwidth]{../figures/samarati}}
+    \subfigure[Sweeney]{\includegraphics[width=0.25\textwidth]{../figures/sweeney}}
+  \end{figure}
+  \only<article>{This was introduced by\citet{samarati1998protecting} and provides good guarantees when accessing a single database}
+
+  \begin{definition}[$k$-anonymity]
+    A database provides $k$-anonymity if for every person in the database is indistinguishable from $k-1$ persons.
+  \end{definition}
+  
+  
+\end{frame}
+
+\begin{frame}
+  \only<1>{
+  \begin{tabular}{l|l|l|l|l|l|l}
+    Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+    \hline
+    06/07 & Mike Pence & 190 & 80 & 60+ & 1001 & Politician\\
+    06/14 & Donald Trump & 185 & 110 & 60+ & 1001 & Rentier\\
+    06/12 & John Bolton & 170 & 60 & 60+ & 1243 & Politician\\
+    01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller\\
+    05/08 & Li Yang & 175 & 72 & 30-40 & 6910 & Time Traveller
+  \end{tabular}
+}
+
+\only<2>{
+  \begin{tabular}{l|l|l|l|l|l|l}
+    Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+    \hline
+    06/07 &  & 190 & 80 & 60+ & 1001 & Politician\\
+    06/14 &  & 185 & 110 & 60+ & 1001 & Rentier\\
+    06/12 &  & 170 & 60 & 60+ & 1243 & Politician\\
+    01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller
+  \end{tabular}
+}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
   \frametitle{Record linkage}
+
   \begin{example}[Typical relational database in a tax office]
     \begin{tabular}{l|l|l|l|l|l|l}
       ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
       \hline
       1959060783 & Mike Pence & 150,000 & 1e6 & 60 & 1001 & Politician\\
       1946061408 & Donald Trump & 300,000 & -1e9 & 72 & 1001 & Rentier\\
-      2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 1001 & Time Traveller
+      2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 6732 & Time Traveller
     \end{tabular}
   \end{example}
   
   \begin{example}[Typical relational database in Tinder]
     \begin{tabular}{l|l|l|l|l|l|l}
-      Birthday & Name & Height  & Weight & Age Range & Postcode & Profession\\
+      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
       \hline
-      06/07 & Mike Pence & 190cm & 80kg & 60+ & 1001 & Politician\\
-      06/14 & Donald Trump & 185cm & 110kg & 60+ & 1001 & Rentier\\
-      01/01 & A. B. Student & 170cm & 70kg & 40-60 & 1001 & Time Traveller
+      06/07 & Mike Pence & 190 & 80 & 60+ & 1001 & Politician\\
+      06/14 & Donald Trump & 185 & 110 & 60+ & 1001 & Rentier\\
+      01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller
     \end{tabular}
   \end{example}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Record linkage - Anonymisation is not enough}
+  \begin{example}[Typical relational database in a tax office]
+    \begin{tabular}{l|l|l|l|l|l|l}
+      ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
+      \hline
+      1959060783 &  & 150,000 & 1e6 & 60 & 1001 & Politician\\
+      \alert{1946061408} &  & 300,000 & -1e9 & 72 & \alert{1001} & Rentier\\
+      2100010101 &  & 10,000 & 100,000 & 40 & 6732 & Time Traveller
+    \end{tabular}
+  \end{example}
+  
+  \begin{example}[Typical relational database in Tinder]
+    \begin{tabular}{l|l|l|l|l|l|l}
+      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+      \hline
+      06/07 & Mike Pence & 190 & 80 & 60+ & 1001 & Politician\\
+      \alert{06/14} & Donald Trump & 185 & 110 & 60+ & \alert{1001} & Rentier\\
+      01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller
+    \end{tabular}
+  \end{example}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{$k$-anonymity}
+  \only<article>{\citet{samarati1998protecting} had}
+  
+\end{frame}
 
 
 \section{Privacy in machine learning}

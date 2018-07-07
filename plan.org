@@ -54,7 +54,8 @@ problems in science and society.
 ** Project start: Credit risk for mortgages. [Aim: Reproducibility, Privacy and Fairness]
 ** Week 2: Privacy
    :LOGBOOK:
-   CLOCK: [2018-07-06 Fri 15:39]
+   CLOCK: [2018-07-07 Sat 15:14]
+   CLOCK: [2018-07-06 Fri 15:39]--[2018-07-06 Fri 16:39] =>  1:00
    CLOCK: [2018-04-22 sön 17:16]--[2018-04-22 sön 19:19] =>  2:03
    CLOCK: [2018-04-24 tis 16:18]--[2018-04-24 tis 16:44] =>  0:26
    :END:
@@ -67,6 +68,7 @@ problems in science and society.
 6. Exponential mechanism.
 
 The purpose of this lecture is to introduce the students to basic database concepts, as well as to privacy problems that can occur when allowing access to a database to a third party.
+
 
 ** Week 3: Fairness
    :LOGBOOK:
