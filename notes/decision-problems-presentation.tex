@@ -1,0 +1,41 @@
+\documentclass[a4paper,twoside]{book}
+
+\usepackage[notheorems]{beamerarticle}
+
+\mode<presentation>{
+  % \useinnertheme{rectangles}
+  %\useoutertheme{infolines}
+  % \usecolortheme{crane}
+  % \usecolortheme{rose}
+}
+\input{../preamble}
+
+\includeonly{database}
+
+\title{Decision problems}
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\include{knn}  % knn, reproducability and bootstrapping
+\include{bayes} % Bayesian inference
+\include{decision-problems} % decision hierarchies
+
+\include{ann} % linear models and stochastic gradient descent
+\include{naive-bayes} %
+\include{p-values}
+
+\include{reproducibility}
+
+
+\bibliographystyle{plainnat}
+\bibliography{../bibliography}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "notes"
+%%% End:
