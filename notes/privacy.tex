@@ -1,22 +1,85 @@
-\section{Privacy in databases}
 
+\only<article>{ Consider a researcher wishing to collect data for a
+  statistical analysis. As long as the analysis is eventually
+  published,\footnote{If somebody knows that the analysis is being
+    conducted, however, they could still learn something private from
+    the fact that the analysis has /emph{not} been published.} this
+  creates two types of possible privacy violations. The first is
+  direct exposure of sensitive data through publication of the
+  analysis, if for example the study is about something such as drug
+  use. The second is through publication of ``anonymised'' versions of
+  the dataset, which create opportunities for linkage attacks.}
+
+\section{Privacy in databases}
 \begin{frame}
   \frametitle{Anonymisation}
   \only<article>{If we wish to publish a database, frequently we need to protect identities of people involved.}
   
   \begin{example}[Typical relational database in Tinder]
+    \begin{table}[H]
     \begin{tabular}{l|l|l|l|l|l|l}
       Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
       \hline
-      06/07 & \only<1>{Mike Pence} & 190 & 80 & 60+ & 1001 & Politician\\
-      06/14 & \only<1>{Donald Trump} & 185 & 110 & 60+ & 1001 & Rentier\\
+      06/07 & \only<1>{Mike Pence} & 190 & 80 & 60-70 & 1001 & Politician\\
+      06/14 & \only<1>{Donald Trump} & 185 & 110 & 70+ & 1001 & Rentier\\
       01/01 & \only<1>{A. B. Student} & 170 & 70 & 40-60 & 6732 & Time Traveller
     \end{tabular}
+  \end{table}
   \end{example}
 
-  \only<2>{The simple act of hiding or using random identifiers for people is called anonymisation. A good anonymity concept is $k$-anonymity.}
+  \only<2>{The simple act of hiding or using random identifiers is called anonymisation.}
   
 \end{frame}
+
+
+\begin{frame}
+  \frametitle{Record linkage}
+  \only<article>{However, anonymisation is not enough as record linkage can allow you to still extract information using data from another database}
+
+  \only<1>{
+    \def\firstcircle{(0,0) circle (1.5cm)}
+    \def\secondcircle{(45:2cm) circle (1.5cm)}
+    
+\begin{tikzpicture}
+    \draw (0,0) circle (1.5cm) node[below] {\parbox{0.3\textwidth}{Race\\Date\\X}};
+    \draw (45:2cm) circle (1.5cm) node [above] {$B$};
+    % Now we want to highlight the intersection of the first and the
+    % second circle:
+
+    \begin{scope}
+      \clip \firstcircle;
+      \fill[red] \secondcircle;
+    \end{scope}
+  \end{tikzpicture}
+}
+
+    
+  \begin{example}[Typical relational database in a tax office]
+    \begin{table}[H]
+    \begin{tabular}{l|l|l|l|l|l|l}
+      ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
+      \hline
+      1959060783 & Mike Pence & 150,000 & 1e6 & 60 & 1001 & Politician\\
+      1946061408 & Donald Trump & 300,000 & -1e9 & 72 & 1001 & Rentier\\
+      2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 6732 & Time Traveller
+    \end{tabular}
+  \end{table}
+  \end{example}
+  
+  \begin{example}[Typical relational database in Tinder]
+    \begin{table}[H]
+    \begin{tabular}{l|l|l|l|l|l|l}
+      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+      \hline
+      06/07 & & 190 & 80 & 60-70 & 1001 & Politician\\
+      06/14 &  & 185 & 110 & 70+ & 1001 & Rentier\\
+      01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller
+    \end{tabular}
+  \end{table}
+  \end{example}
+\end{frame}
+
+
 
 \begin{frame}
   \frametitle{$k$-anonymity}
@@ -35,6 +98,7 @@
 
 \begin{frame}
   \only<1>{
+    \begin{table}[H]
   \begin{tabular}{l|l|l|l|l|l|l}
     Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
     \hline
@@ -44,36 +108,39 @@
     01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller\\
     05/08 & Li Yang & 175 & 72 & 30-40 & 6910 & Time Traveller
   \end{tabular}
-  1-anonymity
-}
+  \caption{1-anonymity.}
+\end{table}
 
-\only<2>{
-  \begin{tabular}{l|l|l|l|l|l|l}
-    Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-    \hline
-    06/07 &  & 190 & 80 & 60+ & 1001 & Politician\\
-    06/14 &  & 185 & 110 & 60+ & 1001 & Rentier\\
-    06/12 &  & 170 & 60 & 60+ & 1243 & Politician\\
-    01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller\\
-    05/08 &  & 175 & 72 & 30-40 & 6910 & Policeman
-  \end{tabular}
-  1-anonymity
 }
+\only<presentation>{
+  \only<2>{
+    \begin{tabular}{l|l|l|l|l|l|l}
+      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+      \hline
+      06/07 &  & 190 & 80 & 60+ & 1001 & Politician\\
+      06/14 &  & 185 & 110 & 60+ & 1001 & Rentier\\
+      06/12 &  & 170 & 60 & 60+ & 1243 & Politician\\
+      01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller\\
+      05/08 &  & 175 & 72 & 30-40 & 6910 & Policeman
+    \end{tabular}
+    1-anonymity
+  }
 
-\only<3>{
-  \begin{tabular}{l|l|l|l|l|l|l}
-    Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-    \hline
-    06/07 &  & 180-190 & 80+ & 60+ & 1* & \\
-    06/14 &  & 180-190 & 80+ & 60+ & 1* &\\
-    06/12 &  & 170-180 & 60-80 & 60+ & 1* & \\
-    01/01 &  & 170-180 & 60-80 & 20-60 & 6* &\\
-    05/08 &  & 170-180 & 60-80 & 20-60 & 6* & 
-  \end{tabular}
-  1-anonymity
+  \only<3>{
+    \begin{tabular}{l|l|l|l|l|l|l}
+      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+      \hline
+      06/07 &  & 180-190 & 80+ & 60+ & 1* & \\
+      06/14 &  & 180-190 & 80+ & 60+ & 1* &\\
+      06/12 &  & 170-180 & 60-80 & 60+ & 1* & \\
+      01/01 &  & 170-180 & 60-80 & 20-60 & 6* &\\
+      05/08 &  & 170-180 & 60-80 & 20-60 & 6* & 
+    \end{tabular}
+    1-anonymity
+  }
 }
-
 \only<4>{
+  \begin{table}[H]
   \begin{tabular}{l|l|l|l|l|l|l}
     Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
     \hline
@@ -83,7 +150,8 @@
      &  & 170-180 & 60-80 & 20-60 & 6* &\\
      &  & 170-180 & 60-80 & 20-60 & 6* & 
   \end{tabular}
-  2-anonymity: the database can be partitioned in sets of at least 2 records
+  \caption{2-anonymity: the database can be partitioned in sets of at least 2 records}
+\end{table}
 }
 
 \end{frame}
@@ -93,77 +161,12 @@
 
 
 
-\begin{frame}
-  \frametitle{Record linkage}
-
-  \begin{example}[Typical relational database in a tax office]
-    \begin{tabular}{l|l|l|l|l|l|l}
-      ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
-      \hline
-      1959060783 & Mike Pence & 150,000 & 1e6 & 60 & 1001 & Politician\\
-      1946061408 & Donald Trump & 300,000 & -1e9 & 72 & 1001 & Rentier\\
-      2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 6732 & Time Traveller
-    \end{tabular}
-  \end{example}
-  
-  \begin{example}[Typical relational database in Tinder]
-    \begin{tabular}{l|l|l|l|l|l|l}
-      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-      \hline
-      06/07 & Mike Pence & 190 & 80 & 60+ & 1001 & Politician\\
-      06/14 & Donald Trump & 185 & 110 & 60+ & 1001 & Rentier\\
-      01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller
-    \end{tabular}
-  \end{example}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Record linkage - Anonymisation is not enough}
-  \begin{example}[Typical relational database in a tax office]
-    \begin{tabular}{l|l|l|l|l|l|l}
-      ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
-      \hline
-      1959060783 &  & 150,000 & 1e6 & 60 & 1001 & Politician\\
-      \alert{1946061408} &  & 300,000 & -1e9 & 72 & \alert{1001} & Rentier\\
-      2100010101 &  & 10,000 & 100,000 & 40 & 6732 & Time Traveller
-    \end{tabular}
-  \end{example}
-  
-  \begin{example}[Typical relational database in Tinder]
-    \begin{tabular}{l|l|l|l|l|l|l}
-      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-      \hline
-      06/07 & Mike Pence & 190 & 80 & 60+ & 1001 & Politician\\
-      \alert{06/14} & Donald Trump & 185 & 110 & 60+ & \alert{1001} & Rentier\\
-      01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller
-    \end{tabular}
-  \end{example}
-\end{frame}
 
 
 \begin{frame}
-  \frametitle{$k$-anonymity}
-  \only<article>{\citet{samarati1998protecting} had}
-  
-\end{frame}
-
-
-\section{Privacy in machine learning}
-
-\only<article>{ Consider a researcher wishing to collect data for a
-  statistical analysis. As long as the analysis is eventually
-  published,\footnote{If somebody knows that the analysis is being
-    conducted, however, they could still learn something private from
-    the fact that the analysis has /emph{not} been published.} this
-  creates two types of possible privacy violations. The first is
-  direct exposure of sensitive data through publication of the
-  analysis, if for example the study is about something such as drug
-  use. The second is through publication of ``anonymised'' versions of
-  the dataset, which create opportunities for linkage attacks.}
-
-\begin{figure}[h]
+\begin{figure}[H]
   \begin{tikzpicture}
-    \node[label=left:$x$] at (0,0) (data) {\includegraphics[width=0.3\columnwidth]{../figures/medical}};
+    \node[label=left:$x$] at (0,0) (data) {\includegraphics[width=0.2\columnwidth]{../figures/medical}};
 
     \node[label=$x_1$] at (-2,3)(patient1) {\includegraphics[width=0.1\columnwidth]{../figures/me-recent}};
     \uncover<3->{
@@ -188,36 +191,37 @@
   \caption{If two people contribute their data $x = (x_1, x_2)$ to a medical database, and an algorithm $\pol$ computes some public output $a$ from $x$, then it should be hard infer anything about the data from the public output.}
 \end{figure}
 
-
-\begin{frame}
-  \frametitle{Privacy in databases}
-  \begin{figure}[h]
-    \begin{tikzpicture}
-      \node at (0,0) (data) {Data};
-      \node at (1,0) (query) {Query};
-      \node at (1,0) (response) {Query};
-    \end{tikzpicture}
-  \end{figure}
 \end{frame}
-\subsection{Differential privacy.}
-\begin{frame}
-  \frametitle{Asking about drug use}
 
+\section{Differential privacy.}
+
+\begin{frame}
+  \frametitle{The prevalence of drug use in sport}
+  
   \only<article>{
     Let's say you need to perform a statistical analysis of the drug-use habits of athletes. Obviously, even if you promise the athlete not to reveal their information, you still might not convince them. Yet, you'd like them to be truthful. The trick is to allow them to randomly change their answers, so that you can't be \emph{sure} if they take drugs, no matter what they answer.
   }
 
-  \begin{example}[Randomising responses about drug use]
-    \begin{enumerate}
-    \item Flip a coin.
-    \item If it comes heads, respond \texttt{Yes}.
-    \item Otherwise, respond truthfully.
-    \end{enumerate}
-  \end{example}
-
-  If the rate of positive responses is $p$, everybody follows the protocol, and the coin is fair, what is the true rate $q$ of drug use?
   \only<presentation>{
-    \uncover<2>{
+    \begin{itemize}
+    \item $n$ athletes
+    \item Ask whether they have doped in the past year.
+    \item How can we get truthful / accurate results?
+    \end{itemize}
+  }
+  \only<2>{
+    \begin{block}{Algorithm for randomising responses about drug use}
+      \begin{enumerate}
+      \item Flip a coin.
+      \item If it comes heads, respond \texttt{Yes}.
+      \item Otherwise, respond truthfully.
+      \end{enumerate}
+    \end{block}
+
+    If the rate of positive responses is $p$, everybody follows the protocol, and the coin is fair, what is the true rate $q$ of drug use?
+    }
+  \only<presentation>{
+    \uncover<3>{
       \[
         p = 1/2 + q/2 \Rightarrow q = 1/2
       \]
@@ -234,7 +238,7 @@
     \[
       \Pr(y_i = j \mid x_i = k) = p_{kj},
     \]
-    where $p_{kk} > p_{kj} \forall J$.
+    where $p_{kk} > p_{kj} \forall j \neq k$.
   \end{definition}
   \only<article>{This mechanism satisfies so-called $\epsilon$-differential privacy.}
 \end{frame}

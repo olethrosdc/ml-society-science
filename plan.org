@@ -54,7 +54,8 @@ problems in science and society.
 ** Project start: Credit risk for mortgages. [Aim: Reproducibility, Privacy and Fairness]
 ** Week 2: Privacy
    :LOGBOOK:
-   CLOCK: [2018-07-07 Sat 15:14]
+   CLOCK: [2018-07-09 Mon 14:20]
+   CLOCK: [2018-07-07 Sat 15:14]--[2018-07-07 Sat 16:14] =>  1:00
    CLOCK: [2018-07-06 Fri 15:39]--[2018-07-06 Fri 16:39] =>  1:00
    CLOCK: [2018-04-22 sön 17:16]--[2018-04-22 sön 19:19] =>  2:03
    CLOCK: [2018-04-24 tis 16:18]--[2018-04-24 tis 16:44] =>  0:26
