@@ -13,187 +13,202 @@
 \section{Privacy in databases}
 \begin{frame}
   \frametitle{Anonymisation}
-  \only<article>{If we wish to publish a database, frequently we need to protect identities of people involved.}
+  \only<article>{If we wish to publish a database, frequently we need to protect identities of people involved. The simplest method for doing that is simply erasing directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data.}
   
   \begin{example}[Typical relational database in Tinder]
     \begin{table}[H]
-    \begin{tabular}{l|l|l|l|l|l|l}
-      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-      \hline
-      06/07 & \only<1>{Mike Pence} & 190 & 80 & 60-70 & 1001 & Politician\\
-      06/14 & \only<1>{Donald Trump} & 185 & 110 & 70+ & 1001 & Rentier\\
-      01/01 & \only<1>{A. B. Student} & 170 & 70 & 40-60 & 6732 & Time Traveller
-    \end{tabular}
-  \end{table}
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 & \only<1>{Mike Pence} & 190 & 80 & 60-70 & 1001 & Politician\\
+        06/14 & \only<1>{Donald Trump} & 185 & 110 & 70+ & 1001 & Rentier\\
+        01/01 & \only<1>{A. B. Student} & 170 & 70 & 40-60 & 6732 & Time Traveller
+      \end{tabular} 
+    \end{table}
   \end{example}
 
   \only<2>{The simple act of hiding or using random identifiers is called anonymisation.}
-  
+  \only<article>{However this is generally insufficient as other identifying information may be used to re-identify individuals in the data.}
 \end{frame}
 
 
 \begin{frame}
   \frametitle{Record linkage}
-  \only<article>{However, anonymisation is not enough as record linkage can allow you to still extract information using data from another database}
+  \only<article>{In particular, anonymisation is not enough as record linkage can allow you to still extract information using data from another database through \emph{quasi-identifiers}.}
 
   \only<1>{
-    \def\firstcircle{(0,0) circle (1.5cm)}
-    \def\secondcircle{(45:2cm) circle (1.5cm)}
+    \def\firstcircle{(0,0) circle (7em)}
+    \def\secondcircle{(3,0) circle (7em)}
     
-\begin{tikzpicture}
-    \draw (0,0) circle (1.5cm) node[below] {\parbox{0.3\textwidth}{Race\\Date\\X}};
-    \draw (45:2cm) circle (1.5cm) node [above] {$B$};
-    % Now we want to highlight the intersection of the first and the
-    % second circle:
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
 
-    \begin{scope}
-      \clip \firstcircle;
-      \fill[red] \secondcircle;
-    \end{scope}
-  \end{tikzpicture}
-}
+        \draw \firstcircle node[text width=7em] {Ethnicity\newline
+          Date\newline Diagnosis \newline Procedure \newline
+          Medication \newline Charge }; \draw \secondcircle node [text
+        width=2em, align=right] {Name \newline Address \newline
+          Registration \newline Party \newline Lastvote};
+        \begin{scope}
+          \clip \firstcircle; \fill[red] \secondcircle;
+        \end{scope}
+        \node [text width=4em] (QI) at (1.5, 0) {Postcode \newline
+          Birthdate \newline Sex}; \node [text width=4em] (qi-text) at
+        (1.5, -3) {Quasi-identifiers}; \path[->]<1-> (qi-text) edge
+        [bend left] (QI);
+        % Now we want to highlight the intersection of the first and
+        % the
+        % second circle:
 
-    
+
+      \end{tikzpicture}
+      
+      \caption{An example of two datasets, one containing sensitive and the other public information. The two datasets can be linked and individuals identified through the use of quasi-identifiers.}
+      \label{fig:quasi-identifiers}
+    \end{figure}
+  }
+  
   \begin{example}[Typical relational database in a tax office]
     \begin{table}[H]
-    \begin{tabular}{l|l|l|l|l|l|l}
-      ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
-      \hline
-      1959060783 & Mike Pence & 150,000 & 1e6 & 60 & 1001 & Politician\\
-      1946061408 & Donald Trump & 300,000 & -1e9 & 72 & 1001 & Rentier\\
-      2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 6732 & Time Traveller
-    \end{tabular}
-  \end{table}
+      \begin{tabular}{l|l|l|l|l|l|l}
+        ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
+        \hline
+        1959060783 & Mike Pence & 150,000 & 1e6 & 60 & 1001 & Politician\\
+        1946061408 & Donald Trump & 300,000 & -1e9 & 72 & 1001 & Rentier\\
+        2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 6732 & Time Traveller
+      \end{tabular}
+    \end{table}
   \end{example}
   
   \begin{example}[Typical relational database in Tinder]
     \begin{table}[H]
-    \begin{tabular}{l|l|l|l|l|l|l}
-      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-      \hline
-      06/07 & & 190 & 80 & 60-70 & 1001 & Politician\\
-      06/14 &  & 185 & 110 & 70+ & 1001 & Rentier\\
-      01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller
-    \end{tabular}
-  \end{table}
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 & & 190 & 80 & 60-70 & 1001 & Politician\\
+        06/14 &  & 185 & 110 & 70+ & 1001 & Rentier\\
+        01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller
+      \end{tabular}
+    \end{table}
   \end{example}
 \end{frame}
 
-
+\section{$k$-anonymity}
 
 \begin{frame}
   \frametitle{$k$-anonymity}
   \begin{figure}[H]
-   \centering \subfigure[Samarati]{\includegraphics[width=0.25\textwidth]{../figures/samarati}}
+    \centering \subfigure[Samarati]{\includegraphics[width=0.25\textwidth]{../figures/samarati}}
     \subfigure[Sweeney]{\includegraphics[width=0.25\textwidth]{../figures/sweeney}}
   \end{figure}
-  \only<article>{This was introduced by\citet{samarati1998protecting} and provides good guarantees when accessing a single database}
+  \only<article>{The concept of $k$-anonymity was introduced by~\citet{samarati1998protecting} and provides good guarantees when accessing a single database}
 
   \begin{definition}[$k$-anonymity]
-    A database provides $k$-anonymity if for every person in the database is indistinguishable from $k-1$ persons.
+    A database provides $k$-anonymity if for every person in the database is indistinguishable from $k-1$ persons with respect to \emph{quasi-identifiers}.
   \end{definition}
-  
+  \alert{It's the analyst's job to define quasi-identifiers}
   
 \end{frame}
 
 \begin{frame}
   \only<1>{
     \begin{table}[H]
-  \begin{tabular}{l|l|l|l|l|l|l}
-    Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-    \hline
-    06/07 & Mike Pence & 190 & 80 & 60+ & 1001 & Politician\\
-    06/14 & Donald Trump & 185 & 110 & 60+ & 1001 & Rentier\\
-    06/12 & John Bolton & 170 & 60 & 60+ & 1243 & Politician\\
-    01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller\\
-    05/08 & Li Yang & 175 & 72 & 30-40 & 6910 & Time Traveller
-  \end{tabular}
-  \caption{1-anonymity.}
-\end{table}
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 & Mike Pence & 190 & 80 & 60+ & 1001 & Politician\\
+        06/14 & Donald Trump & 185 & 110 & 60+ & 1001 & Rentier\\
+        06/12 & John Bolton & 170 & 60 & 60+ & 1243 & Politician\\
+        01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller\\
+        05/08 & Li Yang & 175 & 72 & 30-40 & 6910 & Time Traveller
+      \end{tabular}
+      \caption{1-anonymity.}
+    \end{table}
 
-}
-\only<presentation>{
-  \only<2>{
-    \begin{tabular}{l|l|l|l|l|l|l}
-      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-      \hline
-      06/07 &  & 190 & 80 & 60+ & 1001 & Politician\\
-      06/14 &  & 185 & 110 & 60+ & 1001 & Rentier\\
-      06/12 &  & 170 & 60 & 60+ & 1243 & Politician\\
-      01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller\\
-      05/08 &  & 175 & 72 & 30-40 & 6910 & Policeman
-    \end{tabular}
-    1-anonymity
+  }
+  \only<presentation>{
+    \only<2>{
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 &  & 190 & 80 & 60+ & 1001 & Politician\\
+        06/14 &  & 185 & 110 & 60+ & 1001 & Rentier\\
+        06/12 &  & 170 & 60 & 60+ & 1243 & Politician\\
+        01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller\\
+        05/08 &  & 175 & 72 & 30-40 & 6910 & Policeman
+      \end{tabular}
+      1-anonymity
+    }
+
+    \only<3>{
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 &  & 180-190 & 80+ & 60+ & 1* & \\
+        06/14 &  & 180-190 & 80+ & 60+ & 1* &\\
+        06/12 &  & 170-180 & 60-80 & 60+ & 1* & \\
+        01/01 &  & 170-180 & 60-80 & 20-60 & 6* &\\
+        05/08 &  & 170-180 & 60-80 & 20-60 & 6* & 
+      \end{tabular}
+      1-anonymity
+    }
+  }
+  \only<4>{
+    \begin{table}[H]
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+                 &  & 180-190 & 80+ & 60+ & 1* & \\
+                 &  & 180-190 & 80+ & 60+ & 1* &\\
+                 &  & 170-180 & 60-80 & 60+ & 1* & \\
+                 &  & 170-180 & 60-80 & 20-60 & 6* &\\
+                 &  & 170-180 & 60-80 & 20-60 & 6* & 
+      \end{tabular}
+      \caption{2-anonymity: the database can be partitioned in sets of at least 2 records}
+    \end{table}
   }
 
-  \only<3>{
-    \begin{tabular}{l|l|l|l|l|l|l}
-      Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-      \hline
-      06/07 &  & 180-190 & 80+ & 60+ & 1* & \\
-      06/14 &  & 180-190 & 80+ & 60+ & 1* &\\
-      06/12 &  & 170-180 & 60-80 & 60+ & 1* & \\
-      01/01 &  & 170-180 & 60-80 & 20-60 & 6* &\\
-      05/08 &  & 170-180 & 60-80 & 20-60 & 6* & 
-    \end{tabular}
-    1-anonymity
-  }
-}
-\only<4>{
-  \begin{table}[H]
-  \begin{tabular}{l|l|l|l|l|l|l}
-    Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-    \hline
-     &  & 180-190 & 80+ & 60+ & 1* & \\
-     &  & 180-190 & 80+ & 60+ & 1* &\\
-     &  & 170-180 & 60-80 & 60+ & 1* & \\
-     &  & 170-180 & 60-80 & 20-60 & 6* &\\
-     &  & 170-180 & 60-80 & 20-60 & 6* & 
-  \end{tabular}
-  \caption{2-anonymity: the database can be partitioned in sets of at least 2 records}
-\end{table}
-}
-
+  \only<article>{However, with enough information, somebody may still be able to infer something about the indivduals}
 \end{frame}
 
 
 
 
 
-
-
+\section{Differential privacy}
+\only<article>{While $k$-anonymity can protect against specific re-identification attacks when used with care, it says little about what to do when the adversary has a lot of power. For example, if the  adversary knows the data of everybody that has participated in the database,  it is trivial for them to infer what our own data is. Differential privacy offers protection against adversaries with unlimited side-information or computational power. Informally, an algorithmic computation is differentially-private if an adversary cannot distinguish two similar database based on the result of the computation. While the notion of similarity is for the analyst to defined, a common is to say that two databases are similar when they are identical apart from the data of one person.}
 
 \begin{frame}
-\begin{figure}[H]
-  \begin{tikzpicture}
-    \node[label=left:$x$] at (0,0) (data) {\includegraphics[width=0.2\columnwidth]{../figures/medical}};
+  \begin{figure}[H]
+    \begin{tikzpicture}
+      \node[label=left:$x$] at (0,0) (data) {\includegraphics[width=0.2\columnwidth]{../figures/medical}};
 
-    \node[label=$x_1$] at (-2,3)(patient1) {\includegraphics[width=0.1\columnwidth]{../figures/me-recent}};
-    \uncover<3->{
-      \node[label=$x_2$] at (2,3) (patient2) {\includegraphics[width=0.2\columnwidth]{../figures/judge}};
-    }
-    \uncover<4->{
-      \node[label=$a$] at (4,0)   (statistics) {\includegraphics[width=0.3\columnwidth]{../figures/coronary-disease}};
-    }
-    \uncover<2->{
-      \draw[->] (patient1) -- (data);
-    }
-    \uncover<3->{
-      \draw[->] (patient2) -- (data);
-    }
-    \uncover<4->{
-      \draw[->] (data) -- node[above]{$\pol$} (statistics);
-    }
-    \uncover<5->{
-      \draw[line width=5, red, ->] (statistics) -- (patient2);
-    }
-  \end{tikzpicture}
-  \caption{If two people contribute their data $x = (x_1, x_2)$ to a medical database, and an algorithm $\pol$ computes some public output $a$ from $x$, then it should be hard infer anything about the data from the public output.}
-\end{figure}
+      \node[label=$x_1$] at (-2,3)(patient1) {\includegraphics[width=0.1\columnwidth]{../figures/me-recent}};
+      \uncover<3->{
+        \node[label=$x_2$] at (2,3) (patient2) {\includegraphics[width=0.2\columnwidth]{../figures/judge}};
+      }
+      \uncover<4->{
+        \node[label=$a$] at (4,0)   (statistics) {\includegraphics[width=0.3\columnwidth]{../figures/coronary-disease}};
+      }
+      \uncover<2->{
+        \draw[->] (patient1) -- (data);
+      }
+      \uncover<3->{
+        \draw[->] (patient2) -- (data);
+      }
+      \uncover<4->{
+        \draw[->] (data) -- node[above]{$\pol$} (statistics);
+      }
+      \uncover<5->{
+        \draw[line width=5, red, ->] (statistics) -- (patient2);
+      }
+    \end{tikzpicture}
+    \caption{If two people contribute their data $x = (x_1, x_2)$ to a medical database, and an algorithm $\pol$ computes some public output $a$ from $x$, then it should be hard infer anything about the data from the public output.}
+  \end{figure}
 
 \end{frame}
 
-\section{Differential privacy.}
+
 
 \begin{frame}
   \frametitle{The prevalence of drug use in sport}
@@ -219,11 +234,11 @@
     \end{block}
 
     If the rate of positive responses is $p$, everybody follows the protocol, and the coin is fair, what is the true rate $q$ of drug use?
-    }
+  }
   \only<presentation>{
     \uncover<3>{
       \[
-        p = 1/2 + q/2 \Rightarrow q = 1/2
+      p = 1/2 + q/2 \Rightarrow q = 1/2
       \]
     }
   }
@@ -236,7 +251,7 @@
   \begin{definition}[Randomised response]
     The $i$-th user, whose data is $x_i \in \CX$ , responds with $y_i \in \CX$ with probability
     \[
-      \Pr(y_i = j \mid x_i = k) = p_{kj},
+    \Pr(y_i = j \mid x_i = k) = p_{kj},
     \]
     where $p_{kk} > p_{kj} \forall j \neq k$.
   \end{definition}
@@ -279,14 +294,17 @@
 
 \begin{frame}
   \frametitle{Differential privacy.}
-
+  \includegraphics[width=0.2\textwidth]{../figures/dwork} \hspace{1em}
+  \includegraphics[width=0.2\textwidth]{../figures/mcsherry} \hspace{1em}
+  \includegraphics[width=0.2\textwidth]{../figures/nissim} \hspace{1em}
+  \includegraphics[width=0.2\textwidth]{../figures/smith}
   \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from a computation.}
-
+  
   \begin{definition}[$\epsilon$-Differential Privacy]
-    A stochastic algorithm $\pol : \CX \to \CY$, where $\CX$ is endowed with a neighbourhood relation $N$, is said to be $\epsilon$-differentially private if
+    A stochastic algorithm $\pol : \CX \to \CA$, where $\CX$ is endowed with a neighbourhood relation $N$, is said to be $\epsilon$-differentially private if
     \begin{equation}
       \label{eq:epsilon-dp}
-      \pol(y \mid x) \leq \pol(y \mid x'), \qquad \forall x N x'.
+      \left|\ln \frac{\pol(a \mid x)}{\pol(a \mid x')}\right| \leq \epsilon , \qquad \forall x N x'.
     \end{equation}
   \end{definition}
   
