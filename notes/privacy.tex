@@ -208,10 +208,32 @@
 
 \end{frame}
 
+\begin{frame}
+  \frametitle{Privacy desiderata}
+  \only<article>{
+    Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation $f(x)$ on the data and published the result. The following properties are desirable from a general standpoint.
 
+    \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database.
+
+    \paragraph{Secrecy.} The data of individuals is not revealed. The release does not significantly increase the probability of inferring individual's information $x_i$.
+
+    \paragraph{Side-information.} Even if an adversary has arbitrary side-information, he cannot use that to amplify the amount of knowledge he would have obtained from the release.
+
+    \paragraph{Utility.} The released result has, with high probability, only a small error relative to a calculation that does not attempt to safeguard privacy.
+  }
+  \only<presentation>{
+    We wish to calculate something on some private data and publish a \alert{privacy-preserving}, but \alert{useful}, version of the result.
+    \begin{itemize}
+    \item Anonymity: Individual participation remains hidden.
+    \item Secrecy: Individual data $x_i$ is not revealed.
+    \item Side-information: Linkage attacks are not possible.
+    \item Utility: The calculation remains useful.
+    \end{itemize}
+  }
+\end{frame}
 
 \begin{frame}
-  \frametitle{The prevalence of drug use in sport}
+  \frametitle{Example: The prevalence of drug use in sport}
   
   \only<article>{
     Let's say you need to perform a statistical analysis of the drug-use habits of athletes. Obviously, even if you promise the athlete not to reveal their information, you still might not convince them. Yet, you'd like them to be truthful. The trick is to allow them to randomly change their answers, so that you can't be \emph{sure} if they take drugs, no matter what they answer.
@@ -221,6 +243,7 @@
     \begin{itemize}
     \item $n$ athletes
     \item Ask whether they have doped in the past year.
+    \item Aim: calculate \% of doping.
     \item How can we get truthful / accurate results?
     \end{itemize}
   }
@@ -249,47 +272,47 @@
   \frametitle{The randomised response mechanism}
   \only<article>{The above idea can be generalised. Consider we have data $x_1, \ldots, x_n$ from $n$ users and we transform it randomly to $y_1, \ldots, y_n$ using the following mapping.}
   \begin{definition}[Randomised response]
-    The $i$-th user, whose data is $x_i \in \CX$ , responds with $y_i \in \CX$ with probability
+    The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
     \[
-    \Pr(y_i = j \mid x_i = k) = p_{kj},
+    \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
     \]
-    where $p_{kk} > p_{kj} \forall j \neq k$.
+    where $j \neq k$.
   \end{definition}
-  \only<article>{This mechanism satisfies so-called $\epsilon$-differential privacy.}
+
+  \uncover<2->{Given the complete data $x$, the mechanism's output is $a = (a_1, \ldots, a_n)$.}
+  \uncover<3->{Since the algorithm independently calculates a new value for each data entry, the output is
+    \[
+    \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
+    \]
+  }
+
+  \only<article>{This mechanism satisfies so-called $\epsilon$-differential privacy, which we will define later.}
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{The statistical privacy framework}
-  
-  \begin{tikzpicture}
-    \node at (0,0) (x) {Data};
-    \node at (4,2) (mech) {Algorithm};
-    \node at (4,0) (private) {Output};
-    \node at (8,0) (access) {Observer};
-    \draw [->] (x) -- (private);
-    \draw [->] (mech) --(private);
-    \draw [<->] (private) -- (access);
-  \end{tikzpicture}
-
-  \only<article>{
-    Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation $f(x)$ on the data and published the result. The following properties are desirable from a general standpoint.
-
-    \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database.
-
-    \paragraph{Secrecy.} The data of individuals is not revealed. The release does not significantly increase the probability of inferring individual's information $x_i$.
-
-    \paragraph{Side-information.} Even if an adversary has arbitrary side-information, he cannot use that to amplify the amount of knowledge he would have obtained from the release.
-
-    \paragraph{Utility.} The released result has, with high probability, only a small error relative to a calculation that does not attempt to safeguard privacy.
-  }
-  \only<presentation>{
-    \begin{itemize}
-    \item Anonymity: Individual participation remains hidden.
-    \item Secrecy: Individual data $x_i$ is not revealed.
-    \item Side-information: Linkage attacks are not possible.
-    \item Utility: The calculation remains useful.
-    \end{itemize}
-  }
+  \frametitle{The local privacy model}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,1) (x2) {$x_2$};
+      \node[RV] at (0,2) (xn) {$x_n$};
+      \node[select] at (1,-1) (pol) {$\pol$};
+      \node[RV] at (2,0) (a1) {$a_1$};
+      \node[RV] at (2,1) (a2) {$a_2$};
+      \node[RV] at (2,2) (an) {$a_n$};
+      \draw[->] (x1) -- (a1);
+      \draw[->] (x2) -- (a2);
+      \draw[->] (xn) -- (an);
+      \draw[->] (pol) -- (a1);
+      \draw[->] (pol) -- (a2);
+      \draw[->] (pol) -- (an);
+    \end{tikzpicture}
+    
+    \caption{The local privacy model}
+    \label{fig:local-privacy}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
@@ -316,15 +339,78 @@
     A slightly weaker definition of neighbourhood is to say that $x N x'$ if $x' = (x_1, \ldots, x_{i-1}, x'_i, x_{i+1} x_n)$, i.e. if one dataset has an altered element.
 
   }
+\end{frame}
 
-  \begin{remark}
-    Any differentially private algorithm must be stochastic.
-  \end{remark}
+\begin{frame}
   \only<article>{
+    \begin{remark}
+      Any differentially private algorithm must be stochastic.
+    \end{remark}
+
     To prove that this is necessary, consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.}
   \begin{remark}
-    The randomised response mechanism is $\epsilon$-DP.
+    The randomised response mechanism with $p \leq 1/2$ is $\ln \frac{1 - p}{p}$-DP.
   \end{remark}
+  \begin{proof}
+    Consider $x = (x_1, \ldots, x_i,  \ldots, x_n)$, $x' = (x_1, \ldots, x'_i,  \ldots, x_n)$. Then
+    \begin{align*}
+      \pol(a \mid x)
+      \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
+      \uncover<3->{\\ &= \pol(a_j \mid x_j') \prod_{i \neq j} \pol(a_i \mid x_i) }
+      \uncover<4->{\\ &\leq \frac{p}{1 - p} \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+      \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
+    \end{align*}
+    \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[rectangle] at (0,0) (python) {Python program};
+      \node[rectangle] at (8,0) (database) {Database System};
+      \draw[->, >=latex, blue!20!white, line width=15pt, bend right]   (python) to node[black]{Query $q$} (database) ;
+      \draw[->, >=latex, blue!20!white, line width=15pt, bend right]   (database) to node[black]{Private response $a$} (python) ;
+    \end{tikzpicture}
+    \label{fig:database-access}
+    \caption{Private database access model}
+  \end{figure}
+  \begin{block}{Response policy}
+    The  policy defines a distribution over responses $a$ given the data $x$ and the query $q$.
+    \[
+    \pol(a \mid x, q)
+    \]
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Differentially private queries}
+  \begin{block}{The \texttt{SELECT} statement}
+    \begin{itemize}
+    \item \texttt{SELECT column1, column2 FROM table;}
+      \only<article>{This selects only some columns from the table}
+    \item \texttt{SELECT * FROM table;}
+      \only<article>{This selects all the columns from the table}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Selecting rows}
+    \texttt{SELECT * FROM table WHERE column = value;}
+  \end{block}
+
+  \begin{exampleblock}{Arithmetic queries}
+    \only<article>{Here are some example SQL statements}
+    \begin{itemize}
+    \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
+      \only<article>{This allows you to count the number of rows matching \texttt{condition}}
+    \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
+      \only<article>{This lets you to count the number of rows matching \texttt{condition}}
+    \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
+      \only<article>{This is used to sum up the values in a column.}
+    \end{itemize}
+  \end{exampleblock}
+
 \end{frame}
 
 \begin{frame}
@@ -342,6 +428,7 @@
   \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
 
 \end{frame}
+
 
 \begin{frame}
   \frametitle{The Exponential Mechanism.}
