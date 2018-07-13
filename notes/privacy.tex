@@ -416,7 +416,11 @@
 \begin{frame}
   \frametitle{The Laplace mechanism.}
   \only<article>{
-    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise. 
+    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise, so that the output of the algorithm is simply 
+    \[
+    a = f(x) + \omega, \qquad \omega \sim \Laplace.
+    \]
+    The amount of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have.
   }
   \begin{definition}[The Laplace mechanism]
     For any function $f : \CX \to \Reals$, 
@@ -427,6 +431,31 @@
   \end{definition}
   \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
 
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{itemize}
+    \item 
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{DP properties of the Laplace mechanism}
+  \begin{definition}[Sensitivity]
+    The sensitivity of a function $f$ is
+    \[
+    \Delta(f) \defn \sup_{x N x'} |f(x) - f(x')|
+    \]
+    \only<article>{
+      When $x$ are in a metric space equipped with metric $d$, this can be written as
+      \[
+      \Delta(f) \defn \sup_{x, x'} |f(x) - f(x')| / d(x, x').
+      \]
+      The two definitions are equivalent when $d(x, x') = 1$ for $x N x'$.
+    }
+  \end{definition}
 \end{frame}
 
 
