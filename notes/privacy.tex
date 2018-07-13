@@ -386,11 +386,11 @@
 
 \begin{frame}
   \frametitle{Differentially private queries}
-  \begin{block}{The \texttt{SELECT} statement}
+  \begin{block}{The \texttt{DP-SELECT} statement}
     \begin{itemize}
-    \item \texttt{SELECT column1, column2 FROM table;}
+    \item \texttt{DP-SELECT column1, column2 FROM table;}
       \only<article>{This selects only some columns from the table}
-    \item \texttt{SELECT * FROM table;}
+    \item \texttt{DP-SELECT * FROM table;}
       \only<article>{This selects all the columns from the table}
     \end{itemize}
   \end{block}
@@ -402,15 +402,19 @@
   \begin{exampleblock}{Arithmetic queries}
     \only<article>{Here are some example SQL statements}
     \begin{itemize}
-    \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
+    \item  \texttt{DP-SELECT COUNT(column) FROM table WHERE condition;}
       \only<article>{This allows you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
+    \item  \texttt{DP-SELECT AVG(column) FROM table WHERE condition;}
       \only<article>{This lets you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
+    \item  \texttt{DP-SELECT SUM(column) FROM table WHERE condition;}
       \only<article>{This is used to sum up the values in a column.}
     \end{itemize}
   \end{exampleblock}
 
+  \begin{alertblock}{Cumulative privacy loss}
+    Depending on the DP scheme, each query answered may leak privacy.
+    \only<article>{In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can bound the total privacy loss.}
+  \end{alertblock}
 \end{frame}
 
 \begin{frame}
@@ -426,50 +430,92 @@
     For any function $f : \CX \to \Reals$, 
     \begin{equation}
       \label{eq:laplace-mechanism}
-      \pol(a \mid x) = \Laplace(f(x), \lambda).
+      \pol(a \mid x) = \Laplace(f(x), \lambda),
     \end{equation}
+    where the Laplace density is defined as
+    \[
+    p(\omega \mid \mu, \lambda) = \frac{1}{2 \lambda} \exp\left(-\frac{|\omega - \mu|}{\lambda}\right).
+    \]
   \end{definition}
   \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
-
 \end{frame}
 
 \begin{frame}
-  \begin{example}
+  \begin{example}[Calculating the average salary]
     \begin{itemize}
-    \item 
+    \item The $i$-th person receives salary $x_i$
+    \item We wish to calculate the average salary in a private manner.
     \end{itemize}
   \end{example}
+  \begin{block}{Local privacy model}
+    \begin{itemize}
+    \item Obtain $y_i = x_i + \omega$, where $\omega \sim \Laplace(\lambda)$.
+    \item Return $a = n^{-1} \sum_{i=1}^n y_i$.
+    \end{itemize}
+  \end{block}
+  \begin{block}{Centralised privacy model}
+     Return $a = n^{-1} \sum_{i=1}^n x_i + \omega$, where $\omega \sim \Laplace(\lambda')$.
+  \end{block}
+  
+  How should we add noise in order to guarantee privacy?
 \end{frame}
+
 
 \begin{frame}
   \frametitle{DP properties of the Laplace mechanism}
   \begin{definition}[Sensitivity]
     The sensitivity of a function $f$ is
     \[
-    \Delta(f) \defn \sup_{x N x'} |f(x) - f(x')|
+    \sensitivity{f} \defn \sup_{x N x'} |f(x) - f(x')|
     \]
     \only<article>{
-      When $x$ are in a metric space equipped with metric $d$, this can be written as
+      If we define a metric $d$, so that $d(x, x') = 1$ for $x N x'$, then:
       \[
-      \Delta(f) \defn \sup_{x, x'} |f(x) - f(x')| / d(x, x').
+       |f(x) - f(x')| \leq \sensitivity{f} d(x, x'),
       \]
-      The two definitions are equivalent when $d(x, x') = 1$ for $x N x'$.
+      i.e. $f$ is $\sensivity{f}$-Lipschitz with respect to $d$.
     }
   \end{definition}
+  \begin{theorem}
+    The Laplace mechanism on a function $f$ ran with $\Laplace(\lambda)$ is $\sensitivity{f} / \lambda$-DP.
+  \end{theorem}
+  \begin{proof}
+    \begin{align*}
+      \frac{\pol(a \mid x)}{\pol(a \mid x')}
+      &=
+      \frac{e^{|a - f(x')|/\lambda}}{e^{|a - f(x)|/\lambda}}
+      \leq
+      \frac{e^{|a - f(x)|/\lambda + \sensitivity{f}/\lambda}}{e^{|a - f(x)|/\lambda}}
+        = e^{\sensitivity{f} / \lambda}
+    \end{align*}
+  \end{proof}
 \end{frame}
 
+\begin{frame}
+  Here let is assume $x_i \in [0, M]$ for all $i$.
+  \begin{block}{Laplace in the local privacy model}
+    The sensitivity of the individual data is $M$, so to obtain $\epsilon$-DP we need to use $\lambda = M / \epsilon$.
+
+    The variance of $a$ is $M / \epsilon \sqrt{n}$.
+  \end{block}
+  \begin{block}{Laplace in the centralised privacy model}
+    The sensitivity of $f$ is $M / n$, so we need to use $\lambda = M / n\epsilon$.
+
+    The variance of $a$ is $M / \epsilon n$.
+  \end{block}
+\end{frame}
 
 \begin{frame}
   \frametitle{The Exponential Mechanism.}
   \only<article>{
     Here we assume that we can answer queries $q$, whereby each possible answer $a$ to the query has a different utility to the DM: $\util(q, a, x)$.
-    Let $\Delta \util(q) \defn \sup_{x N x'} |\util(q, a, x) -\util(q, a, x)|$ denote the sensitivity of a query. Then the following mechanism is $\epsilon$-differentially private.
+    Let $\sensitivity{\util(q)} \defn \sup_{x N x'} |\util(q, a, x) -\util(q, a, x)|$ denote the sensitivity of a query. Then the following mechanism is $\epsilon$-differentially private.
   }
   \begin{definition}[The Exponential mechanism]
     For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy
     \begin{equation}
       \label{eq:exponential-mechanism}
-      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \Delta \util(q)}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \Delta \util(q)}}
+      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}}
     \end{equation}
   \end{definition}
   \only<article>{
