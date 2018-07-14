@@ -251,8 +251,8 @@
     \begin{block}{Algorithm for randomising responses about drug use}
       \begin{enumerate}
       \item Flip a coin.
-      \item If it comes heads, respond \texttt{Yes}.
-      \item Otherwise, respond truthfully.
+      \item If it comes heads, respond truthfully. 
+      \item Otherwise, flip another coin and respond \texttt{yes} if it comes heads and \texttt{no} otherwise.
       \end{enumerate}
     \end{block}
 
@@ -298,16 +298,16 @@
       \node[RV] at (0,0) (x1) {$x_1$};
       \node[RV] at (0,1) (x2) {$x_2$};
       \node[RV] at (0,2) (xn) {$x_n$};
-      \node[select] at (1,-1) (pol) {$\pol$};
       \node[RV] at (2,0) (a1) {$a_1$};
       \node[RV] at (2,1) (a2) {$a_2$};
       \node[RV] at (2,2) (an) {$a_n$};
       \draw[->] (x1) -- (a1);
       \draw[->] (x2) -- (a2);
       \draw[->] (xn) -- (an);
-      \draw[->] (pol) -- (a1);
-      \draw[->] (pol) -- (a2);
-      \draw[->] (pol) -- (an);
+%      \node[select] at (1,-1) (pol) {$\pol$};
+%      \draw[->] (pol) -- (a1);
+%      \draw[->] (pol) -- (a2);
+%      \draw[->] (pol) -- (an);
     \end{tikzpicture}
     
     \caption{The local privacy model}
@@ -370,8 +370,8 @@
     \begin{tikzpicture}
       \node[rectangle] at (0,0) (python) {Python program};
       \node[rectangle] at (8,0) (database) {Database System};
-      \draw[->, >=latex, blue!20!white, line width=15pt, bend right]   (python) to node[black]{Query $q$} (database) ;
-      \draw[->, >=latex, blue!20!white, line width=15pt, bend right]   (database) to node[black]{Private response $a$} (python) ;
+      \draw[thickarrow, bend right]   (python) to node[black]{Query $q$} (database) ;
+      \draw[thickarrow, bend right]   (database) to node[black]{Private response $a$} (python) ;
     \end{tikzpicture}
     \label{fig:database-access}
     \caption{Private database access model}
@@ -460,6 +460,26 @@
   How should we add noise in order to guarantee privacy?
 \end{frame}
 
+\begin{frame}
+  \frametitle{The local privacy model}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,1) (x2) {$x_2$};
+      \node[RV] at (0,2) (xn) {$x_n$};
+      \node[RV] at (2,1) (a) {$a$};
+      \node[select] at (1,-1) (pol) {$\pol$};
+      \draw[->] (x1) -- (a);
+      \draw[->] (x2) -- (a);
+      \draw[->] (xn) -- (a);
+      \draw[->] (pol) -- (a);
+    \end{tikzpicture}
+    
+    \caption{The centralised privacy model}
+    \label{fig:centralised-privacy}
+  \end{figure}
+\end{frame}
 
 \begin{frame}
   \frametitle{DP properties of the Laplace mechanism}
@@ -489,22 +509,35 @@
         = e^{\sensitivity{f} / \lambda}
     \end{align*}
   \end{proof}
-\end{frame}
-
-\begin{frame}
-  Here let is assume $x_i \in [0, M]$ for all $i$.
+  
+  What is the effect of applying the Laplace mechanism in the local versus centralised model?
+\only<article>{
+  Here let us assume $x_i \in [0, M]$ for all $i$.
   \begin{block}{Laplace in the local privacy model}
-    The sensitivity of the individual data is $M$, so to obtain $\epsilon$-DP we need to use $\lambda = M / \epsilon$.
-
-    The variance of $a$ is $M / \epsilon \sqrt{n}$.
+    The sensitivity of the individual data is $M$, so to obtain $\epsilon$-DP we need to use $\lambda = M / \epsilon$. The variance of each component is $2M/\epsilon$, so the total variance is $2M/\epsilon n$.
   \end{block}
   \begin{block}{Laplace in the centralised privacy model}
-    The sensitivity of $f$ is $M / n$, so we need to use $\lambda = M / n\epsilon$.
-
-    The variance of $a$ is $M / \epsilon n$.
+    The sensitivity of $f$ is $M / n$, so we need to use $\lambda = M / n\epsilon$. The variance of $a$ is $M / \epsilon n$.
   \end{block}
+}
 \end{frame}
 
+\subsection{Utility of queries}
+
+\begin{frame}
+\only<article>{Rather than saying that we wish to calculate a private version of some specific function $f$, sometimes it is more useful to consider the problem from the perspective of the utility of different answers to queries. More precisely, imagine the interaction between a database system and a user:}
+\begin{block}{Interactive queries}
+  \begin{itemize}
+  \item System has data $x$.
+  \item User asks query $q$.
+  \item System responds with $a$.
+  \item There is a common utility function
+    $\util : \CX, \CA, \CQ \to \Reals$.
+  \end{itemize}
+\end{block}
+\only<article>{The utility $U(x,a,q)$  describes how appropriate each response $a$ given by the system for a query $r$ is given the data $x$. It can be seen as how useful the response is to the user, and allows us to quantify exactly how much we }
+
+\end{frame}
 \begin{frame}
   \frametitle{The Exponential Mechanism.}
   \only<article>{
@@ -518,12 +551,41 @@
       \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}}
     \end{equation}
   \end{definition}
+  \only<presentation>{
+    What happens when $\epsilon \to \infty$? What about when $\epsilon \to 0$?
+  }
   \only<article>{
     Clearly, when $\epsilon \to 0$, this mechanism is uniformly random. When $\epsilon \to \infty$ the action maximising $\util(q,a,x)$ is always chosen.
   }
 \end{frame}
 
 
+\subsection{Privacy and reproducibility}
+
+\begin{frame}
+  \frametitle{The reusable holdout~\cite{dwork2015reusable}\footnote{Also see \url{https://ai.googleblog.com/2015/08/the-reusable-holdout-preserving.html}}}
+  \begin{tikzpicture}
+    \node<1->[rectangle] at (0,4) (prior) {Prior};
+    \node<2->[rectangle] at (0,0) (training) {Training data};
+    \node<3->[rectangle] at (4,4) (posterior) {Posterior};
+    \node<5->[rectangle] at (8,4) (posterior2) {Posterior'};
+    \node<2->[rectangle] at (4,0) (holdout) {Holdout};
+    \node<4->[RV] at (4,2) (result) {Result};
+    \node<5->[RV] at (8,2) (result2) {Result'};
+    \draw<3->[medarrow] (training)--(posterior);
+    \draw<3->[medarrow] (prior)--(posterior);
+    \draw<4->[medarrow] (posterior)--(result);
+    \draw<4->[medarrow] (holdout)--(result);
+    \draw<5->[red,medarrow] (posterior2)--(result2);
+    \draw<5->[red,medarrow] (holdout)--(result2);
+    \draw<5->[red,medarrow] (result)--(posterior2);
+    \draw<5->[red,medarrow] (posterior)--(posterior2);
+  \end{tikzpicture}
+  \only<article>{In the ideal data analysis, we start from some prior hypothesis, then obtain some data, which we split into training and holdout. We then examine the training data and obtain a posterior that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
+
+However, this is not what happens in general. Analysts typically use the same holdout repeatedly, in order to improve the performance of their algorithms. This can be seen as indirectly using the holdout data to obtain a new posterior, and so it is possible that you can overfit on the holdout data, even if you never directly see it. It turns out we can solve this problem if we use differential privacy, so that the analyst only sees a differentially private version of queries.
+}
+\end{frame}
 
 %%% Local Variables:
 %%% mode: latex
