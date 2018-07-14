@@ -20,8 +20,8 @@
       \begin{tabular}{l|l|l|l|l|l|l}
         Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
         \hline
-        06/07 & \only<1>{Mike Pence} & 190 & 80 & 60-70 & 1001 & Politician\\
-        06/14 & \only<1>{Donald Trump} & 185 & 110 & 70+ & 1001 & Rentier\\
+        06/07 & \only<1>{Li Pu} & 190 & 80 & 60-70 & 1001 & Politician\\
+        06/14 & \only<1>{Sara Lee} & 185 & 110 & 70+ & 1001 & Rentier\\
         01/01 & \only<1>{A. B. Student} & 170 & 70 & 40-60 & 6732 & Time Traveller
       \end{tabular} 
     \end{table}
@@ -73,8 +73,8 @@
       \begin{tabular}{l|l|l|l|l|l|l}
         ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
         \hline
-        1959060783 & Mike Pence & 150,000 & 1e6 & 60 & 1001 & Politician\\
-        1946061408 & Donald Trump & 300,000 & -1e9 & 72 & 1001 & Rentier\\
+        1959060783 & Li Pu & 150,000 & 1e6 & 60 & 1001 & Politician\\
+        1946061408 & Sara Lee & 300,000 & -1e9 & 72 & 1001 & Rentier\\
         2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 6732 & Time Traveller
       \end{tabular}
     \end{table}
@@ -116,9 +116,9 @@
       \begin{tabular}{l|l|l|l|l|l|l}
         Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
         \hline
-        06/07 & Mike Pence & 190 & 80 & 60+ & 1001 & Politician\\
-        06/14 & Donald Trump & 185 & 110 & 60+ & 1001 & Rentier\\
-        06/12 & John Bolton & 170 & 60 & 60+ & 1243 & Politician\\
+        06/07 & Li Pu & 190 & 80 & 60+ & 1001 & Politician\\
+        06/14 & Sara Lee & 185 & 110 & 60+ & 1001 & Rentier\\
+        06/12 & Nikos Papadopoulos & 170 & 60 & 60+ & 1243 & Politician\\
         01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller\\
         05/08 & Li Yang & 175 & 72 & 30-40 & 6910 & Time Traveller
       \end{tabular}
@@ -563,7 +563,7 @@
 \subsection{Privacy and reproducibility}
 
 \begin{frame}
-  \frametitle{The reusable holdout~\cite{dwork2015reusable}\footnote{Also see \url{https://ai.googleblog.com/2015/08/the-reusable-holdout-preserving.html}}}
+\frametitle{The unfortunate practice of adaptive analysis}
   \begin{tikzpicture}
     \node<1->[rectangle] at (0,4) (prior) {Prior};
     \node<2->[rectangle] at (0,0) (training) {Training data};
@@ -587,6 +587,21 @@ However, this is not what happens in general. Analysts typically use the same ho
 }
 \end{frame}
 
+
+\begin{frame}
+    \frametitle{The reusable holdout~\cite{dwork2015reusable}\footnote{Also see \url{https://ai.googleblog.com/2015/08/the-reusable-holdout-preserving.html}}}
+    \only<article>{One idea to solve this problem is to only allow the analyst to see a private version of the result. In particular, the analyst will only see whether or not the holdout result is $\tau$-close to the training result.}
+
+    \begin{block}{Algorithm parameters}
+      \begin{itemize}
+      \item Performance measure $f$.
+      \item Threshold $\tau$. \only<article>{How close do we want $f$ to be on the training versus holdout set?}
+      \item Noise $\sigma$. \only<article>{How much noise should we add?}
+      \item Budget $B$. \only<article>{How much are we allowed to learn about the holdout set?}
+
+      \end{itemize}
+    \end{block}
+\end{frame}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex

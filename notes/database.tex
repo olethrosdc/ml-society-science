@@ -29,8 +29,8 @@
     \begin{tikzpicture}
         \node[rectangle] at (0,0) (python) {Python program};
         \node[rectangle] at (8,0) (database) {Database System};
-        \draw[->, >=latex, blue!20!white, line width=15pt, bend right]   (python) to node[black]{Query} (database) ;
-        \draw[->, >=latex, blue!20!white, line width=15pt, bend right]   (database) to node[black]{response} (python) ;
+        \draw[thickarrow, bend right]   (python) to node[black]{Query} (database) ;
+        \draw[thickarrow, bend right]   (database) to node[black]{response} (python) ;
       \end{tikzpicture}
     \label{fig:database-access}
     \caption{Database access model}
