@@ -1,15 +1,35 @@
-\section{Reading assignments}
+\section{Reproducibility and holdout sets}
+\begin{frame}
+  \frametitle{Finding important features}
+  \only<article>{What features can best explain a difference between two classes?}
+\end{frame}
 
-First, read \url{https://openlab-flowers.inria.fr/t/how-many-random-seeds-should-i-use-statistical-power-analysis-in-deep-reinforcement-learning-experiments/457}
+\begin{frame}
+  \frametitle{Compare the average difference of features between two classes.}
+\end{frame}
 
-\citet{wang2017deep} published a study where they train a model to classify faces as heterosexual or homosexual. This was widely reported in the press as \emph{neural networks can tell if you're gay with 81\% accuracy.} Is this a correct interpretation? What are the conclusions you can actually draw from that study? In particular, how see page 16 in the study above as well as the author notes \url{https://docs.google.com/document/d/11oGZ1Ke3wK9E3BtOFfGfUQuuaSMR8AO2WfWH3aVke6U/edit#heading=h.azz3c29et2ox}
+\begin{frame}
+  \frametitle{Holdout sets}
+  \only<article>{
+    Your typical algorithm $\alg$ will take some data $x$ and produce some output $y$. Before even trying to interpret this $y$, you must consider first how the $y$ 
+  }
+  \only<presentation>{
+    \begin{itemize}
+    \item
+    \end{itemize}
+  }
+\end{frame}
 
-The authors are a bit unclear about their accuracy measure, but it
-seems to be the area under the curve. For some more information, check
-the work by \citet{bengio2005expected}. Is this a reasonable metric to
-use for performance? Is it possible to extract the probability of the
-model correctly classifying somebody as gay from the information given
-in the paper?  What sources of bias might the study have?
+\begin{frame}
+  \frametitle{Bootstrapping}
+  \only<article>{Bootstrapping is a general technique that can be used to }
+  \begin{itemize}
+  \item Estimate the sensitivity of $\alg$ to the data $x$
+  \item Obtain a distribution of estimates $y$ from $\alg$ and the data $x$.
+  \end{itemize}
+\end{frame}
+
+
 
 
 %%% Local Variables:

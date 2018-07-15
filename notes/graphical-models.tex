@@ -1,27 +1,31 @@
 \subsection{Graphical models}
-\only<article>{
-  A graphical model is a convenient way to represent known dependencies between variables. There are many variants of graphical models, whose name is context dependent. Other names used in the literature are probabilistic graphical models, Bayesian networks, causal graphs, or decision diagrams. In this set of notes we focus on directed graphical models that depict dependencies between ranom variables.
 
- \begin{definition}[Directed graphical model] is a collection of $n$ random variables $x_i : \Omega \to X_i$, and let $X \defn \prod_i X_i$, with underlying probability measure $P$ on $\Omega$.
-  Let $\bx = (x_i)_{i=1}^n$ and for any subset $B \subset[n]$ let
-  \begin{align}
-    \bx_B &\defn (x_i)_{i \in B}\\
-    \bx_{-j} &\defn (x_i)_{i \neq i}
-  \end{align}
-\end{definition}
-}
 \begin{frame}
-  \frametitle{Graphical models and independence}
+  \frametitle{Graphical models}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (xi) {$x_3$};
+      \node[RV] at (0,0) (xB) {$x_1$};
+      \node[RV] at (1,1) (xD) {$x_2$};
+      \draw[->] (xB)--(xD);
+      \draw[->] (xD)--(xi);
+      \draw[->] (xB)--(xi);
+    \end{tikzpicture}
+    \label{fig:bn}
+    \caption{Graphical model for three variables.}
+  \end{figure}
+
   \begin{block}{Joint probability}
     Let $\bx = (x_1, \ldots, x_n)$. Then $\bx : \Omega \to X$, $X = \prod_i X_i$ and:
     \[
-      \Pr(\bx \in A) = P(\cset{\omega \in \Omega}{\bx(\omega) \in A}).
+    \Pr(\bx \in A) = P(\cset{\omega \in \Omega}{\bx(\omega) \in A}).
     \]
   \end{block}
   \only<article>{
     When $X_i$ are finite, we can typically write
     \[
-      \Pr(\bx = \ba) = P(\cset{\omega \in \Omega}{\bx(\omega) = \ba}),
+    \Pr(\bx = \ba) = P(\cset{\omega \in \Omega}{\bx(\omega) = \ba}),
     \]
     for the probability that $x_i = a_i$ for all $i \in [n]$.
   }
@@ -30,30 +34,155 @@
       For any subsets $B \subset [n]$ and its complement $C$ so that
       $\bx_B = (x_i)_{i \in B}$,     $\bx_C = (x_i)_{i \notin B}$
     }
+  \only<1>{
     \[
-      \Pr(\bx) = \Pr(\bx_B \mid \bx_C) \Pr(\bx_C)
+    \Pr(\bx) = \Pr(\bx_B \mid \bx_C) \Pr(\bx_C)
+    \only<presentation>{,\qquad B, C \subset [n]}
     \]
-  \end{block}
-  \begin{block}{Conditional independence}
-    We say $x_i$ is conditionally independent of $\bx_B$ given $\bx_D$ and write $x_i \mid \bx_D \indep \bx_B$ iff
+  }
+  \uncover<2->{
+    So we can write any joint distribution as
     \[
-      \Pr(x_i, \bx_B \mid \bx_D)
-      =
-      \Pr(x_i \mid \bx_D)
-      \Pr(\bx_D \mid \bx_B).
+    \Pr(x_1) \Pr(x_2 \mid x_1) \Pr(x_3 \mid x_1, x_2) \cdots \Pr(x_n \mid x_1, \ldots, x_{n-1}).
     \]
+    But this is too complicated!
+  }
   \end{block}
-  \only<article>{In a Graphical model, conditional independence is represented through directed edges.}
+\end{frame}
+\begin{frame}
+  \frametitle{Directed graphical models and conditional independence}
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-      \node[RV] at (2,0) (xi) {$x_i$};
-      \node[RV] at (0,0) (xB) {$x_j$};
-      \node[RV] at (1,0) (xD) {$x_k$};
+      \node[RV] at (2,0) (xi) {$x_3$};
+      \node[RV] at (0,0) (xB) {$x_1$};
+      \node[RV] at (1,1) (xD) {$x_2$};
       \draw[->] (xB)--(xD);
       \draw[->] (xD)--(xi);
     \end{tikzpicture}
     \label{fig:bn}
-    \caption{Graphical model exhibiting the factorisation $\Pr(x_i \mid x_j) \Pr(x_j \mid x_k)$.}
+    \caption{Graphical model for the factorisation $\Pr(x_1 \mid x_2) \Pr(x_2 \mid x_3) \Pr(x_3)$.}
   \end{figure}
+  \begin{block}{Conditional independence}
+    We say $x_i$ is conditionally independent of $\bx_B$ given $\bx_D$ and write $x_i \mid \bx_D \indep \bx_B$ iff
+    \[
+    \Pr(x_i, \bx_B \mid \bx_D)
+    =
+    \Pr(x_i \mid \bx_D)
+    \Pr(\bx_D \mid \bx_B).
+    \]
+  \end{block}
+
+  \frametitle{Graphical models}
+  \only<article>{
+    A graphical model is a convenient way to represent conditional independence between variables. There are many variants of graphical models, whose name is context dependent. Other names used in the literature are probabilistic graphical models, Bayesian networks, causal graphs, or decision diagrams. In this set of notes we focus on directed graphical models that depict dependencies between ranom variables.
+
+    \begin{definition}[Directed graphical model] is a collection of $n$ random variables $x_i : \Omega \to X_i$, and let $X \defn \prod_i X_i$, with underlying probability measure $P$ on $\Omega$.
+      Let $\bx = (x_i)_{i=1}^n$ and for any subset $B \subset[n]$ let
+      \begin{align}
+        \bx_B &\defn (x_i)_{i \in B}\\
+        \bx_{-j} &\defn (x_i)_{i \neq i}
+      \end{align}
+    \end{definition}
+  }
+  \only<article>{In a Graphical model, conditional independence is represented through directed edges.}
+
+
 \end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    Factorise the following graphical model.
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (1,-1) (x2) {$x_2$};
+      \node[RV] at (1,1) (x3) {$x_3$};
+      \node[RV] at (2,0) (x4) {$x_4$};
+      \draw[->] (x1)--(x2);
+      \draw[->] (x1)--(x3);
+    \end{tikzpicture}
+  \end{exercise}
+  \uncover<2>{
+    \[
+    \Pr(\bx)
+    = \Pr(x_1) \Pr(x_2 \mid x_1) \Pr(x_3 \mid x_1) \Pr(x_4)
+    \]
+  }
+
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    Factorise the following graphical model.
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (1,-1) (x2) {$x_2$};
+      \node[RV] at (1,1) (x3) {$x_3$};
+      \node[RV] at (2,0) (x4) {$x_4$};
+      \draw[->] (x1)--(x2);
+      \draw[->] (x1)--(x3);
+      \draw[->] (x3)--(x4);
+    \end{tikzpicture}
+  \end{exercise}
+  \uncover<2>{
+    \[
+    \Pr(\bx)
+    = \Pr(x_1) \Pr(x_2 \mid x_1) \Pr(x_3 \mid x_1) \Pr(x_4 \mid x_3)
+    \]
+  }
+
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    What dependencies does the following factorisation imply?
+    \[
+    \Pr(\bx)
+    = \Pr(x_1) \Pr(x_2 \mid x_1) \Pr(x_3 \mid x_1) \Pr(x_4 \mid x_2, x_3)
+    \]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (1,-1) (x2) {$x_2$};
+      \node[RV] at (1,1) (x3) {$x_3$};
+      \node[RV] at (2,0) (x4) {$x_4$};
+    \uncover<2>{
+      \draw[->] (x1)--(x2);
+      \draw[->] (x1)--(x3);
+      \draw[->] (x3)--(x4);
+      \draw[->] (x2)--(x4);
+    }
+    \end{tikzpicture}
+  \end{exercise}
+  \begin{alertblock}{Conditional independence}
+    There is an algorithm for deciding conditional independence of any two variables in a graphical model.
+    \only<article>{However, this is beyond the scope of these notes. Here, we shall just use these models as a way to encode dependencies that we assume exist.}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}
+ \frametitle{Measuring independence}
+ \only<article>{The simplest way to measure independence is by looking at whether or not}
+
+ \begin{theorem}
+   If $x_i \mid \bx_D \indep \bx_B$ then
+    \[
+    \Pr(x_i \mid \bx_B, \bx_D)
+    =
+    \Pr(x_i \mid \bx_D)
+    \]
+ \end{theorem}
+ \uncover<2->{
+   This implies
+   \[
+    \Pr(x_i \mid \bx_B, \bx_D)
+    =
+    \Pr(x_i \mid \bx'_B, \bx_D)
+    \]
+    so we can measure independence by seeing how the distribution of $x_i$ changes when we vary $\bx'_B$, keeping $\bx_D$ fixed.
+ }
+\end{frame}
+

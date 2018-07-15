@@ -141,8 +141,8 @@ Project 1: Mortgage decisions
 
 3. 5-6 September. Lecture: Privacy, anonymity, differential privacy.
 4. 12-13 September. Tutorial:  Privacy. Lab: Privacy in classification.
-5. 19-20 September. Lecture: Fairness and Bayesian Networks
-6. 26-27 September. Tutorial: Bayesian networks. Lab: COMPAS Dataset
+5. 19-20 September. Lecture: Fairness and Decision Diagrams
+6. 26-27 September. Tutorial: Decision Diagrams. Lab: COMPAS Dataset
 
 Project 2: Social networks
 

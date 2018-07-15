@@ -97,12 +97,33 @@
   \only<article>{On the third hand, we see that the system seemed to give higher risk scores to non-offending blacks. So, is there a way to fix that or not?}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../figures/imrs-risk}
+    \includegraphics[width=0.95\textwidth]{../figures/imrs-risk}
     \caption{Score breakdown based on recidivism rates.}
     \label{fig:imrs-risk}
   \end{figure}
 \end{frame}
 
+\only<presentation>{
+
+  \begin{frame}
+    \frametitle{Graphical models and independence}
+    \begin{itemize}
+    \item Why is it not possible to be fair in all respects?
+    \item Different notions of \alert{conditional independence}.
+    \item Can only be satisfied rarely simultaneously.
+    \end{itemize}
+  \end{frame}
+
+}
+\only<article>{
+  How can we explain this discrepancy? We can show that in fact, each one of these different measures of bias in our decision rules can be seen as a notion of conditional independence. 
+}
+ \input{graphical-models}
+
+
+
+
+\section{Concepts of fairness}
 \begin{frame}
   \frametitle{Bail decisions, revisited}
   \only<article>{Let us think of this problem in terms of bail decisions made by a judge using some policy $\pol$ with $\pol(a \mid x)$ being the probability that the judge decides $a$ when she observes $x$. Let $y$ be the outcome, which may or may not depend on $a$. In this particular case, $a$ is either release or jail. And $y$ is appears for trial or not. If we accept the tenets of decision theory, there is also a utility function $U(a, y)$ defined on which the judge bases her decision.}
@@ -215,7 +236,7 @@
     \end{definition}
     You will observe that calibration here means that
     \[
-      y \indep z \mid a, \param, \pol
+    y \indep z \mid a, \param, \pol
     \]
     i.e. that $y$ is independent of $z$ given the judge's action $a$, so the distribution of outcomes is the same for every one of our actions no matter what the value of $z$ is.
 
@@ -224,11 +245,11 @@
       \begin{equation}
         \Pr_\param^{\pol}(a \mid y, z) = \Pr_\param^{\pol}(a \mid y), \qquad \forall y, z.
         \label{eq:balance}
-    \end{equation}
+      \end{equation}
     \end{definition}
     On the other hand, balance means that
     \[
-      a \indep z \mid y,
+    a \indep z \mid y,
     \]
     i.e. that $a$ is independent of $z$ given the true outcome $y$.\footnote{This definition only really makes sense when $y$ does not depend on $a$ at all. When this is not the case, it's easy to construct a random variable $y'$ that does not depend on $a$ so that $y$ can be written as a function $y(y', a)$. Then we can achieve balance with respect to $y'$.}
   }
@@ -237,19 +258,20 @@
 \end{frame}
 
 \subsection{Fairness as meritocracy.}
-  \only<article>{A different concept of fairness is meritocracy. For example, if one candidate for a job is better than another, shouldn't that candidate be always preferred? How can we formalise this?}
+\only<article>{A different concept of fairness is meritocracy. For example, if one candidate for a job is better than another, shouldn't that candidate be always preferred? How can we formalise this?}
 
 
 \begin{frame}
 
   \only<article>{Let us consider merit from the point of view of the decision maker, who can either hire $(a_t = 1)$ or not hire $(a_t = 0)$ the $t$-th applicant. If the applicant has characteristics $x_t$ and merit $y_t$, the DM's decision has utility $U(a_t, y_t)$. In order to model meritocracy, we assign an inherent \emph{quality} to $y$, expressed as an ordering, so that $U(1, y) \geq U(1, y')$ if $y \geq y'$. Assuming $P_\param(x_t, y_t)$ is known to the DM then clearly she should make the decision by solving the following maximisation problem:
   }
-  \begin{align}
-    a_t(\param, x_t) \in \argmax_a \E_\param(U \mid a, x_t)
-    &=
-      \int_\CY U(a_t, y) \E_\param(U \mid a_t, x_t) 
-  \end{align}
-  
+  \begin{block}{Meritocratic decision}
+    \begin{align}
+      a_t(\param, x_t) \in \argmax_a \E_\param(U \mid a, x_t)
+      &=
+        \int_\CY U(a_t, y) \E_\param(U \mid a_t, x_t) 
+    \end{align}
+  \end{block}
   \only<article>{ Here, the notion of meritocracy is defined through
     our utility function.  Although it would be better to consider the
     candidate's utility instead, this is in practice difficult,
@@ -272,7 +294,7 @@
   \only<article>{
     This is a so-called Lipschitz condition on the policy, and is illustrated in the figure below.
   }    
-\begin{tikzpicture}[scale=2,thick,domain=-2:2]
+  \begin{tikzpicture}[scale=2,thick,domain=-2:2]
     \draw[->] (-2,0) -- (2,0) node[right] {$x$};
     \draw[->] (0,0) -- (0,1) node[above] {$\pol(a \mid x)$};
     \draw[color=blue] plot (\x,{0.5 + 0.5 * tanh(\x)}); % node[right] {$f(x) = \frac{1}{20} \mathrm e^x$};

@@ -1,0 +1,33 @@
+\subsection{Feature engineering}
+
+\only<article>{
+  A lot of time in applying machine learning is focused on engineering the ``right'' features. Strictly speaking, the selection of features is not independent from the selection of the learning algorithm. However,  it is always possible to find a rich enough feature set that you can fit any type of data you want.} 
+\begin{frame}
+  \frametitle{The too-perfect features}
+  \begin{definition}[Feature map]
+    Given an input space $\CX$, any function $f : \CX \to \Phi$ is called a feature map.
+  \end{definition}
+
+  \begin{example}[Random features]
+    Original input $\CX \subset \Reals^n$, feature space $\Phi \subset \Reals^m$, $m \gg n$. First select a random matrix $A \in \Reals^{n \times m}$. Then, define the function,
+    \[
+    f(x) = h(Ax)
+    \]
+    where $h \Reals^m \to \Reals^m$ is any arbitrary non-linear transformation. In particular, we can use a component-wise non-linearity
+    \[
+    h(z) = \left(u(z_i)\right)_{i=1}^m,
+    \]
+    where $u : \Reals \to \Reals$ is a simple non-linear function such as $\tanh$ or a step function. 
+  \end{example}
+  \only<article>{
+    It is a good idea to use a random matrix with entries drawn from a Normal distribution.
+  }
+  \begin{alertblock}{Overfitting}
+    As $m \to \infty$ it becomes quite easy to overfit.
+  \end{alertblock}
+\end{frame}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "notes.tex"
+%%% End:

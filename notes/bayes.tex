@@ -59,6 +59,17 @@
 
 
 \subsection{Conditional probability and Bayesian inference}
+\begin{frame}
+  \frametitle{A medium}
+  \begin{example}
+    John claims to be a medium. He throws a coin $n$ times and predicts its value always correctly. Should we believe that he is a medium?
+  \end{example}
+  \begin{itemize}
+  \item $\model_1$: John is a medium.
+  \item $\model_0$: John is not a medium.
+  \end{itemize}
+  The answer depends on what we \alert{expect} a medium to be able to do, and how likely we thought he'd be a medium in the first place.
+\end{frame}
 \only<article>{
   Let $A$ and $B$ be two events. Let $P(A)$ be the probability of event $A$ and $P(B)$ the probability of event $B$. We can think of the probability of an event as the \emph{relative size} of the event in the space of probabilities.\footnote{More formally, probability is a measure; a function similar to volume, area, length and mass.} 
   The probability of both events $A$ and $B$ happening at the same time is denoted by $P(A \cap B)$.  This amounts to measuring the size of the space by the intersection of $A$ and $B$.
@@ -92,9 +103,6 @@
       P(A \mid B) \defn \frac{P(A \cap B) }{P(B)}.
     \]
   \end{definition}
-\end{frame}
-
-\begin{frame}
   \only<article>{
     Here, the probability measure of any event $A$ given $B$ is defined to be the probability of the intersection of of the events divided by the second event.
     We can rewrite this definition as follows, by using the definition for $P(B \mid A)$}
@@ -103,6 +111,10 @@
       P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)}.
     \]
   \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Bayesian inference}
   \only<article>{
     Now let us apply this idea to our specific problem. We already have the probability of the observation for each model, but we just need to define a \emph{prior probability} for each model. Since this is usually completely subjective, we give it another symbol.
   }
@@ -131,11 +143,9 @@
   \end{itemize}
   Combining the prior belief with evidence is key in this procedure. Our posterior belief can then be used as a new prior belief when we get more evidence.
 \end{frame}
-\begin{frame}
-  \begin{exercise}
-    What is the probability of John being a medium after predicting $n$ throws correctly, if our prior is $\bel(\model_1) = 1/2$? Is this a reasonable prior? What if our prior is $\bel(\model_1) = 2^{-8}$? Does this capture everything about the problem?
-  \end{exercise}
-\end{frame}
+
+
+
 
 
 
