@@ -91,7 +91,7 @@ The purpose of this lecture is to introduce the students to basic database conce
 
 ** Week 4: Clustering
    :LOGBOOK:
-   CLOCK: [2018-07-17 Tue 14:21]
+   CLOCK: [2018-07-17 Tue 14:21]--[2018-07-17 Tue 22:05] =>  7:44
    :END:
 
 Unstructured databases.
