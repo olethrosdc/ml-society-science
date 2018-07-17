@@ -78,15 +78,18 @@
 %      \hskip1.5em plus0em minus0.5em \fi \nobreak
 %      \vrule height0.5em width0.5em depth0.25em\fi}
 
+\newcommand \indexmargin[1] {\marginpar{\emph{#1}}\index{#1}}
+\newcommand \marginref[2] {\marginpar{\emph{#1}}\emph{#1}\index{#2}}
+\newcommand \emindex[1] {\emph{#1}\marginpar{\emph{#1}}\index{#1}}
+
+
 \newcommand \E {\mathop{\mbox{\ensuremath{\mathbb{E}}}}\nolimits}
 \newcommand \hE {\hat{\mathop{\mbox{\ensuremath{\mathbb{E}}}}\nolimits}}
 \renewcommand \Pr {\mathop{\mbox{\ensuremath{\mathbb{P}}}}\nolimits}
 \newcommand \given {\mathrel{|}}
 \newcommand \gvn {|}
 \newcommand \eq {{=}}
-\newcommand{\set}[1]{\left\{\, #1 \,\right\} }
-\newcommand{\cset}[2]{\left\{\, #1 ~\middle|~ #2 \,\right\} }
-\newcommand{\meas}[1]{\mu\left(#1\right)}
+
 
 %% Special characters
 \newcommand\Reals {{\mathbb{R}}}
@@ -156,6 +159,7 @@
 \newcommand \SJ {\mathscr{J}}
 \newcommand \SL {\mathscr{L}}
 \newcommand \SP {\mathscr{P}}
+\newcommand \SR {\mathscr{R}}
 %%\newcommand \SS {\mathscr{S}}
 \newcommand \ST {\mathscr{T}}
 \newcommand \SU {\mathscr{U}}
@@ -163,6 +167,7 @@
 \newcommand \SW {\mathscr{W}}
 
 \newcommand \hM {\widehat{M}}
+
 
 %\newcommand \p {\partial}
 
@@ -241,6 +246,15 @@
 \newcommand \seq[2]{#1^{#2}}
 \newcommand \pseq[3]{#1_{#2}^{#3}}
 \newcommand \sam[2]{#1^{(#2)}}
+\newcommand \transpose[1] {#1^\top}
+\newcommand\set[1] {\left\{#1\right\}}
+\newcommand\tuple[1] {\left\langle #1\right\rangle}
+\newcommand\cset[2] {\left\{#1 ~\middle|~ #2\right\}}
+\newcommand \ceil[1]{\left\lceil #1 \right\rceil}
+
+
+
+
 
 \newcommand{\indep}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
 
@@ -265,8 +279,9 @@
 \newcommand \Loss {\ell}
 \newcommand \Regret {L}
 \newcommand \regret {\ell}
-\newcommand \Rewards {CR}
+\newcommand \Rewards {\SR}
 \newcommand \reward {r}
+\newcommand \vreward {\vectorsym{r}}
 \newcommand \Rew {\rho}
 \newcommand \outcome {\omega}
 \newcommand \Outcome {\Omega}
@@ -345,7 +360,8 @@
 \newcommand \Syy {\matrixsym{\Sigma}_{yy}}
 \newcommand \Symx {\matrixsym{\Sigma}_{y\mid x}}
 
-\newcommand \trans[1] {#1^\top}
+\newcommand \trans {\matrixsym{P}}
+\newcommand \ident {\matrixsym{I}}
 
 \newcommand \noise {\vectorsym{\varepsilon}}
 
@@ -363,6 +379,16 @@
 
 \newcommand \sensitivity[1] {\mathbb{L}\left(#1\right)}
 \newcommand \disc {\gamma}
+\newcommand \Value {V}
+\newcommand \val {\vectorsym{v}}
+\newcommand \Vals {\mathcal{V}}
+\newcommand \qval {\vectorsym{q}}
+\newcommand \Qvals {\mathcal{Q}}
+\newcommand \blm {\mathscr{L}}
+\newcommand \tdm {\mathscr{D}}
+\newcommand \pim {\mathscr{B}}
+
+
 
 \newcommand \dist[2]{D\left(#1 ~\middle\|~ #2\right)}
 \newcommand \marg {\phi}

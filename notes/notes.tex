@@ -2,6 +2,8 @@
 
 \usepackage[notheorems]{beamerarticle}
 
+
+
 \mode<presentation>{
   % \useinnertheme{rectangles}
   %\useoutertheme{infolines}
@@ -10,16 +12,15 @@
 }
 \input{../preamble}
 
-\includeonly{database,privacy}
-
+%\includeonly{database,privacy}
+\includeonly{experiment-design}
 \title{Machine learning in science and society}
 \subtitle{From automated science to beneficial artificial intelligence}
 \author[C. Dimitrakakis]{Christos Dimitrakakis}
 \begin{document}
 
-\begin{frame}
-  \titlepage
-\end{frame}
+\maketitle
+\tableofcontents
 
 \chapter{Introduction}
 \include{ml-intro}

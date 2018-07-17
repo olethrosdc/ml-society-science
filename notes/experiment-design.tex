@@ -121,7 +121,7 @@ quantify our uncertainty about the parameters $\omega$ in terms of a
 probability distribution.
 
 We model our belief for each bandit's
-parameter $\omega_i$ as a Beta distribution $\Beta(\alpha_i,
+parameter $\omega_i$ as a Beta distribution $\BetaDist(\alpha_i,
 \beta_i)$, with density $f(\omega \mid \alpha_i, \beta_i)$ so that
 \[
 \bel(\omega_1, \ldots, \omega_n)
@@ -141,7 +141,7 @@ be the
 can let this equal $0$ when $N_{t,i} = 0$.
 Then, the posterior distribution for the parameter of arm $i$ is
 \[
-\bel_t = \Beta(\alpha_i + N_{t,i} \hat{r}_{t,i}~,~ \beta_i + N_{t,i} (1 - \hat{r}_{t,i})).
+\bel_t = \BetaDist(\alpha_i + N_{t,i} \hat{r}_{t,i}~,~ \beta_i + N_{t,i} (1 - \hat{r}_{t,i})).
 \]
 Since $r_t \in \{0,1\}$ the possible states of our belief given some
 prior are $\Naturals^{2n}$.
@@ -337,7 +337,7 @@ for the decision theoretic formulation of the bandit problem.
 
 In this chapter, we shall restrict our attention to Markov decision processes. Hence, we shall not discuss the existence of other agents, or the case where we cannot observe the state directly. 
 \begin{definition}[Markov Decision Process]
-  A \index{Markov decision process|textbf}Markov decision process $\mdp$ is a tuple $\mdp = \tuple{\CS, \CA, \SP, \SR}$, where $\CS$ is the \emph{state space} and $\CA$ is the \emph{action space}. The \emindex{transition distribution} being $\SP = \cset{P(\cdot \mid s,a)}{s \in \CS, a \in \CA}$ is a collection of probability measures on $\CS$, indexed in $\CS \times \CA$ and the \emindex{reward distribution}  $\Rews = \cset{\Rew(\cdot \mid s,a)}{s \in \CS, a \in \CA}$ is a collection of probability measures on $\Reals$, such that:  
+  A \index{Markov decision process|textbf}Markov decision process $\mdp$ is a tuple $\mdp = \tuple{\CS, \CA, \SP, \Rewards}$, where $\CS$ is the \emph{state space} and $\CA$ is the \emph{action space}. The \emindex{transition distribution} being $\SP = \cset{P(\cdot \mid s,a)}{s \in \CS, a \in \CA}$ is a collection of probability measures on $\CS$, indexed in $\CS \times \CA$ and the \emindex{reward distribution}  $\Rewards = \cset{\Rew(\cdot \mid s,a)}{s \in \CS, a \in \CA}$ is a collection of probability measures on $\Reals$, such that:  
   \begin{align}
     P(S \mid s, a) &= \Pr_\mdp(s_{t+1} \in S \mid s_t =s, a_t = a)
     \\
@@ -589,16 +589,16 @@ This is so far identical to the expected utility framework we had seen so far, w
   }
   \begin{algorithm}[H]
     \begin{algorithmic}[1]
-      \FOR{$s \in \CS$}
-      \FOR{$t = 0, \ldots, T$}
-      \STATE
+      \For{$s \in \CS$}
+      \For{$t = 0, \ldots, T$}
+      \State
       \[
       \hat{V_t}(s) = \sum_{k=t}^T \sum_{j \in \CS} \Pr_{\mdp}^{\pol}(s_k = j \mid s_t = s) \E^\pol_\mdp(r_k \mid s_k = j).
       % ro: Something's seems to be wrong with the indexes here.
       % cd: really? seems OK to me.
       \]
-      \ENDFOR
-      \ENDFOR
+      \EndFor
+      \EndFor
     \end{algorithmic}
     \caption{Direct policy evaluation}
     \label{alg:direct-policy-evaluation}
@@ -618,24 +618,24 @@ This is so far identical to the expected utility framework we had seen so far, w
   }
   \begin{algorithm}[H]
     \begin{algorithmic}
-      \FOR{$s \in \CS$}
-      \FOR{$k = 0, \ldots, K$}
-      \STATE Choose initial state $s_1$.
-      \FOR{$t = 1, \ldots, T$}
-      \STATE $a_t \sim \pol(a_t \mid s_t)$ \hfill \textrm{// Take action}
-      \STATE Observe reward $r_t$ and next state $s_{t+1}$.
-      \STATE Set $r_{t,k} = r_t$.
-      \ENDFOR
-      \STATE Save total reward:
+      \For{$s \in \CS$}
+      \For{$k = 0, \ldots, K$}
+      \State Choose initial state $s_1$.
+      \For{$t = 1, \ldots, T$}
+      \State $a_t \sim \pol(a_t \mid s_t)$ \hfill \textrm{// Take action}
+      \State Observe reward $r_t$ and next state $s_{t+1}$.
+      \State Set $r_{t,k} = r_t$.
+      \EndFor
+      \State Save total reward:
       \[
       \hat{V}_k(s) = \sum_{t=1}^T r_{t,k}.
       \]
-      \ENDFOR
-      \STATE Calculate estimate:
+      \EndFor
+      \State Calculate estimate:
       \[
       \hat{V}(s) = \frac{1}{K} \sum_{k=1}^K \hat{V}_k(s).
       \]
-      \ENDFOR
+      \EndFor
     \end{algorithmic}
     \caption{Monte-Carlo policy evaluation}
     \label{alg:monte-carlo-policy-evaluation}
@@ -677,7 +677,7 @@ This is so far identical to the expected utility framework we had seen so far, w
   \index{policy evaluation!backwards induction}
   \begin{algorithm}[H]
     \begin{algorithmic}
-      \STATE For each state $s \in S$, for $t = 1, \ldots, T - 1$:
+      \State For each state $s \in S$, for $t = 1, \ldots, T - 1$:
       \begin{equation}
         \hat{V}_{t}(s) = r^\pol_\mdp(s) + \sum_{j \in S} \Pr_{\mdp}^{\pol}(s_{t+1} = j \mid s_t = s) \hat{V}_{t+1}(j),
         \label{eq:bi-pe-recursion}
@@ -723,21 +723,21 @@ This is so far identical to the expected utility framework we had seen so far, w
 \index{policy optimisation!backwards induction}
 \label{sec:finite-horiz-backw}
 \only<article>{
-  Backwards induction as given in \cref{alg:finite-BI} is the first non-naive algorithm for finding an optimal policy for the sequential problems with $T$ stages. It is basically identical to the backwards induction algorithm we saw in Chapter~\ref{cha:sequential-sampling}, which was for the very simple sequential sampling problem, as well as the backwards induction algorithm for the decision-theoretic bandit problem.
+  Backwards induction as given in Alg~\ref{alg:finite-BI} is the first non-naive algorithm for finding an optimal policy for the sequential problems with $T$ stages. It is basically identical to the backwards induction algorithm we saw in Chapter~\ref{cha:sequential-sampling}, which was for the very simple sequential sampling problem, as well as the backwards induction algorithm for the decision-theoretic bandit problem.
 }
 
 \begin{frame}
   \begin{algorithm}[H]
     \begin{algorithmic}
-      \STATE Input $\mdp$, set $\CS_T$ of states reachable within $T$ steps.
-      \STATE Initialise $V_T(s):=\max_a r(s,a)$, for all $s \in \CS_T$. %ro: I guess this is how you want to initialize this?
-      \FOR{$n=T-1, T-2, \ldots, 1$}
-      \FOR{$s \in \CS_n$}
-      \STATE $\pol_n(s) = \argmax_a r(s, a) + \sum_{s' \in \CS_{n+1}} P_\mdp (s' \mid s, a)  V_{n+1} (s')$ %ro: deleted a star here?
-      \STATE $V_n(s) = r(s,a) + \sum_{s' \in \CS_{n+1}} P_\mdp(s' \mid s,\pol_n(s)) V_{n+1} (s')$
-      \ENDFOR
-      \ENDFOR
-      \STATE Return $\pol = (\pol_n)_{n=1}^T$.
+      \State Input $\mdp$, set $\CS_T$ of states reachable within $T$ steps.
+      \State Initialise $V_T(s):=\max_a r(s,a)$, for all $s \in \CS_T$. %ro: I guess this is how you want to initialize this?
+      \For{$n=T-1, T-2, \ldots, 1$}
+      \For{$s \in \CS_n$}
+      \State $\pol_n(s) = \argmax_a r(s, a) + \sum_{s' \in \CS_{n+1}} P_\mdp (s' \mid s, a)  V_{n+1} (s')$ %ro: deleted a star here?
+      \State $V_n(s) = r(s,a) + \sum_{s' \in \CS_{n+1}} P_\mdp(s' \mid s,\pol_n(s)) V_{n+1} (s')$
+      \EndFor
+      \EndFor
+      \State Return $\pol = (\pol_n)_{n=1}^T$.
     \end{algorithmic}
     \caption{Finite-horizon backwards induction}
     \label{alg:finite-BI}
@@ -806,8 +806,7 @@ This is so far identical to the expected utility framework we had seen so far, w
 
 \section{Infinite-horizon}
 \label{sec:infinite-horizon}
-\newcommand {\msqr} {\vrule height0.33cm width0.44cm}
-\newcommand {\bsqr} {\vrule height0.55cm width0.66cm}
+
 \only<article>{When problems have no fixed horizon, they usually can be modelled as infinite horizon problems, sometimes with help of a \emph{terminating state}, whose visit terminates the problem, or discounted rewards, which indicate that we care less about rewards further in the future. 
   When reward discounting is exponential, these problems can be seen as undiscounted problems with random and geometrically distributed horizon. 
   For problems with no discounting and no termination states there are some complications in the definition of optimal policy. However, we defer discussion of such problems to Chapter~\ref{cha:distr-free-reinf}.} %ro: In my (rather outdated) pdf this reference does not exist.
@@ -890,9 +889,9 @@ Solving the shortest path problem can be done simply by looking at the distance 
 
   \begin{figure}[H]
     \centering
-    \subfigure[$\omega = 0.1$]{\includegraphics[width=0.45\textwidth]{pit_random_0_1}}
-    \subfigure[$\omega = 0.5$]{\includegraphics[width=0.45\textwidth]{pit_random_0_5}}
-    \subfigure[value]{\includegraphics[width=0.45\textwidth]{color-axis}}
+    \subfigure[$\omega = 0.1$]{\includegraphics[width=0.45\textwidth]{../figures/pit_random_0_1}}
+    \subfigure[$\omega = 0.5$]{\includegraphics[width=0.45\textwidth]{../figures/pit_random_0_5}}
+    \subfigure[value]{\includegraphics[width=0.45\textwidth]{../figures/color-axis}}
     \caption{Pit maze solutions for two values of $\omega$.}
     \label{fig:pit-solution}
   \end{figure}
@@ -964,7 +963,7 @@ For simplicity, in the following we assume that rewards only depend on the curre
   \[
   \trans_{\mdp,\pol}(i,j) = \sum_a p(j \mid i, a) \Pr^\pol(a \mid i).
   \]
-\item $\rew$ is a reward vector in $\Reals^{|\CS|}$.
+\item $\vreward$ is a reward vector in $\Reals^{|\CS|}$.
 \item The space of value functions $\Vals$ is a Banach space \only<article>{(i.e., a complete, normed vector space)} equipped with the norm
   \[
   \|\val\| = \sup\cset{|\val(s)|}{s \in \CS}
@@ -982,7 +981,7 @@ For simplicity, in the following we assume that rewards only depend on the curre
     \begin{align}
       \val^\pol
       &=
-      \sum_{t=0}^\infty \disc^{t} \trans_{\mdp,\pol}^{t} \rew
+      \sum_{t=0}^\infty \disc^{t} \trans_{\mdp,\pol}^{t} \vreward
       \label{eq:kernel-value}
     \end{align}
     \label{rem:kernel-value}
@@ -997,7 +996,7 @@ For simplicity, in the following we assume that rewards only depend on the curre
         \\
         &= \sum_{t=0}^\infty \disc^t \sum_{i \in \CS} \Pr(s_t = i \mid s_0 = s) \E(r_t \mid s_t = i).
       \end{align*}
-      Since for any distribution vector $\vectorsym{p}$ over $\CS$, we have $\E_\vectorsym{p} r_t = \transpose{\vectorsym{p}} \rew$, the result follows.%ro: Actually, you need some knowledge about the power of the transition matrix, right?
+      Since for any distribution vector $\vectorsym{p}$ over $\CS$, we have $\E_\vectorsym{p} r_t = \transpose{\vectorsym{p}} \vreward$, the result follows.%ro: Actually, you need some knowledge about the power of the transition matrix, right?
     \end{proof}
   }
 
@@ -1008,12 +1007,12 @@ The value of a particular policy can be expressed as a linear equation. This is 
     For any stationary policy $\pol$, $\val^\pol$ is the unique solution of
     \begin{equation}
       \label{eq:bellman-equation}
-      \val = \rew + \disc \trans_{\mdp,\pol} \val. \only<presentation>{\quad \leftarrow \textrm{fixed point}}
+      \val = \vreward + \disc \trans_{\mdp,\pol} \val. \only<presentation>{\quad \leftarrow \textrm{fixed point}}
     \end{equation}
     In addition, the solution is:
     \begin{equation}
       \label{eq:bellman-solution}
-      \val^\pol = (\ident - \disc \trans_{\mdp,\pol})^{-1} \rew,
+      \val^\pol = (\ident - \disc \trans_{\mdp,\pol})^{-1} \vreward,
     \end{equation}
     \label{the:inverse-value}
     where $\ident$ is the identity matrix.
@@ -1030,7 +1029,7 @@ The value of a particular policy can be expressed as a linear equation. This is 
     \end{theorem}
 
   \begin{proof}[Proof of Theorem~\ref{the:inverse-value}]
-    First note that by manipulating the infinite sum in Remark~\ref{rem:kernel-value}, one obtains $\rew = (\ident - \disc \trans_{\mdp,\pol}) \val^\pol$.
+    First note that by manipulating the infinite sum in Remark~\ref{rem:kernel-value}, one obtains $\vreward = (\ident - \disc \trans_{\mdp,\pol}) \val^\pol$.
     Since $\|\disc \trans_{\mdp,\pol}\| < 1 \cdot \|\trans_{\mdp_\pol}\| = 1$, the inverse 
     \[
     (\ident - \disc \trans_{\mdp,\pol})^{-1} = \lim_{n \to \infty} \sum_{t=0}^n (\disc \trans_{\mdp,\pol})^t
@@ -1038,8 +1037,8 @@ The value of a particular policy can be expressed as a linear equation. This is 
     exists by Theorem \ref{thm:wert}.
     It follows that
     \[
-    \val = (\ident - \disc \trans_{\mdp,\pol})^{-1} \rew
-    = \sum_{t=0}^\infty \disc^t \trans_{\mdp,\pol}^t \rew = \val^\pol,
+    \val = (\ident - \disc \trans_{\mdp,\pol})^{-1} \vreward
+    = \sum_{t=0}^\infty \disc^t \trans_{\mdp,\pol}^t \vreward = \val^\pol,
     \]
     where the last step is by Remark~\ref{rem:kernel-value} again.%ro: do we need to argue for uniqueness of the solution?
   \end{proof}
@@ -1060,12 +1059,12 @@ This interpretation is quite useful, as many algorithms rely on an estimation of
   \begin{definition}[Policy and Bellman operator]
     \only<article>{The linear operator of a policy $\pol$ is:}
     \begin{equation}
-      \blm_\pol \val \defn\rew + \disc \trans_\pol \val %ro: Here, the mu is dropped. Maybe we should drop it already earlier. % cd: hm, ok, maybe that makes sense
+      \blm_\pol \val \defn\vreward + \disc \trans_\pol \val %ro: Here, the mu is dropped. Maybe we should drop it already earlier. % cd: hm, ok, maybe that makes sense
       \label{eq:policy-operator}
     \end{equation}
     Sby contract    \only<article>{The (non-linear) Bellman operator in the space of value functions $\Vals$ is defined as:}
     \begin{equation}
-      \blm \val \defn \sup_\pol \set{\rew + \disc \trans_\pol \val}, \qquad \val \in \Vals
+      \blm \val \defn \sup_\pol \set{\vreward + \disc \trans_\pol \val}, \qquad \val \in \Vals
       \label{eq:bellman-operator}
     \end{equation}    
     \label{def:bellman-operator}
@@ -1074,7 +1073,7 @@ This interpretation is quite useful, as many algorithms rely on an estimation of
     We now show that the Bellman operator satisfies the following monotonicity properties with respect to an arbitrary value vector $\val$.
   }
   \begin{theorem}
-    Let $\val^* \defn \sup_\pol \val^\pol$. Then for any bounded $\rew$, it holds that for $\val \in \Vals$:
+    Let $\val^* \defn \sup_\pol \val^\pol$. Then for any bounded $\vreward$, it holds that for $\val \in \Vals$:
     \begin{itemize}
     \item[(1)] If $\val \geq \blm \val$, then $\val \geq \val^*$.
     \item[(2)] If $\val \leq \blm \val$, then $\val \leq \val^*$.
@@ -1089,21 +1088,21 @@ This interpretation is quite useful, as many algorithms rely on an estimation of
       \begin{align*}
         \val
         &\geq
-        \rew + \disc \trans_\pol \val
+        \vreward + \disc \trans_\pol \val
         \geq
-        \sum_{k=0}^{n-1}\disc^k\trans_\pol^k\rew
+        \sum_{k=0}^{n-1}\disc^k\trans_\pol^k\vreward
         + \disc^n \trans_\pol^n \val.
       \end{align*}
-      Since $\val^\pol = \sum_{t=0}^\infty \disc^t \trans^t_\pol \rew$ it follows that
+      Since $\val^\pol = \sum_{t=0}^\infty \disc^t \trans^t_\pol \vreward$ it follows that
       \[
       \val - \val^\pol 
       \geq
       \disc^n \trans_\pol^n \val
-      -\sum_{k=n}^{\infty}\disc^k\trans_\pol^k\rew.
+      -\sum_{k=n}^{\infty}\disc^k\trans_\pol^k\vreward.
       \]
       The first-term on the right-hand side can be bounded by arbitrary $\epsilon/2$ for large enough $n$. Also note that %ro: I'm confused by the second part of the proof. Shouldn't we have lower bounds for the terms here to get what we want?
       \[
-      \sum_{k=n}^{\infty}\disc^k\trans_\pol^k\rew \geq -\frac{\disc^n \vectorsym{e}}{1 - \disc},
+      \sum_{k=n}^{\infty}\disc^k\trans_\pol^k\vreward \geq -\frac{\disc^n \vectorsym{e}}{1 - \disc},
       \]
       with $\vectorsym{e}$ being a unit vector, so this can be bounded by $\epsilon/2$ as well. So for any $\pol, \epsilon > 0$:
       \[
@@ -1204,7 +1203,7 @@ This interpretation is quite useful, as many algorithms rely on an estimation of
 
 \begin{frame}
   \begin{theorem}
-    For discrete $\CS$, bounded $\rew$, and $\disc \in [0,1)$
+    For discrete $\CS$, bounded $\vreward$, and $\disc \in [0,1)$
     \begin{enumerate}[(i)]
     \item there is a unique $\val^* \in \Vals$ such that $\blm \val^* = \val^*$ and such that $\val^* = V^*_\mdp$,
     \item for any stationary policy $\pol$, there is a unique $\val \in \Vals$ such that $\blm_\pol \val = \val$ and $\val = V^\pol_\mdp$.
@@ -1231,16 +1230,16 @@ In this version of the algorithm, we assume that rewards are dependent only on t
 \begin{frame}
   \begin{algorithm}[H]
     \begin{algorithmic}
-      \STATE Input $\mdp$, $\CS$.
-      \STATE Initialise $\val_0 \in \Vals$. %ro: What is \Vals here?
-      \FOR{$n=1, 2, \ldots$}
-      \FOR{$s \in \CS_n$}
-      \STATE $\pol_n(s) = \argmax_{a \in \CA} \set{r(s, a) + \disc \sum_{s' \in \CS} P_\mdp(s' \mid s, a) \val_{n-1} (s')}$
-      \STATE $\val_n(s) = r(s, \pol_n(s)) + \disc \sum_{s' \in \CS} P_\mdp(s' \mid s, \pol_n(s)) \val_{n-1} (s')$
-      \ENDFOR
-      \STATE \textbf{break} if \texttt{termination-condition} is met %ro: what is this condition?
-      \ENDFOR
-      \STATE Return $\pol_n, V_n$.
+      \State Input $\mdp$, $\CS$.
+      \State Initialise $\val_0 \in \Vals$. %ro: What is \Vals here?
+      \For{$n=1, 2, \ldots$}
+      \For{$s \in \CS_n$}
+      \State $\pol_n(s) = \argmax_{a \in \CA} \set{r(s, a) + \disc \sum_{s' \in \CS} P_\mdp(s' \mid s, a) \val_{n-1} (s')}$
+      \State $\val_n(s) = r(s, \pol_n(s)) + \disc \sum_{s' \in \CS} P_\mdp(s' \mid s, \pol_n(s)) \val_{n-1} (s')$
+      \EndFor
+      \State \textbf{break} if \texttt{termination-condition} is met %ro: what is this condition?
+      \EndFor
+      \State Return $\pol_n, V_n$.
     \end{algorithmic}
     \caption{Value iteration}
   \end{algorithm}
@@ -1330,12 +1329,12 @@ Now let us prove how fast value iteration converges.
     \label{the:value-iteration-monotonicity}
   \end{theorem}
   \begin{proof}
-    Let $\pol \in \argmax_\pol \rew + \disc \trans_{\mdp,\pol} \val$. Then
+    Let $\pol \in \argmax_\pol \vreward + \disc \trans_{\mdp,\pol} \val$. Then
     \[
     \blm \val
-    = \rew + \disc \trans_{\mdp,\pol} \val
-    \leq \rew + \disc \trans_{\mdp,\pol} \val'
-    \leq \max_{\pol'}\rew + \disc \trans_{\mdp,\pol'} \val',
+    = \vreward + \disc \trans_{\mdp,\pol} \val
+    \leq \vreward + \disc \trans_{\mdp,\pol} \val'
+    \leq \max_{\pol'}\vreward + \disc \trans_{\mdp,\pol'} \val',
     \]
     where the first inequality is due to the fact that $\trans \val \geq \trans \val'$ for any $\trans$.
     For the second part, 
@@ -1380,316 +1379,3 @@ data. The overall complexity is
 $\tilde{O}(|\CS|^2 |\CA| L (1 - \disc)^{-1}$, omitting logarithmic
 factors, where $L$ is the total number of bits used to represent the
 input.\footnote{Thus the result is \emph{weakly} polynomial complexity, due to the dependence on the input size description.}
-
-\subsubsection{Policy iteration}
-\label{sec:policy-iteration}
-\index{policy iteration}
-Unlike value iteration, \textit{policy iteration} attempts to iteratively improve a given policy, rather than a value function. At each iteration, it calculates the value of the current policy and then  calculates the policy that is greedy with respect to this value function. For finite MDPs, the policy evaluation step can be performed with either linear algebra or backwards induction, while the policy improvement step is trivial. The algorithm described below can be extended to the case when the reward also depends on the action, by replacing $\rew$ with the policy-dependent reward vector $\rew_\pol$. 
-
-\begin{algorithm}[H]
-  \begin{algorithmic}
-    \STATE Input $\mdp$, $\CS$.
-    \STATE Initialise $\val_0$.
-    \FOR{$n=1, 2, \ldots$}
-    \STATE $\pol_{n+1} = \argmax_\pol \set{\rew + \disc \trans_\pol \val_n}$ \qquad \texttt{ // policy improvement}  
-    \STATE $\val_{n+1} = V^{\pol_{n+1}}_\mdp$ \qquad \texttt{ // policy evaluation}  
-    \STATE \textbf{break} if $\pol_{n+1} = \pol_n$.
-    \ENDFOR
-    \STATE Return $\pol_n, \val_n$.
-  \end{algorithmic}
-  \caption{Policy iteration}
-  \label{alg:policy-iteration}
-\end{algorithm}
-
-
-The following theorem describes an important property of policy iteration, namely that the policies generated are monotonically improving.
-
-\begin{theorem}
-  Let $\val_n, \val_{n+1}$ be the value vectors generated by policy iteration.
-  Then $\val_n \leq \val_{n+1}$.
-\end{theorem}
-\begin{proof}
-  From the policy improvement step
-  \[
-  \rew + \disc \trans_{\pol_{n+1}} \val_n
-  \geq
-  \rew + \disc \trans_{\pol_{n}} \val_n,
-  = \val_n
-  \]
-  where the equality is due to the policy evaluation step for $\pol_{n}$. Rearranging, we get $ \rew \geq (\ident - \disc \trans_{\pol_{n+1}}) \val_n$
-  and hence
-  \begin{align*}
-    (\ident - \disc \trans_{\pol_{n+1}})^{-1} \rew &\geq \val_n,
-  \end{align*}
-  noting that the inverse is positive. 
-  Since the left side equals $\val_{n+1}$ by the policy evaluation step for $\pol_{n+1}$, the theorem follows.
-\end{proof}
-We can use the fact that the policies are monotonically improving to show that policy iteration will terminate after a finite number of steps.
-\begin{corollary}
-  If $\CS, \CA$ are finite, then policy iteration terminates after a finite number of iterations and returns an optimal policy.
-\end{corollary}
-
-\begin{proof}
-  There is only a finite number of policies, and since policies in policy iteration are monotonically improving, the algorithm must stop after finitely many iterations.
-  Finally, the last iteration satisfies
-  \begin{equation}
-    \val_n = \max_\pol \rew + \disc \trans_\pol \val_n.
-  \end{equation}
-  Thus $\val_n$ solves the optimality equation.
-\end{proof}
-
-However, it is easy to see that the number of policies is $|\CA|^{|\CS|}$, thus the above corollary only guarantees exponential-time convergence in the number of states. However, it is also known that the complexity of policy iteration is strongly polynomial~\cite{ye2011simplex}, for any fixed $\disc$, with the number of iterations required being $\frac{|\CS|^2 (|\CA| - 1)}{1 - \disc} \cdot \ln \left( \frac{|\CS|^2}{1 - \disc} \right)$.
-
-Policy iteration seems to have very different behaviour from value iteration. In fact, one can obtain families of algorithms that lie at the extreme ends of the spectrum between policy iteration and value iteration. The first member of this family is modified policy iteration, and the second member is temporal difference policy iteration.
-
-
-\subsubsection{Modified policy iteration}
-\index{policy iteration!modified}
-The astute reader will have noticed that it may be
-not necessary to fully evaluate the improved
-policy. In fact, we can take advantage of that to speed up policy iteration. Thus, a simple variant of policy iteration involves doing only a $k$-step update for the policy evaluation step. For $k=1$, the algorithm becomes identical to value iteration, while for $k \to \infty$ the algorithm is equivalent to policy iteration, as $\val_n = V^{\pol_n}$.
-\begin{algorithm}[H]
-  \begin{algorithmic}
-    \STATE Input $\mdp$, $\CS$.
-    \STATE Initialise $\val_0$.
-    \FOR{$n=1, 2, \ldots$}
-    \STATE $\pol_{n} = \argmax_\pol \rew + \disc \trans_\pol \val_{n-1}$ \qquad \texttt{ // policy improvement}  
-    \STATE $\val_{n} = \blm_{\pol_{n}}^k \val_{n-1}$ \qquad \texttt{// partial policy evaluation}
-    \STATE \textbf{break} if $\pol_{n} = \pol_{n+1}$.
-    \ENDFOR
-    \STATE Return $\pol_n, \val_n$.
-  \end{algorithmic}
-  \caption{Modified policy iteration}
-\end{algorithm}
-Modified policy iteration can perform much better than either pure value iteration or pure policy iteration.
-\subsubsection{A geometric view}
-\index{temporal differences}
-It is perhaps interesting to see the problem from a geometric perspective. This also gives rise to the so-called ``temporal-difference'' set of algorithms.
-First, we define the difference operator, which is the difference between a value function vector $\val$ and its transformation via the Bellman operator.
-\begin{definition}
-  The \emindex{difference operator} is defined as 
-  \begin{equation}
-    \label{eq:td-operator}
-    \pim \val \defn \max_\pol \set{\rew + (\disc \trans_\pol - \ident) \val} = \blm \val - \val.
-  \end{equation}
-  \label{def:td-operator}
-\end{definition}
-Essentially, it is the change in the value function vector when we apply the Bellman operator. 
-Thus the Bellman optimality equation can be rewritten as
-\begin{equation}
-  \label{eq:td-equation}
-  \pim \val = \textbf{0}.
-\end{equation}
-Now let us define the set of greedy policies with respect to a value vector  $\val \in \Vals$ to be:
-\[
-\Pols_\val \defn \argmax_{\pol \in \Pols} \set{\rew + (\disc \trans_\pol - \ident)\val}.
-\]
-We can now show the following inequality between the two different value function vectors.
-\begin{theorem}
-  For any $\val, \val' \in \Vals$ and $\pol \in \Pols_\val$
-  \begin{equation}
-    \label{eq:td-support}
-    \pim \val' \geq \pim \val + (\disc \trans_\pol - \ident)(\val' - \val).
-  \end{equation}
-\end{theorem}
-\begin{proof}
-  By definition, $\pim \val' \geq \rew + (\disc \trans_\pol - \ident)\val'$,
-  while $\pim \val = \rew + (\disc \trans_\pol - \ident)\val$. Subtracting the latter from the former gives the result.
-\end{proof}
-Equation \eqref{eq:td-support} is similar to the convexity of the Bayes-optimal utility \eqref{eq:convex-bayes-util}. 
-Geometrically, we can see from a look at Figure~\ref{fig:difference-operator}, that applying the Bellman operator on value function always improves it, yet may have a negative effect on the other value function. If the number of policies is finite, then the figure is also a good illustration of the policy iteration algorithm, where each value function improvement results in a new point on the horizontal axis, and the choice of the best improvement (highest line) for that point. In fact, we can write the policy iteration algorithm in terms of the difference operator.
-
-\begin{figure}[ht]
-  \centering
-  \if 0
-  \begin{tikzpicture}[
-      pnt/.style={
-        circle,
-        fill=black,
-        thick,
-        inner sep=2pt,
-        minimum size=0.1cm
-      }
-    ] 
-    \node at (0,0) (start) {};
-    \node at (2,0) (vs) [pnt,label=below:$\val^*$] {};
-    \node at (5,0) (v1) [pnt,label=below:$\val$] {};
-    \node at (8,0) (v2) [pnt,label=below:$\val'$] {};
-    \node at (10,0) (end)  {};
-    \draw (start) -- (end);
-    \node at (8,1) (Bs2) {};
-    \node at (8,2) (B2) {};
-    \node at (2,-1) (B2s) {};
-    \draw (Bs2) -- (vs);
-    \draw (B2) -- (B2s);
-  \end{tikzpicture}
-  \fi
-  \input{figures/difference-operator.tikz}
-  \caption{The difference operator. The graph shows the effect of the operator for the optimal value function $\val^*$, and two arbitrary value functions, $\val_1, \val_2$. Each line is the improvement effected by the greedy policy $\pol^*, \pol_1, \pol_2$ with respect to each value function $\val^*, \val_1, \val_2$. }
-  \label{fig:difference-operator}
-\end{figure}
-\begin{theorem}
-  Let $\{\val_n\}$ be the sequence of value vectors obtained from policy iteration. Then for any $\pol \in \Pols_{\val_n}$,
-  \begin{equation}
-    \val_{n+1} = \val_n - (\disc \trans_{\pol} - \ident)^{-1} \pim \val_n.
-  \end{equation}
-\end{theorem}
-\begin{proof}
-  By definition, we have for  $\pol \in \Pols_{\val_n}$
-  \begin{align*}
-    \val_{n+1} 
-    &=
-    (\ident - \disc \trans_\pol)^{-1} \rew - \val_n + \val_n
-    \\
-    &=
-    (\ident - \disc \trans_\pol)^{-1} [
-    \rew - (\ident - \disc \trans_\pol)\val_n] + \val_n.
-  \end{align*}
-  Since $\rew - (\ident - \disc \trans_\pol)\val_n = \pim \val_n$ the claim follows.
-\end{proof}
-
-
-\subsubsection{Temporal-Difference Policy Iteration}
-\index{policy iteration!temporal-difference} \index{temporal
-  difference} 
-
- In \emph{temporal-difference policy iteration},
-similarly to the modified policy iteration algorithm, we replace the
-next-step value with an approximation $\val_n$ of the $n$-th policy's
-value. Informally, this approximation is chosen so as to reduce the
-discrepancy of our value function over time.
-
-At the $n$-th iteration of the algorithm, we use a policy improvement step to obtain the next policy $\pol_{n+1}$ given our current approximation $\val_n$:
-\begin{equation}
-  \blm_{\pol_{n+1}} \val_n = \blm \val_n.
-\end{equation}
-To update the value from $\val_n$ to $\val_{n+1}$ we rely on the \emindex{temporal difference error}, defined as:
-\begin{equation}
-  d_n(i,j) = [\rew(i) + \disc \val_n(j)] - \val_n(i).
-\end{equation}
-This can be seen as the difference in the estimate
-when we move from state $i$ to state $j$. In fact, it is easy to see that, if our value function estimate satisfies $\val = V^{\pol_n}$, then the expected error should be zero, as:
-\[
-\sum_{j \in \CS} d_n(i,j) p(j \mid i, \pol_n (i)) = 
-\sum_{j \in \CS} [\rew(i) + \disc \val_n(j)] p(j \mid i, \pol_n(i))
--\val_{n}(i).
-\]
-Note the similarity to the difference operator in modified policy iteration.  The idea of the temporal-difference policy iteration is to use adjust the current value $\val_n$, using the temporal differences mixed over an infinite number of steps:
-\begin{align}
-  \vectorsym{\tau}_n(i) &= \sum_{t=0}^\infty \E_{\pol_n} \left[(\disc \lambda)^t d_n(s_t,s_{t+1}) \mid s_0 = i\right],\\
-  \val_{n+1} &= \val_n + \vectorsym{\tau}_n.
-\end{align}
-Here the $\lambda$ parameter is a simple way to mix together the different temporal difference errors. If $\lambda \to 1$, our error will be dominated by the terms far in the future, while if $\lambda \to 0$, our error $\vectorsym{\tau}_n$, will be dominated by the short-term discrepancies in our value function. In the end, we shall adjust our value function in the direction of this error.
-
-Putting all of those steps together, we obtain the following algorithm:
-\label{sec:temp-diff-policy}
-\begin{frame}
-  \begin{algorithm}[H]
-    \begin{algorithmic}
-      \STATE Input $\mdp$, $\CS, \lambda$.
-      \STATE Initialise $\val_0$.
-      \FOR{$n=0, 1, 2, \ldots$}
-      \STATE $\pol_{n+1} = \argmax_\pol \rew + \disc \trans_\pol \val_{n}$ \qquad \texttt{ // policy improvement}
-      \STATE $\val_{n+1} = \val_{n} + \vectorsym{\tau}_{n} \qquad \texttt{// temporal difference update}$.
-      \STATE \textbf{break} if $\pol_{n+1} = \pol_{n}$.
-      \ENDFOR
-      \STATE Return $\pol_n, \val_n$.
-    \end{algorithmic}
-    \caption{Temporal-Difference Policy Iteration}
-  \end{algorithm}
-
-
-  In fact, $\val_{n+1}$ is the unique fixed point of the following equation:
-  \begin{equation}
-    \tdm_n \val \defn (1 - \lambda) \blm_{\pol_{n+1}} \val_n + \lambda \blm_{\pol_{n+1}} \val.
-  \end{equation}
-  That is, if we repeatedly apply the above operator to some vector $\val$, then at some point we shall obtain a fixed point $\val^* = \tdm_n \val^*$. It is interesting to see what happens at the two extreme choices of $\lambda$ in this case. 
-  For $\lambda = 1$, this becomes identical to standard policy iteration, as the fixed point satisfies $\val^* = \blm_{\pol_{n+1}} \val^*$, so then $\val^*$ must be the value of policy $\pol_{n+1}$. For $\lambda = 0$, one obtains standard value iteration, as the fixed point is reached under one step and is simply $\val^* =  \blm_{\pol_{n+1}} \val_n$, i.e. the approximate value of the one-step greedy policy.
-  In other words, the new value vector is moved only  partially towards the direction of the Bellman update, depending on how we choose $\lambda$. 
-
-\end{frame}
-
-
-\subsubsection{Linear programming}\index{linear programming}
-\label{sec:linear-programming}
-Perhaps surprisingly, we can also solve Markov decision processes through linear programming. The main idea is to reformulate the maximisation problem as a linear optimisation problem with linear constraints. 
-The first step in our procedure is to recall that there is an easy way to determine whether a particular $\val$ is an upper bound on the optimal value function $\val^*$, since if
-\[
-\val \geq \blm \val
-\]
-then $\val \geq \val^*$. In order to transform this into a linear program, we must first define a scalar function to minimise. We can do this by selecting some arbitrary distribution on the states $\vectorsym{y} \in \Simplex^{|\CS|}$. %ro: not sure the \Simplex notation has been introduced before.
-Then we can write the following linear program.
-\begin{block}{Primal linear program}
-  \[
-  \min_\val \transpose{\vectorsym{y}} \val,
-  \]
-  such that
-  \[
-  \val(s) - \disc \transpose{\vectorsym{p}_{s,a}} \val \geq r(s,a), %ro: has the \vectorsym{p}_{s,a} notation be introduced before?
-  \qquad \forall a \in \CA, s \in \CS,
-  \]
-\end{block}
-where we use $\vectorsym{p}_{s,a}$ to denote the vector of next state probabilities $p(j \mid s, a)$.
-
-Note that the inequality condition is equivalent to $\val \geq \blm \val$.
-Consequently, the problem is to find the smallest $\val$ that satisfies this inequality. When $\CA, \CS$ are finite, it is easy to see that this will be the optimal value function and the Bellman equation is satisfied.
-
-It also pays to look at the dual linear program, which is in terms of a maximisation. This time, instead of finding the minimal upper bound on the value function, we find the maximal cumulative discounted state-action visits $x(s,a)$ that are consistent with the transition kernel of the process. 
-
-\begin{block}{Dual linear program}
-  \[
-  \max_x \sum_{s \in \CS} \sum_{a \in \CA} r(s,a) x(s,a)
-  \]
-  such that $x \in \Reals_+^{|\CS \times \CA|}$ and
-  \[
-  \sum_{a \in \CA} x(j,a) - \sum_{s \in \CS} \sum_{a \in \CA} \disc
-  p(j \mid s,a) x(s,a) = y(j) \qquad \forall j \in \CS.
-  \]
-  with $\vectorsym{y} \in \Simplex^{|\CS|}$.
-\end{block}
-
-In this case, $x$ can be interpreted as the discounted sum of state-action visits, as proved by the following theorem.
-\begin{theorem}
-  For any policy $\pol$,
-  \[
-  x_\pol(s,a) = \E_{\pol,\mdp} \left\{ \sum \disc^n \ind{s_t = s, a_t = a \mid s_0 \sim y}\right\}  %ro: what is the policy here?
-  \]
-  is a feasible solution to the dual problem.
-  On the other hand, if $x$ is a feasible solution to the dual problem then $\sum_a x(s,a) > 0$. Finally, if we define the strategy
-  \[
-  \pi(a \mid s) = \frac{x(s,a)}{\sum_{a' \in \CA} x(s,a')}  %ro: Is this the policy you need for the first claim?
-  \]
-  then $x_\pol = x$ is a feasible solution.
-\end{theorem}
-The equality condition ensures that $x$ is consistent with the transition kernel of the Markov decision process. Consequently, the program can be seen as search among all possible cumulative state-action distributions to find the one giving the highest total reward.
-
-
-
-\section{Summary}
-Markov decision processes can represent shortest path problems,
-stopping problems, experiment design problems,
-multi-armed bandit problems and reinforcement learning problems.
-
-Bandit problems are the simplest type of Markov decision process, since they have a fixed, never-changing state. However, to solve them, one can  construct a Markov decision processes in belief space, within a Bayesian framework. It is then possible to apply backwards induction to find the optimal policy.
-
-Backwards induction is applicable more generally to arbitrary Markov decision processes. For the case of infinite-horizon problems, it is referred to as value iteration, as it converges to a fixed point.
-It is tractable when either the state space $\CS$ or the horizon
-$T$ are small (finite).
-
-When the horizon is infinite, policy iteration can also be used to find optimal policies. It is different from value iteration in that at every step, it fully evaluates a policy before the improvement step, while value iteration only performs a partial evaluation. In fact, at the $n$-th iteration, value iteration has calculated the value of an $n$-step policy. 
-
-We can arbitrarily mix between the two extremes of policy iteration and value iteration in two ways. Firstly, we can perform a $k$-step partial evaluation. When $k=1$, we obtain value iteration, and when $k \to \infty$, we obtain policy iteration. The generalised algorithm is called modified policy iteration. Secondly, we can perform adjust our value function by using a temporal difference error of values in future time steps. Again, we can mix liberally between policy iteration and value iteration by focusing on errors far in the future (policy iteration) or on short-term errors (value iteration).
-
-Finally, it is possible to solve MDPs through linear programming. This is done by reformulating the problem as a linear optimisation with constraints. In the primal formulation, we attempt to find a minimal upper bound on the optimal value function. In the dual formulation, our goal is to find a distribution on state-action visitations that maximises expected utility and is consistent with the MDP model.
-
-\section{Further reading}
-
-\only<article>{See the last chapter of~\citep{Degroot:OptimalStatisticalDecisions} for further information on the MDP formulation of bandit problems in the decision theoretic setting. This was explored in more detail in Duff's PhD thesis~\citep{duff2002olc}. 
-  When the number of (information) states in the bandit problem is finite, \citet{Gittins:1989} has proven that it is possible to formulate simple index policies. However, this is not generally applicable. Easily computable, near-optimal heuristic strategies for bandit problems will be given in Chapter~\ref{cha:distr-free-reinf}. The decision-theoretic solution to the unknown MDP problem will be given in Chapter~\ref{cha:bayes-reinf-learn}.
-
-  Further theoretical background on  Markov decision processes, including many of the theorems in Section~\ref{sec:infinite-horizon}, can be found in~\citep{Puterman:MDP:1994}. Chapter 2 of~\cite{BertsekasTsitsiklis:NDP} gives a quick overview of MDP theory from the operator perspective. The introductory reinforcement learning book of~\citet{Sutton+Barto:1998} also explains the basic \index{Markov decision process}Markov decision process framework.}
-
-
-
-
-
