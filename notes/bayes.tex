@@ -118,9 +118,11 @@
   \only<article>{
     Now let us apply this idea to our specific problem. We already have the probability of the observation for each model, but we just need to define a \emph{prior probability} for each model. Since this is usually completely subjective, we give it another symbol.
   }
+  \only<article>{
   \begin{block}{Prior probability}
     The prior probability $\bel$ on a set of models $\Model$ specifies our subjective belief $\bel(\model)$ that each model is true.\footnote{More generally $\bel$ is a probability measure.}
   \end{block}
+}
   \only<article>{
     This allows us to calculate the probability of John being a medium, given the data:
     \[
@@ -133,15 +135,18 @@
     The only thing left to specify is $\bel(\model_1)$, the probability that John is a medium before seeing the data. This is our subjective prior belief that mediums exist and that John is one of them.
     More generally, we can think of Bayesian inference as follows: }
   \begin{itemize}
-  \item We start with a set of mutually exclusive hypotheses $\Model = \{\model_1, \ldots, \model_k\}$.
-  \item Each hypothesis $\model$ is represented by a specific probabilistic model for any possible data $\bx$, that is $\Pr(\bx \mid \model)$.
-  \item For each hypothesis, we have a prior probability $\bel(\model)$ that it is correct.
-  \item After observing the data, we can calculate a posterior probability that the hypothesis is correct:
+  \item<1-> \only<article>{We start with a set of } mutually exclusive hypotheses $\Model = \{\model_1, \ldots, \model_k\}$.
+  \item<2->\only<article>{Each hypothesis $\model$ is represented by a specific probabilistic model for any possible data $\bx$, that is}
+\only<presentation>{Probability model for any data $\bx$:} $\Pr(\bx \mid \model)$.
+  \item<3-> For each hypothesis, we have a prior probability $\bel(\model)$ that it is correct.
+  \item<4-> \only<article>{After observing the data, we can calculate a posterior probability that the hypothesis is correct:}
+    \only<presentation>{Posterior probability}
     \[
       \bel(\model \mid \bx) = \frac{\Pr(\bx \mid \model) \bel(\model)}{\sum_{i=1}^k \Pr(\bx \mid \model_i) \bel(\model_i)}.
     \]
   \end{itemize}
-  Combining the prior belief with evidence is key in this procedure. Our posterior belief can then be used as a new prior belief when we get more evidence.
+  \only<article>{
+  Combining the prior belief with evidence is key in this procedure. Our posterior belief can then be used as a new prior belief when we get more evidence.}
 \end{frame}
 
 
