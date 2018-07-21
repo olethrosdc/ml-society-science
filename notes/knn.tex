@@ -45,9 +45,11 @@
 
 \begin{frame}
   \frametitle{The nearest neighbour algorithm}
+  \only<article>{The nearest neighbour algorithm for classification (Alg.~\ref{alg:kNN-classify}) does not include any complicated learning. Given a training dataset $D$, it returns a classification decision for any new point $x$ by simply comparing it to its closest $k$ neighbours in the dataset. It then estimates the probability $p_y$ of each class $y$ by calculating the average number of times the neighbours take the class $y$.
+  }
   \begin{algorithm}[H]
-    \begin{algorithmic}
-      \State \textbf{Input} Data $D = \{(x_1, y_1), \ldots, (x_T, y_T)\}$, neighbourhood $k \geq 1$, distance $d : \CX \times \CX \to \Reals_+$, new point $x \in \CX$
+    \begin{algorithmic}[1]
+      \State \textbf{Input} Data $D = \{(x_1, y_1), \ldots, (x_T, y_T)\}$, $k \geq 1$,  $d : \CX \times \CX \to \Reals_+$, new point $x \in \CX$
       \State $D = \texttt{Sort}(D, d)$ \% \textsf{ Sort $D$ so that $d(x, x_i) \leq d(x, x_{i+1})$}.
       \State $p_y = \sum_{i=1}^k \ind{y_i = y} / k$ for $y \in \CY$.
       \State \textbf{Return} $\argmax_y p_y$
@@ -55,8 +57,13 @@
     \caption{$k$-NN Classify}
     \label{alg:kNN-classify}
   \end{algorithm}
-  \only<article>{The nearest neighbour algorithm for classification (Alg.~\ref{alg:kNN-classify}) does not include any complicated learning. Given a training dataset $D$, it returns a classification decision for any new point $x$ by simply comparing it to its closest $k$ neighbours in the dataset. It then estimates the probability $p_y$ of each class $y$ by calculating the average number of times the neighbours take the class $y$.
-  }
+  \begin{alertblock}{Algorithm parameters}
+    \only<article>{In order to use the algorithm, we must specify some parameters, namely.}
+    \begin{itemize}
+    \item Neighbourhood $k \geq 1$. \only<article>{The number of neighbours to consider.}
+    \item Distance $d : \CX \times \CX \to \Reals_+$. \only<article>{The function we use to determine what is a neighbour.}
+    \end{itemize}
+  \end{alertblock}
   \only<presentation>{
     What does the algorithm output when $k = T$?
   }

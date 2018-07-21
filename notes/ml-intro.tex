@@ -501,9 +501,9 @@
   \end{block}
   \begin{block}{Machine learning in society}
     \begin{itemize}
-    \item<alert@2> Privacy \uncover<2->{--- Medical data.}
-    \item<alert@3> Fairness \uncover<3->{--- Credit risk.}
-    \item<alert@4> Safety \uncover<4->{--- Autonomous vehicles.}
+    \item<alert@2> Privacy \uncover<2->{--- Credit risk.}
+    \item<alert@3> Fairness \uncover<3->{--- Job market.}
+    \item<alert@4> Safety \uncover<4->{--- Medicine.}
     \end{itemize}
   \end{block}
 \end{frame}
@@ -537,7 +537,7 @@
     \begin{itemize}
     \item Probabilistic inference and Bayesian networks.
     \item Stochastic optimisation and neural networks.
-    \item Backwards induction Markov decision processes.
+    \item Backwards induction and Markov decision processes.
     \end{itemize}
   \end{block}
 \end{frame}
@@ -563,117 +563,6 @@
 \end{frame}
 
 
-<<<<<<< HEAD
-\section{Nearest neighbours}
-\begin{frame}
-  \frametitle{Discriminating between diseases}
-  \input{../figures/KNN3.tikz}
-\end{frame}
-
-\only<article>{
-  Let's tackle the problem of discriminating between different
-  disease vectors. Ideally, we'd like to have a simple test that
-  tells us what ails us. One kind of test is mass spectrometry. This
-  graph shows spectrometry results for two types of bacteria. There
-  is plenty of variation within each type, both due to measurement
-  error and due to changes in the bacterial strains. Here, we plot
-  the average and maximum energies measured for about 100 different
-  examples from each strain.
-}
-
-\begin{frame}
-  \frametitle{Nearest neighbour: the hidden secret of machine learning}
-  \input{../figures/separation1.tikz}
-\end{frame}
-
-\only<article>{
-  Now, is it possible to identify an unknown strain based on this
-  data? Actually, this is possible. Sometimes, very simple algorithms
-  work very well. One of the simplest one involves just measuring the
-  distance between the decsription of a new unknown strain and known
-  ones. In this visualisation, I projected the 1300-dimensional data
-  into a 2-dimensional space. Here you can clearly see that it is
-  possible to separate the two strains. In order to classify a new
-  point, you just need to see whether it's closer to the train VVT or
-  BUT.
-}
-
-\begin{frame}
-  \frametitle{Comparing spectral data}
-  \only<1>{\input{../figures/difference1.tikz}}
-  \only<presentation>{\only<2>{\input{../figures/difference2.tikz}}}
-\end{frame}
-
-\only<article>{
-  The choice of distance in this kind of algorithm is important,
-  particularly for very high dimensions. For something like a
-  spectrogram, one idea is look at the total area of the difference
-  between two spectral lines. 
-}
-
-\begin{frame}
-  \frametitle{The nearest neighbour algorithm}
-  \begin{algorithm}[h]
-    \begin{algorithmic}
-      \State \textbf{Input} Data $D = \{(x_1, y_1), \ldots, (x_T, y_T)\}$, neighbourhood $k \geq 1$, distance $d : \CX \times \CX \to \Reals_+$, new point $x \in \CX$
-      \State $D = \texttt{Sort}(D, d)$ \% \textsf{ Sort $D$ so that $d(x, x_i) \leq d(x, x_{i+1})$}.
-      \State $p_y = \sum_{i=1}^k \ind{y_i = y} / k$ for $y \in \CY$.
-      \State \textbf{Return} $\argmax_y p_y$
-    \end{algorithmic}
-    \caption{$k$-NN Classify}
-    \label{alg:kNN-classify}
-  \end{algorithm}
-  \only<article>{The nearest neighbour algorithm for classification (Alg.~\ref{alg:kNN-classify}) does not include any complicated learning. Given a training dataset $D$, it returns a classification decision for any new point $x$ by simply comparing it to its closest $k$ neighbours in the dataset. It then estimates the probability $p_y$ of each class $y$ by calculating the average number of times the neighbours take the class $y$.
-  }
-  \only<presentation>{
-    What does the algorithm output when $k = T$?
-  }
-\end{frame}
-\begin{frame}
-  \frametitle{Nearest neighbour: What type is the new bacterium?}
-  \input{../figures/separation2.tikz}
-  \only<presentation>{
-    \only<2>{\Large \alert{What if it a \textbf{completely different strain}?}}
-  }
-  \only<article>{Given that the $+$ points represent the BUT type, and the $\times$ points the VVJ type, what type of bacterium could the circle point be?}
-\end{frame}
-
-\only<presentation>{
-  \begin{frame}
-    \frametitle{Hands on with Python console}
-    \hyperlink{../src/decision-problems/knn-classify.py}{\beamerbutton{KNN example}}
-    %% Use knn-classify to simply demonstrate a kNN classifier.
-  \end{frame}
-}
-
-\subsection{Feature engineering}
-
-\only<article>{
-  A lot of time in applying machine learning is focused on engineering the ``right'' features. Strictly speaking, the selection of features is not independent from the selection of the learning algorithm. However,  it is always possible to find a rich enough feature set that you can fit any type of data you want.} 
-\begin{frame}
-  \frametitle{The too-perfect features}
-  \begin{definition}[Feature map]
-    Given an input space $\CX$, any function $f : \CX \to \Phi$ is called a feature map.
-  \end{definition}
-
-  \begin{example}[Random features]
-    Original input $\CX \subset \Reals^n$, feature space $\Phi \subset \Reals^m$, $m \gg n$. First select a random matrix $A \in \Reals^{n \times m}$. Then, define the function,
-    \[
-      f(x) = h(Ax)
-    \]
-    where $h \Reals^m \to \Reals^m$ is any arbitrary non-linear transformation. In particular, we can use a component-wise non-linearity
-    \[
-      h(z) = \left(u(z_i)\right)_{i=1}^m,
-    \]
-    where $u : \Reals \to \Reals$ is a simple non-linear function such as $\tanh$ or a step function. 
-  \end{example}
-  \only<article>{
-    It is a good idea to use a random matrix with entries drawn from a Normal distribution.
-  }
-  \begin{alertblock}{Overfitting}
-    As $m \to \infty$ it becomes quite easy to overfit.
-  \end{alertblock}
-\end{frame}
 
 
 

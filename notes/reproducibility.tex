@@ -4,6 +4,26 @@
 }
 
 \begin{frame}
+  \frametitle{The decision process in data science}
+    \centering
+    \begin{tikzpicture}[line width=2pt]
+    \node[select] at (0,0) (bt) {learning algorithm};
+    \node[select] at (0,2) (at) {data collection};
+    \node[RV] at (3,-2) (training) {training};
+    \node[RV] at (7,2) (holdout) {holdout};
+    \draw[blue,->] (at) -- (training);
+    \draw[blue,->] (at) -- (holdout);
+    \node[RV] at (4,0) (bt2) {model};
+    \draw[red,->] (at) -- (bt2);
+    \draw[red,->] (bt) -- (bt2);
+    \draw[red,->] (training) -- (bt2);
+    \node[utility] at (8,0) (rt2) {result};
+    \draw[red,->] (bt2) -- (rt2);
+    \draw[red,->] (holdout) -- (rt2);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
   \frametitle{Holdout sets}
   \begin{itemize}
   \item Original data $\Data$, e.g. $\Data = (x_1, \ldots, x_T)$.
