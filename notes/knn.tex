@@ -20,17 +20,15 @@
   \input{../figures/separation1.tikz}
 \end{frame}
 
-\only<article>{
-  Now, is it possible to identify an unknown strain based on this
-  data? Actually, this is possible. Sometimes, very simple algorithms
-  work very well. One of the simplest one involves just measuring the
-  distance between the decsription of a new unknown strain and known
-  ones. In this visualisation, I projected the 1300-dimensional data
-  into a 2-dimensional space. Here you can clearly see that it is
-  possible to separate the two strains. In order to classify a new
-  point, you just need to see whether it's closer to the train VVT or
-  BUT.
-}
+\only<article>{ Now, is it possible to identify an unknown strain
+  based on this data? Actually, this is possible. Sometimes, very
+  simple algorithms work very well. One of the simplest one involves
+  just measuring the distance between the decsription of a new unknown
+  strain and known ones. In this visualisation, I projected the
+  1300-dimensional data into a 2-dimensional space. Here you can
+  clearly see that it is possible to separate the two strains. We can
+  use the distance to examples VVT and BUT in order to decide the type
+  of an unknown strain.  }
 
 \begin{frame}
   \frametitle{Comparing spectral data}
@@ -81,7 +79,17 @@
   \end{frame}
 }
 
+\begin{frame}
+  \frametitle{Discussion: Shortcomings of $k$-nearest neighbour}
+  \begin{itemize}
+  \item Choice of $k$
+  \item Choice of metric.
+  \item Representation of uncertainty.
+  \item Scaling with large amounts of data.
+  \end{itemize}
+  \only<article>{For that reason, it is best to think of $k$-NN as a \alert{model} for predicting the class of a new example from a finite set of existing classes. The model itself might be incorrect, but this should nevertheless be OK for our purposes. In particular, we might later use the model in order to derive classification rules.}
 
+\end{frame}
 
 
 %%% Local Variables:
