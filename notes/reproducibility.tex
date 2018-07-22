@@ -4,23 +4,54 @@
 }
 
 \begin{frame}
-  \frametitle{The decision process in data science}
-    \centering
-    \begin{tikzpicture}[line width=2pt]
-    \node[select] at (0,0) (bt) {learning algorithm};
-    \node[select] at (0,2) (at) {data collection};
-    \node[RV] at (3,-2) (training) {training};
-    \node[RV] at (7,2) (holdout) {holdout};
-    \draw[blue,->] (at) -- (training);
-    \draw[blue,->] (at) -- (holdout);
-    \node[RV] at (4,0) (bt2) {model};
-    \draw[red,->] (at) -- (bt2);
-    \draw[red,->] (bt) -- (bt2);
-    \draw[red,->] (training) -- (bt2);
-    \node[utility] at (8,0) (rt2) {result};
-    \draw[red,->] (bt2) -- (rt2);
-    \draw[red,->] (holdout) -- (rt2);
+  \frametitle{The decision process in classification}
+  \centering
+  \begin{tikzpicture}[line width=2pt]
+    \node[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg$};
+    \node[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
+    \node[RV,label=above:Training] at (4,2) (training) {$\Training$};
+    \node[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
+    \draw[blue,->] (experiment) -- (training);
+    \draw[blue,->] (experiment) to [bend left=45] (holdout);
+    \node[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
+    \draw[red,->] (experiment) -- (pol);
+    \draw[red,->] (alg) -- (pol);
+    \draw[red,->] (training) -- (pol);
+    \node[utility,label=below:Measurement] at (8,0) (util) {$\util$};
+    \draw[red,->] (pol) -- (util);
+    \draw[red,->] (holdout) -- (util);
   \end{tikzpicture}
+  \only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$. Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its accuracy is going to be biased.}
+  \begin{block}{Classification accuracy}
+    \[
+    \E_\chi[\util(\pol)] = \sum_y \underset{\textrm{Data probability}}{\underbrace{\Pr_\chi(x, y)}} \overset{\textrm{Decision probability}}{\overbrace{\pol(a = y \mid x)}}
+    \]
+    \only<article>{The classification accuracy of policy $\poL$ under $\chi$ is the expected number of times the policy decides $\pol$ chooses the correct class.}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{The human as an algorithm.}
+  \only<article>{The same way with which an algorithm creates a model from some prior assumptions and data, so can a human select an algorithm and associated hyperparamters by executing an algorithm herself. }
+  \centering
+  \begin{tikzpicture}[line width=2pt]
+    \node[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg_1$};     
+    \node[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg_2$};
+    \node[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
+    \node[RV,label=above:Training] at (4,2) (training) {$\Training$};
+    \node[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
+    \draw[blue,->] (experiment) -- (training);
+    \draw[blue,->] (experiment) to [bend left=45] (holdout);
+    \node[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
+    \draw[red,->] (experiment) -- (pol);
+    \draw[red,->] (alg) -- (pol);
+    \draw[red,->] (training) -- (pol);
+    \node[utility,label=below:Measurement] at (8,0) (util) {$\util$};
+    \draw[red,->] (pol) -- (util);
+    \draw[red,->] (holdout) -- (util);
+  \end{tikzpicture}
+
 \end{frame}
 
 \begin{frame}
@@ -35,9 +66,9 @@
   \only<article>{
     As typically algorithms are maximising the quality metric on the training data, 
     \[
-      \alg(\Training) = \argmax_y U(y, \Training)
+    \alg(\Training) = \argmax_y U(y, \Training)
     \]
-    we typically obtain a biased estimate.
+    we typically obtain a biased estimate, which depends both on the algorithm itself and the training data. For \KNN{} in particular, when we measure accuracy on the training data, we can nearly always obtain near-perfect accuracy.\footnote{But not always perfect. Can you explain why?}
   }
 \end{frame}
 
@@ -111,11 +142,11 @@
   \frametitle{The fallacy of $p$-values}
   \only<article>{A $p$-value has a uniform distribution under the null hypothesis. More precisely,let $x$ is our data and $H_0$ is our null hypothesis. If $H_0$ is true then $x \sim P_0$. Let}
   \[
-    f(x) \tag{$p$-statistic}
+  f(x) \tag{$p$-statistic}
   \]
   \only<article>{be a statistic on the data designed to have the property:}
   \[
-    P_0(\cset{x}{f(x) \leq p}) = p.
+  P_0(\cset{x}{f(x) \leq p}) = p.
   \]
   \only<article>{This ensures that the probability of rejecting the null hypothesis when it is true is actually $p$. But note that this is the definition of the uniform distribution, so $f(x)$ has a uniform distribution under $H_0$. Hence the value of $f(x)$ itself is uninformative. In theory we should simply choose $p$ before seeing the data and just accept or reject based on whether $f(x) \leq p$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all.}
 \end{frame}
@@ -129,7 +160,7 @@
       The interval $I(\delta)$ for an estimator $\hat{\theta}$ of a parameter $\theta$ from data $x$ under the modelling assumptions $\mu$ is simply a set in $\Theta$ such that the true parameter lies in $I(\delta)$ with probability $1 - \delta$, i.e.
     }
     \[
-      \Pr_\mu(\hat{\theta} \in I(\theta, \delta)) \geq 1 - \delta.
+    \Pr_\mu(\hat{\theta} \in I(\theta, \delta)) \geq 1 - \delta.
     \]
   \end{block}
   This is a property of the estimator $\hat{\theta} : \CX \to \Theta$ and tells us \emph{nothing direct} about our specific estimate $\hat{\theta(x)}$. \only<article>{It only tells that if we repeatedly apply this produre, we will only get an estimate outside of the interval a $\delta$-fraction of the time.}
@@ -153,4 +184,3 @@
 %%% TeX-master: "notes"
 %%% End:
 
- 
