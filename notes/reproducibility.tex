@@ -4,52 +4,61 @@
 }
 
 \begin{frame}
-  \frametitle{The decision process in classification}
-  \centering
+\begin{figure}[H]
+  \begin{center}
   \begin{tikzpicture}[line width=2pt]
-    \node[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg$};
-    \node[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
-    \node[RV,label=above:Training] at (4,2) (training) {$\Training$};
-    \node[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
-    \draw[blue,->] (experiment) -- (training);
-    \draw[blue,->] (experiment) to [bend left=45] (holdout);
-    \node[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
-    \draw[red,->] (experiment) -- (pol);
-    \draw[red,->] (alg) -- (pol);
-    \draw[red,->] (training) -- (pol);
-    \node[utility,label=below:Measurement] at (8,0) (util) {$\util$};
-    \draw[red,->] (pol) -- (util);
-    \draw[red,->] (holdout) -- (util);
+    \node<1->[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
+    \node<3->[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg$};
+    \node<2->[RV,label=above:Training] at (4,2) (training) {$\Training$};
+    \node<5->[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
+    \draw<2->[blue,->] (experiment) -- (training);
+    \draw<6->[blue,->] (experiment) to [bend left=45] (holdout);
+    \node<4->[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
+    \draw<4->[red,->,dashed] (experiment) -- (pol);
+    \draw<4->[red,->] (alg) -- (pol);
+    \draw<4->[red,->] (training) -- (pol);
+    \node<7->[utility,label=below:Measurement] at (8,0) (util) {$\util$};
+    \draw<7->[red,->] (pol) -- (util);
+    \draw<7->[red,->] (holdout) -- (util);
   \end{tikzpicture}
-  \only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$. Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its accuracy is going to be biased.}
-  \begin{block}{Classification accuracy}
-    \[
-    \E_\chi[\util(\pol)] = \sum_y \underset{\textrm{Data probability}}{\underbrace{\Pr_\chi(x, y)}} \overset{\textrm{Decision probability}}{\overbrace{\pol(a = y \mid x)}}
-    \]
-    \only<article>{The classification accuracy of policy $\poL$ under $\chi$ is the expected number of times the policy decides $\pol$ chooses the correct class.}
-  \end{block}
-
+\end{center}
+\caption{The decision process in classification.}
+\end{figure}
+\only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$. Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its accuracy is going to be biased.}
+  \uncover<5->{
+    \begin{block}{Classification accuracy}
+      \[
+      \E_\chi[\util(\pol)] = \sum_{x,y} \underset{\textrm{Data probability}}{\underbrace{\Pr_\chi(x, y)}} \overset{\textrm{Decision probability}}{\overbrace{\pol(a = y \mid x)}}
+      \]
+      \only<article>{The classification accuracy of policy $\poL$ under $\chi$ is the expected number of times the policy decides $\pol$ chooses the correct class.}
+    \end{block}
+}
 \end{frame}
 
 \begin{frame}
   \frametitle{The human as an algorithm.}
-  \only<article>{The same way with which an algorithm creates a model from some prior assumptions and data, so can a human select an algorithm and associated hyperparamters by executing an algorithm herself. }
+  \only<article>{The same way with which an algorithm creates a model from some prior assumptions and data, so can a human select an algorithm and associated hyperparamters by executing an algorithm herself. This involves trying different algorithms and hyperparametrs on the same training data $\Training$ and then measuring their performance in the holdout set $\Holdout$.}
   \centering
   \begin{tikzpicture}[line width=2pt]
-    \node[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg_1$};     
-    \node[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg_2$};
     \node[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
     \node[RV,label=above:Training] at (4,2) (training) {$\Training$};
     \node[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
     \draw[blue,->] (experiment) -- (training);
     \draw[blue,->] (experiment) to [bend left=45] (holdout);
-    \node[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
-    \draw[red,->] (experiment) -- (pol);
-    \draw[red,->] (alg) -- (pol);
-    \draw[red,->] (training) -- (pol);
-    \node[utility,label=below:Measurement] at (8,0) (util) {$\util$};
-    \draw[red,->] (pol) -- (util);
-    \draw[red,->] (holdout) -- (util);
+    \node<2->[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg_1$};     
+    \node<3->[RV,label=below:Classifier] at (4,0) (pol) {$\pol_1$};
+    \draw<3->[red,->] (alg) -- (pol);
+    \draw<3->[red,->] (training) -- (pol);
+    \node<4->[utility,label=below:Measurement] at (8,0) (util) {$\util_1$};
+    \draw<4->[red,->] (pol) -- (util);
+    \draw<4->[red,->] (holdout) -- (util);
+    \node<5->[select,label=below:{Algorithm, hyperparameters}] at (0,-2) (alg2) {$\alg_2$};
+    \node<6->[RV,label=below:Classifier] at (4,-2) (pol2) {$\pol_2$};
+    \node<7->[utility,label=below:Measurement] at (8,-2) (util2) {$\util_2$};
+    \draw<6->[red,->] (alg2) -- (pol2);
+    \draw<6->[red,->] (training) to [bend left] (pol2);
+    \draw<7->[red,->] (pol2) -- (util2);
+    \draw<7->[red,->] (holdout) to [bend right] (util2);
   \end{tikzpicture}
 
 \end{frame}
