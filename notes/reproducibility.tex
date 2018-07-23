@@ -4,27 +4,27 @@
 }
 
 \begin{frame}
-\begin{figure}[H]
-  \begin{center}
-  \begin{tikzpicture}[line width=2pt]
-    \node<1->[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
-    \node<3->[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg$};
-    \node<2->[RV,label=above:Training] at (4,2) (training) {$\Training$};
-    \node<5->[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
-    \draw<2->[blue,->] (experiment) -- (training);
-    \draw<6->[blue,->] (experiment) to [bend left=45] (holdout);
-    \node<4->[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
-    \draw<4->[red,->,dashed] (experiment) -- (pol);
-    \draw<4->[red,->] (alg) -- (pol);
-    \draw<4->[red,->] (training) -- (pol);
-    \node<7->[utility,label=below:Measurement] at (8,0) (util) {$\util$};
-    \draw<7->[red,->] (pol) -- (util);
-    \draw<7->[red,->] (holdout) -- (util);
-  \end{tikzpicture}
-\end{center}
-\caption{The decision process in classification.}
-\end{figure}
-\only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$. Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its accuracy is going to be biased.}
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}[line width=2pt]
+        \node<1->[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
+        \node<3->[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg$};
+        \node<2->[RV,label=above:Training] at (4,2) (training) {$\Training$};
+        \node<5->[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
+        \draw<2->[blue,->] (experiment) -- (training);
+        \draw<6->[blue,->] (experiment) to [bend left=45] (holdout);
+        \node<4->[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
+        \draw<4->[red,->,dashed] (experiment) -- (pol);
+        \draw<4->[red,->] (alg) -- (pol);
+        \draw<4->[red,->] (training) -- (pol);
+        \node<7->[utility,label=below:Measurement] at (8,0) (util) {$\util$};
+        \draw<7->[red,->] (pol) -- (util);
+        \draw<7->[red,->] (holdout) -- (util);
+      \end{tikzpicture}
+    \end{center}
+    \caption{The decision process in classification.}
+  \end{figure}
+  \only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$. Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its accuracy is going to be biased.}
   \uncover<5->{
     \begin{block}{Classification accuracy}
       \[
@@ -32,7 +32,7 @@
       \]
       \only<article>{The classification accuracy of policy $\poL$ under $\chi$ is the expected number of times the policy decides $\pol$ chooses the correct class.}
     \end{block}
-}
+  }
 \end{frame}
 
 \begin{frame}
@@ -159,7 +159,16 @@
   \]
   \only<article>{This ensures that the probability of rejecting the null hypothesis when it is true is actually $p$. But note that this is the definition of the uniform distribution, so $f(x)$ has a uniform distribution under $H_0$. Hence the value of $f(x)$ itself is uninformative. In theory we should simply choose $p$ before seeing the data and just accept or reject based on whether $f(x) \leq p$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all.}
 \end{frame}
-
+\begin{frame}
+  \frametitle{Issues with $p$-values}
+  \begin{itemize}
+  \item Not robust to model misspecification. \only<article>{For example, zero-mean testing using the $\chi^2$-test has a normality assumption.}
+  \item They ignore effect sizes. \only<article>{For example, a linear analysis may determine that there is a significant deviation from zero-mean, but with only a small effect size of 0.01. Thus, reporting only the $p$-value is misleading}
+  \item They do not consider prior information. 
+  \item They do not represent the probability of having made an error. \only<article>{In particular, a $p$-value of $\delta$ does not mean that the probability that the null hypothesis is false given the data $x$, is $\delta$, i.e. $\delta \neq \Pr(\neg \model_0 \mid x)$.}
+  \item The null-rejection error probability is the same irrespective of the amount of data.
+  \end{itemize}
+\end{frame}
 
 \begin{frame}
   \frametitle{Confidence intervals}
@@ -174,6 +183,29 @@
   \end{block}
   This is a property of the estimator $\hat{\theta} : \CX \to \Theta$ and tells us \emph{nothing direct} about our specific estimate $\hat{\theta(x)}$. \only<article>{It only tells that if we repeatedly apply this produre, we will only get an estimate outside of the interval a $\delta$-fraction of the time.}
 \end{frame}
+
+\begin{frame}\frametitle{$p$-value example}
+  \begin{example}[$\chi^2$-test]
+     This has the property:
+     \begin{align}
+       T(x) & \sim \Uniform(0,1), & \textrm{if } x \sim \Normal(0,\Sigma).
+     \end{align}
+  \end{example}
+   So let $\model_0$ be $x \sim \Normal(0,\Sigma)$. Then:
+   \begin{align}
+     \Pr(T(x_1, \ldots, x_n) < \delta \mid \model_0) & < \delta, & \forall & \delta \in [0,1].
+   \end{align}
+\end{frame}
+
+
+\begin{frame}\frametitle{Testing for normality}
+  \includegraphics[width=\textwidth]{../figures/distribution_examples}
+\end{frame}
+
+\begin{frame}\frametitle{The $\chi^2$ test's performancer}
+  \includegraphics[width=\textwidth]{../figures/rejection_ratio}
+\end{frame}
+
 
 \subsection{Bayesian credible intervals}
 
