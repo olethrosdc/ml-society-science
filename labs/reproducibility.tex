@@ -1,0 +1,51 @@
+\documentclass[a4paper,twoside]{article}
+
+\usepackage[notheorems]{beamerarticle}
+
+
+
+\mode<presentation>{
+  % \useinnertheme{rectangles}
+  %\useoutertheme{infolines}
+  % \usecolortheme{crane}
+  % \usecolortheme{rose}
+}
+\input{../preamble}
+
+%\includeonly{database,privacy}
+%\includeonly{experiment-design}
+\title{Reproducibility lab}
+\author[C. Dimitrakakis]{Christos Dimitrakakis}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Tools for reproducibility}
+In this unit, we shall use the \KNN{} classifier and histograms as simple models, and will investigate how we can ensure that the results we obtain in an experiment can be reliably reproduced. The main principle is the following.
+
+\textbf{Any decision made, by wither a human or an algorithm, based on the information contained in a specific dataset, must be evaluated in a \emph{different} dataset}.
+
+Generally speaking
+\section{Modelling and significance tests}
+
+
+\item Reproducibility: Use of holdout sets, bootstrap, cross-validation sets for hyperparameter optimisation. Linear models, neural networks.
+\item Privacy: Anonymity, record linkage, inferring data from statistical output. 
+\item Fairness: Fairness as conditional independence: COMPAS dataset
+\item Graphical models: 
+\item Web and recommendation systems.
+\item Experiment design.
+\item Reinforcement learning.
+\end{itemize}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "notes"
+%%% End:
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
