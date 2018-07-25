@@ -165,67 +165,6 @@
 
 
 
-\subsection{Confidence intervals and $p$-values}
-\begin{frame}
-  \frametitle{The fallacy of $p$-values}
-  \only<article>{A $p$-value has a uniform distribution under the null hypothesis. More precisely,let $x$ is our data and $H_0$ is our null hypothesis. If $H_0$ is true then $x \sim P_0$. Let}
-  \[
-  f(x) \tag{$p$-statistic}
-  \]
-  \only<article>{be a statistic on the data designed to have the property:}
-  \[
-  P_0(\cset{x}{f(x) \leq p}) = p.
-  \]
-  \only<article>{This ensures that the probability of rejecting the null hypothesis when it is true is actually $p$. But note that this is the definition of the uniform distribution, so $f(x)$ has a uniform distribution under $H_0$. Hence the value of $f(x)$ itself is uninformative. In theory we should simply choose $p$ before seeing the data and just accept or reject based on whether $f(x) \leq p$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all.}
-\end{frame}
-\begin{frame}
-  \frametitle{Issues with $p$-values}
-  \begin{itemize}
-  \item Not robust to model misspecification. \only<article>{For example, zero-mean testing using the $\chi^2$-test has a normality assumption.}
-  \item They ignore effect sizes. \only<article>{For example, a linear analysis may determine that there is a significant deviation from zero-mean, but with only a small effect size of 0.01. Thus, reporting only the $p$-value is misleading}
-  \item They do not consider prior information. 
-  \item They do not represent the probability of having made an error. \only<article>{In particular, a $p$-value of $\delta$ does not mean that the probability that the null hypothesis is false given the data $x$, is $\delta$, i.e. $\delta \neq \Pr(\neg \model_0 \mid x)$.}
-  \item The null-rejection error probability is the same irrespective of the amount of data.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Confidence intervals}
-  \only<article>{Similarly, a confidence interval $I$ tells us the probability of an underlying value $\theta$ to be estimated being in $\theta \in I$, if our modelling assumption is correct.}
-  \begin{block}[Confidence interval under a model $\mu$]
-    \only<article>{
-      The interval $I(\delta)$ for an estimator $\hat{\theta}$ of a parameter $\theta$ from data $x$ under the modelling assumptions $\mu$ is simply a set in $\Theta$ such that the true parameter lies in $I(\delta)$ with probability $1 - \delta$, i.e.
-    }
-    \[
-    \Pr_\mu(\hat{\theta} \in I(\theta, \delta)) \geq 1 - \delta.
-    \]
-  \end{block}
-  This is a property of the estimator $\hat{\theta} : \CX \to \Theta$ and tells us \emph{nothing direct} about our specific estimate $\hat{\theta(x)}$. \only<article>{It only tells that if we repeatedly apply this produre, we will only get an estimate outside of the interval a $\delta$-fraction of the time.}
-\end{frame}
-
-\begin{frame}\frametitle{$p$-value example}
-  \begin{example}[$\chi^2$-test]
-     This has the property:
-     \begin{align}
-       T(x) & \sim \Uniform(0,1), & \textrm{if } x \sim \Normal(0,\Sigma).
-     \end{align}
-  \end{example}
-   So let $\model_0$ be $x \sim \Normal(0,\Sigma)$. Then:
-   \begin{align}
-     \Pr(T(x_1, \ldots, x_n) < \delta \mid \model_0) & < \delta, & \forall & \delta \in [0,1].
-   \end{align}
-\end{frame}
-
-
-\begin{frame}\frametitle{Testing for normality}
-  \includegraphics[width=\textwidth]{../figures/distribution_examples}
-\end{frame}
-
-\begin{frame}\frametitle{The $\chi^2$ test's performancer}
-  \includegraphics[width=\textwidth]{../figures/rejection_ratio}
-\end{frame}
-
-
 \subsection{Bayesian credible intervals}
 
 
