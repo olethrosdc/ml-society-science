@@ -1,4 +1,13 @@
 \section{Reproducibility}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
 \only<article>{
   One of the main problems in science is reproducibility: when we are trying to draw conclusions from one specific data set, it is easy to make a mistake. For that reason, the scientific process requires us to use our conclusions to make testable predictions, and then test those predictions with new experiments.}
 
@@ -11,7 +20,6 @@
 \end{frame}
 \only<article>{The same thing can be done in when dealing purely with data, by making sure we use some of the data as input to the algorithm, and other data to measure the quality of the algorithm itself. In the following, we assume we have some algorithm $\alg : \Datasets \to \CY$, where $\Datasets$ is the universe of possible input data and $\CY$ the possible outputs, e.g. all possible classification rules. We also assume the existence of some quality measure $U$.
 }
-
 
 
 
@@ -47,6 +55,7 @@
   }
 \end{frame}
 
+\subsection{The human as an algorithm}
 \begin{frame}
   \frametitle{The human as an algorithm.}
   \only<article>{The same way with which an algorithm creates a model from some prior assumptions and data, so can a human select an algorithm and associated hyperparamters by executing an algorithm herself. This involves trying different algorithms and hyperparametrs on the same training data $\Training$ and then measuring their performance in the holdout set $\Holdout$.}
