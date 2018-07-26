@@ -1,4 +1,6 @@
 \section{Nearest neighbours}
+
+
 \begin{frame}
   \frametitle{Discriminating between diseases}
   \input{../figures/KNN3.tikz}
@@ -15,10 +17,12 @@
   examples from each strain.
 }
 
+
 \begin{frame}
   \frametitle{Nearest neighbour: the hidden secret of machine learning}
   \input{../figures/separation1.tikz}
 \end{frame}
+
 
 \only<article>{ Now, is it possible to identify an unknown strain
   based on this data? Actually, this is possible. Sometimes, very
@@ -69,6 +73,16 @@
   }
 \end{frame}
 
+
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{../figures/fix_evelyn2}
+    \includegraphics[width=0.4\textwidth]{../figures/Hodges}
+    \caption{The nearest neighbours algorithm was introduced by \citet{fix1951discriminatory}, who also proved consistency properties.}
+  \end{figure}
+\end{frame}
+
 \begin{frame}
   \frametitle{Nearest neighbour: What type is the new bacterium?}
   \input{../figures/separation2.tikz}
@@ -85,7 +99,7 @@
   \item \only<article>{It is up to us to decide how to use this model to decide upon a given class. A typical decision making rule can be in the form of a policy $\pol$ that depends on what the model says. However, the simplest decision rule is to take the most likely class:}
     \only<presentation>{Deciding a class given the model}
     \[
-    \pol(a \mid x) = \ind{p_a \geq p_y \forall y}, \qquad \vp = \KNN(D, k, d, x)
+      \pol(a \mid x) = \ind{p_a \geq p_y \forall y}, \qquad \vp = \KNN(D, k, d, x)
     \]
   \end{itemize}
 \end{frame}

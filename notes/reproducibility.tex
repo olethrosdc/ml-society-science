@@ -64,7 +64,7 @@
     \node[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
     \node[RV,label=above:Training] at (4,2) (training) {$\Training$};
     \node[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
-    \draw[blue,->] (experiment) -- (training);
+     \draw[blue,->] (experiment) -- (training);
     \draw[blue,->] (experiment) to [bend left=45] (holdout);
     \node<2->[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg_1$};     
     \node<3->[RV,label=below:Classifier] at (4,0) (pol) {$\pol_1$};
@@ -91,7 +91,8 @@
   \item Original data $\Data$, e.g. $\Data = (x_1, \ldots, x_T)$.
   \item Training data $\Training \subset \Data$, e.g. $\Training = x_1, \ldots, x_n$, $n < T$.
   \item Holdout data $\Holdout = D \setminus \Training$, used to measure the quality of the result.
-  \item Get algorithm output $\pol = \alg(\Training)$.
+  \item Algorithm $\alg$ with hyperparametrs $\hyperparam$.
+  \item Get algorithm output $\pol = \alg(\Training, \hyperparam)$.
   \item Calculate quality of output $U(\pol, \Holdout)$
   \end{itemize}
   \only<article>{
@@ -103,8 +104,62 @@
 
     However, using the holdout set in order to select the best $\alg$ means that we must measure performance on another sample.
   }
+  \begin{block}{Holdout sets for unbiased algorithm comparison}
+    \only<article>{
+      Consider the problem of comparing a number of different algorithms in $\Alg$. Each algorithm $\alg$ has a different set of hyperparameters $\Hyperparam_\alg$. The problem is to choose the best parameters for each algorithm, and then to test them independently. A simple meta-algorithm for doing this is based on the use of a \emph{holdout} set for choosing hyperparameters for each algorithm, and a \emph{test} set to measure algorithmic performance.}
+    \begin{algorithmic}
+      \State Partition data into $\Training, \Holdout, \Testing$.
+      \For {$\alg \in \Alg$}
+      \For {$\hyperparam \in \Hyperparam_\alg$}
+      \State $\pol_{\hyperparam, \alg} = \alg(\Training, \hyperparam)$.
+      \EndFor
+      \State Get $\pol^*_{\alg}$ maximising $\util(\pol_{\hyperparam, \alg}, \Holdout)$.
+      \State $u_\alg = \util(\pol^*_\alg, \Testing)$.
+      \EndFor
+      \State $\alg^* = \argmax_\alg u_\alg$.
+    \end{algorithmic}
+  \end{block}
+  \only<article>{This ensures that we are not biased in our decision about what is the best algorithm.}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Final performance measurement}
+  \begin{figure}[H]
+    
+    \centering
+  \begin{tikzpicture}[line width=2pt]
+    \node[select,label=above:Data Collection] at (0,0) (experiment) {$\chi$};
+    \node[RV,label=above:Training] at (2,0) (training) {$\Training$};
+    \node[RV,label=above:Holdout] at (4,0) (holdout) {$\Holdout$};
+    \node[RV,label=above:Testing] at (6,0) (testing) {$\Testing$};
+    \draw[blue,->] (experiment) -- (training);
+    \draw[blue,->] (experiment) to [bend left=15] (holdout);
+    \draw[blue,->] (experiment) to [bend left=45] (testing);
+    \node[select,label=below:{human}] at (0,-2) (human) {$\eta$};
+    \node[RV,label=below:Algorithm 1] at (2,-2) (alg1) {$\alg_1$};
+    \node[RV,label=below:Classifier 1] at (4,-2) (pol1) {$\pol_1$};
+    \node[RV,label=below:Result 1] at (6,-2) (util1) {$\util^*_1$};
+    \node[RV,label=below:Algorithm 2] at (2,-4) (alg2) {$\alg_2$};
+    \node[RV,label=below:Classifier 2] at (4,-4) (pol2) {$\pol_2$};
+    \node[RV,label=below:Result 2] at (6,-4) (util2) {$\util^*_2$};
+    \draw[->,red] (human) -- (alg1);
+    \draw[->,red] (alg1) -- (pol1);
+    \draw[->,red] (pol1) -- (util1);
+    \draw[->,red] (human) -- (alg2);
+    \draw[->,red] (alg2) -- (pol2);
+    \draw[->,red] (pol2) -- (util2);
+    \draw[->,red] (training) -- (pol1);
+    \draw[->,red] (holdout) -- (pol1);
+    \draw[->,red] (testing) -- (util1);
+    \draw[->,red] (training) -- (pol2);
+    \draw[->,red] (holdout) to [bend left = 45] (pol2);
+    \draw[->,red] (testing) to [bend left = 45] (util2);
+  \end{tikzpicture}
+  \only<article>{
+    \caption{Simplified dependency graph for selecting hyperparameters for different algorithms, and comparing them on an independent test set. For the $i$-th algorithm, the classifier model is }
+  }
+\end{figure}
+\end{frame}
 
 \subsection{Algorithmic sensitivity}
 \only<article>{The algorithm's output does have a dependence on its input, obviously. So, how sensitive is the algorithm to the input?}
