@@ -77,12 +77,13 @@
 
 \begin{frame}
   \frametitle{Holdout sets}
+  \only<article>{To summarise, holdout sets are used in order to be able to evaluate the performance of specific algorithms, or hyparameter selection.}
   \begin{itemize}
   \item Original data $\Data$, e.g. $\Data = (x_1, \ldots, x_T)$.
   \item Training data $\Training \subset \Data$, e.g. $\Training = x_1, \ldots, x_n$, $n < T$.
   \item Holdout data $\Holdout = D \setminus \Training$, used to measure the quality of the result.
-  \item Get algorithm output $y = \alg(\Training)$.
-  \item Calculate quality of output $U(y, \Holdout)$
+  \item Get algorithm output $\pol = \alg(\Training)$.
+  \item Calculate quality of output $U(\pol, \Holdout)$
   \end{itemize}
   \only<article>{
     As typically algorithms are maximising the quality metric on the training data, 
@@ -90,8 +91,11 @@
     \alg(\Training) = \argmax_y U(y, \Training)
     \]
     we typically obtain a biased estimate, which depends both on the algorithm itself and the training data. For \KNN{} in particular, when we measure accuracy on the training data, we can nearly always obtain near-perfect accuracy.\footnote{But not always perfect. Can you explain why?}
+
+    However, using the holdout set in order to select the best $\alg$ means that we must measure performance on another sample.
   }
 \end{frame}
+
 
 \subsection{Algorithmic sensitivity}
 \only<article>{The algorithm's output does have a dependence on its input, obviously. So, how sensitive is the algorithm to the input?}
@@ -125,14 +129,14 @@
     \node[select,label=below:{Algorithm}] at (8,0) (alg) {$\alg$};
     \node[RV,label=below:1st sample] at (4,0) (sample1) {$D_1$};
     \node[RV,label=below:1st Result] at (6,0) (pol1) {$\pol_1$};
-    \node<2>[RV,label=above:2nd Sample] at (4,2) (sample2) {$D_2$};
-    \node<2>[RV,label=above:2nd Result] at (6,2) (pol2) {$\pol_2$};
+    \node[RV,label=above:2nd Sample] at (4,2) (sample2) {$D_2$};
+    \node[RV,label=above:2nd Result] at (6,2) (pol2) {$\pol_2$};
     \draw[red,->] (alg) -- (pol1);
     \draw[red,->] (sample1) -- (pol1);
     \draw[red,->] (training) -- (sample1);
-    \draw<2>[red,->] (training) -- (sample2);
-    \draw<2>[red,->] (alg) -- (pol2);
-    \draw<2>[red,->] (sample2) -- (pol2);
+    \draw[red,->] (training) -- (sample2);
+    \draw[red,->] (alg) -- (pol2);
+    \draw[red,->] (sample2) -- (pol2);
   \end{tikzpicture}
   \only<article>{As usual, we can evaluate our algorithm on an independent holdout set.}
 \end{frame}
