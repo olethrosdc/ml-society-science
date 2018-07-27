@@ -116,7 +116,14 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
   \only<article>{
     for any class $c$. This directly gives us a method for classifying new data, as long as we have a way to obtain $P_\model(\bx_t \mid y_t)$ and $P_\model(y_t)$.
   }
-  \uncover<2>{
+  \uncover<2->{
+    \begin{example}[Normal distribution]
+      \only<2,4>{\includegraphics[width=\textwidth]{../figures/equal-variance}}
+      \only<3>{\includegraphics[width=\textwidth]{../figures/unequal-variance}}
+      \only<5>{\includegraphics[width=\textwidth]{../figures/unequal-prior}}
+    \end{example}
+  }
+  \uncover<3>{
     \alert{But how can we get a probability model in the first place?}
   }
 \end{frame}
