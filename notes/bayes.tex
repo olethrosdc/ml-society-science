@@ -116,14 +116,24 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
   \only<article>{
     for any class $c$. This directly gives us a method for classifying new data, as long as we have a way to obtain $P_\model(\bx_t \mid y_t)$ and $P_\model(y_t)$.
   }
+  \only<1>{
+        \begin{tikzpicture}
+          \node[RV] at (0,0) (x) {$y_t$};
+          \node[RV] at (0,2) (y) {$x_t$};
+          \node[RV] at (1,1) (m) {$\model$};
+          \draw[->] (x) to (y);
+          \draw[->] (m) to (x);
+          \draw[->] (m) to (y);
+        \end{tikzpicture}
+      }
   \uncover<2->{
     \begin{example}[Normal distribution]
-      \only<2,4>{\includegraphics[width=\textwidth]{../figures/equal-variance}}
-      \only<3>{\includegraphics[width=\textwidth]{../figures/unequal-variance}}
-      \only<5>{\includegraphics[width=\textwidth]{../figures/unequal-prior}}
+ \only<2,4>{\includegraphics[width=0.5\textwidth]{../figures/equal-variance}Equal prior and variance}
+      \only<3>{\includegraphics[width=0.5\textwidth]{../figures/unequal-variance}Unequal variance}
+\only<5>{\includegraphics[width=0.5\textwidth]{../figures/unequal-prior}Unequal prior}
     \end{example}
   }
-  \uncover<3>{
+  \uncover<5>{
     \alert{But how can we get a probability model in the first place?}
   }
 \end{frame}
@@ -299,6 +309,17 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
       = \frac{P_\model(\bx) \bel(\model)}{\sum_{\model' \in \Model} P_{\model'} (\bx) \bel(\model')}.
       \]
     \end{itemize}
+    \only<5->{
+      \begin{block}{Interpretation}
+        \begin{itemize}
+        \item $\CM$: Set of all possible models that could describe the data.
+        \item $P_\model(\bx)$: Probability of $\bx$ under model $\model$.
+        \item $\Pr(\bx \mid \model)$: Probability of $\bx$ given that model $\model$ is correct.
+        \item $\bel(\model)$: Our belief, before seeing the data, that $\model$ is correct.
+        \item $\bel(\model \mid \bx)$: Our belief, aftering seeing the data, that $\model$ is correct.
+      \end{itemize}
+    \end{block}
+  }
     \only<article>{
       Combining the prior belief with evidence is key in this procedure. Our posterior belief can then be used as a new prior belief when we get more evidence.}
 
