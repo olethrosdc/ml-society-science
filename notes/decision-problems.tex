@@ -1,7 +1,14 @@
 \section{Hierarchies of decision making problems}
-\begin{frame}
-  \tableofcontents[currentsection]
-\end{frame}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
+
 
 \only<article>{
   All machine learning problems are essentially decision problems. This essentially means replacing some human decisions with machine decisions. One of the simplest decision problems is classification, where you want an algorithm to decide the correct class of some data, but even within this simple framework there is a multitude of decisions to be made. The first is how to frame the classification problem the first place. The second is how to collect, process and annotate the data. The third is choosing the type of classification model to use. The fourth is how to use the collected data to find an optimal classifier within the selected type. After all this has been done, there is the problem of classifying new data. In this course, we will take a holistic view of the problem, and consider each problem in turn, starting from the lowest level and working our way up.}
@@ -63,37 +70,43 @@
   \item We (weakly) prefer $A$ to $B$ iff $U(A) \geq U(B)$.
   \end{itemize}
 
-  \begin{example}%ro: rather an exercise?
-    You are going to work, and it might rain.
-    What do you do?
-    \begin{itemize}
-    \item $\decision_1$: Take the umbrella.
-    \item $\decision_2$: Risk it!
-    \item $\outcome_1$: rain
-    \item $\outcome_2$: dry
-    \end{itemize}
-    \begin{table}
-      \centering
-      \begin{tabular}{c|c|c}
-        $\Rew(\outcome,\decision)$ & $\decision_1$ & $\decision_2$ \\ %ro: U has only one argument.
-        \hline
-        $\outcome_1$ & dry, carrying umbrella & wet\\
-        $\outcome_2$ & dry, carrying umbrella & dry\\
-        \hline
-        \hline
-        $U[\Rew(\outcome,\decision)]$ & $\decision_1$ & $\decision_2$ \\
-        \hline
-        $\outcome_1$ & 0 & -10\\
-        $\outcome_2$ & 0 & 1
-      \end{tabular}
-      \caption{Rewards and utilities.}
-      \label{tab:rain-utility-function}
-    \end{table}
+  \begin{example}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+      You are going to work, and it might rain.  What do you do?
+        \begin{itemize}
+        \item $\decision_1$: Take the umbrella.
+        \item $\decision_2$: Risk it!
+        \item $\outcome_1$: rain
+        \item $\outcome_2$: dry
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+      \begin{table}
+          \centering
+          \begin{tabular}{c|c|c}
+            $\Rew(\outcome,\decision)$ & $\decision_1$ & $\decision_2$ \\ %ro: U has only one argument.
+            \hline
+            $\outcome_1$ & dry, carrying umbrella & wet\\
+            $\outcome_2$ & dry, carrying umbrella & dry\\
+            \hline
+            \hline
+            $U[\Rew(\outcome,\decision)]$ & $\decision_1$ & $\decision_2$ \\
+            \hline
+            $\outcome_1$ & 0 & -10\\
+            $\outcome_2$ & 0 & 1
+          \end{tabular}
+          \caption{Rewards and utilities.}
+          \label{tab:rain-utility-function}
+        \end{table}
 
-    \begin{itemize}
-    \item<2-> $\max_\decision \min_\outcome U = 0$
-    \item<3-> $\min_\outcome \max_\decision  U = 0$
-    \end{itemize}
+        \begin{itemize}
+        \item<2-> $\max_\decision \min_\outcome U = 0$
+        \item<3-> $\min_\outcome \max_\decision U = 0$
+        \end{itemize}
+      \end{column}
+
+    \end{columns}
   \end{example}
 \end{frame}
 

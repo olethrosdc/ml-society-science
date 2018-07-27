@@ -1,189 +1,32 @@
 \section{Beliefs and probabilities}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
+
+
 
 \begin{frame}
   \frametitle{Uncertainty}
   \begin{itemize}
-  \item<1-> We cannot perfectly predict the future.
-  \item<2-> We cannot know for sure what happened in the past.
-  \item<3-> How can we quantify this uncertainty?
-  \item<4-> Probabilities!
+  \item We cannot perfectly predict the future.
+  \item We cannot know for sure what happened in the past.
+  \item How can we quantify this uncertainty?
+  \item Probabilities!
   \end{itemize}
-  \begin{block}{Subjective probability measure $\bel$}
-    \begin{itemize}
-    \item If we think event $A$ is more likely than $B$, then $\bel(A) > \bel(B)$.
-    \item Usual rules of probability apply:
-      \begin{enumerate}
-      \item<6-> $\bel(A) \in [0,1]$.
-      \item<7-> $\bel(\emptyset) = 0$.
-      \item<8-> If $A \cap B = \emptyset$, then $\bel(A \cup B) = \bel(A) + \bel(B)$.
-      \end{enumerate}
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Rain forecast}
-  \begin{itemize}
-  \item $\outcome_1$: rain
-  \item $\outcome_2$: dry
-  \end{itemize}
-
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{example}[Prior probability of rain]
-        \begin{table}
-          \centering
-          \begin{tabular}{c|c}
-            $\outcome_1$ & 80\%\\
-            $\outcome_2$ & 20\%
-          \end{tabular}
-          \caption{Probabilities of rain}
-        \end{table}
-      \end{example}
-
-      \uncover<2->{
-        \begin{example}[Posterior probability]
-          The weather forecast says \alert{sun}
-          \begin{table}
-            \centering
-            \begin{tabular}{c|r|r}
-              & $\bel(x | \omega_i)$ & $\bel(\omega_i | x)$\\
-              \hline
-              $\outcome_1$ & 50\% & \uncover<3>{60\%} \\
-              $\outcome_2$ & 100\% & \uncover<3>{40\%}
-            \end{tabular}
-            \caption{Probabilities of rain}
-          \end{table}
-        \end{example}
-      }
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Bayesian inference illustration}
-  \begin{columns}
-    \begin{column}{0.7\textwidth}
-      \begin{block}{Use a subjective belief $\bel(\param)$ on $\Param$}
-        \begin{itemize}
-        \item<1-> \alert{Prior} belief $\bel(\param)$ represents our initial uncertainty.
-        \item<2-> We \alert{observe history} $h$.
-        \item<3->Each possible $\param$ assigns a \alert{probability} $\Pr_\param(h)$ to $h$.
-        \item<4-> We can use this to \alert{update} our belief via Bayes' theorem to obtain the \alert{posterior} belief:
-          \[
-          \bel(\param \mid h) \propto \Pr_\param(h) \bel(\param)
-          \tag{conclusion = evidence $\times$ prior}
-          \]
-        \end{itemize}
-      \end{block}
-    \end{column}
-    \begin{column}{0.3\textwidth}
-      \centering
-      \uncover<1->{\includegraphics[width=\columnwidth]{../figures/rl_worlds}
-        \\
-        prior
-      }
-      \\
-      \uncover<2->{\includegraphics[width=0.5\columnwidth]{../figures/rl_observations}
-        \\
-        evidence
-      }
-      \\
-      \uncover<4->{\includegraphics[width=\columnwidth]{../figures/rl_worlds2}
-        \\ 
-        conclusion
-      }
-    \end{column}
-  \end{columns}
-\end{frame}
-
-
-
-
-\subsection{Probability and Bayesian inference}
-\only<article>{One of the most important methods in machine learning
-  and statistics is that of Bayesian inference.  This is the most
-  fundamental method of drawing conclusions from data and explicit
-  prior assumptions. In Bayesian inference, prior assumptions are
-  represented as a probabilities on a space of hypothesis. Each
-  hypothesis is seen as a probabilistic model of all possible data
-  that we can see.}
-
-\only<article>{Frequently, we want to draw conclusions from data. However, the conclusions are never solely inferred from data, but also depend on prior assumptions about reality. 
-
-
-  \begin{example}
-    John claims he has psychic powers and can predict a series of coin tosses. We oblige, and throw a coin 8 times.  John predicts 8 out of 8 coin tosses. The probability of him doing so by chance is $2^{-8}$. If he was a medium, as he claims, then his probability of achieving the feat would be $1$. Should we believe John?
-  \end{example}
-
-
-  \begin{example}
-    Traces of DNA are found at a murder scene. We perform a DNA test against a database of $10^4$ citizens registered to be living in the area. We know that the probability of a false positive (that is, the test finding a match by mistake) is $10^{-6}$. If there is a match in the database, does that mean that the citizen was at the scene of the crime?
-  \end{example}
-
-  Answering these questions requires us to clearly define what are the possible hypotheses we wish to consider. Taking the first example, we can define two:
-  \begin{enumerate}
-  \item hypothesis $\model_1$, that John is a medium.
-  \item hypothesis $\model_0$, that John is not a medium.
-  \end{enumerate}
-  We can also define a probability model for the number of successful predictions that John would make in either case. 
-
-  Let $x_t$ be $0$ if John makes an incorrect prediction at time $t$ and $x_t = 1$ if he makes a correct prediction. John's claim that he can predict our tosses perfectly means that for a sequence of tosses $\bx = x_1, \ldots, x_n$,
-  \[
-  \Pr(\bx \mid \model_1) = \begin{cases}
-    1, & x_t = 1 \forall t \in [n]\\
-    0, & \exists t \in [n] : x_t = 0.
-  \end{cases}
-  \]
-  That is, the probability of perfectly correct predictions is 1, and that of one or more incorrect prediction is 0. For the other model, we can assume that all draws are independently and identically distributed from a fair coin. Consequently, no matter what John's predictions are, we have that:
-  \[
-  \Pr(\bx \mid \model_0) = 2^{-n}.
-  \]
-  So, for the given example, as stated, we have the following facts:
-  \begin{itemize}
-  \item If John makes one or more mistakes, then $\Pr(\bx \mid \model_1) = 0$ and $\Pr(\bx \mid \model_0) = 2^{-n}$. Thus, we should perhaps say that then John is not a medium
-  \item If John makes no mistakes at all, then 
-    \begin{align}
-      \Pr(\bx \mid \model_1) &= 1,
-      &
-        \Pr(\bx \mid \model_0) &= 2^{-n}.
-    \end{align}
-  \end{itemize}
-  Does that mean that we must conclude that John is a medium? What if
-  $n = 1$? What if $n=100$?  In fact, our conclusion should somehow
-  depend on the strength of the evidence. Should it also not depend on how
-  likely we think that a medium exists?
-
-  It is this latter idea that we'll try and exploit. We'd like to combine the weight of the evidence, with the weight of our prior beliefs about reality.
-  To do this, we first recall the definition of conditional probability. 
-}
-
-
-\subsection{Conditional probability and Bayesian inference}
-\begin{frame}
-  \frametitle{A medium}
-  \begin{example}
-    John claims to be a medium. He throws a coin $n$ times and predicts its value always correctly. Should we believe that he is a medium?
-  \end{example}
-  \begin{itemize}
-  \item $\model_1$: John is a medium.
-  \item $\model_0$: John is not a medium.
-  \end{itemize}
-  The answer depends on what we \alert{expect} a medium to be able to do, and how likely we thought he'd be a medium in the first place.
-\end{frame}
-\only<article>{
-  Let $A$ and $B$ be two events. Let $P(A)$ be the probability of event $A$ and $P(B)$ the probability of event $B$. We can think of the probability of an event as the \emph{relative size} of the event in the space of probabilities.\footnote{More formally, probability is a measure; a function similar to volume, area, length and mass.} 
-  The probability of both events $A$ and $B$ happening at the same time is denoted by $P(A \cap B)$.  This amounts to measuring the size of the space by the intersection of $A$ and $B$.
-  The basic probability laws are the following.
-}
-\begin{frame}
   \begin{block}{Axioms of probability}
+    For any probability measure\footnote{$\Sigma$ is the set of possible events, with $A \in \Sigma$ always $A \subset \Omega$. Technically $\Sigma$ is a $\sigma$-algebra} $P$ on $(\Omega, \Sigma)$,
     \begin{enumerate}
-    \item The probability of the certain event is $P(\Omega) = 1$
-    \item The probability of the impossible event is
+    \item<2-> The probability of the certain event is $P(\Omega) = 1$
+    \item<3->The probability of the impossible event is
       $P(\emptyset) = 0$
-    \item The probability of any event $A$ is $1 \leq P(A) \geq 0$.
-    \item If $A, B$ are disjoint, i.e. $A \cap B = \emptyset$, meaning
+    \item<4->The probability of any event $A$ is $0 \leq P(A) \leq 1$.
+    \item<5-> If $A, B$ are disjoint, i.e. $A \cap B = \emptyset$, meaning
       that they cannot happen at the same time, then
       \[
       P(A \cup B) = P(A) + P(B)
@@ -208,139 +51,288 @@
     Here, the probability measure of any event $A$ given $B$ is defined to be the probability of the intersection of of the events divided by the second event.
     We can rewrite this definition as follows, by using the definition for $P(B \mid A)$}
   \begin{block}{Bayes's theorem}
+    For $A = A_1 \cup A_2$, $A_1 \cap A_2 = \emptyset$,
     \[
-    P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)}.
+    P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)} = \frac{P(B \mid A) P(A)}{P(B \mid A_1) P(A_1) + P(B \mid A_2) P(A_2)}
     \]
   \end{block}
+  \begin{example}[probability of rain]
+    What is the probability of rain given a forecast $x_1$ or $x_2$?
+    \begin{columns}
+      \begin{column}{0.33\textwidth}
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c}
+            $\outcome_1$: rain & $P(\outcome_1) = 80\%$ \\
+            $\outcome_2$: dry & $P(\outcome_2) = 20\%$
+          \end{tabular}
+          \caption{Prior probability of rain tomorrow}
+        \end{table}
+      \end{column}
+      
+      \begin{column}{0.33\textwidth}
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c}
+            $x_1$: rain & $P(x_1 \mid \outcome_1) = 90\%$ \\
+            $x_2$: dry & $P(x_2 \mid \outcome_2) = 50\%$
+          \end{tabular}
+          \caption{Probability the forecast is correct}
+        \end{table}
+      \end{column}
+      \begin{column}{0.33\textwidth}
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c}
+            $P(\outcome_1 \mid x_1) = 87.8\%$ \\
+            $P(\outcome_1 \mid x_2) = 44.4\%$
+          \end{tabular}
+          \caption{Probability that it will rain given the forecast}
+        \end{table}
+      \end{column}
+    \end{columns}
+  \end{example}
 \end{frame}
-
-\begin{frame}
-  \frametitle{Bayesian inference}
-  \only<article>{
-    Now let us apply this idea to our specific problem. We already have the probability of the observation for each model, but we just need to define a \emph{prior probability} for each model. Since this is usually completely subjective, we give it another symbol.
-  }
-  \only<article>{
-    \begin{block}{Prior probability}
-      The prior probability $\bel$ on a set of models $\Model$ specifies our subjective belief $\bel(\model)$ that each model is true.\footnote{More generally $\bel$ is a probability measure.}
-    \end{block}
-  }
-  \only<article>{
-    This allows us to calculate the probability of John being a medium, given the data:
-    \[
-    \bel(\model_1 \mid \bx) = \frac{\Pr(\bx \mid \model_1) \bel(\model_1)}{\Pr_\bel(\bx)},
-    \]
-    where
-    \[
-    \Pr_\bel(\bx) \defn \Pr(\bx \mid \model_1) \bel(\model_1) + \Pr(\bx \mid \model_0) \bel(\model_0).
-    \]
-    The only thing left to specify is $\bel(\model_1)$, the probability that John is a medium before seeing the data. This is our subjective prior belief that mediums exist and that John is one of them.
-    More generally, we can think of Bayesian inference as follows: }
-  \begin{itemize}
-  \item<1-> \only<article>{We start with a set of } mutually exclusive hypotheses $\Model = \{\model_1, \ldots, \model_k\}$.
-  \item<2->\only<article>{Each hypothesis $\model$ is represented by a specific probabilistic model for any possible data $\bx$, that is}
-    \only<presentation>{Probability model for any data $\bx$:} $\Pr(\bx \mid \model)$.
-  \item<3-> For each hypothesis, we have a prior probability $\bel(\model)$ that it is correct.
-  \item<4-> \only<article>{After observing the data, we can calculate a posterior probability that the hypothesis is correct:}
-    \only<presentation>{Posterior probability}
-    \[
-    \bel(\model \mid \bx) = \frac{\Pr(\bx \mid \model) \bel(\model)}{\sum_{i=1}^k \Pr(\bx \mid \model_i) \bel(\model_i)}.
-    \]
-  \end{itemize}
-  \only<article>{
-    Combining the prior belief with evidence is key in this procedure. Our posterior belief can then be used as a new prior belief when we get more evidence.}
-\end{frame}
-
-
-
-
 
 
 \begin{frame}
-  \begin{block}{Bayes's theorem}
-    \[
-    P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)}.
-    \]
-  \end{block}
-  \only<article>{ Now let us apply this idea to our specific
-    problem. This allows us to calculate the probability of John being
-    a medium, given the data:
-    \[
-    \Pr(\model_1 \mid \bx) = \frac{\Pr(\bx \mid \model_1)
-      \Pr(\model_1)}{\Pr(\bx)},
-    \]
-    where
-    \[
-    \Pr(\bx) = \Pr(\bx \mid \model_1) \Pr(\model_1) + \Pr(\bx \mid
-    \model_0) \Pr(\model_0).
-    \]
-    The only thing left to specify is $\Pr(\model_1)$, the probability
-    that John is a medium before seeing the data. This is our
-    subjective prior belief that mediums exist and that John is one of
-    them.
-
-    More generally, we can think of Bayesian inference as follows:
+  \frametitle{Classification in terms of conditional probabilities}
+  \only<presentation>{
     \begin{itemize}
-    \item We start with a set of mutually exclusive hypotheses
-      $H = \{\model_1, \ldots, \model_k\}$.
-    \item Each hypothesis $\model$ is represented by a specific
-      probabilistic model for any possible data $\bx$, that is
-      $\Pr(\bx \mid \model)$.
-    \item For each hypothesis, we have a prior probability
-      $\Pr(\model)$ that it is correct.
-    \item After observing the data, we can calculate a posterior
-      probability that the hypothesis is correct:
+    \item Features $\bx_t \in \CX$.
+    \item Class label $y_t \in \CY$.
+    \item Probability model $P_\model(\bx_t \mid y_t)$.
+    \item Prior class probability $P_\model(y_t = c)$.
+    \end{itemize}
+  }
+  \only<article>{
+    Conditional probability naturally appears in classification problems. Given a new example vector of data $\bx_t \in \CX$, we would like to calculate the probability of different classes $c \in \CY$ given the data, $P_\model(y_t = c \mid \bx_t)$.  
+If we somehow obtained the distribution of data $P_\model(\bx_t \mid y_t)$ for each possible class, as well as the prior class probability $P_\model(y_t = c)$, 
+from Bayes's theorem, we see that we can obtain the probability of the class:
+  }
+  \[
+  P_\model(y_t = c \mid \bx_t) = \frac{P_\model(\bx_t \mid y_t = c) P_\model(y_t = c)}{\sum_{c' \in \CY} P_\model(\bx_t \mid y_t = c') P_\model(y_t = c')}
+  \]
+  \only<article>{
+    for any class $c$. This directly gives us a method for classifying new data, as long as we have a way to obtain $P_\model(\bx_t \mid y_t)$ and $P_\model(y_t)$.
+  }
+  \uncover<2>{
+    \alert{But how can we get a probability model in the first place?}
+  }
+\end{frame}
+
+
+  \begin{frame}
+    \frametitle{Subjective probability}
+    \only<article>{While probabilities apply to truly random events, they are also useful for representing subjective uncertainty. In this course, we will use a special symbol for subjective probability, $\bel$.}
+    \begin{block}{Subjective probability measure $\bel$}
+      \begin{itemize}
+      \item If we think event $A$ is more likely than $B$, then $\bel(A) > \bel(B)$.
+      \item Usual rules of probability apply:
+        \begin{enumerate}
+        \item $\bel(A) \in [0,1]$.
+        \item $\bel(\emptyset) = 0$.
+        \item If $A \cap B = \emptyset$, then $\bel(A \cup B) = \bel(A) + \bel(B)$.
+        \end{enumerate}
+      \end{itemize}
+    \end{block}
+  \end{frame}
+
+
+  \begin{frame}
+    \frametitle{Bayesian inference illustration}
+    \begin{columns}
+      \begin{column}{0.7\textwidth}
+        \begin{block}{Use a subjective belief $\bel(\model)$ on $\Model$}
+          \begin{itemize}
+          \item<1-> \alert{Prior} belief $\bel(\model)$ represents our initial uncertainty.
+          \item<2-> We \alert{observe history} $h$.
+          \item<3->Each possible $\model$ assigns a \alert{probability} $\Pr_\model(h)$ to $h$.
+          \item<4-> We can use this to \alert{update} our belief via Bayes' theorem to obtain the \alert{posterior} belief:
+            \[
+            \bel(\model \mid h) \propto \Pr_\model(h) \bel(\model)
+            \tag{conclusion = evidence $\times$ prior}
+            \]
+          \end{itemize}
+        \end{block}
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        \centering
+        \uncover<1->{\includegraphics[width=\columnwidth]{../figures/rl_worlds}
+          \\
+          prior
+        }
+        \\
+        \uncover<2->{\includegraphics[width=0.5\columnwidth]{../figures/rl_observations}
+          \\
+          evidence
+        }
+        \\
+        \uncover<4->{\includegraphics[width=\columnwidth]{../figures/rl_worlds2}
+          \\ 
+          conclusion
+        }
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+
+
+
+  \subsection{Probability and Bayesian inference}
+  \only<article>{One of the most important methods in machine learning
+    and statistics is that of Bayesian inference.  This is the most
+    fundamental method of drawing conclusions from data and explicit
+    prior assumptions. In Bayesian inference, prior assumptions are
+    represented as a probabilities on a space of hypotheses. Each
+    hypothesis is seen as a probabilistic model of all possible data
+    that we can see.}
+
+  \only<article>{Frequently, we want to draw conclusions from data. However, the conclusions are never solely inferred from data, but also depend on prior assumptions about reality. 
+
+
+    \begin{example}
+      John claims he has psychic powers and can predict a series of coin tosses. We oblige, and throw a coin 8 times.  John predicts 8 out of 8 coin tosses. The probability of him doing so by chance is $2^{-8}$. If he was a medium, as he claims, then his probability of achieving the feat would be $1$. Should we believe John?
+    \end{example}
+
+
+    \begin{example}
+      Traces of DNA are found at a murder scene. We perform a DNA test against a database of $10^4$ citizens registered to be living in the area. We know that the probability of a false positive (that is, the test finding a match by mistake) is $10^{-6}$. If there is a match in the database, does that mean that the citizen was at the scene of the crime?
+    \end{example}
+
+    Answering these questions requires us to clearly define what are the possible hypotheses we wish to consider. Taking the first example, we can define two:
+    \begin{enumerate}
+    \item model $\model_1$, that John is a medium.
+    \item model $\model_0$, that John is not a medium.
+    \end{enumerate}
+    We can also define a probability model for the number of successful predictions that John would make in either case. 
+
+    Let $x_t$ be $0$ if John makes an incorrect prediction at time $t$ and $x_t = 1$ if he makes a correct prediction. John's claim that he can predict our tosses perfectly means that for a sequence of tosses $\bx = x_1, \ldots, x_n$,
+    \[
+    \Pr(\bx \mid \model_1) = \begin{cases}
+      1, & x_t = 1 \forall t \in [n]\\
+      0, & \exists t \in [n] : x_t = 0.
+    \end{cases}
+    \]
+    That is, the probability of perfectly correct predictions is 1, and that of one or more incorrect prediction is 0. For the other model, we can assume that all draws are independently and identically distributed from a fair coin. Consequently, no matter what John's predictions are, we have that:
+    \[
+    \Pr(\bx \mid \model_0) = 2^{-n}.
+    \]
+    So, for the given example, as stated, we have the following facts:
+    \begin{itemize}
+    \item If John makes one or more mistakes, then $\Pr(\bx \mid \model_1) = 0$ and $\Pr(\bx \mid \model_0) = 2^{-n}$. Thus, we should perhaps say that then John is not a medium
+    \item If John makes no mistakes at all, then 
+      \begin{align}
+        \Pr(\bx \mid \model_1) &= 1,
+        &
+          \Pr(\bx \mid \model_0) &= 2^{-n}.
+      \end{align}
+    \end{itemize}
+    Does that mean that we must conclude that John is a medium? What if
+    $n = 1$? What if $n=100$?  In fact, our conclusion should somehow
+    depend on the strength of the evidence. Should it also not depend on how
+    likely we think that a medium exists?
+
+    It is this latter idea that we'll try and exploit. We'd like to combine the weight of the evidence, with the weight of our prior beliefs about reality.
+    To do this, we first recall the definition of conditional probability. 
+  }
+
+
+  \subsection{Conditional probability and Bayesian inference}
+  \begin{frame}
+    \frametitle{A medium}
+    \begin{example}
+      John claims to be a medium. He throws a coin $n$ times and predicts its value always correctly. Should we believe that he is a medium?
+    \end{example}
+    \begin{itemize}
+    \item $\model_1$: John is a medium.
+    \item $\model_0$: John is not a medium.
+    \end{itemize}
+    The answer depends on what we \alert{expect} a medium to be able to do, and how likely we thought he'd be a medium in the first place.
+  \end{frame}
+  \only<article>{
+    Let $A$ and $B$ be two events. Let $P(A)$ be the probability of event $A$ and $P(B)$ the probability of event $B$. We can think of the probability of an event as the \emph{relative size} of the event in the space of probabilities.\footnote{More formally, probability is a measure; a function similar to volume, area, length and mass.} 
+    The probability of both events $A$ and $B$ happening at the same time is denoted by $P(A \cap B)$.  This amounts to measuring the size of the space by the intersection of $A$ and $B$.
+    The basic probability laws are the following.
+  }
+
+
+
+
+  \begin{frame}
+    \frametitle{Bayesian inference}
+    \only<article>{
+      Now let us apply this idea to our specific problem. We already have the probability of the observation for each model, but we just need to define a \emph{prior probability} for each model. Since this is usually completely subjective, we give it another symbol.
+    }
+    \only<article>{
+      \begin{block}{Prior probability}
+        The prior probability $\bel$ on a set of models $\Model$ specifies our subjective belief $\bel(\model)$ that each model is true.\footnote{More generally $\bel$ is a probability measure.}
+      \end{block}
+    }
+    \only<article>{
+      This allows us to calculate the probability of John being a medium, given the data:
       \[
-      \Pr(\model \mid \bx) = \frac{\Pr(\bx \mid \model)
-        \Pr(\model)}{\sum_{i=1}^k \Pr(\bx \mid \model_i)
-        \Pr(\model_i)}.
+      \bel(\model_1 \mid \bx) = \frac{\Pr(\bx \mid \model_1) \bel(\model_1)}{\Pr_\bel(\bx)},
+      \]
+      where
+      \[
+      \Pr_\bel(\bx) \defn \Pr(\bx \mid \model_1) \bel(\model_1) + \Pr(\bx \mid \model_0) \bel(\model_0).
+      \]
+      The only thing left to specify is $\bel(\model_1)$, the probability that John is a medium before seeing the data. This is our subjective prior belief that mediums exist and that John is one of them.
+      More generally, we can think of Bayesian inference as follows: }
+    \begin{itemize}
+    \item<1-> \only<article>{We start with a set of } mutually exclusive models $\Model = \{\model_1, \ldots, \model_k\}$.
+    \item<2->\only<article>{Each model $\model$ is represented by a specific probabilistic model for any possible data $\bx$, that is}
+      \only<presentation>{Probability model for any data $\bx$:} $P_\model(\bx) \equiv \Pr(\bx \mid \model)$.
+    \item<3-> For each model, we have a prior probability $\bel(\model)$ that it is correct.
+    \item<4-> \only<article>{After observing the data, we can calculate a posterior probability that the model is correct:}
+      \only<presentation>{Posterior probability}
+      \[
+      \bel(\model \mid \bx) = \frac{\Pr(\bx \mid \model) \bel(\model)}{\sum_{\model' \in \Model} \Pr(\bx \mid \model') \bel(\model')}
+      = \frac{P_\model(\bx) \bel(\model)}{\sum_{\model' \in \Model} P_{\model'} (\bx) \bel(\model')}.
       \]
     \end{itemize}
-    Combining the prior belief with evidence is key in this
-    procedure. Our posterior belief can then be used as a new prior
-    belief when we get more evidence.  }
-\end{frame}
+    \only<article>{
+      Combining the prior belief with evidence is key in this procedure. Our posterior belief can then be used as a new prior belief when we get more evidence.}
 
+    \only<article>{ Now let us apply this idea to our specific
+      problem. This allows us to calculate the probability of John being
+      a medium, given the data:
+      \[
+      \Pr(\model_1 \mid \bx) = \frac{\Pr(\bx \mid \model_1)
+        \Pr(\model_1)}{\Pr(\bx)},
+      \]
+      where
+      \[
+      \Pr(\bx) = \Pr(\bx \mid \model_1) \Pr(\model_1) + \Pr(\bx \mid
+      \model_0) \Pr(\model_0).
+      \]
+      The only thing left to specify is $\Pr(\model_1)$, the probability
+      that John is a medium before seeing the data. This is our
+      subjective prior belief that mediums exist and that John is one of
+      them.
 
-\only<article>{
-  \frametitle{Optimality of Bayesianism*}
-  For any observation sequence $\{x_t\}$, let $\mdp$ be the optimal model of $n$ models.
-  The Bayesian prediction for a uniform prior $\bel(\mdp_i) = n^{-1}$ is the marginal:
-  \[
-  n^{-1}  \sum_{i=1}^n  P_{\mdp_i} (x_1, \ldots, x_T)
-  \]
-  \uncover<2->{We can now bound the ratio between the best model and the Bayesian predictor
-    \[
-    \log \frac{P_{\mdp} (x_1, \ldots, x_T)}{N^{-1}  \sum_{i=1}^N  P_{\mdp_i} (x_1, \ldots, x_T)}
-    \uncover<3->{
-      \le
-      \log \frac{P_{\mdp} (x_1, \ldots, x_T)}{N^{-1}   P_{\mdp} (x_1, \ldots, x_T)}   = \log N
-    }
-    \]
-  }
-  \uncover<4->{This implies that
-    \[
-    \KL{P_\mdp}{P_\bel} \leq \log N
-    \]
-    and so
-    \[
-    \E_\bel \KL{P_\mdp}{P_\bel} \leq \log N.
-    \]
-  }
-  \uncover<5->{Note that if we use any other prior assigning mass $\bel(\mdp) \leq n^{-1}$ to one model the bound becomes $\max_\mdp \log 1/\bel(\mdp)$.}
-}
-
-\begin{frame}
-  \frametitle{Classification and conditional probability estimation}
-  \only<article>{
-    Conditional probability naturally appears in classification problems. Given a new example vector of data $\bx \in \CX$, we would like to calculate the probability of different classes $c \in \CY$ given the data, $\Pr(y_t = c \mid \bx)$.   From Bayes's theorem, we see that we can write this as
-  }
-  \[
-  \Pr(y_t = c \mid \bx) = \frac{\Pr(\bx \mid y_t = c) \Pr(y_t = c)}{\sum_{c' \in \CY} \Pr(\bx \mid y_t = c') \Pr(y_t = c')}
-  \]
-  \only<article>{
-    for any class $C$. This directly gives us a method for classifying new data, as long as we have a way to obtain $\Pr(\bx \mid C)$ and $\Pr(C)$.
-  }
-\end{frame}
+      More generally, we can think of Bayesian inference as follows:
+      \begin{itemize}
+      \item We start with a set of mutually exclusive models
+        $H = \{\model_1, \ldots, \model_k\}$.
+      \item Each model $\model$ is represented by a specific
+        probabilistic model for any possible data $\bx$, that is
+        $\Pr(\bx \mid \model)$.
+      \item For each model, we have a prior probability
+        $\Pr(\model)$ that it is correct.
+      \item After observing the data, we can calculate a posterior
+        probability that the model is correct:
+        \[
+        \Pr(\model \mid \bx) = \frac{\Pr(\bx \mid \model)
+          \Pr(\model)}{\sum_{i=1}^k \Pr(\bx \mid \model_i)
+          \Pr(\model_i)}.
+        \]
+      \end{itemize}
+      Combining the prior belief with evidence is key in this
+      procedure. Our posterior belief can then be used as a new prior
+      belief when we get more evidence.  }
+  \end{frame}
 
 
 
@@ -348,8 +340,9 @@
 
 
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-engine: xetex
-%%% TeX-master: "notes.tex"
-%%% End:
+
+  %%% Local Variables:
+  %%% mode: latex
+  %%% TeX-engine: xetex
+  %%% TeX-master: "notes.tex"
+  %%% End:
