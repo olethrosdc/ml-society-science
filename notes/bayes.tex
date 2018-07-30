@@ -181,17 +181,17 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
       \end{column}
       \begin{column}{0.3\textwidth}
         \centering
-        \uncover<1->{\includegraphics[width=\columnwidth]{../figures/rl_worlds}
+        \uncover<1->{\includegraphics[width=0.3\textwidth]{../figures/rl_worlds}
           \\
           prior
         }
         \\
-        \uncover<2->{\includegraphics[width=0.5\columnwidth]{../figures/rl_observations}
+        \uncover<2->{\includegraphics[width=0.15\textwidth]{../figures/rl_observations}
           \\
           evidence
         }
         \\
-        \uncover<4->{\includegraphics[width=\columnwidth]{../figures/rl_worlds2}
+        \uncover<4->{\includegraphics[width=0.3\textwidth]{../figures/rl_worlds2}
           \\ 
           conclusion
         }
@@ -328,23 +328,46 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
 \begin{frame}
 \begin{example}[Continued example for medium]
     \only<article>{ Now let us apply this idea to our specific
-      problem. This allows us to calculate the probability of John being
-      a medium, given the data}
-      \[
-      \bel(\model_1 \mid x) = \frac{P_{\model_1}(x)
-        \bel(\model_1)}{\Pr_\bel(x)},
-      \qquad \Pr_\bel(x) \defn P_{\model_1}(x) \bel(\model_1) + P_{\model_0}(x) \bel(\model_0).
-    \]
-    \only<article>{We now need to specify the models for what a non-medium could predict.}
+      problem. We first make an independence assumption. In particular, we can assume that success and failure comes from a Bernoulli distribution with a parameter depending on the model.}
+    \begin{align}
+    P_{\model} (x) &= \prod_{t=1}^n P_{\model} (x_t).
+\tag{independence property}
+    \end{align}
+    \only<article>{We first need to specify how well a medium could predict. Let's assume that a true medium would be able to predict perfectly, so:}
+    \begin{align}
+      P_{\model_1}(x_t = 1) &= 1, &P_{\model_1}(x_t = 0) &= 0.
+                                                           \tag{true medium model}
+    \end{align}
+    \only<article>{We now need to specify the models for what a non-medium could predict. It is natural to expect them to guess at random, so}
+    \uncover<2->{
+    \begin{align}
+      P_{\model_0}(x_t = 1) &= 1/2, &P_{\model_0}(x_t = 0) &= 1/2.
+                                                             \tag{non-medium model}
+    \end{align}
+    }
     \only<article>{
-      The only thing left to specify is $\Pr(\model_1)$, the probability
+      The only thing left to specify is $\bel(\model_1)$, the probability
       that John is a medium before seeing the data. This is our
       subjective prior belief that mediums exist and that John is one of
-      them.
-
-      Combining the prior belief with evidence is key in this
+      them.}
+    \uncover<3->{
+      \begin{align}
+        \bel(\model_0) &= 1/2,   &  \bel(\model_1) &= 1/2.
+                                                     \tag{prior belief}
+      \end{align}
+    }
+    \only<article>{Combining the prior belief with evidence is key in this
       procedure. Our posterior belief can then be used as a new prior
       belief when we get more evidence.  }
+    \uncover<4>{
+      \begin{align}
+      \bel(\model_1 \mid x) & = \frac{P_{\model_1}(x)
+        \bel(\model_1)}{\Pr_\bel(x)} \tag{posterior belief}
+        \\
+      \Pr_\bel(x) &\defn P_{\model_1}(x) \bel(\model_1) + P_{\model_0}(x) \bel(\model_0).
+\tag{marginal distribution}
+      \end{align}
+    }
   \end{example}
   \end{frame}
 

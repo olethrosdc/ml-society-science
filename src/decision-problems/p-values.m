@@ -20,7 +20,7 @@ end
 figure(1)
 plot(threshold ./ [1:max_data])
 title("The rejection threshold as data increases");
-pause
+%pause
 
 for t=1:max_data
   reject_x (t) = mean(sum(X(1:t,:)) < threshold(t));
@@ -55,6 +55,6 @@ posterior_x = GetPosteriorHypothesis(X);
 posterior_y = GetPosteriorHypothesis(Y);
 figure(3);
 plot(mean(posterior_x, 2), ';null-distributed;', mean(posterior_y, 2), ';other-distributed;')
-legend("Posterior probability of null hypothesis");
+title("Posterior probability of null hypothesis");
 
 
