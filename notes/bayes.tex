@@ -232,46 +232,7 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
     \begin{example}
       Traces of DNA are found at a murder scene. We perform a DNA test against a database of $10^4$ citizens registered to be living in the area. We know that the probability of a false positive (that is, the test finding a match by mistake) is $10^{-6}$. If there is a match in the database, does that mean that the citizen was at the scene of the crime?
     \end{example}
-
-    Answering these questions requires us to clearly define what are the possible hypotheses we wish to consider. Taking the first example, we can define two:
-    \begin{enumerate}
-    \item model $\model_1$, that John is a medium.
-    \item model $\model_0$, that John is not a medium.
-    \end{enumerate}
-    We can also define a probability model for the number of successful predictions that John would make in either case. 
-
-    Let $x_t$ be $0$ if John makes an incorrect prediction at time $t$ and $x_t = 1$ if he makes a correct prediction. John's claim that he can predict our tosses perfectly means that for a sequence of tosses $\bx = x_1, \ldots, x_n$,
-    \[
-    \Pr(\bx \mid \model_1) = \begin{cases}
-      1, & x_t = 1 \forall t \in [n]\\
-      0, & \exists t \in [n] : x_t = 0.
-    \end{cases}
-    \]
-    That is, the probability of perfectly correct predictions is 1, and that of one or more incorrect prediction is 0. For the other model, we can assume that all draws are independently and identically distributed from a fair coin. Consequently, no matter what John's predictions are, we have that:
-    \[
-    \Pr(\bx \mid \model_0) = 2^{-n}.
-    \]
-    So, for the given example, as stated, we have the following facts:
-    \begin{itemize}
-    \item If John makes one or more mistakes, then $\Pr(\bx \mid \model_1) = 0$ and $\Pr(\bx \mid \model_0) = 2^{-n}$. Thus, we should perhaps say that then John is not a medium
-    \item If John makes no mistakes at all, then 
-      \begin{align}
-        \Pr(\bx \mid \model_1) &= 1,
-        &
-          \Pr(\bx \mid \model_0) &= 2^{-n}.
-      \end{align}
-    \end{itemize}
-    Does that mean that we must conclude that John is a medium? What if
-    $n = 1$? What if $n=100$?  In fact, our conclusion should somehow
-    depend on the strength of the evidence. Should it also not depend on how
-    likely we think that a medium exists?
-
-    It is this latter idea that we'll try and exploit. We'd like to
-    combine the weight of the evidence, with the weight of our prior
-    beliefs about reality.  To do this, we first recall the definition
-    of conditional probability.  }
-  
-    
+    }
   \end{frame}
 
 
