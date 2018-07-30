@@ -221,11 +221,11 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
 
     \begin{example}
       John claims to be a medium. He throws a coin $n$ times and predicts its value always correctly. Should we believe that he is a medium?
+      \begin{itemize}
+      \item $\model_1$: John is a medium.
+      \item $\model_0$: John is not a medium.
+      \end{itemize}
     \end{example}
-    \begin{itemize}
-    \item $\model_1$: John is a medium.
-    \item $\model_0$: John is not a medium.
-    \end{itemize}
     The answer depends on what we \alert{expect} a medium to be able to do, and how likely we thought he'd be a medium in the first place.
 
     \only<article>{
@@ -324,42 +324,24 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
   }
     \only<article>{
       Combining the prior belief with evidence is key in this procedure. Our posterior belief can then be used as a new prior belief when we get more evidence.}
-
-    \begin{example}[Continued example for medium]
+  \end{frame}
+\begin{frame}
+\begin{example}[Continued example for medium]
     \only<article>{ Now let us apply this idea to our specific
       problem. This allows us to calculate the probability of John being
-      a medium, given the data:
+      a medium, given the data}
       \[
-      \Pr(\model_1 \mid x) = \frac{\Pr(x \mid \model_1)
-        \Pr(\model_1)}{\Pr(x)},
-      \]
-      where
-      \[
-      \Pr(x) = \Pr(x \mid \model_1) \Pr(\model_1) + \Pr(x \mid
-      \model_0) \Pr(\model_0).
-      \]
+      \bel(\model_1 \mid x) = \frac{P_{\model_1}(x)
+        \bel(\model_1)}{\Pr_\bel(x)},
+      \qquad \Pr_\bel(x) \defn P_{\model_1}(x) \bel(\model_1) + P_{\model_0}(x) \bel(\model_0).
+    \]
+    \only<article>{We now need to specify the models for what a non-medium could predict.}
+    \only<article>{
       The only thing left to specify is $\Pr(\model_1)$, the probability
       that John is a medium before seeing the data. This is our
       subjective prior belief that mediums exist and that John is one of
       them.
 
-      More generally, we can think of Bayesian inference as follows:
-      \begin{itemize}
-      \item We start with a set of mutually exclusive models
-        $H = \{\model_1, \ldots, \model_k\}$.
-      \item Each model $\model$ is represented by a specific
-        probabilistic model for any possible data $x$, that is
-        $\Pr(x \mid \model)$.
-      \item For each model, we have a prior probability
-        $\Pr(\model)$ that it is correct.
-      \item After observing the data, we can calculate a posterior
-        probability that the model is correct:
-        \[
-        \Pr(\model \mid x) = \frac{\Pr(x \mid \model)
-          \Pr(\model)}{\sum_{i=1}^k \Pr(x \mid \model_i)
-          \Pr(\model_i)}.
-        \]
-      \end{itemize}
       Combining the prior belief with evidence is key in this
       procedure. Our posterior belief can then be used as a new prior
       belief when we get more evidence.  }

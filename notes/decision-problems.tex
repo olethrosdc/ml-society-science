@@ -227,6 +227,7 @@
     p_{t,\model_i} \defn  \Pr(x_t = \textrm{rain} \mid \model_i) 
   \]
   \only<article>{Consider the case of there being three meteorologists, and each one making the following prediction for the coming week. Start with a uniform prior $\bel(\model) = 1/3$ for each model.}
+  \only<1>{
   \begin{table}[h]
     \begin{tabular}{c|l|l|l|l|l|l|l}
       &M&T&W&T&F&S&S\\
@@ -240,6 +241,8 @@
     \caption{Predictions by three different entities for the probability of rain on a particular day, along with whether or not it actually rained.}
     \label{tab:meteorologists}
   \end{table}
+}
+\only<2>{
   \begin{itemize}
   \item What is your belief about the quality of each meteorologist after each day? (i.e. your posterior)
   \item What is your belief about the probability of rain each day? (i.e. the marginal probability of rain)
@@ -254,6 +257,7 @@
     0. What is the decision maximising utility in expectation (with respect to the posterior) each
     day?
   \end{itemize}
+}
 \end{exercise}
 \end{frame}
 
@@ -327,11 +331,39 @@
 
 
 \subsection{Statistical testing}
+\only<article>{A common type of decision problem is a statistical test. This arises when we have a set of possible candidate models $\CM$ and we need to be able to decide which model to select after we see the evidence.
+  Many times, there is only one model under consideration, $\model_0$, the so-called \alert{null hypothesis}. Then, our only decision is whether or not to accept or reject this hypothesis.}
+\begin{frame}
+  \frametitle{Simple hypothesis testing}
+  \only<article>{Let us start with the simple case of needing to compare two models.}
+\begin{block}{The simple hypothesis test as a decision problem}
+  \begin{itemize}
+  \item $\CM = \{\model_0, \model_1\}$
+  \item $a_0$: Accept model $\model_0$
+  \item $a_1$: Accept model $\model_1$
+  \end{itemize}
+  \begin{table}[H]
+  \begin{tabular}{c|cc}
+    $\util$& $\model_0$& $\model_1$\\\hline
+    $a_0$ & 1 & 0\\
+    $a_1$ & 0 & 1
+  \end{tabular}
+  \caption{Example utility function for simple hypothesis tests.}
+\end{table}
+\only<article>{There is no reason for us to be restricted to this utility function. As it is diagonal, it effectively treats both types of errors in the same way.}
+\end{block}
+\end{frame}
+
+
 \begin{frame}
   \frametitle{Null hypothesis test}
 \only<article>{A common type of decision problem is a statistical test. This arises when we have a set of possible candidate models $\CM$ and we need to be able to decide which model to select after we see the evidence.
   Many times, there is only one model under consideration, $\model_0$, the so-called \alert{null hypothesis}. Then, our only decision is whether or not to accept or reject this hypothesis.}
 \begin{block}{The null hypothesis test as a decision problem}
+  \begin{itemize}
+  \item $a_0$: Accept model $\model_0$
+  \item $a_1$: Accept model $\model_1$
+  \end{itemize}
   \begin{tabular}{c|c|c}
     & $\model_0$& $\neg model_0$ 
 %    \hline\\
