@@ -58,3 +58,4 @@ plot(mean(posterior_x, 2), ';null-distributed;', mean(posterior_y, 2), ';other-d
 title("Posterior probability of null hypothesis");
 
 
+%% ADD A PLOT FOR REJECTION
