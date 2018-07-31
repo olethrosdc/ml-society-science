@@ -209,40 +209,50 @@
 
 \begin{frame}
   \frametitle{Bootstrapping}
-  Bootstrapping is a general technique that can be used to.
+  Bootstrapping is a general technique that can be used to:
   \begin{itemize}
-  \item Estimate the sensitivity of $\alg$ to the data $x$
-  \item Obtain a distribution of estimates $y$ from $\alg$ and the data $x$.
+  \item Estimate the sensitivity of $\alg$ to the data $x$.
+  \item Obtain a distribution of estimates $\pol$ from $\alg$ and the data $x$.
   \end{itemize}
   \begin{block}{Bootstrapping}
-    \begin{itemize}
-    \item \textbf{Input} Training data $\Training$, number of samples $k$.
+    \begin{enumerate}
+    \item \textbf{Input} Training data $\Data$, number of samples $k$.
     \item \textbf{For} $i = 1, \ldots, k$
-    \item \quad $\Data^{(i)} = \textrm{Bootstrap}(\Training)$
-    \item \quad $y_i = \alg(\Data^{(i)})$
-    \item \textbf{return} $\{y_1, \ldots, y_i\}$.
-    \end{itemize}
-    where  $\textrm{Bootstrap}(\Training)$ samples with replacement $|\Training|$ points.
+    \item \quad $\Data^{(i)} = \textrm{Bootstrap}(\Data)$
+    \item \textbf{return} $\cset{\Data_^{(i)}}{i = 1, \ldots, k}$.
+    \end{enumerate}
+    where  $\textrm{Bootstrap}(\Data)$ samples with replacement $|\Data|$ points from $\Training$.
   \end{block}
-
 \end{frame}
-\only<article>{
-  In general, it is worthwhile to have some indication of how certain we should be about our prediction. Bayesian inference offers a principled way to do this.
-}
 
 
-
-
-\subsection{Bayesian credible intervals}
-
-
-\subsection{Model mismatch}
-
-\subsection{Boot-strapping}
-
-\subsection{Cross-validation}
-
-\subsection{Independent replication}
+\begin{frame}
+\frametitle{Cross-validation}
+  \begin{block}{$k$-fold Cross-Validation}
+    \begin{enumerate}
+    \item \textbf{Input} Training data $\Training$, number of folds $k$, algorithm $\alg$, measurement function $\util$
+    \item Create the partition $\Data^{(1)} \ldots, \Data^{(k)}$ so that $\bigcup_{i=1}^k \Data^{(k)} = \Data$.
+    \item Define $\Training^{(i)} = \Data \setminus \Data^{(i)}$
+    \item \quad $\pol_i = \alg(\Training^{(i)})$
+    \item \textbf{For} $i = 1, \ldots, k$:
+    \item \quad $\pol_i = \alg(\Data^{(i)})$
+    \item \quad $u_i = \util(\pol_i)$
+    \item \textbf{return} $\{y_1, \ldots, y_i\}$.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+\begin{frame}
+\frametitle{Independent replication}
+\only<article>{The gold standard for reproducibility is independent replication. Simply have another team try and reproduce the results you obtained, using completely new data. If the replication is successful, then you can be pretty sure there was no flaw in your original analysis.}
+\begin{block}{Replication study}
+  \begin{enumerate}
+  \item Reinterpret the original hypothesis and experiment.
+  \item Collect data according to the original protocol, \alert{unless flawed}. \only<article>{It is possible that the original experimental protocol had flaws. Then the new study should try and address this through an improved data collection process. For example, the original study might not have been double-blind. The new study can replicate the results in a double-blind regime.}
+  \item Run the analysis again, \alert{unless flawed}. \only<article>{It is possible that the original analysis had flaws. For example, possible correlations may not have been taken into account.}
+  \item See if the conclusions are in agreement.
+  \end{enumerate}
+\end{block}
+\end{frame}
 
 
 

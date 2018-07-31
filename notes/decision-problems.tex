@@ -370,27 +370,19 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{$p$-value example}
-  \begin{example}[$\chi^2$-test]
-    This has the property:
-    \begin{align}
-      T(x) & \sim \Uniform(0,1), & \textrm{if } x \sim \Normal(0,\Sigma).
-    \end{align}
-  \end{example}
-  So let $\model_0$ be $x \sim \Normal(0,\Sigma)$. Then:
-  \begin{align}
-    \Pr(T(x_1, \ldots, x_n) < \delta \mid \model_0) & < \delta, & \forall & \delta \in [0,1].
-  \end{align}
+\begin{frame}\frametitle{$p$-values for the medium example}
+  \only<article>{Let us consider the example of the medium.}
+  \begin{itemize}
+  \item<2->$\model_0$ is simply the $\Bernoulli(1/2)$ model:
+    responses are by chance. 
+  \item<3->The binomial model gives us a probability for the number of successes, 
+    \includegraphics{../figures/binomial-cdf}
+    \includegraphics{../figures/binomial-icdf}
+  \end{itemize}
 \end{frame}
 
 
-\begin{frame}\frametitle{Testing for normality}
-  \includegraphics[width=\textwidth]{../figures/distribution_examples}
-\end{frame}
 
-\begin{frame}\frametitle{The $\chi^2$ test's performancer}
-  \includegraphics[width=\textwidth]{../figures/rejection_ratio}
-\end{frame}
 
 
 
