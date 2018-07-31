@@ -346,14 +346,23 @@
 \end{example}
 \end{frame}
 \begin{frame}
-  \frametitle{The fallacy of $p$-values}
-  \begin{definition}[Statistical test]
-    A statistical test $\pol$ is a decision rule for accepting or rejecting a hypothesis on the basis of evidence. A $p$-value test rejects a hypothesis whenever the value of the statistic $f(x)$ is smaller than a threshold.
-  The statistic is always designed to have the property:
+  \frametitle{Using $p$-values to construct statistical tests}
+  \begin{definition}[Null statistical test]
+    \only<article>{
+      A statistical test $\pol$ is a decision rule for accepting or rejecting a hypothesis on the basis of evidence. A $p$-value test rejects a hypothesis whenever the value of the statistic $f(x)$ is smaller than a threshold.}
+      The statistic $f : \CX \to [0,1]$ is  designed to have the property:
   \[
     P_{\model_0}(\cset{x}{f(x) \leq \delta}) = \delta.
   \]
-  This ensures that the probability of rejecting the null hypothesis when it is true is actually $\delta$.
+  If our decision rule is:
+  \[
+    \pol(a \mid x) =
+    \begin{cases}
+      a_0, & f(x) \leq \delta\\
+      a_1, & f(x) > \delta,
+    \end{cases}
+  \]
+  the probability of rejecting the null hypothesis when it is true is exactly $\delta$.
 \end{definition}
 \only<presentation>{The value of the statistic $f(x)$, otherwise known as the \alert{$p$-value}, is uninformative.}
 \only<article>{This is because, by definition, $f(x)$ has a uniform distribution under $\model_0$. Hence the value of $f(x)$ itself is uninformative: high and low values are equally likely. In theory we should simply choose $\delta$ before seeing the data and just accept or reject based on whether $f(x) \leq \delta$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all, if uncertain about their meaning.}
@@ -375,15 +384,38 @@
   \begin{itemize}
   \item<2->$\model_0$ is simply the $\Bernoulli(1/2)$ model:
     responses are by chance. 
-  \item<3->The binomial model gives us a probability for the number of successes, 
-    \includegraphics{../figures/binomial-cdf}
-    \includegraphics{../figures/binomial-icdf}
+  \item<3->CDF: $P_{\model_0}(N \leq n \mid K = 100)$ \only<article> {is the probability of at most $N$ successes if we throw the coin 100 times. This is in fact the cumulative probability function of the binomial distribution. Recall that the binomial represents the distribution for the number of successes of independent experiments, each following a Bernoulli distribution.}
+  \item<4->ICDF:  the number of successes that will happen with probability at least $\delta$
+  \item<5->e.g. we'll get at most 50 successes a proportion $\delta = 1/2$ of the time.
+  \item<6>Using the (inverse) CDF we can construct a policy $\pol$ that selects $a_1$ when $\model_0$ is true only a $\delta$ portion of the time, for any choice of $\delta$.
   \end{itemize}
+  \begin{columns}
+    \setlength\fheight{0.33\columnwidth}
+    \setlength\fwidth{0.33\columnwidth}
+    \begin{column}{0.5\textwidth}
+      \only<3,4,5,6>{\input{../figures/binomial-cdf.tikz}}      
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \only<4,5,6>{\input{../figures/binomial-icdf.tikz}}
+    \end{column}
+  \end{columns}    
 \end{frame}
 
 
 
-
+\begin{frame}
+  \frametitle{Building a test}
+  \[
+    f(x) = \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
+  \]
+  \begin{alertblock}{What $f(x)$ is and is not}
+    \begin{itemize}
+    \item It is a \textbf{statistic} which is $\leq \delta$ a $\delta$ portion of the time when $\model_0$ is true.
+    \item It is \textbf{not} the probability of observing $x$ under $\model_0$.
+    \item It is \textbf{not} the probability of $\model_0$ given $x$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
 
 
 \subsection{Classification problems}
