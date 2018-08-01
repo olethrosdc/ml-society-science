@@ -418,12 +418,18 @@
     \item It is \textbf{not} the probability of $\model_0$ given $x$.
     \end{itemize}
   \end{alertblock}
+\end{frame}
+\begin{frame}
   \begin{exercise}
     \begin{itemize}
     \item<1-> Let us throw a coin 8 times.
-    \item<2-> Select a $p$-value threshold of 50
+    \item<2-> Select a $p$-value threshold so that $\delta = 0.05$. 
+      For 8 throws, this corresponds to \uncover<3->{$ > 6$ successes.}
+    \item<3-> Let's calculate the $p$-value for each one of you
     \end{itemize}
-    
+    \only<2,3>{
+      \input{../figures/p-value-example-rejection-threshold.tikz}
+    }
   \end{exercise}
 \end{frame}
 

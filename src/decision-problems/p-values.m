@@ -7,19 +7,21 @@ n_trials = 1000;
 
 %% Get samples from two Bernoulli distributions
 X = rand(max_data,n_trials)<=0.5;
-Y = rand(max_data,n_trials)<=0.45;
+Y = rand(max_data,n_trials)<=0.55;
 
 %% Set the rejection rate
 delta = 0.05;
 
 %% test if the outcome is random
 for t=1:max_data
-  threshold(t) = binoinv(delta, t, 0.5);
+  threshold(t) = 1 -binoinv(delta, t, 0.5);
 end
 
 figure(1)
 plot(threshold ./ [1:max_data])
 title("The rejection threshold as data increases");
+ylabel("Success rate");
+xlabel("Amount of throws")
 matlab2tikz("p-value-example-rejection-threshold.tikz", 'height', '\fheight', 'width', '\fwidth' );
 
 for t=1:max_data
