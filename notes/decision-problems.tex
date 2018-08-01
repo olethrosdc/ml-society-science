@@ -289,37 +289,37 @@
     \item $\model_0$: that John is not a medium.
     \end{itemize}
     \only<article>{
-    Let $x_t$ be $0$ if John makes an incorrect prediction at time $t$ and $x_t = 1$ if he makes a correct prediction. Let us once more assume a Bernoulli model, so that John's claim that he can predict our tosses perfectly means that for a sequence of tosses $\bx = x_1, \ldots, x_n$,
+      Let $x_t$ be $0$ if John makes an incorrect prediction at time $t$ and $x_t = 1$ if he makes a correct prediction. Let us once more assume a Bernoulli model, so that John's claim that he can predict our tosses perfectly means that for a sequence of tosses $\bx = x_1, \ldots, x_n$,
+      \[
+        P_{\model_1}(\bx) = \begin{cases}
+          1, & x_t = 1 \forall t \in [n]\\
+          0, & \exists t \in [n] : x_t = 0.
+        \end{cases}
+      \]
+      That is, the probability of perfectly correct predictions is 1, and that of one or more incorrect prediction is 0. For the other model, we can assume that all draws are independently and identically distributed from a fair coin. Consequently, no matter what John's predictions are, we have that:
+      \[
+        P_{\model_0}(\bx = 1 \ldots 1) = 2^{-n}.
+      \]
+      So, for the given example, as stated, we have the following facts:
+      \begin{itemize}
+      \item If John makes one or more mistakes, then $\Pr(\bx \mid \model_1) = 0$ and $\Pr(\bx \mid \model_0) = 2^{-n}$. Thus, we should perhaps say that then John is not a medium
+      \item If John makes no mistakes at all, then 
+        \begin{align}
+          \Pr(\bx = 1, \ldots, 1 \mid \model_1) &= 1,
+          &
+            \Pr(\bx = 1, \ldots, 1 \mid \model_0) &= 2^{-n}.
+        \end{align}
+      \end{itemize}
+      Now we can calculate the posterior distribution, which is
+      \[
+        \bel(\model_1 \mid \bx = 1, \ldots, 1) = \frac{1 \times \bel(\model_1)}{1 \times \bel(model_1) + 2^{-n} (1 - \bel(\model_1))}.
+      \]
+      Our expected utility for taking action $a_0$ is actually
+    }
     \[
-      P_{\model_1}(\bx) = \begin{cases}
-        1, & x_t = 1 \forall t \in [n]\\
-        0, & \exists t \in [n] : x_t = 0.
-      \end{cases}
+      \E_\bel(\util \mid a_0) = 1 \times \bel(\model_0 \mid \bx) + 0 \times \bel(\model_1 \mid \bx), \qquad
+      \E_\bel(\util \mid a_1) = 0 \times \bel(\model_0 \mid \bx) + 1 \times \bel(\model_1 \mid \bx)
     \]
-    That is, the probability of perfectly correct predictions is 1, and that of one or more incorrect prediction is 0. For the other model, we can assume that all draws are independently and identically distributed from a fair coin. Consequently, no matter what John's predictions are, we have that:
-    \[
-      P_{\model_0}(\bx = 1 \ldots 1) = 2^{-n}.
-    \]
-    So, for the given example, as stated, we have the following facts:
-    \begin{itemize}
-    \item If John makes one or more mistakes, then $\Pr(\bx \mid \model_1) = 0$ and $\Pr(\bx \mid \model_0) = 2^{-n}$. Thus, we should perhaps say that then John is not a medium
-    \item If John makes no mistakes at all, then 
-      \begin{align}
-        \Pr(\bx = 1, \ldots, 1 \mid \model_1) &= 1,
-        &
-          \Pr(\bx = 1, \ldots, 1 \mid \model_0) &= 2^{-n}.
-      \end{align}
-    \end{itemize}
-    Now we can calculate the posterior distribution, which is
-    \[
-      \bel(\model_1 \mid \bx = 1, \ldots, 1) = \frac{1 \times \bel(\model_1)}{1 \times \bel(model_1) + 2^{-n} (1 - \bel(\model_1))}.
-    \]
-    Our expected utility for taking action $a_0$ is actually
-  }
-  \[
-    \E_\bel(\util \mid a_0) = 1 \times \bel(\model_0 \mid \bx) + 0 \times \bel(\model_1 \mid \bx), \qquad
-    \E_\bel(\util \mid a_1) = 0 \times \bel(\model_0 \mid \bx) + 1 \times \bel(\model_1 \mid \bx)
-  \]
   \end{example}
   
 \end{frame}
@@ -336,36 +336,36 @@
   \end{block}
 
   \begin{example}{Construction of the test for the medium}
-  \begin{itemize}
-  \item<2-> $\model_0$ is simply the $\Bernoulli(1/2)$ model: responses are by chance.
-  \item<3-> We need to design a policy $\pol(a \mid \bx)$ that accepts or rejects depending on the data.
-  \item<4-> Since there is no alternative model, we can only construct this policy according to its properties when $\model_0$ is true.
-  \item<5-> In particular, we can fix a policy that only chooses $a_1$ when $\model_0$ is true a proportion $\delta$ of the time.
-  \item<6-> This can be done by construcing a threshold test from the inverse-CDF.
-  \end{itemize}
-\end{example}
+    \begin{itemize}
+    \item<2-> $\model_0$ is simply the $\Bernoulli(1/2)$ model: responses are by chance.
+    \item<3-> We need to design a policy $\pol(a \mid \bx)$ that accepts or rejects depending on the data.
+    \item<4-> Since there is no alternative model, we can only construct this policy according to its properties when $\model_0$ is true.
+    \item<5-> In particular, we can fix a policy that only chooses $a_1$ when $\model_0$ is true a proportion $\delta$ of the time.
+    \item<6-> This can be done by construcing a threshold test from the inverse-CDF.
+    \end{itemize}
+  \end{example}
 \end{frame}
 \begin{frame}
   \frametitle{Using $p$-values to construct statistical tests}
   \begin{definition}[Null statistical test]
     \only<article>{
       A statistical test $\pol$ is a decision rule for accepting or rejecting a hypothesis on the basis of evidence. A $p$-value test rejects a hypothesis whenever the value of the statistic $f(x)$ is smaller than a threshold.}
-      The statistic $f : \CX \to [0,1]$ is  designed to have the property:
-  \[
-    P_{\model_0}(\cset{x}{f(x) \leq \delta}) = \delta.
-  \]
-  If our decision rule is:
-  \[
-    \pol(a \mid x) =
-    \begin{cases}
-      a_0, & f(x) \leq \delta\\
-      a_1, & f(x) > \delta,
-    \end{cases}
-  \]
-  the probability of rejecting the null hypothesis when it is true is exactly $\delta$.
-\end{definition}
-\only<presentation>{The value of the statistic $f(x)$, otherwise known as the \alert{$p$-value}, is uninformative.}
-\only<article>{This is because, by definition, $f(x)$ has a uniform distribution under $\model_0$. Hence the value of $f(x)$ itself is uninformative: high and low values are equally likely. In theory we should simply choose $\delta$ before seeing the data and just accept or reject based on whether $f(x) \leq \delta$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all, if uncertain about their meaning.}
+    The statistic $f : \CX \to [0,1]$ is  designed to have the property:
+    \[
+      P_{\model_0}(\cset{x}{f(x) \leq \delta}) = \delta.
+    \]
+    If our decision rule is:
+    \[
+      \pol(a \mid x) =
+      \begin{cases}
+        a_0, & f(x) \leq \delta\\
+        a_1, & f(x) > \delta,
+      \end{cases}
+    \]
+    the probability of rejecting the null hypothesis when it is true is exactly $\delta$.
+  \end{definition}
+  \only<presentation>{The value of the statistic $f(x)$, otherwise known as the \alert{$p$-value}, is uninformative.}
+  \only<article>{This is because, by definition, $f(x)$ has a uniform distribution under $\model_0$. Hence the value of $f(x)$ itself is uninformative: high and low values are equally likely. In theory we should simply choose $\delta$ before seeing the data and just accept or reject based on whether $f(x) \leq \delta$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all, if uncertain about their meaning.}
 \end{frame}
 \begin{frame}
   \frametitle{Issues with $p$-values}
@@ -375,7 +375,7 @@
   \item They ignore effect sizes. \only<article>{For example, a linear analysis may determine that there is a significant deviation from zero-mean, but with only a small effect size of 0.01. Thus, reporting only the $p$-value is misleading}
   \item They do not consider prior information. 
   \item They do not represent the probability of having made an error. \only<article>{In particular, a $p$-value of $\delta$ does not mean that the probability that the null hypothesis is false given the data $x$, is $\delta$, i.e. $\delta \neq \Pr(\neg \model_0 \mid x)$.}
-  \item The null-rejection error probability is the same irrespective of the amount of data.
+  \item The null-rejection error probability is the same irrespective of the amount of data (by design).
   \end{itemize}
 \end{frame}
 
@@ -408,7 +408,7 @@
   \begin{block}{The test statistic}
     We want the test to reflect that we don't have a significant number of failures.
     \[
-    f(x) = 1 - \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
+      f(x) = 1 - \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
     \]
   \end{block}
   \begin{alertblock}{What $f(x)$ is and is not}
@@ -428,21 +428,88 @@
     \item<3-> Let's calculate the $p$-value for each one of you
     \item<4-> What is the rejection performance of the test?
     \end{itemize}
-      \setlength\fheight{0.25\columnwidth}
-      \setlength\fwidth{0.5\columnwidth}
+    \setlength\fheight{0.25\columnwidth}
+    \setlength\fwidth{0.5\columnwidth}
     \only<2,3>{
-      \input{../figures/p-value-example-rejection-threshold.tikz}
+      \begin{figure}[H]
+        \input{../figures/p-value-example-rejection-threshold.tikz}
+        \caption{Here we see how the rejection threshold, in terms of the success rate, changes with the number of throws to achieve an error rate of $\delta = 0.05$.}
+      \end{figure}
+      \only<article>{As the amount of throws goes to infinity, the threshold converges to $0.5$. This means that a statistically significant difference from the null hypothesis can be obtained, even when the actual model from which the data is drawn is only slightly different from 0.5.}
     }
-    \only<4>{\input{../figures/p-value-example-rejection.tikz}}
+    \only<4>{
+      \begin{figure}[H]
+        \input{../figures/p-value-example-rejection.tikz}
+        \caption{Here we see the rejection rate of the null hypothesis ($\model_0$) for two cases. Firstly, for the case when $\model_0$ is true. Secondly, when the data is generated from $\Bernoulli(0.55)$.}
+      \end{figure}
+      \only<article>{As we see, this method keeps its promise: the null is only rejected 0.05 of the time when it's true. We can also examine how often the null is rejected when it is false... but what should we compare against? Here we are generating data from a $\Bernoulli(0.55)$ model, and we can see the rejection of the null increases with the amount of data. This is called the \alert{power} of the test with respect to the $\Bernoulli(0.55)$ distribution. }
+    }
   \end{exercise}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Bayesian test}
+  \begin{alertblock}{Statistical power and false discovery.}
+    Beyond not rejecting the null when it's true, we also want:
+    \begin{itemize}
+    \item High power: Rejecting the null when it is false.
+    \item Low false discovery rate: Accepting the null when it is true.
+    \end{itemize}
+  \end{alertblock}
+  \begin{block}{Power}
+    The power depends on what hypothesis we use as an alternative.
+    \only<article>{This implies that we cannot simply consider a plain null hypothesis test, but must formulate a specific alternative hypothesis. }
+  \end{block}
 
-  \only<1>{\input{../figures/p-value-example-posterior.tikz}}
-  \only<2>{\input{../figures/p-value-example-null-posterior.tikz}}
-  \only<>{\input{../figures/p-value-example-true-posterior.tikz}}
+  \begin{block}{False discovery rate}
+    False discovery depends on how likely it is \alert{a priori} that the null is false.
+    \only<article>{This implies that we need to consider a prior probability for the null hypothesis being true.}
+  \end{block}
+
+  \only<article>{Both of these problems suggest that a Bayesian approach might be more suitable. Firstly, it allows us to consider an infinite number of possible alternative models as the alternative hypothesis, through Bayesian model averaging. Secondly, it allows us to specify prior probabilities for each alternative. This is especially important when we consider some effects unlikely.}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Bayesian version of the test}
+  \begin{enumerate}
+  \item Set $\util(a_i, \model_j) = \ind{i = j}$. \only<article>{This choice makes sense if we care equally about either type of error.}
+  \item Set $\bel(\model_i) = 1/2$. \only<article>{Here we place an equal probability in both models.}
+  \item $\model_0$: $\Bernoulli(1/2)$. \only<article>{This is the same as the null hypothesis test.}
+  \item $\model_1$: $\Bernoulli(\theta)$, $\theta \sim \Uniform([0,1])$. \only<article>{This is an extension of the simple hypothesis test, with an alternative hypothesis that says ``the data comes from an arbitrary  Bernoulli model''.}
+  \item Calculate $\bel(\model \mid x)$.
+  \item Choose $a_i$, where $i = \argmax_{j} \bel(\model_j \mid x)$.
+  \end{enumerate}
+
+  \begin{block}{Bayesian model averaging for the alternative model $\model_1$}
+    \only<article>{In this scenario, $\model_0$ is a simple point model, e.g. corresponding to a $\Bernoulli(1/2)$. However $\model_1$ is a marginal distribution integrated over many models, e.g. a $Beta$ distribution over Bernoulli parameters.}
+    \begin{align}
+      P_{\model_1}(x) &= \int_\Param P_{\param}(x) \dd \beta(\param) \\
+      \bel(\model_0 \mid x) &= \frac{P_{\model_0}(x) \bel(\model_0)}
+                              {P_{\model_0}(x) \bel(\model_0) + P_{\model_1}(x) \bel(\model_1)}
+    \end{align}
+  \end{block}
+\end{frame}
+\begin{frame}
+  \only<1>{
+    \begin{figure}[H]
+      \input{../figures/p-value-example-posterior.tikz}
+      \caption{Here we see the convergence of the posterior probability.}
+    \end{figure}
+    \only<article>{As can be seen in the figure above, in both cases, the posterior converges to the correct value, so it can be used to indicate our confidence that the null is true.}
+  }
+  \only<2>{
+    \begin{figure}[H]
+      \input{../figures/p-value-example-null-posterior.tikz}
+      \caption{Comparison of the rejection probability for the null and the Bayesian test when $\model_0$ is true.}
+    \end{figure}
+    \only<article>{Now we can use this Bayesian test, with uniform prior, to see how well it performs. While the plain null hypothesis test has a fixed rejection rate of $0.05$, the Bayesian test's rejection rate converges to 0 as we collect more data.}
+  }
+  \only<3>{
+    \begin{figure}[H]
+      \input{../figures/p-value-example-true-posterior.tikz}
+      \caption{Comparison of the rejection probability for the null and the Bayesian test when $\model_1$ is true.}
+    \end{figure}
+    \only<article>{However, both methods are able to reject the null hypothesis more often when it is false, as long as we have more data.}
+  }
 \end{frame}
 \begin{frame}
   \frametitle{Further reading}

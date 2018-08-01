@@ -17,7 +17,8 @@ ymin=0,
 ymax=1,
 axis background/.style={fill=white},
 title={How often we reject the null hypothesis},
-legend style={legend cell align=left, align=left, legend plot pos=left, draw=black}
+legend style={legend cell align=left, align=left, legend plot pos=left, draw=black},
+legend pos = north west
 ]
 \addplot [color=blue]
   table[row sep=crcr]{%
