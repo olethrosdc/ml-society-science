@@ -405,9 +405,12 @@
 
 \begin{frame}
   \frametitle{Building a test}
-  \[
-    f(x) = \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
-  \]
+  \begin{block}{The test statistic}
+    We want the test to reflect that we don't have a significant number of failures.
+    \[
+    f(x) = 1 - \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
+    \]
+  \end{block}
   \begin{alertblock}{What $f(x)$ is and is not}
     \begin{itemize}
     \item It is a \textbf{statistic} which is $\leq \delta$ a $\delta$ portion of the time when $\model_0$ is true.
@@ -415,6 +418,13 @@
     \item It is \textbf{not} the probability of $\model_0$ given $x$.
     \end{itemize}
   \end{alertblock}
+  \begin{exercise}
+    \begin{itemize}
+    \item<1-> Let us throw a coin 8 times.
+    \item<2-> Select a $p$-value threshold of 50
+    \end{itemize}
+    
+  \end{exercise}
 \end{frame}
 
 
