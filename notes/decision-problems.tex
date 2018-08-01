@@ -422,14 +422,17 @@
 \begin{frame}
   \begin{exercise}
     \begin{itemize}
-    \item<1-> Let us throw a coin 8 times.
+    \item<1-> Let us throw a coin 8 times, and try and predict the outcome.
     \item<2-> Select a $p$-value threshold so that $\delta = 0.05$. 
-      For 8 throws, this corresponds to \uncover<3->{$ > 6$ successes.}
+      For 8 throws, this corresponds to \uncover<3->{$ > 6$ successes or $\geq 87.5\%$ success rate}.
     \item<3-> Let's calculate the $p$-value for each one of you
     \end{itemize}
+      \setlength\fheight{0.25\columnwidth}
+      \setlength\fwidth{0.5\columnwidth}
     \only<2,3>{
       \input{../figures/p-value-example-rejection-threshold.tikz}
     }
+    \only<4>{\input{../figures/p-value-example-rejection.tikz}}
   \end{exercise}
 \end{frame}
 

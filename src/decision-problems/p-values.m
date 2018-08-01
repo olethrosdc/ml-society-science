@@ -12,21 +12,24 @@ Y = rand(max_data,n_trials)<=0.55;
 %% Set the rejection rate
 delta = 0.05;
 
+if (0) 
 %% test if the outcome is random
 for t=1:max_data
-  threshold(t) = 1 -binoinv(delta, t, 0.5);
+  printf("%d\n", t); fflush(stdout);
+  threshold(t) = t -binoinv(delta, t, 0.5);
 end
 
 figure(1)
-plot(threshold ./ [1:max_data])
+semilogx(threshold ./ [1:max_data])
 title("The rejection threshold as data increases");
 ylabel("Success rate");
 xlabel("Amount of throws")
 matlab2tikz("p-value-example-rejection-threshold.tikz", 'height', '\fheight', 'width', '\fwidth' );
+end
 
 for t=1:max_data
-  reject_x (t) = mean(sum(X(1:t,:)) < threshold(t));
-  reject_y (t) = mean(sum(Y(1:t,:)) < threshold(t));
+  reject_x (t) = mean(sum(X(1:t,:)) >= threshold(t));
+  reject_y (t) = mean(sum(Y(1:t,:)) >= threshold(t));
 end
 figure(2)
 plot(reject_x, ';null-distributed;', reject_y, ';other distribution;')
