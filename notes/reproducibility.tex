@@ -18,9 +18,24 @@
   \only<article>{A simple example is the 2016 election. While we can make models}
   
 \end{frame}
-\only<article>{The same thing can be done in when dealing purely with data, by making sure we use some of the data as input to the algorithm, and other data to measure the quality of the algorithm itself. In the following, we assume we have some algorithm $\alg : \Datasets \to \CY$, where $\Datasets$ is the universe of possible input data and $\CY$ the possible outputs, e.g. all possible classification rules. We also assume the existence of some quality measure $U$.
-}
-
+\begin{frame}
+  \only<article>{The same thing can be done in when dealing purely
+    with data, by making sure we use some of the data as input to the
+    algorithm, and other data to measure the quality of the algorithm
+    itself. In the following, we assume we have some algorithm
+    $\alg : \Datasets \to \Pol$, where $\Datasets$ is the universe of
+    possible input data and $\Pol$ the possible outputs, e.g. all
+    possible classification policies. We also assume the existence of
+    some quality measure $U$. How should we measure the quality of our
+    algorithmic choices? 
+    
+    Take classification as an example. For a given training set, simply memorising all the labels of each example gives us perfect performance on the training set. Intuitively, this is not a good measure of performance, as we'd probably get poor results on a freshly sampled set. We can think of the training data as input to an algorithm, and the resulting classifier as the algorithm output. The evaluation function also requires some data in order to measure the performance of the policy. This can be expressed into the following principle.
+  }
+  \begin{alertblock}{The principle of independent evaluation}    
+    Data used for estimation cannot be used for evaluation.
+  \end{alertblock}
+  \only<article>{This applies both to computer-implemented and human-implemented algorithms.}
+\end{frame}
 
 
 \begin{frame}
@@ -59,6 +74,7 @@
 \begin{frame}
   \frametitle{The human as an algorithm.}
   \only<article>{The same way with which an algorithm creates a model from some prior assumptions and data, so can a human select an algorithm and associated hyperparamters by executing an algorithm herself. This involves trying different algorithms and hyperparametrs on the same training data $\Training$ and then measuring their performance in the holdout set $\Holdout$.}
+  \begin{figure}[H]
   \centering
   \begin{tikzpicture}[line width=2pt]
     \node[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
@@ -81,6 +97,9 @@
     \draw<7->[red,->] (pol2) -- (util2);
     \draw<7->[red,->] (holdout) to [bend right] (util2);
   \end{tikzpicture}
+    \caption{Selecting algorithms and hyperparameters through holdouts}
+    \label{fig:human-as-algorithm}
+  \end{figure}
 
 \end{frame}
 
@@ -96,28 +115,32 @@
   \item Calculate quality of output $U(\pol, \Holdout)$
   \end{itemize}
   \only<article>{
-    As typically algorithms are maximising the quality metric on the training data, 
+    We start with some original data $\Data$, e.g. $\Data = (x_1, \ldots, x_T)$. We then split this into a training data set $\Training \subset \Data$, e.g. $\Training = x_1, \ldots, x_n$, $n < T$ and holdout dataset $\Holdout = D \setminus \Training$. This is used to measure the quality of selected algorithms $\alg$ and hyperparameters $\hyperparam$. We run an algorithm/hyperparameter combination on the training data and obtain a result $\pol = \alg(\Training, \hyperparam)$.    \footnote{As typically algorithms are maximising the quality metric on the training data, 
     \[
     \alg(\Training) = \argmax_y U(y, \Training)
     \]
-    we typically obtain a biased estimate, which depends both on the algorithm itself and the training data. For \KNN{} in particular, when we measure accuracy on the training data, we can nearly always obtain near-perfect accuracy.\footnote{But not always perfect. Can you explain why?}
-
-    However, using the holdout set in order to select the best $\alg$ means that we must measure performance on another sample.
+    we typically obtain a biased estimate, which depends both on the algorithm itself and the training data. For \KNN{} in particular, when we measure accuracy on the training data, we can nearly always obtain near-perfect accuracy, but not always perfect. Can you explain why?}
+ We then calculate the quality of the output $U(\pol, \Holdout)$ on the holdout set.
+    Unfortunately, the combination that appears the best due to the holdout result may look inferior in a fresh sample. Following the principle of ``data used for evaluation cannot be used for estimation'', we must measure performance on another sample.
   }
-  \begin{block}{Holdout sets for unbiased algorithm comparison}
+  \begin{block}{Holdout and test sets for unbiased algorithm comparison}
     \only<article>{
       Consider the problem of comparing a number of different algorithms in $\Alg$. Each algorithm $\alg$ has a different set of hyperparameters $\Hyperparam_\alg$. The problem is to choose the best parameters for each algorithm, and then to test them independently. A simple meta-algorithm for doing this is based on the use of a \emph{holdout} set for choosing hyperparameters for each algorithm, and a \emph{test} set to measure algorithmic performance.}
-    \begin{algorithmic}
-      \State Partition data into $\Training, \Holdout, \Testing$.
-      \For {$\alg \in \Alg$}
-      \For {$\hyperparam \in \Hyperparam_\alg$}
-      \State $\pol_{\hyperparam, \alg} = \alg(\Training, \hyperparam)$.
-      \EndFor
-      \State Get $\pol^*_{\alg}$ maximising $\util(\pol_{\hyperparam, \alg}, \Holdout)$.
-      \State $u_\alg = \util(\pol^*_\alg, \Testing)$.
-      \EndFor
-      \State $\alg^* = \argmax_\alg u_\alg$.
-    \end{algorithmic}
+    \begin{algorithm}[H]
+      \begin{algorithmic}
+        \State Partition data into $\Training, \Holdout, \Testing$.
+        \For {$\alg \in \Alg$} \For
+        {$\hyperparam \in \Hyperparam_\alg$} \State
+        $\pol_{\hyperparam, \alg} = \alg(\Training, \hyperparam)$.
+        \EndFor
+        \State Get $\pol^*_{\alg}$ maximising
+        $\util(\pol_{\hyperparam, \alg}, \Holdout)$.  \State
+        $u_\alg = \util(\pol^*_\alg, \Testing)$.
+        \EndFor
+        \State $\alg^* = \argmax_\alg u_\alg$.
+      \end{algorithmic}
+      \caption{Unbiased adaptive evaluation through data partitioning}
+    \end{algorithm}
   \end{block}
   \only<article>{This ensures that we are not biased in our decision about what is the best algorithm.}
 \end{frame}
