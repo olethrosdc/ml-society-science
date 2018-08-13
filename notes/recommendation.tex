@@ -19,10 +19,54 @@
 \end{frame}
 
 \begin{frame}
-  \includegraphics[width=0.5\textwidth]{../figures/netflix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../figures/netflix}
+    \caption{The Netflix recommendation problem}
+    \label{fig:netflix}
+  \end{figure}
+  \only<article>{
+    \begin{example}
+      In the case of Netflix and related services, we would like to suggest movies to users which they are more likely to watch, as shown in Figure~\ref{fig:netflix}. However, how can we tell which movies those can be? It is probably not useful to just recommend them to rewatch a previously watched movie. We need to somehow take into account information across our user database: if somebody watched mostly the same films as you, then maybe you'd be interested in watching those movies she has that you haven't seen.
+
+      In the Netflix catalogue, in particular, users also post reviews of the movies they have watched, as shown in Figure~\ref{fig:user-ratings}. This allows us to ensure that 
+    \end{example}
+  }
 \end{frame}
 \begin{frame}
-  \includegraphics[width=0.9\textwidth]{../figures/recommendationExample-1}
+  \begin{figure}[H]
+    \centering \includegraphics[width=0.9\textwidth]{../figures/recommendationExample-1}
+    \caption{User ratings}
+    \label{fig:user-ratings}
+  \end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Preferences as clusters}
+  \only<article>{As a simple model, we can assume that each person belongs to a \alert{type}. Every type has the same preferences over films. In the simplest possible model, a user of type $c_i$ that has watched a movie $m$ will rate the film deterministically $x_{c,m}$. More generally, we can assume the following model.}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (data) {$x_t$};
+      \node[RV,hidden] at (0,0) (cluster) {$c_{t}$};
+      \draw[->] (cluster)--(data);
+      \uncover<2>{
+        \node[RV,hidden] at (0,1) (param) {$\param$};
+        \draw[->] (param)--(cluster);
+        \draw[->] (param)--(data);
+      }
+    \end{tikzpicture}
+    \caption{Preference model}
+    \label{fig:preference-model}
+  \end{figure}
+  \begin{block}{Preference model}
+    \begin{itemize}
+    \item User type $c_t \in \CC$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
+    \item Preference distribution $P_\param(x | m, c)$. 
+    \end{itemize}
+  \end{block}
 \end{frame}
 %%% Local Variables:
 %%% mode: latex
