@@ -149,16 +149,16 @@ Project 1: Mortgage decisions
 
 Project 2: Social networks
 
-7. 3-4 October. Lecture: Clustering, DNA testing.
-8. 10-11 October. Tutorial: Bayesian Networks. Lab: DNA Testing
-9. 17-18 October. Lecture: Recommendation systems.
-10. 24-25 October. Tutorial: Lab
+7. 3-4 October. Lecture: Recommendation systems.
+8. 10-11 October. Tutorial: Bayesian Networks. Lab: Recommendation systems
+9. 17-18 October. Lecture: Time series prediction, HMM, Recursive Networks
+10. 24-25 October. Tutorial: Prediction and Compression. Lab: RNN vs HMM
 
 Project 3: Experiment design
 
 11. 31 Oct-1 Nov. Lecture: Bandit problems.
 12. 7-8 November. Tutorial: Function optimisation. Lab: Experiment design
-13. 14-15 November. Lecture: Markov decision processes.
+13. 14-15 November. Lecture: Markov decision processes and Reinforcement Learning
 14. 21-22 November. Tutorial: Reinforcement learning. Lab: Q-learning
 
 * Meetings

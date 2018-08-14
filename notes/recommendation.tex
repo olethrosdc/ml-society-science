@@ -29,7 +29,7 @@
     \begin{example}
       In the case of Netflix and related services, we would like to suggest movies to users which they are more likely to watch, as shown in Figure~\ref{fig:netflix}. However, how can we tell which movies those can be? It is probably not useful to just recommend them to rewatch a previously watched movie. We need to somehow take into account information across our user database: if somebody watched mostly the same films as you, then maybe you'd be interested in watching those movies she has that you haven't seen.
 
-      In the Netflix catalogue, in particular, users also post reviews of the movies they have watched, as shown in Figure~\ref{fig:user-ratings}. This allows us to ensure that 
+      In the Netflix catalogue, in particular, users also post reviews of the movies they have watched, as shown in Figure~\ref{fig:user-ratings}. This allows us to be able to guess the ratings of users from previous user's ratings.
     \end{example}
   }
 \end{frame}
@@ -40,6 +40,34 @@
     \label{fig:user-ratings}
   \end{figure}
 
+\end{frame}
+
+\begin{frame}
+\frametitle{Predictions based on similarity}
+\begin{block}{Collaborative filtering}
+  \begin{itemize}
+  \item \alert{Similar users have similar tastes}. \only<article>{For example, consider two users $t, u$ who have each watched a set of movies $\CM_t$ and $\CM_u$ respectively, and $\CM_{t,u} = \CM_t \cap \CM_u$ is the set of common movies. If their ratings are the same for those movies, i.e. $x_{t.m} = x_{u,m} \forall m \in \CM_{t,u}$, then it's a good guess that they might have the same ratings for movies they have not both watched. }
+  \item That means we can use similar user's \alert{ratings} to predict the ratings for other users. 
+\only<article>{The advantage is that ratings are readily available. The disadvantage is that new users have too few data to be matched to other users.}
+  \end{itemize}
+\end{block}
+\begin{block}{Content-based filtering.}
+  \begin{itemize}
+  \item Users typically like similar items. \only<article>{For example, a horror movie fan typically rates horror movies highly.}
+  \item That means we can one user's ratings and \alert{item information} to predict their ratings for other items. \only<article>{In this scenario}
+  \end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{$k$-NN for similarity}
+  \begin{exercise}
+    \begin{itemize}
+      \item Define a distance $d : \CX^M \times \CX^M \to \Reals_+$ between user ratings.
+      \item Apply a $k$-NN algorithm to prediction of user ratings from the dataset.
+    \end{itemize}
+  \end{exercise}
 \end{frame}
 
 
@@ -63,8 +91,14 @@
   \end{figure}
   \begin{block}{Preference model}
     \begin{itemize}
+    \item User $t$.
     \item User type $c_t \in \CC$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
-    \item Preference distribution $P_\param(x | m, c)$. 
+    \item User ratings  $\bx_t$ with $x_{t,m} \in \CX$ rating for movie $m$. \only<article>{As an example, $\CX = \{0, 1, 2, 3, 4, 5\}$, with $0$ meaning no rating given. This is important, since }
+    \item Preference distribution $P_\param(\bx_{t} = \bx | c_t = c)$.\only<article>{Typically, we can assume that ratings are independent given the type
+        \[
+        P_\param(\bx_{t} = \bx | c_t = c) = \prod_{m=1}^M P_\param(x_{t,m} = x_m | c_t = c),
+        \]
+        so that a single (vector) parameter $\param_{c,m}$ will describe the distribution of ratings for a particular movie $m$ and type $c$, i.e.  $P_\param(x_{t,m} = x_m | c_t = c) = P_\param(x_{t,m} = x_m | c_t = c)$.}
     \end{itemize}
   \end{block}
 \end{frame}
