@@ -45,20 +45,53 @@
   \frametitle{Bayesian formulation of the clustering problem}
   \begin{itemize}
   \item Prior $\bel$ on parameter space $\Param$.
-  \item Data $x^T = x_1, \ldots, x_T$.
+  \item Data $x^T = x_1, \ldots, x_T$. Cluster assignments $c^T$ unknown.
   \item Posterior $\bel(\cdot \mid x^T)$.
   \end{itemize}
+  \begin{block}{Posterior distribution}
+    \only<article>{The data we obtain do not include the cluster assignments, but we can still formulate the posterior distribution of parameters given the data.}
+    \begin{align}
+      \bel(\param \mid x^T)
+      &=
+      \frac{P_\param(x^T) \bel(\param)}{\int_\Param P_{\param'}(x^T) \dd \bel(\param')}, &
+      P_\param(x^T) &=  \sum_{c^T \in \CC^T} \overbrace{P_\param(x^T \mid c^T)}^{\mathclap{\textrm{Cluster Density}}}  \underbrace{P_\param(c^T)}_{\mathclap{\textrm{Cluster prior}}}
+    \end{align}
+    \only<article>{We simply need to expand the data-dependent term to include all possible cluster assignments. This is of course not trivial, since the number of assignments is exponential in $T$. However, algorithms such as Markov Chain Monte Carlo can be used instead.}
+  \end{block}
+  \uncover<2>{
   \begin{block}{Marginal posterior prediction}
     \[
     P_\bel(c_t \mid x_t, x^T) = 
     \int_\Param P_\param(c_t \mid x_t) \dd \bel(\param \mid x^T)
     \]
   \end{block}
+}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Example for clustering}
-  
+  \begin{example}[Preference clustering]
+    \only<article>{The learning problem is to estimate the parameter $\param$ describing the distribution of observations $x_t$ and clusters $c_t$. In this example, we can assume}
+    \[
+      \CC = \{1, \ldots, C\}, \qquad x_{t.m} \in \{0,1\}.
+    \]
+    \only<article>{This means that all movies are either watched or not, and we'd simply want to predict which movie somebody is likely to watch. This allows us to use the following simple priors, splitting the parameters in two parts} $\param  = (\param_1, \param_2)$.
+    \begin{block}{Model family}
+    \begin{align}
+      P_{\param_1}(c_t = c) &=  \param_{1,c},
+      & c_t \sim \Multinomial(\param_1)
+      \\
+      P_{\param_2}(x_{t,m} = 1 \mid c_t = c)                        &=\param_{2, m, c}
+      & x_{t,m} \mid c_t = c \sim \Bernoulli(\param_{2,m,c})                                           
+    \end{align}
+  \end{block}
+    \only<article>{Since everything is discrete, it makes sense that we can use a Multinomial model for the cluster distribution and a Bernoulli model for whether or not a movie was watched. Now we only need to specify a useful prior for each one of those. The standard priors to use, are a Beta prior for the Bernoulli and the Dirichlet for the Multinomial, as they are conjuate.}
+    \begin{block}{Prior}
+    \begin{align}
+      \param_1 &\sim \Dirichlet(\vg), \param_2 &\sim \BetaDist(\alpha, \beta)
+    \end{align}
+    \only<article>{Typically $\vg = (1/2, \ldots, 1/2)$ and $\alpha = \beta = 1/2$ to allow for the possibility of nearly deterministic behaviour.}
+  \end{block}
+  \end{example}
 \end{frame}
 %%% Local Variables:
 %%% mode: latex
