@@ -1,8 +1,14 @@
 * Artificial Intelligence, Science and Society
 
-ECTS Credits: 6.
+- ECTS Credits: 6.
+- Expected development time: 400 hours (200 for the lecture notes and 200 for the assignments, tutorials and projects)
+- Teaching time: 264-384 hours (48 contact, 96 preparation, 120-240 corrections for 20-40 students)
 
-** Learning outcomes: 
+** Learning outcomes
+
+There are two types of learning outcomes. Firstly, those that are the core of the course, and secondly methodologies that are used as part of the course.
+
+Core learning outcomes:
 
 1. Ensuring reproducibility in both science and AI development.
 2. Recognising privacy issues and be able to mitigate them using appropriate formalisms.
@@ -11,25 +17,49 @@ ECTS Credits: 6.
 5. Developing adaptive experimental design protocols for online and scientific applications.
 6. Understanding when it is possible provide safety guarantees for AI algorithms.
 
+AI learning outcomes:
+
+1. Understanding how to use data for learning, estimation and testing to create reproducible research.
+2. Understanding Bayesian inference and decision theory and being able to develop graphical models.
+3. Understanding neural networks and how to apply stochastic optimisation algorithms.
+4. Understanding and using differential privacy as a formalism.
+5. Understanding the recommendation problem and how to use filtering and bandit algorithms.
+6. Understanding the reinforcement learning problem and how to approximately make sequentially optimal decisions.
+
+
 ** Course content
 
-The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It supposed to equip the students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining models, but it uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work.
+The course is split in 6 sessions, which should be taken in sequence.
 
-The course is split in 6 modules, which should be taken in sequence.
+Module 1. Project: Credit Risk.
 
-Week 1. Reproducibility: kNN, bootstrapping, Bayesian inference, decision problems, false discovery.
-Week 2. Privacy: Databases, k-anonymity, graphical models, differential privacy, the reusable holdout.
-Week 3. Fairness: Decision diagrams, conditional independence, meritocracy, discrimination.
-Week 4. The web: Recommendation systems, clustering, latent variable models, fake news.
-Week 5. Adaptive experiment design: Bandit problems, stochastic optimisation, Markov decision processes, dynamic programming, reinforcement learning
-Week 6. Safety: Aletorial and epistemic risk, confidence bounds, interventions, counterfactuals and causality.
+Session 1. Reproducibility: kNN, bootstrapping, Bayesian inference, decision problems, false discovery.
+Session 2. Fairness: Decision diagrams, conditional independence, meritocracy, discrimination.
+
+Module 2. Project: Recommendation systems and fake news.
+
+Session 3. Privacy: Databases, k-anonymity, graphical models, differential privacy, the reusable holdout.
+Session 4. The web: Recommendation systems, clustering, latent variable models, fake news.
+
+Module 3. Project: Medical diagnostics.
+
+Session 5. Adaptive experiment design: Bandit problems, stochastic optimisation, Markov decision processes, dynamic programming, reinforcement learning
+Session 6. Safety: Aletorial and epistemic risk, confidence bounds, interventions, counterfactuals and causality.
 
 ** Examination
 
 There are 6 small assingments, taking 2-4 hours each (partly done in a
 tutorial session) and 3 mini-projects, taking 8-16 hours each (partly
-done in a lab session). A 15-min oral exam is conducted based on the
+done in a lab session). A 15-min oral exam (possibly online) is conducted based on the
 project reports.
+
+** Motivation
+
+Algorithms from Artificial Intelligence are becoming ever more complicated and are used in manifold ways in today's society: from prosaic applications like web advertising to scientific research. Their indiscriminate use creates many externalities that can be, however, precisely quantified and mitigated against.
+
+The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It will equip  students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining a large set of models. It uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work. It is instead on the issues of reproducibility, data colletion and experiment design, privacy, fairness and safety when applying machine learning algorithms. For that reason, we will cover technical topics not typically covered in an AI course: false discovery rates, differential privacy, fairness, causality and risk. Some familiarity with machine learning concepts and artificial intelligence is expected, but not necessary.
+ 
+My background is ideally suited for this course as I have been working on automated experiment design, reinforcement learning, privacy, fairness and safety. I have given basic and advanced courses related to these topics in various universities.
 
 * Lecture plan
 
@@ -170,29 +200,30 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 * Timetable
 
-1. 22-23 August. Lecture: Machine Learning intro, kNN, Reproducibility, probability and decision theory.
-2. 29-30 August. Tutorial: Reproducibility. Lab: Mortgage classification and decisions.
+8.22-23 Lecture: Machine Learning intro, kNN, Reproducibility, probability and decision theory. Lab: Reproducibility
+8.29-30 Lecture: Decision theory, Neural networks and SGD
+9.05-06 Lab: Decision theory and Neural networks
 
 Project 1: Mortgage decisions
 
-3. 5-6 September. Lecture: Privacy, anonymity, differential privacy.
-4. 12-13 September. Tutorial:  Privacy. Lab: Privacy in classification.
-5. 19-20 September. Lecture: Fairness and Decision Diagrams
-6. 26-27 September. Tutorial: Decision Diagrams. Lab: COMPAS Dataset
+9.12-13 Lecture: Privacy, anonymity, differential privacy
+9.19-20 Lab: Privacy
+9.26-27 Lecture: Fairness and Decision diagrams
+10.03-04 Lab: Fairness, COMPAS data
 
 Project 2: Social networks
 
-7. 3-4 October. Lecture: Recommendation systems.
-8. 10-11 October. Tutorial: Bayesian Networks. Lab: Recommendation systems
-9. 17-18 October. Lecture: Time series prediction, HMM, Recursive Networks
-10. 24-25 October. Tutorial: Prediction and Compression. Lab: RNN vs HMM
+10.10-11 Lecture: Recommendation Systems, Markov models
+10.17-18 Tutorial: Bayesian Networks, Recsys
+10.24-25 Lecture: Causality, Counterfactuals
+10.31-11.01 Tutorial: Compression. Lab: RNN/HMM
 
 Project 3: Experiment design
 
-11. 31 Oct-1 Nov. Lecture: Bandit problems.
-12. 7-8 November. Tutorial: Function optimisation. Lab: Experiment design
-13. 14-15 November. Lecture: Markov decision processes and Reinforcement Learning
-14. 21-22 November. Tutorial: Reinforcement learning. Lab: Q-learning
+11.07-08 Lecture: Bandit Problems and MDPs
+11.14-15 Tutorial: Stochastic optimisation and experiment design
+11.21-22 Lecture: Reinforcement Learning, Lab: Q-learning
+
 
 * Meetings
 ** DS overview

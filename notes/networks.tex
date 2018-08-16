@@ -1,22 +1,36 @@
 \section{Social networks}
-
+\only<article>{Social networks afford us another opportunity to take a look at data. We can use connections between users to infer their similarity: if two users are connected, then they are more likely to have similar preferences. }
 \begin{frame}
   \frametitle{Network model}
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-      \node[RV,hidden] at (0,0) (x1) {$x_1$};
-      \node[RV,hidden] at (2,0) (x2) {$x_2$};
-      \node[RV,hidden] at (0,2) (x3) {$x_3$};
-      \node[RV,hidden] at (2,2) (x4) {$x_4$};
-      \node[RV] at (1,1) (y1) {$y_1$};
-      \node[RV] at (3,1) (y2) {$y_2$};
-      \node[RV] at (1,3) (y3) {$y_3$};
-      \node[RV] at (3,3) (y4) {$y_4$};
+      \node[RV,hidden] at (0,0) (c1) {$c_1$};
+      \node[RV,hidden] at (4,0) (c2) {$c_2$};
+      \node[RV,hidden] at (8,0) (c3) {$c_3$};
+      \onslide<2->{
+        \node[RV] at (0,3) (x1) {$x_1$};
+        \node[RV] at (4,3) (x2) {$x_2$};
+        \node[RV] at (8,3) (x3) {$x_3$};
+        \draw[->] (c1) to (x1);
+        \draw[->] (c2) to (x2);
+        \draw[->] (c3) to (x3);}
+     \onslide<3>{
+       \node[RV] at (2,0) (z12) {$z_{12}$};
+       \node[RV] at (4,-2) (z13) {$z_{13}$};
+       \node[RV] at (6,0) (z23) {$z_{23}$};
+       \draw[->] (c1) to (z12);
+       \draw[->] (c2) to (z12);
+       \draw[->] (c1) to (z13);
+       \draw[->] (c3) to (z13);
+       \draw[->] (c2) to (z23);
+       \draw[->] (c3) to (z23);
+       }
     \end{tikzpicture}
+  \caption{\only<article>{Graphical model for data from a social network.} \only<1>{$c_t$ is the characteristic cluster of user $t$.} \only<2>{$x_t$ is the data seen from user $t$.} \only<3>{$z_{tu} \in \{0, 1\}$ is whether $t,u$ are connected.}}
     \label{fig:network-model}
-    \caption{Graphical model for independent data from a cluster distribution.}
   \end{figure}
+  \only<article>{In the model seen in Figure~\ref{fig:network-model}, each user $t$ is characterised by their cluster membership $c_t$ and emits data $x_t$. Users $t,u$ are connected when $z_{t,u} = 1$.}
 \end{frame}
 
 %%% Local Variables:
