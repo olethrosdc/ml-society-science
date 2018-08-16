@@ -1,3 +1,13 @@
+* Artificial Intelligence, Science and Society
+
+ECTS Credits 6.
+
+The application should include the title of the course, the number of ECTS credits (we recommend 3-6); a description of the learning outcomes, the course content, the examination, and the course material you intend to develop (the more detailed the better, but we don’t expect it to be complete and finished); name, affiliation and CV of each applicant and a short motivation for why you want to develop the course and why you have the suitable background; and how many hours each applicant needs for developing the course. If the application is successful, the applicants are expected to personally do most of the development and teaching work.
+The funding can only be used by named people approved by the PM AI/MLX.
+
+
+The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. In particular, we deal with the foll
+
 * Lecture plan
 
 
