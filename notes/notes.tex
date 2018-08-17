@@ -1,5 +1,5 @@
 \documentclass[a4paper,twoside]{book}
-
+\usepackage{geometry}
 \usepackage[notheorems]{beamerarticle}
 
 
@@ -14,6 +14,7 @@
 
 %\includeonly{database,privacy}
 %\includeonly{experiment-design}
+%\includeonly{networks}
 \title{Machine learning in science and society}
 \subtitle{From automated science to beneficial artificial intelligence}
 \author[C. Dimitrakakis]{Christos Dimitrakakis}
@@ -43,21 +44,22 @@ In this chapter, we shall formalise all these simple decision problems from the 
 
 \chapter{Privacy}
 \only<article>{
-  Participating in a study always carries a risk for individuals, namely that of data disclosure.
-}
+  Participating in a study always carries a risk for individuals, namely that of data disclosure. In this chapter, we first explain how simple database query methods, and show even a small number of queries to a database they can compromise the privacy of individuals. We then introduce to formal concepts of privacy protection: $k$-anonymity and differential privacy. The first is relatively simple to apply and provides some limited resistance to identification of individuals through record linkage attacks. The latter is a more general concept, and can be simple apply in some settings, while it offers information-theoretic protection to individuals. A major problem with any privacy definition and method, however is correct interpretation of the privacy concept used, and correct implementation of the algorithm used.}
 
 \include{database} % data base access model
 \include{privacy} %data bases
 
 \chapter{Fairness}
-
+\only<article>{
+  When machine learning algorithms are applied at scale, it can be difficult to imagine
+}
 \include{fairness}
 \include{credit}
 
-\chapter{Structured and large databases}
-\only<article>{Structured learning problems involve multiple latent variables with a complex structure. These range from clustering and spech recognition to DNA and biological and social network analysis. Since structure problems include complicated relationships between variables, it pays to introduce a formal method for describing such relationships, called graphical models.}
+
 
 \chapter{Recommendation systems}
+\only<article>{Structured learning problems involve multiple latent variables with a complex structure. These range from clustering and spech recognition to DNA and biological and social network analysis. Since structured problems include relationships between many variables, they can be analysed using graphical models.}
 \include{recommendation}
 \include{clustering}
 \include{networks}
@@ -79,5 +81,6 @@ In this chapter, we shall formalise all these simple decision problems from the 
 \end{document}
 %%% Local Variables:
 %%% mode: latex
+%%% TeX-engine: xetex
 %%% TeX-master: "notes"
 %%% End:

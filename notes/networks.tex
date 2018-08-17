@@ -15,19 +15,19 @@
         \draw[->] (c1) to (x1);
         \draw[->] (c2) to (x2);
         \draw[->] (c3) to (x3);}
-     \onslide<3>{
-       \node[RV] at (2,0) (z12) {$z_{12}$};
-       \node[RV] at (4,-2) (z13) {$z_{13}$};
-       \node[RV] at (6,0) (z23) {$z_{23}$};
-       \draw[->] (c1) to (z12);
-       \draw[->] (c2) to (z12);
-       \draw[->] (c1) to (z13);
-       \draw[->] (c3) to (z13);
-       \draw[->] (c2) to (z23);
-       \draw[->] (c3) to (z23);
-       }
+      \onslide<3>{
+        \node[RV] at (2,0) (z12) {$z_{12}$};
+        \node[RV] at (4,-2) (z13) {$z_{13}$};
+        \node[RV] at (6,0) (z23) {$z_{23}$};
+        \draw[->] (c1) to (z12);
+        \draw[->] (c2) to (z12);
+        \draw[->] (c1) to (z13);
+        \draw[->] (c3) to (z13);
+        \draw[->] (c2) to (z23);
+        \draw[->] (c3) to (z23);
+      }
     \end{tikzpicture}
-  \caption{\only<article>{Graphical model for data from a social network.} \only<1>{$c_t$ is the characteristic cluster of user $t$.} \only<2>{$x_t$ is the data seen from user $t$.} \only<3>{$z_{tu} \in \{0, 1\}$ is whether $t,u$ are connected.}}
+    \caption{Graphical model for data from a social network.}
     \label{fig:network-model}
   \end{figure}
   \only<article>{In the model seen in Figure~\ref{fig:network-model}, each user $t$ is characterised by their cluster membership $c_t$ and emits data $x_t$. Users $t,u$ are connected when $z_{t,u} = 1$.}

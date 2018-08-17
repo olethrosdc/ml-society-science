@@ -1,5 +1,6 @@
-\subsection{Graphical models}
-
+\section{Graphical models}
+\only<article>{
+Graphical models are a very useful tool for modelling the relationship between multiple variables. The simplest such models, probabilistic graphical models (otherwise known as Bayesian networks) involve directed acyclic graphs between random variables.}
 \begin{frame}
   \frametitle{Graphical models}
   \begin{figure}[H]
@@ -8,14 +9,14 @@
       \node[RV] at (2,0) (xi) {$x_3$};
       \node[RV] at (0,0) (xB) {$x_1$};
       \node[RV] at (1,1) (xD) {$x_2$};
-      \draw[->] (xB)--(xD);
-      \draw[->] (xD)--(xi);
-      \draw[->] (xB)--(xi);
+      \draw[->] (xB) to (xD);
+      \draw[->] (xD) to (xi);
+      \draw[->] (xB) to (xi);
     \end{tikzpicture}
     \label{fig:bn}
     \caption{Graphical model for three variables.}
   \end{figure}
-
+  \only<article>{Consider for example the model in Figure~\ref{fig:bn}. It involves three variables, $x_1, x_2, x_3$ and there are three arrows, which show how one variable depends on another. Simply put, if you think of each $x_k$ as a stochastic function, then $x_k$'s value only depends on the values of its parents, i.e. the nodes that are point to it. In this example, $x_1$ does not depend on any other variable, but the value of $x_2$ depends on the value of $x_1$. Such models are useful when we want to describe the joint probability distribution of all the variables in the collection.}
   \begin{block}{Joint probability}
     Let $\bx = (x_1, \ldots, x_n)$. Then $\bx : \Omega \to X$, $X = \prod_i X_i$ and:
     \[
@@ -45,9 +46,9 @@
     \[
     \Pr(x_1) \Pr(x_2 \mid x_1) \Pr(x_3 \mid x_1, x_2) \cdots \Pr(x_n \mid x_1, \ldots, x_{n-1}).
     \]
-    But this is too complicated!
   }
   \end{block}
+  \only<article>{Although the above factorisation is always possible to do, sometimes our graphical model has a structure that makes the factors much simpler. In fact, the main reason for introducing graphical models is to represent dependencies between variables. For a given model, we can infer whether some variables are in fact dependent, independent, or conditionally independent.}
 \end{frame}
 \begin{frame}
   \frametitle{Directed graphical models and conditional independence}
@@ -73,11 +74,11 @@
     \]
   \end{block}
 
-  \frametitle{Graphical models}
+  \frametitle{Directed graphical models}
   \only<article>{
     A graphical model is a convenient way to represent conditional independence between variables. There are many variants of graphical models, whose name is context dependent. Other names used in the literature are probabilistic graphical models, Bayesian networks, causal graphs, or decision diagrams. In this set of notes we focus on directed graphical models that depict dependencies between ranom variables.
 
-    \begin{definition}[Directed graphical model] is a collection of $n$ random variables $x_i : \Omega \to X_i$, and let $X \defn \prod_i X_i$, with underlying probability measure $P$ on $\Omega$.
+    \begin{definition}[Directed graphical model] A collection of $n$ random variables $x_i : \Omega \to X_i$, and let $X \defn \prod_i X_i$, with underlying probability measure $P$ on $\Omega$.
       Let $\bx = (x_i)_{i=1}^n$ and for any subset $B \subset[n]$ let
       \begin{align}
         \bx_B &\defn (x_i)_{i \in B}\\
@@ -90,6 +91,7 @@
 
 \end{frame}
 
+\only<presentation>{
 \begin{frame}
   \begin{exercise}
     Factorise the following graphical model.
@@ -156,7 +158,10 @@
     }
     \end{tikzpicture}
   \end{exercise}
-  \begin{alertblock}{Conditional independence}
+\end{frame}
+}
+\begin{frame}
+\begin{alertblock}{Deciding conditional independence}
     There is an algorithm for deciding conditional independence of any two variables in a graphical model.
     \only<article>{However, this is beyond the scope of these notes. Here, we shall just use these models as a way to encode dependencies that we assume exist.}
   \end{alertblock}
@@ -165,7 +170,7 @@
 
 \begin{frame}
  \frametitle{Measuring independence}
- \only<article>{The simplest way to measure independence is by looking at whether or not}
+ \only<article>{The simplest way to measure independence is by looking at whether or not the distribution of the possibly dependent variable changes when we change the value of the other variables. }
 
  \begin{theorem}
    If $x_i \mid \bx_D \indep \bx_B$ then

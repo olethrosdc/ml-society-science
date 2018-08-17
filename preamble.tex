@@ -41,34 +41,49 @@
 
 \numberwithin{equation}{section} 
 \mode<article>{
-    \theoremstyle{plain}
-    %    \newtheorem{assumption}{Assumption}[section]
-    \newtheorem{lemma}{Lemma}[section]
-    \newtheorem{theorem}{Theorem}[section]
-    \newtheorem{corollary}{Corollary}[section]
-    \theoremstyle{definition}
-    \newtheorem{definition}{Definition}[section]
-    \theoremstyle{remark}
-    \newtheorem{remark}{Remark}[section]
-    
-    %\theoremstyle{plain} \newtheorem{remark}{Remark}[section]
-    %\theoremstyle{plain} \newtheorem{definition}{Definition}[section]
-    \theoremstyle{plain} \newtheorem{assumption}{Assumption}[section]
-    
-    %%% Examples %%%%
-    \newtheoremstyle{example}  % Name
-    {1em}       % Space above 
-    {1em}       % Space below
-    {\small}      % Body font
-    {}          % Indent amount 
-    {\scshape}  % Theorem head font
-    {.}         % Punctuation after theorem head
-    {.5em}      % Space after theorem head
-    {}          % Theorem head spec
-    \theoremstyle{example}
-    \newtheorem{example}{Example}
-    \newtheorem{exercise}{Exercise}
+\theoremstyle{plain}
+%    \newtheorem{assumption}{Assumption}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+%\theoremstyle{plain} \newtheorem{remark}{Remark}[section]
+%\theoremstyle{plain} \newtheorem{definition}{Definition}[section]
+\theoremstyle{plain} \newtheorem{assumption}{Assumption}[section]
+
+%%% Examples %%%%
+\newtheoremstyle{example}  % Name
+{1em}       % Space above 
+{1em}       % Space below
+{\small}      % Body font
+{}          % Indent amount 
+{\scshape}  % Theorem head font
+{.}         % Punctuation after theorem head
+{.5em}      % Space after theorem head
+{}          % Theorem head spec
+\theoremstyle{example}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+
+\usepackage{framed}
+\renewenvironment{block}[1]
+{\framed \par \textbf{#1} \newline}
+{\par \endframed}
+
+\renewenvironment{exampleblock}[1]
+{\framed \par \textit{#1} \newline \bigskip}
+{\par \endframed}
+
+\renewenvironment{alertblock}[1]
+{\framed \par \textit{\textbf{#1}} \newline \hrule \bigskip}
+{\par \endframed}
 }
+
+
 %\theoremstyle{plain} \newtheorem{conjecture}{Conjecture}[section]
 %\theoremstyle{plain} \newtheorem{theorem}{Theorem}[section]
 %\theoremstyle{plain} \newtheorem{proposition}{Proposition}[section]
@@ -418,20 +433,20 @@
 
 \newcommand{\errorband}[5][]{ % x column, y column, error column, optional argument for setting style of the area plot
 \pgfplotstableread[col sep=comma, skip first n=2]{#2}\datatable
-    % Lower bound (invisible plot)
-    \addplot [draw=none, stack plots=y, forget plot] table [
-        x={#3},
-        y expr=\thisrow{#4}-\thisrow{#5}
-    ] {\datatable};
+% Lower bound (invisible plot)
+\addplot [draw=none, stack plots=y, forget plot] table [
+x={#3},
+y expr=\thisrow{#4}-\thisrow{#5}
+] {\datatable};
 
-    % Stack twice the error, draw as area plot
-    \addplot [draw=none, fill=gray!40, stack plots=y, area legend, #1] table [
-        x={#3},
-        y expr=2*\thisrow{#5}
-    ] {\datatable} \closedcycle;
+% Stack twice the error, draw as area plot
+\addplot [draw=none, fill=gray!40, stack plots=y, area legend, #1] table [
+x={#3},
+y expr=2*\thisrow{#5}
+] {\datatable} \closedcycle;
 
-    % Reset stack using invisible plot
-    \addplot [forget plot, stack plots=y,draw=none] table [x={#3}, y expr=-(\thisrow{#4}+\thisrow{#5})] {\datatable};
+% Reset stack using invisible plot
+\addplot [forget plot, stack plots=y,draw=none] table [x={#3}, y expr=-(\thisrow{#4}+\thisrow{#5})] {\datatable};
 }
 
 
@@ -444,11 +459,11 @@
 \def\mathrlap{\mathpalette\mathrlapinternal}
 \def\mathclap{\mathpalette\mathclapinternal}
 \def\mathllapinternal#1#2{%
-           \llap{$\mathsurround=0pt#1{#2}$}}
+\llap{$\mathsurround=0pt#1{#2}$}}
 \def\mathrlapinternal#1#2{%
-           \rlap{$\mathsurround=0pt#1{#2}$}}
+\rlap{$\mathsurround=0pt#1{#2}$}}
 \def\mathclapinternal#1#2{%
-           \clap{$\mathsurround=0pt#1{#2}$}}
+\clap{$\mathsurround=0pt#1{#2}$}}
 
 
 \usepackage{tikz}
