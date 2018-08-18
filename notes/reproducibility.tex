@@ -22,7 +22,12 @@
   \begin{block}{Computational reproducibility: Can the study be repeated?}
     Can we, from the available information and data, exactly reproduce the reported methods and results?
 
-    \only<article>{This is something that is useful to be able to even to the original authors of a study. The standard method for achieving this is using version control tools so that the exact version of algorithms, text and data used to write up the study is appropriately labelled. Ideally, any other researcher should be able to run a single script to reproduce all of the study and its computations.}
+    \only<article>{This is something that is useful to be able to even to the original authors of a study. The standard method for achieving this is using version control tools so that the exact version of algorithms, text and data used to write up the study is appropriately labelled. Ideally, any other researcher should be able to run a single script to reproduce all of the study and its computations. The following tools are going to be used in this course:}
+
+    \begin{itemize}
+    \item \texttt{jupyter} notebooks \only<article>{for interactive note taking.}
+    \item \texttt{svn}, \texttt{git} or \texttt{mercurial} version control systems \only<article>{for tracking versions, changes and collaborating with others.}
+    \end{itemize}
   \end{block}
 
   \begin{block}{Scientific reproducibility: Is the conclusion correct?}
@@ -33,6 +38,7 @@
 
   When publishing results about a \alert{new method}, computational reproducibility is essential for scientific reproducibility.
 \end{frame}
+
 
 \begin{frame}
 
