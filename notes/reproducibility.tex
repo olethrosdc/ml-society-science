@@ -218,25 +218,30 @@ This ensures that we are not biased in our decision about what is the best algor
 \begin{frame}
   \frametitle{Independent data sets}
   \only<article>{One simple idea is to just collect independent datasets and see how the output of the algorithm changes when the data changes. However, this is quite expensive, as it not might be easy to collect data in the first place.}
-  \centering
-  \begin{tikzpicture}[line width=2pt]
-    \node[select,label=above:Experiment] at (0,0) (experiment) {$\chi$};
-    \node[select,label=below:{Algorithm}] at (8,0) (alg) {$\alg$};
-    \node[RV,label=below:1st sample] at (4,0) (sample1) {$D_1$};
-    \node[RV,label=below:1st Result] at (6,0) (pol1) {$\pol_1$};
-    \node<2>[RV,label=above:2nd Sample] at (4,2) (sample2) {$D_2$};
-    \node<2>[RV,label=above:2nd Result] at (6,2) (pol2) {$\pol_2$};
-        \draw[blue,->] (experiment) -- (sample1);
-    \draw[red,->] (alg) -- (pol1);
-    \draw[red,->] (sample1) -- (pol1);
-    \draw<2>[blue,->] (experiment) -- (sample2);
-    \draw<2>[red,->] (alg) -- (pol2);
-    \draw<2>[red,->] (sample2) -- (pol2);
-  \end{tikzpicture}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[line width=2pt]
+      \node[select,label=above:Experiment] at (0,0) (experiment) {$\chi$};
+      \node[select,label=below:{Algorithm}] at (8,0) (alg) {$\alg$};
+      \node[RV,label=below:1st sample] at (4,0) (sample1) {$D_1$};
+      \node[RV,label=below:1st Result] at (6,0) (pol1) {$\pol_1$};
+      \node<2>[RV,label=above:2nd Sample] at (4,2) (sample2) {$D_2$};
+      \node<2>[RV,label=above:2nd Result] at (6,2) (pol2) {$\pol_2$};
+      \draw[blue,->] (experiment) -- (sample1);
+      \draw[red,->] (alg) -- (pol1);
+      \draw[red,->] (sample1) -- (pol1);
+      \draw<2>[blue,->] (experiment) -- (sample2);
+      \draw<2>[red,->] (alg) -- (pol2);
+      \draw<2>[red,->] (sample2) -- (pol2);
+    \end{tikzpicture}
+    \caption{Multiple samples}
+    \label{fig:multiple-samples}
+  \end{figure}
 \end{frame}
 \begin{frame}
   \frametitle{Bootstrap samples}
-  \only<article>{A more efficient idea is to only collect one dataset, but then use it to generate more datasets. The simplest way to do that is by sampling with replacement from the original dataset, new datasets of the same size as the original. Then the original dataset is sufficiently large, this is approximately the same as sampling independent datasets.}
+  \only<article>{A more efficient idea is to only collect one dataset, but then use it to generate more datasets. The simplest way to do that is by sampling with replacement from the original dataset, new datasets of the same size as the original. Then the original dataset is sufficiently large, this is approximately the same as sampling independent datasets. As usual, we can evaluate our algorithm on an independent data set.}
+  \begin{figure}[H]
   \centering
   \begin{tikzpicture}[line width=2pt]
     \node[select,label=above:Experiment] at (0,0) (experiment) {$\chi$};
@@ -254,7 +259,9 @@ This ensures that we are not biased in our decision about what is the best algor
     \draw[red,->] (alg) -- (pol2);
     \draw[red,->] (sample2) -- (pol2);
   \end{tikzpicture}
-  \only<article>{As usual, we can evaluate our algorithm on an independent holdout set.}
+  \caption{Bootstrap replicates of a single sample}
+  \label{fig:bootstrap}
+\end{figure}
 \end{frame}
 
 
