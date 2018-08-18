@@ -8,14 +8,36 @@
     ] 
   \end{frame}
 }
-\only<article>{
-  One of the main problems in science is reproducibility: when we are trying to draw conclusions from one specific data set, it is easy to make a mistake. For that reason, the scientific process requires us to use our conclusions to make testable predictions, and then test those predictions with new experiments.}
+\begin{frame}
+  \only<article>{ One of the main problems in science is
+    reproducibility: when we are trying to draw conclusions from one
+    specific data set, it is easy to make a mistake. For that reason,
+    the scientific process requires us to use our conclusions to make
+    testable predictions, and then test those predictions with new
+    experiments. These new experiments should bear out the results of
+    the previous experiments.  In more detail, reproducibility can be
+    thought of as two different aspects of answering the question ``can this research be replicated?''}
 
+
+  \begin{block}{Computational reproducibility: Can the study be repeated?}
+    Can we, from the available information and data, exactly reproduce the reported methods and results?
+
+    \only<article>{This is something that is useful to be able to even to the original authors of a study. The standard method for achieving this is using version control tools so that the exact version of algorithms, text and data used to write up the study is appropriately labelled. Ideally, any other researcher should be able to run a single script to reproduce all of the study and its computations.}
+  \end{block}
+
+  \begin{block}{Scientific reproducibility: Is the conclusion correct?}
+    Can we, from the available information and a \alert{new} set of data, reproduce the conclusions of the original study?
+
+     \only<article>{Here followup research may involve using exactly the same methods. In AI research would mean for example testing whether an algorithm is really performing as well as it is claimed, by testing it in new problems. This can involve a re-implementation. In more general scientific research, it might be the case that the methodology proposed by an original study is flawed, and so a better method should be used to draw better conclusions. Or it might simply be that more data is needed.}
+  \end{block}
+
+  When publishing results about a \alert{new method}, computational reproducibility is essential for scientific reproducibility.
+\end{frame}
 
 \begin{frame}
-  \frametitle{Reproducibility}
+
   \only<2>{\includegraphics[width=\textwidth]{../figures/2016-election}}
-  \only<article>{A simple example is the 2016 election. While we can make models}
+  \only<article>{A simple example is the 2016 election. While we can make models about}
   
 \end{frame}
 \begin{frame}
@@ -122,6 +144,7 @@
     we typically obtain a biased estimate, which depends both on the algorithm itself and the training data. For \KNN{} in particular, when we measure accuracy on the training data, we can nearly always obtain near-perfect accuracy, but not always perfect. Can you explain why?}
  We then calculate the quality of the output $U(\pol, \Holdout)$ on the holdout set.
     Unfortunately, the combination that appears the best due to the holdout result may look inferior in a fresh sample. Following the principle of ``data used for evaluation cannot be used for estimation'', we must measure performance on another sample.
+This ensures that we are not biased in our decision about what is the best algorithm.
   }
   \begin{block}{Holdout and test sets for unbiased algorithm comparison}
     \only<article>{
@@ -142,13 +165,12 @@
       \caption{Unbiased adaptive evaluation through data partitioning}
     \end{algorithm}
   \end{block}
-  \only<article>{This ensures that we are not biased in our decision about what is the best algorithm.}
 \end{frame}
 
 \begin{frame}
   \frametitle{Final performance measurement}
+  \only<article>{When comparing many algorithms, where we must select a hyperparameter for each one, then we can use one dataset as input to the algorithms, and another for selecting hyperparameters. That means that we must use another dataset to measure performance. This is called the testing set. Figure~\ref{fig:final-measurement} illustrates this.}
   \begin{figure}[H]
-    
     \centering
   \begin{tikzpicture}[line width=2pt]
     \node[select,label=above:Data Collection] at (0,0) (experiment) {$\chi$};
@@ -181,6 +203,7 @@
   \only<article>{
     \caption{Simplified dependency graph for selecting hyperparameters for different algorithms, and comparing them on an independent test set. For the $i$-th algorithm, the classifier model is }
   }
+  \label{fig:final-measurement}
 \end{figure}
 \end{frame}
 
@@ -236,6 +259,7 @@
   \begin{itemize}
   \item Estimate the sensitivity of $\alg$ to the data $x$.
   \item Obtain a distribution of estimates $\pol$ from $\alg$ and the data $x$.
+  \item When estimating the performance of an algorithm on a small dataset $\Testing$, use bootstrap samples of $\Testing$.
   \end{itemize}
   \begin{block}{Bootstrapping}
     \begin{enumerate}

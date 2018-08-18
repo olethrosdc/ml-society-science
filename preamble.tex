@@ -23,8 +23,14 @@
 \usepackage{pgfplots}
 \newlength\fheight
 \newlength\fwidth
+\only<presentation>{
 \setlength\fheight{0.5\columnwidth}
 \setlength\fwidth{0.5\columnwidth}
+}
+\only<article>{
+\setlength\fheight{0.25\textwidth}
+\setlength\fwidth{0.25\textwidth}
+}
 \usepackage[sort&compress,comma,super]{natbib}
 \def\newblock{} % To avoid a compilation error about a function \newblock undefined
 \usepackage{hyperref}
