@@ -70,19 +70,33 @@
   \begin{figure}[H]
     \begin{center}
       \begin{tikzpicture}[line width=2pt]
-        \node<1->[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
-        \node<3->[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg$};
-        \node<2->[RV,label=above:Training] at (4,2) (training) {$\Training$};
-        \node<5->[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
-        \draw<2->[blue,->] (experiment) -- (training);
-        \draw<6->[blue,->] (experiment) to [bend left=45] (holdout);
-        \node<4->[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
-        \draw<4->[red,->,dashed] (experiment) -- (pol);
-        \draw<4->[red,->] (alg) -- (pol);
-        \draw<4->[red,->] (training) -- (pol);
-        \node<7->[utility,label=below:Measurement] at (8,0) (util) {$\util$};
-        \draw<7->[red,->] (pol) -- (util);
-        \draw<7->[red,->] (holdout) -- (util);
+        \onslide<1->{
+          \node[select,label=above:Data Collection] at (0,2) (experiment) {$\chi$};
+        }
+        \onslide<2->{
+          \node[RV,label=above:Training] at (4,2) (training) {$\Training$};
+          \draw[blue,->] (experiment) -- (training);
+        }
+        \onslide<3->{
+          \node[select,label=below:{Algorithm, hyperparameters}] at (0,0) (alg) {$\alg$};
+        }
+        \onslide<4->{
+          \node[RV,label=below:Classifier] at (4,0) (pol) {$\pol$};
+          \draw[red,->,dashed] (experiment) -- (pol);
+          \draw[red,->] (alg) -- (pol);
+          \draw[red,->] (training) -- (pol);
+        }
+        \onslide<5->{
+          \node[RV,label=above:Holdout] at (8,2) (holdout) {$\Holdout$};
+        }
+        \onslide<6->{
+          \draw[blue,->] (experiment) to [bend left=45] (holdout);
+        }
+        \onslide<7->{
+          \node[utility,label=below:Measurement] at (8,0) (util) {$\util$};
+          \draw[red,->] (pol) -- (util);
+          \draw[red,->] (holdout) -- (util);
+        }
       \end{tikzpicture}
     \end{center}
     \caption{The decision process in classification.}
