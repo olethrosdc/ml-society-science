@@ -101,7 +101,10 @@
     \end{center}
     \caption{The decision process in classification.}
   \end{figure}
-  \only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$. Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its accuracy is going to be biased.}
+  \only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$. Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its quality is going to be biased.
+
+    For classification problems, there is a natural metric $U$ to measure. The classification accuracy of the classifier. If the classification decisions are stochastic, then the classifier assigns probability $\pol(a \mid x)$ to each possible label $a$, and our utility is simply the identity function $U(a, y) \defn \ind{a = y}$. 
+  }
   \uncover<8->{
     \begin{block}{Classification accuracy}
       \only<8>{
@@ -109,7 +112,7 @@
       \E_\chi[\util(\pol)] = \sum_{x,y} \underset{\textrm{Data probability}}{\underbrace{\Pr_\chi(x, y)}} \overset{\textrm{Decision probability}}{\overbrace{\pol(a = y \mid x)}}
       \]
       }
-      \only<article>{The classification accuracy of policy $\pol$ under $\chi$ is the expected number of times the policy decides $\pol$ chooses the correct class. However, when approximating $\chi$ with a sample $\Hodout$, we instead obtain the empirical estimate:}
+      \only<article>{The classification accuracy of policy $\pol$ under $\chi$ is the expected number of times the policy decides $\pol$ chooses the correct class. However, when approximating $\chi$ with a sample $\Holdout$, we instead obtain the empirical estimate:}
       \only<9>{
       \[
       \E_{\Holdout} \util(\pol) = \sum_{(x,y) \in \Holdout} \pol(a = y \mid x) / |\Holdout|.
@@ -117,6 +120,7 @@
       }
     \end{block}
   }
+  \only<article>{Of course, there is no reason to limit ourselves to the identity function. The utility could very well be such that some errors are penalised more than other errors. Consider for example an intrusion detection scenario: it is probably more important to correctly classify intrusions. }
 \end{frame}
 
 \subsection{The human as an algorithm}
@@ -293,7 +297,7 @@ This ensures that we are not biased in our decision about what is the best algor
   \begin{itemize}
   \item Estimate the sensitivity of $\alg$ to the data $x$.
   \item Obtain a distribution of estimates $\pol$ from $\alg$ and the data $x$.
-  \item When estimating the performance of an algorithm on a small dataset $\Testing$, use bootstrap samples of $\Testing$.
+  \item When estimating the performance of an algorithm on a small dataset $\Testing$, use bootstrap samples of $\Testing$. \only<article>{This allows us to take into account the inherent uncertainty in measured performance. It is very useful to use bootstrapping with pairwise comparisons.}
   \end{itemize}
   \begin{block}{Bootstrapping}
     \begin{enumerate}
@@ -308,8 +312,9 @@ This ensures that we are not biased in our decision about what is the best algor
 
 
 \begin{frame}
-\frametitle{Cross-validation}
-  \begin{block}{$k$-fold Cross-Validation}
+  \frametitle{Cross-validation}
+  \only<article>{While we typically use a single training, hold-out and test set, it might be useful to do this multiple times in order to obtain more robust performance estimates. In the simplest case, cross-validation can be used to obtain multiple training and hold-out sets from a single dataset. This works by simply partitioning the data in $k$ \emph{folds} and then using one of the folds as a holdout and the remaining $k - 1$ as training data. This is repeated $k$ times. When $k$ is the same size as the original training data, then the method is called \emph{leave-one-out cross-validation.}}
+\begin{block}{$k$-fold Cross-Validation}
     \begin{enumerate}
     \item \textbf{Input} Training data $\Training$, number of folds $k$, algorithm $\alg$, measurement function $\util$
     \item Create the partition $\Data^{(1)} \ldots, \Data^{(k)}$ so that $\bigcup_{i=1}^k \Data^{(k)} = \Data$.
