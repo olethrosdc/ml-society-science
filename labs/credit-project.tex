@@ -1,0 +1,46 @@
+\documentclass[a4paper,twoside]{article}
+
+\usepackage[notheorems]{beamerarticle}
+
+
+
+\mode<presentation>{
+  % \useinnertheme{rectangles}
+  %\useoutertheme{infolines}
+  % \usecolortheme{crane}
+  % \usecolortheme{rose}
+}
+\input{../preamble}
+
+%\includeonly{database,privacy}
+%\includeonly{experiment-design}
+\title{Credit project}
+\author[C. Dimitrakakis]{Christos Dimitrakakis}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Initial work with the project data}
+
+First open \texttt{decision-problems/Credit.ipynb} using
+\begin{verbatim}
+$ jupyter notebook
+\end{verbatim}
+for a quick introduction to the credit dataset. The initial implementation uses logistic regression as a classifier. This allows you to calculate probabilities of classes given the 
+
+\section{Result reproducibility}
+In this unit, we shall use the \KNN{} classifier and histograms as simple models, and will investigate how we can ensure that the results we obtain in an experiment can be reliably reproduced. The main principle is the following.
+
+\textbf{Any decision made, by wither a human or an algorithm, based on the information contained in a specific dataset, must be evaluated in a \emph{different} dataset}.
+
+
+
+
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
