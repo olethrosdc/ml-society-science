@@ -308,6 +308,13 @@ This ensures that we are not biased in our decision about what is the best algor
     \end{enumerate}
     where  $\textrm{Bootstrap}(\Data)$ samples with replacement $|\Data|$ points from $\Training$.
   \end{block}
+
+\only<article>{
+  In more detail, remember that even though the test score is an \emph{independent} measurement of an algorithm's performance, it is \emph{not} the actual expected performance. At best, it's an unbiased estimate of performance. Hence, we'd like to have some way to calculate a likely performance range from the test data. Bootstrapping can help: by taking multiple samples of the test set and calculating performance on each one, we obtain an empirical distribution of scores.
+
+Secondly, we can use it to tell us something about the sensitivity of our algorithm. In particular, by taking multiple samples from the training data, we can end up with multiple models. If the models are only slightly different, then the algorithm is more stable and we can be more confident in its predictions. 
+
+Finally, bagging also allows us to generate probabilistic predictions from deterministic classification algorithms, by simply averaging predictions from multiple bootstrapped predictors. This is called \emph{bagging predictors}\cite{breiman96bagging}.}
 \end{frame}
 
 

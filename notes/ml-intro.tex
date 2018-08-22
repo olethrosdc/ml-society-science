@@ -546,15 +546,15 @@
     
     \begin{block}{Machine learning problems}
       \begin{itemize}
-      \item Unsupervised learning.
-      \item Supervised learning.
-      \item Reinforcement learning.
+      \item Unsupervised learning. \only<article>{Loosely speaking, this is simply the problem of estimating some structure from data. In statistical terms, it is usually the problem of estimating some joint distribution of random variables under some model assumptions. Problems in unsupervised learning include clustering, anomaly detection, compression}.
+      \item Supervised learning. \only<article>{In this setting data can be split in two groups of variables. One group that is always available, and another group that must be predicted. A special case of the problem is when we wish to estimate some function $f : \CX \to \CY$ from data. Classical problems in this setting are classification and regression.}
+      \item Reinforcement learning. \only<article>{This is a very general sequential decision problem, where an agent must learn how to behave optimally in an unknown environment only by limited feedback and reinforcement. The standard setting involves the agent trying to maximise its (expected) cumulative reward over time.}
       \end{itemize}
     \end{block}
 
     \begin{block}{Algorithms and models}
       \begin{itemize}
-      \item Probabilistic inference and Bayesian networks.
+      \item Bayesian inference and graphical models.
       \item Stochastic optimisation and neural networks.
       \item Backwards induction and Markov decision processes.
       \end{itemize}
