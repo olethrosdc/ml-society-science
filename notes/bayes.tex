@@ -53,11 +53,11 @@
     Here, the probability measure of any event $A$ given $B$ is defined to be the probability of the intersection of of the events divided by the second event.
     We can rewrite this definition as follows, by using the definition for $P(B \mid A)$}
   \begin{block}{Bayes's theorem}
-    For $A = A_1 \cup A_2$, $A_1 \cap A_2 = \emptyset$,
+    For $P(A_1 \cup A_2)  = 1$, $A_1 \cap A_2 = \emptyset$,
     \[
-      P(A \mid B)
-      \uncover<2->{= \frac{P(B \mid A) P(A)}{P(B)}}
-      \uncover<3->{= \frac{P(B \mid A) P(A)}{P(B \mid A_1) P(A_1) + P(B \mid A_2) P(A_2)}}
+      P(A_i \mid B)
+      \uncover<2->{= \frac{P(B \mid A_i) P(A_i)}{P(B)}}
+      \uncover<3->{= \frac{P(B \mid A_i) P(A_i)}{P(B \mid A_1) P(A_1) + P(B \mid A_2) P(A_2)}}
     \]
   \end{block}
   \uncover<4->{
@@ -76,6 +76,7 @@
       \end{column}
       
       \begin{column}{0.33\textwidth}
+        \uncover<5->{
         \begin{table}[H]
           \centering
           \begin{tabular}{c|c}
@@ -84,7 +85,9 @@
           \end{tabular}
           \caption{Probability the forecast is correct}
         \end{table}
+        }
       \end{column}
+      \uncover<6->{
       \begin{column}{0.33\textwidth}
         \begin{table}[H]
           \centering
@@ -94,6 +97,7 @@
           \end{tabular}
           \caption{Probability that it will rain given the forecast}
         \end{table}
+        }
       \end{column}
     \end{columns}
   \end{example}
@@ -288,25 +292,21 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
       Combining the prior belief with evidence is key in this procedure. Our posterior belief can then be used as a new prior belief when we get more evidence.}
   \end{frame}
 \begin{frame}
-\begin{example}[Continued example for medium]
+\begin{exercise}[Continued example for medium]
     \only<article>{ Now let us apply this idea to our specific
       problem. We first make an independence assumption. In particular, we can assume that success and failure comes from a Bernoulli distribution with a parameter depending on the model.}
     \begin{align}
     P_{\model} (x) &= \prod_{t=1}^n P_{\model} (x_t).
 \tag{independence property}
     \end{align}
-    \only<article>{We first need to specify how well a medium could predict. Let's assume that a true medium would be able to predict perfectly, so:}
+    \only<article>{We first need to specify how well a medium could predict. Let's assume that a true medium would be able to predict perfectly, and that a non-medium would only predict randomly. This leads to the following models:}
     \begin{align}
       P_{\model_1}(x_t = 1) &= 1, &P_{\model_1}(x_t = 0) &= 0.
                                                            \tag{true medium model}
-    \end{align}
-    \only<article>{We now need to specify the models for what a non-medium could predict. It is natural to expect them to guess at random, so}
-    \uncover<2->{
-    \begin{align}
+                                                           \\
       P_{\model_0}(x_t = 1) &= 1/2, &P_{\model_0}(x_t = 0) &= 1/2.
                                                              \tag{non-medium model}
     \end{align}
-    }
     \only<article>{
       The only thing left to specify is $\bel(\model_1)$, the probability
       that John is a medium before seeing the data. This is our
@@ -330,10 +330,50 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
 \tag{marginal distribution}
       \end{align}
     }
-  \end{example}
+    Throw a coin 4 times, and have a classmate make a prediction. What your belief that your classmate is a medium? Is the prior you used reasonable?
+  \end{exercise}
   \end{frame}
 
 
+\begin{frame}
+  \frametitle{Sequential update of beliefs}
+    \only<article>{Assume you have $n$ meteorologists. At each day $t$, each meteorologist $i$ gives a probability $p_{t,\model_i}\defn P_{\model_i}(x_t = \textrm{rain})$ for rain. Consider the case of there being three meteorologists, and each one making the following prediction for the coming week. Start with a uniform prior $\bel(\model) = 1/3$ for each model.}
+    {
+      \begin{table}[h]
+        \begin{tabular}{c|l|l|l|l|l|l|l}
+          &M&T&W&T&F&S&S\\
+          \hline
+          CNN & 0.5 & 0.6 & 0.7 & 0.9 & 0.5 & 0.3 & 0.1\\
+          SMHI & 0.3 & 0.7 & 0.8 & 0.9 & 0.5 & 0.2 & 0.1\\
+          YR & 0.6 & 0.9 & 0.8 & 0.5 & 0.4 & 0.1 & 0.1\\
+          \hline
+          Rain? & Y & Y & Y & N & Y & N & N
+        \end{tabular}
+        \caption{Predictions by three different entities for the probability of rain on a particular day, along with whether or not it actually rained.}
+        \label{tab:meteorologists}
+      \end{table}
+    }
+  \begin{exercise}
+    \begin{itemize}
+    \item $n$ meteorological stations $\cset{\mdp_i}{i=1, \ldots,n}$
+    \item The $i$-th station predicts rain $P_{\mdp_i}(y_t \mid y_1, \ldots, y_{t-1})$.
+    \item Let $\bel_t(\mdp)$ be our belief at time $t$.
+      Derive the next-step belief
+      $\bel_{t+1}(\mdp) \defn  \bel_t(\mdp | y_{t})$ in terms of the current belief $\bel_t$.
+    \item Write a python function that computes this posterior
+    \end{itemize}
+  \end{exercise}
+  \uncover<2->{
+    \[
+      \bel_{t+1}(\mdp)
+      \defn
+      \bel_t(\mdp | y_{t})
+      =
+      \frac{P_\mdp(y_t \mid y_1, \ldots, y_{t-1}) \bel_t(\mdp)}
+      {\sum_{\mdp'} P_{\mdp'}(y_t \mid y_1, \ldots, y_{t-1}) \bel_t(\mdp')}
+    \]
+  }
+\end{frame}
 
 
 
