@@ -7,6 +7,7 @@ python3 -m pip install --user pymc
 python3 -m pip install --user pandas
 python3 -m pip install --user keras
 python3 -m pip install --user spark
+python3 -m pip install --user sqlalchemy
 
 # octave, octave-statistics, gnuplot, pgf, tikz
 
