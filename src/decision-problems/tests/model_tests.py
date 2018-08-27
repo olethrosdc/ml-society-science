@@ -8,7 +8,7 @@ class SklearnModelTests(unittest.TestCase):
         y = [0]*5 + [1]*5
         model = ScikitLearnModel()
         fitted_model = model.fit(X, y)
-        probs = fitted_model.predict_probabilities(X)
+        probs = fitted_model.get_class_probability(X)
         for i, p in enumerate(probs):
             if i <= 5:
                 self.assertGreater(0.5, p)
