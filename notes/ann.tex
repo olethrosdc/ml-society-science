@@ -66,6 +66,101 @@
   
 \end{frame}
 
+\subsection{Neural network models}
+\begin{frame}
+  \frametitle{Two views of neural networks}
+  \only<article>{In the simplest sense a neural network is simply as parametrised functions $f_\param$. In classification, neural networks can be used as  probabilistic models, so they describes the probability $P_\param(y | x)$, or as classification policies so that $f_\param(x, a)$ describes the probability $\pol_\param(a \mid x)$ of selecting class label $a$. Let us begin by describing the simplest type of neural network model, the perceptron.}
+  
+  \begin{block}{Neural network classification model $P(y \mid x)$}
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (input) {$\bx$};
+      \node[RV] at (4,0) (output) {$\by$};
+      \draw[->, bend right] (input) to (output);
+    \end{tikzpicture}    
+    \vspace{1em}
+    Objective: Find the best model describing $\Training$.
+  \end{block}
+
+  
+  \begin{block}{Neural network classification policy $\pol(a \mid x)$}
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (input) {$\bx$};
+      \node[RV] at (4,0) (output) {$a$};
+      \draw[->, bend right] (input) to (output);
+    \end{tikzpicture}    
+    \vspace{1em}
+    Objective: For a given $\util(a, x)$, find the best classification policy $\Training$.
+  \end{block}
+
+  \uncover<2->{
+    \begin{alertblock}{Difference between the two views}
+      \begin{itemize}
+      \item We can use standard probabilistic methods for $P$.
+      \item Finding the optimal $\pol$ is an optimisation problem. \only<article>{Estimating $P$ is not necessarily an optimisation problem, but can be formulated as one.}
+      \end{itemize}
+    \end{alertblock}
+  }
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Linear networks and the perceptron algorithm}
+  \only<1,2>{
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (input) {$\bx$};
+      \node[RV] at (4,0) (output) {$\by$};
+      \draw[->, bend right, label=above:$P$] (input) to (output);
+      \uncover<2>{
+      \node[RV, hidden] at (2,0) (param) {$\vparam$};
+      \draw[->] (param) to (output);
+      }
+    \end{tikzpicture}
+    \caption{Abstract graphical model for a neural network}
+    \label{fig:gm-ann}
+  \end{figure}
+  }
+  \only<article>{A neural network as used for modelling classification or regression problems, is simply a parametrised mapping $\CX \to \CY$. If we include the network parameters, then it is instead a mapping $\CX \times \Params \to \CY$, as seen in Figure~\ref{fig:gm-ann}.}
+  \only<3->{
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,-1) (input1) {$x_1$};
+      \node[RV] at (0,1) (input2) {$x_2$};
+      \node[RV] at (4,-1) (output1) {$y_1$};
+      \node[RV] at (4,1) (output2) {$y_2$};
+      \draw[->] (input1) to (output1);
+      \draw[->] (input1) to (output2);
+      \draw[->] (input2) to (output1);
+      \draw[->] (input2) to (output2);
+      \uncover<4->{
+        \node[RV, hidden] at (2,-1.5) (param11) {$\param_{11}$};
+        \node[RV, hidden] at (2,-0.5) (param12) {$\param_{12}$};
+        \node[RV, hidden] at (2,0.5) (param21) {$\param_{211}$};
+        \node[RV, hidden] at (2,1.5) (param22) {$\param_{22}$};
+        \draw[->] (param22) to (output2);
+        \draw[->] (param21) to (output2);
+        \draw[->] (param12) to (output1);
+        \draw[->] (param11) to (output1);
+      }
+      \uncover<5>{
+        \draw[-, dashed] (input1) to (input2);
+      }
+    \end{tikzpicture}
+    \caption{Graphical model for a linear neural network}
+    \label{fig:gm-ann}
+  \end{figure}
+  }
+\only<article>{
+  For classification problems, the observations $\bx$ are features $\bx = (x_1 \ldots, x_n)$ so that $\CX \subset \Reals^\nobservations$. 
+It is convenient to consider the network output as a vector on the simplex $\by \in \Simplex^\nactions$, i.e. $\sum_{i=1}^\nclasses y_i  = 1$, $y_i \geq 0$. In the neural network model for classification, we typically ignore dependencies between the $x_i$ features, as we are not very interested in the distribution of $\bx$ itself.}
+
+\end{frame}
+
+
+
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "notes"
