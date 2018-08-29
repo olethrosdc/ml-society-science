@@ -13,8 +13,11 @@ import random
 def GetPosterior(prior, P, outcome):
     n_models = len(prior)
     posterior = prior # initialise the posterior
+    print(posterior)
+    print(P)
+    ## So probability of outcome for model i is just
+    total = 0
 
-    ## ... fill in
         
     return posterior
 
@@ -26,28 +29,33 @@ def GetPosterior(prior, P, outcome):
 def GetMarginalPredictive(belief, P, outcome):
     n_models = len(belief)
     outcome_probability = 0 # initialise the probabiltiy
+    ## So probability of outcome for model i is just
 
+    
     ## average the outcome probability over all models
     return outcome_probability
 
 
-T = 8
+T = 4
 n_models = 3
-prediction = np.zeros(n_models, T)
+prediction = np.zeros([n_models, T])
 
 # build predictions. Replace this with the data in the example
-for t in range(T):
-    for model in range(n_models):
-        prediction[model, t] = random.uniform()
+prediction = np.matrix('0.1 0.2 0.3 0.4; 0.4 0.5 0.6 0.7; 0.7 0.8 0.9 0.99')
 
 
 n_outcomes = 2 # 0 = no rain, 1 = rain
 
-P = np.zeros(n_models, n_outcomes)
-for model in range(n_models):
-    P[model, 1] = prediction[model, t] # the table predictions give rain probabilities
-    P[model, 0] = 1 - prediction[model, t] # so no-rain probability is 1 - that.
-    belief = GetPosterior(belief, P, rain)
+P = np.zeros([n_models, n_outcomes])
+belief = np.ones(n_models) / n_models;
+rain = [0, 1, 0, 0];
+
+
+for t in range(1):
+    for model in range(n_models):
+        P[model,1] = prediction[model,t] # the table predictions give rain probabilities
+        P[model,0] = 1.0 - prediction[model,t] # so no-rain probability is 1 - that.
+    belief = GetPosterior(belief, P, rain[t])
 
                 
     
