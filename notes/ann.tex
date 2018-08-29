@@ -10,27 +10,38 @@
 }
 
 \begin{frame}
-  \frametitle{Linear classifiers.}
-  \only<article>{Finding the optimal policy for our belief $\bel$ is not normally very difficult. However, it requires that we maintain the complete distribution $\bel$ and that we also nder some probability distribution $P$. In simple decision problems, e.g. where the set of actions $\CA$ is finite, it is possible to do this calculation on-the-fly. However, the policies that we wish to find might be much simpler than the Bayes-optimal policy. For example, we might consider linear classifiers.}
-
-  \begin{definition}{Linear classifier}
-    \only<article>{A linear classifier is parametrised by the matrix $\Param = [\param_1 \cdots \param_{|\CY|}]$}
-    \[
-      \pol_\Param(a \mid x) = e^{\param_a^\top x} / \sum_{a'} e^{\param_{a'}^\top x}
-    \]
-  \end{definition}
-  \only<article>{Even though the classifier has a linear structure, the final non-linearity at the end is there to ensure that it defines a proper probability distribution over decisions.}
+  \frametitle{Classification as an optimisation problem.}
+  \only<article>{Finding the optimal policy for our belief $\bel$ is not normally very difficult. However, it requires that we maintain the complete distribution $\bel$ and that we also under some probability distribution $P$. In simple decision problems, e.g. where the set of actions $\CA$ is finite, it is possible to do this calculation on-the-fly. However, in some cases we might not have a model.
+    
+Recall that we wish to maximise expected utility for some policy under some distribution. In general, this has the form 
+\[
+\max_\pol \E^\pol_\model(U).
+\]
+We also know that any expectation can be approximated by sampling. Let $P_\model(\outcome)$ be the distribution on outcomes defined by our model. Then
+\[
+\E^\pol_\model(U) = \sum_\omega U(a,\outcome) P_\model(\outcome)
+\approx T^{-1} \sum_{t=1}^T U(a,\outcome_t), \qquad \outcome_t \sim P_\model(\outcome),
+\]
+i.e. when we can replace the explicit summation over all possible outcomes, weighed by their probability through averaging over $T$ outcomes sampled from the correct distribution. In fact this approximation is \alert{unbiased}, as its expectation is equal to the expected utility.
+}
 
   \begin{block}{The $\model$-optimal classifier}
     \only<article>{Since the performance measure is simply an expectation, it is intuitive to directly optimise the decision rule with respect to an approximation of the expectation}
-    \[
-      \max_\Param f(\pol_\Param, \model)  \approx \max_\Param \sum_{t=1}^T  \pol(a_t = y_t \mid x_t ) P_\model(y_t \mid x_t), \qquad (x_t, y_t) \sim P_\model.
-    \]
+    \begin{align}
+      \max_{\alert{\param} \in \Param} &f(\pol_{\alert{\param}}, \model, \util),
+      &f(\pol_\param, \model, \util) &\defn \E^{\pol_\param}_\model(\util)\\
+      f(\pol_\param, \model, \util) &= 
+      \sum_{x, y, a} \util(a, y) \pol_\param(a \mid x) P_\model(y \mid x) P_\model(x)\\
+      &\approx
+        \sum_{t=1}^T \sum_{a_t} \util(a_t, y_t) \pol(a_t \mid x_t ),
+        & (x_t, y_t)_{t=1}^T &\sim P_\model.
+    \end{align}
     \only<article>{In practice, this is the empirical expectation on the training set $\cset{(x_t, y_t)}{t=1, \ldots, T}$. However, when the amount of data is insufficient, this expectation may be far from reality, and so our classification rule might be far from optimal.}
   \end{block}
 
+  \only<article>{
   \begin{block}{The Bayes-optimal classifier}
-    \only<article>{An alternative idea is to use our uncertainty to create a distribution over models, and then use this distribution to obtain a single classifier that does take the uncertainty into account.}
+An alternative idea is to use our uncertainty to create a distribution over models, and then use this distribution to obtain a single classifier that does take the uncertainty into account.
     \[
       \max_\Param f(\pol_\Param, \bel)
       \approx
@@ -39,9 +50,9 @@
       \qquad
       (x_n, y_n) \sim P_{\model_n}, \model_n \sim \bel.
     \]
-    \only<article>{In this case, the integrals are replaced by sampling models $\model_n$ from the belief, and then sampling $(x_n, y_n)$ pairs from $P_{\model_n}$.}
+    In this case, the integrals are replaced by sampling models $\model_n$ from the belief, and then sampling $(x_n, y_n)$ pairs from $P_{\model_n}$.
   \end{block}
-
+  }
 \end{frame}
 
 \begin{frame}
@@ -69,12 +80,12 @@
 \subsection{Neural network models}
 \begin{frame}
   \frametitle{Two views of neural networks}
-  \only<article>{In the simplest sense a neural network is simply as parametrised functions $f_\param$. In classification, neural networks can be used as  probabilistic models, so they describes the probability $P_\param(y | x)$, or as classification policies so that $f_\param(x, a)$ describes the probability $\pol_\param(a \mid x)$ of selecting class label $a$. Let us begin by describing the simplest type of neural network model, the perceptron.}
+  \only<article>{In the simplest sense a neural network is simply as parametrised functions $f_\param$. In classification, neural networks can be used as  probabilistic models, so they describes the probability $P_\param(y | \bx)$, or as classification policies so that $f_\param(x, a)$ describes the probability $\pol_\param(a \mid x)$ of selecting class label $a$. Let us begin by describing the simplest type of neural network model, the perceptron.}
   
-  \begin{block}{Neural network classification model $P(y \mid x)$}
+  \begin{block}{Neural network classification model $P_\param(\by \mid \bx_t)$}
     \begin{tikzpicture}
-      \node[RV] at (0,0) (input) {$\bx$};
-      \node[RV] at (4,0) (output) {$\by$};
+      \node[RV] at (0,0) (input) {$\bx_t$};
+      \node[RV] at (4,0) (output) {$\by_t$};
       \draw[->, bend right] (input) to (output);
     \end{tikzpicture}    
     \vspace{1em}
@@ -82,14 +93,14 @@
   \end{block}
 
   
-  \begin{block}{Neural network classification policy $\pol(a \mid x)$}
+  \begin{block}{Neural network classification policy $\pol(a_t \mid \bx_t)$}
     \begin{tikzpicture}
-      \node[RV] at (0,0) (input) {$\bx$};
-      \node[RV] at (4,0) (output) {$a$};
+      \node[RV] at (0,0) (input) {$\bx_t$};
+      \node[RV] at (4,0) (output) {$a_t$};
       \draw[->, bend right] (input) to (output);
     \end{tikzpicture}    
     \vspace{1em}
-    Objective: For a given $\util(a, x)$, find the best classification policy $\Training$.
+    Objective: For a given $\util(a, \bx)$, find the best classification policy.
   \end{block}
 
   \uncover<2->{
@@ -148,13 +159,20 @@
         \draw[-, dashed] (input1) to (input2);
       }
     \end{tikzpicture}
-    \caption{Graphical model for a linear neural network}
+    \caption{Graphical model for a linear neural network.}
     \label{fig:gm-ann}
-  \end{figure}
+  \end{figure}  
   }
+  \begin{definition}{Linear classifier}
+    A linear classifier is parametrised by the matrix $\Param = [\param_1 \cdots \param_{|\CY|}]$
+    \[
+      \pol_\Param(a \mid x) = f(\param)\exp(\param_a^\top x) / \sum_{a'} e^{\param_{a'}^\top x}
+    \]
+  \end{definition}
+  \only<article>{Even though the classifier has a linear structure, the final non-linearity at the end is there to ensure that it defines a proper probability distribution over decisions.}
 \only<article>{
-  For classification problems, the observations $\bx$ are features $\bx = (x_1 \ldots, x_n)$ so that $\CX \subset \Reals^\nobservations$. 
-It is convenient to consider the network output as a vector on the simplex $\by \in \Simplex^\nactions$, i.e. $\sum_{i=1}^\nclasses y_i  = 1$, $y_i \geq 0$. In the neural network model for classification, we typically ignore dependencies between the $x_i$ features, as we are not very interested in the distribution of $\bx$ itself.}
+  For classification problems, the observations $\bx_{t}$ are features $\bx_t = (x_{t,1} \ldots, x_{t,n})$ so that $\CX \subset \Reals^\nobservations$. 
+It is convenient to consider the network output as a vector on the simplex $\by \in \Simplex^\nactions$, i.e. $\sum_{i=1}^\nclasses y_{t,i}  = 1$, $y_{t,i} \geq 0$. In the neural network model for classification, we typically ignore dependencies between the $x_{t,i}$ features, as we are not very interested in the distribution of $\bx$ itself.}
 
 \end{frame}
 

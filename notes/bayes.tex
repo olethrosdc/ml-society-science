@@ -356,7 +356,7 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
   \begin{exercise}
     \begin{itemize}
     \item $n$ meteorological stations $\cset{\mdp_i}{i=1, \ldots,n}$
-    \item The $i$-th station predicts rain $P_{\mdp_i}(y_t \mid y_1, \ldots, y_{t-1})$.
+    \item The $i$-th station predicts rain $P_{\mdp_i}(x_t \mid x_1, \ldots, x_{t-1})$.
     \item Let $\bel_t(\mdp)$ be our belief at time $t$.
       Derive the next-step belief
       $\bel_{t+1}(\mdp) \defn  \bel_t(\mdp | y_{t})$ in terms of the current belief $\bel_t$.
@@ -367,10 +367,10 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
     \[
       \bel_{t+1}(\mdp)
       \defn
-      \bel_t(\mdp | y_{t})
+      \bel_t(\mdp | x_{t})
       =
-      \frac{P_\mdp(y_t \mid y_1, \ldots, y_{t-1}) \bel_t(\mdp)}
-      {\sum_{\mdp'} P_{\mdp'}(y_t \mid y_1, \ldots, y_{t-1}) \bel_t(\mdp')}
+      \frac{P_\mdp(x_t \mid x_1, \ldots, x_{t-1}) \bel_t(\mdp)}
+      {\sum_{\mdp'} P_{\mdp'}(x_t \mid x_1, \ldots, x_{t-1}) \bel_t(\mdp')}
     \]
   }
 \end{frame}
