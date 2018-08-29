@@ -63,8 +63,7 @@ My background is ideally suited for this course as I have been working on automa
 
 * Lecture plan
 
-
-** Week 1: ML Intro and interpretability
+** Week 1-2: ML Intro and interpretability
    :LOGBOOK:
    CLOCK: [2018-04-04 Wed 09:22]--[2018-04-04 Wed 10:30] =>  1:08
    CLOCK: [2018-04-03 Tue 20:58]--[2018-04-03 Tue 21:16] =>  0:18
@@ -113,9 +112,11 @@ fallacy of p-values.  The aim of this lecture is to introduce students
 to the use and mis-use of automated decision making algorithms for
 problems in science and society.
 
+*** ANN models
+	CLOCK: [2018-08-29 ons 08:02]
 
 ** Project start: Credit risk for mortgages. [Aim: Reproducibility, Privacy and Fairness]
-** Week 2: Privacy
+** Week 3: Privacy
    :LOGBOOK:
    CLOCK: [2018-07-14 lör 10:22]--[2018-07-14 Sat 11:22] =>  1:00
    CLOCK: [2018-07-12 tor 11:07]--[2018-07-12 tor 14:09] =>  3:02
@@ -136,8 +137,7 @@ problems in science and society.
 The purpose of this lecture is to introduce the students to basic database concepts, as well as to privacy problems that can occur when allowing access to a database to a third party.
 
 
-
-** Week 3: Fairness
+** Week 4: Fairness
    :LOGBOOK:
    CLOCK: [2018-05-22 Tue 13:57]--[2018-05-22 Tue 14:57] =>  1:00
    :END:
@@ -149,10 +149,9 @@ The purpose of this lecture is to introduce the students to basic database conce
 5. Fairness as meritocracy.
 6. Bayesian notions of fairness.
 
-
 ** Poject start: Fake news.
 
-** Week 4: Clustering
+** Week 5: Clustering
    :LOGBOOK:
    CLOCK: [2018-07-17 Tue 14:21]--[2018-07-17 Tue 22:05] =>  7:44
    :END:
@@ -170,7 +169,7 @@ DNA testing and HMMs.
 Here we talk more about unstructured data, in this case about DNA
 data.
 
-** Week 5: The web and recommendation systems
+** Week 6: The web and recommendation systems
 
 Web data, ontologies, crawling.
 Knowledge representation.
@@ -181,7 +180,7 @@ Matrix Factorisation / LDA: Recommendation systems I (user similarity)
 
 This lecture introduces analysis of text data, and an application to recommendation systems.
 
-** Project start: Experiment design for energy policy or Medical Diagnostics [Aim: Reproducibility, Safety] :PROJECT:
+** Project start: Experiment design for Medical Diagnostics [Aim: Reproducibility, Safety] :PROJECT:
 
 ** Lecture 1. Online data collection. Optimal stopping (expensive labels) A/B Testing, Bandit Problems.
 
@@ -223,7 +222,6 @@ Project 3: Experiment design
 11.07-08 Lecture: Bandit Problems and MDPs
 11.14-15 Tutorial: Stochastic optimisation and experiment design
 11.21-22 Lecture: Reinforcement Learning, Lab: Q-learning
-
 
 * Meetings
 ** DS overview

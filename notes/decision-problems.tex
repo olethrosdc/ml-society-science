@@ -53,7 +53,7 @@
   \end{itemize}
   \only<article>{In each case, given $U$ the choice between each reward is trivial. We just select the reward:
     \[
-      r^* \in \argmax_r U(r)
+    r^* \in \argmax_r U(r)
     \]
     The main difficult is actually selecting the appropriate utility function. In a behavioural context, we simply assume that humans act with respect to a specific utility function. However, figuring out this function from behavioural data is non trivial. ven when this assumption is correct, individuals do not have a common utility function.
   }
@@ -75,11 +75,11 @@
     \begin{block}{The expected utility hypothesis}
       Rational decision makers prefer choice $A$ to $B$ if
       \[
-        \E(U | A) \geq \E(U | B),
+      \E(U | A) \geq \E(U | B),
       \]
       where the expected utility is
       \[
-        \E(U | A) = \sum_r U(r) \Pr(r | A).
+      \E(U | A) = \sum_r U(r) \Pr(r | A).
       \]
     \end{block}
     In the above example, $r \in \{0, 100, 200\}$ and $U(r)$ is
@@ -148,7 +148,7 @@
 \begin{frame}
   \frametitle{Expected utility}
   \[
-    \E (U \mid a) = \sum_r U[\Rew(\outcome, \decision)] \Pr(\outcome \mid \decision)
+  \E (U \mid a) = \sum_r U[\Rew(\outcome, \decision)] \Pr(\outcome \mid \decision)
   \]
   \begin{example}%ro: rather an exercise?
     You are going to work, and it might rain. The forecast said that
@@ -193,14 +193,14 @@
   \frametitle{Bayes decision rules}
   Consider the case where outcomes are independent of decisions:
   \[
-    \util (P, \decision) \defn \sum_{\model}  \util (\model, \decision) P(\model)
+  \util (\bel, \decision) \defn \sum_{\model}  \util (\model, \decision) \bel(\model)
   \]
-  This corresponds e.g. to the case where $P(\omega)$ is the belief about an unknown world.
+  This corresponds e.g. to the case where $\bel(\model)$ is the belief about an unknown world.
   \begin{definition}[Bayes utility]
     \label{def:bayes-utility}
-    The maximising decision for $P$ has an expected utility equal to:
+    The maximising decision for $\bel$ has an expected utility equal to:
     \begin{equation}
-      \BUtil(P) \defn \sup_{\decision \in \Decision} \util (P, \decision).
+      \BUtil(P) \defn \max_{\decision \in \Decision} \util (\bel, \decision).
       \label{eq:bayes-utility}
     \end{equation}
   \end{definition}
@@ -244,10 +244,10 @@
       \item<2-> What is your belief about the quality of each meteorologist after each day? 
       \item<3-> What is your belief about the probability of rain each day? 
         \[
-          P_\bel(x_t = \textrm{rain} \mid x_1, x_2, \ldots x_{t-1})
-          =
-          \sum_{\model \in \Model} P_\model(x_t = \textrm{rain})
-          \bel(\model \mid x_1, x_2, \ldots x_{t-1}) 
+        P_\bel(x_t = \textrm{rain} \mid x_1, x_2, \ldots x_{t-1})
+        =
+        \sum_{\model \in \Model} P_\model(x_t = \textrm{rain})
+        \bel(\model \mid x_1, x_2, \ldots x_{t-1}) 
         \]
       \item<4-> Assume you can decide whether or not to go running each
         day. If you go running and it does not rain, your utility is 1. If
@@ -291,14 +291,14 @@
     \only<article>{
       Let $x_t$ be $0$ if John makes an incorrect prediction at time $t$ and $x_t = 1$ if he makes a correct prediction. Let us once more assume a Bernoulli model, so that John's claim that he can predict our tosses perfectly means that for a sequence of tosses $\bx = x_1, \ldots, x_n$,
       \[
-        P_{\model_1}(\bx) = \begin{cases}
-          1, & x_t = 1 \forall t \in [n]\\
-          0, & \exists t \in [n] : x_t = 0.
-        \end{cases}
+      P_{\model_1}(\bx) = \begin{cases}
+        1, & x_t = 1 \forall t \in [n]\\
+        0, & \exists t \in [n] : x_t = 0.
+      \end{cases}
       \]
       That is, the probability of perfectly correct predictions is 1, and that of one or more incorrect prediction is 0. For the other model, we can assume that all draws are independently and identically distributed from a fair coin. Consequently, no matter what John's predictions are, we have that:
       \[
-        P_{\model_0}(\bx = 1 \ldots 1) = 2^{-n}.
+      P_{\model_0}(\bx = 1 \ldots 1) = 2^{-n}.
       \]
       So, for the given example, as stated, we have the following facts:
       \begin{itemize}
@@ -312,13 +312,13 @@
       \end{itemize}
       Now we can calculate the posterior distribution, which is
       \[
-        \bel(\model_1 \mid \bx = 1, \ldots, 1) = \frac{1 \times \bel(\model_1)}{1 \times \bel(model_1) + 2^{-n} (1 - \bel(\model_1))}.
+      \bel(\model_1 \mid \bx = 1, \ldots, 1) = \frac{1 \times \bel(\model_1)}{1 \times \bel(model_1) + 2^{-n} (1 - \bel(\model_1))}.
       \]
       Our expected utility for taking action $a_0$ is actually
     }
     \[
-      \E_\bel(\util \mid a_0) = 1 \times \bel(\model_0 \mid \bx) + 0 \times \bel(\model_1 \mid \bx), \qquad
-      \E_\bel(\util \mid a_1) = 0 \times \bel(\model_0 \mid \bx) + 1 \times \bel(\model_1 \mid \bx)
+    \E_\bel(\util \mid a_0) = 1 \times \bel(\model_0 \mid \bx) + 0 \times \bel(\model_1 \mid \bx), \qquad
+    \E_\bel(\util \mid a_1) = 0 \times \bel(\model_0 \mid \bx) + 1 \times \bel(\model_1 \mid \bx)
     \]
   \end{example}
   
@@ -352,15 +352,15 @@
       A statistical test $\pol$ is a decision rule for accepting or rejecting a hypothesis on the basis of evidence. A $p$-value test rejects a hypothesis whenever the value of the statistic $f(x)$ is smaller than a threshold.}
     The statistic $f : \CX \to [0,1]$ is  designed to have the property:
     \[
-      P_{\model_0}(\cset{x}{f(x) \leq \delta}) = \delta.
+    P_{\model_0}(\cset{x}{f(x) \leq \delta}) = \delta.
     \]
     If our decision rule is:
     \[
-      \pol(a \mid x) =
-      \begin{cases}
-        a_0, & f(x) \leq \delta\\
-        a_1, & f(x) > \delta,
-      \end{cases}
+    \pol(a \mid x) =
+    \begin{cases}
+      a_0, & f(x) \leq \delta\\
+      a_1, & f(x) > \delta,
+    \end{cases}
     \]
     the probability of rejecting the null hypothesis when it is true is exactly $\delta$.
   \end{definition}
@@ -408,7 +408,7 @@
   \begin{block}{The test statistic}
     We want the test to reflect that we don't have a significant number of failures.
     \[
-      f(x) = 1 - \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
+    f(x) = 1 - \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
     \]
   \end{block}
   \begin{alertblock}{What $f(x)$ is and is not}
@@ -482,7 +482,7 @@
   \begin{block}{Bayesian model averaging for the alternative model $\model_1$}
     \only<article>{In this scenario, $\model_0$ is a simple point model, e.g. corresponding to a $\Bernoulli(1/2)$. However $\model_1$ is a marginal distribution integrated over many models, e.g. a $Beta$ distribution over Bernoulli parameters.}
     \begin{align}
-      P_{\model_1}(x) &= \int_\Param P_{\param}(x) \dd \beta(\param) \\
+      P_{\model_1}(x) &= \int_\Param B_{\param}(x) \dd \beta(\param) \\
       \bel(\model_0 \mid x) &= \frac{P_{\model_0}(x) \bel(\model_0)}
                               {P_{\model_0}(x) \bel(\model_0) + P_{\model_1}(x) \bel(\model_1)}
     \end{align}
@@ -533,7 +533,7 @@
 }
 \begin{frame}
   \frametitle{Deciding a class given a model}
-  \only<article>{In the simplest classification problem, we observe some features $x_t$ and want to make a guess $\decision_t$ about the true class label $y_t$. Assuming we have some probabilistic model $P(y_t \mid x_t)$, we want to define a decision rule $\pol(\decision_t \mid x_t)$ that is optimal, in the sense that it maximises expected utility for $P$.}
+  \only<article>{In the simplest classification problem, we observe some features $x_t$ and want to make a guess $\decision_t$ about the true class label $y_t$. Assuming we have some probabilistic model $P_\model(y_t \mid x_t)$, we want to define a decision rule $\pol(\decision_t \mid x_t)$ that is optimal, in the sense that it maximises expected utility for $P_\model$.}
   \begin{itemize}
   \item Features $x_t \in \CX$.
   \item Label $y_t \in \CY$.
@@ -544,24 +544,24 @@
   \begin{block}{Standard classification problem}
     \only<article>{In the simplest case, the set of decisions we make are the same as the set of classes}
     \[
-      \CA = \CY, \qquad
-      U(\decision, y) = \ind{\decision = y}
+    \CA = \CY, \qquad
+    U(\decision, y) = \ind{\decision = y}
     \]
   \end{block}
 
   \begin{exercise}
-    If we have a model $P(y_t \mid x_t)$, and a suitable $U$, what is the optimal decision to make?
+    If we have a model $P_\model(y_t \mid x_t)$, and a suitable $U$, what is the optimal decision to make?
   \end{exercise}
   \only<presentation>{
     \uncover<2->{
       \[
-        \decision_t \in \argmax_{\decision \in \Decision} \sum_y P(y_t = y \mid x_t) \util(\decision, y)
+      \decision_t \in \argmax_{\decision \in \Decision} \sum_y P_\model(y_t = y \mid x_t) \util(\decision, y)
       \]
     }
     \uncover<3>{
       For standard classification,
       \[
-        \decision_t \in \argmax_{\decision \in \Decision} P(y_t = \decision \mid x_t)
+      \decision_t \in \argmax_{\decision \in \Decision} P_\model(y_t = \decision \mid x_t)
       \]
     }
   }
@@ -571,29 +571,86 @@
 \begin{frame}
   \frametitle{Deciding the class given a model family}
   \begin{itemize}
-  \item Training data $S = (x_1, y_1, \ldots, x_n, y_n)$
-  \item Models $\cset{P_\model}{\model \in \Model}$
+  \item Training data $\Training = \cset{(x_i, y_i)}{i=1, \ldots, \ndata}$
+  \item Models $\cset{P_\model}{\model \in \Model}$.
   \item Prior $\bel$ on $\Model$.
   \end{itemize}
-  \[
-    \bel(\model \mid S)
-    = \frac{P_\model(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\model)}
-    {\sum_{\model' \in \Model} P_{\model'}(y_1, \ldots, y_n \mid x_1, \ldots, x_n) \bel(\model')}
-  \]
-  We can then calculate the posterior marginal marginal label probability
-  \[
-    P_{\bel \mid S}(y_t \mid x_t) \defn
-    P_{\bel}(y_t \mid x_t, S) = 
-    \sum_{\model \in \Model} P_\model(y_t \mid x_t) \bel(\omega \mid S).
-  \]
-  We can then construct the following simple decision rule:
-  \[
-    \decision_t \in \argmax_{\decision \in \CY}\sum_{\model \in \Model} P_\model(y_t \mid x_t) \bel(\omega \mid S),
-  \]
-  otherwise known as the \alert{Bayes rule}.
+  \only<article>{Similarly to our example with the meteorological stations, we can define a posterior distribution over models.}
+  \begin{block}{Posterior over classification models}
+    \[
+    \bel(\model \mid \Training) = \frac{P_\model(y_1, \ldots, y_\ndata \mid
+      x_1, \ldots, x_\ndata) \bel(\model)} {\sum_{\model' \in \Model}
+      P_{\model'}(y_1, \ldots, y_\ndata \mid x_1, \ldots, x_\ndata)
+      \bel(\model')}
+    \]
+    \only<article>{
+      This posterior form can be seen as weighing each model according to how well they can predict the class labels. It is a correct form as long as, for every pair of models $\model, \model'$ we have that $P_\model(x_1, \ldots, x_\ndata) = P_{\model'}(x_1, \ldots, x_\ndata)$. This assumption can be easily satisfied without specifying a particular model for the $x$.}
+    \only<2>{
+      If not dealing with time-series data, we assume independence between $x_t$:
+      \[
+      P_\model(y_1, \ldots, y_\ndata \mid  x_1, \ldots, x_\ndata)
+      = \prod_{i=1}^T P_\model(y_i \mid x_i)
+      \]
+    }
+  \end{block}
+  \uncover<3->{
+    \begin{block}{The \alert{Bayes rule} for maximising $\E_\bel(\util \mid a, x_t, \Training)$}
+      The decision rule simply chooses the action:
+      \begin{align}
+        \decision_t &\in
+                      \argmax_{\decision \in \Decision}
+                      \sum_{y}  \alert<4>{\sum_{\model \in
+                      \Model}  P_\model(y_t = y \mid x_t) \bel(\model \mid
+                      \Training)} 
+                      \util(\decision, y)
+                      \only<5>{
+        \\ &=
+             \argmax_{\decision \in \Decision}
+             \sum_{y} \Pr_{\bel \mid \Training}(y_t \mid x_t) 
+             \util(\decision, y)
+             }
+      \end{align}
+    \end{block}
+  }
+  \uncover<4->{
+    We can rewrite this by calculating the posterior marginal marginal label probability
+    \[
+    \Pr_{\bel \mid \Training}(y_t \mid x_t) \defn
+    \Pr_{\bel}(y_t \mid x_t, \Training) = 
+    \sum_{\model \in \Model} P_\model(y_t \mid x_t) \bel(\model \mid \Training).
+    \]
+  }
+
 \end{frame}
 
-
+\begin{frame}
+  \frametitle{Approximating the model}
+  \begin{block}{Full Bayesian approach for infinite $\Model$}
+    Here $\bel$ can be a probability density function and 
+    \[
+    \bel(\model \mid \Training)  = P_\model(\Training)  \bel(\model)  / \Pr_\bel(\Training),
+    \qquad
+    \Pr_\bel(\Training) = \int_{\Model} P_\model(\Training)  \bel(\model)  \dd,
+    \]
+    can be hard to calculate.
+  \end{block}
+  \onslide<2->{
+    \begin{block}{Maximum a posteriori model}
+      We only choose a single model through the following optimisation:
+      \[
+      \MAP(\bel, \Training) 
+      \only<2>{
+        = \argmax_{\model \in \Model} P_\model(\Training)  \bel(\model) 
+      }
+      \only<3>{
+        = \argmax_{\model \in \Model}
+        \overbrace{\ln P_\model(\Training)}^{\textrm{goodness of fit}}  + \underbrace{\ln \bel(\model)}_{\textrm{regulariser}}.
+      }
+      \]
+      \only<article>{You can think of the goodness of fit as how well the model fits the training data, while the regulariser term simply weighs models according to some criterion. Typically, lower weights are used for more complex models.}
+    \end{block}
+  }
+\end{frame}
 
 
 

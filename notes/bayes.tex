@@ -377,6 +377,45 @@ from Bayes's theorem, we see that we can obtain the probability of the class:
 
 
 
+\begin{frame}
+  \frametitle{Bayesian inference for Bernoulli distributions}
+  \only<1>{
+    \begin{block}{Estimating a coin's bias}
+      A fair coin comes heads $50\%$ of the time. 
+      We want to test an unknown coin, which we think may not be completely fair. 
+    \end{block}
+  }
+  \only<1,2>{
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{../figures/beta-prior}
+      \caption{Prior belief $\bel$ about the coin bias $\theta$.}
+    \end{figure}
+  }
+  \only<2>{
+    For a sequence of throws $x_t \in \{0,1\}$,
+    \[
+    P_\theta(x) \propto \prod_t \theta^{x_t} (1 - \theta)^{1 - x_t}
+    = \theta^{\textrm{\#Heads}} (1 - \theta)^{\textrm{\#Tails}}
+    \]
+  }
+  \only<3>{
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{../figures/beta-likelihood}
+      \caption{Prior belief $\bel$ about the coin bias $\theta$ and likelihood of $\theta$ for the data.}
+    \end{figure}
+    Say we throw the coin 100 times and obtain 70 heads. Then we plot the \alert{likelihood} $P_\theta(x)$ of different models.
+  }
+  \only<4>{
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{../figures/beta-posterior}
+      \caption{Prior belief $\bel(\theta)$ about the coin bias $\theta$, likelihood of $\theta$ for the data, and posterior belief $\bel(\theta \mid x)$}
+    \end{figure}
+    From these, we calculate a \alert{posterior} distribution over the correct models. This represents our conclusion given our prior and the data.
+  }
+\end{frame}
 
 
 
