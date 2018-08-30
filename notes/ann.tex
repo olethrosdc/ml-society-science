@@ -29,15 +29,17 @@ i.e. when we can replace the explicit summation over all possible outcomes, weig
     \only<article>{Since the performance measure is simply an expectation, it is intuitive to directly optimise the decision rule with respect to an approximation of the expectation}
     \begin{align}
       \max_{\alert{\param} \in \Param} &f(\pol_{\alert{\param}}, \model, \util),
-      &f(\pol_\param, \model, \util) &\defn \E^{\pol_\param}_\model(\util)\\
-      f(\pol_\param, \model, \util) &= 
-      \sum_{x, y, a} \util(a, y) \pol_\param(a \mid x) P_\model(y \mid x) P_\model(x)\\
+      &f(\pol_{\alert{\param}}, \model, \util) &\defn \E^{\pol_{\alert{\param}}}_\model(\util)\\
+      f(\pol_{\alert{\param}}, \model, \util) &= 
+      \sum_{x, y, a} \util(a, y) \pol_{\alert{\param}}(a \mid x) P_\model(y \mid x) P_\model(x)\\
       &\approx
-        \sum_{t=1}^T \sum_{a_t} \util(a_t, y_t) \pol(a_t \mid x_t ),
+        \sum_{t=1}^T \sum_{a_t} \util(a_t, y_t) \pol_{\alert{\param```232}}(a_t \mid x_t ),
         & (x_t, y_t)_{t=1}^T &\sim P_\model.
     \end{align}
     \only<article>{In practice, this is the empirical expectation on the training set $\cset{(x_t, y_t)}{t=1, \ldots, T}$. However, when the amount of data is insufficient, this expectation may be far from reality, and so our classification rule might be far from optimal.}
   \end{block}
+
+
 
   \only<article>{
   \begin{block}{The Bayes-optimal classifier}
@@ -54,6 +56,10 @@ An alternative idea is to use our uncertainty to create a distribution over mode
   \end{block}
   }
 \end{frame}
+
+\only<presentation>{
+ \againframe{beta-example}
+}
 
 \begin{frame}
   \frametitle{Stochastic gradient methdos}
@@ -77,6 +83,7 @@ An alternative idea is to use our uncertainty to create a distribution over mode
   
 \end{frame}
 
+
 \subsection{Neural network models}
 \begin{frame}
   \frametitle{Two views of neural networks}
@@ -88,8 +95,7 @@ An alternative idea is to use our uncertainty to create a distribution over mode
       \node[RV] at (4,0) (output) {$\by_t$};
       \draw[->, bend right] (input) to (output);
     \end{tikzpicture}    
-    \vspace{1em}
-    Objective: Find the best model describing $\Training$.
+    Objective: Find the best model for $\Training$.
   \end{block}
 
   
@@ -100,14 +106,14 @@ An alternative idea is to use our uncertainty to create a distribution over mode
       \draw[->, bend right] (input) to (output);
     \end{tikzpicture}    
     \vspace{1em}
-    Objective: For a given $\util(a, \bx)$, find the best classification policy.
+    Objective: Find the best policy for $\util(a, \bx)$.
   \end{block}
 
   \uncover<2->{
     \begin{alertblock}{Difference between the two views}
       \begin{itemize}
       \item We can use standard probabilistic methods for $P$.
-      \item Finding the optimal $\pol$ is an optimisation problem. \only<article>{Estimating $P$ is not necessarily an optimisation problem, but can be formulated as one.}
+      \item Finding the optimal $\pol$ is an optimisation problem. \only<article>{However, estimating $P$ can also be formulated as an optimisation.}
       \end{itemize}
     \end{alertblock}
   }
@@ -121,7 +127,7 @@ An alternative idea is to use our uncertainty to create a distribution over mode
     \centering
     \begin{tikzpicture}
       \node[RV] at (0,0) (input) {$\bx$};
-      \node[RV] at (4,0) (output) {$\by$};
+      \node[RV] at (4,0) (output) {$\ba$};
       \draw[->, bend right, label=above:$P$] (input) to (output);
       \uncover<2>{
       \node[RV, hidden] at (2,0) (param) {$\vparam$};
@@ -133,19 +139,19 @@ An alternative idea is to use our uncertainty to create a distribution over mode
   \end{figure}
   }
   \only<article>{A neural network as used for modelling classification or regression problems, is simply a parametrised mapping $\CX \to \CY$. If we include the network parameters, then it is instead a mapping $\CX \times \Param \to \CY$, as seen in Figure~\ref{fig:gm-ann}.}
-  \only<3->{
+  \only<3,4>{
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
       \node[RV] at (0,-1) (input1) {$x_1$};
       \node[RV] at (0,1) (input2) {$x_2$};
-      \node[RV] at (4,-1) (output1) {$y_1$};
-      \node[RV] at (4,1) (output2) {$y_2$};
+      \node[RV] at (4,-1) (output1) {$a_1$};
+      \node[RV] at (4,1) (output2) {$a_2$};
       \draw[->] (input1) to (output1);
       \draw[->] (input1) to (output2);
       \draw[->] (input2) to (output1);
       \draw[->] (input2) to (output2);
-      \uncover<4->{
+      \uncover<4>{
         \node[RV, hidden] at (2,-1.5) (param11) {$\param_{11}$};
         \node[RV, hidden] at (2,-0.5) (param12) {$\param_{12}$};
         \node[RV, hidden] at (2,0.5) (param21) {$\param_{211}$};
@@ -155,18 +161,57 @@ An alternative idea is to use our uncertainty to create a distribution over mode
         \draw[->] (param12) to (output1);
         \draw[->] (param11) to (output1);
       }
-      \uncover<5>{
-        \draw[-, dashed] (input1) to (input2);
-      }
+      \draw[-, dashed] (input1) to (input2);
+      \draw[-] (output1) to (output2);
     \end{tikzpicture}
     \caption{Graphical model for a linear neural network.}
     \label{fig:gm-ann}
   \end{figure}  
+  \only<article>{If we see each possible output as a different random variable, this creates a dependence. After all, we are really splitting one variable into many. In particular, if the network's output is the probability of each action, then we must make sure these sum to 1.}
   }
-  \begin{definition}{Linear classifier}
-    A linear classifier is parametrised by the matrix $\Param = [\param_1 \cdots \param_{|\CY|}]$
+  \only<5>{
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,-1) (input1) {$x_1$};
+      \node[RV] at (0,1) (input2) {$x_2$};
+      \node[RV,label={$h_1(\bz) = e^{z_1} / [e^{z_1} + e^{z_2}]$}] at (8,-1) (output1) {$a_1$};
+      \node[RV,label={$h_2(\bz) = e^{z_2} / [e^{z_1} + e^{z_2}]$}] at (8,1) (output2) {$a_2$};
+      \node[RV,label={$g_{\vparam_1}(\bx) = \bx^\top \vparam_1$}] at (4,-1) (z1) {$z_1$};
+      \node[RV,label={$g_{\vparam_2}(\bx) = \bx^\top \vparam_2$}] at (4,1) (z2) {$z_2$};
+      \draw[->] (input1) to node[near end, below]{$\param_{11}$} (z1);
+      \draw[->] (input1) to node[near end, below]{$\param_{12}$} (z2);
+      \draw[->] (input2) to node[near end, above]{$\param_{21}$} (z1);
+      \draw[->] (input2) to node[near end, above]{$\param_{22}$} (z2);      
+      \draw[->] (z1) to (output1);
+      \draw[->] (z1) to (output2);
+      \draw[->] (z2) to (output1);
+      \draw[->] (z2) to (output2);
+    \end{tikzpicture}
+    \caption{Architectural view of a linear neural network.}
+    \label{fig:gm-ann}
+  \end{figure}  
+  }
+
+
+
+  \begin{definition}[Linear classifier]
+    \only<article>{
+    A linear classifier with $\nobservations$ inputs and $\nclasses$ outputs is parametrised by}
     \[
-      \pol_\Param(a \mid x) = f(\param)\exp(\param_a^\top x) / \sum_{a'} e^{\param_{a'}^\top x}
+    \mparam = 
+    \begin{bmatrix}
+      \vparam_{1} & \cdots & \vparam_{\nclasses}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \param_{1,1} & \cdots & \param_{1,\nclasses}\\
+      \vdots & \ddots & \vdots \\
+      \param_{\nobservations} & \cdots & \param_{\nobservations,\nclasses}
+    \end{bmatrix}
+    \]
+    \[
+      \pol_\Param(a \mid \bx) = \exp\left(\vparam_a^\top \bx\right) / \sum_{a'} \exp\left(\vparam_{a'}^\top \bx\right) 
     \]
   \end{definition}
   \only<article>{Even though the classifier has a linear structure, the final non-linearity at the end is there to ensure that it defines a proper probability distribution over decisions.}
@@ -174,6 +219,22 @@ An alternative idea is to use our uncertainty to create a distribution over mode
   For classification problems, the observations $\bx_{t}$ are features $\bx_t = (x_{t,1} \ldots, x_{t,n})$ so that $\CX \subset \Reals^\nobservations$. 
 It is convenient to consider the network output as a vector on the simplex $\by \in \Simplex^\nactions$, i.e. $\sum_{i=1}^\nclasses y_{t,i}  = 1$, $y_{t,i} \geq 0$. In the neural network model for classification, we typically ignore dependencies between the $x_{t,i}$ features, as we are not very interested in the distribution of $\bx$ itself.}
 
+\end{frame}
+
+\begin{frame}
+\frametitle{Gradient ascent for a matrix $U$}
+\begin{align}
+  &\max_\param \sum_{t=1}^T \sum_{a_t} \util(a_t, y_t) \pol_\param(a_t \mid x_t ) \tag{objective}\\
+  &\nabla_\param \sum_{t=1}^T \sum_{a_t} \util(a_t, y_t) \pol_\param(a_t \mid x_t ) \tag{gradient}\\
+  =& \sum_{t=1}^T \sum_{a_t} \util(a_t, y_t) \nabla_\param \pol_\param(a_t \mid x_t )
+\end{align}
+\only<article>{We now need to calculate the gradient of the policy.}
+\begin{block}{Chain Rule of Differentiation}
+  \begin{align*}
+    f(z), z = g(x), && \frac{df}{dx} &= \frac{df}{dg} \frac{dg}{dx} \tag{scalar version}\\
+    && \nabla_\param \pol &= \nabla_g \pol \nabla_\param g \tag{vector version}
+  \end{align*}
+\end{block}
 \end{frame}
 
 

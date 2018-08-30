@@ -28,6 +28,7 @@
   But should we use for the probability model $\Pr$?
 
   \subsubsection{Naive Bayes classifier}
+  \only<article>{Naive Bayes classifiers are one of the simplest classification methods. They can have a full Bayesian interpretation under some assumptions, but otherwise they are too simplistic to be useful.}
 
   \begin{block}{Calculating the prior probability of classes}
     A simple method is to simply count the number of times each class
@@ -73,6 +74,10 @@
     of examples in class $C$.
   \end{block}
 
+  \begin{alertblock}{Full Bayesian approach versus maximum likelihood}
+    This estimation is simple maximum likelihood, as it  does not maintain a distribution over the parameters. 
+  \end{alertblock}
+
   \only<article>{ Sometimes we need to be able to deal with cases
     where there are no examples at all of one class. In that case,
     that class would have probability zero. To get around this
@@ -94,8 +99,9 @@
     \begin{remark}
       In fact, the Laplace smoothing model corresponds to a so-called
       Dirichelt prior over polynomial parameters with a marginal
-      probability of observation equal to the Laplace smoothing. We
-      shall see more of this in the Bayesian inference section.
+      probability of observation equal to the Laplace smoothing. This
+      is an extension of Beta-Bernoulli example from binary outcomes
+      to multiple outcomes.
     \end{remark}
   }
 \end{frame}
@@ -125,14 +131,9 @@
     label is $C$.  Sometimes we can just fix $\sigma$ to a constant
     value, i.e. $\sigma = 1$.
   \end{block}
-\end{frame}
 
-\begin{frame}
-  \begin{alertblock}{Estimates versus true probabilities}
-    Remember that the probabilities we get from this calculation are
-    only \alert{estimates}. We do not really know the probabilities of
-    each observation given the classes: we are only estimating them
-    from the data. It is also possible that our assumption about the
-    independence of features is completely wrong.
+  \begin{alertblock}{Full Bayesian approach}
+    This estimation is simple maximum likelihood, as it selects a single parameter pair $\vectorsym{\mu} = (\mu_1, \ldots, \mu_n)$ and $\vectorsym{\sigma} = (\sigma_1, \ldots, \sigma_n)$ for every class and does not maintain a distribution over the parameters. \only<article>{It also assumes independence between the features. The full Bayesian approach considers an arbitrary covariance matrix $\matrixsym{\Sigma}$ and maintains a distribution $\bel(\vectorsym{\mu}, \matrixsym{\Sigma})$.}
   \end{alertblock}
 \end{frame}
+

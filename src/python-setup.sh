@@ -13,5 +13,3 @@ python3 -m pip install --user sqlalchemy
 
 
 # exec(open("./filename").read())
-
-
