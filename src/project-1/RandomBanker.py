@@ -3,8 +3,8 @@ class RandomBanker:
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
     # probabilities
-    def fit(self, data):
-        self.data = data
+    def fit(self, X, y):
+        self.data = [X, y]
 
     # set the interest rate
     def set_interest_rate(self, rate):
