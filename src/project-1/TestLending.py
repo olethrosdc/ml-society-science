@@ -16,18 +16,14 @@ encoded_features = list(filter(lambda x: x != target, X.columns))
 
 
 ### Setup model
-import logistic_banker
+#import logistic_banker
 #decision_maker = logistic_banker.LogisticBanker()
 import random_banker
 decision_maker = random_banker.RandomBanker()
 interest_rate = 0.05
 decision_maker.set_interest_rate(interest_rate)
+
 y = X[target] - 1
-
-from sklearn import linear_model
-model = linear_model.LogisticRegression()
-model.fit(X, y)
-
 decision_maker.fit(X[encoded_features], y)
 n_test_examples = 1000
 utility = 0
@@ -40,7 +36,7 @@ for t in range(n_test_examples):
     amount = X['amount'].iloc[t]
     # If we don't grant the loan then nothing happens
     if (action==1):
-        if (default):
+        if (default == 0):
             utility -= amount
         else:    
             utility += amount*(pow(1 + interest_rate, duration) - 1)
