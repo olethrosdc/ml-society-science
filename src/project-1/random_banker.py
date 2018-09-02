@@ -30,7 +30,3 @@ class RandomBanker:
     # However, you are allowed to deviate from this if you can justify the reason.
     def get_best_action(self, x):
         return np.random.choice(2,1)[0]
-
-        
-
-
