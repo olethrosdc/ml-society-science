@@ -24,8 +24,9 @@ interest_rate = 0.05
 decision_maker.set_interest_rate(interest_rate)
 decision_maker.fit(X[encoded_features], X[target])
 n_test_examples = 100
-utiity = 0
+utility = 0
 
+## Example test function - this is not an unbiased test as it uses the training data directly. Adapt as necessary
 for t in range(n_test_examples):
     action = decision_maker.get_best_action(X[encoded_features].iloc[t])
     default = X[target].iloc[t] # assume the labels are correct
@@ -34,9 +35,9 @@ for t in range(n_test_examples):
     # If we don't grant the loan then nothing happens
     if (action==1):
         if (default):
-            utility -= amount*(pow(1 + interest_rate) - 1)
+            utility -= amount
         else:    
-            utility += amount*(pow(1 + interest_rate) - 1)
+            utility += amount*(pow(1 + interest_rate, duration) - 1)
     
 
 

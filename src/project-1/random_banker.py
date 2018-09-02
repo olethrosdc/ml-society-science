@@ -1,3 +1,5 @@
+import numpy as np
+
 class RandomBanker:
     
     # Fit the model to the data.  You can use any model you like to do
@@ -23,11 +25,12 @@ class RandomBanker:
     # 2nd attribute of x. Then the return if the loan is paid off to you is amount_of_loan*(1 + rate)^length_of_loan
     # The return if the loan is not paid off is -amount_of_loan.
     def expected_utility(self, x, action):
-        print("Not implemented")
+        print("Expected utility: Not implemented")
     # Return the best action. This is normally the one that maximises expected utility.
     # However, you are allowed to deviate from this if you can justify the reason.
     def get_best_action(self, x):
-        print("Not implemented")
+        return np.random.choice(2,1)[0]
+
         
 
 
