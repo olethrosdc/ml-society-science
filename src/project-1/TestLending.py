@@ -10,7 +10,7 @@ target = 'repaid'
 df = pandas.read_csv('../../data/credit/german.data', sep=' ',
                      names=features+[target])
 import matplotlib.pyplot as plt
-numerical_features = ['age', 'residence time', 'installment', 'amount', 'duration', 'persons', 'credits']
+numerical_features = ['duration', 'age', 'residence time', 'installment', 'amount', 'duration', 'persons', 'credits']
 quantitative_features = list(filter(lambda x: x not in numerical_features, features))
 X = pandas.get_dummies(df, columns=quantitative_features, drop_first=True)
 encoded_features = list(filter(lambda x: x != target, X.columns))
