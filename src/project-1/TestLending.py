@@ -47,13 +47,12 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import linear_model
 from sklearn.neural_network import MLPClassifier
 mlp = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(16, 4, 2), random_state=1)
-
 bagging = BaggingClassifier(KNeighborsClassifier(), n_estimators=10)
 knn = KNeighborsClassifier()
 logistic = linear_model.LogisticRegression()
-decision_maker = reference_banker.ReferenceBanker(mlp)
-#import random_banker
-#decision_maker = random_banker.RandomBanker()
+#decision_maker = reference_banker.ReferenceBanker(mlp)
+import random_banker
+decision_maker = random_banker.RandomBanker()
 interest_rate = 0.05
 
 from sklearn.model_selection import train_test_split
