@@ -16,10 +16,10 @@ encoded_features = list(filter(lambda x: x != target, X.columns))
 
 
 ### Setup model
-#import logistic_banker
-#decision_maker = logistic_banker.LogisticBanker()
-import random_banker
-decision_maker = random_banker.RandomBanker()
+import logistic_banker
+decision_maker = logistic_banker.LogisticBanker()
+#import random_banker
+#decision_maker = random_banker.RandomBanker()
 interest_rate = 0.05
 decision_maker.set_interest_rate(interest_rate)
 
@@ -31,12 +31,12 @@ utility = 0
 ## Example test function - this is not an unbiased test as it uses the training data directly. Adapt as necessary
 for t in range(n_test_examples):
     action = decision_maker.get_best_action(X[encoded_features].iloc[t])
-    default = X[target].iloc[t] # assume the labels are correct
+    good_loan = X[target].iloc[t] # assume the labels are correct
     duration = X['duration'].iloc[t]
     amount = X['amount'].iloc[t]
     # If we don't grant the loan then nothing happens
     if (action==1):
-        if (default == 0):
+        if (good_loan == 0):
             utility -= amount
         else:    
             utility += amount*(pow(1 + interest_rate, duration) - 1)
