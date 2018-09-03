@@ -1,5 +1,6 @@
 import pandas
 
+## Set up for dataset
 features = ['checking account balance', 'duration', 'credit history',
             'purpose', 'amount', 'savings', 'employment', 'installment',
             'marital status', 'other debtors', 'residence time',
@@ -14,35 +15,56 @@ quantitative_features = list(filter(lambda x: x not in numerical_features, featu
 X = pandas.get_dummies(df, columns=quantitative_features, drop_first=True)
 encoded_features = list(filter(lambda x: x != target, X.columns))
 
+## Test function
+def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
+    n_test_examples = len(X_test)
+    utility = 0
+
+    ## Example test function - this is not an unbiased test as it uses the training data directly. Adapt as necessary
+    for t in range(n_test_examples):
+        action = decision_maker.get_best_action(X_test.iloc[t])
+        good_loan = y_test.iloc[t] # assume the labels are correct
+        duration = X_test['duration'].iloc[t]
+        amount = X_test['amount'].iloc[t]
+        # If we don't grant the loan then nothing happens
+        if (action==1):
+            if (good_loan == 0):
+                utility -= amount
+            else:    
+                utility += amount*(pow(1 + interest_rate, duration) - 1)
+    return utility
+
+
+## Main code
+
 
 ### Setup model
-import logistic_banker
-decision_maker = logistic_banker.LogisticBanker()
+#import logistic_banker
+#decision_maker = logistic_banker.LogisticBanker()
+import reference_banker
+from sklearn.ensemble import BaggingClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import linear_model
+from sklearn.neural_network import MLPClassifier
+mlp = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(16, 4, 2), random_state=1)
+
+bagging = BaggingClassifier(KNeighborsClassifier(), n_estimators=10)
+knn = KNeighborsClassifier()
+logistic = linear_model.LogisticRegression()
+decision_maker = reference_banker.ReferenceBanker(mlp)
 #import random_banker
 #decision_maker = random_banker.RandomBanker()
 interest_rate = 0.05
-decision_maker.set_interest_rate(interest_rate)
 
-y = X[target] - 1
-decision_maker.fit(X[encoded_features], y)
-n_test_examples = 1000
+from sklearn.model_selection import train_test_split
+n_tests = 10
 utility = 0
+for iter in range(n_tests):
+    X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2)
+    decision_maker.set_interest_rate(interest_rate)
+    decision_maker.fit(X_train, y_train)
+    utility += test_decision_maker(X_test, y_test, interest_rate, decision_maker)
 
-## Example test function - this is not an unbiased test as it uses the training data directly. Adapt as necessary
-for t in range(n_test_examples):
-    action = decision_maker.get_best_action(X[encoded_features].iloc[t])
-    good_loan = X[target].iloc[t] # assume the labels are correct
-    duration = X['duration'].iloc[t]
-    amount = X['amount'].iloc[t]
-    # If we don't grant the loan then nothing happens
-    if (action==1):
-        if (good_loan == 0):
-            utility -= amount
-        else:    
-            utility += amount*(pow(1 + interest_rate, duration) - 1)
-
-print(utility)
-
-
+print(utility / n_tests)
 
 

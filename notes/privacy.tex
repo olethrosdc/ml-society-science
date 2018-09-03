@@ -349,7 +349,7 @@
 
     To prove that this is necessary, consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.}
   \begin{remark}
-    The randomised response mechanism with $p \leq 1/2$ is $\ln \frac{1 - p}{p}$-DP.
+    The randomised response mechanism with $p \leq 1/2$ is $(\ln \frac{1 - p}{p})$-DP.
   \end{remark}
   \begin{proof}
     Consider $x = (x_1, \ldots, x_i,  \ldots, x_n)$, $x' = (x_1, \ldots, x'_i,  \ldots, x_n)$. Then
