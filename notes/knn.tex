@@ -124,13 +124,42 @@
 \begin{frame}
   \frametitle{Discussion: Shortcomings of $k$-nearest neighbour}
   \begin{itemize}
-  \item Choice of $k$
-  \item Choice of metric.
-  \item Representation of uncertainty.
-  \item Scaling with large amounts of data.
+  \item Choice of $k$ \only<article>{The larger $k$ is, the more data you take into account when making your decision. This means that you expect your classes to be more spread out.} 
+  \item Choice of metric $d$. \only<article>{The metric $d$ encodes prior information you have about the structure of the data.}
+  \item Representation of uncertainty. \only<article>{The predictions of kNN models are simply based on distances and counting. This might not be a very good way to represent uncertainty about class label. In particular, label probabilities should be more uncertain when we have less data.}
+  \item Scaling with large amounts of data. \only<article>{A naive implementation of kNN requires the algorithm to shift through all the training data to find the $k$ nearest neighbours, suggesting a superlinear computation time. However, advanced data structures such as Cover Trees (or even KD-trees in low dimensional spaces) can be used to find the neighbours in polylog time.}
+    \item Meaning of label probabilities.  \only<article>{It is best to think of \KNN{} as a \alert{model} for predicting the class of a new example from a finite set of existing classes. The model itself might be incorrect, but this should nevertheless be OK for our purposes. In particular, we might later use the model in order to derive classification rules.}
   \end{itemize}
-  \only<article>{For that reason, it is best to think of \KNN{} as a \alert{model} for predicting the class of a new example from a finite set of existing classes. The model itself might be incorrect, but this should nevertheless be OK for our purposes. In particular, we might later use the model in order to derive classification rules.}
 
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Learning outcomes}
+  \begin{block}{Understanding}
+    \begin{itemize}
+    \item How kNN works
+    \item The effect of hyperameters $k, d$ for nearest neighbour.
+    \item The use of kNN to classify new data.
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Skills}
+    \begin{itemize}
+    \item Use a standard kNN class in python
+    \item Optimise kNN hyperparameters in an unbiased manner.
+    \item Calculate probabilities of class labels using kNN.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Reflection}
+    \begin{itemize}
+    \item When is kNN a good model?
+    \item How can we deal with large amounts of data?
+    \item How can we best represent uncertainty?
+    \end{itemize}
+  \end{block}
+  
 \end{frame}
 
 

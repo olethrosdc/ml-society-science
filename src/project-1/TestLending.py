@@ -20,7 +20,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
     n_test_examples = len(X_test)
     utility = 0
 
-    ## Example test function - this is not an unbiased test as it uses the training data directly. Adapt as necessary
+    ## Example test function - this is only an unbiased test if the data has not been seen in training
     for t in range(n_test_examples):
         action = decision_maker.get_best_action(X_test.iloc[t])
         good_loan = y_test.iloc[t] # assume the labels are correct
@@ -28,7 +28,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
         amount = X_test['amount'].iloc[t]
         # If we don't grant the loan then nothing happens
         if (action==1):
-            if (good_loan == 0):
+            if (good_loan == 1):
                 utility -= amount
             else:    
                 utility += amount*(pow(1 + interest_rate, duration) - 1)
@@ -50,7 +50,7 @@ mlp = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(16, 4, 2), r
 bagging = BaggingClassifier(KNeighborsClassifier(), n_estimators=10)
 knn = KNeighborsClassifier()
 logistic = linear_model.LogisticRegression()
-#decision_maker = reference_banker.ReferenceBanker(mlp)
+#decision_maker = reference_banker.ReferenceBanker(bagging)
 import random_banker
 decision_maker = random_banker.RandomBanker()
 interest_rate = 0.05
