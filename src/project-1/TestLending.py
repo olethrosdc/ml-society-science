@@ -63,7 +63,7 @@ utility = 0
 for iter in range(n_tests):
     X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2)
     decision_maker.set_interest_rate(interest_rate)
-    decision_maker.use_calibration(True)
+    #decision_maker.use_calibration(True)
     decision_maker.fit(X_train, y_train)
     utility += test_decision_maker(X_test, y_test, interest_rate, decision_maker)
 
