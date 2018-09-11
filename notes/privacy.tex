@@ -417,10 +417,20 @@
     \end{itemize}
   \end{exampleblock}
 
-  \begin{alertblock}{Cumulative privacy loss}
-    Depending on the DP scheme, each query answered may leak privacy.
-    \only<article>{In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can bound the total privacy loss.}
-  \end{alertblock}
+    \only<article>{Depending on the DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can bound the total privacy loss.
+
+      \begin{definition}[$T$-fold adaptive composition]
+        In this privacy model, an adversary is allowed to compose $T$ queries. The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
+      \end{definition}
+      \begin{theorem}
+        For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold adaptive composition.
+      \end{theorem}
+ }
+    \only<presentation>{
+      \begin{alertblock}{Composition}
+        If we answer $T$ queries with an $\epsilon$-DP mechanism, then our cumulative privacy loss is $\epsilon T$.
+      \end{alertblock}
+    }
 \end{frame}
 
 \begin{frame}
@@ -485,6 +495,18 @@
     \end{block}
   \end{frame}
 }
+
+\begin{frame}
+  \frametitle{Dealing with multiple attributes.}
+
+  \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
+  \begin{block}{Independent release of multiple attributes.}
+    For $n$ users and $k$ attributes, if the release of each attribute $i$ is $\epilson$-DP then 
+    the data release is $k \epsilon$-DP.
+  \end{block}
+  \only<article>{The result follows immediately from the composition theorem.}
+
+\end{frame}
 \subsection{Other differentially private mechanisms}
 \begin{frame}
   \frametitle{The Laplace mechanism.}
