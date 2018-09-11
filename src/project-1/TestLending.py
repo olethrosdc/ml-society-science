@@ -39,31 +39,17 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
 
 
 ### Setup model
-#import logistic_banker
-#decision_maker = logistic_banker.LogisticBanker()
-#import reference_banker
-#from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
-#from sklearn.neighbors import KNeighborsClassifier
-#from sklearn import linear_model
-#from sklearn.neural_network import MLPClassifier
-
-#mlp = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(16, 4, 2), random_state=1)
-#bagging = BaggingClassifier(KNeighborsClassifier(), n_estimators=10)
-#random_forest = RandomForestClassifier(n_estimators=100)
-#knn = KNeighborsClassifier()
-#logistic = linear_model.LogisticRegression()
-#decision_maker = reference_banker.ReferenceBanker(bagging)
-import random_banker
+import random_banker # this is a random banker
 decision_maker = random_banker.RandomBanker()
 interest_rate = 0.05
 
+### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
 n_tests = 100
 utility = 0
 for iter in range(n_tests):
     X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2)
     decision_maker.set_interest_rate(interest_rate)
-    #decision_maker.use_calibration(True)
     decision_maker.fit(X_train, y_train)
     utility += test_decision_maker(X_test, y_test, interest_rate, decision_maker)
 
