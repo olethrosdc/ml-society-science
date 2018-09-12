@@ -19,6 +19,58 @@
   \titlepage
 \end{frame}
 
+\section{Introduction}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
+
+\begin{frame}
+  \centering
+  \includegraphics[height=\textheight]{../figures/smbc-the-problem}
+\end{frame}
+\begin{frame}
+  \begin{block}{Privacy in statitical disclosure.}
+    \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
+      published,\footnote{If somebody knows that the analysis is being
+        conducted, however, they could still learn something private from the fact that the analysis has /emph{not} been published.} this
+      creates two types of possible privacy violations.}
+    \begin{itemize}
+    \item Public analysis of sensitive data.
+    \item Publication of ``anonymised'' data.
+    \end{itemize}
+    \only<article>{ The first is direct exposure of sensitive data
+      through publication of the analysis, if for example the study is
+      about something such as drug use. The second is through
+      publication of ``anonymised'' versions of the dataset, for
+      example by removing names and addresses, which create
+      opportunities for linkage attacks.}
+  \end{block}
+  \begin{alertblock}{Not about cryptography}
+    \only<article>{
+      The problems we are considering can not be solved through cryptographic means. Cryptography provides:}
+    \begin{itemize}
+    \item Secure communication and computation.
+    \item Authentication and verification.
+    \end{itemize}
+    \only<article>{These are useful to establish secure channels with somebody that we trust. However, the issue that}
+  \end{alertblock}
+
+  \begin{block}{An issue of trust}
+    \only<article>{Fundamentally, privacy in statistics is an issue of trust. The analyst, whether it be a human statistician, or an automated service provided by a company, will use your data to make decisions. You must also decide:}
+    \begin{itemize}
+    \item Who to trust and how much.
+    \item With what data to trust them.
+    \item What you want out of the service.
+    \end{itemize}
+    \only<article>{These are difficult questions and are hard to quantify, hence in this course we are assuming that we have already decided how to answer them, and we simply want to find an appropriate methodology for achieving a good result.}
+  \end{block}
+\end{frame}
 
 \include{database} % data base access model
 \include{privacy} %data bases

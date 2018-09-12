@@ -1,16 +1,16 @@
 
-\only<article>{ Consider a researcher wishing to collect data for a
-  statistical analysis. As long as the analysis is eventually
-  published,\footnote{If somebody knows that the analysis is being
-    conducted, however, they could still learn something private from
-    the fact that the analysis has /emph{not} been published.} this
-  creates two types of possible privacy violations. The first is
-  direct exposure of sensitive data through publication of the
-  analysis, if for example the study is about something such as drug
-  use. The second is through publication of ``anonymised'' versions of
-  the dataset, which create opportunities for linkage attacks.}
 
 \section{Privacy in databases}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
+
 \begin{frame}
   \frametitle{Anonymisation}
   \only<article>{If we wish to publish a database, frequently we need to protect identities of people involved. The simplest method for doing that is simply erasing directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data.}
@@ -256,14 +256,22 @@
       \end{enumerate}
     \end{block}
 
-    If the rate of positive responses is $p$, everybody follows the protocol, and the coin is fair, what is the true rate $q$ of drug use?
+    \begin{exercise}
+      Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
+    \end{exercise}
   }
-  \only<presentation>{
-    \uncover<3>{
-      \[
-        p = 1/2 + q/2 \Rightarrow q = 1/2
-      \]
-    }
+  \onslide<3->{
+    \begin{proof}[Solution]
+      Since the responses are random, we will deal with expectations first
+        \begin{align*}
+          \E p
+          &= \frac{1}{2} \times \frac{1}{2} + q \times \frac{1}{2}
+          \uncover<4->{= \frac{1}{4} + \frac{q}{2}}
+          \uncover<5->{\\
+          q &= 2 \E p - \frac{1}{2}.}
+        \end{align*}
+      
+    \end{proof}
   }
   \only<article>{The problem with this approach, of course, is that we are effectively throwing away half of our data. In particular, if we repeated the experiment with a coin that came heads at a rate $\epsilon$, then our error bounds would scale as $O(1/\sqrt{\epsilon n})$ for $n$ data points.}
 \end{frame}
@@ -348,6 +356,32 @@
 \end{frame}
 
 \begin{frame}
+  \begin{block}{The definition of differential privacy}
+    \begin{itemize}
+    \item First rigorous mathematical definition of privacy.
+    \item Relaxations and generalisations possible.
+    \item Connection to learning theory and reproducibility.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Current uses}
+    \begin{itemize}
+    \item Apple. \only<article>{DP is used internally in the company to ``protect user privacy''. It is not clear exactly what they are doing but their efforts seem to be going in the right direction.}
+    \item Google. \only<article>{The company has a DP API available based on randomised response, RAPPOR.}
+    \item Uber. \only<article>{Elastic sensitivity for SQL queries, which is available as open source. This is a good thing, because it is easy to get things wrong with privacy.}
+    \item US 2020 Census. \only<article>{It uses differential privacy to protect the condidentiality of responders' information while maintaining data that are suitable for their intended uses.}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Open problems}
+    \begin{itemize}
+    \item Complexity of differential privacy.
+    \item Verification of implementations and queries.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
   \only<article>{
     \begin{remark}
       Any differentially private algorithm must be stochastic.
@@ -392,27 +426,28 @@
 
 \begin{frame}
   \frametitle{Differentially private queries}
+  \only<article>{There is no actual \texttt{DP-SELECT} statement, but we can imagine it.}
   \begin{block}{The \texttt{DP-SELECT} statement}
     \begin{itemize}
-    \item \texttt{DP-SELECT column1, column2 FROM table;}
+    \item \texttt{DP-SELECT $\epsilon$ column1, column2 FROM table;}
       \only<article>{This selects only some columns from the table}
-    \item \texttt{DP-SELECT * FROM table;}
+    \item \texttt{DP-SELECT $\epsilon$ * FROM table;}
       \only<article>{This selects all the columns from the table}
     \end{itemize}
   \end{block}
 
   \begin{block}{Selecting rows}
-    \texttt{SELECT * FROM table WHERE column = value;}
+    \texttt{DP-SELECT $\epsilon$  * FROM table WHERE column = value;}
   \end{block}
 
   \begin{exampleblock}{Arithmetic queries}
     \only<article>{Here are some example SQL statements}
     \begin{itemize}
-    \item  \texttt{DP-SELECT COUNT(column) FROM table WHERE condition;}
+    \item  \texttt{DP-SELECT $\epsilon$ COUNT(column) FROM table WHERE condition;}
       \only<article>{This allows you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{DP-SELECT AVG(column) FROM table WHERE condition;}
+    \item  \texttt{DP-SELECT $\epsilon$ AVG(column) FROM table WHERE condition;}
       \only<article>{This lets you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{DP-SELECT SUM(column) FROM table WHERE condition;}
+    \item  \texttt{DP-SELECT $\epsilon$ SUM(column) FROM table WHERE condition;}
       \only<article>{This is used to sum up the values in a column.}
     \end{itemize}
   \end{exampleblock}
@@ -501,10 +536,10 @@
 
   \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
   \begin{block}{Independent release of multiple attributes.}
-    For $n$ users and $k$ attributes, if the release of each attribute $i$ is $\epilson$-DP then 
-    the data release is $k \epsilon$-DP.
+    For $n$ users and $k$ attributes, if the release of each attribute $i$ is $\epsilon$-DP then 
+    the data release is $k \epsilon$-DP. Thus to get $\epsilon$-DP overall,  we need $\epsilon / k$-DP per attribute.
   \end{block}
-  \only<article>{The result follows immediately from the composition theorem.}
+  \only<article>{The result follows immediately from the composition theorem. We can see each attribute release as the result of an individual query.}
 
 \end{frame}
 \subsection{Other differentially private mechanisms}
@@ -552,7 +587,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{The local privacy model}
+  \frametitle{The centralised privacy model}
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
@@ -570,6 +605,9 @@
     \caption{The centralised privacy model}
     \label{fig:centralised-privacy}
   \end{figure}
+  \begin{assumption}
+    The data $x$ is collected and the result $a$ is published by a \alert{trusted curator}
+  \end{assumption}
 \end{frame}
 
 \begin{frame}
@@ -587,8 +625,36 @@
       i.e. $f$ is $\sensitivity{f}$-Lipschitz with respect to $d$.
     }
   \end{definition}
-  \begin{theorem}
-    The Laplace mechanism on a function $f$ ran with $\Laplace(\lambda)$ is $\sensitivity{f} / \lambda$-DP.
+  \begin{example}
+    If $f: \CX \to [0, B]$, e.g. $\CX = \Reals$ and $f(x) = \min\{B, \max\{0, x\}\}$, then
+    \onslide<2->{
+      $\sensitivity{f} = B$.
+    }
+  \end{example}
+  \onslide<3->{
+    \begin{example}
+      If $f: [0,B]^n \to [0,B]$ is
+      $f = \frac{1}{n} \sum_{t=1}^n x_t$,
+      then
+      \onslide<4->{
+        $\sensitivity{f} = B/n$.
+      }
+    \end{example}
+    \only<article>{
+      \begin{proof}
+        Consider two neighbouring datasets $x, x'$ differing in example $j$. Then
+        \[
+        f(x) - f(x')
+        = \frac{1}{n}\left[f(x_j) - f(x'_j)\right]
+        \leq \frac{1}{n}\left[B - 0\right]
+        \]
+      \end{proof}
+    }
+  }
+\end{frame}
+\begin{frame}
+\begin{theorem}
+    The Laplace mechanism on a function $f$ with sensitivity $\sensitivity{f}$, ran with $\Laplace(\lambda)$ is $\sensitivity{f} / \lambda$-DP. 
   \end{theorem}
   \begin{proof}
     \begin{align*}
@@ -600,15 +666,15 @@
         = e^{\sensitivity{f} / \lambda}
     \end{align*}
   \end{proof}
-  
+  So we need to use $\lambda = \sensitivity{f} / \epsilon$ for $\epsilon$-DP. 
   What is the effect of applying the Laplace mechanism in the local versus centralised model?
   \only<article>{
-    Here let us assume $x_i \in [0, M]$ for all $i$.
+    Here let us assume $x_i \in [0, B]$ for all $i$ and consider the problem of calculating the average. 
     \begin{block}{Laplace in the local privacy model}
-      The sensitivity of the individual data is $M$, so to obtain $\epsilon$-DP we need to use $\lambda = M / \epsilon$. The variance of each component is $2M/\epsilon$, so the total variance is $2M/\epsilon n$.
+      The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2M/\epsilon$, so the total variance is $2M/\epsilon n$.
     \end{block}
     \begin{block}{Laplace in the centralised privacy model}
-      The sensitivity of $f$ is $M / n$, so we need to use $\lambda = M / n\epsilon$. The variance of $a$ is $M / \epsilon n$.
+      The sensitivity of $f$ is $B / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $B / n \epsilon$.
     \end{block}
   }
 \end{frame}
@@ -691,6 +757,11 @@
     \item Budget $B$. \only<article>{How much are we allowed to learn about the holdout set?}
 
     \end{itemize}
+  \end{block}
+  \begin{block}{Algorithm idea}
+    \begin{algorithmic}
+      \State
+    \end{algorithmic}
   \end{block}
 \end{frame}
 
