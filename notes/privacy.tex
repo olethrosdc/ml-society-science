@@ -93,6 +93,24 @@
   \end{example}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Data linkage with SQL}
+  
+  The original database \verb|database| and adversary side information \verb|side_information| can be combined using the following simple SQL query:
+\begin{verbatim}
+SELECT * FROM database JOIN side_information ON [condition]
+\end{verbatim}
+where \verb|condition| describes how to match the records.
+
+  \begin{example}
+    For the databases given above, we could use
+\begin{verbatim}
+SELECT * FROM tinder JOIN tax ON tinder.height = tax.height AND tinder.age = tax.age
+\end{verbatim}
+    to create a joint table.
+  \end{example}
+\end{frame}
+
 \section{$k$-anonymity}
 
 \begin{frame}
@@ -146,7 +164,7 @@
         \hline
         06/07 &  & 180-190 & 80+ & 60+ & 1* & \\
         06/14 &  & 180-190 & 80+ & 60+ & 1* &\\
-        06/12 &  & 170-180 & 80+ & 60+ & 1* & \\
+        06/12 &  & 170-180 & 60+ & 60+ & 1* & \\
         01/01 &  & 170-180 & 60-80 & 20-60 & 6* &\\
         05/08 &  & 170-180 & 60-80 & 20-60 & 6* & 
       \end{tabular}
@@ -168,7 +186,7 @@
     \end{table}
   }
 
-  \only<article>{However, with enough information, somebody may still be able to infer something about the indivduals}
+  \only<article>{However, with enough information, somebody may still be able to infer something about the individuals}
 \end{frame}
 
 
@@ -176,7 +194,7 @@
 
 
 \section{Differential privacy}
-\only<article>{While $k$-anonymity can protect against specific re-identification attacks when used with care, it says little about what to do when the adversary has a lot of power. For example, if the  adversary knows the data of everybody that has participated in the database,  it is trivial for them to infer what our own data is. Differential privacy offers protection against adversaries with unlimited side-information or computational power. Informally, an algorithmic computation is differentially-private if an adversary cannot distinguish two similar database based on the result of the computation. While the notion of similarity is for the analyst to defined, a common is to say that two databases are similar when they are identical apart from the data of one person.}
+\only<article>{While $k$-anonymity can protect against specific re-identification attacks when used with care, it says little about what to do when the adversary has a lot of power. For example, if the  adversary knows the data of everybody that has participated in the database,  it is trivial for them to infer what our own data is. Differential privacy offers protection against adversaries with unlimited side-information or computational power. Informally, an algorithmic computation is differentially-private if an adversary cannot distinguish two similar database based on the result of the computation. While the notion of similarity is for the analyst to define, it is common to say that two databases are similar when they are identical apart from the data of one person.}
 
 \begin{frame}
   \begin{figure}[H]
@@ -327,6 +345,9 @@
     \caption{The local privacy model}
     \label{fig:local-privacy}
   \end{figure}
+  \only<article>{
+    In the local privacy model, the $i$-th individual's data $x_i$ is used to generate a private response $a_i$. This means that no individual will provide their true data with certainty. This model allows us to publish a complete dataset of private responses.
+    }
 \end{frame}
 
 \begin{frame}
@@ -335,7 +356,7 @@
   \includegraphics[width=0.2\textwidth]{../figures/mcsherry} \hspace{1em}
   \includegraphics[width=0.2\textwidth]{../figures/nissim} \hspace{1em}
   \includegraphics[width=0.2\textwidth]{../figures/smith}
-  \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from a computation.}
+  \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from the result of a computation $\pol$ on the data. For reasons that will be made clear later, this computation has to be stochastic.}
   
   \begin{definition}[$\epsilon$-Differential Privacy]
     A stochastic algorithm $\pol : \CX \to \CA$, where $\CX$ is endowed with a neighbourhood relation $N$, is said to be $\epsilon$-differentially private if
@@ -350,7 +371,7 @@
     In this context, two datasets are usually called neighbouring if $x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1} x_n)$ and 
     $x' = (x_1, \ldots, x_{i-1}, x_{i+1} x_n)$, i.e. if one dataset is missing an element.
     
-    A slightly weaker definition of neighbourhood is to say that $x N x'$ if $x' = (x_1, \ldots, x_{i-1}, x'_i, x_{i+1} x_n)$, i.e. if one dataset has an altered element.
+    A slightly weaker definition of neighbourhood is to say that $x N x'$ if $x' = (x_1, \ldots, x_{i-1}, x'_i, x_{i+1} x_n)$, i.e. if one dataset has an altered element. We will usually employ this latter definition, especially for the local privacy model.
 
   }
 \end{frame}
@@ -693,8 +714,9 @@
     \item There is a common utility function
       $\util : \CX, \CA, \CQ \to \Reals$.
     \end{itemize}
+    We wish to maximisation $\util$ with our answers, but are constrained by the fact that we also want to preserve privacy.
   \end{block}
-  \only<article>{The utility $U(x,a,q)$  describes how appropriate each response $a$ given by the system for a query $r$ is given the data $x$. It can be seen as how useful the response is to the user, and allows us to quantify exactly how much we }
+  \only<article>{The utility $\util(x,a,q)$  describes how appropriate each response $a$ given by the system for a query $r$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
 
 \end{frame}
 \begin{frame}
@@ -715,6 +737,8 @@
   }
   \only<article>{
     Clearly, when $\epsilon \to 0$, this mechanism is uniformly random. When $\epsilon \to \infty$ the action maximising $\util(q,a,x)$ is always chosen.
+
+    Although the exponential mechanism can be used to describe most known DP mechanisms, its best use is in settings where there is a natural utility function.
   }
 \end{frame}
 
@@ -762,9 +786,11 @@
   \end{block}
   \begin{block}{Algorithm idea}
     \begin{algorithmic}
-      \State
+      \State Run algorithm $\lambda$ on data $\Training$ and get e.g. classifier parameters $\theta$.
+      \State Run a DP version of the function $f(\theta, \Holdout) = \ind{\util(\theta, \Training) \geq \tau \util(\theta, \Holdout)}$.
     \end{algorithmic}
   \end{block}
+  \only<article>{So instead of reporting the holdout performance at all, you just see if you are much worse than the training performance, i.e. if you're overfitting. The fact that the mechanism is DP also makes it difficult to learn the holdout set. See the thresholdout link for more details.}
 \end{frame}
 
 \begin{frame}
