@@ -1,6 +1,4 @@
-
 # coding: utf-8
-
 # In[1]:
 
 
@@ -81,7 +79,10 @@ cv_accuracy.mean(), cv_accuracy.std()
 # In[11]:
 
 
-flip_fraction = 0.1 # flip 10%
+epsilon = 0.1; 
+flip_fraction = ?; # All non-numerical features are binary. What fraction should we flip to be epsilon-DP, given that there are k attributes in total? If we want to be epsilon-DP overall, then each feature should be \epsilon / k - DP.
+
+
 
 
 # In[12]:
@@ -103,12 +104,15 @@ X_noise.iloc[0].loc['duration']
 n_data = len(X_noise)
 for t in range(n_data):
     for c in X_noise.columns:
+        # We can use the same random response mechanism for all binary features
         if any(c.startswith(i) for i in quantitative_features):
             w = np.random.choice([0, 1], p=[1 - flip_fraction, flip_fraction])
             X_noise.loc[t,c] = (X_noise.loc[t,c] + w) % 2
+
+        # For numerical features, it is different. The scaling factor should depend on k, \epsilon, and the sensitivity of that particular attribite. In this case, it's simply the range of the attribute.
         if any(c.startswith(i) for i in numerical_features):
-            w = np.random.laplace(0, 1 / epsilon)
-            X_noise.loc[t,c] = (X_noise.loc[t,c] + w) % 2
+            # calculate the range of the attribute and add the laplace noise to the original data
+            w = np.random.laplace(...)
             
 
 
