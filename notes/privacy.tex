@@ -93,23 +93,22 @@
   \end{example}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Data linkage with SQL}
-  
-  The original database \verb|database| and adversary side information \verb|side_information| can be combined using the following simple SQL query:
-\begin{verbatim}
-SELECT * FROM database JOIN side_information ON [condition]
-\end{verbatim}
-where \verb|condition| describes how to match the records.
+% \begin{frame}
+%   \frametitle{Data linkage with SQL}
+%     The original database \verb|database| and adversary side information \verb|side-information| can be combined using the following simple SQL query:
+% \begin{verbatim}
+% SELECT * FROM database JOIN side-information ON [condition]
+% \end{verbatim}
+% where \verb|condition| describes how to match the records.
 
-  \begin{example}
-    For the databases given above, we could use
-\begin{verbatim}
-SELECT * FROM tinder JOIN tax ON tinder.height = tax.height AND tinder.age = tax.age
-\end{verbatim}
-    to create a joint table.
-  \end{example}
-\end{frame}
+%   \begin{example}
+%     For the databases given above, we could use
+% \begin{verbatim}
+% SELECT * FROM tinder JOIN tax ON tinder.height = tax.height AND tinder.age = tax.age
+% \end{verbatim}
+%     to create a joint table.
+%   \end{example}
+% \end{frame}
 
 \section{$k$-anonymity}
 
