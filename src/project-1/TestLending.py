@@ -28,7 +28,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
         amount = X_test['amount'].iloc[t]
         # If we don't grant the loan then nothing happens
         if (action==1):
-            if (good_loan == 1):
+            if (good_loan != 1):
                 utility -= amount
             else:    
                 utility += amount*(pow(1 + interest_rate, duration) - 1)
