@@ -91,9 +91,9 @@ Attribute 8:  (numerical)
 Attribute 9:  (qualitative)
 	      Personal status and sex
 	      A91 : male   : divorced/separated
-	      A92 : female : divorced/separated/married
-              A93 : male   : single
 	      A94 : male   : married/widowed
+	      A92 : female : divorced/separated/married
+          A93 : male   : single
 	      A95 : female : single
 
 Attribute 10: (qualitative)
