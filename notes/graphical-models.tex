@@ -91,6 +91,60 @@ Graphical models are a very useful tool for modelling the relationship between m
 
 \end{frame}
 
+\begin{frame}
+  \begin{example}[Smoking and lung cancer]
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$S$};
+      \node[RV] at (1,1) (x2) {$C$};
+      \node[RV] at (2,0) (x3) {$A$};
+      \draw[->] (x1)--(x2);
+      \draw[->] (x3)--(x2);
+    \end{tikzpicture}
+    \caption{Smoking and lung cancer graphical model, where $S$: Smoking, $C$: cancer, $A$: asbestos exposure.}
+  \end{figure}
+  \only<article>{
+    It has been found by~\citet{lee2001relation} that lung  incidence not only increases with both asbestos exposure and smoking. This is in agreement with the graphical model shown. The study actually found that there is an amplification effect, whereby smoking and asbestos exposure increases cancer risk by 28 times compared to non-smokers. This implies that the risk is not simply additive. The graphical model only tells us that there is a dependency, and does not describe the nature of this dependency precisely.}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Treatment effects]
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x) {$x$};
+      \node[RV] at (1,1) (y) {$y$};
+      \node[RV] at (2,0) (a) {$a$};
+      \draw[->] (x)--(y);
+      \draw[->] (x)--(a);
+      \draw[->] (a)--(y);
+    \end{tikzpicture}
+    \caption{Kidney treatment model, where $x$: severity, $y$: result, $a$: treatment applied}
+  \end{figure}
+  \end{example}
+\end{frame}
+
+
+\begin{frame}
+  \begin{example}[School admission]
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (z) {$z$};
+      \node[RV] at (1,1) (s) {$s$};
+      \node[RV] at (2,0) (a) {$a$};
+      \draw[->] (z)--(s);
+      \draw[->] (z)--(s);
+      \draw[->] (s)--(a);
+    \end{tikzpicture}
+    \caption{Simplified school admission graphical model, where $z$: gender, $s$: school applied to, $a$: whether you were admitted.}
+  \end{figure}
+  \end{example}
+\end{frame}
+
+
 \only<presentation>{
 \begin{frame}
   \begin{exercise}
@@ -191,3 +245,8 @@ Graphical models are a very useful tool for modelling the relationship between m
  }
 \end{frame}
 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: "notes"
+%%% End:
