@@ -1,6 +1,6 @@
 \section{Graphical models}
 \only<article>{
-  Graphical models are a very useful tool for modelling the relationship between multiple variables. The simplest such models, probabilistic graphical models (otherwise known as Bayesian networks) involve directed acyclic graphs between random variables.}
+  Graphical models are a very useful tool for modelling the relationship between multiple variables. The simplest such models, probabilistic graphical models (otherwise known as Bayesian networks) involve directed acyclic graphs between random variables. There are two other types of probabilistic models, factor graph and undirected graphical models, which are equivalent to each other, though not to directed models.}
 \begin{frame}
   \frametitle{Graphical models}
   \begin{figure}[H]
@@ -14,7 +14,7 @@
       \draw[->] (xB) to (xi);
     \end{tikzpicture}
     \label{fig:bn}
-    \caption{Graphical model for three variables.}
+    \caption{Graphical model (directed acyclic graph) for three variables.}
   \end{figure}
   \only<article>{Consider for example the model in Figure~\ref{fig:bn}. It involves three variables, $x_1, x_2, x_3$ and there are three arrows, which show how one variable depends on another. Simply put, if you think of each $x_k$ as a stochastic function, then $x_k$'s value only depends on the values of its parents, i.e. the nodes that are point to it. In this example, $x_1$ does not depend on any other variable, but the value of $x_2$ depends on the value of $x_1$. Such models are useful when we want to describe the joint probability distribution of all the variables in the collection.}
   \begin{block}{Joint probability}
@@ -113,7 +113,7 @@
 \end{frame}
 
 \begin{frame}
-\begin{example}[Time of arrival at work]
+  \begin{example}[Time of arrival at work]
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
@@ -172,46 +172,46 @@
 
 \begin{frame}
   \begin{example}[School admission]
-  \begin{figure}[H]
-    \centering
-    \begin{subfigure}[Conditionally independent case]{0.45\textwidth}
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (z) {$z$};
-        \node[RV] at (1,1) (s) {$s$};
-        \node[RV] at (2,0) (a) {$a$};
-        \draw[->] (z)--(s);
-        \draw[->] (z)--(s);
-        \draw[->] (s)--(a);
-      \end{tikzpicture}
-    \end{subfigure}
-    \begin{subfigure}[Dependent case]{0.45\textwidth}
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (z) {$z$};
-        \node[RV] at (1,1) (s) {$s$};
-        \node[RV] at (2,0) (a) {$a$};
-        \draw[->] (z)--(s);
-        \draw[->] (z)--(s);
-        \draw[->] (s)--(a);
-        \draw[->] (z)--(a);
-      \end{tikzpicture}
-    \end{subfigure}
-    \caption{School admission graphical model, where $z$: gender, $s$: school applied to, $a$: whether you were admitted. }
-  \end{figure}
-  \begin{table}[H]
-    \begin{tabular}{l|r|r}
-      School & Male  & Female\\
-      \hline
-      A & 62\% & 82\%\\
-      B & 63\% & 68\%\\
-      C & 37\% & 34\%\\
-      D & 33\% & 35\%\\
-      E & 28\% & 24\%\\
-      F &  6\% &  7\%\\
-      \hline
-      \emph{Average} & \emph{45\%} & \emph{38\%}
-    \end{tabular}
-  \end{table}
-  \only<article>{In this example, it appears as though female candidates have a lower acceptance rate than males. However what is missing is the fact that many more males are applying to easier schools. Thus, it is possible that the data is explainable by the fact that admission only reflects the difficulty of each school, and the overall gender imbalance is due to the choices made by the applicants. However, an alternative model is that the admissions process also explicitly takes gender into account. However, both of these models may be inadequate, as we do not have data about each individual applicant, such as their grades. We shall discuss this issue further when we talk about causality, confounding variables and counterfactuals.}
+    \begin{figure}[H]
+      \centering
+      \begin{subfigure}{0.45\textwidth}
+        \begin{tikzpicture}
+          \node[RV] at (0,0) (z) {$z$};
+          \node[RV] at (1,1) (s) {$s$};
+          \node[RV] at (2,0) (a) {$a$};
+          \draw[->] (z)--(s);
+          \draw[->] (z)--(s);
+          \draw[->] (s)--(a);
+        \end{tikzpicture}
+      \end{subfigure}
+      \begin{subfigure}{0.45\textwidth}
+        \begin{tikzpicture}
+          \node[RV] at (0,0) (z) {$z$};
+          \node[RV] at (1,1) (s) {$s$};
+          \node[RV] at (2,0) (a) {$a$};
+          \draw[->] (z)--(s);
+          \draw[->] (z)--(s);
+          \draw[->] (s)--(a);
+          \draw[->] (z)--(a);
+        \end{tikzpicture}
+      \end{subfigure}
+      \caption{School admission graphical model, where $z$: gender, $s$: school applied to, $a$: whether you were admitted. }
+    \end{figure}
+    \begin{table}[H]
+      \begin{tabular}{l|r|r}
+        School & Male  & Female\\
+        \hline
+        A & 62\% & 82\%\\
+        B & 63\% & 68\%\\
+        C & 37\% & 34\%\\
+        D & 33\% & 35\%\\
+        E & 28\% & 24\%\\
+        F &  6\% &  7\%\\
+        \hline
+        \emph{Average} & \emph{45\%} & \emph{38\%}
+      \end{tabular}
+    \end{table}
+    \only<article>{In this example, it appears as though female candidates have a lower acceptance rate than males. However what is missing is the fact that many more males are applying to easier schools. Thus, it is possible that the data is explainable by the fact that admission only reflects the difficulty of each school, and the overall gender imbalance is due to the choices made by the applicants. However, an alternative model is that the admissions process also explicitly takes gender into account. However, both of these models may be inadequate, as we do not have data about each individual applicant, such as their grades. We shall discuss this issue further when we talk about causality, confounding variables and counterfactuals.}
   \end{example}
 \end{frame}
 
@@ -227,6 +227,7 @@
 
 \end{frame}
 
+\subsection{Testing conditional independence}
 \begin{frame}
   \frametitle{Measuring independence}
   \only<article>{The simplest way to measure independence is by looking at whether or not the distribution of the possibly dependent variable changes when we change the value of the other variables. }
@@ -248,6 +249,148 @@
     \]
     so we can measure independence by seeing how the distribution of $x_i$ changes when we vary $\bx'_B$, keeping $\bx_D$ fixed.
   }
+\end{frame}
+
+\begin{frame}
+\frametitle{Coin tossing, revisited}
+\begin{example}{The Beta-Bernoulli prior}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (bel) {$\bel$}; \node[RV, hidden] at (1,0)
+      (param) {$\param$}; \node[RV] at (2,0) (data) {$x$}; \draw[->]
+      (bel)--(param); \draw[->] (param)--(data);
+    \end{tikzpicture}
+    \caption{Graphical model for a Beta-Bernoulli prior}
+  \end{figure}
+  \begin{align}
+    \param &\sim \BetaDist(\bel_1, \bel_2), && \textrm{i.e.  $\bel$ are Beta distribution parameters}\\
+    x \mid \param &\sim \Multinomial(\param), && \textrm{i.e. $P_\param(x)$ is a multinomial}
+  \end{align}
+  \only<article>{In this example, it is obvious why we use the notation above for describing hierarchical models. We simply state what is the distribution on one variable conditioned on the other variables. Here, $\bel$ is fixed, and it is something we can choose arbitrarily. The data $x$ is observed, while the parameter $\param$ remains \emindex{latent}. Using Bayes theorem, we can derive the distribution for $\bel(\theta \mid x)$.}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}{An alternative model for coin-tossing}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (-1,0) (hbel) {$\hyperparam$};
+      \node[RV] at (1,1) (bel) {$\bel$};
+      \node[RV, hidden] at (0,0) (model) {$\model$};
+      \node[RV, hidden] at (1,0) (param) {$\param$};
+      \node[RV] at (2,0) (data) {$x$};
+      \draw[->] (hbel)--(model);
+      \draw[->] (bel)--(param);
+      \draw[->] (model)--(param);
+      \draw[->] (param)--(data);
+    \end{tikzpicture}
+    \caption{Graphical model for a hierarchical prior}
+  \end{figure}
+  \begin{itemize}
+  \item $\model_1$: A Beta-Bernoulli model with $\BetaDist(\bel_1, \bel_2)$
+  \item $\model_0$: The coin is fair.
+  \end{itemize}
+  \begin{align}
+    \param \mid \model = \model_0 &\sim \Singular(0.5), && \textrm{i.e. $\param$ is always 0.5}\\
+    \param \mid \model = \model_1 &\sim \BetaDist(\bel_1, \bel_2), && \textrm{i.e. $\param$ has a Beta distribution}\\
+    x \mid \param &\sim \Multinomial(\param), && \textrm{i.e. $P_\param(x)$ is a multinomial}
+  \end{align}
+\end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Bayesian testing of independence}
+  \only<article>{
+    For a given distributional model $P_\param$, conditional independence either holds or does not. Consider the set of model parameters $\Param_0$ where, for each parameter $\param \in \Param_0$, we have a conditional independence condition, while $\Param_1$ may corresponds to models where there may not be independence. To make this more concrete, let's give an example.}
+
+    \begin{figure}[H]
+      \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+        \begin{tikzpicture}
+          \node[RV] at (0,0) (x1) {$x_1$};
+          \node[RV] at (1,1) (x2) {$x_2$};
+          \node[RV] at (2,0) (x3) {$x_3$};
+          \draw[->] (x1)--(x2);
+          \draw[->] (x2)--(x3);
+        \end{tikzpicture}
+        \caption{$\Param_0$ assumes independence}
+      \end{subfigure}
+     \begin{subfigure}[b]{0.45\textwidth}
+     \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (1,1) (x2) {$x_2$};
+        \node[RV] at (2,0) (x3) {$x_3$};
+        \draw[->] (x1)--(x2);
+        \draw[->] (x2)--(x3);
+        \draw[alert,->] (x1)--(x3);
+      \end{tikzpicture}
+      \caption{$\Param_1$ does \alert{not} assume independence}
+    \end{subfigure}
+    \only<article>{\caption{The two alternative models}}
+    \end{figure}
+  \begin{example}
+    Assume data $D = \cset{x^t_1, x^t_2, x^t_3}{t = 1, \ldots, T}$ with $x_i^t \in \set{0,1}$.
+    \only<article>{First consider model $\Param_0$ where the following conditional independence holds
+    \[
+    P_\param(x_3 \mid x_2, x_1) = P_\param(x_2 \mid x_1), \qquad \forall \param \in \Param_0.
+    \]
+    In the alternative model $\Param_1$ there is no
+      independence assumption. So the likelihood for either a model in either set is}
+    \begin{align}
+    P_\param(D) &= \prod_t P_\param(x^t_3 \mid x^t_2) P_\param(x^t_2 \mid x^t_1) P_\param(x^t_1), \qquad \param \in \Param_0\\
+    P_\param(D) &= \prod_t P_\param(x^t_3 \mid x^t_2, \alert{x_1^t}) P_\param(x^t_2 \mid x^t_1) P_\param(x^t_1), \qquad \param \in \Param_0
+    \end{align}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+\only<article>{Given some data $D$, the Bayesian approach would involve specifying a hierarchical prior $\bel$ so that $\hyperparam(\model_1) = 1 - \hyperparam(\model_0)$ specifies a probability on the two model structures, while for the $i$-th model we define a prior $\bel_i(\param)$ over $\Param_i$, so that we obtain the following hierarchical model
+  }
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV, hidden] at (0,0) (model) {$\model$};
+      \node[RV, hidden] at (1,0) (param) {$\param$};
+      \node[RV] at (2,0) (data) {$D$};
+      \draw[->] (model)--(param);
+      \draw[->] (param)--(data);
+    \end{tikzpicture}
+        \caption{Hierarchical model.}
+    \label{fig:hierarchical-model}
+  \end{figure}
+\only<article>{Here the specific model $\model$ is unobserved, as well as its parameters $\param$. Only the data $D$ is observed. Our prior distribution is omitted from the graph.}
+\begin{align}
+  \model_i &\sim \hyperparam\\
+  \param \mid \model = \model_i &\sim \bel_i
+\end{align}
+\only<1>{
+  \begin{block}{Marginal likelihood}
+    \only<article>{This gives the the following marginal likelihood for the combined models and each of the models respectively.}
+    \begin{align}
+      \Pr_\hyperparam(D) &= \hyperparam(\model_0) \Pr_{\bel_0}(D)  + \hyperparam(\model_1) \Pr_{\bel_1}(D)\\
+      \Pr_{\bel_i}(D) &= \int_{\Param_{i}} P_{\param}(D) \dd \bel_i(\param).
+    \end{align}
+  \end{block}
+}
+\only<2>{
+  \begin{block}{Model posterior}
+    \begin{equation}
+      \hyperparam(\model \mid D) = P_\param(\model) \param(\model)
+    \end{equation}
+  \end{block}
+}
+\end{frame}
+\begin{frame}
+  \frametitle{Further reading}
+  \begin{block}{Python sources}
+    \begin{itemize}
+    \item A simple python measure of conditional independence \url{src/fairness/ci_test.py}
+    \item A simple test for discrete Bayesian network \url{src/fairness/DirichletTest.py}
+    \item Using the PyMC package \url{https://docs.pymc.io/notebooks/Bayes_factor.html} 
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 %%% Local Variables:

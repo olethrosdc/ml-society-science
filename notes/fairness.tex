@@ -118,8 +118,9 @@
 \only<article>{
   How can we explain this discrepancy? We can show that in fact, each one of these different measures of bias in our decision rules can be seen as a notion of conditional independence. 
 }
- \input{graphical-models}
-
+\only<presentation>{
+\input{graphical-models}
+}
 
 
 
@@ -305,9 +306,35 @@
 
 
 \subsection{Bayesian fairness}
-\only<article>{In both cases, we defined conditional independence for a fixed probability distribution $P_\param(x,y,z)$ on the various variables. However, this cannot be assumed to be known.}
+\only<article>{In both cases, we defined conditional independence for a fixed probability distribution $P_\param(x,y,z)$ on the various variables. We also considered meritocratic fairness with respect to $\param$. However, this cannot be assumed to be known. For that reason, we can assume a Bayesian approach to fairness, whereby we look at the following scores.}
+\begin{frame}
+  \frametitle{The Bayesian approach to fairness}
+  \begin{block}{The value of a policy}
+    Let $\lambda$ represent the trade-off between utility and fairness.
+    \only<article>{The combined value for a given parameter $\param$ is}
+    \begin{equation}
+      \label{eq:combined-value}
+      V(\lambda, \param, \pol) = \lambda \overbrace{U(\param, \pol)}^{\textrm{utility}} - \underbrace{(1 - \lambda) F(\param, \pol)}_{\textrm{fairness violation}}
+    \end{equation}
+    \only<article>{With some abuse of notation, we also define the value for a distribution $\bel$ over parameters}
+    \begin{equation}
+      \label{eq:combined-value}
+      V(\lambda, \bel, \pol) = \int_{\Param} V(\lambda, \param, \pol) \dd \bel(\param).
+    \end{equation}
+  \end{block}
+\end{frame}
 
 
+\subsection{Further reading}
+
+\begin{frame}
+  \begin{block}{Online resources}
+    \begin{itemize}
+    \item COMPAS analysis by propublica \url{https://github.com/propublica/compas-analysis}
+    \item Open policing database \url{https://openpolicing.stanford.edu/}
+    \end{itemize}
+  \end{block}
+\end{frame}
 
 
 

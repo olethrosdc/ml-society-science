@@ -587,9 +587,18 @@ Solving the shortest path problem can be done simply by looking at the distance 
 
   \begin{figure}[H]
     \centering
-    \subfigure[$\omega = 0.1$]{\includegraphics[width=0.45\textwidth]{../figures/pit_random_0_1}}
-    \subfigure[$\omega = 0.5$]{\includegraphics[width=0.45\textwidth]{../figures/pit_random_0_5}}
-    \subfigure[value]{\includegraphics[width=0.45\textwidth]{../figures/color-axis}}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=0.45\textwidth]{../figures/pit_random_0_1}
+      \caption{$\omega = 0.1$}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=0.45\textwidth]{../figures/pit_random_0_5}
+      \caption{$\omega = 0.5$}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=0.45\textwidth]{../figures/color-axis}
+      \caption{value}
+    \end{subfigure}
     \caption{Pit maze solutions for two values of $\omega$.}
     \label{fig:pit-solution}
   \end{figure}

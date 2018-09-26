@@ -234,6 +234,7 @@
 \newcommand \Student {\mathop{\mathpzc{Student}}\nolimits}
 \newcommand \Bernoulli {\mathop{\mathpzc{Bernoulli}}\nolimits}
 \newcommand \BetaDist   {\mathop{\mathpzc{Beta}}\nolimits}
+\newcommand \Singular   {\mathop{\mathpzc{D}}\nolimits}
 \newcommand \GammaDist {\mathop{\mathpzc{Gamma}}\nolimits}
 \newcommand \Softmax{\mathop{\mathpzc{Softmax}}\nolimits}
 \newcommand \Exp{\mathop{\mathpzc{Exp}}\nolimits}
@@ -511,7 +512,13 @@ y expr=2*\thisrow{#5}
 
 \tikzstyle{thickarrow}=[->, >=latex, line width=15pt, green!50]
 \tikzstyle{medarrow}=[->, >=latex,  line width=5pt]
+\tikzstyle{arrow}=[->,>=triangle 60]
 
+\tikzset{every picture/.style={
+    line width=1
+  }
+}
 
 \definecolor{dark-green}{rgb}{0,0.5,0}
+
 

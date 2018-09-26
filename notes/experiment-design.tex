@@ -228,7 +228,7 @@ In practice, although multiple reward sequences may lead to the same beliefs, we
 The above equation is the \emindex{backwards induction} algorithm for bandits.  If you look at this structure, you can see that  next belief only depends on the current belief, action and reward, i.e. it satisfies the Markov property, as seen in Figure~\ref{fig:multi-stage-bandit}. Consequently, a decision-theoretic bandit process can be modelled more generally as a \index{Markov decision process}Markov decision process, explained in the following section. It turns out that backwards induction, as well as other efficient algorithms, can provide optimal solutions for Markov decision processes.
 \begin{figure}[htb]
   \centering
-  \subfigure[The basic process]{
+  \begin{subfigure}{0.3\textwidth}
     \begin{tikzpicture}
       \node[select] at (0,1) (at) {$a_t$};
       \node[RV,hidden] at (0,-2) (omega) {$\omega$};
@@ -241,8 +241,9 @@ The above equation is the \emindex{backwards induction} algorithm for bandits.  
       \draw[->] (omega) -- (rt2);
     \end{tikzpicture}
     \label{fig:basic-bandit-process}
-  }
-  \subfigure[The full process]{
+  \end{subfigure}
+  ~
+  \begin{subfigure}{0.3\textwidth}
     \begin{tikzpicture}
       \node[RV,hidden] at (0,-2) (omega) {$\omega$};
       \node[RV] at (0,0) (bt) {$\bel_t$};
@@ -260,9 +261,9 @@ The above equation is the \emindex{backwards induction} algorithm for bandits.  
       \draw[->] (at2) -- (rt2);
     \end{tikzpicture}
     \label{fig:dt-bandit-full}
-  }
-  \subfigure[The lifted process]{
-    \begin{tikzpicture}
+  \end{subfigure}
+  \begin{subfigure}{0.3\textwidth}
+      \begin{tikzpicture}
       \node[RV] at (0,0) (bt) {$\bel_t$};
       \node[select] at (0,1) (at) {$a_t$};
       \node[utility] at (1,-1) (rt) {$r_{t}$};
@@ -278,7 +279,7 @@ The above equation is the \emindex{backwards induction} algorithm for bandits.  
       \draw[->] (at2) -- (rt2);
     \end{tikzpicture}
     \label{fig:dt-bandit-lifted}
-  }
+  \end{subfigure}
   \caption{Three views of the bandit process.
     Figure~\ref{fig:basic-bandit-process} shows the basic bandit
     process, from the view of an external observer. The decision maker
