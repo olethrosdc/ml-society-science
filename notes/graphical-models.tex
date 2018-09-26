@@ -62,7 +62,7 @@
       \draw[->] (xD)--(xi);
     \end{tikzpicture}
     \label{fig:bn}
-    \caption{Graphical model for the factorisation $\Pr(x_1 \mid x_2) \Pr(x_2 \mid x_3) \Pr(x_3)$.}
+    \caption{Graphical model for the factorisation $\Pr(x_3 \mid x_2) \Pr(x_2 \mid x_1) \Pr(x_1)$.}
   \end{figure}
   \begin{block}{Conditional independence}
     We say $x_i$ is conditionally independent of $\bx_B$ given $\bx_D$ and write $x_i \mid \bx_D \indep \bx_B$ iff
@@ -107,6 +107,31 @@
     \only<article>{
       It has been found by~\citet{lee2001relation} that lung  incidence not only increases with both asbestos exposure and smoking. This is in agreement with the graphical model shown. The study actually found that there is an amplification effect, whereby smoking and asbestos exposure increases cancer risk by 28 times compared to non-smokers. This implies that the risk is not simply additive. The graphical model only tells us that there is a dependency, and does not describe the nature of this dependency precisely.}
   \end{example}
+  \begin{block}{Explaining away}
+    Even though $S, A$ are independent, they become dependent once you know $C$.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}[Time of arrival at work]
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (1,1) (x2) {$T$};
+        \node[RV] at (2,0) (x3) {$x_2$};
+        \draw[->] (x2)--(x3);
+        \draw[->] (x2)--(x1);
+      \end{tikzpicture}
+      \caption{Time of arrival at work graphical model where $T$ is a traffic jam and $x_1$ is the time John arrives at the office and $x_2$ is the time Jane arrives at the office.}
+    \end{figure}
+    \only<article>{
+      In this model, the arrival times of John and Jane may seem correlated. However, there is a common cause: The existence of a traffic jam. Whenever there is a traffic jam, both John and Jane are usually late. Whenever there is not a traffic jam, they are both mostly on time.
+    }
+  \end{example}
+  \begin{block}{Conditional independence}
+    Even though $x_1, x_2$ are correlated, they become independent once you know $T$.
+  \end{block}
 \end{frame}
 
 \begin{frame}
@@ -140,7 +165,7 @@
       \end{tabular}
     \end{table}
     \only<article>{
-      A curious example is that of applying one of two treatments for kidneys. In the data, it is clear that one treatment is best for both large and small stones. However, when the data is aggregated}
+      A curious example is that of applying one of two treatments for kidneys. In the data, it is clear that one treatment is best for both large and small stones. However, when the data is aggregated it appears as though treatment B is best. This is because treatment A is chosen much more frequently when the stones are large, and that's when both treatments perform worse.}
   \end{example}
 \end{frame}
 
@@ -186,12 +211,12 @@
       \emph{Average} & \emph{45\%} & \emph{38\%}
     \end{tabular}
   \end{table}
-
+  \only<article>{In this example, it appears as though female candidates have a lower acceptance rate than males. However what is missing is the fact that many more males are applying to easier schools. Thus, it is possible that the data is explainable by the fact that admission only reflects the difficulty of each school, and the overall gender imbalance is due to the choices made by the applicants. However, an alternative model is that the admissions process also explicitly takes gender into account. However, both of these models may be inadequate, as we do not have data about each individual applicant, such as their grades. We shall discuss this issue further when we talk about causality, confounding variables and counterfactuals.}
   \end{example}
 \end{frame}
 
 
-\input{graphical-model-exercises.tex}
+\input{graphical-models-exercises.tex}
 
 
 \begin{frame}
