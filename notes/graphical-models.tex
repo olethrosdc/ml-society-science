@@ -273,6 +273,7 @@
 
 \begin{frame}
 \begin{example}{An alternative model for coin-tossing}
+  This is an elaboration of Example~\ref{ex:bayesian-compound-hypothesis-test} for hypothesis testing.
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
@@ -297,7 +298,14 @@
     \param \mid \model = \model_1 &\sim \BetaDist(\bel_1, \bel_2), && \textrm{i.e. $\param$ has a Beta distribution}\\
     x \mid \param &\sim \Multinomial(\param), && \textrm{i.e. $P_\param(x)$ is a multinomial}
   \end{align}
+  Here the posterior over the two models is simply
+  \[
+  \hyperparam(\model_0 \mid x) = \frac{P_{0.5}(x) \hyperparam(\model_0)}{P_{0.5}(x) \hyperparam(\model_0) + \Pr_{\model_1}(x) \hyperparam(\model_1)},
+  \qquad
+  \Pr_{\model_1(x)} = \int_0^1 P_\param(x) \dd \bel(\param).
+  \]
 \end{example}
+
 \end{frame}
 
 \begin{frame}

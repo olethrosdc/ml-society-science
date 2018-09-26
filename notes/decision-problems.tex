@@ -470,15 +470,26 @@
 
 \begin{frame}
   \frametitle{The Bayesian version of the test}
-  \begin{enumerate}
-  \item Set $\util(a_i, \model_j) = \ind{i = j}$. \only<article>{This choice makes sense if we care equally about either type of error.}
-  \item Set $\bel(\model_i) = 1/2$. \only<article>{Here we place an equal probability in both models.}
-  \item $\model_0$: $\Bernoulli(1/2)$. \only<article>{This is the same as the null hypothesis test.}
-  \item $\model_1$: $\Bernoulli(\theta)$, $\theta \sim \Uniform([0,1])$. \only<article>{This is an extension of the simple hypothesis test, with an alternative hypothesis that says ``the data comes from an arbitrary  Bernoulli model''.}
-  \item Calculate $\bel(\model \mid x)$.
-  \item Choose $a_i$, where $i = \argmax_{j} \bel(\model_j \mid x)$.
-  \end{enumerate}
-
+  \begin{example}
+    \begin{enumerate}
+    \item Set $\util(a_i, \model_j) = \ind{i =
+        j}$.
+      \only<article>{This choice makes sense if we care equally about
+        either type of error.}
+    \item Set $\bel(\model_i) = 1/2$. \only<article>{Here we place an
+        equal probability in both models.}
+    \item $\model_0$: $\Bernoulli(1/2)$. \only<article>{This is the
+        same as the null hypothesis test.}
+    \item $\model_1$: $\Bernoulli(\theta)$,
+      $\theta \sim \Uniform([0,1])$. \only<article>{This is an
+        extension of the simple hypothesis test, with an alternative
+        hypothesis that says ``the data comes from an arbitrary
+        Bernoulli model''.}
+    \item Calculate $\bel(\model \mid x)$.
+    \item Choose $a_i$, where $i = \argmax_{j} \bel(\model_j \mid x)$.
+    \end{enumerate}
+    \label{ex:bayesian-compound-hypothesis-test}
+  \end{example}
   \begin{block}{Bayesian model averaging for the alternative model $\model_1$}
     \only<article>{In this scenario, $\model_0$ is a simple point model, e.g. corresponding to a $\Bernoulli(1/2)$. However $\model_1$ is a marginal distribution integrated over many models, e.g. a $Beta$ distribution over Bernoulli parameters.}
     \begin{align}
