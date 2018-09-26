@@ -123,62 +123,62 @@
       \end{tikzpicture}
       \caption{Kidney treatment model, where $x$: severity, $y$: result, $a$: treatment applied}
     \end{figure}
-    % \begin{table}[H]
-    %   \begin{tabular}{l|r|r}
-    %     & Treatment A  & Treatment B\\
-    %     \hline
-    %     Small stones & 87  & 270\\
-    %     Large stones  & 263 &  80
-    %   \end{tabular}
-    %   \begin{tabular}{l|r|r}
-    %     Severity & Treatment A  & Treatment B\\
-    %     \hline
-    %     Small stones ) & 93\%  & 87\%\\
-    %     Large stones  & 73\% &  69\%\\
-    %     \hline
-    %     Average & 78\% & 83\%
-    %   \end{tabular}
-    %   X\end{table}
+    \begin{table}[H]
+      \begin{tabular}{l|r|r}
+        & Treatment A  & Treatment B\\
+        \hline
+        Small stones & 87  & 270\\
+        Large stones  & 263 &  80
+      \end{tabular}
+      \begin{tabular}{l|r|r}
+        Severity & Treatment A  & Treatment B\\
+        \hline
+        Small stones ) & 93\%  & 87\%\\
+        Large stones  & 73\% &  69\%\\
+        \hline
+        Average & 78\% & 83\%
+      \end{tabular}
+    \end{table}
     \only<article>{
       A curious example is that of applying one of two treatments for kidneys. In the data, it is clear that one treatment is best for both large and small stones. However, when the data is aggregated}
   \end{example}
 \end{frame}
 
 
-% \begin{frame}
-%   \begin{figure}[H]
-%     \centering
-%     \subfigure[Conditionally independent case]{
-%     \begin{tikzpicture}
-%       \node[RV] at (0,0) (z) {$z$};
-%       \node[RV] at (1,1) (s) {$s$};
-%       \node[RV] at (2,0) (a) {$a$};
-%       \draw[->] (z)--(s);
-%       \draw[->] (z)--(s);
-%       \draw[->] (s)--(a);
-%     \end{tikzpicture}
-%   }
-%     \subfigure[Dependent case]{
-%     \begin{tikzpicture}
-%       \node[RV] at (0,0) (z) {$z$};
-%       \node[RV] at (1,1) (s) {$s$};
-%       \node[RV] at (2,0) (a) {$a$};
-%       \draw[->] (z)--(s);
-%       \draw[->] (z)--(s);
-%       \draw[->] (s)--(a);
-%       \draw[->] (z)--(a);
-%     \end{tikzpicture}
-%   }
-%     \caption{School admission graphical model, where $z$: gender, $s$: school applied to, $a$: whether you were admitted. }
-%   \end{figure}
-%     %   \begin{table}[H]
-%     %     \begin{tabular}{l|r|r}
-              %     %               School & Male  & Female
-                                                     %     %             \end{tabular}
-                                                     %     %                                                      \end{table}
-                                                     %                                                      \begin{example}[School admission]
-                                                     %                                                      \end{example}
-                                                     %                                                    \end{frame}
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[Conditionally independent case]{0.45\textwidth}
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (z) {$z$};
+        \node[RV] at (1,1) (s) {$s$};
+        \node[RV] at (2,0) (a) {$a$};
+        \draw[->] (z)--(s);
+        \draw[->] (z)--(s);
+        \draw[->] (s)--(a);
+      \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure}[Dependent case]{0.45\textwidth}
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (z) {$z$};
+        \node[RV] at (1,1) (s) {$s$};
+        \node[RV] at (2,0) (a) {$a$};
+        \draw[->] (z)--(s);
+        \draw[->] (z)--(s);
+        \draw[->] (s)--(a);
+        \draw[->] (z)--(a);
+      \end{tikzpicture}
+    \end{subfigure}
+    \caption{School admission graphical model, where $z$: gender, $s$: school applied to, $a$: whether you were admitted. }
+  \end{figure}
+  \begin{table}[H]
+    \begin{tabular}{l|r|r}
+      School & Male  & Female
+    \end{tabular}
+  \end{table}
+  \begin{example}[School admission]
+  \end{example}
+\end{frame}
 
 
 \input{graphical-model-exercises.tex}
