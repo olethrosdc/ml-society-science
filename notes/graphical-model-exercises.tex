@@ -1,0 +1,73 @@
+\begin{frame}
+  \begin{exercise}
+    Factorise the following graphical model.
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (1,-1) (x2) {$x_2$};
+      \node[RV] at (1,1) (x3) {$x_3$};
+      \node[RV] at (2,0) (x4) {$x_4$};
+      \draw[->] (x1)--(x2);
+      \draw[->] (x1)--(x3);
+    \end{tikzpicture}
+  \end{exercise}
+  \uncover<2>{
+    \[
+    \Pr(\bx)
+    = \Pr(x_1) \Pr(x_2 \mid x_1) \Pr(x_3 \mid x_1) \Pr(x_4)
+    \]
+  }
+
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    Factorise the following graphical model.
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (1,-1) (x2) {$x_2$};
+      \node[RV] at (1,1) (x3) {$x_3$};
+      \node[RV] at (2,0) (x4) {$x_4$};
+      \draw[->] (x1)--(x2);
+      \draw[->] (x1)--(x3);
+      \draw[->] (x3)--(x4);
+    \end{tikzpicture}
+  \end{exercise}
+  \uncover<2>{
+    \[
+    Xb      \Pr(\bx)
+    = \Pr(x_1) \Pr(x_2 \mid x_1) \Pr(x_3 \mid x_1) \Pr(x_4 \mid x_3)
+    \]
+  }
+
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    What dependencies does the following factorisation imply?
+    \[
+    \Pr(\bx)
+    = \Pr(x_1) \Pr(x_2 \mid x_1) \Pr(x_3 \mid x_1) \Pr(x_4 \mid x_2, x_3)
+    \]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (1,-1) (x2) {$x_2$};
+      \node[RV] at (1,1) (x3) {$x_3$};
+      \node[RV] at (2,0) (x4) {$x_4$};
+      \uncover<2>{
+        \draw[->] (x1)--(x2);
+        \draw[->] (x1)--(x3);
+        \draw[->] (x3)--(x4);
+        \draw[->] (x2)--(x4);
+      }
+    \end{tikzpicture}
+  \end{exercise}
+\end{frame}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "notes"
+%%% End:
