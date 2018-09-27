@@ -21,10 +21,21 @@ The second part of the project focuses on issues of reproducibility, reliability
 \begin{enumerate}
 \item Is it possible to ensure that your policy maximises revenue? How can you take into account the uncertainty due to the limited and/or biased data? What if you have to decide for credit for thousands of individuals and your model is wrong? How should you take that type of risk into account?\footnote{You do not need to implement anything specific for this to pass the assignment, but you should outline an algorithm in a precise enough manner that it can be implemented. In either case you should explain how your solution mitigates this type of risk.}
 \item Does the existence of this database raise any privacy concerns? If the database was secret (and only known by the bank), but the credit decisions were public, how would that affect privacy? (a) Explain how you would protect the data of the people in the training set. (b) Explain how would protect the data of the people that apply for new loans. (c) \emph{Implement} a private decision making mechanism for (b),\footnote{If you have already implemented (a) as part of the tutorial, feel free to include the results in your report.} and estimate the amount of loss in utility as you change the privacy guarantee.
-\item Choose one concept of fairness, e.g. balance of decisions with respect to gender. How can you ensure that your policy is fair? How can you measure it? How does the original training data affect the fairness of your policy? \footnote{You do not need to implement any type of fair policy a passing grade, but you should at least try to analyse the data or your decision function with simple statistics.}
 \end{enumerate}
 
-Submit a final report about your project, either as a standalone PDF or as a jupyter notebook.
+\subsection{Deadline 3: October 10}
+
+ Choose one concept of fairness, e.g. balance of decisions with respect to gender. How can you measure whether your policy is fair? How does the original training data affect the fairness of your policy? To help you in this part of the project, here is a list of guiding questions.
+
+ \begin{itemize}
+ \item Identify sensitive variables. Do the original features already imply some bias in data collection?
+ \item Analyse the data or your decision function with simple statistics such as histograms.
+ \item For balance (or calibration), measure the total variation of the action (or outcome) distribution for different outcomes (or actions) when the sensitive variable varies.
+ \item Advanced: What would happen if you were looking at fairness by also taking into account the amount of loan requested?
+ \item Advanced: Using stochastic gradient descent, find a policy that balances out fairness and utility.
+ \end{itemize}
+
+Submit a final report about your project, either as a standalone PDF or as a jupyter notebook. For this, you can imagine playing the role of an analyst who submits a possible decision rule to the bank, or the authorities. You'd like to show that your decision rule is quite likely to make a profit, that it satisfies \emph{some} standard of privacy and that it does not unduly discriminate between applicants. You should definitely point out any possible \emph{deficiencies} in your analysis due to your assumptions, methodology, or the available data from which you are drawing conclusions.
 
 %%% Local Variables:
 %%% mode: latex

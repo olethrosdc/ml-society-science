@@ -296,13 +296,40 @@
   \only<article>{
     This is a so-called Lipschitz condition on the policy, and is illustrated in the figure below.
   }    
-  \begin{tikzpicture}[scale=2,thick,domain=-2:2]
-    \draw[->] (-2,0) -- (2,0) node[right] {$x$};
-    \draw[->] (0,0) -- (0,1) node[above] {$\pol(a \mid x)$};
-    \draw[color=blue] plot (\x,{0.5 + 0.5 * tanh(\x)}); % node[right] {$f(x) = \frac{1}{20} \mathrm e^x$};
-    \draw [|<->|,color=red] plot (-0.5,-0.1) -- node[below=1em] {$\rho(x,x')$} ++(1, 0);
-  \end{tikzpicture}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=2,thick,domain=-2:2]
+      \draw[->] (-2,0) -- (2,0) node[right] {$x$};
+      \draw[->] (0,0) -- (0,1) node[above] {$\pol(a \mid x)$};
+      \draw[color=blue] plot (\x,{0.5 + 0.5 * tanh(\x)}); % node[right] {$f(x) = \frac{1}{20} \mathrm e^x$};
+      \draw [|<->|,color=red] plot (-0.5,-0.1) -- node[below=1em] {$\rho(x,x')$} ++(1, 0);
+    \end{tikzpicture}
+    \caption{A Lipschitz function}
+    \label{fig:lipschitz}
+  \end{figure}
+  \only<article>{
+    If we wish to find the optimal policy that satisfies this constraint, then it is naturally to think about this as a constrained optimisation problem
+    }
+    \begin{block}{The constrained maximisation problem}
+      \[
+      \max_\pol \cset{\util(\pol)}{\rho(x, x')}
+      \]
+    \end{block}
+\only<article>{
+The problem in this framework is how to define the metric $\rho$ in the first place. A natural idea is to simply use the probability of $y$ as a metric. Then it doesn't matter how different $x, x'$ appear: the only important thing is how what is the distribution of $y$ implied by the different attributes. 
+
+
+    \begin{block}{$\rho$ in terms of the distribution $y \mid x$}
+    Firstly, assume you somehow have some probability law $\Pr$ over the variables of interest. To fix ideas, let us consider the total variation norm and assume $y \in \CY$ takes a finite number of values. Then we can define the metric as
+    \begin{align}
+      \rho(x, x')
+      &\defn \|\Pr(y \mid x) - \Pr(y \mid x')\|_1\\
+      &= \sum_{i \in \CY} \|\Pr(y \mid x) - \Pr(y \mid x')\|_1
+    \end{align}
+    \end{block}
+  }
 \end{frame}
+
 
 
 \subsection{Bayesian fairness}
