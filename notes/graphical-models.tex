@@ -425,6 +425,70 @@
   \end{block}
 }
 \end{frame}
+
+\begin{frame}
+  \frametitle{Calculating the marginal likelihood}
+  \only<article>{Generally speaking, calculating the marginal likelihood for a model with an uncountable parameter set is hard. However, conjugate models admit closed form solutions and efficient calculations. Firstly, let's rewrite the marginal likelihood in terms of an integral Monte-Carlo approximation.}
+  \begin{block}{Monte-Carlo approximation}
+    \begin{align}
+      \label{eq:mc-marginal-likelihood}
+      \int_\Param P_\param(D) \dd \bel(\param)
+      &\approx
+        \sum_{n=1}^N P_{\param_n}(D) \dd \bel(\param) + O(1/\sqrt{N}), & \param_n &\sim \bel
+    \end{align}
+  \end{block}
+  \only<article>{Even though this approximation is reasonable at first glance, the problem is that the leading constant of the error scales approximately proportionally to the maximum likelihood $\max_\param P_\param(D)$. Thus, the more data we have the more samples we need to get a good approximation with this simple Monte Carlo approach. For that reason, one typically uses a sample from a proposal distribution $\psi$ which is different from $\bel$. Then it holds}
+  \begin{block}{Importance sampling}
+    \begin{align}
+      \label{eq:importance-sampling}
+      \int_\Param P_\param(D) \dd \bel(\param)
+      &
+        \only<2>{
+        =
+        \int_\Param P_\param(D) \frac{\dd \psi(\param)}{\dd \psi(\param)} \dd \bel(\param)
+        }
+        \only<3>{
+        =
+        \int_\Param P_\param(D) \frac{\dd \bel(\param)}{\dd \psi(\param)} \dd \psi(\param)
+        }
+        \uncover<4>{
+        \approx
+        \sum_{n=1}^N P_\param(D) \frac{\dd \bel(\param_n)}{\dd \psi(\param_n)}, & \param_n \sim \psi
+        }
+    \end{align}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Sequential updating of the marginal likelihood}
+    \begin{align}
+      \label{eq:sequential-likelihood}
+      \Pr_\bel(D)
+      \uncover<2->{
+      &= \Pr_\bel(x_1, \ldots, x_T) 
+        }
+      \uncover<3->{
+      \\
+      & = \Pr_\bel(x_2, \ldots, x_T \mid x_1) \Pr_\bel(x_1)
+        }
+      \uncover<4->{
+      \\
+      & = \alert{\prod_{t=1}^T \Pr_\bel(x_t \mid x_1, \ldots, x_{t-1})}
+        }
+        \uncover<5->{
+      \\
+      & = \prod_{t=1}^T \int_\Param P_\param(x_t) \dd \underbrace{\bel(\param \mid x_1, \ldots, x_{t-1})}_{\textrm{posterior at time $t$}}
+        }
+    \end{align}
+    \only<article>{The nice thing about this break down is that for a simple model such as Beta-Bernoulli, the individual datapoint marginal likelihoods are easy to compute}
+  \end{block}
+  \begin{example}[Beta-Bernoulli]
+    \[\Pr_\bel(x_t = 1 \mid x_1, \ldots, x_{t-1}) = \frac{\alpha_t}{\alpha_t + \beta_t},
+    \]
+    with
+    $\alpha_t = \alpha_0 + \sum_{n=1}^{t-1} x_n, \quad \beta_t = \beta_0 + \sum_{n=1}^{t-1} (1 - x_n)$
+  \end{example}
+\end{frame}
 \begin{frame}
   \frametitle{Further reading}
   \begin{block}{Python sources}

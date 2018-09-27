@@ -3,7 +3,7 @@ from scipy.stats import beta
 import matplotlib.pyplot as plt
 
 ## amount of data
-n_data = 10
+n_data = 100000
 
 ## Firstly X is independent of all else
 X = np.random.normal(size=n_data)
@@ -27,7 +27,7 @@ for t in range(n_data):
         Y[t] = 1
 
     ## This is P(A | X)
-    A[t] = Y[t] + np.random.normal()
+    A[t] =  np.random.normal()
     if (A[t] < 0):
         A[t] = -1
     else:
@@ -36,6 +36,7 @@ for t in range(n_data):
 
 ## Now measure the distribution of A for each value of Y, for different values of Z
 ##
+n_figures = 0
 for y in [-1, 1]:
     ## P(A | Y, Z = 1)
     positive = (Y==y) & (Z==1)
@@ -49,20 +50,24 @@ for y in [-1, 1]:
     negative_beta = sum(A[negative]==-1)
     negative_ratio = negative_alpha / (negative_alpha + negative_beta)
 
-    print("y: ", y, abs(positive_ratio - negative_ratio))
+    print("y: ", y, "Deviation: ", abs(positive_ratio - negative_ratio))
 
     print ("Now calculate a posterior distribution for the relevant Bernoulli parameter. Focus on just one value of y for simplicity")
 
-    # First plot the
+    # First plot the joint distribution
     prior_alpha = 1
     prior_beta = 1
-    xplot = np.linspace(0, 1, 100)
-    plt.plot(xplot, beta.pdf(xplot, prior_alpha + positive_alpha, prior_beta + positive_beta))
-    plt.plot(xplot, beta.pdf(xplot, prior_alpha + negative_alpha, prior_beta + negative_beta))
-    plt.plot(xplot, beta.pdf(xplot, prior_alpha + positive_alpha + negative_alpha, prior_beta + positive_beta + negative_beta))
+    xplot = np.linspace(0, 1, 200)
+    pdf_p = beta.pdf(xplot, prior_alpha + positive_alpha, prior_beta + positive_beta)
+    pdf_n = beta.pdf(xplot, prior_alpha + negative_alpha, prior_beta + negative_beta)
+    pdf_m = beta.pdf(xplot, prior_alpha + positive_alpha + negative_alpha, prior_beta + positive_beta + negative_beta)
+    n_figures+=1
+    plt.figure(n_figures)
+    plt.clf()
+    plt.plot(xplot, pdf_p)
+    plt.plot(xplot, pdf_n)
+    plt.plot(xplot, pdf_m) 
     plt.legend(["z=1", "z=-1", "marginal"])
-    plt.show()
+    plt.title("y=" + str(y))
 
-
-    
-    
+plt.show()
