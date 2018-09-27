@@ -108,7 +108,7 @@
       It has been found by~\citet{lee2001relation} that lung  incidence not only increases with both asbestos exposure and smoking. This is in agreement with the graphical model shown. The study actually found that there is an amplification effect, whereby smoking and asbestos exposure increases cancer risk by 28 times compared to non-smokers. This implies that the risk is not simply additive. The graphical model only tells us that there is a dependency, and does not describe the nature of this dependency precisely.}
   \end{example}
   \begin{block}{Explaining away}
-    Even though $S, A$ are independent, they become dependent once you know $C$.
+    Even though $S, A$ are independent, they become dependent once you know $C$. \only<article>{For example, let us say we know that you have cancer and that our model says that it's very unlikely to have cancer unless you either smoke or are exposed to asbestos. When we also learn that you do not have asbestos exposure, smoking becomes more likely. In either words, if cancer is caused by either smoking or asbestos, and we rule out asbestos, the only remaining explanation is smoking. This is what is generally called \alert{explaining away.}}
   \end{block}
 \end{frame}
 
@@ -243,12 +243,25 @@
   \uncover<2->{
     This implies
     \[
-    \Pr(x_i \mid \bx_B, \bx_D)
+    \Pr(x_i \mid \bx_B = b, \bx_D)
     =
-    \Pr(x_i \mid \bx'_B, \bx_D)
+    \Pr(x_i \mid \bx_B = b', \bx_D)
     \]
-    so we can measure independence by seeing how the distribution of $x_i$ changes when we vary $\bx'_B$, keeping $\bx_D$ fixed.
+    so we can measure independence by seeing how the distribution of $x_i$ changes when we vary $\bx_B$, keeping $\bx_D$ fixed.
   }
+    \only<article>{For any given model, there is either a dependence or there is not. However, sometimes we might be able to tolerate some amount of dependence. Thus, we can simply measure the deviation from independence through a metric or divergence on distributions.}
+  \begin{example}
+    \[
+    \|\Pr(a \mid y, z) - \Pr(a \mid y)\|_1
+    \]
+    which for discrete $a,y,z$ is:
+    \[
+    \max_{i,j} \|\Pr(a \mid y = i, z = j) - \Pr(a \mid y= i)\|_1
+    =
+    \max_{i,j} \|\sum_k \Pr(a = k \mid y = i, z = j) - \Pr(a =k \mid y= i)\|_1.
+    \]
+    See also \url{src/fairness/ci_test.py}
+  \end{example}
 \end{frame}
 
 \begin{frame}
@@ -265,7 +278,7 @@
   \end{figure}
   \begin{align}
     \param &\sim \BetaDist(\bel_1, \bel_2), && \textrm{i.e.  $\bel$ are Beta distribution parameters}\\
-    x \mid \param &\sim \Multinomial(\param), && \textrm{i.e. $P_\param(x)$ is a multinomial}
+    x \mid \param &\sim \Bernoulli(\param), && \textrm{i.e. $P_\param(x)$ is a Bernoulli}
   \end{align}
   \only<article>{In this example, it is obvious why we use the notation above for describing hierarchical models. We simply state what is the distribution on one variable conditioned on the other variables. Here, $\bel$ is fixed, and it is something we can choose arbitrarily. The data $x$ is observed, while the parameter $\param$ remains \emindex{latent}. Using Bayes theorem, we can derive the distribution for $\bel(\theta \mid x)$.}
 \end{example}
@@ -296,7 +309,7 @@
   \begin{align}
     \param \mid \model = \model_0 &\sim \Singular(0.5), && \textrm{i.e. $\param$ is always 0.5}\\
     \param \mid \model = \model_1 &\sim \BetaDist(\bel_1, \bel_2), && \textrm{i.e. $\param$ has a Beta distribution}\\
-    x \mid \param &\sim \Multinomial(\param), && \textrm{i.e. $P_\param(x)$ is a multinomial}
+    x \mid \param &\sim \Bernoulli(\param), && \textrm{i.e. $P_\param(x)$ is Bernoulli}
   \end{align}
   Here the posterior over the two models is simply
   \[
@@ -339,6 +352,7 @@
     \only<article>{\caption{The two alternative models}}
     \end{figure}
   \begin{example}
+    \only<1>{
     Assume data $D = \cset{x^t_1, x^t_2, x^t_3}{t = 1, \ldots, T}$ with $x_i^t \in \set{0,1}$.
     \only<article>{First consider model $\Param_0$ where the following conditional independence holds
     \[
@@ -348,10 +362,27 @@
       independence assumption. So the likelihood for either a model in either set is}
     \begin{align}
     P_\param(D) &= \prod_t P_\param(x^t_3 \mid x^t_2) P_\param(x^t_2 \mid x^t_1) P_\param(x^t_1), \qquad \param \in \Param_0\\
-    P_\param(D) &= \prod_t P_\param(x^t_3 \mid x^t_2, \alert{x_1^t}) P_\param(x^t_2 \mid x^t_1) P_\param(x^t_1), \qquad \param \in \Param_0
+    P_\param(D) &= \prod_t P_\param(x^t_3 \mid x^t_2, \alert{x_1^t}) P_\param(x^t_2 \mid x^t_1) P_\param(x^t_1), \qquad \param \in \Param_1
     \end{align}
+  }
+  \only<2>{
+    \only<article>{The parameters for this example can be defined as follows}
+    \begin{align}
+      \param_1 &\defn P_\param(x^t_1 = 1) \tag{$\model_0,\model_1$}\\
+      \param_{2|1}^{i} &\defn P_\param(x^t_2 = 1 \mid x^t_1 = i) \tag{$\model_0, \model_1$}\\
+      \param_{3|2}^{j} &\defn P_\param(x^t_3 = 1 \mid x^t_2 = j) \tag{$\model_0$}\\
+      \param_{3|2,1}^{i,j} &\defn P_\param(x^t_3 = 1\mid x^t_2=j, x_1^t=i)\tag{$\model_1$}
+    \end{align}
+    \only<article>{
+      We model each one of these parameters with a separate Beta-Bernoulli distribution.
+    }
+  }
   \end{example}
+
 \end{frame}
+
+
+
 
 \begin{frame}
 \only<article>{Given some data $D$, the Bayesian approach would involve specifying a hierarchical prior $\bel$ so that $\hyperparam(\model_1) = 1 - \hyperparam(\model_0)$ specifies a probability on the two model structures, while for the $i$-th model we define a prior $\bel_i(\param)$ over $\Param_i$, so that we obtain the following hierarchical model
@@ -369,23 +400,27 @@
     \label{fig:hierarchical-model}
   \end{figure}
 \only<article>{Here the specific model $\model$ is unobserved, as well as its parameters $\param$. Only the data $D$ is observed. Our prior distribution is omitted from the graph.}
+\only<1>{
 \begin{align}
   \model_i &\sim \hyperparam\\
   \param \mid \model = \model_i &\sim \bel_i
 \end{align}
-\only<1>{
+}
+\only<1->{
   \begin{block}{Marginal likelihood}
     \only<article>{This gives the the following marginal likelihood for the combined models and each of the models respectively.}
     \begin{align}
-      \Pr_\hyperparam(D) &= \hyperparam(\model_0) \Pr_{\bel_0}(D)  + \hyperparam(\model_1) \Pr_{\bel_1}(D)\\
-      \Pr_{\bel_i}(D) &= \int_{\Param_{i}} P_{\param}(D) \dd \bel_i(\param).
+      \Pr_\hyperparam(D) &= \hyperparam(\model_0) \Pr_{\model_0}(D)  + \hyperparam(\model_1) \Pr_{\model_1}(D)\\
+      \Pr_{\model_i}(D) &= \int_{\Param_{i}} P_{\param}(D) \dd \bel_i(\param).
     \end{align}
   \end{block}
 }
-\only<2>{
+\only<2->{
   \begin{block}{Model posterior}
     \begin{equation}
-      \hyperparam(\model \mid D) = P_\param(\model) \param(\model)
+      \hyperparam(\model \mid D) = 
+      \frac{\Pr_\model(D) \hyperparam(\model)}
+      {\sum_{i} \Pr_{\model_i} (D) \hyperparam(\model_i)}
     \end{equation}
   \end{block}
 }

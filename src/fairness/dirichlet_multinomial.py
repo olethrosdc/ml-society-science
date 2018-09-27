@@ -19,8 +19,10 @@ class DirichletMultinomial:
 
     ## Generate a multinomial probability distribution from the posterior
     def generate(self):
-        
-    
+        p = np.zeros(self.alphabet_size)
+        for i in range(self.alphabet_size):
+            p[i] = np.random.gamma(self.belief[i], 1)
+        return Multinomial(p/sum(p))
 
 class Multinomial:
     ## Initialise
@@ -34,5 +36,4 @@ class Multinomial:
 
     ## Generate n observations
     def generate(self, n):
-        return np.random.choice(n_outcomes, n, p=self.p)
-
+        return np.random.choice(self.n_outcomes, n, p=self.p)
