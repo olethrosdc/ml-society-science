@@ -79,9 +79,14 @@ for y in [-1, 1]:
     P_D_positive = marginal_posterior(A[positive], 1, 1)
     P_D_negative = marginal_posterior(A[negative], 1, 1)
     P_D = marginal_posterior(A, 1, 1)
-    P_D_dependent = P_D_positive * P_D_negative;
-    print("Posterior: ", P_D, P_D_negative, P_D_positive)
+    
+    
+    print("Marginal likelihoods: ", P_D, P_D_negative, P_D_positive)
+    ## Now you need to calculate the probability of either the
+    ## dependent or independent model by combining all of the above into a single number.
+    
 
+    
     print ("Now calculate a posterior distribution for the relevant Bernoulli parameter. Focus on just one value of y for simplicity")
 
     
