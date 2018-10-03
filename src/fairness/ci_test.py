@@ -44,8 +44,8 @@ def marginal_posterior(data, alpha, beta):
     total_probability = 1
     log_probability = 0
     for t in range(n_data):
-        p = alpha / alpha + beta
-        if (x > 0):
+        p = alpha / (alpha + beta)
+        if (data[t] > 0):
             #total_probability *= p
             log_probability += np.log(p)
             alpha += 1
@@ -53,7 +53,7 @@ def marginal_posterior(data, alpha, beta):
             #total_probability *= (1 - p)
             log_probability += np.log(1 - p)
             beta +=1
-    return exp(log_probability)
+    return np.exp(log_probability)
 
 
             
@@ -79,6 +79,9 @@ for y in [-1, 1]:
     P_D_positive = marginal_posterior(A[positive], 1, 1)
     P_D_negative = marginal_posterior(A[negative], 1, 1)
     P_D = marginal_posterior(A, 1, 1)
+    P_D_dependent = P_D_positive * P_D_negative;
+    print("Posterior: ", P_D, P_D_negative, P_D_positive)
+
     print ("Now calculate a posterior distribution for the relevant Bernoulli parameter. Focus on just one value of y for simplicity")
 
     
