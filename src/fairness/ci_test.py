@@ -3,7 +3,7 @@ from scipy.stats import beta
 import matplotlib.pyplot as plt
 
 ## amount of data
-n_data = 10000
+n_data = 1000
 
 ## Firstly X is independent of all else
 X = np.random.normal(size=n_data)
@@ -27,7 +27,7 @@ for t in range(n_data):
         Y[t] = 1
 
     ## This is P(A | X)
-    A[t] = np.random.normal()
+    A[t] = Z[t] + np.random.normal()
     if (A[t] < 0):
         A[t] = -1
     else:
@@ -55,7 +55,6 @@ def marginal_posterior(data, alpha, beta):
             beta +=1
     return np.exp(log_probability)
 
-
             
 ## Now measure the distribution of A for each value of Y, for different values of Z
 ##
@@ -78,13 +77,14 @@ for y in [-1, 1]:
     print ("Calculate the marginals for each model")
     P_D_positive = marginal_posterior(A[positive], 1, 1)
     P_D_negative = marginal_posterior(A[negative], 1, 1)
-    P_D = marginal_posterior(A, 1, 1)
+    P_D = marginal_posterior(A[(Y==y)], 1, 1)
     
     
     print("Marginal likelihoods: ", P_D, P_D_negative, P_D_positive)
     ## Now you need to calculate the probability of either the
     ## dependent or independent model by combining all of the above into a single number.
-
+    ## <-->
+    
     
     print ("Now calculate a posterior distribution for the relevant Bernoulli parameter. Focus on just one value of y for simplicity")
 
@@ -105,4 +105,4 @@ for y in [-1, 1]:
     plt.legend(["z=1", "z=-1", "marginal"])
     plt.title("y=" + str(y))
     
-plt.show()
+#plt.show()
