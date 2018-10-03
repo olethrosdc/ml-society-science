@@ -84,7 +84,6 @@ for y in [-1, 1]:
     print("Marginal likelihoods: ", P_D, P_D_negative, P_D_positive)
     ## Now you need to calculate the probability of either the
     ## dependent or independent model by combining all of the above into a single number.
-    print("Probability of independence:", P_D / (P_D + P_D_positive * P_D_negative))
 
     
     print ("Now calculate a posterior distribution for the relevant Bernoulli parameter. Focus on just one value of y for simplicity")
