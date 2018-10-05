@@ -240,9 +240,12 @@
     y \indep z \mid a, \param, \pol
     \]
     i.e. that $y$ is independent of $z$ given the judge's action $a$, so the distribution of outcomes is the same for every one of our actions no matter what the value of $z$ is.
+    \begin{example}
+      Figure~\ref{fig:imrs} shows how actual recidivism ($y$) relates to risk scores ($a$) for different races ($z$). In that case, it is apparent that, at least approximately, $P(y \mid a, z) = P(y \mid a, z')$, so the COMPAS method satisfies calibration.
+    \end{example}
 
     \begin{definition}[Balance]
-      A policy $\pol$ is balanced for parameter $\param$ with respect to $z$ if
+      A policy $\pol$ is balanced for parameter $\param$ with respect to $z$ if:
       \begin{equation}
         \Pr_\param^{\pol}(a \mid y, z) = \Pr_\param^{\pol}(a \mid y), \qquad \forall y, z.
         \label{eq:balance}
@@ -253,6 +256,10 @@
     a \indep z \mid y,
     \]
     i.e. that $a$ is independent of $z$ given the true outcome $y$.\footnote{This definition only really makes sense when $y$ does not depend on $a$ at all. When this is not the case, it's easy to construct a random variable $y'$ that does not depend on $a$ so that $y$ can be written as a function $y(y', a)$. Then we can achieve balance with respect to $y'$.}
+    \begin{example}
+      Figure~\ref{fig:imrs-risk} shows how risk scores ($a$) relate to actual recidivism ($y$) for different races ($z$). In that case, it is apparent that, at least approximately, $P(a \mid y, z) \neq P(a \mid y, z')$, so the COMPAS method does not satisfy balance.
+    \end{example}
+    
   }
 
 \end{frame}
@@ -311,20 +318,21 @@
     If we wish to find the optimal policy that satisfies this constraint, then it is naturally to think about this as a constrained optimisation problem
     }
     \begin{block}{The constrained maximisation problem}
-      \[
-      \max_\pol \cset{\util(\pol)}{\rho(x, x')}
-      \]
-    \end{block}
+      \begin{equation}
+        \max_\pol \cset{\util(\pol)}{\rho(x, x') \leq \epsilon}
+        \label{eq:constraint-meritocracy}
+    \end{equation}
+  \end{block}
 \only<article>{
-The problem in this framework is how to define the metric $\rho$ in the first place. A natural idea is to simply use the probability of $y$ as a metric. Then it doesn't matter how different $x, x'$ appear: the only important thing is how what is the distribution of $y$ implied by the different attributes. 
 
+  The practical problem in this framework is how to define the metric $\rho$ in the first place. A natural idea is to simply use the probability of $y$ as a metric. Then it doesn't matter how different $x, x'$ appear: the only important thing is how what is the distribution of $y$ implied by the different attributes. 
 
-    \begin{block}{$\rho$ in terms of the distribution $y \mid x$}
+    \begin{block}{The metric $\rho$ in terms of the distribution $y \mid x$}
     Firstly, assume you somehow have some probability law $\Pr$ over the variables of interest. To fix ideas, let us consider the total variation norm and assume $y \in \CY$ takes a finite number of values. Then we can define the metric as
     \begin{align}
       \rho(x, x')
-      &\defn \|\Pr(y \mid x) - \Pr(y \mid x')\|_1\\
-      &= \sum_{i \in \CY} \|\Pr(y \mid x) - \Pr(y \mid x')\|_1
+      &\defn \|\Pr(y \mid x) - \Pr(y \mid x')\|_1
+      = \sum_{i \in \CY} \|\Pr(y = i \mid x) - \Pr(y = i \mid x')\|_1
     \end{align}
     \end{block}
   }
@@ -332,23 +340,69 @@ The problem in this framework is how to define the metric $\rho$ in the first pl
 
 
 
+\subsection{A unifying view of fairness}
+\only<article>{In both cases, we defined conditional independence for a fixed probability distribution $P_\param(x,y,z)$ on the various variables. We also considered meritocratic fairness with respect to $\param$. First of all, we can simply define a function $F$ that measures the amount of fairness violation for a given parameter value. As an example, the deviation from calibration of a policy $\pol$ for a given parameter value $\param$ can be written as:
+\begin{equation}
+  F_{\textrm{calibration}}(\param, \pol)
+  \defn
+  \max_{a, z}
+  \sum_i |\Pr_\param^\pol(y = i \mid a, z) - \Pr_\param^\pol(y = i \mid a, z')|
+\end{equation}
+Similarly, the deviation from calibration can be written as:
+\begin{equation}
+  F_{\textrm{balance}}(\param, \pol)
+  \defn
+  \max_{a, z}
+  \sum_i |\Pr_\param^\pol(a = i \mid y, z) - \Pr_\param^\pol(a = i \mid y, z')|
+\end{equation}
+Finally, we can also create a deviation for the constrains in the maximisation problem of \eqref{eq:constraint-meritocracy}, so that
+\begin{equation}
+  F_{\textrm{merit}}(\param, \pol)
+  \defn
+  \exp\left(\rho(x, x') - \epsilon\right).
+\end{equation}
+
+If we the decision maker did not care about fairness, she could just maximise some utility function $\util$ of interest. In order to take fairness into account, we define the value of the policy to be a linear combination between the original utility and the fairness violation.
+}
+
+\begin{block}{The value of a policy}
+  Let $\lambda$ represent the trade-off between utility and fairness.
+  \only<article>{The combined value for a given parameter $\param$ is}
+  \begin{equation}
+    \label{eq:combined-value}
+    V(\lambda, \param, \pol) = \lambda \overbrace{U(\param, \pol)}^{\textrm{utility}} - \underbrace{(1 - \lambda) F(\param, \pol)}_{\textrm{fairness violation}}
+  \end{equation}
+\end{block}
+
+\only<article>{
+  \begin{remark}
+    It is also possible to define the above problem in terms of a constrained optimisation
+    \[
+      \max\cset{U(\param, \pol)}{F(\param, \pol) \leq \epsilon}.
+    \]
+    The advantage of specifying just a single value function to maximise is that unconstrained problems are usually simpler to handle.
+\end{remark}
+
+}
 \subsection{Bayesian fairness}
-\only<article>{In both cases, we defined conditional independence for a fixed probability distribution $P_\param(x,y,z)$ on the various variables. We also considered meritocratic fairness with respect to $\param$. However, this cannot be assumed to be known. For that reason, we can assume a Bayesian approach to fairness, whereby we look at the following scores.}
+\only<article>{
+  The previous section defined a simple universal framework for trading off utility and fairness in terms of an unconstrained optimisation problem. This involved defining the value of a policy for a given trade-off $\lambda$ and an underlying distribution with parameter $\param$. However, in a learning context this parameter cannot be assumed to be known. One solution to this problem is to assume a Bayesian approach and simply specify a subjective probability distribution $\bel$ over parameters. Typically, this would be calculated from a prior distribution and some available data. }
 \begin{frame}
-  \frametitle{The Bayesian approach to fairness}
-  \begin{block}{The value of a policy}
-    Let $\lambda$ represent the trade-off between utility and fairness.
-    \only<article>{The combined value for a given parameter $\param$ is}
-    \begin{equation}
-      \label{eq:combined-value}
-      V(\lambda, \param, \pol) = \lambda \overbrace{U(\param, \pol)}^{\textrm{utility}} - \underbrace{(1 - \lambda) F(\param, \pol)}_{\textrm{fairness violation}}
-    \end{equation}
-    \only<article>{With some abuse of notation, we also define the value for a distribution $\bel$ over parameters}
+  \frametitle{The Bayesian decision problem}
+  \only<article>{
+    In the Bayesian setting
+  }
+\begin{block}{The Bayesian value of a policy}
+    \only<article>{With some abuse of notation, we also define the value for a subjective belief, modelled as a distribution $\bel$, over parameters}
     \begin{equation}
       \label{eq:combined-value}
       V(\lambda, \bel, \pol) = \int_{\Param} V(\lambda, \param, \pol) \dd \bel(\param).
     \end{equation}
+    \only<article>{This is simply the expected value of our policy over each possible parameter $\theta$, with respect to the belief $\bel$.}
   \end{block}
+  \only<article>{
+    Maximising the value of this policy should be possible with stochastic gradient descent if we can easily obtain samples from $\bel$.
+  }
 \end{frame}
 
 
@@ -362,6 +416,38 @@ The problem in this framework is how to define the metric $\rho$ in the first pl
     \end{itemize}
   \end{block}
 \end{frame}
+
+
+\begin{frame}
+  \frametitle{Learning outcomes}
+  \begin{block}{Understanding}
+    \begin{itemize}
+    \item Graphical models.
+    \item Conditional independence.
+    \item Fairness as independence.
+    \item Fairness as meritocracy.
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Skills}
+    \begin{itemize}
+    \item Be able to specify a graphical model capturing dependencies between variables.
+    \item Be able to verify if a policy satisfies a fairness condition.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Reflection}
+    \begin{itemize}
+    \item When looking at sensitive attributes, how easy is it to determine fairness?
+    \item How should we balance the needs of individuals, the decision maker and society?
+    \item Does having more data available make it easier to achieve fairness?
+    \item How do these fairness concept relate to classical game theory ideas?
+    \end{itemize}
+  \end{block}
+  
+\end{frame}
+
+
 
 
 

@@ -3,7 +3,7 @@ from scipy.stats import beta
 import matplotlib.pyplot as plt
 
 ## amount of data
-n_data = 100
+n_data = 1000
 
 ## Firstly X is independent of all else
 X = np.random.normal(size=n_data)
@@ -27,7 +27,7 @@ for t in range(n_data):
         Y[t] = 1
 
     ## This is P(A | X)
-    A[t] =  np.random.normal()
+    A[t] = Z[t] + np.random.normal()
     if (A[t] < 0):
         A[t] = -1
     else:
@@ -44,8 +44,8 @@ def marginal_posterior(data, alpha, beta):
     total_probability = 1
     log_probability = 0
     for t in range(n_data):
-        p = alpha / alpha + beta
-        if (x > 0):
+        p = alpha / (alpha + beta)
+        if (data[t] > 0):
             #total_probability *= p
             log_probability += np.log(p)
             alpha += 1
@@ -53,8 +53,7 @@ def marginal_posterior(data, alpha, beta):
             #total_probability *= (1 - p)
             log_probability += np.log(1 - p)
             beta +=1
-    return exp(log_probability)
-
+    return np.exp(log_probability)
 
             
 ## Now measure the distribution of A for each value of Y, for different values of Z
@@ -78,7 +77,17 @@ for y in [-1, 1]:
     print ("Calculate the marginals for each model")
     P_D_positive = marginal_posterior(A[positive], 1, 1)
     P_D_negative = marginal_posterior(A[negative], 1, 1)
-    P_D = marginal_posterior(A, 1, 1)
+    P_D = marginal_posterior(A[(Y==y)], 1, 1)
+    
+    
+    print("Marginal likelihoods: ", P_D, P_D_negative, P_D_positive)
+    ## Now you need to calculate the probability of either the
+    ## dependent or independent model by combining all of the above
+    ## into a single number.  This is not completely trivial, as you
+    ## need to combine the negative and positive Z into it, but I
+    ## think you can all work it out.
+    
+    
     print ("Now calculate a posterior distribution for the relevant Bernoulli parameter. Focus on just one value of y for simplicity")
 
     
@@ -98,4 +107,4 @@ for y in [-1, 1]:
     plt.legend(["z=1", "z=-1", "marginal"])
     plt.title("y=" + str(y))
     
-plt.show()
+#plt.show()
