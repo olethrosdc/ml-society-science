@@ -23,7 +23,7 @@
     \item A customer $\bx_t$ appears. \only<article>{For the internet search problem, $\bx_t$ would at least involve the search term used.}
     \item We present a choice $a_t$. \only<article>{For the matching website, the choice is ranked list of websites. For the advertisements, however, it is typical }
     \item The customer chooses $y_t$. \only<article>{This might include selecting one or more of items suggested in $a_t$. The choice of the customer may not be directly visible.}
-    \item We obtain a reward $\rho(a_t, y_t) \in \Reals$. \only<article>{Typically this is a payment either from the customer or an advertiser.}
+    \item We obtain a reward $r_t = \rho(a_t, y_t) \in \Reals$. \only<article>{Typically this is a payment either from the customer or an advertiser.}
     \end{enumerate}
   \end{block}
 \end{frame}
@@ -80,15 +80,14 @@
   \end{exercise}
 \end{frame}
 \begin{frame}
-\begin{block}{From distance to similarity}
-    Let us define a similarity $w_{ij}$ between two users so that
+\begin{block}{Similarity between users}
+  \only<article>{Let us define a similarity $w_{ij} \geq 0$ between two users so that}
     \[
-    \sum_{j \neq i} w_{i,j} = 1.
+    \sum_{j \neq i} w_{i,j} = 1,
+    \qquad
+    w^m_{i,j} \defn w_{i,j} \ind{x_{j,m}} / \sum_k w_{i,k} \ind{x_{k,m}}.
     \]
-    Then we can define the inferred ratings 
-    \[
-    \hat{x_{u.m}} = \sum_{j \neq i} w_{i,j} = 1.
-    \]
+    \only<article>{There $w^m_{i,j}$ only considers those users who have rated movie $m$, so that $\sum_{j \neq i : x_{j,m} > 0} x^m_{i,j} = 1$. The overall similarity $w_i,j$ itself does not have to sum up to one, but it does need to be non-negative.}
   \end{block}
 
   \begin{example}[$k$-nearest neighbours]
@@ -101,14 +100,44 @@
     w_{i,j} = \frac{\exp[-d(i,j)]}{\sum_{k \neq i} \exp[-d(i,j)]}
     \]
   \end{example}
+
+  \begin{block}{Inferred ratings}
+    \only<article>{Then we can define the inferred ratings to be the weighted average rating.}
+    \[
+    \hat{x}_{u.m} = \sum_{j \neq u} w^m_{u,j} x_{u,m}.
+    \]
+    \only<article>{But if the value $x_{u,m}$ is missing, we need to only}
+  \end{block}
+  
 \end{frame}
 
 \begin{frame}
   \begin{block}{A naive distance metric}
+    \only<article>{A simple idea is to just look at the difference between the raw ratings in terms of the L1 norm:}
     \[
-    d(i,j) = \|\bx_i - \bx_j\|
+    d(i,j) \defn \|\bx_i - \bx_j\|_1.
+    \]
+    \only<article>{However this has the problem that this makes users who have watched different amounts of movies look very different.}
+  \end{block}
+  \begin{block}{Ignoring movies which are not shared.}
+    \only<article>{
+      We perhaps would only like to look at similarity for users with respect to which movies they have rated. This would lead to a distance such as}
+    \[
+    d(i,j) \defn \sum_{m} \ind{x_{i,m} \wedge x_{j,m}} |x_{i,m} - x_{j,m}|
     \]
   \end{block}
+  \begin{block}{Using side-information}
+    \only<article>{In some cases, we have additional information about the products or users. For example, users might be connected in a social network. Then we can tag users as similar if they are strongly connected, even if one of them has few or no movie ratings.}
+    \only<presentation>{Social network data}
+  \end{block}
+  \begin{block}{Inferring a latent representation}
+    \only<article>{Rather than going through specific algorithms for calculating similarities, we can think about learning a latent representation from the data. For example we could infer a network of users, and so a distance, from the individual ratings.}
+    \[
+    d(i,j) \defn f(\bx_i, \bx_j, \theta)
+    \]
+  \end{block}
+
+
 \end{frame}
 
 \begin{frame}

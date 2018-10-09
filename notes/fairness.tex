@@ -201,7 +201,7 @@
 \end{frame}
 
 
-\subsection{Fairness as independence}
+\subsection{Group fairness and conditional independence}
 \begin{frame}
   \only<article>{So how can we reframe the above fairness notions in a more precise way? Both of them involve conditional independence between $y, a$ and a sensitive attribute $z$, such as race. The first notion says that the actions of the judge (or equivalently, the scores of the algorithm) are \emph{calibrated} with respect to the outcomes. The second says that they are \emph{balanced}, so that were the outcome known to the judge, she would be making a decision independently of the defendant's race. Both of these conditions were discussed in a more restricted setting by }
   \only<presentation>{
@@ -266,7 +266,7 @@
 
 
   
-\subsection{Fairness as meritocracy.}
+\subsection{Individual fairness and meritocracy.}
 \only<article>{A different concept of fairness is meritocracy. For example, if one candidate for a job is better than another candidate, perhaps that candidate should be taken for the job.}
 
 
@@ -289,8 +289,9 @@
     we may not know for certain what the quality attribute of a given
     person might be.  }
 \end{frame}
-\subsection{Fairness as similarity.}
+
 \begin{frame}
+  \frametitle{Smooth fairness}
   \only<article>{It makes sense to combine the idea of meritocracy with that of similarity. That is, similar people should be treated similarly. This means that we should find a policy $\pol$ that maximises utility $\util$ and makes similar decisions for similar people. 
 
     Let $\CX$ be equipped with a metric $\rho$, and let $D$ be a divergence between distributions, such as the KL-divergence. We can then formalise the above intuition as follows:}
@@ -390,7 +391,7 @@ If we the decision maker did not care about fairness, she could just maximise so
 \begin{frame}
   \frametitle{The Bayesian decision problem}
   \only<article>{
-    In the Bayesian setting
+    In the Bayesian setting, we simply need to maximise the expected $V$ over all possible model parameters. Assume we have some probability $\bel$ over the parameters. Typically, $\bel$ would be a posterior distribution calculated from some prior and some data, but for simplicity we just write $\bel(\theta)$ in this section. Then the expected value of a policy $\pol$ is simply the following.
   }
 \begin{block}{The Bayesian value of a policy}
     \only<article>{With some abuse of notation, we also define the value for a subjective belief, modelled as a distribution $\bel$, over parameters}
@@ -401,12 +402,34 @@ If we the decision maker did not care about fairness, she could just maximise so
     \only<article>{This is simply the expected value of our policy over each possible parameter $\theta$, with respect to the belief $\bel$.}
   \end{block}
   \only<article>{
-    Maximising the value of this policy should be possible with stochastic gradient descent if we can easily obtain samples from $\bel$.
+    Maximising the value of this policy should be possible with stochastic gradient ascent we can easily obtain samples from $\bel$.
   }
 \end{frame}
 
 
 \subsection{Further reading}
+\only<article>{ Recently algorithmic fairness has been studied quite
+  extensively in the context of statistical decision
+  making. \citet{dwork2012fairness,chouldechova2016fair,corbett2017algorithmic,kleinberg2016inherent,kilbertus2017avoiding}
+  studied fairness under the one shot statistical decision making
+  framework in this
+  chapter. \citet{jabbari2016fair,joseph2016rawlsian} studied fairness
+  in sequential decision making settings.  Fairness has also been
+  studied in other machine learning topics, such as
+  clustering~\citep{Chierichetti2017fair}, natural language
+  processing~\citep{BlodgettO17} and recommendation
+  systems~\citep{CelisV17}.
+
+  Satisfying fairness constraints while maximizing expected utility in a more general setting in the conditional independence setting has been considered by~\citet{corbett2017algorithmic}, under a specific model. \citet{dimitrakakis2017:subjective-fairness} consider the Bayesian setting, where the model is unknown.
+  
+  In the individual fairness-as-meritocracy framework,
+  \citet{dwork2012fairness} and look for decision rules that are
+  smooth in a sense that similar \emph{individuals} are treated
+  similarly.
+  
+  Finally, \citet{russell2017worlds} which considers the problem of uncertainty from the point of view of causal modelling.
+
+}
 
 \begin{frame}
   \begin{block}{Online resources}
