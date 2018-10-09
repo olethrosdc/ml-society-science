@@ -1,4 +1,13 @@
 \section{Recommendation systems}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
 
 \begin{frame}
   \begin{figure}[H]
@@ -11,7 +20,7 @@
   \begin{block}{The recommendation problem}
     At time $t$
     \begin{enumerate}
-    \item A customer $x_t$ appears. \only<article>{For the internet search problem, $x_t$ would at least involve the search term used.}
+    \item A customer $\bx_t$ appears. \only<article>{For the internet search problem, $\bx_t$ would at least involve the search term used.}
     \item We present a choice $a_t$. \only<article>{For the matching website, the choice is ranked list of websites. For the advertisements, however, it is typical }
     \item The customer chooses $y_t$. \only<article>{This might include selecting one or more of items suggested in $a_t$. The choice of the customer may not be directly visible.}
     \item We obtain a reward $\rho(a_t, y_t) \in \Reals$. \only<article>{Typically this is a payment either from the customer or an advertiser.}
@@ -66,11 +75,41 @@
   \begin{exercise}
     \begin{itemize}
       \item Define a distance $d : \CX^M \times \CX^M \to \Reals_+$ between user ratings.
-      \item Apply a $k$-NN algorithm to prediction of user ratings from the dataset.
+      \item Apply a $k$-NN-like algorithm to prediction of user ratings from the dataset.
     \end{itemize}
   \end{exercise}
 \end{frame}
+\begin{frame}
+\begin{block}{From distance to similarity}
+    Let us define a similarity $w_{ij}$ between two users so that
+    \[
+    \sum_{j \neq i} w_{i,j} = 1.
+    \]
+    Then we can define the inferred ratings 
+    \[
+    \hat{x_{u.m}} = \sum_{j \neq i} w_{i,j} = 1.
+    \]
+  \end{block}
 
+  \begin{example}[$k$-nearest neighbours]
+    $w_{i,j} = 1/k$ for the $k$ nearest neighbours with respect to $d$.
+  \end{example}
+
+
+  \begin{example}[Weighted distance]
+    \[
+    w_{i,j} = \frac{\exp[-d(i,j)]}{\sum_{k \neq i} \exp[-d(i,j)]}
+    \]
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{A naive distance metric}
+    \[
+    d(i,j) = \|\bx_i - \bx_j\|
+    \]
+  \end{block}
+\end{frame}
 
 \begin{frame}
   \frametitle{Preferences as clusters}
@@ -78,7 +117,7 @@
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-      \node[RV] at (2,0) (data) {$x_t$};
+      \node[RV] at (2,0) (data) {$\bx_t$};
       \node[RV,hidden] at (0,0) (cluster) {$c_{t}$};
       \draw[->] (cluster)--(data);
       \uncover<2>{
