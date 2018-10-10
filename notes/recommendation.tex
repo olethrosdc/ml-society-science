@@ -29,10 +29,32 @@
 \end{frame}
 
 \begin{frame}
+\begin{alertblock}{The two problems in recommendation systems}
+    \begin{itemize}
+    \item The modelling (or prediction) problem. \only<article>{Given the data, how to e.g. predict what movies a user likes and dislikes.}
+    \item The recommendation problem. \only<article>{What movie(s) to actually recommend to a user.}
+    \end{itemize}
+    \only<article>{Although closely linked, those two problems have different evaluation metrics. The recommendation problem is harder, especially because the data do not tell us what our recommendation have been in the past, but only what users watched.}
+  \end{alertblock}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{How to predict user preferences?}
+  \only<article>{In order for us to be able to provide good recommendations, we need to be able to predict user preferences. In the case of movies, preferences of a person for a movie can be expressed in terms of the hypothetical rating that a user would give to a movie. As Fig.~\ref{fig:user-ratings} shows, we frequently do have data about individual user ratings for movies, and we would like to somehow use those.}
+  \begin{figure}[H]
+    \centering \includegraphics[width=0.9\textwidth]{../figures/recommendationExample-1}
+    \caption{User ratings}
+    \label{fig:user-ratings}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{../figures/netflix}
-    \caption{The Netflix recommendation problem}
+    \caption{What to recommend?}
     \label{fig:netflix}
   \end{figure}
   \only<article>{
@@ -43,30 +65,25 @@
     \end{example}
   }
 \end{frame}
-\begin{frame}
-  \begin{figure}[H]
-    \centering \includegraphics[width=0.9\textwidth]{../figures/recommendationExample-1}
-    \caption{User ratings}
-    \label{fig:user-ratings}
-  \end{figure}
 
-\end{frame}
+
 
 \begin{frame}
-\frametitle{Predictions based on similarity}
-\begin{block}{Collaborative filtering}
-  \begin{itemize}
-  \item \alert{Similar users have similar tastes}. \only<article>{For example, consider two users $t, u$ who have each watched a set of movies $\CM_t$ and $\CM_u$ respectively, and $\CM_{t,u} = \CM_t \cap \CM_u$ is the set of common movies. If their ratings are the same for those movies, i.e. $x_{t.m} = x_{u,m} \forall m \in \CM_{t,u}$, then it's a good guess that they might have the same ratings for movies they have not both watched. }
-  \item That means we can use similar user's \alert{ratings} to predict the ratings for other users. 
-\only<article>{The advantage is that ratings are readily available. The disadvantage is that new users have too few data to be matched to other users.}
-  \end{itemize}
-\end{block}
-\begin{block}{Content-based filtering.}
-  \begin{itemize}
-  \item Users typically like similar items. \only<article>{For example, a horror movie fan typically rates horror movies highly.}
-  \item That means we can one user's ratings and \alert{item information} to predict their ratings for other items. \only<article>{In this scenario}
-  \end{itemize}
-\end{block}
+  \frametitle{Predictions based on similarity}
+  \begin{block}{Content-based filtering.}
+    \begin{itemize}
+    \item Users typically like similar items. \only<article>{For example, a horror movie fan typically rates horror movies highly.}
+    \item That means we can one user's ratings and \alert{item information} to predict their ratings for other items. \only<article>{In this scenario, we do not need to take into account the ratings of other people.}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Collaborative filtering}
+    \begin{itemize}
+    \item \alert{Similar users have similar tastes}. \only<article>{For example, consider two users $t, u$ who have each watched a set of movies $\CM_t$ and $\CM_u$ respectively, and $\CM_{t,u} = \CM_t \cap \CM_u$ is the set of common movies. If their ratings are the same for those movies, i.e. $x_{t.m} = x_{u,m} \forall m \in \CM_{t,u}$, then it's a good guess that they might have the same ratings for movies they have not both watched. }
+    \item That means we can use similar user's \alert{ratings} to predict the ratings for other users. 
+      \only<article>{The advantage is that ratings are readily available. The disadvantage is that new users have too few data to be matched to other users.}
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 
@@ -74,14 +91,14 @@
   \frametitle{$k$-NN for similarity}
   \begin{exercise}
     \begin{itemize}
-      \item Define a distance $d : \CX^M \times \CX^M \to \Reals_+$ between user ratings.
-      \item Apply a $k$-NN-like algorithm to prediction of user ratings from the dataset.
+    \item Define a distance $d : \CX^M \times \CX^M \to \Reals_+$ between user ratings.
+    \item Apply a $k$-NN-like algorithm to prediction of user ratings from the dataset.
     \end{itemize}
   \end{exercise}
 \end{frame}
 \begin{frame}
-\begin{block}{Similarity between users}
-  \only<article>{Let us define a similarity $w_{ij} \geq 0$ between two users so that}
+  \begin{block}{Similarity between users}
+    \only<article>{Let us define a similarity $w_{ij} \geq 0$ between two users so that}
     \[
     \sum_{j \neq i} w_{i,j} = 1,
     \qquad
@@ -131,17 +148,50 @@
     \only<presentation>{Social network data}
   \end{block}
   \begin{block}{Inferring a latent representation}
-    \only<article>{Rather than going through specific algorithms for calculating similarities, we can think about learning a latent representation from the data. For example we could infer a network of users, and so a distance, from the individual ratings.}
+    \only<article>{Rather than going through specific algorithms for calculating similarities, we can think about learning a latent representation from the data. For example we could infer a network of users, and so a distance, from the individual ratings:}
     \[
     d(i,j) \defn f(\bx_i, \bx_j, \theta)
     \]
+    \only<article>{More generally, we can try and infer some other latent representation.}
   \end{block}
-
-
 \end{frame}
 
+\subsection{Least squares representation}
 \begin{frame}
-  \frametitle{Preferences as clusters}
+  \frametitle{Latent representation}
+  \begin{block}{The predictive model}
+    \begin{itemize}
+    \item $x_{um}$ rating of user $u$ for movie $m$.
+    \item $r_{um} = \ind{x_{um} > 0}$ indicates which movies are rated.
+    \item $\bz_{m} \in \Reals^n$: an $n$-dimensional representation of a movie.
+    \item $\bc_{u} \in \Reals^n$: an $n$-dimensional representation of a user.
+    \end{itemize}
+
+    Given $\MC, \MZ$, our predicted movie rating can be written as
+    \[
+    \hat{x}_{u,m} \defn \bc_u^\top \bz_m, \qquad \hat{\MX} \defn \MC^\top \MZ.
+    \]
+    \only<article>{On the left side we have individual ratings and on the right side, in matrix form.}
+  \end{block}
+  \only<article>{We can now try and see how well this prediction fits the data for a movie. One idea is to simply use $|\hat{x}_{m,u} - x_{m,u}|$ to show the difference between the prediction and the actual rating. 
+Now can now define the prediction \alert{error} for a given representation $\MC, \MZ$ as}
+\[
+f(\MC, \MZ) = (\MR \circ \hat{\MX} - \MR \MX)^\top (\MR \circ \hat{\MX} - \MR \MX)
+\]
+\only<article>{Here multiplying with the $\MR$ matrix ensures that we ignore pairs with no ratings.}
+\begin{block}{Alternating Least Squares}
+  \begin{align}
+    \label{eq:als}
+    \MC_{t+1} &= \argmin_{\MC} f(\MC, \MZ_t) + \lambda g(\MZ, \MZ_t)\\
+    \MC_{t} &= \argmin_{\MZ} f(\MC_t, \MZ) +  + \lambda g(\MZ_t, \MZ)
+  \end{align}
+\end{block}
+\end{frame}
+
+
+\subsection{Preferences as a latent variable}
+\begin{frame}
+  \frametitle{A simple preference model}
   \only<article>{As a simple model, we can assume that each person belongs to a \alert{type}. Every type has the same preferences over films. In the simplest possible model, a user of type $c_i$ that has watched a movie $m$ will rate the film deterministically $x_{c,m}$. More generally, we can assume the following model.}
   \begin{figure}[H]
     \centering
@@ -150,25 +200,99 @@
       \node[RV,hidden] at (0,0) (cluster) {$c_{t}$};
       \draw[->] (cluster)--(data);
       \uncover<2>{
-        \node[RV,hidden] at (0,1) (param) {$\param$};
+        \node[RV,hidden] at (2,1) (param) {$\param$};
         \draw[->] (param)--(cluster);
         \draw[->] (param)--(data);
       }
+    \end{tikzpicture}
+    \caption{Basic preference model}
+    \label{fig:basic-preference-model}
+  \end{figure}
+  \begin{example}[Discrete preference model]
+    \begin{itemize}
+    \item User type $c \in \CC$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
+    \item User ratings  $\bx$ with $x_{m} \in \CX = \{0, 1\}$ rating for movie $m$.
+    \item Preference distribution 
+        \[
+        P_\param(\bx | \bc) = \prod_{m=1}^M \param_{m,c}^{x_m} (1 - \param_{m,c})^{(1 - x_m)}.
+        \]
+      \item $P_\param(c) = \param_c$, $\sum_c \param_c = 1$.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{A more complex preference model}
+  \only<article>{As a simple model, we can assume that each person belongs to a \alert{type}. Every type has the same preferences over films. In the simplest possible model, a user of type $c_i$ that has watched a movie $m$ will rate the film deterministically $x_{c,m}$. More generally, we can assume the following model.}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (data) {$x$};
+      \node[RV,hidden] at (0,0) (cluster) {$c$};
+      \node[RV,hidden] at (4,0) (movie) {$z$};
+      \draw[->] (cluster)--(data);
+      \draw[->] (movie)--(data);
+      \node[RV,hidden] at (2,1) (param) {$\param$};
+      \draw[->] (param)--(cluster);
+      \draw[->] (param)--(data);
+      \draw[->] (param)--(movie);
     \end{tikzpicture}
     \caption{Preference model}
     \label{fig:preference-model}
   \end{figure}
   \begin{block}{Preference model}
     \begin{itemize}
-    \item User $t$.
-    \item User type $c_t \in \CC$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
-    \item User ratings  $\bx_t$ with $x_{t,m} \in \CX$ rating for movie $m$. \only<article>{As an example, $\CX = \{0, 1, 2, 3, 4, 5\}$, with $0$ meaning no rating given. This is important, since }
-    \item Preference distribution $P_\param(\bx_{t} = \bx | c_t = c)$.\only<article>{Typically, we can assume that ratings are independent given the type
-        \[
-        P_\param(\bx_{t} = \bx | c_t = c) = \prod_{m=1}^M P_\param(x_{t,m} = x_m | c_t = c),
-        \]
-        so that a single (vector) parameter $\param_{c,m}$ will describe the distribution of ratings for a particular movie $m$ and type $c$, i.e.  $P_\param(x_{t,m} = x_m | c_t = c) = P_\param(x_{t,m} = x_m | c_t = c)$.}
+    \item User type $\bc \in \CC$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
+    \item Movie type $\bz \in \CZ$.
+    \item Preference distribution 
+      \[
+      P_\param(x | \bc, \bz) = \Normal(\bc^\top \bz, \sigma_\theta)
+      \]
+    \item Feature prior
+      \[
+      P_\param(\bc) = \Normal(0, \lambda_\theta)
+      \]
     \end{itemize}
+  \end{block}
+
+  
+\end{frame}
+
+
+\subsection{The recommendation problem}
+
+\begin{frame}
+  \frametitle{What to recommend}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (data) {$\bx$};
+      \node[RV,hidden] at (2,-1) (movie1) {$x_1$};
+      \node[RV,hidden] at (2,-2) (movie2) {$x_2$};
+      \node[RV,hidden] at (0,0) (cluster) {$c$};
+      \node[RV,hidden] at (4,0) (movie) {$z$};
+      \draw[->] (cluster)--(data);
+      \draw[->] (movie)--(data);
+      \draw[->] (cluster)--(data);
+      \draw[->] (movie)--(movie1);
+      \draw[->] (movie)--(movie2);
+      \draw[->] (cluster)--(movie1);
+      \draw[->] (cluster)--(movie2);
+    \end{tikzpicture}
+    \caption{Preference model}
+  \end{figure}
+  \begin{block}{The recommendation problem for a given $\param$}
+    \uncover<2->{
+      \begin{align}
+        \max_\pol \E^\pol_\param(U \mid \bx)
+        &=
+        \max_a \sum_{c, z} U(a, y) \alert{\Pr(y \mid a, c, z)} P_\param(c, z \mid \bx)\\
+        &=
+        \max_a \sum_{c, z} U(a, y) \sum_{x_a} \alert{\Pr(y \mid a, x_a)} P_\param(x_a \mid c, z) P_\param(c, z \mid \bx)
+      \end{align}
+    }
+
+
   \end{block}
 \end{frame}
 %%% Local Variables:

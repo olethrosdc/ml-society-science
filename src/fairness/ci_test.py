@@ -3,7 +3,7 @@ from scipy.stats import beta
 import matplotlib.pyplot as plt
 
 ## amount of data
-n_data = 1000
+n_data = 100
 
 ## Firstly X is independent of all else
 X = np.random.normal(size=n_data)
@@ -59,20 +59,22 @@ def marginal_posterior(data, alpha, beta):
 ## Now measure the distribution of A for each value of Y, for different values of Z
 ##
 n_figures = 0
+P_independent = 1
+P_dependent = 1
 for y in [-1, 1]:
     ## P(A | Y, Z = 1)
     positive = (Y==y) & (Z==1)
     positive_alpha = sum(A[positive]==1)
     positive_beta = sum(A[positive]==-1)
-    positive_ratio = positive_alpha / (positive_alpha + positive_beta)
+    #positive_ratio = positive_alpha / (positive_alpha + positive_beta)
 
     ## P(A | Y, Z = - 1)
     negative = (Y==y) & (Z==-1)
     negative_alpha = sum(A[negative]==1)
     negative_beta = sum(A[negative]==-1)
-    negative_ratio = negative_alpha / (negative_alpha + negative_beta)
+    #negative_ratio = negative_alpha / (negative_alpha + negative_beta)
 
-    print("y: ", y, "Deviation: ", abs(positive_ratio - negative_ratio))
+    #print("y: ", y, "Deviation: ", abs(positive_ratio - negative_ratio))
 
     print ("Calculate the marginals for each model")
     P_D_positive = marginal_posterior(A[positive], 1, 1)
@@ -80,13 +82,16 @@ for y in [-1, 1]:
     P_D = marginal_posterior(A[(Y==y)], 1, 1)
     
     
-    print("Marginal likelihoods: ", P_D, P_D_negative, P_D_positive)
+    print("Marginal likelihoods: ", P_D, "Dependent:", P_D_negative, P_D_positive)
+    
     ## Now you need to calculate the probability of either the
     ## dependent or independent model by combining all of the above
     ## into a single number.  This is not completely trivial, as you
     ## need to combine the negative and positive Z into it, but I
     ## think you can all work it out.
     
+    P_dependent *= P_D_positive * P_D_negative;
+    P_independent *= P_D;
     
     print ("Now calculate a posterior distribution for the relevant Bernoulli parameter. Focus on just one value of y for simplicity")
 
@@ -106,5 +111,7 @@ for y in [-1, 1]:
     plt.plot(xplot, pdf_m) 
     plt.legend(["z=1", "z=-1", "marginal"])
     plt.title("y=" + str(y))
-    
+
+print("Probability of independence: ", P_independent / (P_independent + P_dependent))
+
 #plt.show()
