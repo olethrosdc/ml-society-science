@@ -14,6 +14,8 @@ with basic_model:
     theta = mc.Beta('theta', alpha=1, beta=1)
     y = mc.Bernoulli('y', p=theta, observed=data)
 
+mc.model_to_graphviz(basic_model)
+
 ## Estimate distributions
 with basic_model:
     start = mc.find_MAP() # Find starting value by optimization

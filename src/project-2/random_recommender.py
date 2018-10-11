@@ -3,16 +3,22 @@
 
 class RandomRecommender:
 
-    # Fit a model to data from historical ratings
-    def fit_ratings(self, ratings):
+    # Fit a model from historical data
+    # This will generally speaking be an unsupervised model. Anything from a Gaussian mixture model to a neural network is a valid choice.
+    # However, you can give special meaning to different parts of the data. 
+    def fit_data(self, data):
         return None
 
-    # Fit a model to data from historical clicks, given a policy
-    def fit_clicks(self, clicks, policy):
+    # Fit a model from historical data, actions and their effects
+    def fit_treatment_outcome(self, data, actions, outcome):
         return None
 
-    # Return a distribution rating probabilities
-    def predict_proba(self, user, item):
+    # Fit a model from historical data, given treatments, effects, as well as the treatment policy
+    def fit_policy_outcome(self, data, actions, outcomes, policy):
+        return None
+
+    # Return a distribution of effects 
+    def predict_proba(self, genome, treatment):
         return None
     
     # Return recommendations for a specific user data

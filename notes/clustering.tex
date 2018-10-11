@@ -1,4 +1,4 @@
-\section{Clustering}
+\section{More fun with latent variable models}
 \only<presentation>{
   \begin{frame}
     \tableofcontents[ 
@@ -39,7 +39,7 @@
     }
     \only<article>{The learning problem is to estimate the parameter $\param$ describing the distribution of observations $x_t$ and clusters $c_t$.}
     \[
-    x_t \mid c_t = c, \param \sim P_\param(x | c), \qquad c_t \mid \param \sim P_\param(c)
+    x_t \mid c_t = c, \param \sim P_\param(x | c), \qquad c_t \mid \param \sim P_\param(c), \qquad \param \sim \bel(\param)
     \]
     \only<article>{
       Given a parameter $\param$, the clustering problem is to estimate the probability of each cluster for each new observation.
@@ -90,19 +90,121 @@
       P_{\param_1}(c_t = c) &=  \param_{1,c},
       & c_t \sim \Multinomial(\param_1)
       \\
-      P_{\param_2}(x_{t,m} = 1 \mid c_t = c)                        &=\param_{2, m, c}
+      P_{\param_2}(x_{t,m} = 1 \mid c_t = c)           &=\param_{2, m, c}
       & x_{t,m} \mid c_t = c \sim \Bernoulli(\param_{2,m,c})                                           
     \end{align}
   \end{block}
     \only<article>{Since everything is discrete, it makes sense that we can use a Multinomial model for the cluster distribution and a Bernoulli model for whether or not a movie was watched. Now we only need to specify a useful prior for each one of those. The standard priors to use, are a Beta prior for the Bernoulli and the Dirichlet for the Multinomial, as they are conjuate.}
     \begin{block}{Prior}
     \begin{align}
-      \param_1 &\sim \Dirichlet(\vg), \param_2 &\sim \BetaDist(\alpha, \beta)
+      \param_1 &\sim \Dirichlet(\vg), & \param_2 &\sim \BetaDist(\alpha, \beta)
     \end{align}
     \only<article>{Typically $\vg = (1/2, \ldots, 1/2)$ and $\alpha = \beta = 1/2$ to allow for the possibility of nearly deterministic behaviour.}
   \end{block}
+  See \url{src/pymc/beta_bernoulli_clustering.py}
   \end{example}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Supervised learning}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,2) (x2) {$x_T$};
+      \node[RV] at (0,4) (x3) {$x_t$};
+      \node[RV] at (2,0) (y1) {$y_1$};
+      \node[RV] at (2,2) (y2) {$y_T$};
+      \node[RV, hidden] at (2,4) (y3) {$y_t$};
+      \draw[->] (x1)--(y1);
+      \draw[->] (x2)--(y2);
+      \draw[->] (x3)--(y3);
+    \end{tikzpicture}
+    \label{fig:supervised learning}
+    \caption{Graphical model for a classical supervised learning problem.}
+  \end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Semi-supervised learning}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,1) (xs) {$x_i$};
+      \node[RV] at (0,2) (x2) {$x_T$};
+      \node[RV] at (0,4) (x3) {$x_t$};
+      \node[RV] at (2,0) (y1) {$y_1$};
+      \node[RV,hidden] at (2,1) (ys) {$y_i$};
+      \node[RV] at (2,2) (y2) {$y_T$};
+      \node[RV, hidden] at (2,4) (y3) {$y_t$};
+      \draw[->] (x1)--(y1);
+      \draw[->] (xs)--(ys);
+      \draw[->] (x2)--(y2);
+      \draw[->] (x3)--(y3);
+    \end{tikzpicture}
+    \label{fig:semi-supervised learning}
+    \caption{Graphical model for a classical semi-supervised learning problem.}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,1) (xs) {$x_i$};
+      \node[RV] at (0,2) (x2) {$x_T$};
+      \node[RV] at (0,4) (x3) {$x_t$};
+      \node[RV] at (2,0) (y1) {$y_1$};
+      \node[RV,hidden] at (2,1) (ys) {$y_i$};
+      \node[RV] at (2,2) (y2) {$y_T$};
+      \node[RV, hidden] at (2,4) (y3) {$y_t$};
+      \draw[<-] (x1)--(y1);
+      \draw[<-] (xs)--(ys);
+      \draw[<-] (x2)--(y2);
+      \draw[<-] (x3)--(y3);
+    \end{tikzpicture}
+    \label{fig:semi-supervised learning}
+    \caption{Generative version of the semi-supervised model}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,2) (x2) {$x_T$};
+      \node[RV] at (0,4) (x3) {$x_t$};
+      \node[RV, hidden] at (2,0) (y1) {$y_1$};
+      \node[RV, hidden] at (2,2) (y2) {$y_T$};
+      \node[RV, hidden] at (2,4) (y3) {$y_t$};
+      \draw[<-] (x1)--(y1);
+      \draw[<-] (x2)--(y2);
+      \draw[<-] (x3)--(y3);
+    \end{tikzpicture}
+    \label{fig:unsupervised learning}
+    \caption{Basic unsupervised learning model}
+  \end{figure}
+  \begin{block}{Applications}
+    \begin{itemize}
+    \item Clustering
+    \item Compression
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+
+
+
+
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex

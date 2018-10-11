@@ -29,7 +29,7 @@
 \end{frame}
 
 \begin{frame}
-\begin{alertblock}{The two problems in recommendation systems}
+  \begin{alertblock}{The two problems in recommendation systems}
     \begin{itemize}
     \item The modelling (or prediction) problem. \only<article>{Given the data, how to e.g. predict what movies a user likes and dislikes.}
     \item The recommendation problem. \only<article>{What movie(s) to actually recommend to a user.}
@@ -174,18 +174,20 @@
     \only<article>{On the left side we have individual ratings and on the right side, in matrix form.}
   \end{block}
   \only<article>{We can now try and see how well this prediction fits the data for a movie. One idea is to simply use $|\hat{x}_{m,u} - x_{m,u}|$ to show the difference between the prediction and the actual rating. 
-Now can now define the prediction \alert{error} for a given representation $\MC, \MZ$ as}
-\[
-f(\MC, \MZ) = (\MR \circ \hat{\MX} - \MR \MX)^\top (\MR \circ \hat{\MX} - \MR \MX)
-\]
-\only<article>{Here multiplying with the $\MR$ matrix ensures that we ignore pairs with no ratings.}
-\begin{block}{Alternating Least Squares}
-  \begin{align}
-    \label{eq:als}
-    \MC_{t+1} &= \argmin_{\MC} f(\MC, \MZ_t) + \lambda g(\MZ, \MZ_t)\\
-    \MC_{t} &= \argmin_{\MZ} f(\MC_t, \MZ) +  + \lambda g(\MZ_t, \MZ)
-  \end{align}
-\end{block}
+    Now can now define the prediction \alert{error} for a given representation $\MC, \MZ$ as}
+  \[
+  f(\MC, \MZ) = \|(\MR \circ \hat{\MX} - \MR \circ \MX)^\top (\MR \circ \hat{\MX} - \MR \circ\MX)\|_1
+  \]
+
+  \only<article>{Here multiplying with the $\MR$ matrix ensures that we ignore pairs with no ratings.
+    \begin{block}{Alternating Least Squares~\cite{takacs2012alternating}}
+      \begin{align}
+        \label{eq:als}
+        \MC_{t+1} &= \argmin_{\MC} f(\MC, \MZ_t) + \lambda g(\MZ, \MZ_t)\\
+        \MC_{t} &= \argmin_{\MZ} f(\MC_t, \MZ) +  + \lambda g(\MZ_t, \MZ)
+      \end{align}
+    \end{block}
+  }
 \end{frame}
 
 
@@ -213,10 +215,10 @@ f(\MC, \MZ) = (\MR \circ \hat{\MX} - \MR \MX)^\top (\MR \circ \hat{\MX} - \MR \M
     \item User type $c \in \CC$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
     \item User ratings  $\bx$ with $x_{m} \in \CX = \{0, 1\}$ rating for movie $m$.
     \item Preference distribution 
-        \[
-        P_\param(\bx | \bc) = \prod_{m=1}^M \param_{m,c}^{x_m} (1 - \param_{m,c})^{(1 - x_m)}.
-        \]
-      \item $P_\param(c) = \param_c$, $\sum_c \param_c = 1$.
+      \[
+      P_\param(\bx | \bc) = \prod_{m=1}^M \param_{m,c}^{x_m} (1 - \param_{m,c})^{(1 - x_m)}.
+      \]
+    \item $P_\param(c) = \param_c$, $\sum_c \param_c = 1$.
     \end{itemize}
   \end{example}
 \end{frame}
@@ -286,17 +288,68 @@ f(\MC, \MZ) = (\MR \circ \hat{\MX} - \MR \MX)^\top (\MR \circ \hat{\MX} - \MR \M
       \begin{align}
         \max_\pol \E^\pol_\param(U \mid \bx)
         &=
-        \max_a \sum_{c, z} U(a, y) \alert{\Pr(y \mid a, c, z)} P_\param(c, z \mid \bx)\\
+          \max_a \sum_{c, z} U(a, y) \alert{\Pr(y \mid a, c, z)} P_\param(c, z \mid \bx)\\
         &=
-        \max_a \sum_{c, z} U(a, y) \sum_{x_a} \alert{\Pr(y \mid a, x_a)} P_\param(x_a \mid c, z) P_\param(c, z \mid \bx)
+          \max_a \sum_{c, z} U(a, y) \sum_{x_a} \alert{\Pr(y \mid a, x_a)} P_\param(x_a \mid c, z) P_\param(c, z \mid \bx)
       \end{align}
     }
 
 
   \end{block}
 \end{frame}
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-engine: xetex
-%%% TeX-master: "notes.tex"
-%%% End:
+
+
+\begin{frame}
+  \frametitle{Two ways to model the effect of actions}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (2,0) (data) {$\bx$};
+      \node[RV,hidden] at (0,0) (cluster) {$c$};
+      \node[RV,hidden] at (4,0) (movie) {$z$};
+      \draw[->] (cluster)--(data);
+      \draw[->] (movie)--(data);
+      \draw[->] (cluster)--(data);
+      \node[select] at (-2,0) (action) {$a$};
+      \node[RV] at (0,-2) (outcome) {$y$};
+      \draw[->] (action) -- (outcome);
+      \only<1>{
+        \node[RV,hidden] at (2,-1) (movie1) {$x_1$};
+        \node[RV,hidden] at (2,-2) (movie2) {$x_2$};
+        \draw[->] (movie)--(movie1);
+        \draw[->] (movie)--(movie2);
+        \draw[->] (cluster)--(movie1);
+        \draw[->] (cluster)--(movie2);
+        \draw[->] (movie1)--(outcome);
+        \draw[->] (movie2)--(outcome);
+      }
+      \only<2>{
+        \draw[->] (cluster)--(outcome);
+        \draw[->] (movie)--(outcome);
+      }
+    \end{tikzpicture}
+    \caption{Preference model}
+  \end{figure}
+  \only<presentation>{
+    \begin{align}
+      \E_\param (U \mid a, \bx) =
+      \only<2>{
+      \sum_{c, z} U(a, y) \alert{\Pr(y \mid a, c, z)} P_\param(c, z \mid \bx)
+      }
+      \only<1>{
+      \sum_{c, z} U(a, y) \sum_{x_a} \alert{\Pr(y \mid a, x_a)} P_\param(x_a \mid c, z) P_\param(c, z \mid \bx)
+      }
+    \end{align}
+  }
+  \only<article>{
+    What is the right model for the effects of our actions? In the most general case, the model could depend on the complete set of latent ratings of all the movies. However, it is hard to interpret this, as the user is also probably not aware of what these ratings are themselves. So it seems simpler and more appropriate to predict the outcome based on our action and the latent representation, especially since we will be marginalising over the individual ratings anyway.}
+\end{frame}
+
+
+
+
+  %%% Local Variables:
+  %%% mode: latex
+  %%% TeX-engine: xetex
+  %%% TeX-master: "notes.tex"
+  %%% End:

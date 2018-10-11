@@ -1,14 +1,20 @@
 \section{Sequential structures}
 \only<article>{The simplest type of structure in data is sequences. Examples include speech, text and DNA sequences, as well as data acquired in any sequential decision making problem such as recommendation systems or robotics. Sequential data is always thought to arise from some Markovian processes, defined below.}
 
+\only<presentation>{
+  \begin{frame}
+    \centering
+    \includegraphics[height=\textheight]{../figures/Snake-And-Ladder}
+  \end{frame}
+}
 \begin{frame}
 \frametitle{Markov process}
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-      \node[RV] at (-1,0) (xt1) {$x_{t-1}$};
+      \node[RV] at (-2,0) (xt1) {$x_{t-1}$};
       \node[RV] at (0,0) (xt2) {$x_t$};
-      \node[RV] at (1,0) (xt3) {$x_{t+1}$};
+      \node[RV] at (2,0) (xt3) {$x_{t+1}$};
       \draw[->] (xt1)--(xt2);
       \draw[->] (xt2)--(xt3);
     \end{tikzpicture}
@@ -18,11 +24,17 @@
   \begin{definition}[Markov process]
     A Markov process is a sequence of variables $x_t : \Omega \to \CX$ such that $x_{t+1} \mid x_t \indep x_{t-k} \forall k \leq 1$.
   \end{definition}
+  \begin{block}{Application}
+    \begin{itemize}
+    \item Sequence compression (especially with variable order Models).
+    \item Web-search (Page-Rank)
+    \item Hidden Markov Models.
+    \item MCMC.
+    \end{itemize}
+  \end{block}
+
 \end{frame}
 
-\begin{frame}
-\frametitle{DNA data}
-\end{frame}
 
 
 \begin{frame}
@@ -31,12 +43,12 @@
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-      \node[RV, hidden] at (-1,0) (xt1) {$x_{t-1}$};
+      \node[RV, hidden] at (-2,0) (xt1) {$x_{t-1}$};
       \node[RV, hidden] at (0,0) (xt2) {$x_t$};
-      \node[RV, hidden] at (1,0) (xt3) {$x_{t+1}$};
-      \node[RV] at (-1,1) (yt1) {$y_{t-1}$};
-      \node[RV] at (0,1) (yt2) {$y_t$};
-      \node[RV] at (1,1) (yt3) {$y_{t+1}$};
+      \node[RV, hidden] at (2,0) (xt3) {$x_{t+1}$};
+      \node[RV] at (-2,2) (yt1) {$y_{t-1}$};
+      \node[RV] at (0,2) (yt2) {$y_t$};
+      \node[RV] at (2,2) (yt3) {$y_{t+1}$};
       \draw[->] (xt1)--(xt2);
       \draw[->] (xt2)--(xt3);
       \draw[->] (xt1)--(yt1);
@@ -52,13 +64,16 @@
     P_\param(y_t \mid x_t) \tag{emission distribution}
   \end{align}
   \only<article>{For any given parater value $\param$, it is easy to estimate the probability distribution over states given the observations $P_\param(x^T \mid y^T)$. As an example, if $y^T$ is raw speech data and $x^T$ is a sequence of words, and $\theta$ are the parameters of our speech model, then we can obtain probabilities for every possible sequence of words that was uttered. Frequently, though, in speech recognition we are only interested in the most likely seuence of words. This makes the problem simple enough to be solved instantaneously by modern cellphones.}
+  \begin{block}{Application}
+    \begin{itemize}
+    \item Speech recognition.
+    \item Filtering (Kalman Filter).
+    \item DNA analysis.
+    \end{itemize}
+  \end{block}
 \end{frame}
 
-\begin{frame}
-\frametitle{HMM modelling of DNA data}
-\only<article>{
-As a more detailed example, consider hidden Markov models for DNA data....}
-\end{frame}
+
 
 
 %%% Local Variables:

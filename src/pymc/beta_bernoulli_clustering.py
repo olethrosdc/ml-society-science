@@ -2,35 +2,52 @@
 
 import pymc3 as mc
 import numpy as np
+import matplotlib.pyplot as plt
 
 model = mc.Model()
 
-data = np.array([0, 1, 0, 1])
-n_data = len(data)
-n_outcomes = 5
-n_movies = 10
-import matplotlib.pyplot as plt
+n_users = 8
+n_movies = 4
+ratings = np.zeros([n_users, n_movies]);
+for u in range(n_users):
+    ## Generate data from two clusters with equal probability
+    if (np.random.uniform() < 0.5):
+        mean = np.array([0.2, 0.3, 0.4, 0.9]);
+    else:
+        mean = np.array([0.8, 0.7, 0.2, 0.5]);
+
+    ## Fill in data for the user. Currently no missing data allowed.
+    for m in range(n_movies):
+        if (np.random.uniform() < mean[m]):
+            ratings[u,m] = 1
+        else:
+            ratings[u,m] = 0
 
 # setup model
 model = mc.Model()
-n_clusters = 3
+n_clusters = 2
 with model:
-    # clusters
+    # We assume a finite number of possible values for the clusters
+    # The prior on the multinomial cluster distribution is a Dirichlet
     zeta = mc.Dirichlet('zeta', a=np.ones(n_clusters), shape=n_clusters)
-    # latent cluster of each observation
-    category = mc.Categorical('category',
-                              p=zeta,
-                              shape=n_data)
-    theta = mc.Dirichlet('theta', a=np.ones(n_outcomes,n_movies), shape=n_clusters)
+
+    # Latent cluster of each user
+    # A single sample from a multinomial is called 'categorial' in pymc
+    cluster = mc.Categorical('cluster',  p=zeta, shape=n_users)
+
+    # The model assumption is that every movie's rating is sampled from the appropriate cluster
+    # We define a C*M matrix of theta parameters for this
+    theta = mc.Beta('theta', alpha =1, beta = 1, shape=(n_clusters, n_movies))
+
     
-    # likelihood for each observed value
-    y = mc.Bernoulli('y', p=theta[category], observed=data)
-
-with model:
-    step1 = mc.Metropolis(vars=[zeta, theta])
-    step2 = mc.ElemwiseCategorical(vars=[category], values=[0, 1, 2])
-    tr = mc.sample(10000, step=[step1, step2])
-
+    y = mc.Bernoulli('y', p=theta, observed=ratings)
+    
+    
+## Generate samples
+#with model:
+#    step1 = mc.NUTS(vars=[zeta, theta])
+#    step2 = mc.ElemwiseCategorical(vars=[cluster], values=[0, 1, 2])
+#    tr = mc.sample(10000, step=[step1, step2])
 
 mc.traceplot(tr)
 plt.show()
