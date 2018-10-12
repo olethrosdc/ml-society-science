@@ -1,0 +1,33 @@
+
+\section{Historical data}
+
+First, we shall take a look at historical data. For each patient, we observe the attributes $\bx$, with
+\begin{itemize}
+\item $x_1 \in \{0,1\}$, sex.
+\item $x_2 \in \{0,1\}$, smoker.
+\item $x_{3:6} \in \{0,1\}^4$, gene expression data. These variables can have missing values.
+\item $x_{7:8} \in \{0,1\}^2$, symptoms. These can be taken to be akin to labels in supervised learning. 
+\end{itemize}
+We also observe a therapeutic intervention $a \in \CA$, which is followed by an outcome $r_t \in \Reals$. Consequently, historical data can be described by $(\bx_t, a_t, r_t)$
+
+\paragraph{Discovering structure in the data.}
+It is uncertain if the symptoms present are all due to the same disease, or if they are different conditions with similar symptoms. Looking at only the attributes, estimate whether a single-cluster model is more likely than a multiple-cluster model.
+
+\paragraph{Measuring the effect of actions.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "medical-project"
+%%% End:
