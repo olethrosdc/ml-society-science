@@ -26,39 +26,17 @@ data_out = pandas.DataFrame(targets).add_prefix('Y')
 
 # sklearn module
 from sklearn.linear_model import LogisticRegression
-# statsmodels module
-from statsmodels.formula.api import Logit, logit, mnlogit
-
-
-# scikitlearn logistic not useful for analysis
-#clf = LogisticRegression()
-#clf.fit(observations, labels)
-
-formula = "X127"
-n_components = 0
-for i in range(127):
-    if (n_components==0):
-        formula = formula + " ~ "
-    else:
-        formula = formula + " + "
-    formula = formula + "X" + str(i)
-    n_components += 1
-
-#print ("Using plain logit model")
-#model = logit(formula, data_in)
-#fitted_model = model.fit()
-#fitted_model.summary2()
 
 ## SM module
 import statsmodels.api as sm
-print ("Using the other statisticsmodels logit")
+print ("Using statisticsmodels logit")
 logit_model = sm.Logit(targets, data)
-logit_res = logit_model.fit(method="bfgs")
+logit_res = logit_model.fit(method="bfgs") # for singularities
 print(logit_res.summary())
+print("The proportion of p-values which are smaller than p%")
 for i in range(1,11):
     print(i, "%", np.mean(logit_res.pvalues<i/100))
     
-
 #print ("Using the GLM interface for the same model")
 #binomial_model = sm.GLM(targets, data, family=sm.families.Binomial())
 #binomial_res = binomial_model.fit()
