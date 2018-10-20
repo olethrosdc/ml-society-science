@@ -1,0 +1,251 @@
+\section{Causality}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
+
+\begin{frame}
+  \frametitle{Headaches and aspirins}
+  \only<article>{Causal questions do not just deal with statistical relationships. }
+  \begin{example}
+    \only<article>{
+      We can ask ourselves two different questions about the effect of aspirin on headaches.
+    }
+    \begin{itemize}
+    \item Effects of \alert{Causes}: Will my headache pass if I take an \alert{aspirin}?
+    \item \alert{Causes} of Effects: Would my headache have passed if I had not taken an \alert{aspirin}?
+    \end{itemize}
+  \end{example}
+\end{frame}
+\subsection{Decision diagrams}
+\only<article>{
+  Graphical models can also be used to model causal relations. In particular, we can use \emph{decision diagarams}, which include not only random variables, but also \emph{decision} variables, denoted with squares, as well as utility variables, denoted via diamonds. In the following examples, we assume there are some underlying distributions specified by parameters $\param$, which we include in the diagrams for clarity.}
+
+\begin{frame}
+  \begin{example}[Inferring performance of a new recommendation system]
+    \only<article>{Consider the example of a recommendation system, where we have data of the form $(x_t, a_t, y_t)$. The performance of the recommendation system depends not only on the parameter $\param$, but also on the chosen policy $\pol$. }
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \node[RV, hidden] at (-1,1) (p) {$\param$};
+        \node[RV] at (0,0) (x) {$x_t$};
+        \node[RV] at (1,1) (y) {$y_t$};
+        \node[RV] at (2,0) (a) {$a_t$};
+        \draw[->] (x)--(y);
+        \draw[->] (x)--(a);
+        \draw[->] (a)--(y);
+        \draw[->] (p) to (x);
+        \draw[->] (p)--(y);
+        \onslide<3->{
+          \node[select] at (4,0) (pol) {$\pol$};
+          \draw[->] (pol)--(a);
+        }
+        \onslide<2->{
+          \node[utility] at (3,1) (u) {$\util$};
+          \draw[->] (a)--(u);
+          \draw[->] (y)--(u);
+        }
+      \end{tikzpicture}
+      \caption{Recommendation system data, where $x_t$: user data, $y_t$: result, $a_t$: recommendation made, $\pol$: recommendation policy}
+      \label{fig:recommendation-decision-diagram}
+    \end{figure}
+    \only<1>{
+      \begin{itemize}
+      \item $x_t$: User information (random variable)
+      \item $a_t$: System action (random variable)
+      \item $y_t$: Click (random varaible)
+      \item<2> $\pol$: recommendation policy (decision variable).
+      \end{itemize}
+    }
+  \end{example}
+
+  \only<2>{
+    \only<article>{If we have data $D = \cset{(x_t, a_t, y_t)}{t \in [T]}$ generated from some policy $\pol_0$, we can always infer the average quality of each action $a$ under that policy.}
+    \begin{align}
+      \label{eq:observed-expected-utility}
+      \hat{\E}_D(U \mid a) 
+      &\defn
+        \frac{1}{|\cset{t}{a_t = a}|}
+        \sum_{t: a_t = a}
+        U(a_t, y_t)
+        \approx
+        \E^{\pol_0}_\param (U \mid a).
+    \end{align}
+  }
+  \only<article>{
+    Can we calculate the value of another policy? As we have seen from Simpson's paradox\index{Simpson's paradox}, it is folly to simply select
+    \[
+    \hat{a}^*_D \in \argmax_a \hat{\E}_D(U \mid a),
+    \]
+    as the action also depends on the observations $x$ through the policy.
+    To clarify this, let us define the model shown in Figure~\ref{fig:recommendation-decision-diagram}.
+    \begin{align*}
+      x_t \mid \param, x_t &\sim P_\param(x)\\
+      y_t \mid \param, x_t, a_t &\sim P_\param(y \mid x_t, a_t)\\
+      a_t \mid x_t, \pol &\sim \pol(a \mid x_t).
+    \end{align*}
+    Assume that $x \in \CX$, a continuous space, but $y \in \CY$ is discrete. Then the value of an action under a policy $\pol$ is
+    \begin{align*}
+      \E^\pol_\param(\util \mid a)
+      &=
+        \int_\CX \dd P_\param(x)
+        \sum_{y \in \CY} P_\param(y \mid x, a) \util(a, y).
+    \end{align*}
+    We see that there is a clear dependence on the distribution of $x$, and there is no dependence on the policy any more. In fact, equation above only tells us the expected utility we'd get if we always chose the same action $a$. But what is the optimal policy? First, we have to define the value of a policy.
+  }
+  
+  \begin{block}{The value of a policy}
+    \begin{align*}
+      \E^\pol_\param(\util)
+      &=
+        \int_\CX \dd P_\param(x)
+        \sum_{y \in \CY} P_\param(y \mid x, a) \util(a, y) \sum_{a \in \CA} \pol(a \mid x).
+    \end{align*}
+  \end{block}
+  \only<article>{
+    The optimal policy under a known parameter $\param$ is given simply by
+    \begin{align*}
+      \max_{\pol \in \Pol} \E^\pol_\param(\util),
+    \end{align*}
+    where $\Pol$ is the set of allowed policies. How can we actually find the optimal policy?
+  }
+\end{frame}
+
+\subsection{Disturbances and structural equation models}
+
+\begin{frame}
+  \only<article>{A structural equation model describes the random variables as deterministic functions of the decisions variables and the random exogenous disturbances. This allows us to separate the unobserved randomness from the known functional relationship between the other variables. Structurally, the model is essentially a variant of decision diagrams, as shown in Figure~\ref{fig:disturbance-model}.}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV, hidden] at (-1,1) (p) {$\param$};
+      \node[RV] at (0,0) (x) {$x_t$};
+      \node[RV] at (1,1) (y) {$y_t$};
+      \node[RV] at (2,0) (a) {$a_t$};
+      \draw[->] (x)--(y);
+      \draw[->] (x)--(a);
+      \draw[->] (a)--(y);
+      \draw[->] (p) to (x);
+      \draw[->] (p)--(y);
+      \node[select] at (4,0) (pol) {$\pol$};
+      \draw[->] (pol)--(a);
+      \node[utility] at (3,1) (u) {$\util$};
+      \draw[->] (a)--(u);
+      \draw[->] (y)--(u);
+      \node[RV, hidden, above of=y]  (oy) {$\omega_{t,y}$};
+      \node[RV, hidden, below of=x]  (ox) {$\omega_{t,x}$};
+      \node[RV, hidden, below of=a]  (oa) {$\omega_{t,a}$};
+      \draw[->] (ox) -- (x);
+      \draw[->] (oa) -- (a);
+      \draw[->] (oy) -- (y);
+    \end{tikzpicture}
+    \caption{Decision diagram with unknown parameter $\param$ and exogenous disturbances $\omega$.}
+    \label{fig:disturbance-model}
+  \end{figure}
+  \only<article>{We still need to specify particular functional relationships between the variables. Generally speaking, a random variable taking values in $\CX$, is simply a function $\Omega \times \Param \to \CX$. For example, in Figure~\ref{fig:disturbance-model} $y_t = f_y(\omega, \theta)$. Taking into account the dependencies, this can be rewritten in terms of a function of the other random variables, and the local disturbance: $y_t = f_{y|a,x}(a,x, \omega_{t,y}, \theta)$. The choice of the function, together with the distribution of the parameter $\param$ and the disturbances $\omega$, fully determines our model.}
+    \begin{example}{Structural equation model  for Figure~\ref{fig:disturbance-model}}
+      \begin{align*}
+        \theta &\sim \Normal(\vectorsym{0}_4, \eye_4),\\
+        x_t &= \theta_0 \omega_{t,x},
+            & \omega_{t,x} &\sim \Bernoulli(0.5)\\
+        y_t &= \theta_1 y_t + \theta_2 x_t + \theta_3 a_t + \omega_{t,y},
+            &\omega_{t,y} &\sim \Normal(0,1)\\
+        a_t &= \pol(x_t) + \omega_{t,a} \mod |\CA| 
+            &\omega_{t,a} &\sim 0.1 \Singular(0) + 0.9 \Uniform(\CA),
+      \end{align*}
+    \end{example}
+    \only<article>{Structural equation models are particularly interesting in applications such as economics, where there are postulated relations between various economic quantities.}
+  \end{frame}
+  \subsection{Interventions}
+  \only<article>{Interventions are of primary interest when we have a set of observational data, collected under a \emph{null} or \emph{default} policy $\pol_0$.  We then wish to intervene with some policy $\pol$ in order to maximise our utility function. }
+  \begin{frame}
+    \begin{example}[Weight loss]
+      \only<article>{Consider weight loss. We can collect observational data from a population of overweight adults over a year. We can imagine that $x$ represents the weight and vital statistics of an individual and $y$ their change in weight after a year. We may also observe their individual actions $a$, such as whether or not they are following a particular diet or exercise regime. Under the default policy $\pol_0$, their actions are determined only the individuals. Consider an alternative policy $\pol$, which prescribes diet and exercise regimes. Due to non-compliance, actual actions taken by individuals may differ from prescribed actions.}
+      \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+          \node[RV] at (0,0) (x) {$x$};
+          \node[RV] at (1,1) (y) {$y$};
+          \node[RV] at (2,0) (a) {$a$};
+          \draw[->] (x)--(y);
+          \draw[->] (x)--(a);
+          \draw[->] (a)--(y);
+          \node[select] at (4,0) (p) {$\pol$};
+          \draw[->] (p)--(a);
+          \node[utility] at (3,1) (u) {$\util$};
+          \draw[->] (a)--(u);
+          \draw[->] (y)--(u);
+        \end{tikzpicture}
+      \end{figure}
+    \end{example}
+  \end{frame}  
+
+
+\subsection{Instrumental variables}
+\begin{frame}
+\begin{example}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x) {$x$};
+      \node[RV] at (1,0) (y) {$y$};
+      \node[RV] at (0,1) (z) {$z$};
+      \node[RV] at (1,1) (p) {$p$};
+      \node[RV,hidden] at (2,0) (o) {$\omega$};
+      \draw[->] (x) to (y);
+      \draw[->] (x) to (p);
+      \draw[->] (z) to (p);
+      \draw[->] (p) to (y);
+      \draw[->] (o) to (p);
+      \draw[->] (o) to (y);
+    \end{tikzpicture}
+  \end{figure}
+\end{example}
+\end{frame}
+  \subsection{Confounders}
+  \begin{frame}
+    \begin{example}[Weight loss]
+      \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+          \node[RV] at (0,0) (x) {$x$};
+          \node[RV] at (1,1) (y) {$y$};
+          \node[RV] at (2,0) (a) {$a$};
+          \draw[->] (x)--(y);
+          \draw[->] (x)--(a);
+          \draw[->] (a)--(y);
+          \node[select] at (4,0) (p) {$\pol$};
+          \draw[->] (p)--(a);
+          \node[utility] at (3,1) (u) {$\util$};
+          \draw[->] (a)--(u);
+          \draw[->] (y)--(u);
+          \node[RV, hidden] at (0,2) (c) {$c$};
+          \draw[->] (c)--(y);
+        \end{tikzpicture}
+      \end{figure}
+    \end{example}
+  \end{frame}  
+
+  \subsection{Inference in causal models}
+
+  \only<article>{Inference in causal models requires building a complete model for the effect of every action.}
+
+  \subsection{Discussion}
+  \begin{frame}
+    \begin{block}{Further reading}
+      \begin{itemize}
+      \item Pearl, \emph{Causality}.
+      \item \citet{dawid2012decision}
+      \end{itemize}
+    \end{block}
+  \end{frame}
+  %%% Local Variables:
+  %%% mode: latex
+  %%% TeX-engine: xetex
+  %%% TeX-master: "notes"
+  %%% End:
