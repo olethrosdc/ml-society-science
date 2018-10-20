@@ -25,91 +25,99 @@
 \end{frame}
 \subsection{Decision diagrams}
 \only<article>{
-  Graphical models can also be used to model causal relations. In particular, we can use \emph{decision diagarams}, which include not only random variables, but also \emph{decision} variables, denoted with squares, as well as utility variables, denoted via diamonds. In the following examples, we assume there are some underlying distributions specified by parameters $\param$, which we include in the diagrams for clarity.}
-
-\begin{figure}[H]
-  \centering
-  \begin{tikzpicture}
-    \node[RV, hidden] at (-1,1) (p) {$\param$};
-    \node[RV] at (0,0) (x) {$x_t$};
-    \node[RV] at (1,1) (y) {$y_t$};
-    \node[RV] at (2,0) (a) {$a_t$};
-    \draw[->] (x)--(y);
-    \draw[->] (x)--(a);
-    \draw[->] (a)--(y);
-    \draw[->] (p) to (x);
-    \draw[->] (p)--(y);
-    \onslide<3->{
-      \node[select] at (4,0) (pol) {$\pol$};
-      \draw[->] (pol)--(a);
-    }
-    \onslide<2->{
-      \node[utility] at (3,1) (u) {$\util$};
-      \draw[->] (a)--(u);
-      \draw[->] (y)--(u);
-    }
-  \end{tikzpicture}
-  \caption{A typical decision diagram where $x_t$: individual information, $y_t$: individual result, $a_t$: treatment, $\pol$: treatment policy}
-  \label{fig:decision-diagram}
-\end{figure}
-\begin{example}[Taking an aspiring]
-  \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we might have that}
-  \begin{itemize}
-  \item Individual $t$
-  \item Information $x_t$
-  \item $a_t  = 1$ if $t$ takes an aspirin, and $0$ otherwise.
-  \item $y_t = 1$ if the headache is cured in 30 minutes, $0$ otherwise.
-  \item $\pol(a_t \mid x_t)$, possibly $t$-dependent.
-  \end{itemize}
-\end{example}
-
-\begin{example}[A recommendation system]
-  \only<article>{Consider the example of a recommendation system, where we have data of the form $(x_t, a_t, y_t)$. The performance of the recommendation system depends not only on the parameter $\param$, but also on the chosen policy $\pol$. }
-  \only<1>{
+  Graphical models can also be used to model causal relations. In particular, we can use \emph{decision diagarams}, which include not only random variables, but also \emph{decision} variables, denoted with squares, as well as utility variables, denoted via diamonds. In the following examples, we assume there are some underlying distributions specified by parameters $\param$, which we include in the diagrams for clarity. Even though it may seem intuitively sensible to suppose it, the arrow directions in the diagrams \emph{do not} indicate direct causes. The only important thing for determining whether some variable influences another is whether or not there is independence between the corresponding decision and random variables.}
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV, hidden] at (-1,1) (p) {$\param$};
+      \node[RV] at (0,0) (x) {$x_t$};
+      \node[RV] at (1,1) (y) {$y_t$};
+      \node[RV] at (2,0) (a) {$a_t$};
+      \draw[->] (x)--(y);
+      \draw[->] (x)--(a);
+      \draw[->] (a)--(y);
+      \draw[->] (p) to (x);
+      \draw[->] (p)--(y);
+      \onslide<3->{
+        \node[select] at (4,0) (pol) {$\pol$};
+        \draw[->] (pol)--(a);
+      }
+      \onslide<2->{
+        \node[utility] at (3,1) (u) {$\util$};
+        \draw[->] (a)--(u);
+        \draw[->] (y)--(u);
+      }
+    \end{tikzpicture}
+    \caption{A typical decision diagram where $x_t$: individual information, $y_t$: individual result, $a_t$: treatment, $\pol$: treatment policy}
+    \label{fig:decision-diagram}
+  \end{figure}
+  \only<3>{
+  \begin{example}[Taking an aspiring]
+    \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we might have that}
+    \begin{itemize}
+    \item Individual $t$
+    \item Information $x_t$
+    \item $a_t  = 1$ if $t$ takes an aspirin, and $0$ otherwise.
+    \item $y_t = 1$ if the headache is cured in 30 minutes, $0$ otherwise.
+    \item $\pol(a_t \mid x_t)$, possibly $t$-dependent.
+    \end{itemize}
+  \end{example}
+  }
+  \only<4>{
+  \begin{example}[A recommendation system]
+    \only<article>{Consider the example of a recommendation system, where we have data of the form $(x_t, a_t, y_t)$. The performance of the recommendation system depends not only on the parameter $\param$, but also on the chosen policy $\pol$. }
     \begin{itemize}
     \item $x_t$: User information (random variable)
     \item $a_t$: System action (random variable)
     \item $y_t$: Click (random varaible)
-    \item<2> $\pol$: recommendation policy (decision variable).
+    \item $\pol$: recommendation policy (decision variable).
     \end{itemize}
+  \end{example}
   }
-\end{example}
-
+\end{frame}
 \subsection{Common structural assumptions}
 
 \begin{frame}
+  \frametitle{Basic causal structures}
+    \begin{block}{Non-cause}
+      \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+          \node[select] at (0,0) (p) {$\pol$};
+          \node[RV] at (1,0) (a) {$a_t$};
+          \node[RV] at (2,0) (y) {$y_t$};
+          \draw[->] (p) to (a);
+          \draw[->] (y) to (a);
+        \end{tikzpicture}
+        \caption{$a$ does not cause $y$}
+        \label{fig:non-cause}
+      \end{figure}
+      \only<article>{In the diagram above, we see that $y_t \indep \pol$. }
+    \end{block}
 
-  \begin{block}{Non-cause}
-    \begin{figure}[H]
-      \centering
-      \begin{tikzpicture}
-        \node[select] at (0,0) (p) {$\pol$};
-        \node[RV] at (1,0) (a) {$a_t$};
-        \node[RV] at (2,0) (y) {$y_t$};
-        \draw[->] (p) to (a);
-        \draw[->] (y) to (a);
-      \end{tikzpicture}
-      \caption{$x$ does not cause $y$}
-      \label{fig:non-cause}
-    \end{figure}
-  \end{block}
-
-  \begin{block}{No confounding}
-    \only<article>{We are sure that there is no confounding whenever $y_t \indep \pol \mid a_t$. This is captured by the following diagram.}
-    \begin{figure}[H]
-      \centering
-      \begin{tikzpicture}
-        \node[select] at (0,0) (p) {$\pol$};
-        \node[RV] at (1,0) (a) {$a_t$};
-        \node[RV] at (2,0) (y) {$y_t$};
-        \draw[->] (p) to (a);
-        \draw[->] (a) to (y);
-      \end{tikzpicture}
-      \caption{No confounding: $x$ causes $y$}
-      \label{fig:no-confounding}
-    \end{figure}
-    \only<article>{Sometimes the variable of interest is not conditionally independent of the treatment, unless there exists a \emph{sufficient covariate} $x_t$ such that
-      $y_t \indep \pol \mid a_t, x_t$. If $x_t$ is not observed, then it is sometimes called a confounder.}
+    \begin{block}{No confounding}
+      \only<article>{We are sure that there is no confounding whenever $y_t \indep \pol \mid a_t$. This is captured by the following diagram.}
+      \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+          \node[select] at (0,0) (p) {$\pol$};
+          \node[RV] at (1,0) (a) {$a_t$};
+          \node[RV] at (2,0) (y) {$y_t$};
+          \draw[->] (p) to (a);
+          \draw[->] (a) to (y);
+        \end{tikzpicture}
+        \caption{No confounding: $x$ causes $y$}
+        \label{fig:no-confounding}
+      \end{figure}
+    \end{block}
+  
+  \only<article>{Sometimes the variable of interest is not conditionally independent of the treatment, unless there exists a \emph{sufficient covariate} $x_t$ such that
+    $y_t \indep \pol \mid a_t, x_t$. If $x_t$ is not observed, then it is sometimes called a confounder.}
+\end{frame}
+\begin{frame}
+  \frametitle{Usual causal structures}
+  \begin{block}{Sufficient covariats}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
@@ -122,14 +130,11 @@
         \draw[->] (x) to (a);
         \draw[->] (x) to (y);
       \end{tikzpicture}
-      \caption{Instrumental variable $z_t$}
-      \label{fig:instrumental-variable}
+      \caption{Sufficient covariate $x_t$}
+      \label{fig:sufficient-covariate}
     \end{figure}
   \end{block}
-\end{frame}
 
-\begin{frame}
-  \frametitle{Instrumental variables}
   \begin{block}{Instrumental variables}
     \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, which depends on $x_t$, which is observed, and on the basis of which we make our decisions. However the effect of the treatment depends on $x_t$ directly. This is called an \emph{instrumental variable.}}
     \begin{figure}[H]
@@ -146,11 +151,11 @@
         \draw[->] (x) to (z);
         \draw[->] (z) to (a);
       \end{tikzpicture}
-      \caption{Sufficient covariate}
-      \label{fig:sufficient-covariate}
+      \caption{Instrumental variable $z_t$}
+      \label{fig:instrumental-variable}
     \end{figure}
   \end{block}
-  
+
 \end{frame}
 
 
