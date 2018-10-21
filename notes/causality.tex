@@ -76,10 +76,33 @@
   \end{example}
   }
 \end{frame}
+
+\begin{frame}
+\frametitle{Conditional distributions and decision variables.}
+  \only<article>{We normally define the conditional distribution of $A$ given $B$ under a probability measure $P$ as:}
+    \[
+    P(A \mid B) \defn \frac{P(A \cap B)}{P(B)}.
+    \]
+    \only<article>{However, decision variables are outside the scope of this probability measure, and yet we need to define conditional distributions using them. }
+  \begin{block}{The conditional distribution of decisions}
+    \only<article>{If $\pol \in \Pol$ is a decision variable, we represent the conditional distribution of any random variable $a$ given $\pol$ simply as a collection of probability measures $\cset{\pol(a)}{\pol \in \Pol}$, one for each possible value $\pol$. The following notations will be equivalent:}
+    \[
+    \pol(a) \equiv \Pr^\pol(a) \equiv \Pr(a \mid \pol).
+    \]
+  \only<article>{The reader should note that the standard definition of a conditional distribution also $P(A \mid B)$ creates a collection of distributions on $A$, with elements $P_B(A)$. However, it also specifies a rule for doing so from the complete distribution $P$. 
+
+    If the random variables $a$ also depends on some probability law $P_\param$, then it will be convenient to use the notation
+  }
+    \[
+    \Pr_\param^\pol(a) \equiv \Pr(a \mid \param, \pol).
+    \]
+  \end{block}
+\end{frame}
 \subsection{Common structural assumptions}
 
 \begin{frame}
   \frametitle{Basic causal structures}
+  \only<article>{Directed graphical models are not sufficient to determine causality by themselves, as they only determine correlations between random variables. If we have decision variables, however, we can always determine whether or not our decisions influence outcomes.}
     \begin{block}{Non-cause}
       \begin{figure}[H]
         \centering
@@ -93,9 +116,18 @@
         \caption{$a$ does not cause $y$}
         \label{fig:non-cause}
       \end{figure}
-      \only<article>{In the diagram above, we see that $y_t \indep \pol$. }
+    \only<article>{In the diagram above, we see that $y_t \indep \pol$.}
     \end{block}
-
+\only<article>{
+  \begin{example}
+    Consider the model
+    \begin{align*}
+      y_t &\sim \Normal(0,1)\\
+      a_t \mid y_t, \pol &\sim \Normal(y_t + \pol, 1)
+    \end{align*}
+  \end{example}
+}
+    
     \begin{block}{No confounding}
       \only<article>{We are sure that there is no confounding whenever $y_t \indep \pol \mid a_t$. This is captured by the following diagram.}
       \begin{figure}[H]
@@ -112,12 +144,12 @@
       \end{figure}
     \end{block}
   
-  \only<article>{Sometimes the variable of interest is not conditionally independent of the treatment, unless there exists a \emph{sufficient covariate} $x_t$ such that
-    $y_t \indep \pol \mid a_t, x_t$. If $x_t$ is not observed, then it is sometimes called a confounder.}
 \end{frame}
 \begin{frame}
-  \frametitle{Usual causal structures}
-  \begin{block}{Sufficient covariats}
+  \frametitle{Covariates}
+  \begin{block}{Sufficient covariate}
+  \only<article>{Sometimes the variable of interest is not conditionally independent of the treatment, unless there exists a \emph{sufficient covariate} $x_t$ such that
+    $y_t \indep \pol \mid a_t, x_t$. If $x_t$ is not observed, then it is sometimes called a confounder.}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
