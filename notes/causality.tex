@@ -47,7 +47,7 @@
       \only<1,2>{
         \node[select] at (2,0) (a) {$a_t$};
       }
-      \only<3>{
+      \only<3->{
         \node[RV] at (2,0) (a) {$a_t$};
       }
       \draw[->] (x)--(y);
@@ -65,50 +65,50 @@
         \draw[->] (y)--(u);
       }
     \end{tikzpicture}
-    \caption{A typical decision diagram where $x_t$: individual information, $y_t$: individual result, $a_t$: treatment, $\pol$: treatment policy}
+    \caption{A typical decision diagram where $x_t$: individual information, $y_t$: individual result, $a_t$: action, $\pol$: policy}
     \label{fig:decision-diagram}
   \end{figure}
   \only<3>{
-  \begin{example}[Taking an aspiring]
-    \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we might have that}
-    \begin{itemize}
-    \item Individual $t$
-    \item Information $x_t$
-    \item $a_t  = 1$ if $t$ takes an aspirin, and $0$ otherwise.
-    \item $y_t = 1$ if the headache is cured in 30 minutes, $0$ otherwise.
-    \item $\pol(a_t \mid x_t)$, possibly $t$-dependent.
-    \end{itemize}
-  \end{example}
+    \begin{example}[Taking an aspiring]
+      \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we might have that}
+      \begin{itemize}
+      \item Individual $t$
+      \item Information $x_t$
+      \item $a_t  = 1$ if $t$ takes an aspirin, and $0$ otherwise.
+      \item $y_t = 1$ if the headache is cured in 30 minutes, $0$ otherwise.
+      \item $\pol$: intervention policy.
+      \end{itemize}
+    \end{example}
   }
   \only<4>{
-  \begin{example}[A recommendation system]
-    \only<article>{Consider the example of a recommendation system, where we have data of the form $(x_t, a_t, y_t)$. The performance of the recommendation system depends not only on the parameter $\param$, but also on the chosen policy $\pol$. }
-    \begin{itemize}
-    \item $x_t$: User information (random variable)
-    \item $a_t$: System action (random variable)
-    \item $y_t$: Click (random varaible)
-    \item $\pol$: recommendation policy (decision variable).
-    \end{itemize}
-  \end{example}
+    \begin{example}[A recommendation system]
+      \only<article>{Consider the example of a recommendation system, where we have data of the form $(x_t, a_t, y_t)$. The performance of the recommendation system depends not only on the parameter $\param$, but also on the chosen policy $\pol$. }
+      \begin{itemize}
+      \item $x_t$: User information (random variable)
+      \item $a_t$: System action (random variable)
+      \item $y_t$: Click (random varaible)
+      \item $\pol$: recommendation policy (decision variable).
+      \end{itemize}
+    \end{example}
   }
 \end{frame}
 
 \begin{frame}
-\frametitle{Conditional distributions and decision variables.}
+  \frametitle{Conditional distributions and decision variables.}
   \only<article>{We normally define the conditional distribution of $A$ given $B$ under a probability measure $P$ as:}
-    \[
-    P(A \mid B) \defn \frac{P(A \cap B)}{P(B)}.
-    \]
-    \only<article>{However, decision variables are outside the scope of this probability measure, and yet we need to define conditional distributions using them. }
+  \[
+  P(A \mid B) \defn \frac{P(A \cap B)}{P(B)}.
+  \]
+  \only<article>{However, decision variables are outside the scope of this probability measure, and yet we need to define conditional distributions using them. }
   \begin{block}{The conditional distribution of decisions}
     \only<article>{If $\pol \in \Pol$ is a decision variable, we represent the conditional distribution of any random variable $a$ given $\pol$ simply as a collection of probability measures $\cset{\pol(a)}{\pol \in \Pol}$, one for each possible value $\pol$. The following notations will be equivalent:}
     \[
     \pol(a) \equiv \Pr^\pol(a) \equiv \Pr(a \mid \pol).
     \]
-  \only<article>{The reader should note that the standard definition of a conditional distribution also $P(A \mid B)$ creates a collection of distributions on $A$, with elements $P_B(A)$. However, it also specifies a rule for doing so from the complete distribution $P$. 
+    \only<article>{The reader should note that the standard definition of a conditional distribution also $P(A \mid B)$ creates a collection of distributions on $A$, with elements $P_B(A)$. However, it also specifies a rule for doing so from the complete distribution $P$. 
 
-    If the random variables $a$ also depends on some probability law $P_\param$, then it will be convenient to use the notation
-  }
+      If the random variables $a$ also depends on some probability law $P_\param$, then it will be convenient to use the notation
+    }
     \[
     \Pr_\param^\pol(a) \equiv \Pr(a \mid \param, \pol).
     \]
@@ -116,76 +116,76 @@
 \end{frame}
 \subsection{Common structural assumptions}
 \only<article>{
-In order to be clear about what constitutes an observation by the experimenter and what is a decision, we must clearly separate random variables from decision variables. The individual actions may be random variables, but they will depend on decisions taken. As we will see later, this is useful for modelling interventions.}
+  In order to be clear about what constitutes an observation by the experimenter and what is a decision, we must clearly separate random variables from decision variables. The individual actions may be random variables, but they will depend on decisions taken. As we will see later, this is useful for modelling interventions.}
 
 \begin{frame}
   \frametitle{Basic causal structures}
   \only<article>{Directed graphical models are not sufficient to determine causality by themselves, as they only determine correlations between random variables. If we have decision variables, however, we can always determine whether or not our decisions influence outcomes.}
-    \begin{block}{Non-cause}
-      \begin{figure}[H]
-        \centering
-        \begin{tikzpicture}
-          \node[select] at (0,0) (p) {$\pol$};
-          \node[RV] at (1,0) (a) {$a_t$};
-          \node[RV] at (2,0) (y) {$y_t$};
-          \draw[->] (p) to (a);
-          \draw[->] (y) to (a);
-        \end{tikzpicture}
-        \caption{$\pol$ does not cause $y$}
-        \label{fig:non-cause}
-      \end{figure}
+  \begin{block}{Non-cause}
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \node[select] at (0,0) (p) {$\pol$};
+        \node[RV] at (1,0) (a) {$a_t$};
+        \node[RV] at (2,0) (y) {$y_t$};
+        \draw[->] (p) to (a);
+        \draw[->] (y) to (a);
+      \end{tikzpicture}
+      \caption{$\pol$ does not cause $y$}
+      \label{fig:non-cause}
+    \end{figure}
     \only<article>{In the diagram above, we see that $y_t \indep \pol$.}
-    \end{block}
-\only<article>{
-  \begin{example}
-    Consider the model
-    \begin{align*}
-      y_t &\sim \Normal(0,1)\\
-      a_t \mid y_t, \pol &\sim \Normal(y_t + \pol, 1)
-    \end{align*}
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.5\textwidth]{../src/causality/non-cause}
-      \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is not a cause for $y_t$}
-      \label{fig:non-cause-dist}
-    \end{figure}
-    In this example, it is not the case that $y_t \indep a_t$. Indeed, 
-  \end{example}
-}
-    
-    \begin{block}{No confounding}
-      \only<article>{We are sure that there is no confounding whenever $y_t \indep \pol \mid a_t$. This is captured by the following diagram.}
+  \end{block}
+  \only<article>{
+    \begin{example}
+      Consider the model
+      \begin{align*}
+        y_t &\sim \Normal(0,1)\\
+        a_t \mid y_t, \pol &\sim \Normal(y_t + \pol, 1)
+      \end{align*}
       \begin{figure}[H]
         \centering
-        \begin{tikzpicture}
-          \node[select] at (0,0) (p) {$\pol$};
-          \node[RV] at (1,0) (a) {$a_t$};
-          \node[RV] at (2,0) (y) {$y_t$};
-          \draw[->] (p) to (a);
-          \draw[->] (a) to (y);
-        \end{tikzpicture}
-        \caption{No confounding: $\pol$ causes $y_t$}
-        \label{fig:no-confounding}
+        \includegraphics[width=0.5\textwidth]{../src/causality/non-cause}
+        \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is not a cause for $y_t$}
+        \label{fig:non-cause-dist}
       \end{figure}
-    \end{block}
-
-\only<article>{
-  \begin{example}
-    Consider the model
-    \begin{align*}
-      a_t &\sim \Normal(\pol,,1)\\
-      y_t \mid a_t, \pol &\sim \Normal(a_t, 1)
-    \end{align*}
+      In this example, it is not the case that $y_t \indep a_t$. Indeed, 
+    \end{example}
+  }
+  
+  \begin{block}{No confounding}
+    \only<article>{We are sure that there is no confounding whenever $y_t \indep \pol \mid a_t$. This is captured by the following diagram.}
     \begin{figure}[H]
       \centering
-      \includegraphics[width=0.5\textwidth]{../src/causality/direct-cause}
-      \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
-      \label{fig:non-cause-dist}
+      \begin{tikzpicture}
+        \node[select] at (0,0) (p) {$\pol$};
+        \node[RV] at (1,0) (a) {$a_t$};
+        \node[RV] at (2,0) (y) {$y_t$};
+        \draw[->] (p) to (a);
+        \draw[->] (a) to (y);
+      \end{tikzpicture}
+      \caption{No confounding: $\pol$ causes $y_t$}
+      \label{fig:no-confounding}
     \end{figure}
-  \end{example}
-}
+  \end{block}
 
+  \only<article>{
+    \begin{example}
+      Consider the model
+      \begin{align*}
+        a_t &\sim \Normal(\pol,,1)\\
+        y_t \mid a_t, \pol &\sim \Normal(a_t, 1)
+      \end{align*}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{../src/causality/direct-cause}
+        \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
+        \label{fig:non-cause-dist}
+      \end{figure}
+    \end{example}
+  }
 
+  \only<article>{
     \begin{figure}[H]
       \centering
       \begin{subfigure}{0.45\textwidth}
@@ -200,14 +200,13 @@ In order to be clear about what constitutes an observation by the experimenter a
       \caption{Correlation between $a_t$ and $y_t$}
       \label{fig:a-y-correlation}
     \end{figure}
-
-  
+  }
 \end{frame}
 \begin{frame}
   \frametitle{Covariates}
   \begin{block}{Sufficient covariate}
-  \only<article>{Sometimes the variable of interest is not conditionally independent of the treatment, unless there exists a \emph{sufficient covariate} $x_t$ such that
-    $y_t \indep \pol \mid a_t, x_t$. If $x_t$ is not observed, then it is sometimes called a confounder.}
+    \only<article>{Sometimes the variable of interest is not conditionally independent of the treatment, unless there exists a \emph{sufficient covariate} $x_t$ such that
+      $y_t \indep \pol \mid a_t, x_t$. If $x_t$ is not observed, then it is sometimes called a confounder.}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
@@ -225,22 +224,22 @@ In order to be clear about what constitutes an observation by the experimenter a
     \end{figure}
   \end{block}
 
-\only<article>{
-  \begin{example}
-    Consider the model
-    \begin{align*}
-      x_t &\sim \Normal(0, 1)\\
-      a_t &\sim \Normal(x_t + \pol, 1)\\
-      y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1)
-    \end{align*}
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.5\textwidth]{../src/causality/sufficient}
-      \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
-      \label{fig:non-cause-dist}
-    \end{figure}
-  \end{example}
-}
+  \only<article>{
+    \begin{example}
+      Consider the model
+      \begin{align*}
+        x_t &\sim \Normal(0, 1)\\
+        a_t &\sim \Normal(x_t + \pol, 1)\\
+        y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1)
+      \end{align*}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{../src/causality/sufficient}
+        \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
+        \label{fig:non-cause-dist}
+      \end{figure}
+    \end{example}
+  }
 
 
   \begin{block}{Instrumental variables}
@@ -264,23 +263,23 @@ In order to be clear about what constitutes an observation by the experimenter a
     \end{figure}
   \end{block}
 
-\only<article>{
-  \begin{example}
-    Consider the model
-    \begin{align*}
-      x_t &\sim \Normal(0, 1)\\
-      z_t &\sim \Normal(x_t, 1)\\
-      a_t &\sim \Normal(z_t + \pol, 1)\\
-      y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1)
-    \end{align*}
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.5\textwidth]{../src/causality/instrumental}
-      \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
-      \label{fig:non-cause-dist}
-    \end{figure}
-  \end{example}
-}
+  \only<article>{
+    \begin{example}
+      Consider the model
+      \begin{align*}
+        x_t &\sim \Normal(0, 1)\\
+        z_t &\sim \Normal(x_t, 1)\\
+        a_t &\sim \Normal(z_t + \pol, 1)\\
+        y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1)
+      \end{align*}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{../src/causality/instrumental}
+        \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
+        \label{fig:non-cause-dist}
+      \end{figure}
+    \end{example}
+  }
 
 
 \end{frame}
@@ -363,7 +362,7 @@ In order to be clear about what constitutes an observation by the experimenter a
 \section{Counterfactual analysis}
 
 \only<article>{
-Counterfactual analysis is mainly about questions relative to individuals, and specifically about what the effects of alternative actions would have been in the past. 
+  Counterfactual analysis is mainly about questions relative to individuals, and specifically about what the effects of alternative actions would have been in the past. 
 }
 \subsection{Disturbances and structural equation models}
 
