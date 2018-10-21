@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-n_samples = 10000
+n_samples = 1000
 
 # Each policy specifies a different distribution
 # y = normal
