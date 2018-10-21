@@ -12,9 +12,20 @@
 \begin{frame}
   \frametitle{Headaches and aspirins}
   \only<article>{Causal questions do not just deal with statistical relationships. There are two types of questions we would like to consider. The first question is,  what is the possible effect of our actions? This is called the \emph{effect of causes}. The second question is, what was the reason for something happening? That is called the \emph{cause of effects?}}
-  \begin{example}
+  \begin{example}[Population effects]
     \only<article>{
-      We can ask ourselves two different questions about the effect of aspirin on headaches.
+      We can ask ourselves two different questions about the effect of population effect aspirin on headaches.
+    }
+    \begin{itemize}
+    \item Does taking an aspirin lead to headaches passing?
+    \item Does having a headache lead to aspirin-taking?
+    \end{itemize}
+  \end{example}
+
+
+  \begin{example}[Individual effects]
+    \only<article>{
+      We can ask ourselves two different questions about the individual effect of aspirin on headaches.
     }
     \begin{itemize}
     \item Effects of \alert{Causes}: Will my headache pass if I take an \alert{aspirin}?
@@ -25,7 +36,7 @@
 \end{frame}
 \subsection{Decision diagrams}
 \only<article>{
-  Graphical models can also be used to model causal relations. In particular, we can use \emph{decision diagarams}, which include not only random variables, but also \emph{decision} variables, denoted with squares, as well as utility variables, denoted via diamonds. In the following examples, we assume there are some underlying distributions specified by parameters $\param$, which we include in the diagrams for clarity. Even though it may seem intuitively sensible to suppose it, the arrow directions in the diagrams \emph{do not} indicate direct causes. The only important thing for determining whether some variable influences another is whether or not there is independence between the corresponding decision and random variables.}
+  Graphical models can also be used to model causal relations. In particular, we can use \emph{decision diagrams}\footnote{Otherwise called influence diagrams}, which include not only random variables, but also \emph{decision} variables, denoted with squares, as well as utility variables, denoted via diamonds. In the following examples, we assume there are some underlying distributions specified by parameters $\param$, which we include in the diagrams for clarity. Even though it may seem intuitively sensible to suppose it, the arrow directions in the diagrams \emph{do not} indicate direct causes. The only important thing for determining whether some variable influences another is whether or not there is independence between the corresponding decision and random variables.}
 \begin{frame}
   \begin{figure}[H]
     \centering
@@ -33,7 +44,12 @@
       \node[RV, hidden] at (-1,1) (p) {$\param$};
       \node[RV] at (0,0) (x) {$x_t$};
       \node[RV] at (1,1) (y) {$y_t$};
-      \node[RV] at (2,0) (a) {$a_t$};
+      \only<1,2>{
+        \node[select] at (2,0) (a) {$a_t$};
+      }
+      \only<3>{
+        \node[RV] at (2,0) (a) {$a_t$};
+      }
       \draw[->] (x)--(y);
       \draw[->] (x)--(a);
       \draw[->] (a)--(y);
@@ -99,6 +115,8 @@
   \end{block}
 \end{frame}
 \subsection{Common structural assumptions}
+\only<article>{
+In order to be clear about what constitutes an observation by the experimenter and what is a decision, we must clearly separate random variables from decision variables. The individual actions may be random variables, but they will depend on decisions taken. As we will see later, this is useful for modelling interventions.}
 
 \begin{frame}
   \frametitle{Basic causal structures}
@@ -113,7 +131,7 @@
           \draw[->] (p) to (a);
           \draw[->] (y) to (a);
         \end{tikzpicture}
-        \caption{$a$ does not cause $y$}
+        \caption{$\pol$ does not cause $y$}
         \label{fig:non-cause}
       \end{figure}
     \only<article>{In the diagram above, we see that $y_t \indep \pol$.}
@@ -131,6 +149,7 @@
       \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is not a cause for $y_t$}
       \label{fig:non-cause-dist}
     \end{figure}
+    In this example, it is not the case that $y_t \indep a_t$. Indeed, 
   \end{example}
 }
     
@@ -145,7 +164,7 @@
           \draw[->] (p) to (a);
           \draw[->] (a) to (y);
         \end{tikzpicture}
-        \caption{No confounding: $x$ causes $y$}
+        \caption{No confounding: $\pol$ causes $y_t$}
         \label{fig:no-confounding}
       \end{figure}
     \end{block}
@@ -251,57 +270,6 @@
 \end{frame}
 
 
-\subsection{Disturbances and structural equation models}
-
-\begin{frame}
-  \only<article>{A structural equation model describes the random variables as deterministic functions of the decisions variables and the random exogenous disturbances. This allows us to separate the unobserved randomness from the known functional relationship between the other variables. Structurally, the model is essentially a variant of decision diagrams, as shown in Figure~\ref{fig:disturbance-model}.}
-  \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-      \node[RV, hidden] at (-1,1) (p) {$\param$};
-      \node[RV] at (0,0) (x) {$x_t$};
-      \node[RV] at (1,1) (y) {$y_t$};
-      \node[RV] at (2,0) (a) {$a_t$};
-      \draw[->] (x)--(y);
-      \draw[->] (x)--(a);
-      \draw[->] (a)--(y);
-      \draw[->] (p) to (x);
-      \draw[->] (p)--(y);
-      \node[select] at (4,0) (pol) {$\pol$};
-      \draw[->] (pol)--(a);
-      \node[utility] at (3,1) (u) {$\util$};
-      \draw[->] (a)--(u);
-      \draw[->] (y)--(u);
-      \node[RV, hidden, above of=y]  (oy) {$\omega_{t,y}$};
-      \node[RV, hidden, below of=x]  (ox) {$\omega_{t,x}$};
-      \node[RV, hidden, below of=a]  (oa) {$\omega_{t,a}$};
-      \draw[->] (ox) -- (x);
-      \draw[->] (oa) -- (a);
-      \draw[->] (oy) -- (y);
-    \end{tikzpicture}
-    \caption{Decision diagram with unknown parameter $\param$ and exogenous disturbances $\omega$.}
-    \label{fig:disturbance-model}
-  \end{figure}
-  \only<article>{We still need to specify particular functional relationships between the variables. Generally speaking, a random variable taking values in $\CX$, is simply a function $\Omega \times \Param \to \CX$. For example, in Figure~\ref{fig:disturbance-model} $y_t = f_y(\omega, \theta)$. Taking into account the dependencies, this can be rewritten in terms of a function of the other random variables, and the local disturbance: $y_t = f_{y|a,x}(a,x, \omega_{t,y}, \theta)$. The choice of the function, together with the distribution of the parameter $\param$ and the disturbances $\omega$, fully determines our model.}
-  \begin{example}{Structural equation model  for Figure~\ref{fig:disturbance-model}}
-    \begin{align*}
-      \theta &\sim \Normal(\vectorsym{0}_4, \eye_4),\\
-      x_t &= \theta_0 \omega_{t,x},
-          & \omega_{t,x} &\sim \Bernoulli(0.5)\\
-      y_t &= \theta_1 y_t + \theta_2 x_t + \theta_3 a_t + \omega_{t,y},
-          &\omega_{t,y} &\sim \Normal(0,1)\\
-      a_t &= \pol(x_t) + \omega_{t,a} \mod |\CA| 
-          &\omega_{t,a} &\sim 0.1 \Singular(0) + 0.9 \Uniform(\CA),
-    \end{align*}
-  \end{example}
-  \only<article>{Structural equation models are particularly interesting in applications such as economics, where there are postulated relations between various economic quantities.}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Treatment-unit additivity}
-  
-\end{frame}
-
 \subsection{Interventions}
 \only<article>{Interventions are of primary interest when we have a set of observational data, collected under a \emph{null} or \emph{default} policy $\pol_0$.  We then wish to intervene with some policy $\pol$ in order to maximise our utility function, or to simply try and estimate the exact relationships between variables.}
 \begin{frame}
@@ -376,7 +344,69 @@
 
 \only<article>{Inference in causal models requires building a complete model for the effect of every action.}
 
-\subsection{Application to recommendation systems}
+\section{Counterfactual analysis}
+
+\only<article>{
+Counterfactual analysis is mainly about questions relative to individuals, and specifically about what the effects of alternative actions would have been in the past. 
+}
+\subsection{Disturbances and structural equation models}
+
+\begin{frame}
+  \only<article>{A structural equation model describes the random variables as deterministic functions of the decisions variables and the random exogenous disturbances. This allows us to separate the unobserved randomness from the known functional relationship between the other variables. Structurally, the model is essentially a variant of decision diagrams, as shown in Figure~\ref{fig:disturbance-model}.}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV, hidden] at (-1,1) (p) {$\param$};
+      \node[RV] at (0,0) (x) {$x_t$};
+      \node[RV] at (1,1) (y) {$y_t$};
+      \node[RV] at (2,0) (a) {$a_t$};
+      \draw[->] (x)--(y);
+      \draw[->] (x)--(a);
+      \draw[->] (a)--(y);
+      \draw[->] (p) to (x);
+      \draw[->] (p)--(y);
+      \node[select] at (4,0) (pol) {$\pol$};
+      \draw[->] (pol)--(a);
+      \node[utility] at (3,1) (u) {$\util$};
+      \draw[->] (a)--(u);
+      \draw[->] (y)--(u);
+      \node[RV, hidden, above of=y]  (oy) {$\omega_{t,y}$};
+      \node[RV, hidden, below of=x]  (ox) {$\omega_{t,x}$};
+      \node[RV, hidden, below of=a]  (oa) {$\omega_{t,a}$};
+      \draw[->] (ox) -- (x);
+      \draw[->] (oa) -- (a);
+      \draw[->] (oy) -- (y);
+    \end{tikzpicture}
+    \caption{Decision diagram with exogenous disturbances $\omega$.}
+    \label{fig:disturbance-model}
+  \end{figure}
+  \only<article>{We still need to specify particular functional relationships between the variables. Generally speaking, a random variable taking values in $\CX$, is simply a function $\Omega \times \Param \to \CX$. For example, in Figure~\ref{fig:disturbance-model} $y_t = f_y(\omega, \theta)$. Taking into account the dependencies, this can be rewritten in terms of a function of the other random variables, and the local disturbance: $y_t = f_{y|a,x}(a,x, \omega_{t,y}, \theta)$. The choice of the function, together with the distribution of the parameter $\param$ and the disturbances $\omega$, fully determines our model.}
+  \begin{example}[Structural equation model  for Figure~\ref{fig:disturbance-model}]
+    \only<presentation>{\vspace{-1em}}
+    \only<article>{
+      In structural equation models, the only random variables are the exogenous disturbances. In a fully Bayesian framework, $\param$ is also a latent random variable. The remaining variables are  deterministic functions. 
+    }
+    \begin{align*}
+      \theta &\sim \Normal(\vectorsym{0}_4, \eye_4),\\
+      x_t &= \theta_0 \omega_{t,x},
+          & \omega_{t,x} &\sim \Bernoulli(0.5)\\
+      y_t &= \theta_1 y_t + \theta_2 x_t + \theta_3 a_t + \omega_{t,y},
+          &\omega_{t,y} &\sim \Normal(0,1)\\
+      a_t &= \pol(x_t) + \omega_{t,a} \mod |\CA| 
+          &\omega_{t,a} &\sim 0.1 \Singular(0) + 0.9 \Uniform(\CA),
+    \end{align*}
+  \end{example}
+  \only<article>{Structural equation models are particularly interesting in applications such as economics, where there are postulated relations between various economic quantities. }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Treatment-unit additivity}
+  
+\end{frame}
+
+
+
+\section{Application to recommendation systems}
 \begin{frame}
 
   \only<2>{

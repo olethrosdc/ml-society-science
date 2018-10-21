@@ -63,6 +63,15 @@ plt.title("Direct cause")
 plt.savefig("direct-cause.pdf")
 plt.show()
 
+
+D_non_cause_a = np.concatenate([D_non_cause_0[0], D_non_cause_1[0]])
+D_non_cause_y = np.concatenate([D_non_cause_0[1], D_non_cause_1[1]])
+sns.jointplot(D_non_cause_a, D_non_cause_y, kind="reg")
+plt.title("When the decision is a cause")
+D_direct_cause_a = np.concatenate([D_direct_cause_0[0], D_direct_cause_1[0]])
+D_direct_cause_y = np.concatenate([D_direct_cause_0[1], D_direct_cause_1[1]])
+
+
 D_sufficient_covariate_0 = sufficient_covariate_model(policy_0, n_samples)
 D_sufficient_covariate_1 = sufficient_covariate_model(policy_1, n_samples)
 
