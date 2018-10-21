@@ -42,35 +42,42 @@ def instrumental_variable_model(policy, n_samples):
     y_t = np.random.normal(x_t + a_t)
     return a_t, y_t, x_t
 
+policy_0 = -1
+policy_1 = 1
 
-D_non_cause_0 = non_cause_model(0, n_samples)
-D_non_cause_1 = non_cause_model(1, n_samples)
+D_non_cause_0 = non_cause_model(policy_0, n_samples)
+D_non_cause_1 = non_cause_model(policy_1, n_samples)
 
 sns.distplot(D_non_cause_0[1])
 sns.distplot(D_non_cause_1[1])
 plt.title("Non-Cause")
+plt.savefig("non-cause.pdf")
 plt.show()
 
-D_direct_cause_0 = direct_cause_model(0, n_samples)
-D_direct_cause_1 = direct_cause_model(1, n_samples)
+D_direct_cause_0 = direct_cause_model(policy_0, n_samples)
+D_direct_cause_1 = direct_cause_model(policy_1, n_samples)
 
 sns.distplot(D_direct_cause_0[1])
 sns.distplot(D_direct_cause_1[1])
 plt.title("Direct cause")
+plt.savefig("direct-cause.pdf")
 plt.show()
 
-D_sufficient_covariate_0 = sufficient_covariate_model(0, n_samples)
-D_sufficient_covariate_1 = sufficient_covariate_model(1, n_samples)
+D_sufficient_covariate_0 = sufficient_covariate_model(policy_0, n_samples)
+D_sufficient_covariate_1 = sufficient_covariate_model(policy_1, n_samples)
 
 sns.distplot(D_sufficient_covariate_0[1])
 sns.distplot(D_sufficient_covariate_1[1])
 plt.title("Sufficient covariate")
+plt.savefig("sufficient.pdf")
 plt.show()
 
-D_instrumental_variable_0 = instrumental_variable_model(0, n_samples)
-D_instrumental_variable_1 = instrumental_variable_model(1, n_samples)
+
+D_instrumental_variable_0 = instrumental_variable_model(policy_0, n_samples)
+D_instrumental_variable_1 = instrumental_variable_model(policy_1, n_samples)
 
 sns.distplot(D_instrumental_variable_0[1])
 sns.distplot(D_instrumental_variable_1[1])
 plt.title("Instrumental variable")
+plt.savefig("instrumental.pdf")
 plt.show()

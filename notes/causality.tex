@@ -125,6 +125,12 @@
       y_t &\sim \Normal(0,1)\\
       a_t \mid y_t, \pol &\sim \Normal(y_t + \pol, 1)
     \end{align*}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth]{../src/causality/non-cause}
+      \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is not a cause for $y_t$}
+      \label{fig:non-cause-dist}
+    \end{figure}
   \end{example}
 }
     
@@ -143,6 +149,23 @@
         \label{fig:no-confounding}
       \end{figure}
     \end{block}
+
+\only<article>{
+  \begin{example}
+    Consider the model
+    \begin{align*}
+      a_t &\sim \Normal(\pol,,1)\\
+      y_t \mid a_t, \pol &\sim \Normal(a_t, 1)
+    \end{align*}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth]{../src/causality/direct-cause}
+      \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
+      \label{fig:non-cause-dist}
+    \end{figure}
+  \end{example}
+}
+
   
 \end{frame}
 \begin{frame}
@@ -167,6 +190,24 @@
     \end{figure}
   \end{block}
 
+\only<article>{
+  \begin{example}
+    Consider the model
+    \begin{align*}
+      x_t &\sim \Normal(0, 1)\\
+      a_t &\sim \Normal(x_t + \pol, 1)\\
+      y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1)
+    \end{align*}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth]{../src/causality/sufficient}
+      \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
+      \label{fig:non-cause-dist}
+    \end{figure}
+  \end{example}
+}
+
+
   \begin{block}{Instrumental variables}
     \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, which depends on $x_t$, which is observed, and on the basis of which we make our decisions. However the effect of the treatment depends on $x_t$ directly. This is called an \emph{instrumental variable.}}
     \begin{figure}[H]
@@ -187,6 +228,25 @@
       \label{fig:instrumental-variable}
     \end{figure}
   \end{block}
+
+\only<article>{
+  \begin{example}
+    Consider the model
+    \begin{align*}
+      x_t &\sim \Normal(0, 1)\\
+      z_t &\sim \Normal(x_t, 1)\\
+      a_t &\sim \Normal(z_t + \pol, 1)\\
+      y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1)
+    \end{align*}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth]{../src/causality/instrumental}
+      \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
+      \label{fig:non-cause-dist}
+    \end{figure}
+  \end{example}
+}
+
 
 \end{frame}
 
@@ -243,7 +303,7 @@
 \end{frame}
 
 \subsection{Interventions}
-\only<article>{Interventions are of primary interest when we have a set of observational data, collected under a \emph{null} or \emph{default} policy $\pol_0$.  We then wish to intervene with some policy $\pol$ in order to maximise our utility function. }
+\only<article>{Interventions are of primary interest when we have a set of observational data, collected under a \emph{null} or \emph{default} policy $\pol_0$.  We then wish to intervene with some policy $\pol$ in order to maximise our utility function, or to simply try and estimate the exact relationships between variables.}
 \begin{frame}
   \begin{example}[Weight loss]
     \only<article>{Consider weight loss. We can collect observational data from a population of overweight adults over a year. We can imagine that $x$ represents the weight and vital statistics of an individual and $y$ their change in weight after a year. We may also observe their individual actions $a$, such as whether or not they are following a particular diet or exercise regime. Under the default policy $\pol_0$, their actions are determined only the individuals. Consider an alternative policy $\pol$, which prescribes diet and exercise regimes. Due to non-compliance, actual actions taken by individuals may differ from prescribed actions.}
