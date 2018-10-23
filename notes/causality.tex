@@ -11,7 +11,7 @@
 
 \begin{frame}
   \frametitle{Headaches and aspirins}
-  \only<article>{Causal questions do not just deal with statistical relationships. There are two types of questions we would like to consider. The meaning of these questions is slightly different depending on whether we are talking about the population at large, or a specific individual. For populations, the main question is whether or not our actions have a causal effect. In observational data, we also need to consider the \emph{direction of causation}.}
+  \only<article>{Causal questions do not just deal with statistical relationships. The meaning of these questions is slightly different depending on whether we are talking about the population at large, or a specific individual. For populations, the main question is whether or not our actions have a causal effect. In observational data, we also need to consider the \emph{direction of causation}.}
   \begin{example}[Population effects]
     \only<article>{
       We can ask ourselves two different questions about the effect of population effect aspirin on headaches.
@@ -326,7 +326,8 @@
         \node[RV] at (0,0) (x) {$x_t$};
         \node[RV] at (1,0) (y) {$y_t$};
         \node[RV] at (0,1) (z) {$z_t$};
-        \node[RV] at (1,1) (p) {$p_t$};
+        \node[RV] at (1,1) (p) {$a_t$};
+        \node[select,hidden] at (2,1) (pol) {$\pol$};
         \node[RV,hidden] at (2,0) (o) {$\omega_t$};
         \draw[->] (x) to (y);
         \draw[->] (x) to (p);
@@ -334,10 +335,44 @@
         \draw[->] (p) to (y);
         \draw[->] (o) to (p);
         \draw[->] (o) to (y);
+        \draw[->] (pol) to (p);
       \end{tikzpicture}
-      \caption{$p_t$ is the price, $z_t$ are fuel costs, $x_t$ is the customer type, $y_t$ is the amount of sales, $\omega_t$ is whether there is a conference.}
+      \caption{$a_t$ is the price, $z_t$ are fuel costs, $x_t$ is the customer type, $y_t$ is the amount of sales, $\omega_t$ is whether there is a conference.}
     \end{figure}
+    \begin{equation}
+      \label{eq:price}
+      y_t = g_\param(a_t, x_t) + \omega_t, \qquad \E_\param \omega_t = 0, \qquad \forall \param \in \Param
+    \end{equation}
   \end{example}
+  \begin{block}{Standard prediction}
+    \only<article>{In standard prediction tasks, we just want to estimate the distribution of sales given the characteristics and price. Since the actions are correlated with the outcome through the confounder, this estimate is biased.}
+    \[
+    \Pr_\param^\pol(y_t \mid x_t, a_t), \qquad  \E^\pol_\param(y_t \mid x_t, a_t) = g_\param(x_t, a_t) + \E_\param^\pol(\omega_t \mid x_t, a_t).
+    \]
+  \end{block}
+  \begin{assumption}[Relevance]
+    $a_t$ depends on both $x_t, z_t$.
+  \end{assumption}
+  \begin{assumption}[Exclusion]
+    $z_t \indep y_t \mid x_t, a_t, \omega_t$.
+  \end{assumption}
+  \begin{assumption}[Unconfounded instrument]
+    $z_t \indep \omega_t \mid x_t$.
+  \end{assumption}
+\end{frame}
+
+\begin{frame}
+  \only<article>{Let us define the function}
+  \begin{block}{Counterfactual prediction function}
+    \only<article>{Let us restrict our policies to those that only depend on $x_t$. Then any $\pol, x_t$ pair defines a unique action $a_t$.}
+    \[
+    h(\pol, x_t) \defn \E_\param(y_t \mid \pol, x_t) =  g_\param(\pol, x_t) + \E_\param(\omega_t \mid x_t)
+    \]
+  \end{block}
+  \[
+  \E^\pol_\param(y_t \mid x_t, z_t) = \E^\pol_\param(g \mid x_t, z_t) + \E_\param(\omega_t \mid x_t)
+  = \int h(p, x) \dd{\pol}(a_t \mid x_t, z_t)
+  \]
 \end{frame}
 \subsection{Confounders}
 \begin{frame}
