@@ -1,4 +1,4 @@
-\section{Causality}
+\section{Introduction}
 \only<presentation>{
   \begin{frame}
     \tableofcontents[ 
@@ -11,18 +11,17 @@
 
 \begin{frame}
   \frametitle{Headaches and aspirins}
-  \only<article>{Causal questions do not just deal with statistical relationships. There are two types of questions we would like to consider. The first question is,  what is the possible effect of our actions? This is called the \emph{effect of causes}. The second question is, what was the reason for something happening? That is called the \emph{cause of effects?}}
+  \only<article>{Causal questions do not just deal with statistical relationships. There are two types of questions we would like to consider. The meaning of these questions is slightly different depending on whether we are talking about the population at large, or a specific individual. For populations, the main question is whether or not our actions have a causal effect. In observational data, we also need to consider the \emph{direction of causation}.}
   \begin{example}[Population effects]
     \only<article>{
       We can ask ourselves two different questions about the effect of population effect aspirin on headaches.
     }
     \begin{itemize}
-    \item Does taking an aspirin lead to headaches passing?
+    \item Is aspirin an effective cure for headaches?
     \item Does having a headache lead to aspirin-taking?
     \end{itemize}
   \end{example}
-
-
+  \only<article>{For individuals, the first question is,  what is the possible effect of our actions? This is called the \emph{effect of causes}. The second question is, what was the reason for something happening? That is called the \emph{cause of effects?} }
   \begin{example}[Individual effects]
     \only<article>{
       We can ask ourselves two different questions about the individual effect of aspirin on headaches.
@@ -32,7 +31,7 @@
     \item \alert{Causes} of Effects: Would my headache have passed if I had not taken an \alert{aspirin}?
     \end{itemize}
   \end{example}
-  \only<article>{In order to be able to meaningfully talk about effects and causes we must also introduce decisions. Formally, there is nothing different in the decisions in this section and those introduced in Section~\ref{sec:decision-problems}. However, in this case we will try and use decisions to model outside interventions in a ``natural'' system.}
+  \only<article>{In order to be able to meaningfully talk about effects and causes we must also introduce decisions. Formally, there is nothing different in the decisions in this section and those introduced in Section~\ref{sec:decision-problems}. However, in this case we will try and use decisions to model outside interventions in a ``natural'' system, whereby a \emph{null} decision means that we do not intervene.}
 \end{frame}
 \subsection{Decision diagrams}
 \only<article>{
@@ -70,7 +69,7 @@
   \end{figure}
   \only<3>{
     \begin{example}[Taking an aspiring]
-      \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we might have that}
+      \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we can define the following variables:}
       \begin{itemize}
       \item Individual $t$
       \item Information $x_t$
@@ -91,11 +90,12 @@
       \end{itemize}
     \end{example}
   }
+  \only<article>{In both cases, there are some questions we can ask using the underlying model. The dependency structure is not enough to know \emph{a priori} whether we can obtain meaningful answers. This depends on the specific assumptions we make about the model.}
 \end{frame}
 
 \begin{frame}
   \frametitle{Conditional distributions and decision variables.}
-  \only<article>{We normally define the conditional distribution of $A$ given $B$ under a probability measure $P$ as:}
+  \only<article>{We begin with a parenthesis on conditional distributions. We normally define the conditional distribution of $A$ given $B$ under a probability measure $P$ as:}
   \[
   P(A \mid B) \defn \frac{P(A \cap B)}{P(B)}.
   \]
@@ -149,12 +149,13 @@
         \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is not a cause for $y_t$}
         \label{fig:non-cause-dist}
       \end{figure}
-      In this example, it is not the case that $y_t \indep a_t$. Indeed, 
+      In this example, we see tht $y_t$ is independent of the policy
+      $\pol$.  However, $y_t$ is not independent of the action taken, as the action depends on $y_t$ directly. The correlation between $y, a$ is shown in Figure~\ref{fig:a-y-correlation:non-cause}.
     \end{example}
   }
   
   \begin{block}{No confounding}
-    \only<article>{We are sure that there is no confounding whenever $y_t \indep \pol \mid a_t$. This is captured by the following diagram.}
+    \only<article>{Confounding is a term that indicates the existence of latent variables that create dependencies between $y_t, \pol, a_t$. We are sure that there is no confounding whenever $y_t \indep \pol \mid a_t$, as captured by the diagram in Figure~\ref{fig:no-confounding}. In this case $\pol$ is a direct cause for $y_t$ through $a_t$.}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
@@ -173,7 +174,7 @@
     \begin{example}
       Consider the model
       \begin{align*}
-        a_t &\sim \Normal(\pol,,1)\\
+        a_t &\sim \Normal(\pol,1)\\
         y_t \mid a_t, \pol &\sim \Normal(a_t, 1)
       \end{align*}
       \begin{figure}[H]
@@ -182,6 +183,7 @@
         \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
         \label{fig:non-cause-dist}
       \end{figure}
+      \only<article>{We can see how the distribution of $y_t$ changes when $\pol$ changes in Figure~\ref{fig:non-cause-dist}. In this case there is also a correlation between $a_t, y_t$ as seen in Figure~\ref{fig:a-y-correlation}.}
     \end{example}
   }
 
@@ -191,11 +193,13 @@
       \begin{subfigure}{0.45\textwidth}
         \includegraphics[width=0.9\textwidth]{../src/causality/a-y-non-cause}
         \caption{Non-cause}
+        \label{fig:a-y-correlation:non-cause}
       \end{subfigure}
       \hspace{1em}
       \begin{subfigure}{0.45\textwidth}
         \includegraphics[width=0.9\textwidth]{../src/causality/a-y-direct-cause}
         \caption{Cause}
+        \label{fig:a-y-correlation:cause}
       \end{subfigure}
       \caption{Correlation between $a_t$ and $y_t$}
       \label{fig:a-y-correlation}
@@ -230,20 +234,21 @@
       \begin{align*}
         x_t &\sim \Normal(0, 1)\\
         a_t &\sim \Normal(x_t + \pol, 1)\\
-        y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1)
+        y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1),
       \end{align*}
+      \only<article>{Here $x_t$ influences the outcome $y_t$, but also directly influences $a_t$ through the policy $\pol$. As we can see in Figure~\ref{fig:non-cause-dist}, the policy then has an influence on $y_t$}
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.5\textwidth]{../src/causality/sufficient}
         \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
-        \label{fig:non-cause-dist}
+        \label{fig:sufficient-covariate-dist}
       \end{figure}
     \end{example}
   }
 
 
-  \begin{block}{Instrumental variables}
-    \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, which depends on $x_t$, which is observed, and on the basis of which we make our decisions. However the effect of the treatment depends on $x_t$ directly. This is called an \emph{instrumental variable.}}
+  \begin{block}{Instrumental variables and confounders}
+    \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, which depends on $x_t$, which is observed, and on the basis of which we make our decisions. However the effect of the treatment depends on $x_t$ directly. This is called an \emph{instrumental variable.} \index{instrument@see{variable, instrumental}}\index{variable,instrumental} As $x_t$ is a latent covariate, it can be called a \emph{confounder.} \index{confounder}}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
@@ -272,11 +277,12 @@
         a_t &\sim \Normal(z_t + \pol, 1)\\
         y_t \mid a_t, \pol &\sim \Normal(x_t + a_t, 1)
       \end{align*}
+      \only<article>{In this scenario, $x_t$ directly influences the outcome $y_t$, but is not observed.\footnote{Hence, it can be called a confounder.}}
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.5\textwidth]{../src/causality/instrumental}
         \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
-        \label{fig:non-cause-dist}
+        \label{fig:instrumental-dist}
       \end{figure}
     \end{example}
   }
@@ -285,7 +291,7 @@
 \end{frame}
 
 
-\subsection{Interventions}
+\section{Interventions}
 \only<article>{Interventions are of primary interest when we have a set of observational data, collected under a \emph{null} or \emph{default} policy $\pol_0$.  We then wish to intervene with some policy $\pol$ in order to maximise our utility function, or to simply try and estimate the exact relationships between variables.}
 \begin{frame}
   \begin{example}[Weight loss]
@@ -310,17 +316,18 @@
 \end{frame}  
 
 
-\subsection{Instrumental variables}
+\subsection{Learning instrumental variables}
 \begin{frame}
   \begin{example}[Pricing model]
+    \only<article>{In the following pricing model, we wish to maximise profits for an airline}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
-        \node[RV] at (0,0) (x) {$x$};
-        \node[RV] at (1,0) (y) {$y$};
-        \node[RV] at (0,1) (z) {$z$};
-        \node[RV] at (1,1) (p) {$p$};
-        \node[RV,hidden] at (2,0) (o) {$\omega$};
+        \node[RV] at (0,0) (x) {$x_t$};
+        \node[RV] at (1,0) (y) {$y_t$};
+        \node[RV] at (0,1) (z) {$z_t$};
+        \node[RV] at (1,1) (p) {$p_t$};
+        \node[RV,hidden] at (2,0) (o) {$\omega_t$};
         \draw[->] (x) to (y);
         \draw[->] (x) to (p);
         \draw[->] (z) to (p);
@@ -328,6 +335,7 @@
         \draw[->] (o) to (p);
         \draw[->] (o) to (y);
       \end{tikzpicture}
+      \caption{$p_t$ is the price, $z_t$ are fuel costs, $x_t$ is the customer type, $y_t$ is the amount of sales, $\omega_t$ is whether there is a conference.}
     \end{figure}
   \end{example}
 \end{frame}
@@ -359,7 +367,7 @@
 
 \only<article>{Inference in causal models requires building a complete model for the effect of every action.}
 
-\section{Counterfactual analysis}
+\section{Counterfactuals}
 
 \only<article>{
   Counterfactual analysis is mainly about questions relative to individuals, and specifically about what the effects of alternative actions would have been in the past. 
