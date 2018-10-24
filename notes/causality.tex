@@ -13,6 +13,36 @@
   \frametitle{Headaches and aspirins}
   \only<article>{Causal questions do not just deal with statistical relationships. The meaning of these questions is slightly different depending on whether we are talking about the population at large, or a specific individual. For populations, the main question is whether or not our actions have a causal effect. In observational data, we also need to consider the \emph{direction of causation}.}
   \begin{example}[Population effects]
+    \begin{figure}[H]
+      \centering
+      \begin{subfigure}{\fwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.5]
+          \begin{axis}[xmin=0,xmax=5, xlabel={Dose}, ylabel={Response} ]
+            % use TeX as calculator:
+            \addplot[color=blue] {1/(1 + e^(1-x))};
+            \addplot[color=red] {1/(1 + e^(3-x))};
+            \legend{Cured, Side-effects}
+          \end{axis}
+        \end{tikzpicture}
+        \caption{Dose-response curve.}
+        \label{fig:dose-response}
+      \end{subfigure}
+      \begin{subfigure}{\fwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.5]
+          \begin{axis}[xmin=-2,xmax=2, xlabel={Sensitivity}, ylabel={Response}, samples=50 ]
+            % use TeX as calculator:
+            \addplot[color=blue] {e^(-x^2))};
+            \addplot[color=red] {0.5*e^(-4*x^2)};
+            \legend{High dose, Low dose}
+          \end{axis}
+        \end{tikzpicture}
+        \caption{Response distribution}
+        \label{fig:dose-response}
+      \end{subfigure}
+      \caption{Investigation the response of the population to various doses of the drug. }
+    \end{figure}
     \only<article>{
       We can ask ourselves two different questions about the effect of population effect aspirin on headaches.
     }
@@ -21,17 +51,43 @@
     \item Does having a headache lead to aspirin-taking?
     \end{itemize}
   \end{example}
-  \only<article>{For individuals, the first question is,  what is the possible effect of our actions? This is called the \emph{effect of causes}. The second question is, what was the reason for something happening? That is called the \emph{cause of effects?} }
+\end{frame}
+\begin{frame}
+\only<article>{For individuals, the first question is,  what is the possible effect of our actions? This is called the \emph{effect of causes}. The second question is, what was the reason for something happening? That is called the \emph{cause of effects?} }
   \begin{example}[Individual effects]
+    \begin{figure}[H]
+      \centering
+      \begin{subfigure}{\fwidth}
+        \includegraphics[width=\fwidth]{../figures/aspirin}
+      \end{subfigure}
+      \begin{subfigure}{\fwidth}
+        \includegraphics[width=\fwidth]{../figures/450px-Migraine.jpg}
+      \end{subfigure}
+    \end{figure}
     \only<article>{
       We can ask ourselves two different questions about the individual effect of aspirin on headaches.
     }
     \begin{itemize}
-    \item Effects of \alert{Causes}: Will my headache pass if I take an \alert{aspirin}?
-    \item \alert{Causes} of Effects: Would my headache have passed if I had not taken an \alert{aspirin}?
+    \item Effects of \alert{Causes}: Will \alert{my} headache pass \alert{if I take} an aspirin?
+    \item \alert{Causes} of Effects: Would \alert{my} headache have passed if I had \alert{not taken} an aspirin?
     \end{itemize}
   \end{example}
   \only<article>{In order to be able to meaningfully talk about effects and causes we must also introduce decisions. Formally, there is nothing different in the decisions in this section and those introduced in Section~\ref{sec:decision-problems}. However, in this case we will try and use decisions to model outside interventions in a ``natural'' system, whereby a \emph{null} decision means that we do not intervene.}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Overview}
+  \begin{block}{Inferring causal models}
+    We can distinguish different \alert{models} from observational or experimental data.
+  \end{block}
+
+  \begin{block}{Inferring individual effects}
+    The effect of possible intervention on an individual is not generally determinable. We usually require strong assumptions.
+  \end{block}
+  
+  \begin{block}{Decision-theoretic view}
+    There are many competing approaches to causality. We will remain within the decision-theoretic framework, which allows us to crisply definite both our knowledge and assumptions.
+  \end{block}
 \end{frame}
 \subsection{Decision diagrams}
 \only<article>{
@@ -68,7 +124,7 @@
     \label{fig:decision-diagram}
   \end{figure}
   \only<3>{
-    \begin{example}[Taking an aspiring]
+    \begin{example}[Taking an aspirin]
       \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we can define the following variables:}
       \begin{itemize}
       \item Individual $t$
@@ -248,7 +304,7 @@
 
 
   \begin{block}{Instrumental variables and confounders}
-    \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, which depends on $x_t$, which is observed, and on the basis of which we make our decisions. However the effect of the treatment depends on $x_t$ directly. This is called an \emph{instrumental variable.} \index{instrument@see{variable, instrumental}}\index{variable,instrumental} As $x_t$ is a latent covariate, it can be called a \emph{confounder.} \index{confounder}}
+    \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, on the basis of which we make our decisions. This is called an \emph{instrumental variable.} \index{instrument@see{variable, instrumental}}\index{variable,instrumental}. In this case $z_t$ still depends on $x_t$ and the effect of the treatment depends on $x_t$ directly. As $x_t$ is a latent covariate, it can be called a \emph{confounder.} \index{confounder}}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
@@ -294,26 +350,296 @@
 \section{Interventions}
 \only<article>{Interventions are of primary interest when we have a set of observational data, collected under a \emph{null} or \emph{default} policy $\pol_0$.  We then wish to intervene with some policy $\pol$ in order to maximise our utility function, or to simply try and estimate the exact relationships between variables.}
 \begin{frame}
-  \begin{example}[Weight loss]
-    \only<article>{Consider weight loss. We can collect observational data from a population of overweight adults over a year. We can imagine that $x$ represents the weight and vital statistics of an individual and $y$ their change in weight after a year. We may also observe their individual actions $a$, such as whether or not they are following a particular diet or exercise regime. Under the default policy $\pol_0$, their actions are determined only the individuals. Consider an alternative policy $\pol$, which prescribes diet and exercise regimes. Due to non-compliance, actual actions taken by individuals may differ from prescribed actions.}
-    \begin{figure}[H]
-      \centering
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (x) {$x$};
-        \node[RV] at (1,1) (y) {$y$};
-        \node[RV] at (2,0) (a) {$a$};
-        \draw[->] (x)--(y);
-        \draw[->] (x)--(a);
-        \draw[->] (a)--(y);
-        \node[select] at (4,0) (p) {$\pol$};
-        \draw[->] (p)--(a);
-        \node[utility] at (3,1) (u) {$\util$};
-        \draw[->] (a)--(u);
-        \draw[->] (y)--(u);
-      \end{tikzpicture}
-    \end{figure}
+  \frametitle{Modelling interventions}
+  \begin{itemize}
+  \item Observational data $D$. \only<article>{This represents data we have collected from some previous regime. In order to be able to model the problem precisely, we must posit the existence of some default policy $\pol_0$ under which the data was collected.}
+  \item Policy space $\Pol$. \only<article>{This must include $\pol_0$, as well as any other policies that the decision maker may be able to choose in the future.} 
+  \end{itemize}
+  \begin{block}{Default policy}
+    The space of policies $\Pol$ includes a \alert{default policy} $\pol_0$, under which the data was collected. \only<article>{The policy $\pol_0$ might already be known, if for example the data was collected with a specific algorithm. However, frequently $\pol_0$ is not given, and must also be inferred from the data. In that case, it can be seen as an additional parameter, complementary to $\param$.}
+  \end{block}
+  \begin{block}{Intervention policies}
+    Except $\pol_0$, policies $\pol \in \Pol$ represent different interventions specifying a distribution $\pol(a_t \mid x_t)$.
+    \begin{itemize}
+    \item Direct interventions. \only<article>{The simplest scenario is when we are able to choose a $\pol$ for which we know $\pol(a_t \mid x_t)$. This counts as a direct intervention, as we can specify any distribution of actions allowed in $\Pol$. If $\Pol$ includes all conditional distributions, we can select an arbitrary action for every individual. This assumption is plausible for algorithmic decision making such as recommendation systems, but implausible when the actions are taken by another agent, such as a human.}
+    \item Indirect interventions and non-compliance. \only<article>{In this scenario we assume that, while we are free to choose policies from $\Pol$, we do not know what distribution $\pol(a_t \mid x_t)$ each policy specifies. In algorithmic decision making, this occurs whenever $\pol$ represents hyperparameters and algorithms for which we have insufficient information. Then policies must be evaluated through some type of black-box (e.g. A/B) testing. When the actions are taken by (human) agents, the policy implies making a recommendation, which may not be followed by the agent. If we denote the recommendation by $v_t$, then we can write $\pol(a_t \mid x_t) = \sum_{z_t} \pol(a_t \mid z_t, x_t) \pol(z_t \mid x_t)$. In this scenario we can freely specify $\pol(z_t \mid x_t)$, but $\pol(a_t \mid z_t, x_t)$ must be estimated. For that reason, it is usually simpler to simply marginalise out $a_t$. But perhaps the simplest approach is to consider non-compliance as a confounder $x_t$, and $z_t$ as an instrumental variable. }
+    \end{itemize}
+  \end{block}
+\end{frame}
+\begin{frame}
+\begin{example}[Weight loss]
+    \only<article>{Consider weight loss. We can collect observational data from a population of overweight adults over a year. We can imagine that $x$ represents the weight and vital statistics of an individual and $y$ their change in weight after a year. We may also observe their individual actions $a$, such as whether or not they are following a particular diet or exercise regime. Under the default policy $\pol_0$, their actions are determined only the individuals. Consider an alternative policy $\pol$, which prescribes diet and exercise regimes. Due to non-compliance, actual actions taken by individuals may differ from prescribed actions. In addition, actions might not be observed.}
+    \only<presentation>{
+      \only<1>{
+        \begin{figure}[H]
+          \centering
+          \input{basic-decision-diagram}
+        \end{figure}
+      }
+    }
+    \only<2>{
+      \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+          \node[RV, hidden] at (0,1) (p) {$\param$};
+          \node[RV] at (0,0) (z) {$z_t$};
+          \node[RV, hidden] at (1,2) (x) {$x_t$};
+          \node[RV] at (1,1) (y) {$y_t$};
+          \node[RV] at (2,0) (a) {$a_t$};
+          \draw[->] (p)--(z);
+          \draw[->] (p)--(x);
+          \draw[->] (p)--(y);
+          \draw[->] (x)--(y);
+          \draw[->] (z)--(y);
+          \draw[->] (z)--(a);
+          \draw[->] (a)--(y);
+          \node[select] at (4,0) (p) {$\pol$};
+          \draw[->] (p)--(a);
+          \node[utility] at (3,1) (u) {$\util$};
+          \draw[->] (a)--(u);
+          \draw[->] (y)--(u);
+        \end{tikzpicture}
+        \caption{Model of non-compliance as a confounder.}
+        \label{fig:non-compliance}
+      \end{figure}
+    }
   \end{example}
 \end{frame}  
+
+
+\section{Policy evaluation and optimisation}
+\begin{frame}
+  \frametitle{The value of an observed policy}
+  \only<presentation>{
+    \begin{figure}[H]
+      \centering
+      \input{basic-decision-diagram.tex}
+      \caption{Basic decision diagram}
+    \end{figure}
+  }
+  \only<article>{
+    In this section, we will focus on the general model of Figure~\ref{fig:decision-diagram}.
+    If we have data $D = \cset{(x_t, a_t, y_t)}{t \in [T]}$ generated from some policy $\pol_0$, we can always infer the average quality of each action $a$ under that policy.}
+  \only<2>{
+    \begin{align}
+      \label{eq:observed-expected-utility}
+      \hat{\E}_D(U \mid a) 
+      &\defn
+        \frac{1}{|\cset{t}{a_t = a}|}
+        \sum_{t: a_t = a}
+        U(a_t, y_t)\\
+      &\approx
+        \E^{\pol_0}_\param (U \mid a)
+        & (a_t, y_t) & \sim \Pr_\param^{\pol_0}.
+    \end{align}
+  }
+  \only<article>{
+    Can we calculate the value of another policy? As we have seen from Simpson's paradox\index{Simpson's paradox}, it is folly to simply select
+  }
+  \[
+  \hat{a}^*_D \in \argmax_a \hat{\E}_D(U \mid a),
+  \]
+  \only<article>{
+    as the action also depends on the observations $x$ through the policy.
+    To clarify this, let us look again at the model shown in Figure~\ref{fig:decision-diagram}.
+  }
+\end{frame}
+\begin{frame}
+
+  \begin{align*}
+    x_t \mid \param &\sim P_\param(x)\\
+    y_t \mid \param, x_t, a_t &\sim P_\param(y \mid x_t, a_t)\\
+    a_t \mid x_t, \pol &\sim \pol(a \mid x_t).
+  \end{align*}
+  \only<article>{
+    Assume that $x \in \CX$, a continuous space, but $y \in \CY$ is discrete. In this scenario, then the value of an action under a policy $\pol$ is nonsensical, as it does not really depend on the policy itself:
+    \begin{align*}
+      \E^\pol_\param(\util \mid a)
+      &=
+        \int_\CX \dd P_\param(x)
+        \sum_{y \in \CY} P_\param(y \mid x, a) \util(a, y).
+    \end{align*}
+    We see that there is a clear dependence on the distribution of $x$, and there is no dependence on the policy any more. In fact, equation above only tells us the expected utility we'd get if we always chose the same action $a$. But what is the optimal policy? First, we have to define the value of a policy.}
+  \begin{block}{The value of a policy}
+    \begin{align*}
+      \E^\pol_\param(\util)
+      &=
+        \int_\CX \dd P_\param(x)
+        \sum_{y \in \CY} P_\param(y \mid x, a) \util(a, y) \sum_{a \in \CA} \pol(a \mid x).
+    \end{align*}
+  \end{block}
+  The optimal policy under a known parameter $\param$ is given simply by
+  \begin{align*}
+    \max_{\pol \in \Pol} \E^\pol_\param(\util),
+  \end{align*}
+  where $\Pol$ is the set of allowed policies. 
+\end{frame}
+
+\begin{frame}
+  \frametitle{Monte-Carlo estimation}
+  \only<article>{The simplest method to estimate the value of an alternative policy is to use Monte-Carlo estimation and importance sampling. However, this estimate can have a very high variance if the alternative policy is very different from the original policy.}
+  \begin{block}{Importance sampling\footnote{Also known as Propensity Scoring}}
+    We can obtain an unbiased estimate of the utility in a model-free manner through importance sampling:
+    \only<presentation>{
+      \begin{align*}
+        \E^\pol_\param(\util)
+        &=
+          \int_\CX \dd P_\param(x)
+          \sum_a
+          \E_\param(\util \mid a, x)
+          \pol(a \mid x)\\
+      &\approx
+        \frac{1}{T}
+        \sum_{t=1}^T
+        \util_t 
+        \frac{\pol(a_t \mid x_t)}{\pol_0(a_t \mid x_t)}.
+    \end{align*}
+    }
+
+    \only<article>{
+    \begin{align*}
+      \E^\pol_\param(\util)
+      &=
+        \int_\CX \dd P_\param(x)
+        \sum_{t=1}^T
+        \sum_a
+        \E_\param(\util \mid a, x)
+        \pol(a \mid x)\\
+      &\approx
+        \frac{1}{T}
+        \sum_a
+        \E_\param(\util \mid a, x_t)
+        \pol(a \mid x_t), & x_t & \sim P_\param(x)\\
+      &=
+        \frac{1}{T}
+        \sum_a
+        \E_\param(\util \mid a, x_t)
+        \frac{\pol(a \mid x_t)}{\pol_0(a \mid x_t)} \pol_0(a \mid x_t)\\
+      &\approx
+        \frac{1}{T}
+        \sum_{t=1}^T
+        \util_t 
+        \frac{\pol(a_t \mid x_t)}{\pol_0(a_t \mid x_t)},
+        & a_t \mid x_t \sim & \pol_0, \quad U_t \mid x_t, a_t \sim P_\param(U_t \mid x_t, a_t)
+    \end{align*}
+    }
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Bayesian estimation}
+  \only<article>{Unforunately this method has high variance.}
+  If we $\pol_0$ is given, we can calculate the utility of any policy to whatever degree of accuracy we wish. \only<article>{We begin with a prior $\bel$ on $\Param$ and obtain the following, assuming the policy $\pol_0$ is stationary.}
+  \begin{align*}
+    \bel(\param \mid D, \pol_0) &\propto \prod_t \Pr^{\pol_0}_\param(x_t, y_t, a_t)\\
+    \E_\bel^\pol(\util \mid D) &= \int_\Param \E_\param^\pol(\util) \dd \bel(\param \mid D)\\
+    &= \int_\Param 
+      \int_\CX \dd P_\param(x)
+      \sum_{t=1}^T
+      \sum_a
+      \E_\param(\util \mid a, x)
+      \pol(a \mid x)
+      \dd \bel(\param \mid D).
+  \end{align*}
+  Can we actually infer something from the data? 
+\end{frame}
+
+
+\subsection{Inference in causal models}
+
+\only<article>{Inference in causal models requires building a complete model for the effect of every action. In the Bayesian framework, this is rather simple.}
+
+\section{Individual effects and counterfactuals}
+
+\only<article>{
+  Counterfactual analysis is mainly about questions relative to individuals, and specifically about what the effects of alternative actions would have been in specific instances in the past. We will assume a decision-theoretic viewpoint throughout, in order to be as clear as possible and avoiding imprecise language.
+}
+\subsection{Disturbances and structural equation models}
+
+\begin{frame}
+  \only<article>{A structural equation model describes the random variables as deterministic functions of the decisions variables and the random exogenous disturbances. This allows us to separate the unobserved randomness from the known functional relationship between the other variables. Structurally, the model is essentially a variant of decision diagrams, as shown in Figure~\ref{fig:disturbance-model}.}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV, hidden] at (-1,1) (p) {$\param$};
+      \node[RV] at (0,0) (x) {$x_t$};
+      \node[RV] at (1,1) (y) {$y_t$};
+      \node[RV] at (2,0) (a) {$a_t$};
+      \draw[->] (x)--(y);
+      \draw[->] (x)--(a);
+      \draw[->] (a)--(y);
+      \draw[->] (p) to (x);
+      \draw[->] (p)--(y);
+      \node[select] at (4,0) (pol) {$\pol$};
+      \draw[->] (pol)--(a);
+      \node[utility] at (3,1) (u) {$\util$};
+      \draw[->] (a)--(u);
+      \draw[->] (y)--(u);
+      \node[RV, hidden, above of=y]  (oy) {$\omega_{t,y}$};
+      \node[RV, hidden, below of=x]  (ox) {$\omega_{t,x}$};
+      \node[RV, hidden, below of=a]  (oa) {$\omega_{t,a}$};
+      \draw[->] (ox) -- (x);
+      \draw[->] (oa) -- (a);
+      \draw[->] (oy) -- (y);
+    \end{tikzpicture}
+    \caption{Decision diagram with exogenous disturbances $\omega$.}
+    \label{fig:disturbance-model}
+  \end{figure}
+  \only<article>{We still need to specify particular functional relationships between the variables. Generally speaking, a random variable taking values in $\CX$, is simply a function $\Omega \times \Param \to \CX$. For example, in Figure~\ref{fig:disturbance-model} $y_t = f_y(\omega, \theta)$. Taking into account the dependencies, this can be rewritten in terms of a function of the other random variables, and the local disturbance: $y_t = f_{y|a,x}(a,x, \omega_{t,y}, \theta)$. The choice of the function, together with the distribution of the parameter $\param$ and the disturbances $\omega$, fully determines our model.}
+  \begin{example}[Structural equation model  for Figure~\ref{fig:disturbance-model}]
+    \only<presentation>{\vspace{-1em}}
+    \only<article>{
+      In structural equation models, the only random variables are the exogenous disturbances. In a fully Bayesian framework, $\param$ is also a latent random variable. The remaining variables are  deterministic functions. 
+    }
+    \begin{align*}
+      \theta &\sim \Normal(\vectorsym{0}_4, \eye_4),\\
+      x_t &= \theta_0 \omega_{t,x},
+          & \omega_{t,x} &\sim \Bernoulli(0.5)\\
+      y_t &= \theta_1 y_t + \theta_2 x_t + \theta_3 a_t + \omega_{t,y},
+          &\omega_{t,y} &\sim \Normal(0,1)\\
+      a_t &= \pol(x_t) + \omega_{t,a} \mod |\CA| 
+          &\omega_{t,a} &\sim 0.1 \Singular(0) + 0.9 \Uniform(\CA),
+    \end{align*}
+  \end{example}
+  \only<article>{Structural equation models are particularly interesting in applications such as economics, where there are postulated relations between various economic quantities. }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Treatment-unit additivity}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV, hidden] at (-1,1) (p) {$\param$};
+      \node[RV] at (1,1) (y) {$y_t$};
+      \node[RV] at (2,0) (a) {$a_t$};
+      \draw[->] (a)--(y);
+      \draw[->] (p)--(y);
+      \node[select] at (4,0) (pol) {$\pol$};
+      \draw[->] (pol)--(a);
+      \node[utility] at (3,1) (u) {$\util$};
+      \draw[->] (a)--(u);
+      \draw[->] (y)--(u);
+      \node[RV, hidden, above of=y]  (oy) {$\omega_{t,y}$};
+      \node[RV, hidden, below of=a]  (oa) {$\omega_{t,a}$};
+      \draw[->] (oa) -- (a);
+      \draw[->] (oy) -- (y);
+    \end{tikzpicture}
+    \caption{Decision diagram for treatment-unit additivity}
+    \label{fig:tua}
+  \end{figure}
+  \begin{assumption}[TUA]
+    For any given treatment $a \in \CA$, the response variable satisfies
+    \[
+    y_t = g(a_t) + \omega_{t,y}
+    \]
+  \end{assumption}
+  \only<article>{
+    This implies that
+    \begin{align*}
+      \E[y_t \mid a_t = a] = g(a_t) + \E(\omega_{t,y})
+    \end{align*}
+  }
+\end{frame}
 
 
 \subsection{Learning instrumental variables}
@@ -374,150 +700,9 @@
   = \int h(p, x) \dd{\pol}(a_t \mid x_t, z_t)
   \]
 \end{frame}
-\subsection{Confounders}
-\begin{frame}
-  \begin{example}[Weight loss]
-    \begin{figure}[H]
-      \centering
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (x) {$x$};
-        \node[RV] at (1,1) (y) {$y$};
-        \node[RV] at (2,0) (a) {$a$};
-        \draw[->] (x)--(y);
-        \draw[->] (x)--(a);
-        \draw[->] (a)--(y);
-        \node[select] at (4,0) (p) {$\pol$};
-        \draw[->] (p)--(a);
-        \node[utility] at (3,1) (u) {$\util$};
-        \draw[->] (a)--(u);
-        \draw[->] (y)--(u);
-        \node[RV, hidden] at (0,2) (c) {$c$};
-        \draw[->] (c)--(y);
-      \end{tikzpicture}
-    \end{figure}
-  \end{example}
-\end{frame}  
-
-\subsection{Inference in causal models}
-
-\only<article>{Inference in causal models requires building a complete model for the effect of every action.}
-
-\section{Counterfactuals}
-
-\only<article>{
-  Counterfactual analysis is mainly about questions relative to individuals, and specifically about what the effects of alternative actions would have been in the past. 
-}
-\subsection{Disturbances and structural equation models}
-
-\begin{frame}
-  \only<article>{A structural equation model describes the random variables as deterministic functions of the decisions variables and the random exogenous disturbances. This allows us to separate the unobserved randomness from the known functional relationship between the other variables. Structurally, the model is essentially a variant of decision diagrams, as shown in Figure~\ref{fig:disturbance-model}.}
-  \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-      \node[RV, hidden] at (-1,1) (p) {$\param$};
-      \node[RV] at (0,0) (x) {$x_t$};
-      \node[RV] at (1,1) (y) {$y_t$};
-      \node[RV] at (2,0) (a) {$a_t$};
-      \draw[->] (x)--(y);
-      \draw[->] (x)--(a);
-      \draw[->] (a)--(y);
-      \draw[->] (p) to (x);
-      \draw[->] (p)--(y);
-      \node[select] at (4,0) (pol) {$\pol$};
-      \draw[->] (pol)--(a);
-      \node[utility] at (3,1) (u) {$\util$};
-      \draw[->] (a)--(u);
-      \draw[->] (y)--(u);
-      \node[RV, hidden, above of=y]  (oy) {$\omega_{t,y}$};
-      \node[RV, hidden, below of=x]  (ox) {$\omega_{t,x}$};
-      \node[RV, hidden, below of=a]  (oa) {$\omega_{t,a}$};
-      \draw[->] (ox) -- (x);
-      \draw[->] (oa) -- (a);
-      \draw[->] (oy) -- (y);
-    \end{tikzpicture}
-    \caption{Decision diagram with exogenous disturbances $\omega$.}
-    \label{fig:disturbance-model}
-  \end{figure}
-  \only<article>{We still need to specify particular functional relationships between the variables. Generally speaking, a random variable taking values in $\CX$, is simply a function $\Omega \times \Param \to \CX$. For example, in Figure~\ref{fig:disturbance-model} $y_t = f_y(\omega, \theta)$. Taking into account the dependencies, this can be rewritten in terms of a function of the other random variables, and the local disturbance: $y_t = f_{y|a,x}(a,x, \omega_{t,y}, \theta)$. The choice of the function, together with the distribution of the parameter $\param$ and the disturbances $\omega$, fully determines our model.}
-  \begin{example}[Structural equation model  for Figure~\ref{fig:disturbance-model}]
-    \only<presentation>{\vspace{-1em}}
-    \only<article>{
-      In structural equation models, the only random variables are the exogenous disturbances. In a fully Bayesian framework, $\param$ is also a latent random variable. The remaining variables are  deterministic functions. 
-    }
-    \begin{align*}
-      \theta &\sim \Normal(\vectorsym{0}_4, \eye_4),\\
-      x_t &= \theta_0 \omega_{t,x},
-          & \omega_{t,x} &\sim \Bernoulli(0.5)\\
-      y_t &= \theta_1 y_t + \theta_2 x_t + \theta_3 a_t + \omega_{t,y},
-          &\omega_{t,y} &\sim \Normal(0,1)\\
-      a_t &= \pol(x_t) + \omega_{t,a} \mod |\CA| 
-          &\omega_{t,a} &\sim 0.1 \Singular(0) + 0.9 \Uniform(\CA),
-    \end{align*}
-  \end{example}
-  \only<article>{Structural equation models are particularly interesting in applications such as economics, where there are postulated relations between various economic quantities. }
-\end{frame}
-
-\begin{frame}
-  \frametitle{Treatment-unit additivity}
-  
-\end{frame}
 
 
 
-\section{Application to recommendation systems}
-\begin{frame}
-
-  \only<2>{
-    \only<article>{If we have data $D = \cset{(x_t, a_t, y_t)}{t \in [T]}$ generated from some policy $\pol_0$, we can always infer the average quality of each action $a$ under that policy.}
-    \begin{align}
-      \label{eq:observed-expected-utility}
-      \hat{\E}_D(U \mid a) 
-      &\defn
-        \frac{1}{|\cset{t}{a_t = a}|}
-        \sum_{t: a_t = a}
-        U(a_t, y_t)
-        \approx
-        \E^{\pol_0}_\param (U \mid a).
-    \end{align}
-  }
-  \only<article>{
-    Can we calculate the value of another policy? As we have seen from Simpson's paradox\index{Simpson's paradox}, it is folly to simply select
-    \[
-    \hat{a}^*_D \in \argmax_a \hat{\E}_D(U \mid a),
-    \]
-    as the action also depends on the observations $x$ through the policy.
-    To clarify this, let us define the model shown in Figure~\ref{fig:recommendation-decision-diagram}.
-    \begin{align*}
-      x_t \mid \param, x_t &\sim P_\param(x)\\
-      y_t \mid \param, x_t, a_t &\sim P_\param(y \mid x_t, a_t)\\
-      a_t \mid x_t, \pol &\sim \pol(a \mid x_t).
-    \end{align*}
-    Assume that $x \in \CX$, a continuous space, but $y \in \CY$ is discrete. Then the value of an action under a policy $\pol$ is
-    \begin{align*}
-      \E^\pol_\param(\util \mid a)
-      &=
-        \int_\CX \dd P_\param(x)
-        \sum_{y \in \CY} P_\param(y \mid x, a) \util(a, y).
-    \end{align*}
-    We see that there is a clear dependence on the distribution of $x$, and there is no dependence on the policy any more. In fact, equation above only tells us the expected utility we'd get if we always chose the same action $a$. But what is the optimal policy? First, we have to define the value of a policy.
-  }
-  
-  \begin{block}{The value of a policy}
-    \begin{align*}
-      \E^\pol_\param(\util)
-      &=
-        \int_\CX \dd P_\param(x)
-        \sum_{y \in \CY} P_\param(y \mid x, a) \util(a, y) \sum_{a \in \CA} \pol(a \mid x).
-    \end{align*}
-  \end{block}
-  \only<article>{
-    The optimal policy under a known parameter $\param$ is given simply by
-    \begin{align*}
-      \max_{\pol \in \Pol} \E^\pol_\param(\util),
-    \end{align*}
-    where $\Pol$ is the set of allowed policies. How can we actually find the optimal policy?
-  }
-\end{frame}
 
 
 \subsection{Discussion}
