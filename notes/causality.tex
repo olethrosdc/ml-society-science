@@ -86,12 +86,74 @@
   \end{block}
   
   \begin{block}{Decision-theoretic view}
-    There are many competing approaches to causality. We will remain within the decision-theoretic framework, which allows us to crisply definite both our knowledge and assumptions.
+    There are many competing approaches to causality. We will remain within the decision-theoretic framework, which allows us to crisply define both our knowledge and assumptions.
   \end{block}
 \end{frame}
+
+\begin{frame}
+  \frametitle{What causes what?}
+  \begin{example}
+    \begin{figure}[H]
+      \centering
+      \begin{subfigure}{\fwidth}
+      \centering
+        \begin{tikzpicture}
+          \node[RV, hidden] at (0,1) (p) {$\param$};
+          \node[RV] at (-1,0) (x1) {$a_t$};
+          \node[RV] at (1,0) (x2) {$x_t$};
+          \draw[->] (p) -- (x1);
+          \draw[->] (p) -- (x2);
+          \draw[->] (x1) -- (x2);
+        \end{tikzpicture}
+        \caption{Independence of $a_t$.}
+      \end{subfigure}
+      \begin{subfigure}{\fwidth}
+        \centering
+        \begin{tikzpicture}
+          \node[RV, hidden] at (0,1) (p) {$\param$};
+          \node[RV] at (-1,0) (x1) {$a_{t}$};
+          \node[RV] at (1,0) (x2) {$x_{t}$};
+          \draw[->] (p) -- (x1);
+          \draw[->] (p) -- (x2);
+          \draw[->] (x2) -- (x1);
+        \end{tikzpicture}
+        \caption{Independence of $x_t$.}
+      \end{subfigure}
+    \end{figure}
+    Suppose we have data $x_{t}, a_{t}$ where
+    \begin{itemize}
+    \item $x_{t}$: lung cancer
+    \item $a_{t}$: smoking
+    \end{itemize}
+    Does smoking cause lung cancer or does lung cancer make people smoke? Can we compare the two models above to determine it?
+  \end{example}
+  \only<article>{The answer is no. Let us consider two different parametrisations of the distribution. One in which $a_t$ generates $x_t$, and the converse, for any given parameter value $\param$, as given below:}
+  \uncover<2>{
+  \[
+  P_\param(D) =
+  \prod_t P_\param(x_t, a_t)
+  = 
+  \prod_t P_{\param'}(x_t \mid a_t) P_{\param'}(a_t)
+  = 
+  \prod_t P_{\param''}(a_t \mid x_t) P_{\param''}(x_t).
+  \]
+  }
+  \only<article>{In particular, for any parametrisation $\param$ of the joint distribution, there exists a $\param'$ and $\param''$ giving the same probabilities for all $x_t, a_t$. For the example above, we can look at Bernoulli distributions for both variables so that $P_\param(x_t = x, a_t = a) = \param_{x,a}$. Then
+    \begin{align*}
+      \param'_a &= \sum_x \param_{x,a},
+      &
+      \param'_{x|a} &= \param_{x,a} / \param'_a
+      \\
+      \param''_x &= \sum_a \param_{x,a},
+      &
+      \param'_{a|x} &= \param_{x,a} / \param''_x.
+    \end{align*}
+ This means we can define prior distributions $\bel, \bel', \bel''$ in these three parameter spaces that give exactly the same results, e.g. by modelling each parameter as an independent Beta distribution. So, clearly simply looking at a simple graphical model does not let us answer this question.}
+\end{frame}
+
 \subsection{Decision diagrams}
 \only<article>{
-  Graphical models can also be used to model causal relations. In particular, we can use \emph{decision diagrams}\footnote{Otherwise called influence diagrams}, which include not only random variables, but also \emph{decision} variables, denoted with squares, as well as utility variables, denoted via diamonds. In the following examples, we assume there are some underlying distributions specified by parameters $\param$, which we include in the diagrams for clarity. Even though it may seem intuitively sensible to suppose it, the arrow directions in the diagrams \emph{do not} indicate direct causes. The only important thing for determining whether some variable influences another is whether or not there is independence between the corresponding decision and random variables.}
+  However, graphical models \alert{can} be extended  to model causal relations. In particular, we can use \emph{decision diagrams}\footnote{Otherwise called influence diagrams}, which include not only random variables, but also \emph{decision} variables, denoted with squares, as well as utility variables, denoted via diamonds. In the following examples, we assume there are some underlying distributions specified by parameters $\param$, which we include in the diagrams for clarity. Even though it may seem intuitively sensible to suppose it, the arrow directions in the diagrams \emph{do not} indicate direct causes. The only important thing for determining whether some variable influences another is whether or not there is independence between the corresponding decision and random variables.}
 \begin{frame}
   \begin{figure}[H]
     \centering
@@ -128,7 +190,7 @@
       \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we can define the following variables:}
       \begin{itemize}
       \item Individual $t$
-      \item Information $x_t$
+      \item Individual information $x_t$
       \item $a_t  = 1$ if $t$ takes an aspirin, and $0$ otherwise.
       \item $y_t = 1$ if the headache is cured in 30 minutes, $0$ otherwise.
       \item $\pol$: intervention policy.
@@ -186,6 +248,10 @@
         \node[RV] at (2,0) (y) {$y_t$};
         \draw[->] (p) to (a);
         \draw[->] (y) to (a);
+        \uncover<2>{
+          \node[RV, hidden] at (1,1) (param) {$\param$};
+          \draw[->] (param) to (y);
+        }
       \end{tikzpicture}
       \caption{$\pol$ does not cause $y$}
       \label{fig:non-cause}
@@ -220,6 +286,10 @@
         \node[RV] at (2,0) (y) {$y_t$};
         \draw[->] (p) to (a);
         \draw[->] (a) to (y);
+        \uncover<2>{
+          \node[RV, hidden] at (1,1) (param) {$\param$};
+          \draw[->] (param) to (y);
+        }
       \end{tikzpicture}
       \caption{No confounding: $\pol$ causes $y_t$}
       \label{fig:no-confounding}
@@ -278,6 +348,11 @@
         \draw[->] (a) to (y);
         \draw[->] (x) to (a);
         \draw[->] (x) to (y);
+        \uncover<2>{
+          \node[RV, hidden] at (3,1) (param) {$\param$};
+          \draw[->] (param) to (x);
+          \draw[->] (param) to (y);
+        }
       \end{tikzpicture}
       \caption{Sufficient covariate $x_t$}
       \label{fig:sufficient-covariate}
@@ -318,6 +393,12 @@
         \draw[->] (x) to (y);
         \draw[->] (x) to (z);
         \draw[->] (z) to (a);
+        \uncover<2>{
+          \node[RV, hidden] at (3,1) (param) {$\param$};
+          \draw[->] (param) to (x);
+          \draw[->] (param) to (y);
+          \draw[bend right=45,->] (param) to (z);
+        }
       \end{tikzpicture}
       \caption{Instrumental variable $z_t$}
       \label{fig:instrumental-variable}
