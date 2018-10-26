@@ -1,9 +1,14 @@
 # -*- Mode: python -*-
 # A random recommender
-
+#
+#
+# For this recommendation system, assume a scenario where
+#
+# 
 class RandomRecommender:
 
     # Fit a model from patient data.
+    #
     # This will generally speaking be an
     # unsupervised model. Anything from a Gaussian mixture model to a
     # neural network is a valid choice.  However, you can give special
