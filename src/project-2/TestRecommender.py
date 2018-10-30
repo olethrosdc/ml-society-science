@@ -11,6 +11,7 @@ def test_policy(generator, policy, reward_function, T):
         a = policy.recommend(x)
         y = generator.generate_outcome(x, a)
         u += reward_function(a, y)
+        policy.observe(x, a, y)
     return u
 
 features = pandas.read_csv('data/medical/historical_X.dat', header=None, sep=" ").values
