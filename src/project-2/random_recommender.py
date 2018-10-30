@@ -23,6 +23,19 @@
 
 class RandomRecommender:
 
+    #################################
+    # Initialise
+    #
+
+    def __init__(self, feature_model=None, prediction_model=None):
+        self.feature_model = feature_model
+        self.prediction_model = prediction_model
+        self.reward = self._default_reward
+
+    ## By default, the reward is just equal to the outcome, as the actions play no role
+    def _default_reward(self, action, outcome):
+        return outcome
+    
     ##################################
     # Fit a model from patient data.
     #
@@ -39,13 +52,13 @@ class RandomRecommender:
         self.reward = reward
         
     ## Fit a model from patient data, actions and their effects
-    ## Patient data.
+    ## Here we assume that the outcome is a direct function of data and actions
     def fit_treatment_outcome(self, data, actions, outcome):
         return None
 
     ## Estimate the utility from historical data.
     ## If the policy is None, return use the historical policy
-    def estimate_utility(self, data, actions, outcome, U, policy=None):
+    def estimate_utility(self, data, actions, outcome, policy=None):
         return None
 
     # Return a distribution of effects for a given person's data and a specific treatment
