@@ -63,6 +63,7 @@ An alternative idea is to use our uncertainty to create a distribution over mode
 
 \begin{frame}
   \frametitle{Stochastic gradient methdos}
+  \index{gradient ascent}
   \only<article>{To find the maximum of a differentiable function $g$, we can use gradient descent}
   \begin{block}{Gradient ascent}
     \[
@@ -72,6 +73,7 @@ An alternative idea is to use our uncertainty to create a distribution over mode
 
   \only<article>{When $f$ is an expectation, we don't need to calculate the full gradient. In fact, we only need to take one sample from the related distribution.}
   \begin{block}{Stochastic gradient ascent}
+    \index{gradient ascent!stochastic}
     \[
       g(\param) = \int_\Model f(\param, \model) \dd \bel(\model)
     \]

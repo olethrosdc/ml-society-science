@@ -7,7 +7,7 @@ For each patient, we observe the attributes $\bx$, with
 \begin{itemize}
 \item $x_1 \in \{0,1\}$, sex.
 \item $x_2 \in \{0,1\}$, smoker.
-\item $x_{3:128} \in \{0,1\}^4$, gene expression data. These variables can have missing values, but here they are all included in the historical data.
+\item $x_{3:128} \in \{0,1\}^{125}$, gene expression data. These variables can have missing values, but here they are all included in the historical data.
 \item $x_{129:130} \in \{0,1\}^2$, symptoms. These can be taken to be akin to labels in supervised learning. There may be missing data here too, but for now we can assume they are included.
 \end{itemize}
 We also observe a therapeutic intervention $a \in \CA$, which is followed by an outcome $y_t \in \{0,1\}$. Consequently, historical data can be described by $(\bx_t, a_t, y_t)$
@@ -21,12 +21,39 @@ You need to be able to validate your findings either through a holdout-set metho
 We also observe the effects of two different therapeutic interventions, one of which is placebo, and the other is an experimental drug. Try and measure the effectiveness of the placebo versus the active treatment. Are there perhaps cases where the active treatment is never effective, or should it always be recommended?
 
 
+\section{Improved policies}
 
+The data we have observed comes from some policy $\pol_0$, taking actions in $\{0,1\}$. Now we have to be more specific about what the meaning of each treatment and outcome variable is. In this case, $a_t = 0$ is a placebo, and $a_t = 1$ is an experimental drug, with $y_t = 0$ meaning no effect, and $y_t = 1$ meaning a measurable effect. For the purposes of this exercise, you can assume the utility function is:
+\begin{align}
+  U &= \sum_t r_t,\\
+  r_t &\defn - 0.1 a_t + y_t.
+\end{align}
+The $-0.1$ factor implies that the active treatment must be at least $10\%$ more effective than the placebo.
 
+Use the skeleton \verb!random_recommender.py! to implement your code.
 
+\begin{assumption}
+  The observed policy $\pol_0$ and all other policies $\pol$ can be represented as conditional distributions $\pol(a \mid x)$. 
+\end{assumption}
 
+\begin{exercise}[Measuring utility]
+  \begin{enumerate}
+  \item Measure the utility of $\pol_0$ on the historical
+    data.
+  \item Provide error bounds on the expected utility and explain how those were obtained.
+  \end{enumerate}
+\end{exercise}
 
+\begin{exercise}[Improved policies]
+  \begin{enumerate}
+  \item Find an improved policy, taking actions in $\{0,1\}$. \emph{Hint: This can be done by simply selecting, for each $x_t$, the action $a_t$ maximising expected reward according to your model, as the utility is a sum of rewards. Of course, you should first build a model.}
+  \item Calculate the expected utility of the improved policy.
+  \end{enumerate}
+\end{exercise}
 
+\begin{exercise}[Risk aversion]
+  
+\end{exercise}
 
 
 
