@@ -137,37 +137,37 @@ def Exercise16():
       
 ####### Exercise 17 #####
 
-### Get an estimate for theta for the model where the response is one of two different normal distributions, whose mean arbitrarily depends on the action
-theta = 0.1*np.random.normal(size=[2, 2])
-model = CovariateModel(theta)
-policy = MarkovPolicy([0.1, 0.9])
-n_samples = 1000
-n_actions = policy.get_n_actions()
-a = np.empty(n_samples, dtype=int)
-x = np.empty(n_samples, dtype=int)
-y = np.zeros(n_samples)
-hat_theta = np.zeros([2,2])
-hat_pi = np.zeros([2,2])
-hat_U = 0
-counts = np.zeros([2,2])
+if 1:
+    ### Set up the model
+    theta = 0.1*np.random.normal(size=[2, 2])
+    model = CovariateModel(theta)
+    policy = MarkovPolicy([0.1, 0.9])
+    n_samples = 1000
+    n_actions = policy.get_n_actions()
+    a = np.empty(n_samples, dtype=int)
+    x = np.empty(n_samples, dtype=int)
+    y = np.zeros(n_samples)
+    hat_theta = np.zeros([2,2])
+    hat_pi = np.zeros([2,2])
+    hat_U = 0
+    counts = np.zeros([2,2])
 
+    ### Generate data and estimate the model
+    for t in range(n_samples):
+        x[t] = model.get_covariate()
+        a[t] = int(policy.get_action(x[t]))
+        hat_pi[a[t]] +=1
+        y[t] = model.get_response(x[t], a[t])
+        counts[x[t], a[t]] += 1.0
+        hat_theta[x[t], a[t]] += y[t]
+        hat_U += y[t]
 
-for t in range(n_samples):
-    x[t] = model.get_covariate()
-    a[t] = int(policy.get_action(x[t]))
-    hat_pi[a[t]] +=1
-    y[t] = model.get_response(x[t], a[t])
-    counts[x[t], a[t]] += 1.0
-    hat_theta[x[t], a[t]] += y[t]
-    hat_U += y[t]
+    hat_pi /= sum(hat_pi)
+    hat_U/= n_samples
+    hat_theta /= counts
+    print("Parameters:\n", theta)
+    print("Estimated parameters:\n", hat_theta, "\nPolicy:\n", hat_pi, "\nUtility:", hat_U)
+    #sns.distplot(y)
+    #plt.show()
 
-    
-hat_pi /= sum(hat_pi)
-hat_U/= n_samples
-hat_theta /= counts
-print("Parameters:\n", theta)
-print("Estimated parameters:\n", hat_theta, "\nPolicy:\n", hat_pi, "\nUtility:", hat_U)
-#sns.distplot(y)
-#plt.show()
-
-## Now repeat the remainder..
+    ## Now repeat the remainder..
