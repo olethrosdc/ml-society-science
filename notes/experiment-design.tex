@@ -219,14 +219,14 @@ decision process (Definition~\ref{def:MDP}). For now, we shall more generally (a
   \only<article>{The basic idea of the Robbins-Monro stochastic approximation algorithm~\citep{robbins1951stochastic} is to maintain a set of \emph{point estimates} of a parameter we want to approximate and perform \emph{random} steps that on average move towards the solution, in a way to be made more precise later. It can in fact be seen as a generalisation of stochastic gradient descent.}
   \begin{algorithm}[H]
     \begin{algorithmic}[1]
-      \STATE \textbf{input} Step-sizes $(\step_t)_t$, initial estimates $(\mu_{i,0})_i$, policy $\pol$.
-      \FOR{$t = 1, \ldots, T$}
-      \STATE Take action $a_t = i$ with probability $\pol(i \mid a_1,\ldots, a_{t-1}, r_1, \ldots, r_{t-1})$.
-      \STATE Observe reward $r_t$.
-      \STATE \alert{$\mu_{t,i} = \step_{i,t} r_t + (1 - \step_{i,t}) \mu_{i,t - 1}$} \qquad \texttt{// estimation step}
-      \STATE $\mu_{t,i} = \mu_{j,t - 1}$ for $j \neq i$.
-      \ENDFOR
-      \STATE \textbf{return} $\vectorsym{\mu_T}$
+      \State \textbf{input} Step-sizes $(\step_t)_t$, initial estimates $(\mu_{i,0})_i$, policy $\pol$.
+      \For{$t = 1, \ldots, T$}
+      \State Take action $a_t = i$ with probability $\pol(i \mid a_1,\ldots, a_{t-1}, r_1, \ldots, r_{t-1})$.
+      \State Observe reward $r_t$.
+      \State \alert{$\mu_{t,i} = \step_{i,t} r_t + (1 - \step_{i,t}) \mu_{i,t - 1}$} \qquad \texttt{// estimation step}
+      \State $\mu_{t,i} = \mu_{j,t - 1}$ for $j \neq i$.
+      \EndFor
+      \State \textbf{return} $\vectorsym{\mu_T}$
     \end{algorithmic}
     \caption{Robbins-Monro bandit algorithm}
     \label{alg:robbins-monro-bandit}
@@ -256,7 +256,7 @@ decision process (Definition~\ref{def:MDP}). For now, we shall more generally (a
 \begin{frame}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/bandit_fixed_epsilon}
+    \includegraphics[width=0.9\textwidth]{../figures/bandit_fixed_epsilon}
     \caption{$\epsilon_t = 0.1$, $\step \in \{0.01, 0.1, 0.5\}$.}
     \label{fig:bandit-fixed-epsilon}
   \end{figure}
@@ -265,7 +265,7 @@ decision process (Definition~\ref{def:MDP}). For now, we shall more generally (a
 \begin{frame}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/bandit_fixed_alpha}
+    \includegraphics[width=0.9\textwidth]{../figures/bandit_fixed_alpha}
     \caption{$\epsilon_t = \epsilon$, $\step = 0.1$.}
     \label{fig:bandit-fixed-alpha}
   \end{figure}
@@ -433,7 +433,24 @@ In the following section, we shall consider Markov decision processes more gener
 \section{Contextual Bandits}
 
 \only<article>{
-In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have 
+In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have more information whenever we draw an arm.
+}
+\begin{definition}[The contextual bandit problem.]
+  At time $t$, 
+  \begin{itemize}
+  \item We observe $x_t \in \CX$.
+  \item We play $a_t \in \CA$.
+  \item We obtain $r_t \in \Reals$ with $r_t \mid a_t = a, x_t = x \sim P_\param(r \mid a, x)$.
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+  \begin{itemize}
+  \item $\CA = [n]$, $\CX = \Reals^k$, $\theta = (\theta_1, \ldots, \theta_n)$, $\theta_i \in \Reals^k$.
+  \item $r \sim \Normal(\transpose{\param_a}, 1)$
+  \end{itemize}
+\end{example}
+
 \section{Experiment design}
 
 
