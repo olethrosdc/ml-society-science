@@ -18,7 +18,8 @@ class MarkovPolicy:
     def __init__(self, pi):
         self.pi = pi
     def get_action(self, x):
-        return np.random.choice(2, 1, p=[1-self.pi[x], self.pi[x]])
+        p = self.pi[x]
+        return np.random.choice(2, 1, p=[1-p, p])
     def get_n_actions(self):
         return 2
 
@@ -136,72 +137,37 @@ def Exercise16():
       
 ####### Exercise 17 #####
 
-### Get an estimate for theta for the model where the response is one of two different normal distributions, whose mean arbitrarily depends on the action
-theta = 0.1*np.random.normal(size=[2, 2])
-model = CovariateModel(theta)
-policy = MarkovPolicy([0.1, 0.9])
-n_samples = 10
-n_actions = policy.get_n_actions()
-a = np.empty(n_samples, dtype=int)
-x = np.empty(n_samples, dtype=int)
-y = np.zeros(n_samples)
-hat_theta = np.zeros(2)
-hat_pi = np.zeros(2)
-hat_U = 0
-counts = np.zeros(2)
+if 1:
+    ### Set up the model
+    theta = 0.1*np.random.normal(size=[2, 2])
+    model = CovariateModel(theta)
+    policy = MarkovPolicy([0.1, 0.9])
+    n_samples = 1000
+    n_actions = policy.get_n_actions()
+    a = np.empty(n_samples, dtype=int)
+    x = np.empty(n_samples, dtype=int)
+    y = np.zeros(n_samples)
+    hat_theta = np.zeros([2,2])
+    hat_pi = np.zeros([2,2])
+    hat_U = 0
+    counts = np.zeros([2,2])
 
+    ### Generate data and estimate the model
+    for t in range(n_samples):
+        x[t] = model.get_covariate()
+        a[t] = int(policy.get_action(x[t]))
+        hat_pi[a[t]] +=1
+        y[t] = model.get_response(x[t], a[t])
+        counts[x[t], a[t]] += 1.0
+        hat_theta[x[t], a[t]] += y[t]
+        hat_U += y[t]
 
-for t in range(n_samples):
-    x[t] = model.get_covariate()
-    a[t] = int(policy.get_action(x[t]))
-    hat_pi[a[t]] +=1
-    y[t] = model.get_response(x[t], a[t])
-    counts[a[t]] += 1.0
-    hat_theta[a[t]] += y[t]
-    hat_U += y[t]
+    hat_pi /= sum(hat_pi)
+    hat_U/= n_samples
+    hat_theta /= counts
+    print("Parameters:\n", theta)
+    print("Estimated parameters:\n", hat_theta, "\nPolicy:\n", hat_pi, "\nUtility:", hat_U)
+    #sns.distplot(y)
+    #plt.show()
 
-    
-hat_pi /= sum(hat_pi)
-hat_U/= n_samples
-hat_theta /= counts
-print("Parameters", theta)
-print("Estimate parameters", hat_theta, "Policy:", hat_pi, "Utility:", hat_U)
-#sns.distplot(y)
-#plt.show()
-
-## How do we estimate the utility of some other policy pi?
-
-## Method 1: Use importance sampling
-## E_P U = \sum_x U(x) P(x) = \sum_x U(x) P(x)/Q(x) Q(x)
-## Approximated by  \sum_t U(x_t)P(x_t)/Q(x_t) x_t \sim Q
-
-## This is how to estimate the utility of another policy using just the data.
-alt_pi = np.zeros(2, n_actions)
-alt_pi[np.argmax(hat_theta)] = 1
-alt_hat_U = 0
-for t in range(n_samples):
-    alt_hat_U += y[t] * alt_pi[x[t], a[t]] / hat_pi[x[t], a[t]]
-
-alt_hat_U /= n_samples
-print("New policy: ", alt_pi)
-print("Estimated Utility:", hat_U, alt_hat_U)
-
-## This is how to estimate the utility of another policy using the estimated model parameters
-U = 0
-alt_U = 0
-hat_U = 0
-alt_hat_U = 0
-for a in range(n_actions):
-    hat_U += hat_pi[a] * hat_theta[a]
-    alt_hat_U += alt_pi[a] * hat_theta[a]
-    U += hat_pi[a] * theta[a]
-    alt_U += alt_pi[a] * theta[a]
-
-print("Estimated Utility:", hat_U, alt_hat_U)
-print("True Utility:", U, alt_U)
-alt_policy = BasicPolicy(hat_pi[1])
-print("Estimated Utility on Simulation:", model.Evaluate(policy, 10000), model.Evaluate(alt_policy, 10000))
-
-
-
-
+    ## Now repeat the remainder..
