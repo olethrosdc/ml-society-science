@@ -170,6 +170,132 @@ state is well-defined and depends only on the current state.  As we
 shall see later, this type of decision problem is more generally called a Markov
 decision process (Definition~\ref{def:MDP}). For now, we shall more generally (and precisely) define the bandit process itself.
 
+\subsection{Heuristic algorithms for bandits}
+
+\subsection{Bandit problems}
+\begin{frame}
+  \frametitle{The stochastic $n$-armed bandit problem}
+  \only<article>{Let us return to the example of bandit problems. As
+    before, we have $n$ actions corresponding to probability
+    distributions $P_i$ on the real numbers. }
+  \[
+  \family = \cset{P_i}{i=1,\ldots, n}.
+  \]
+  \only<article>{At each time-step $t$ we select an action $a_t$,
+    obtaining a random reward distributed according to:}
+  \[
+  r_t \mid a_t = i \sim P_i.
+  \]
+  \only<article>{Our objective is to find a policy $\pol$ maximising
+    the expected total reward.}
+  \[
+  \E_\pol U_t = \E_\pol \sum_{k=t}^T r_k, \qquad a_t^* \defn \max
+  \cset{\E (r_t \mid a_t = i)}{i=1,\ldots,n}.
+  \]
+  \only<article>{Had we known the distribution, we could simply always
+    the maximising action, as the expected reward of the $i$-th action
+    can be easily calculated from $P_i$ and the reward only depends on
+    our current action. The situation is similar when $\family$ is a parametric family unknown parameter $\omega^*$, outlined below.}
+  \begin{equation}
+    \family = \cset{P_i(\cdot \mid \omega)}{\omega \in \Omega}, 
+    \qquad
+    r_t \mid a_t = i, \omega^* = \omega \sim P_i(r \mid \omega^*).
+  \end{equation}
+  \only<article>{If in addition we have a subjective belief $\bel$
+    over $\Omega$, we could (as explained in
+    Sec.~\ref{sec:exp-design-bandit}) in principle calculate the
+    policy maximising the $\bel$-expected utility:}
+  \begin{equation}
+    \E^{\pol}_{\bel} U_t = \E^{\pol}_{\bel} \sum_{k=t}^T r_k.
+  \end{equation}
+  \only<article>{ This of course will now have to be a
+    history-dependent policy.  In the remainder of this section, we
+    shall examine algorithms algorithms which eventually convergence
+    to the optimal action, but for which we cannot always guarantee
+    a good initial behaviour.  }
+\end{frame}
+\subsection{Estimation and Robbins-Monro approximation}
+\begin{frame}
+  \only<article>{The basic idea of the Robbins-Monro stochastic approximation algorithm~\citep{robbins1951stochastic} is to maintain a set of \emph{point estimates} of a parameter we want to approximate and perform \emph{random} steps that on average move towards the solution, in a way to be made more precise later. It can in fact be seen as a generalisation of stochastic gradient descent.}
+  \begin{algorithm}[H]
+    \begin{algorithmic}[1]
+      \STATE \textbf{input} Step-sizes $(\step_t)_t$, initial estimates $(\mu_{i,0})_i$, policy $\pol$.
+      \FOR{$t = 1, \ldots, T$}
+      \STATE Take action $a_t = i$ with probability $\pol(i \mid a_1,\ldots, a_{t-1}, r_1, \ldots, r_{t-1})$.
+      \STATE Observe reward $r_t$.
+      \STATE \alert{$\mu_{t,i} = \step_{i,t} r_t + (1 - \step_{i,t}) \mu_{i,t - 1}$} \qquad \texttt{// estimation step}
+      \STATE $\mu_{t,i} = \mu_{j,t - 1}$ for $j \neq i$.
+      \ENDFOR
+      \STATE \textbf{return} $\vectorsym{\mu_T}$
+    \end{algorithmic}
+    \caption{Robbins-Monro bandit algorithm}
+    \label{alg:robbins-monro-bandit}
+  \end{algorithm}
+  \only<article>{
+    A simple Robbins-Monro algorithm for the $n$-armed bandit problem is given in Algorithm~\ref{alg:robbins-monro-bandit}. The input is a particular policy $\pol$, that gives us a probability over the next actions given the observed history, a set of initial estates $\mu_{i, 0}$ for the bandit means, and a sequence of step sizes $\step$.
+
+    If you examine the updates carefully, you will be able to find what the cost function you are trying to minimise is. This simple update rule can be seen as trying to minimise the expected squared error between your estimated reward, and the random reward obtained by each bandit. Consequently, the variance of the reward of each bandit plays an important role.
+
+    The step-sizes $\step$ must obey certain constraints in order for the algorithm to work, in particular it must decay neither too slowly, nor too fast. There is one particular choice, for which our estimates are in fact the mean estimate of the expected value of the reward for each action $i$, which is a natural choice if the bandits are stationary.
+
+    The other question is what policy to use to take actions. We must take all actions often enough, so that we have good estimates for the expected reward of every bandit. One simple way to do it is to play the apparently best bandit most of the time, but to sometimes select bandits randomly. This is called $\epsilon$-greedy action selection. This ensures that all actions are tried a sufficient number of times.
+  }
+  \begin{definition}{$\epsilon$-greedy action selection}
+    \only<presentation>{(w.p. $1-\epsilon$, select an apparently best action, otherwise a random action)}
+    \begin{align}
+      \hat{\pi}^*_\epsilon &\defn (1 - \epsilon_t) \hat{\pi}^*_t + \epsilon_t \Uniform(\CA),
+      \\
+      \hat{\pi}^*_t(i) &= \ind{i \in \hat{\CA}^*_t}/|\hat{\CA}^*_t|,
+      &
+      \hat{\CA}^*_t &= \argmax_{i \in \CA} \mu_{t,i}
+      \label{eq:eps-greedy}
+    \end{align}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/bandit_fixed_epsilon}
+    \caption{$\epsilon_t = 0.1$, $\step \in \{0.01, 0.1, 0.5\}$.}
+    \label{fig:bandit-fixed-epsilon}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/bandit_fixed_alpha}
+    \caption{$\epsilon_t = \epsilon$, $\step = 0.1$.}
+    \label{fig:bandit-fixed-alpha}
+  \end{figure}
+\end{frame}
+\only<article>{
+  The main two parameters of the algorithm are randomness $\epsilon$-greedy action selection and the step-size. Figures~\ref{fig:bandit-fixed-epsilon} and~\ref{fig:bandit-fixed-alpha} show the average reward obtained, if we keep the step size $\alpha$ or the randomness $\epsilon$ fixed, respectively. 
+  We see that there the choice of values really affects convergence.
+
+  For a fixed $\epsilon$, we find that larger values of $\alpha$ tend to give a better result eventually, while smaller values have a better initial performance. This is a natural trade-off, since large $\alpha$ appears to ``learn'' fast, but it also ``forgets'' quickly. That is, for a large $\alpha$, our estimates mostly depend upon the last few rewards observed.
+
+  Things are not so clear-cut for the choice of $\epsilon$. We see that the choice of $\epsilon = 0$, is significantly worse than $\epsilon = 0.1$. So, that appears to suggest that there is an optimal level of exploration. How should that be determined? Ideally, we should be able to to use the decision-theoretic solution seen earlier, but perhaps a good heuristic way of choosing $\epsilon$ may be good enough.
+}
+\only<presentation>{
+  \begin{frame}
+    \begin{block}{Main idea of the algorithm}
+      \begin{itemize}
+      \item Estimate parameters
+      \item Act according to the estimates
+      \end{itemize}
+    \end{block}
+
+    \begin{block}{Requirements}
+      \begin{itemize}
+      \item Good estimation procedure.
+      \item Balance estimation with getting rewards!
+      \end{itemize}
+    \end{block}
+  \end{frame}
+}
+
 \subsection{Decision-theoretic bandit process}
 \label{sec:decision-theoretic-bandits}
 
@@ -303,6 +429,11 @@ The above equation is the \emindex{backwards induction} algorithm for bandits.  
 In reality, the reward depends only on the action and the unknown $\omega$, as can be seen in Figure~\ref{fig:dt-bandit-full}. This is the point of view of an external observer. However, from the point of view of the decision maker, the distribution of $\omega$ only depends on his current belief. Consequently, the distribution of rewards also only depends on the current belief, as we can marginalise over $\omega$. This gives rise to the decision-theoretic bandit process shown in Figure~\ref{fig:dt-bandit-lifted}.
 In the following section, we shall consider Markov decision processes more generally.
 
+
+\section{Contextual Bandits}
+
+\only<article>{
+In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have 
 \section{Experiment design}
 
 
