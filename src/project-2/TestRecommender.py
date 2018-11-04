@@ -10,8 +10,10 @@ def test_policy(generator, policy, reward_function, T):
         x = generator.generate_features()
         a = policy.recommend(x)
         y = generator.generate_outcome(x, a)
-        u += reward_function(a, y)
+        r = reward_function(a, y)
+        u += r
         policy.observe(x, a, y)
+        print("x: ", x, "a: ", a, "y:", y, "r:", r)
     return u
 
 features = pandas.read_csv('data/medical/historical_X.dat', header=None, sep=" ").values
@@ -22,7 +24,7 @@ labels = features[:,128] + features[:,129]*2
 
 import reference_recommender
 policy_factory = reference_recommender.ReferenceRecommender
-policy = policy_factory()
+policy = policy_factory(2)
 
 import data_generation
 generator = data_generation.DataGenerator()
@@ -31,5 +33,6 @@ generator = data_generation.DataGenerator()
 policy.fit_treatment_outcome(features, actions, outcome)
 
 ## Run an online test
-n_tests = 1000
+n_tests = 10
 result = test_policy(generator, policy, default_reward_function, n_tests)
+print("Total reward:", result)

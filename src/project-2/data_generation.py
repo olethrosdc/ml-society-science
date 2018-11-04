@@ -31,7 +31,7 @@ class DataGenerator:
         return A
 
     def generate_outcome(self, X, A):
-        Y = 1*(self.V[A] * X > 0);
+        Y = 1*(np.dot(X, self.V[A]) > 0)
         return Y
 
     def generate_data(self, n_data):
