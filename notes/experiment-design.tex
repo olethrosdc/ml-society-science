@@ -436,28 +436,48 @@ In the following section, we shall consider Markov decision processes more gener
 In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have more information whenever we draw an arm. 
 }
 
-\begin{example}[Clinical trials]
-  Consider an example where we have some information $x_t$ about an individual patient $t$, and we wish to administer a treatment $a_t$. For whichever treatment we administer, we can observe an outcome $y_t$. Our goal is to maximise expected utility. 
-\end{example}
+\begin{frame}
+  \begin{example}[Clinical trials]
+    Consider an example where we have some information $x_t$ about an
+    individual patient $t$, and we wish to administer a treatment
+    $a_t$. For whichever treatment we administer, we can observe an
+    outcome $y_t$. Our goal is to maximise expected utility.
+  \end{example}
+\end{frame}
 
-\begin{definition}[The contextual bandit problem.]
-  At time $t$, 
-  \begin{itemize}
-  \item We observe $x_t \in \CX$.
-  \item We play $a_t \in \CA$.
-  \item We obtain $r_t \in \Reals$ with $r_t \mid a_t = a, x_t = x \sim P_\param(r \mid a, x)$.
-  \end{itemize}
-\end{definition}
+\begin{frame}
+  \begin{definition}[The contextual bandit problem.]
+    At time $t$,
+    \begin{itemize}
+    \item We observe $x_t \in \CX$.
+    \item We play $a_t \in \CA$.
+    \item We obtain $r_t \in \Reals$ with
+      $r_t \mid a_t = a, x_t = x \sim P_\param(r \mid a, x)$.
+    \end{itemize}
+  \end{definition}
 
-\begin{definition}[The linear bandit problem]
-  \begin{itemize}
-  \item $\CA = [n]$, $\CX = \Reals^k$, $\theta = (\theta_1, \ldots, \theta_n)$, $\theta_i \in \Reals^k$.
-  \item $r \sim \Normal(\transpose{\param_a}, 1)$
-  \end{itemize}
-\end{definition}
+  \begin{example}[The linear bandit problem]
+    \begin{itemize}
+    \item $\CA = [n]$, $\CX = \Reals^k$,
+      $\theta = (\theta_1, \ldots, \theta_n)$,
+      $\theta_i \in \Reals^k$, $r \in \Reals$.
+    \item $r \sim \Normal(\transpose{\param_a} x), 1)$
+    \end{itemize}
+  \end{example}
 
-\section{Experiment design}
+  \begin{example}[A clinical trial example]
+    \only<article>{In this scenario, each individual is described by a real vector $x_t$, and the outcome is described by a logistic model. The reward is simply a known function of the action and outcome.}
+    \begin{itemize}
+    \item $\CA = [n]$, $\CX = \Reals^k$,
+      $\theta = (\theta_1, \ldots, \theta_n)$,
+      $\theta_i \in \Reals^k$, $y \in \{0,1\}$.
+    \item $y \sim \Bernoulli(1/(1 + exp[- (\transpose{\param_a} x)^2])$.
+    \item $r = U(a,y)$.
+    \end{itemize}
+  \end{example}
 
+
+\end{frame}
 
 %%% Local Variables:
 %%% mode: latex
