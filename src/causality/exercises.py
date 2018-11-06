@@ -80,19 +80,21 @@ def Exercise16():
     n_actions = policy.get_n_actions()
     a = np.empty(n_samples, dtype=int)
     y = np.zeros(n_samples)
-    hat_theta = np.zeros(2)
-    hat_pi = np.zeros(2)
-    hat_U = 0
-    counts = np.zeros(2)
+    hat_theta = np.zeros(2) # use this to estimate the model
+    hat_pi = np.zeros(2) # use this to estimate the policy
+    hat_U = 0 # use this to estimate the policy's utility
+    counts = np.zeros(2) # this is needed for getting the right parameter values
+
+    ## This corresponds to estimating the historical policy, the model parameters and the expected utility of that policy, with the only difference that the data here is generated online. So, the code could be used to estimate the utility of a new policy, if you had access to the model.
     for t in range(n_samples):
-        a[t] = int(policy.get_action())
-        hat_pi[a[t]] +=1
+        a[t] = int(policy.get_action()) 
+        hat_pi[a[t]] +=1 # use a simple counting method for estimation
         y[t] = model.get_response(a[t])
         counts[a[t]] += 1.0
-        hat_theta[a[t]] += y[t]
+        hat_theta[a[t]] += y[t] # 
         hat_U += y[t]
 
-    
+    # Get the final estimates by normalising the counts
     hat_pi /= sum(hat_pi)
     hat_U/= n_samples
     hat_theta /= counts
@@ -118,6 +120,7 @@ def Exercise16():
     print("New policy: ", alt_pi)
     print("Estimated Utility:", hat_U, alt_hat_U)
 
+    ## Method 2: Use the fitted model.
     ## This is how to estimate the utility of another policy using the estimated model parameters
     U = 0
     alt_U = 0
