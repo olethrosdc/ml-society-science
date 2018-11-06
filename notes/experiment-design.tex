@@ -31,7 +31,7 @@ below.
 \end{example}
 
 \begin{example}\indexmargin{Adaptive hypothesis testing}
-  An alternative goal would be to do a \emph{clinical trail}\index{clinical trial}, in order to find the best possible treatment. For simplicity, consider the problem of trying to find out whether a particular treatment is better or not than a placebo.  We are given a hypothesis set $\Omega$, with each $\omega \in \Omega$ corresponding to different models for the effect of the treatment and the placebo. Since we don't know what is the right model, we place a prior $\bel_0$ on $\Omega$. We can perform $T$ experiments, after which we must make decide whether or not the treatment is significantly better than the placebo. To model this, we define a decision set $\CD = \{d_0, d_1\}$ and a utility function $U : \CD \times \Omega \to \Reals$, which models the effect of each decision $d$ given different versions of reality $\omega$. One hypothesis $\omega \in \Omega$ is true. To distinguish them, we can choose
+  An alternative goal would be to do a \emph{clinical trail}\index{clinical trial}, in order to find the best possible treatment. For simplicity, consider the problem of trying to find out whether a particular treatment is better or not than a placebo.  We are given a hypothesis set $\Omega$, with each $\omega \in \Omega$ corresponding to different models for the effect of the treatment and the placebo. Since we don't know what is the right model, we place a prior $\bel_0$ on $\Omega$. We can perform $T$ experiments, after which we must make decide whether or not the treatment is significantly better than the placebo. To model this, we define a decision set $\CA = \{a_0, a_1\}$ and a utility function $U : \CA \times \Omega \to \Reals$, which models the effect of each decision $d$ given different versions of reality $\omega$. One hypothesis $\omega \in \Omega$ is true. To distinguish them, we can choose
   from a set of $k$ possible experiments to be performed over $T$
   trials.  At the $t$-th trial, we choose experiment $a_t \in \{1,
   \ldots, k\}$ and observe outcome $x_t \in \CX$, with $x_t \sim
@@ -42,7 +42,7 @@ below.
   \]
   The reward is $r_t = 0$ for $t < T$ and
   \[
-  r_T = \max_{d \in D}\E_{\bel_T}(U \mid d).
+  r_T = \max_{a \in \CA}\E_{\bel_T}(U \mid a).
   \]
   Our utility in this can again be expressed as a sum over individual rewards,  $U = \sum_{t=1}^T r_t$.
 \end{example}
@@ -353,7 +353,7 @@ In practice, although multiple reward sequences may lead to the same beliefs, we
   U^*(\bel_t) = \max_{a_t} \E(r_t \mid \bel_t, a_t) + \sum_{\bel_{t+1}} \Pr(\bel_{t+1} \mid \bel_t, a_t) U^*(\bel_{t+1}).\label{eq:backwards-induction-bandits}
 \end{equation}
 \end{block}
-The above equation is the \emindex{backwards induction} algorithm for bandits.  If you look at this structure, you can see that  next belief only depends on the current belief, action and reward, i.e. it satisfies the Markov property, as seen in Figure~\ref{fig:multi-stage-bandit}. Consequently, a decision-theoretic bandit process can be modelled more generally as a \index{Markov decision process}Markov decision process, explained in the following section. It turns out that backwards induction, as well as other efficient algorithms, can provide optimal solutions for Markov decision processes.
+The above equation is the \emindex{backwards induction} algorithm for bandits.  If you look at this structure, you can see that  next belief only depends on the current belief, action and reward, i.e. it satisfies the Markov property, as seen in Figure~\ref{fig:multi-stage-bandit}.\footnote{In fact, a decision-theoretic bandit process is a specific case of a Markov decision process, explained in Chapter~\ref{ch:mdp}.}
 \begin{figure}[htb]
   \centering
   \begin{subfigure}{0.3\textwidth}
@@ -436,28 +436,48 @@ In the following section, we shall consider Markov decision processes more gener
 In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have more information whenever we draw an arm. 
 }
 
-\begin{example}[Clinical trials]
-  Consider an example where we have some information $x_t$ about an individual patient $t$, and we wish to administer a treatment $a_t$. For whichever treatment we administer, we can observe an outcome $y_t$. Our goal is to maximise expected utility. 
-\end{example}
+\begin{frame}
+  \begin{example}[Clinical trials]
+    Consider an example where we have some information $x_t$ about an
+    individual patient $t$, and we wish to administer a treatment
+    $a_t$. For whichever treatment we administer, we can observe an
+    outcome $y_t$. Our goal is to maximise expected utility.
+  \end{example}
+\end{frame}
 
-\begin{definition}[The contextual bandit problem.]
-  At time $t$, 
-  \begin{itemize}
-  \item We observe $x_t \in \CX$.
-  \item We play $a_t \in \CA$.
-  \item We obtain $r_t \in \Reals$ with $r_t \mid a_t = a, x_t = x \sim P_\param(r \mid a, x)$.
-  \end{itemize}
-\end{definition}
+\begin{frame}
+  \begin{definition}[The contextual bandit problem.]
+    At time $t$,
+    \begin{itemize}
+    \item We observe $x_t \in \CX$.
+    \item We play $a_t \in \CA$.
+    \item We obtain $r_t \in \Reals$ with
+      $r_t \mid a_t = a, x_t = x \sim P_\param(r \mid a, x)$.
+    \end{itemize}
+  \end{definition}
 
-\begin{definition}[The linear bandit problem]
-  \begin{itemize}
-  \item $\CA = [n]$, $\CX = \Reals^k$, $\theta = (\theta_1, \ldots, \theta_n)$, $\theta_i \in \Reals^k$.
-  \item $r \sim \Normal(\transpose{\param_a}, 1)$
-  \end{itemize}
-\end{definition}
+  \begin{example}[The linear bandit problem]
+    \begin{itemize}
+    \item $\CA = [n]$, $\CX = \Reals^k$,
+      $\theta = (\theta_1, \ldots, \theta_n)$,
+      $\theta_i \in \Reals^k$, $r \in \Reals$.
+    \item $r \sim \Normal(\transpose{\param_a} x), 1)$
+    \end{itemize}
+  \end{example}
 
-\section{Experiment design}
+  \begin{example}[A clinical trial example]
+    \only<article>{In this scenario, each individual is described by a real vector $x_t$, and the outcome is described by a logistic model. The reward is simply a known function of the action and outcome.}
+    \begin{itemize}
+    \item $\CA = [n]$, $\CX = \Reals^k$,
+      $\theta = (\theta_1, \ldots, \theta_n)$,
+      $\theta_i \in \Reals^k$, $y \in \{0,1\}$.
+    \item $y \sim \Bernoulli(1/(1 + exp[- (\transpose{\param_a} x)^2])$.
+    \item $r = U(a,y)$.
+    \end{itemize}
+  \end{example}
 
+
+\end{frame}
 
 %%% Local Variables:
 %%% mode: latex
