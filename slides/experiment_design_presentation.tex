@@ -1,0 +1,665 @@
+\documentclass[9pt]{beamer}
+
+\input{../preamble}
+%\usepackage{pstool}
+\usepackage{listings}
+
+\title{Experiment design}
+\subtitle{Bandit problems and Markov decision processes}
+\author{Christos Dimitrakakis}
+\institute{Chalmers}
+
+%% \logo{\includegraphics[height=0.5cm]{cit_logo.png}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Colors %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\InBlue}{\color{blue}}
+\newcommand{\InGreen}{\color{green}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{document}
+
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+\begin{frame}
+  \frametitle{The reinforcement learning problem}
+  \alert{Learning} how to \alert{act optimally} in an \alert{unknown world} through \alert{interaction} and \alert{reinforcement}.
+
+  \begin{itemize}
+  \item Optimal behaviour implicitly defined through rewards.
+  \item Learning about an unknown world.
+  \item Interactive data collection.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Sequential problems}
+  \begin{itemize}
+  \item Observation $x_t$.
+  \item Decision $\decision_t$.
+  \item Steps $t = 1, \ldots, T$.
+  \end{itemize}
+
+  \begin{block}{General utility function}
+    Utility $U(x_1, x_2, \ldots, x_T, \decision_1, \ldots, \decision_T)$
+  \end{block}
+
+  \begin{block}{Linear utility function}
+    \[
+      U(x_1, x_2, \ldots, x_T, \decision_1, \ldots, \decision_T)
+      = 
+      \sum_{t=1}^T \Rew(x_t, \decision_t).
+    \]
+    \alert{This is the standard reinforcement learning setting}
+  \end{block}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Sequential problems: full observation}
+  \begin{example}
+    \begin{itemize}
+    \item $n$ meteorological stations $\cset{\mdp_i}{i=1, \ldots,n}$
+    \item The $i$-th station predicts rain $P_{\mdp_i}(y_t \mid y_1, \ldots, y_{t-1})$.
+    \end{itemize}
+  \end{example}
+  \begin{itemize}
+  \item Observation $x_t$: the predictions of all stations.
+  \item Decision $\decision_t$.
+  \item Steps $t = 1, \ldots, T$.
+  \end{itemize}
+
+  \begin{block}{Linear utility function}
+    Reward function is $\Rew(x_t, a_t) = \ind{x_t = a_t}$ simply rewarding correct predictions with utility being
+    \[
+      U(y_1, y_2, \ldots, y_T, \decision_1, \ldots, \decision_T)
+      = 
+      \sum_{t=1}^T \Rew(y_t, \decision_t),
+    \]
+    the total number of correct predictions.
+  \end{block}
+
+\end{frame}
+
+
+\section{Bandit problems}
+\label{sec:exp-design-bandit}
+
+\begin{frame}
+
+  The $n$ meteorologists problem is simple, as:
+
+  \begin{itemize}
+  \item You always see their predictions, as well as the weather, no matter whether you bike or take the tram (full information)
+  \item Your actions do not influence their predictions (independence events)
+  \end{itemize}
+  
+  In the remainder, we'll see two settings where decisions are made with either \alert{partial information} or in a \alert{dynamical system}. Both of these settings can be formalised with Markov decision processes.
+
+\end{frame}
+
+
+
+\only<presentation>
+{
+  \begin{frame}\frametitle{Experimental design and Markov decision processes}
+    The following problems
+    \begin{itemize}
+    \item Shortest path problems.
+    \item Optimal stopping problems.
+    \item Reinforcement learning problems.
+    \item Experiment design (clinical trial) problems
+    \item Advertising. \only<article>{This was first real-world application of Markov decision processes. In fact, Howard used the formalism when he was a graduate student in order to find an optimal advertising catalog mailing policy based on customers' purchasing behaviour.}
+    \end{itemize}
+    can be all formalised as \alert{Markov decision processes}.
+
+    \begin{block}{Applications}
+      \begin{itemize}
+      \item Robotics.
+      \item Economics.
+      \item Automatic control.
+      \item Resource allocation
+      \end{itemize}
+    \end{block}
+  \end{frame}
+}
+
+
+\begin{frame}
+  \frametitle{Bandit problems}
+  \only<1>{ \includegraphics[width=\textwidth]{../figures/Las_Vegas_slot_machines}
+  }
+  \only<2->{
+    \begin{columns}
+      \begin{column}{0.6\textwidth}
+        \begin{block}{Applications}
+          \begin{itemize}
+          \item<2-> Efficient optimisation.
+          \item<3-> Online advertising.
+          \item<4-> Clinical trials.
+          \item<5-> \textsc{Robot scientist}.
+          \end{itemize}
+        \end{block}
+      \end{column}
+      \begin{column}{0.4\textwidth}
+        \only<2>{
+          \begin{tikzpicture}[domain=0:10]
+            \draw[very thin,color=gray] (-0.1,-1.1) grid (2.9,2.9);
+            \draw[->] (-0.2,0) -- (3.2,0) node[right] {$x$};
+            \draw[->] (0,-1.2) -- (0,3.2) node[above] {$f(x)$};
+            \draw[color=blue] plot (\x / 5,{sin(10 \x r)/(1 + \x)}) node[above] {$f(x) = \mathrm{sinc} x$};
+          \end{tikzpicture}
+        }             \only<3>{\includegraphics[width=0.8\textwidth]{../figures/google-logo}}
+
+        \only<4>{\includegraphics[width=0.8\textwidth]{../figures/clinical}}
+        \only<5>{\includegraphics[width=0.8\textwidth]{../figures/robot-scientist}}
+      \end{column}
+    \end{columns}
+  }
+\end{frame}
+
+
+\begin{frame}  
+  \frametitle{The stochastic $n$-armed bandit problem}
+  \begin{block}{Actions and rewards}
+    \begin{itemize}
+    \item A set of \alert{actions} $\CA = \set{1, \ldots, n}$.
+    \item Each action gives you a \alert{random reward} with distribution $\Pr(r_t \mid a_t = i)$.
+    \item The  \alert{expected reward} of the $i$-th arm is $\rho_i \defn \E(r_t \mid a_t = i)$.
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{Interaction at time $t$}
+    \begin{enumerate}
+    \item You choose an action $a_t \in \CA$.
+    \item You observe a random reward $r_t$ drawn from the $i$-th arm.
+    \end{enumerate}
+  \end{exampleblock}
+  \begin{block}{The utility is the \alert{sum of the rewards} obtained}
+    \[
+      U \defn \sum_{t} r_t.
+    \]
+  \end{block}
+  We must maximise the expected utility, \alert{without knowing} the values $\rho_i$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Policy}
+  \begin{definition}[Policies]
+    A policy $\pol$ is \alert{an algorithm for taking actions} given the observed history $h_t \defn a_1, r_1, \ldots, a_t, r_t$
+    \[
+      \Pr^\pol(a_{t+1} \mid h_t)
+    \]
+    is the probability of the next action $a_{t+1}$.
+  \end{definition}
+  \only<1>{
+    \begin{exercise}
+      Why should our action depend on the complete history?
+      \begin{itemize}
+      \item[A] The next reward depends on all the actions we have taken.
+      \item[B] We don't know which arm gives the highest reward.
+      \item[C] The next reward depends on all the previous rewards.
+      \item[D] The next reward depends on the complete history.
+      \item[E] No idea.
+      \end{itemize}
+    \end{exercise}}
+  \only<2-3>{
+    \begin{example}[The expected utility of a uniformly random policy]
+      If $\Pr^\pol(a_{t+1} \mid \cdot) = 1/n$ for all $t$, then
+      \only<3>{
+        \[
+          \E^\pol U = \E^\pol \left(\sum_{t=1}^T r_t \right)
+          = \sum_{t=1}^T \E^\pol r_t
+          = \sum_{t=1}^T \sum_{i=1}^n \frac{1}{n} \rho_i
+          = \frac{T}{n} \sum_{i=1}^n \rho_i
+        \]
+      }
+    \end{example}
+  }
+  \only<4->{
+    \begin{block}{The expected utility of a general policy}
+      \begin{align}
+        \onslide<4->{\E^\pol U &= \E^\pol \left(\sum_{t=1}^T r_t \right) }
+                                 \onslide<5->{ = \sum_{t=1}^T \E^\pol(r_t)\\ }
+        \onslide<6->{
+                               & = \sum_{t=1}^T  \sum_{a_t \in \CA}  \E (r_t \mid a_t) 
+                                 \sum_{h_{t-1}}
+                                 \Pr^\pol(a_t \mid h_{t-1})
+                                 \Pr^\pol(h_{t-1})
+                                 }
+                                 \notag
+      \end{align}
+    \end{block}
+  }
+
+
+\end{frame}
+
+
+
+\subsection{Planning: Heuristics and exact solutions}
+\label{sec:exp-design-bandit}
+\index{bandit problems}
+
+\begin{frame}
+  \frametitle{Bernoulli bandits}
+  \begin{block}{Decision-theoretic approach}
+    \begin{itemize}
+    \item Assume $r_t \mid a_t = i \sim P_{\param_i}$, with $\param_i\in \Param$.
+    \item Define prior belief  $\xi_1$ on $\Param$.
+    \item For each step $t$, select action $a_t$ to maximise 
+      \[
+        \E_{\xi_t}( U_t  \mid a_t) = \E_{\xi_t} \left(\sum_{k=1}^{T-t} \disc^k r_{t+k} ~\middle|~ a_t \right)
+      \]
+    \item Obtain reward $r_t$.
+    \item Calculate the next belief
+      \[
+        \xi_{t+1} = \xi_t(\cdot \mid a_t, r_t)
+      \]
+    \end{itemize}
+  \end{block}
+  How can we implement this?
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{A simple heuristic for the unknown reward case}
+  Say you keep a \alert{running average} of the reward obtained by each arm
+  \[
+  \hat{\param}_{t,i} = R_{t,i} / n_{t,i}
+  \]
+  \begin{itemize}
+  \item $n_{t,i}$ the number of times you played arm $i$ 
+  \item $R_{t,i}$ the total reward received from $i$.
+  \end{itemize}
+  Whenever you play $a_t = i$:
+  \[
+  R_{t+1, i} = R_{t,i} + r_t, \qquad n_{t+1,i} = n_{t,i} + 1.
+  \]
+  Greedy policy:
+  \[
+  a_t = \argmax_i \hat{\param}_{t,i}.
+  \]
+  What should the initial values $n_{0,i}, R_{0,i}$ be?
+\end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{Bayesian inference on Bernoulli bandits}
+  \only<1>{
+    \begin{itemize}
+    \item Likelihood: $\Pr_\param(r_t = 1) = \param$.
+    \item Prior: $\bel(\param) \propto \param^{\alpha - 1} (1 - \param)^{\beta - 1}$ \quad (i.e. $\BetaDist(\alpha, \beta)$).
+    \end{itemize}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{../figures/beta-prior}
+      \caption{Prior belief $\bel$ about the mean reward $\param$.}
+    \end{figure}
+  }
+  \only<2>{
+    For a sequence $r = r_1, \ldots, r_n$, $\Rightarrow$
+    $P_{\param}(r) \propto  \param_i^{\textrm{\#1(r)}} (1 - \param_i)^{\textrm{\#0(r)}}$
+
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{../figures/beta-likelihood}
+      \caption{Prior belief $\bel$ about $\param$ and likelihood of $\param$ for 100 plays with 70 1s.}
+    \end{figure}
+  }
+  \only<3->{
+    Posterior: $\BetaDist(\alpha + \textrm{\#1(r)}, \beta + \textrm{\#0(r)})$.
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{../figures/beta-posterior}
+      \caption{Prior belief $\bel(\param)$ about $\param$, likelihood of $\param$ for the data $r$, and posterior belief $\bel(\param \mid r)$}
+    \end{figure}
+  }
+\end{frame}
+
+
+
+\begin{frame}
+  \only<presentation>{\frametitle{Bernoulli example.}}
+  \only<article>{As a simple illustration, consider the case when the reward for choosing one of the $n$ actions is either $0$ or $1$, with some fixed, yet unknown probability depending on the chosen action. This can be modelled in the standard Bayesian framework using the Beta-Bernoulli conjugate prior. More specifically, we can formalise the problem as follows.}
+
+  Consider $n$ Bernoulli distributions with
+  unknown parameters $\param_i$ ($i = 1, \ldots, n$) such that 
+  \begin{align}
+    r_t \mid a_t = i &\sim
+                       \Bernoulli(\param_i),
+    &
+      \E(r_t  \mid a_t = i) &= \param_i.
+  \end{align}
+  \only<article>{Each Bernoulli distribution thus corresponds to the distribution of rewards obtained from each bandit that we can play.
+    In order to apply the statistical decision theoretic framework, we have to quantify our uncertainty about the parameters $\param$ in terms of a probability distribution.
+  }
+  Our belief for each parameter $\param_i$ is $\BetaDist(\alpha_i,
+  \beta_i)$, with density $f(\param \mid \alpha_i, \beta_i)$ so that
+  \[
+    \xi(\param_1, \ldots, \param_n)
+    =
+    \prod_{i=1}^n f(\param_i \mid \alpha_i, \beta_i).
+    \tag{a priori independent}
+  \]
+  \[
+    N_{t,i} \defn \sum_{k=1}^t \ind{a_k = i}, \qquad
+    \hat{r}_{t,i} \defn \frac{1}{N_{t,i}} \sum_{k=1}^t r_t \ind{a_k = i}
+  \]
+  Then, the posterior distribution for the parameter of arm $i$ is
+  \[
+    \xi_t  = \BetaDist(\alpha^t_i, \beta^t_i),
+    \qquad
+    \alpha^t_i = \alpha_i + N_{t,i} \hat{r}_{t,i}~,~ \beta^t_i = \beta_i N_{t,i} (1 - \hat{r}_{t,i})).
+  \]
+  Since $r_t \in \{0,1\}$ there are \alert{$O((2n)^T)$ possible belief states} for a $T$-step bandit problem.
+\end{frame}
+
+
+
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Belief states}
+    \begin{itemize}
+    \item The state of the decision-theoretic bandit problem is the state of our belief.
+    \item A sufficient statistic is the number of plays and total rewards.
+    \item Our belief state $\bel_t$ is described by the priors
+      $\alpha, \beta$ and the vectors
+      
+      \begin{align}
+        N_t = (N_{t,1}, \ldots, N_{t,i})\\
+        \hat{r}_t = (\hat{r}_{t,1}, \ldots, \hat{r}_{t,i}).
+      \end{align}
+    \item The next-state probabilities are defined as:
+      \[
+        \Pr_{\bel_t}(r_t = 1 \mid a_t = i) = \frac{\alpha^t_i}{\alpha^t_i + \beta^t_i}
+      \]
+      as $\bel_{t+1}$ is a deterministic function of $\bel_t$, $r_t$ and $a_t$
+    \item Optimising this results in a \alert{\index{Markov decision process}Markov decision process}.
+    \end{itemize}
+  \end{frame}
+}
+\only<article>{
+  The state of the bandit problem is the state of our belief.
+  A sufficient statistic for our belief is the number of times
+  we played each bandit and the total reward from each bandit.
+  Thus, our state at time $t$ is entirely described by our priors
+  $\alpha, \beta$ (the initial state) and the vectors
+  \begin{align}
+    N_t = (N_{t,1}, \ldots, N_{t,i})\\
+    \hat{r}_t = (\hat{r}_{t,1}, \ldots, \hat{r}_{t,i}).
+  \end{align}
+  At any time $t$, we can calculate the probability of observing
+  $r_t = 1$ or $r_t = 0$ if we pull arm $i$ as:
+  \[
+    \xi_t(r_t = 1 \mid a_t = i) = \frac{\alpha_i + N_{t,i} \hat{r}_{t,i}}{\alpha_i + \beta_i + N_{t,i}}
+  \]
+  The next state is well-defined and depends only on the current
+  state. As we shall see later, this type of decision problem is called a Markov decision process. Although extremely simple, This particular bandit problem is quite large. If we have a horizon $T$, then the possible beliefs we could have when our rewards are binary are in the order of $(2n)^T$.
+}  
+
+
+\label{sec:decision-theoretic-bandits}
+\only<article>{
+  The basic bandit process can be seen in Figure~\ref{fig:basic-bandit-process}. The general decision-theoretic bandit process, not restricted to independent Bernoulli bandits, can be formalised as follows.
+  \begin{definition}
+    Let $\CA$ be a set of actions, not necessarily finite. Let $\Param$ be a set of possible parameter values, indexing a family of probability measures $\family = \cset{P_{\param, a}}{\param \in \Param, a \in \CA}$. There is some $\param \in \Param$ such that, whenever we take action $a_t = a$, we observe reward $r_t$ with probability measure:
+    \begin{equation}
+      \label{eq:bandit-reward-probability}
+      P_{\param,a}(R) \defn \Pr_\param(r_{t} \in R \mid a_t = a),
+      \qquad R \subseteq \Reals.
+      % ro: What is R? Is R on the lhs the same as on the rhs? % cd: it's just a set
+    \end{equation}
+    Let $\bel_1$ be a prior distribution on $\Param$ and let the posterior distributions be defined as:
+    \begin{equation}
+      \label{eq:bandit-posteriors}
+      \bel_{t+1}(B) \propto \int_B P_{\param, a_t} (r_t) \dd \bel_t(\param).
+    \end{equation}
+    The next belief is random, since it depends on the random quantity $r_t$. In fact, the probability of next rewards if $a_t = a$ is given by:
+    \begin{equation}
+      \label{eq:dt-bandit-reward-probability}
+      P_{\bel_t, a} (R) \defn \int_\Param P_{\param,a}(R) \dd{\bel_t}(\param) %ro: What is R?
+    \end{equation}
+    Finally, as $\bel_{t+1}$ deterministically depends on $\bel_t, a_t, r_t$, the probability of obtaining a particular next belief is the same as the probability of obtaining the corresponding rewards leading to the next belief. In more detail, we can write:
+    \begin{equation}
+      \label{eq:dt-bandit-belief-probability}
+      \Pr(\bel_{t+1} = \bel \mid \bel_t, a_t)
+      =
+      \int_\CR \ind{\bel_{t}(\cdot \mid a_t, r_t = r) = \bel} \dd{P_{\bel_t, a}}(r).  %ro: What is \CR?
+    \end{equation}
+  \end{definition}
+  In practice, although multiple reward sequences may lead to the same beliefs, we frequently ignore that possibility for simplicity. Then the process becomes a tree. A solution to the problem of what action to select is given by a backwards induction algorithm similar to that given in Section~\ref{sec:backwards-induction}.
+  \begin{equation}
+    U^*(\bel_t) = \max_{a_t} \E(r_t \mid \bel_t, a_t) + \sum_{\bel_{t+1}} \Pr(\bel_{t+1} \mid \bel_t, a_t) U^*(\bel_{t+1}).\label{eq:backwards-induction-bandits}
+  \end{equation}
+  The above equation is the \emindex{backwards induction} algorithm for bandits.  If you look at this structure, you can see that  next belief only depends on the current belief, action and reward, i.e. it satisfies the Markov property. Consequently, a decision-theoretic bandit process can be modelled more generally as a \index{Markov decision process}Markov decision process, explained in the following section. It turns out that backwards induction, as well as other efficient algorithms, can provide optimal solutions for Markov decision processes.
+}
+
+
+\begin{frame}
+  \frametitle{Markov process}
+  \begin{figure}
+    \begin{tikzpicture}
+      \node[RV] (x1) {$s_{t-1}$};
+      \node[RV] (x2) [right of=x1] {$s_t$};
+      \node[RV] (x3) [right of=x2] {$s_{t+1}$};
+      \draw [->] (x1) -- (x2);
+      \draw [->] (x2) -- (x3);
+    \end{tikzpicture}
+  \end{figure}
+
+  \begin{definition}[Markov Process -- or Markov Chain]
+    The sequence $\cset{s_t}{t=1,\ldots}$ of random variables $s_t : \Param \to \CS$ is a Markov process if
+    \begin{equation}
+      \label{eq:markov-chain}
+      \Pr(s_{t+1} \mid s_{t}, \ldots, s_1) 
+      =
+      \Pr(s_{t+1} \mid s_{t}). 
+    \end{equation}
+    \begin{itemize}
+    \item $s_t$ is \alert{state} of the Markov process at
+      time $t$.
+    \item $\Pr(s_{t+1} \mid s_t)$ is the \alert{transition kernel} of the process.
+    \end{itemize}
+  \end{definition}
+  
+  \begin{alertblock}{The state of an algorithm}
+    Observe that the $R, n$ vectors of our greedy bandit algorithm form a Markov process. They also summarise our belief about which arm is the best.
+  \end{alertblock}
+\end{frame}
+
+
+
+\begin{frame}
+  \begin{figure}[htb]
+    \centering
+    \begin{tikzpicture}
+      \node[select] at (0,1) (at) {$a_t$};
+      \node[RV,hidden] at (0,0) (omega) {$\param$};
+      \node[utility] at (1,-1) (rt) {$r_{t}$};
+      \draw[->] (at) -- (rt);
+      \draw[->] (omega) -- (rt);
+    \end{tikzpicture}
+    \caption{The basic bandit MDP. The decision maker selects $a_t$, while the parameter $\param$ of the process is hidden. It then obtains reward $r_t$. The process repeats for $t = 1, \ldots, T$.}
+    \label{fig:basic-bandit-process}
+  \end{figure}
+
+  \begin{figure}[htb]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (bt) {$\bel_t$};
+      \node[select] at (0,1) (at) {$a_t$};
+      \node[utility] at (1,-1) (rt) {$r_{t}$};
+      \draw[->] (bt) -- (rt);
+      \draw[->] (at) -- (rt);
+      \node[RV] at (2,0) (bt2) {$\bel_{t+1}$};
+      \draw[->] (at) -- (bt2);
+      \draw[->] (bt) -- (bt2);
+      \draw[->] (rt) -- (bt2);
+      \node[select] at (2,1) (at2) {$a_{t+1}$};
+      \node[utility] at (3,-1) (rt2) {$r_{t+1}$};
+      \draw[->] (bt2) -- (rt2);
+      \draw[->] (at2) -- (rt2);
+    \end{tikzpicture}
+    \caption{The decision-theoretic bandit MDP. While $\param$ is not known, at each time step $t$ we maintain a belief $\bel_t$ on $\Param$. The reward distribution is then defined through our belief.}  %ro: This figure is not referred to. Why is there no omega in this picture? I don't understand why the reward distribution is defined through our belief.
+    \label{fig:bandit-process}
+  \end{figure}
+\end{frame}
+\begin{frame}
+
+  \begin{exampleblock}{Backwards induction (Dynamic programming)}
+    \begin{algorithmic}
+      \For{$n=1, 2, \ldots$ and $s \in \CS$}
+      \State 
+      \[
+        \E(U_t \mid \bel_t) = \max_{a_t \in \CA} \E(r_t \mid \bel_t, a_t) + \disc \sum_{{\bel_{t+1}}} \Pr(\bel_{t+1} \mid \bel_t, a_t) \E(U_{t+1} \mid \bel_{t+1})
+      \]
+      \EndFor
+    \end{algorithmic}
+  \end{exampleblock}
+  
+  \begin{center}
+    
+    \begin{columns}
+      \begin{column}{0.6\textwidth}
+          \begin{tikzpicture}
+            \node at (0, -3) {$s_t$};
+            \node at (2, -3) {$a_t$};
+            \node at (3, -3) {$r_t$};
+            \node at (5, -3) {$s_{t+1}$};
+            \node[RV] at (0,0) (s1) {$\only<1>?\only<2>{1.4}$};
+            \node[select] at (2,-1) (a1) {$0.7$};
+            \node[select] at (2,1) (a2) {$1.4$};
+            \node[utility] at (3,2) (r2) {$1$};
+            \node[utility] at (3,-2) (r1) {$0$};
+            \node[RV] at (5,1) (s2a) {$1$};
+            \node[RV] at (5,-1) (s2b) {$0$};
+            \draw[->] (s1) to node [sloped,anchor=south] {$\only<1>{?}\only<2>{0}$} (a1);
+            \draw[->] (s1) to node [sloped,anchor=south] {$\only<1>{?}\only<2>{1}$} (a2);
+            \draw[->] (a1) to node [sloped,auto] {$0.7$} (s2a);
+            \draw[->] (a1) to node [sloped,auto] {$0.3$} (s2b);
+            \draw[->] (a2) to node [sloped,auto] {$0.4$} (s2a);
+            \draw[->] (a2) to node [sloped,auto] {$0.6$} (s2b);
+            \draw[->] (a1) to (r1);
+            \draw[->] (a2) to (r2);
+          \end{tikzpicture}
+          
+        \end{column}
+        \begin{column}{0.4\textwidth}
+          \begin{exercise}
+            What is the value $v_t(s_t)$ of the first state?
+            \begin{itemize}
+            \item[A] 1.4
+            \item[B] 1.05
+            \item[C] 1.0
+            \item[D] 0.7
+            \item[E] 0
+            \end{itemize}
+          \end{exercise}
+        \end{column}
+      \end{columns}
+      
+      
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Heuristic algorithms for the $n$-armed bandit problem}
+  \only<article>{For rewards in $[0,1]$ we can apply this algorithm}
+  \begin{algorithm}[H]
+    \begin{algorithmic}
+      \State \textbf{Input} $\CA$
+      \State $\hat{\param}_{0,i} = 1$, $\forall i$
+      \For {$t = 1, \ldots$}
+      \State $a_t = \argmax_{i \in \CA} \left\{\alert{\hat{\param}_{{t-1},i} + \sqrt{\frac{2\ln t}{N_{t-1,i}}}}\right\}$
+      \State $r_t \sim P_\param(r \mid a_t)$ \texttt{// play action and get reward}
+      \texttt{// update model}
+      \State $N_{t,a_t} = N_{t-1,a_t} + 1$
+      \State $\hat{\param}_{t,a_t} = [N_{t-1, a_t} \param_{t-1, a_t} + r_t]/N_{t, a_t}$
+      \State $\forall i \neq a_t$, $N_{t,i} = N_{t-1,i}$, $\hat{\param}_{t,i} = \hat{\param}_{t-1,i}$
+      \EndFor
+    \end{algorithmic}
+    \caption{UCB1}
+  \end{algorithm}
+
+  \begin{algorithm}[H]
+    \begin{algorithmic}
+      \State \textbf{Input} $\CA, \bel_0$
+      \For {$t = 1, \ldots$}
+      \State \alert{$\hat{\param} \sim \bel_{t-1}(\param)$}
+      \State $a_t \in \argmax_{a} \E_{\alert{\hat{\param}}} [r_t \mid a_t = a]$.
+      \State $r_t \sim P_\param(r \mid a_t)$ \texttt{// play action and get reward}
+      \texttt{// update model}
+      \State $\bel_t(\param) = \bel_{t-1}(\param \mid a_t, r_t)$.
+      \EndFor
+    \end{algorithmic}
+    \caption{Thompson sampling}
+  \end{algorithm}
+
+\end{frame}
+
+\section{Contextual Bandits}
+
+\only<article>{
+In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have more information whenever we draw an arm. 
+}
+
+\begin{frame}
+  \begin{example}[Clinical trials]
+    Consider an example where we have some information $x_t$ about an
+    individual patient $t$, and we wish to administer a treatment
+    $a_t$. For whichever treatment we administer, we can observe an
+    outcome $y_t$. Our goal is to maximise expected utility.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[The contextual bandit problem.]
+    At time $t$,
+    \begin{itemize}
+    \item We observe $x_t \in \CX$.
+    \item We play $a_t \in \CA$.
+    \item We obtain $r_t \in \Reals$ with
+      $r_t \mid a_t = a, x_t = x \sim P_\param(r \mid a, x)$.
+    \end{itemize}
+  \end{definition}
+
+  \begin{example}[The linear bandit problem]
+    \begin{itemize}
+    \item $\CA = [n]$, $\CX = \Reals^k$,
+      $\theta = (\theta_1, \ldots, \theta_n)$,
+      $\theta_i \in \Reals^k$, $r \in \Reals$.
+    \item $r \sim \Normal(\transpose{\param_a} x), 1)$
+    \end{itemize}
+  \end{example}
+
+  \begin{example}[A clinical trial example]
+    \only<article>{In this scenario, each individual is described by a real vector $x_t$, and the outcome is described by a logistic model. The reward is simply a known function of the action and outcome.}
+    \begin{itemize}
+    \item $\CA = [n]$, $\CX = \Reals^k$,
+      $\theta = (\theta_1, \ldots, \theta_n)$,
+      $\theta_i \in \Reals^k$, $y \in \{0,1\}$.
+    \item $y \sim \Bernoulli(1/(1 + exp[- (\transpose{\param_a} x)^2])$.
+    \item $r = U(a,y)$.
+    \end{itemize}
+  \end{example}
+
+
+\end{frame}
+
+
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
