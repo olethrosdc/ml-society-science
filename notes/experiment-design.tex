@@ -86,7 +86,8 @@ To apply the decision theoretic framework, we need to define a suitable family o
   \max_\pol \E_\bel^\pol U_t = 
   \max_\pol \int_\Omega \E_\omega^\pol U_t \dd \bel{\omega}.
 \end{equation}
-The difficulty lies not in formalising the problem, but in the fact that the set of learning policies is quite large, rendering the optimisation infeasible.
+The difficulty lies not in formalising the problem, but in the fact that the set of learning policies is quite large, rendering the optimisation infeasible. 
+
 The following figure summarises the statement of the bandit problem in the Bayesian setting.
 \begin{block}{Decision-theoretic statement of the bandit problem}
   \begin{itemize}
@@ -110,9 +111,9 @@ Consider $n$ Bernoulli distributions with
 unknown parameters $\omega_i$ ($i = 1, \ldots, n$) such that 
 \begin{align}
   r_t \mid a_t = i &\sim
-  \Bernoulli(\omega_i),
+                     \Bernoulli(\omega_i),
   &
-  \E(r_t  \mid a_t = i) &= \omega_i.
+    \E(r_t  \mid a_t = i) &= \omega_i.
 \end{align}
 Each Bernoulli distribution thus corresponds to the distribution of
 rewards obtained from each bandit that we can play.  In order to
@@ -170,9 +171,7 @@ state is well-defined and depends only on the current state.  As we
 shall see later, this type of decision problem is more generally called a Markov
 decision process (Definition~\ref{def:MDP}). For now, we shall more generally (and precisely) define the bandit process itself.
 
-\subsection{Heuristic algorithms for bandits}
-
-\subsection{Bandit problems}
+\subsection{The stochastic $n$-armed bandit problem}
 \begin{frame}
   \frametitle{The stochastic $n$-armed bandit problem}
   \only<article>{Let us return to the example of bandit problems. As
@@ -246,9 +245,9 @@ decision process (Definition~\ref{def:MDP}). For now, we shall more generally (a
       \hat{\pi}^*_\epsilon &\defn (1 - \epsilon_t) \hat{\pi}^*_t + \epsilon_t \Uniform(\CA),
       \\
       \hat{\pi}^*_t(i) &= \ind{i \in \hat{\CA}^*_t}/|\hat{\CA}^*_t|,
-      &
-      \hat{\CA}^*_t &= \argmax_{i \in \CA} \mu_{t,i}
-      \label{eq:eps-greedy}
+                       &
+                         \hat{\CA}^*_t &= \argmax_{i \in \CA} \mu_{t,i}
+                                         \label{eq:eps-greedy}
     \end{align}
   \end{definition}
 \end{frame}
@@ -318,26 +317,26 @@ The basic bandit process can be seen in Figure~\ref{fig:basic-bandit-process}. W
     P_{\bel_t, a} (R) \defn \int_\Omega P_{\omega,a}(R) \dd{\bel_t}(\omega).
   \end{equation}
   \begin{figure}[ht]
-  \begin{center}
-    \begin{tikzpicture}
-      \node[RV] at (2,-1.5) (xn1) {$\bel_{t+1}^0$}; 
-      \node[RV] at (2,-0.5) (xn2) {$\bel_{t+1}^1$};
-      \node[RV] at (2,0.5) (xn3) {$\bel_{t+1}^2$}; 
-      \node[RV] at (2,1.5) (xn4) {$\bel_{t+1}^3$};
-      \node[select] at (0,-1) (an1) {$a^1_t$};
-      \node[select] at (0,1) (an2) {$a^2_t$};
-      \node[RV] at (-2,0) (xp) {$\bel_n$};
-      \draw[->] (xp) -- (an1);
-      \draw[->] (xp) -- (an2);
-      \draw[->] (an1) -- (xn1) node[near start, below] {$r=0$};
-      \draw[->] (an1) -- (xn2) node[near start, above] {$r=1$}; 
-      \draw[->] (an2) -- (xn3) node[near start, below] {$r=0$}; 
-      \draw[->] (an2) -- (xn4) node[near start, above] {$r=1$}; 
-    \end{tikzpicture}
-  \end{center}
-  \caption{A partial view of the multi-stage process. Here, the probability that we obtain $r=1$ if we take action $a_t = i$ is simply $P_{\bel_t,i}(\{1\})$.}
-  \label{fig:multi-stage-bandit}
-\end{figure}  
+    \begin{center}
+      \begin{tikzpicture}
+        \node[RV] at (2,-1.5) (xn1) {$\bel_{t+1}^0$}; 
+        \node[RV] at (2,-0.5) (xn2) {$\bel_{t+1}^1$};
+        \node[RV] at (2,0.5) (xn3) {$\bel_{t+1}^2$}; 
+        \node[RV] at (2,1.5) (xn4) {$\bel_{t+1}^3$};
+        \node[select] at (0,-1) (an1) {$a^1_t$};
+        \node[select] at (0,1) (an2) {$a^2_t$};
+        \node[RV] at (-2,0) (xp) {$\bel_n$};
+        \draw[->] (xp) -- (an1);
+        \draw[->] (xp) -- (an2);
+        \draw[->] (an1) -- (xn1) node[near start, below] {$r=0$};
+        \draw[->] (an1) -- (xn2) node[near start, above] {$r=1$}; 
+        \draw[->] (an2) -- (xn3) node[near start, below] {$r=0$}; 
+        \draw[->] (an2) -- (xn4) node[near start, above] {$r=1$}; 
+      \end{tikzpicture}
+    \end{center}
+    \caption{A partial view of the multi-stage process. Here, the probability that we obtain $r=1$ if we take action $a_t = i$ is simply $P_{\bel_t,i}(\{1\})$.}
+    \label{fig:multi-stage-bandit}
+  \end{figure}  
 
   Finally, as $\bel_{t+1}$ deterministically depends on $\bel_t, a_t, r_t$, the probability of obtaining a particular next belief is the same as the probability of obtaining the corresponding rewards leading to the next belief. In more detail, we can write:
   \begin{equation}
@@ -347,13 +346,71 @@ The basic bandit process can be seen in Figure~\ref{fig:basic-bandit-process}. W
     \int_\CR \ind{\bel_{t}(\cdot \mid a_t, r_t = r) = \bel} \dd{P_{\bel_t, a}}(r). 
   \end{equation}
 \end{definition}
-In practice, although multiple reward sequences may lead to the same beliefs, we frequently ignore that possibility for simplicity. Then the process becomes a tree. A solution to the problem of what action to select is given by a backwards induction algorithm similar to that given in Section~\ref{sec:finite-horiz-backw}
+In practice, although multiple reward sequences may lead to the same beliefs, we frequently ignore that possibility for simplicity. Then the process becomes a tree. A solution to the problem of what action to select is given by a backwards induction algorithm.
 \begin{block}{The backwards induction algorithm}
-\begin{equation}
-  U^*(\bel_t) = \max_{a_t} \E(r_t \mid \bel_t, a_t) + \sum_{\bel_{t+1}} \Pr(\bel_{t+1} \mid \bel_t, a_t) U^*(\bel_{t+1}).\label{eq:backwards-induction-bandits}
-\end{equation}
+  \begin{equation}
+    U^*(\bel_t) = \max_{a_t} \E(r_t \mid \bel_t, a_t) + \sum_{\bel_{t+1}} \Pr(\bel_{t+1} \mid \bel_t, a_t) U^*(\bel_{t+1}).\label{eq:backwards-induction-bandits}
+  \end{equation}
 \end{block}
-The above equation is the \emindex{backwards induction} algorithm for bandits.  If you look at this structure, you can see that  next belief only depends on the current belief, action and reward, i.e. it satisfies the Markov property, as seen in Figure~\ref{fig:multi-stage-bandit}.\footnote{In fact, a decision-theoretic bandit process is a specific case of a Markov decision process, explained in Chapter~\ref{ch:mdp}.}
+The above equation is the \emindex{backwards induction} algorithm for bandits.  If you look at this structure, you can see that  next belief only depends on the current belief, action and reward, i.e. it satisfies the Markov property, as seen in Figure~\ref{fig:multi-stage-bandit}.\footnote{In fact, a decision-theoretic bandit process is a specific case of a Markov decision process}
+The intuition behind the algorithm lies in the following observation
+\begin{align}
+  \E^\pol_{\bel_t}(U_t) 
+  &=
+    \E^\pol_{\bel_t}\left( 
+    \sum_{k=t}^T r_k
+    \right)\\
+  &=
+    \E^\pol_{\bel_t}
+    \left( 
+    r_t
+    +
+    \sum_{k=t+1}^T r_k
+    \right)\\
+  &=
+    \E^\pol_{\bel_t}
+    \left( 
+    r_t
+    \right)
+    +
+    \E^\pol_{\bel_t}
+    \left(
+    U_{t+1}
+    \right)\\
+  &=
+    \E^\pol_{\bel_t}
+    \left( 
+    r_t
+    \right)
+    +
+    \int_{\Bel}
+    \E^\pol_{\bel_{t+1}}
+    \left(
+    U_{t+1}
+    \right)
+    \dd \Pr(\bel_{t+1} \mid \bel_t, \pol)
+\end{align}
+Optimising over all possible policies is possible since the remaining utility from time $t+1$ does not depend upon our previous decisions. This is due to the additive utility function, and allows us to do:
+\begin{align}
+  \max \E^\pol_{\bel_t}(U_t) 
+  &=
+    \max_{a_t}
+    \E_{\bel_t}
+    \left( 
+    r_t
+    \mid a_t
+    \right)
+    +
+    \int_{\Bel}
+    \max_{\pol'}
+    \E^{\pol'}_{\bel_{t+1}}
+    \left(
+    U_{t+1}
+    \right)
+    \dd \Pr(\bel_{t+1} \mid \bel_t, a_t)
+\end{align}
+
+
 \begin{figure}[htb]
   \centering
   \begin{subfigure}{0.3\textwidth}
@@ -391,7 +448,7 @@ The above equation is the \emindex{backwards induction} algorithm for bandits.  
     \label{fig:dt-bandit-full}
   \end{subfigure}
   \begin{subfigure}{0.3\textwidth}
-      \begin{tikzpicture}
+    \begin{tikzpicture}
       \node[RV] at (0,0) (bt) {$\bel_t$};
       \node[select] at (0,1) (at) {$a_t$};
       \node[utility] at (1,-1) (rt) {$r_{t}$};
@@ -429,11 +486,120 @@ The above equation is the \emindex{backwards induction} algorithm for bandits.  
 In reality, the reward depends only on the action and the unknown $\omega$, as can be seen in Figure~\ref{fig:dt-bandit-full}. This is the point of view of an external observer. However, from the point of view of the decision maker, the distribution of $\omega$ only depends on his current belief. Consequently, the distribution of rewards also only depends on the current belief, as we can marginalise over $\omega$. This gives rise to the decision-theoretic bandit process shown in Figure~\ref{fig:dt-bandit-lifted}.
 In the following section, we shall consider Markov decision processes more generally.
 
+\begin{frame}
+  \frametitle{Illustration of backwards induction}
+  \begin{block}{Backwards induction (Dynamic programming)}
+    \begin{algorithmic}
+      \For{$t=1, 2, \ldots$ and $\bel_t \in \Bel_t$}
+      \State 
+      \[
+        U^*_t(\bel_t) = \max_{a_t \in \CA} \E(r_t \mid \bel_t, a_t) + \sum_{{\bel_{t+1}} \in \Bel_{t+1} } \Pr(\bel_{t+1}  \mid \bel_t, a_t) U^*_{t+1}(\bel_{t+1})
+      \]
+      \EndFor
+    \end{algorithmic}
+  \end{block}
+  
+  \begin{center}
+    
+    \begin{columns}
+      \begin{column}{0.6\textwidth}
+          \begin{tikzpicture}
+            \node at (0, -3) {$s_t$};
+            \node at (2, -3) {$a_t$};
+            \node at (3, -3) {$r_t$};
+            \node at (5, -3) {$s_{t+1}$};
+            \node[RV] at (0,0) (s1) {$\only<1>?\only<2>{1.4}$};
+            \node[select] at (2,-1) (a1) {$0.7$};
+            \node[select] at (2,1) (a2) {$1.4$};
+            \node[utility] at (3,2) (r2) {$1$};
+            \node[utility] at (3,-2) (r1) {$0$};
+            \node[RV] at (5,1) (s2a) {$1$};
+            \node[RV] at (5,-1) (s2b) {$0$};
+            \draw[->] (s1) to node [sloped,anchor=south] {$\only<1>{?}\only<2>{0}$} (a1);
+            \draw[->] (s1) to node [sloped,anchor=south] {$\only<1>{?}\only<2>{1}$} (a2);
+            \draw[->] (a1) to node [sloped,auto] {$0.7$} (s2a);
+            \draw[->] (a1) to node [sloped,auto] {$0.3$} (s2b);
+            \draw[->] (a2) to node [sloped,auto] {$0.4$} (s2a);
+            \draw[->] (a2) to node [sloped,auto] {$0.6$} (s2b);
+            \draw[->] (a1) to (r1);
+            \draw[->] (a2) to (r2);
+          \end{tikzpicture}
+          
+        \end{column}
+        \begin{column}{0.4\textwidth}
+          \begin{exercise}
+            What is the value $v_t(s_t)$ of the first state?
+            \begin{itemize}
+            \item[A] 1.4
+            \item[B] 1.05
+            \item[C] 1.0
+            \item[D] 0.7
+            \item[E] 0
+            \end{itemize}
+          \end{exercise}
+        \end{column}
+      \end{columns}
+      
+      
+    \end{center}
+
+\end{frame}
+
+
+\subsection{Heuristic algorithms for the $n$-armed bandit problem}
+\only<article>{
+  Here we introduce two algorithms, UCB (upper confidence bound) and Thompson sampling, which are nearly optimal heuristics. Although the following algorithms are not optimal in the sense that the maximise Bayes-expected utility, they perform nearly as well as an oracle that knows the model parameters $\param$. In particular, if $\pol^*(\param)$ is the policy that knows the true parameter,and $\pol$ the UCB or Thompson sampling policy, then the expected difference in utility relative to the oracle\footnote{Also called the regret of the algorithm} is
+  \[
+  \Regret(\pol, \param) \defn \E_\param^{\pol^*} \sum_{t=1}^T (r_t) - \E_\param^{\pol} \sum_{t=1}^T (r_t) \leq O(\sqrt{T}) \forall \param \in \Param.
+  \]
+  This general bound is parameter-independent, but there are also $O(\ln(T))$ bounds that depend on $\param$.
+}
+\begin{frame}
+  \frametitle{The UCB algorithm}
+  \only<article>{For rewards in $[0,1]$ we can apply the UCB algorithm introduced by~\citet{mach:Auer+Cesa+Fischer:2002}. This applies Hoeffding's inequality to construct a confidence interval around estimates of the mean reward of each arm, and simply picks the arm with the highest upper confidence interval, as shown in Algorithm~\ref{alg:ucb}. }
+  \begin{algorithm}[H]
+    \begin{algorithmic}
+      \State \textbf{Input} $\CA$
+      \State $\hat{\param}_{0,i} = 1$, $\forall i$
+      \For {$t = 1, \ldots$}
+      \State $a_t = \argmax_{i \in \CA} \left\{\alert{\hat{\param}_{{t-1},i} + \sqrt{\frac{2\ln t}{N_{t-1,i}}}}\right\}$
+      \State $r_t \sim P_\param(r \mid a_t)$ \texttt{// play action and get reward}
+      \State \texttt{/* update model */}
+      \State $N_{t,a_t} = N_{t-1,a_t} + 1$
+      \State $\hat{\param}_{t,a_t} = [N_{t-1, a_t} \param_{t-1, a_t} + r_t]/N_{t, a_t}$
+      \State $\forall i \neq a_t$, $N_{t,i} = N_{t-1,i}$, $\hat{\param}_{t,i} = \hat{\param}_{t-1,i}$
+      \EndFor
+    \end{algorithmic}
+    \caption{UCB1}
+    \label{alg:ucb}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Thompson sampling algorithm}
+\only<article>{In the Bayesian setting, whenever we can define some prior belief $\bel_0$ over parameters $\Param$, we can use Thompson sampling, first introduced by~\citet{thompson1933lou}. The idea of this algorithm is to simply sample a parameter value $\hat{\param}$ from the posterior, and then select the action that seems optimal with respect to the sample, as shown in Algorithm~\ref{alg:thompson}.}
+  \begin{algorithm}[H]
+    \begin{algorithmic}
+      \State \textbf{Input} $\CA, \bel_0$
+      \For {$t = 1, \ldots$}
+      \State \alert{$\hat{\param} \sim \bel_{t-1}(\param)$}
+      \State $a_t \in \argmax_{a} \E_{\alert{\hat{\param}}} [r_t \mid a_t = a]$.
+      \State $r_t \sim P_\param(r \mid a_t)$ \texttt{// play action and get reward}
+      \State $\bel_t(\param) = \bel_{t-1}(\param \mid a_t, r_t)$.       \texttt{// update model}
+
+      \EndFor
+    \end{algorithmic}
+    \caption{Thompson sampling}
+    \label{alg:thompson}
+  \end{algorithm}
+
+\end{frame}
+
 
 \section{Contextual Bandits}
 
 \only<article>{
-In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have more information whenever we draw an arm. 
+  In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have more information whenever we draw an arm. 
 }
 
 \begin{frame}
@@ -475,7 +641,49 @@ In the simplest bandit setting, our only information when selecting an arm is th
     \item $r = U(a,y)$.
     \end{itemize}
   \end{example}
+\end{frame}
 
+\begin{frame}
+  \frametitle{Algorithms for the contextual bandit problem}
+  \only<article>{The simplest algorithm we can use is Thompson sampling, shown in Algorithm~\ref{alg:thompson-context}}
+  \begin{algorithm}[H]
+    \begin{algorithmic}
+      \State \textbf{Input} $\CA, \bel_0$
+      \For {$t = 1, \ldots$}
+      \State \alert{$\hat{\param} \sim \bel_{t-1}(\param)$}
+      \State Observe $x_t$.
+      \State $a_t \in \argmax_{a} \E_{\alert{\hat{\param}}} [r_t \mid x_t, a_t = a]$.
+      \State $r_t \sim P_\param(r \mid a_t)$ \texttt{// play action and get reward}
+      \texttt{// update model}
+      \State $\bel_t(\param) = \bel_{t-1}(\param \mid a_t, r_t, x_t)$.
+      \EndFor
+    \end{algorithmic}
+    \caption{Thompson sampling for contextual bandits}
+    \label{alg:thompson-context}
+  \end{algorithm}
+
+  \only<article>{We can also consider the full decision theoretic solution to Thompson sampling}
+  \begin{block}{Backwards induction in the contextual setting }
+    \begin{algorithmic}
+      \For{$n=1, 2, \ldots$ and $s \in \CS$}
+      \State 
+      \[
+      \E(U_t \mid x_t, \bel_t) = \max_{a_t \in \CA} \E(r_t \mid x_t, \bel_t, a_t) +  \sum_{{\bel_{t+1}}} \Pr(\bel_{t+1} \mid \bel_t, x_t, a_t) \E(U_{t+1} \mid \bel_{t+1})
+      \]
+      \EndFor
+    \end{algorithmic}
+    \only<article>{
+      As $\bel_{t+1}$ is a deterministic function of $\bel_t, x_t, a_t$, we can simply replace the sum in the right hand side as follows:
+      \begin{align}
+        \E(U_{t+1} \mid x_t, a_t) 
+        &= \sum_{{\bel_{t+1}}} \Pr(\bel_{t+1} \mid \bel_t, x_t, a_t) \E(U_{t+1} \mid \bel_{t+1})\\
+        &= \sum_{r_t} \Pr(r_t \mid \bel_t, x_t, a_t) \E[U_{t+1} \mid \bel_{t}(\cdot \mid r_t, x_t, a_t)]\\
+      \end{align}
+      where
+      $\Pr(r_t \mid \bel_t, x_t, a_t) = \int_\Param P_\param(r_t \mid x_t, a_t) \dd \bel_t(\param)$ is the marginal reward distribution.
+    }
+  \end{block}
+  
 
 \end{frame}
 
