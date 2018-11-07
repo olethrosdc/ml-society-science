@@ -23,7 +23,7 @@
 from sklearn import linear_model
 import numpy as np
 
-class RandomRecommender:
+class AverageBandit:
 
     #################################
     # Initialise
@@ -31,10 +31,12 @@ class RandomRecommender:
     # Set the recommender with a default number of actions and outcomes.  This is
     # because the number of actions in historical data can be
     # different from the ones that you can take with your policy.
-    def __init__(self, n_actions, n_outcomes):
+    def __init__(self, n_actions, n_outcomes, alpha):
         self.n_actions = n_actions
         self.n_outcomes = n_outcomes
         self.reward = self._default_reward
+        self.average_reward = alpha + np.zeros(self.n_actions)
+        self.counts = alpha + np.zeros(self.n_actions)
 
     ## By default, the reward is just equal to the outcome, as the actions play no role.
     def _default_reward(self, action, outcome):
@@ -84,18 +86,19 @@ class RandomRecommender:
 
     # Return a distribution of recommendations for a specific user datum
     # This should a numpy array of size equal to self.n_actions, summing up to 1
-    def get_action_probabilities(self, user_data):
-        print("Recommending")
-        return None
+    def get_action_probabilities(self, user_data = None):
+        p = self.average_reward / sum(self.average_reward)
+        return p
 
     
     # Return recommendations for a specific user datum
     # This should be an integer in range(self.n_actions)
-    def recommend(self, user_data):
-        print("Recommending")
-        return None
+    def recommend(self, user_data=None):
+        return np.random.choice(self.n_actions, p=self.get_action_probabilities())
 
     # Observe the effect of an action. This is an opportunity for you
     # to refit your models, to take the new information into account.
-    def observe(self, user, action, outcome):
+    def observe(self, user=None, action=None, outcome=None):
+        self.average_reward[action] = (self.average_reward[action] * self.counts[action] + self.reward(action, outcome)) / (1 + self.counts[action])
+        self.counts[action] += 1
         return None
