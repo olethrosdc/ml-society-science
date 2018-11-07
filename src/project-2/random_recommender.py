@@ -59,10 +59,11 @@ class RandomRecommender:
         print("Fitting treatment outcomes")
         return None
 
-    ## Estimate the utility of a specific policy from historical data.
-    ## If the policy is None, return use the historical policy
+    ## Estimate and return the utility of a specific policy from historical data.
+    ## If the policy is None, return the utiltiy of the policy used on the observed data, i.e. the average utility obtained.
+    ## If you are estimating confidence intervals or other statistics, you may print them out or use them internally, but do not return them.
     def estimate_utility(self, data, actions, outcome, policy=None):
-        return None
+        return 0
 
     # Return a distribution of effects for a given person's data and a specific treatment
     def predict_proba(self, data, treatment):
