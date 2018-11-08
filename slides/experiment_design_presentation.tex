@@ -816,7 +816,17 @@ In the simplest bandit setting, our only information when selecting an arm is th
 \end{frame}
 
 \subsection{Practical approaches to experiment design}
-
+\begin{frame}
+  \only<article>{Unfortunately, a lot of the time it is not possible to simply select an appropriate prior distribution, select a model, etc, However, the same process can be used in practical scenarios. The procedure can be seen as follows.}
+  \begin{block}{Experiment design for a one-stage problem}
+    \begin{itemize}
+    \item Select some model $\Pr$ for generating data. \only<article>{This can be based on historical data. For example, you can try and fit a neural network, a Gaussian process, or any other model on historical data.}
+    \item Select an inference and/or decision making algorithm $\alg$ for the task. \only<article>{For example, you may simply want to create a classifier, or you may want to do null-hypothesis testing. In all cases, your algorithm and decision making procedure should be fully defined at this point.}
+    \item Select a performance measure $\util$.
+    \item Generate data $D$ from $\Pr$ and measure the performance of $\alg$ on $D$.
+    \end{itemize}
+  \end{block}
+\end{frame}
 
 
 
