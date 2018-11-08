@@ -687,6 +687,30 @@ In the following section, we shall consider Markov decision processes more gener
 
 \end{frame}
 
+
+\section{Case study: experiment design for clinical trials}
+
+\only<article>{While standard bandit problems are inherently interesting for computer-mediated tasks, they are not typical of experiment design problems that involve humans in the loop. In particular, you would expect humans to only be able to select and implement a small number of intervention policies.}
+
+\begin{frame}
+  \begin{example}[One-stage problems]
+    \only<article>{In a classical one-stage experiment design problem, the experimenter only has a single observation}
+    \begin{itemize}
+    \item Initial belief $\bel_0$
+    \item Side information $\bx_{1}$
+    \item Simultaneously takes actions $\ba_{1}$.
+    \item Observes outcomes $\by_{1}$.
+    \end{itemize}
+    \only<article>{You can see this as a standard one-stage contextual bandit problem, but it is better to take advantage of the fact that all the variables are vectors i.e .$\bx_1 = x_{1,1:k}$. You can also see this as a parallelisation of the sequential problem.}
+  \end{example}
+\end{frame}
+
+
+
+
+
+
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "notes"

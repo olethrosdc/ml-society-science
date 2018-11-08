@@ -765,6 +765,58 @@ In the simplest bandit setting, our only information when selecting an arm is th
 
 \end{frame}
 
+\section{Case study: experiment design for clinical trials}
+
+\only<article>{While standard bandit problems are inherently interesting for computer-mediated tasks, they are not typical of experiment design problems that involve humans in the loop. In particular, you would expect humans to only be able to select and implement a small number of intervention policies.}
+
+\begin{frame}
+  \begin{example}[One-stage problems]
+    \only<article>{In a classical one-stage experiment design problem, the experimenter only has a single observation}
+    \begin{itemize}
+    \item Initial belief $\bel_0$
+    \item Side information $\bx$
+    \item Simultaneously takes actions $\ba$.
+    \item Observes outcomes $\by$.
+    \end{itemize}
+    \only<article>{You can see this as a standard one-stage contextual bandit problem, but it is better to take advantage of the fact that all the variables are vectors i.e .$\bx = x_{1:k}$. You can also see this as a parallelisation of the sequential problem. The goal here is typically to maximise expected utility after the data has been collected. Thus, the question is how to optimise the data collection process itself.}
+    \only<1>{
+    \begin{align}
+      \E^\pol_{\bel_0} \left(U  \mid \bx \right)
+      &=
+        \sum_{\bx, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx) \underbrace{\E^\pol_{\bel_0}(U \mid \bx, \ba, \by)}_{\textrm{post-hoc value}}
+    \end{align}
+  }
+\end{example}
+  \only<article>{There are a few different typical objectives one could have for this type of design. The first might be, how to maximise expected information gain}
+  \only<2>{
+  \begin{definition}[Expected information gain]
+    \begin{align}
+      \E^\pol_{\bel_0} \left(\KL{\bel_{1}}{\bel_0}  \mid \bx \right)
+      &=
+      \sum_{\bx, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx) \KL{\bel_{0}(\cdot \mid \bx, \ba, \by)}{\bel_0} 
+    \end{align}
+    \only<article>{As you can see, here there is no dependence on the policy. We just care about getting the maximal amount of information from our experiment}
+  \end{definition}
+}
+  \only<article>{An alternative is to be able to maximise expected utility for the optimal policy after the observations have been seen.}
+  \only<3>{
+  \begin{definition}[Expected utility of final policy]
+    \only<article>{For some simple reward function $\rho(x_t, y_t)$, maximise:}
+    \begin{align}
+      \E^\pol_{\bel_0} \left(\max_{\pol_1} \E^{\pol_1}_{\bel_1} \rho \middle| \bx\right)
+      &=
+        \sum_{\bx, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx)
+        \max_{\pol_1} \E^{\pol_1}_{\bel_0}(\rho \mid \ba, \bx, \by)\\
+      \E^{\pol_1}_{\bel_0}(\rho \mid \ba, \bx, \by) 
+      &=
+        \sum_{a, x, y} \rho(a, y) \Pr_{\bel_1}(y \mid x, a) \pol_1(x \mid a) \Pr_{\bel_1}(x)
+    \end{align}
+  \end{definition}
+  }
+\end{frame}
+
+\subsection{Practical approaches to experiment design}
+
 
 
 
