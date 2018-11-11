@@ -67,9 +67,17 @@ For this part of the exercise, make sure that you have implemented everything wi
   In this setting you should contrast your \texttt{ImprovedRecommender} with the \texttt{HistoricalRecommender} and an \texttt{AdaptiveRecommender}, that you should implement, which should change its recommendations as it obtains new data through \verb!observe()!. We will consider two cases:
   \begin{enumerate}
   \item The same set of treatments are available.
-  \item There is an additional 10 experimental treatments, which are targeting specific genes. Hence, you might expect these to be effective against only a small portion of the patients. 
+  \item There is an additional set of experimental treatments.  Action
+    2 is a potentially improved treatment for the general population,
+    while the remaining target specific genes.  Hence, you might
+    expect these to be effective against only a small portion of the
+    patients.
   \end{enumerate}
-  In either case, you can have two alternative goals: (a) discover the most effective treatment regime at the end of the trial (b) maximise the expected number of people to be treated. For simplicity, you can use goal (b) in your experiments.
+  In either case, you can have two alternative goals: (a) discover the most effective treatment policy at the end of the trial (b) maximise the expected number of people to be treated.
+
+  For simplicity, use goal (b) to plan the experiments. However, at the end, you should report which treatment policy appears to be the best.
+
+  Since the data will be dynamically generated, implement the complete analysis in your function.
 \end{exercise}
 
 
