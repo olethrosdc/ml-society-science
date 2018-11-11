@@ -29,7 +29,7 @@ generator = data_generation.DataGenerator()
 
 import reference_recommender
 policy_factory = reference_recommender.RandomRecommender
-policy = policy_factory(2, 2)
+policy = policy_factory(generator.get_n_actions(), generator.get.n_outcomes())
 
 
 
