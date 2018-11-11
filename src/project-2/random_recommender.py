@@ -85,15 +85,14 @@ class RandomRecommender:
     # Return a distribution of recommendations for a specific user datum
     # This should a numpy array of size equal to self.n_actions, summing up to 1
     def get_action_probabilities(self, user_data):
-        print("Recommending")
-        return None
+        #print("Recommending")
+        return np.ones(self.n_actions) / self.n_actions;
 
     
     # Return recommendations for a specific user datum
     # This should be an integer in range(self.n_actions)
     def recommend(self, user_data):
-        print("Recommending")
-        return 0
+        return np.random.choice(self.n_actions, p = self.get_action_probabilities(user_data))
 
     # Observe the effect of an action. This is an opportunity for you
     # to refit your models, to take the new information into account.

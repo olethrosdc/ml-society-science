@@ -13,7 +13,8 @@ def test_policy(generator, policy, reward_function, T):
         r = reward_function(a, y)
         u += r
         policy.observe(x, a, y)
-        print("x: ", x, "a: ", a, "y:", y, "r:", r)
+        #print(a)
+        #print("x: ", x, "a: ", a, "y:", y, "r:", r)
     return u
 
 features = pandas.read_csv('data/medical/historical_X.dat', header=None, sep=" ").values
