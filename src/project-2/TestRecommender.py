@@ -40,3 +40,5 @@ policy.fit_treatment_outcome(features, actions, outcome)
 n_tests = 100
 result = test_policy(generator, policy, default_reward_function, n_tests)
 print("Total reward:", result)
+
+policy.final_analysis()
