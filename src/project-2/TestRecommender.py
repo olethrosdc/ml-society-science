@@ -22,10 +22,10 @@ outcome = pandas.read_csv('data/medical/historical_Y.dat', header=None, sep=" ")
 observations = features[:, :8]
 labels = features[:,128] + features[:,129]*2
 
-import random_recommender
-policy_factory = random_recommender.RandomRecommender
-#import reference_recommender
-#policy_factory = reference_recommender.RandomRecommender
+#import random_recommender
+#policy_factory = random_recommender.RandomRecommender
+import reference_recommender
+policy_factory = reference_recommender.RandomRecommender
 policy = policy_factory(2, 2)
 
 import data_generation
