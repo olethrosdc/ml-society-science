@@ -29,7 +29,7 @@ import random_recommender
 policy_factory = random_recommender.RandomRecommender
 #import reference_recommender
 #policy_factory = reference_recommender.RandomRecommender
-policy = policy_factory(generator.get_n_actions(), generator.get.n_outcomes())
+policy = policy_factory(generator.get_n_actions(), generator.get_n_outcomes())
 
 
 ## Fit the policy on historical data first

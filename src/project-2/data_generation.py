@@ -5,7 +5,7 @@ import numpy as np
 
 
 class DataGenerator:
-    def __init__(self, matrices="./big_generating_matrices.mat"):
+    def __init__(self, matrices="./generating_matrices.mat"):
         parameters = sio.loadmat(matrices)
         self.V = parameters['V'] # the treatment effect matrix
         self.W = parameters['W'] # the feature matrix
@@ -33,10 +33,11 @@ class DataGenerator:
         return 2
     
     def generate_default_action(self, X):
-        A = 1*(np.random.uniform() < X[0,128] * 0.4  + X[0,129] * 0.5);
+        A = 1*(np.random.uniform() < X[128] * 0.4  + X[129] * 0.5);
         return A
 
     def generate_outcome(self, X, A):
+        print(self.V[A].shape)
         Y = 1*(np.dot(X, self.V[A]) > 0)
         return Y
 
