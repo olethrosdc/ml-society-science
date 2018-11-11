@@ -26,6 +26,9 @@ class DataGenerator:
             X[0,129] = 1*(np.random.uniform() < 0.2 * X[0,1]*X[0,3] + 0.2 * X[0,4] - 0.1 * X[0,9])
         return X
 
+    def get_n_actions(self):
+        return self.shape.V[2]
+    
     def generate_default_action(self, X):
         A = 1*(np.random.uniform() < X[0,128] * 0.4  + X[0,129] * 0.5);
         return A
