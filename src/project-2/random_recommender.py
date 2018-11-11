@@ -93,7 +93,7 @@ class RandomRecommender:
     # This should be an integer in range(self.n_actions)
     def recommend(self, user_data):
         print("Recommending")
-        return None
+        return 0
 
     # Observe the effect of an action. This is an opportunity for you
     # to refit your models, to take the new information into account.
