@@ -21,7 +21,7 @@ You need to be able to validate your findings either through a holdout-set metho
 We also observe the effects of two different therapeutic interventions, one of which is placebo, and the other is an experimental drug. Try and measure the effectiveness of the placebo versus the active treatment. Are there perhaps cases where the active treatment is never effective, or should it always be recommended?
 
 
-\section{Improved policies}
+\section{Improved policies (Nov 9)}
 
 The data we have observed comes from some policy $\pol_0$, taking actions in $\{0,1\}$. Now we have to be more specific about what the meaning of each treatment and outcome variable is. In this case, $a_t = 0$ is a placebo, and $a_t = 1$ is an experimental drug, with $y_t = 0$ meaning no effect, and $y_t = 1$ meaning a measurable effect. For the purposes of this exercise, you can assume the utility function is:
 \begin{align}
@@ -37,8 +37,9 @@ Use the skeleton \verb!random_recommender.py! to implement your code.
 \end{assumption}
 
 \begin{exercise}[Measuring utility]
-  \begin{enumerate}
-  \item Measure the utility of $\pol_0$ on the historical
+  In this exercise, you should implement the \verb!estimate_utility()! method to estimate the utility of policies on the historical data \verb!(data, actions, outcome)! passed to the function.
+    \begin{enumerate}
+  \item Measure the utility of the historical policy $\pol_0$ on the historical
     data.
   \item Provide error bounds on the expected utility and explain how those were obtained.
   \end{enumerate}
@@ -46,17 +47,32 @@ Use the skeleton \verb!random_recommender.py! to implement your code.
 
 \begin{exercise}[Improved policies]
   \begin{enumerate}
-  \item Find an improved policy, taking actions in $\{0,1\}$. \emph{Hint: This can be done by simply selecting, for each $x_t$, the action $a_t$ maximising expected reward according to your model, as the utility is a sum of rewards. Of course, you should first build a model.}
-  \item Calculate the expected utility of the improved policy.
+  \item Find an improved policy $\hat{\pol}$, taking actions in $\{0,1\}$. \emph{Hint: This can be done by simply selecting, for each $x_t$, the action $a_t$ maximising expected reward according to your model, as the utility is a sum of rewards. Of course, you should first build a model.}
+  \item Calculate the expected utility of the improved policy $\hat{\pol}$ from the historical data. Implement this in \verb!estimate_utility()!
   \end{enumerate}
 \end{exercise}
 
-\section{Adaptive experiment design}
+\section{Adaptive experiment design (Nov 30)}
+For this part of the exercise, make sure that you have implemented everything within the API defined in the \verb!random_recommender.py! skeleton. All the methods you have implemented for feature selection, dimensionality reduction, policy evaluation, etc. must be self-contained within the recommender. The test bench will call your recommender's \verb!fit_data()! and \verb!fit_treatment_outcome()! with possibly new datasets. This will be done mainly in order to test how your algorithm behaves with varying amounts of data.
 \begin{exercise}[Online policy testing]
+  Here, make sure that you recommenders are based on \verb!random_recommender.py!.
   \begin{enumerate}
-  \item Test your improved policy using the online API. 
+  \item Create a \texttt{HistoricalRecommender} recommender class that estimates the historical policy $\pol_0$ when \verb!fit_treatment_outcome()! is called. Measure the expected utility of the original policy $\pol_0$ using the Test Bench.
+  \item Create a \texttt{ImprovedRecommender} class that implements your creates an improved policy $\hat{\pol}$ when \verb!fit_treatment_outcome()! is called, and uses this policy when \verb!recommend()! is invoked. Measure the expected utility of your improved policy $\hat{\pol}$ using the Test Bench.
+  \item How do those differ from the results you obtained on historical data?
   \end{enumerate}
 \end{exercise}
+
+\begin{exercise}[Adaptive experiments]
+  In this setting you should contrast your \texttt{ImprovedRecommender} with the \texttt{HistoricalRecommender} and an \texttt{AdaptiveRecommender}, that you should implement, which should change its recommendations as it obtains new data through \verb!observe()!. We will consider two cases:
+  \begin{enumerate}
+  \item The same set of treatments are available.
+  \item There is an additional 10 experimental treatments, which are targeting specific genes. Hence, you might expect these to be effective against only a small portion of the patients. 
+  \end{enumerate}
+  In either case, you can have two alternative goals: (a) discover the most effective treatment regime at the end of the trial (b) maximise the expected number of people to be treated. For simplicity, you can use goal (b) in your experiments.
+\end{exercise}
+
+
 
 
 

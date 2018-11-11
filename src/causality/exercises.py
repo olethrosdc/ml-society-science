@@ -86,14 +86,25 @@ def Exercise16():
     counts = np.zeros(2) # this is needed for getting the right parameter values
 
     ## This corresponds to estimating the historical policy, the model parameters and the expected utility of that policy, with the only difference that the data here is generated online. So, the code could be used to estimate the utility of a new policy, if you had access to the model.
+    ## Generate data
     for t in range(n_samples):
         a[t] = int(policy.get_action()) 
-        hat_pi[a[t]] +=1 # use a simple counting method for estimation
         y[t] = model.get_response(a[t])
-        counts[a[t]] += 1.0
-        hat_theta[a[t]] += y[t] # 
+
+    ## This part estimates the policy utility
+    for t in range(n_samples):
         hat_U += y[t]
 
+    ## This part estimates the policy and the model
+    for t in range(n_samples):
+        hat_pi[a[t]] +=1 # use a simple counting method for estimation
+
+    ## This part estimates the model
+    for t in range(n_samples):
+        counts[a[t]] += 1.0
+        hat_theta[a[t]] += y[t] # 
+
+        
     # Get the final estimates by normalising the counts
     hat_pi /= sum(hat_pi)
     hat_U/= n_samples

@@ -1,0 +1,32 @@
+You want to collect some data, e.g. to prove that smoking causes cancer.
+That means you must have some policy for collecting the data, as well as a metric for measuring the probability that smoking does cause cancer after the data is collected.
+
+For example, you could have a randomised trial, where you force some
+people to smoke and some people not to smoke, select a simple model family that describes the probability of cancer given smoking with parameter p_1, and the probability of cancer given no smoking with p_0. Then you could use a Beta prior for each of these two parameters, and estimate the Beta posterior from the data you will collect.
+
+However, you have not collected any data yet. The question, HOW should you collect the data in order to maximise your model's discriminative power?
+
+If you have a one-stage experiment design, this means that you have only two steps:
+
+Step 1: Select the policy and execute 2
+Step 2: Get the result and measure the outcome.
+
+For a T-stage design, it becomes:
+
+Step t: Select policy, execute, get the results
+Step T+1: Measure the final outcome
+
+Experimetns involving humans typically have few stages, and typically you cannot plan ahead many stages, because you have not really thought about what possible new experiments you could do. So, experiment design in practice is very adaptive and very unpredictable.
+
+So, the idea of experiment design is to find the optimal data collection policy, given that you don't know what data you are going to get.
+
+In this particular example, we have the following parameters to set for out policy:
+
+1. Ratio of smoking/vs non-smoking assignment (assuming randomised assignments).
+2. Number of people to test.
+
+For any choice of these, you can run a simulated experiment, where you test your policy, and the final outcome.
+
+
+
+

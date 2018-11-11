@@ -56,7 +56,6 @@
       = 
       \sum_{t=1}^T \Rew(x_t, \decision_t).
     \]
-    \alert{This is the standard reinforcement learning setting}
   \end{block}
 \end{frame}
 
@@ -246,26 +245,6 @@
 \label{sec:exp-design-bandit}
 \index{bandit problems}
 
-\begin{frame}
-  \frametitle{Bernoulli bandits}
-  \begin{block}{Decision-theoretic approach}
-    \begin{itemize}
-    \item Assume $r_t \mid a_t = i \sim P_{\param_i}$, with $\param_i\in \Param$.
-    \item Define prior belief  $\xi_1$ on $\Param$.
-    \item For each step $t$, select action $a_t$ to maximise 
-      \[
-        \E_{\xi_t}( U_t  \mid a_t) = \E_{\xi_t} \left(\sum_{k=1}^{T-t} \disc^k r_{t+k} ~\middle|~ a_t \right)
-      \]
-    \item Obtain reward $r_t$.
-    \item Calculate the next belief
-      \[
-        \xi_{t+1} = \xi_t(\cdot \mid a_t, r_t)
-      \]
-    \end{itemize}
-  \end{block}
-  How can we implement this?
-\end{frame}
-
 
 \begin{frame}
   \frametitle{A simple heuristic for the unknown reward case}
@@ -287,6 +266,29 @@
   \]
   What should the initial values $n_{0,i}, R_{0,i}$ be?
 \end{frame}
+
+
+\begin{frame}
+  \frametitle{Bernoulli bandits}
+  \begin{block}{Decision-theoretic approach}
+    \begin{itemize}
+    \item Assume $r_t \mid a_t = i \sim P_{\param_i}$, with $\param_i\in \Param$.
+    \item Define prior belief  $\xi_1$ on $\Param$.
+    \item For each step $t$, select action $a_t$ to maximise 
+      \[
+        \E_{\xi_t}( U_t  \mid a_t) = \E_{\xi_t} \left(\sum_{k=1}^{T-t}  r_{t+k} ~\middle|~ a_t \right)
+      \]
+    \item Obtain reward $r_t$.
+    \item Calculate the next belief
+      \[
+        \xi_{t+1} = \xi_t(\cdot \mid a_t, r_t)
+      \]
+    \end{itemize}
+  \end{block}
+  How can we implement this?
+\end{frame}
+
+
 
 
 
@@ -471,11 +473,119 @@
   \end{definition}
   
   \begin{alertblock}{The state of an algorithm}
-    Observe that the $R, n$ vectors of our greedy bandit algorithm form a Markov process. They also summarise our belief about which arm is the best.
+    Observe that the $\alpha, \beta$ form a Markov process. They also summarise our belief about which arm is the best.
   \end{alertblock}
 \end{frame}
 
+\begin{frame}
+  \only<presentation>{\frametitle{Markov decision processes}}
+  In a Markov decision process (MDP), the state $s$ includes all the information we need to make predictions.
+  \begin{columns}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Markov decision processes (MDP).}
+        At each time
+        step $t$:
+        \begin{itemize}
+        \item We observe \alert{state} $s_t \in \CS$.
+        \item We take \alert{action} $a_t \in \CA$.
+        \item We receive a \alert{reward} $r_t \in \Reals$.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{center}
+        \begin{tikzpicture}
+          % \node[RV] at (0,3) (mu) {$\mdp$};
+          \node[select] at (1,0) (a1) {$a_t$};
+          \node[RV] (s1) [above of=a1] {$s_t$};
+          \node[RV] (s2) [right of=s1] {$s_{t+1}$};
+          \node[utility] (r2) [above of=s2] {$r_{t}$};
+          \draw [->] (s1) -- (s2);
+          \draw [->] (a1) -- (s2);
+          \draw [->] (a1) -- (r2);
+          \draw [->] (s1) -- (r2); 
+          % \draw [->, bend right=45] (mu) -- (s2);
+          % \draw [->, bend right=45] (mu) -- (r2);
+        \end{tikzpicture}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \begin{block}{Markov property of the reward and state distribution}
+    \begin{align}
+      \Pr_\mdp(s_{t+1} \mid s_t, a_t)  \only<presentation>{\tag{Transition distribution}}
+      \\
+      \Pr_\mdp(r_{t} \mid s_t, a_t) \only<presentation>{\tag{Reward distribution}}
+    \end{align}
+  \end{block}
+\end{frame}
 
+\only<article>{
+  \begin{block}{Dependencies of rewards}
+    Sometimes it is more convenient to have rewards that depend on the next state as well, i.e.
+    \begin{equation}
+      \label{eq:next-state-dependent-rewards}
+      r_\mdp(s,a,s') = \E_\mdp(r_{t+1} \mid s_t = s, a_t = a, s_{t+1} = s'),
+    \end{equation}
+    though this is complicats notation considerably since now the reward is obtained on the next time step. However, we can always replace this with the expected reward for a given state-action pair:
+    \begin{align}
+      \label{eq:expected-reward-state-action}
+      r_\mdp(s, a)
+      &= \E_\mdp(r_{t+1} \mid s_t = s, a_t = s)
+      \\
+      &= \sum_{s' \in \CS} P_\mdp(s' \mid s, a) r_\mdp(s, a, s')
+    \end{align}
+    In fact, it is notationally more convenient to have rewards that only depend on the current state:
+    \begin{equation}
+      \label{eq:state-dependent-rewards}
+      r_\mdp(s) = \E_\mdp(r_{t} \mid s_t = s).
+    \end{equation}
+    Many times, for simplicity, we shall only consider the latter case. 
+  \end{block}
+}
+
+
+%\newcommand {\msqr} {\vrule height0.33cm width0.44cm}
+%\newcommand {\bsqr} {\vrule height0.55cm width0.66cm}
+
+
+\begin{frame}
+  \frametitle{Stochastic shortest path problem with a pit}
+  \only<article>{Now assume the shortest path problem with stochastic dynamics. That is, at each time-step there is a small probability $\omega$ that move to a random direction. 
+    In addition, there is a pit $O$, that is a terminating state with a reward of $-100$.}
+
+  \begin{minipage}{.37\textwidth}
+    \begin{tabular}{*{8}{|@{}p{0.23cm}}|}
+      \hline
+      &     &     &     &     &     &     &     \\\hline
+      &\msqr&\msqr&\msqr&\msqr&\msqr&\msqr&     \\\hline
+      &\msqr&     &     &     &     &     &     \\\hline
+      &\msqr&     &\msqr&\msqr&     &\msqr&\msqr\\\hline
+      &     &     &\msqr&     &     &     &\msqr\\\hline
+      &\msqr&  ~O &\msqr&     & ~X   &     &\msqr\\\hline
+      &\msqr&     &\msqr&\msqr&\msqr&\msqr&\msqr\\\hline
+      &\msqr&     &     &     &     &     &     \\\hline
+    \end{tabular}
+  \end{minipage}
+  \hspace{0.1cm}
+  \begin{minipage}{.57\textwidth}
+    \begin{block}{Properties}
+      \begin{itemize}
+      \item $T \to \infty$.
+      \item $r_t=-1$, but $r_t=0$ at X and $-100$ at O and the problem ends.
+      \item $\Pr_\mdp(s_{t+1}=X | s_{t}=X) = 1$.
+      \item $\CA=\{ \textrm{North}, \textrm{South}, \textrm{East}, \textrm{West}\}$
+      \item Moves to a random direction with probability $\omega$.  Walls block.
+      \end{itemize}
+    \end{block}
+  \end{minipage}
+  % For what value of $\omega$ is it better to take the dangerous
+  % shortcut?  (However, if we want to take into account risk explicitly we must
+  % modify the agent's utility function.)
+\end{frame}
+
+
+%\newcommand {\msqr} {\vrule height0.33cm width0.44cm}
+\section{Bandit problems as MDPs}
 
 \begin{frame}
   \begin{figure}[htb]
@@ -519,7 +629,7 @@
       \For{$n=1, 2, \ldots$ and $s \in \CS$}
       \State 
       \[
-        \E(U_t \mid \bel_t) = \max_{a_t \in \CA} \E(r_t \mid \bel_t, a_t) + \disc \sum_{{\bel_{t+1}}} \Pr(\bel_{t+1} \mid \bel_t, a_t) \E(U_{t+1} \mid \bel_{t+1})
+        \E(U_t \mid \bel_t) = \max_{a_t \in \CA} \E(r_t \mid \bel_t, a_t) + \sum_{{\bel_{t+1}}} \Pr(\bel_{t+1} \mid \bel_t, a_t) \E(U_{t+1} \mid \bel_{t+1})
       \]
       \EndFor
     \end{algorithmic}
@@ -655,6 +765,68 @@ In the simplest bandit setting, our only information when selecting an arm is th
 
 \end{frame}
 
+\section{Case study: experiment design for clinical trials}
+
+\only<article>{While standard bandit problems are inherently interesting for computer-mediated tasks, they are not typical of experiment design problems that involve humans in the loop. In particular, you would expect humans to only be able to select and implement a small number of intervention policies.}
+
+\begin{frame}
+  \begin{example}[One-stage problems]
+    \only<article>{In a classical one-stage experiment design problem, the experimenter only has a single observation}
+    \begin{itemize}
+    \item Initial belief $\bel_0$
+    \item Side information $\bx$
+    \item Simultaneously takes actions $\ba$.
+    \item Observes outcomes $\by$.
+    \end{itemize}
+    \only<article>{You can see this as a standard one-stage contextual bandit problem, but it is better to take advantage of the fact that all the variables are vectors i.e .$\bx = x_{1:k}$. You can also see this as a parallelisation of the sequential problem. The goal here is typically to maximise expected utility after the data has been collected. Thus, the question is how to optimise the data collection process itself.}
+    \only<1>{
+    \begin{align}
+      \E^\pol_{\bel_0} \left(U  \mid \bx \right)
+      &=
+        \sum_{\bx, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx) \underbrace{\E^\pol_{\bel_0}(U \mid \bx, \ba, \by)}_{\textrm{post-hoc value}}
+    \end{align}
+  }
+\end{example}
+  \only<article>{There are a few different typical objectives one could have for this type of design. The first might be, how to maximise expected information gain}
+  \only<2>{
+  \begin{definition}[Expected information gain]
+    \begin{align}
+      \E^\pol_{\bel_0} \left(\KL{\bel_{1}}{\bel_0}  \mid \bx \right)
+      &=
+      \sum_{\bx, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx) \KL{\bel_{0}(\cdot \mid \bx, \ba, \by)}{\bel_0} 
+    \end{align}
+    \only<article>{As you can see, here there is no dependence on the policy. We just care about getting the maximal amount of information from our experiment}
+  \end{definition}
+}
+  \only<article>{An alternative is to be able to maximise expected utility for the optimal policy after the observations have been seen.}
+  \only<3>{
+  \begin{definition}[Expected utility of final policy]
+    \only<article>{For some simple reward function $\rho(x_t, y_t)$, maximise:}
+    \begin{align}
+      \E^\pol_{\bel_0} \left(\max_{\pol_1} \E^{\pol_1}_{\bel_1} \rho \middle| \bx\right)
+      &=
+        \sum_{\bx, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx)
+        \max_{\pol_1} \E^{\pol_1}_{\bel_0}(\rho \mid \ba, \bx, \by)\\
+      \E^{\pol_1}_{\bel_0}(\rho \mid \ba, \bx, \by) 
+      &=
+        \sum_{a, x, y} \rho(a, y) \Pr_{\bel_1}(y \mid x, a) \pol_1(x \mid a) \Pr_{\bel_1}(x)
+    \end{align}
+  \end{definition}
+  }
+\end{frame}
+
+\subsection{Practical approaches to experiment design}
+\begin{frame}
+  \only<article>{Unfortunately, a lot of the time it is not possible to simply select an appropriate prior distribution, select a model, etc, However, the same process can be used in practical scenarios. The procedure can be seen as follows.}
+  \begin{block}{Experiment design for a one-stage problem}
+    \begin{itemize}
+    \item Select some model $\Pr$ for generating data. \only<article>{This can be based on historical data. For example, you can try and fit a neural network, a Gaussian process, or any other model on historical data.}
+    \item Select an inference and/or decision making algorithm $\alg$ for the task. \only<article>{For example, you may simply want to create a classifier, or you may want to do null-hypothesis testing. In all cases, your algorithm and decision making procedure should be fully defined at this point.}
+    \item Select a performance measure $\util$.
+    \item Generate data $D$ from $\Pr$ and measure the performance of $\alg$ on $D$.
+    \end{itemize}
+  \end{block}
+\end{frame}
 
 
 
