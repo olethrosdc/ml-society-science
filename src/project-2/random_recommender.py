@@ -98,3 +98,11 @@ class RandomRecommender:
     # to refit your models, to take the new information into account.
     def observe(self, user, action, outcome):
         return None
+
+    # After all the data has been obtained, do a final analysis. This can consist of a number of things:
+    # 1. Recommending a specific fixed treatment policy
+    # 2. Suggesting looking at specific genes more closely
+    # 3. Showing whether or not the new treatment might be better than the old, and by how much.
+    # 4. Outputting an estimate of the advantage of gene-targeting treatments versus the best fixed treatment
+    def final_analysis(self):
+        return None
