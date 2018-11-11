@@ -24,12 +24,14 @@ labels = features[:,128] + features[:,129]*2
 
 #import random_recommender
 #policy_factory = random_recommender.RandomRecommender
+import data_generation
+generator = data_generation.DataGenerator()
+
 import reference_recommender
 policy_factory = reference_recommender.RandomRecommender
 policy = policy_factory(2, 2)
 
-import data_generation
-generator = data_generation.DataGenerator()
+
 
 ## Fit the policy on historical data first
 policy.fit_treatment_outcome(features, actions, outcome)

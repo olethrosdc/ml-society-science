@@ -5,8 +5,8 @@ import numpy as np
 
 
 class DataGenerator:
-    def __init__(self, matrices="./generating_matrices.mat"):
-        parameters = sio.loadmat("./generating_matrices.mat")
+    def __init__(self, matrices="./big_generating_matrices.mat"):
+        parameters = sio.loadmat(matrices)
         self.V = parameters['V'] # the treatment effect matrix
         self.W = parameters['W'] # the feature matrix
 
