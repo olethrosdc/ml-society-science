@@ -95,7 +95,7 @@ def Exercise16():
     for t in range(n_samples):
         hat_U += y[t]
 
-    ## This part estimates the policy and the model
+    ## This part estimates the policy l
     for t in range(n_samples):
         hat_pi[a[t]] +=1 # use a simple counting method for estimation
 
