@@ -24,21 +24,31 @@ observations = features[:, :128]
 labels = features[:,128] + features[:,129]*2
 
 import data_generation
-generator = data_generation.DataGenerator()
-
 import random_recommender
 policy_factory = random_recommender.RandomRecommender
 #import reference_recommender
 #policy_factory = reference_recommender.RandomRecommender
+
+## First test with the same number of treatments
+generator = data_generation.DataGenerator(matrices="./generating_matrices.mat")
 policy = policy_factory(generator.get_n_actions(), generator.get_n_outcomes())
-
-
 ## Fit the policy on historical data first
 policy.fit_treatment_outcome(features, actions, outcome)
-
-## Run an online test with a larger number of actions
+## Run an online test with a small number of actions
 n_tests = 100
 result = test_policy(generator, policy, default_reward_function, n_tests)
 print("Total reward:", result)
-
 policy.final_analysis()
+
+## Then test with a larger number of treatments
+generator = data_generation.DataGenerator(matrices="./big_generating_matrices.mat")
+policy = policy_factory(generator.get_n_actions(), generator.get_n_outcomes())
+## Fit the policy on historical data first
+policy.fit_treatment_outcome(features, actions, outcome)
+## Run an online test with a small number of actions
+n_tests = 100
+result = test_policy(generator, policy, default_reward_function, n_tests)
+print("Total reward:", result)
+policy.final_analysis()
+
+
