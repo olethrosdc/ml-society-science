@@ -20,7 +20,7 @@ def test_policy(generator, policy, reward_function, T):
 features = pandas.read_csv('data/medical/historical_X.dat', header=None, sep=" ").values
 actions = pandas.read_csv('data/medical/historical_A.dat', header=None, sep=" ").values
 outcome = pandas.read_csv('data/medical/historical_Y.dat', header=None, sep=" ").values
-observations = features[:, :8]
+observations = features[:, :128]
 labels = features[:,128] + features[:,129]*2
 
 import data_generation
@@ -36,7 +36,7 @@ policy = policy_factory(generator.get_n_actions(), generator.get_n_outcomes())
 ## Fit the policy on historical data first
 policy.fit_treatment_outcome(features, actions, outcome)
 
-## Run an online test with the same number of actions
+## Run an online test with a larger number of actions
 n_tests = 100
 result = test_policy(generator, policy, default_reward_function, n_tests)
 print("Total reward:", result)
