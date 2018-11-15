@@ -184,6 +184,7 @@
     \end{tikzpicture}
     \caption{A typical decision diagram where $x_t$: individual information, $y_t$: individual result, $a_t$: action, $\pol$: policy}
     \label{fig:decision-diagram}
+    \index{policy!intervention}
   \end{figure}
   \only<3>{
     \begin{example}[Taking an aspirin]
@@ -193,7 +194,7 @@
       \item Individual information $x_t$
       \item $a_t  = 1$ if $t$ takes an aspirin, and $0$ otherwise.
       \item $y_t = 1$ if the headache is cured in 30 minutes, $0$ otherwise.
-      \item $\pol$: intervention policy.
+      \item $\pol$: intervention policy.\index{policy!intervention}
       \end{itemize}
     \end{example}
   }
@@ -204,7 +205,7 @@
       \item $x_t$: User information (random variable)
       \item $a_t$: System action (random variable)
       \item $y_t$: Click (random varaible)
-      \item $\pol$: recommendation policy (decision variable).
+      \item $\pol$: recommendation policy (decision variable).\index{policy!recommendation}
       \end{itemize}
     \end{example}
   }
@@ -437,9 +438,11 @@
   \item Policy space $\Pol$. \only<article>{This must include $\pol_0$, as well as any other policies that the decision maker may be able to choose in the future.} 
   \end{itemize}
   \begin{block}{Default policy}
+    \index{policy!default}
     The space of policies $\Pol$ includes a \alert{default policy} $\pol_0$, under which the data was collected. \only<article>{The policy $\pol_0$ might already be known, if for example the data was collected with a specific algorithm. However, frequently $\pol_0$ is not given, and must also be inferred from the data. In that case, it can be seen as an additional parameter, complementary to $\param$.}
   \end{block}
   \begin{block}{Intervention policies}
+    \index{policy!intervention}
     Except $\pol_0$, policies $\pol \in \Pol$ represent different interventions specifying a distribution $\pol(a_t \mid x_t)$.
     \begin{itemize}
     \item Direct interventions. \only<article>{The simplest scenario is when we are able to choose a $\pol$ for which we know $\pol(a_t \mid x_t)$. This counts as a direct intervention, as we can specify any distribution of actions allowed in $\Pol$. If $\Pol$ includes all conditional distributions, we can select an arbitrary action for every individual. This assumption is plausible for algorithmic decision making such as recommendation systems, but implausible when the actions are taken by another agent, such as a human.}
@@ -489,6 +492,7 @@
 
 
 \section{Policy evaluation and optimisation}
+\index{policy!evaluation}
 \begin{frame}
   \frametitle{The value of an observed policy}
   \only<presentation>{
@@ -627,6 +631,7 @@
 
 \begin{frame}
   \frametitle{Causal inference and policy optimisation}
+  \index{policy!optimisation}
   \only<article>{Causal inference requires building a complete model for the effect of both the model parameter $\param$, representing nature, and the policy $\pol$, representing the decision maker. This means that we have to be explicit about the dependencies of random variables on the model and the policy.}
   \only<1>{
     \begin{example}

@@ -444,6 +444,7 @@
     \caption{Private database access model}
   \end{figure}
   \begin{block}{Response policy}
+    \index{policy!database response}
     The  policy defines a distribution over responses $a$ given the data $x$ and the query $q$.
     \[
       \pol(a \mid x, q)
@@ -733,6 +734,7 @@
   }
   \begin{definition}[The Exponential mechanism]
     For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy
+    \index{policy!exponential mechanism}
     \begin{equation}
       \label{eq:exponential-mechanism}
       \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}}

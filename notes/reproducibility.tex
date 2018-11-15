@@ -101,7 +101,7 @@
     \end{center}
     \caption{The decision process in classification.}
   \end{figure}
-  \only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$. Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its quality is going to be biased.
+  \only<article>{One can think of the decision process in classification as follows. First, we decide to collect some data according to some experimental protocol $\chi$. We also decide to use some algorithm (with associated hyperparameters) $\alg$ together with data $\Training$ we will obtain from our data collection in order to obtain a classification policy $\pol$.\index{policy!classification} Typically, we need to measure the quality of a policy according to how well it classifies on unknown data. This is because our policy has been generated using $\Training$, and so any measurement of its quality is going to be biased.
 
     For classification problems, there is a natural metric $U$ to measure. The classification accuracy of the classifier. If the classification decisions are stochastic, then the classifier assigns probability $\pol(a \mid x)$ to each possible label $a$, and our utility is simply the identity function $U(a, y) \defn \ind{a = y}$. 
   }
@@ -112,7 +112,7 @@
       \E_\chi[\util(\pol)] = \sum_{x,y} \underset{\textrm{Data probability}}{\underbrace{\Pr_\chi(x, y)}} \overset{\textrm{Decision probability}}{\overbrace{\pol(a = y \mid x)}}
       \]
       }
-      \only<article>{The classification accuracy of policy $\pol$ under $\chi$ is the expected number of times the policy decides $\pol$ chooses the correct class. However, when approximating $\chi$ with a sample $\Holdout$, we instead obtain the empirical estimate:}
+      \only<article>{The classification accuracy of policy $\pol$ under $\chi$ is the expected number of times the policy decides $\pol$ chooses the correct class. However, when approximating $\chi$ with a sample $\Holdout$, we instead obtain the empirical estimate:}\index{policy!classification accuracy}
       \only<9>{
       \[
       \E_{\Holdout} \util(\pol) = \sum_{(x,y) \in \Holdout} \pol(a = y \mid x) / |\Holdout|.

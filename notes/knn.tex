@@ -105,7 +105,7 @@
   \frametitle{Separating the model from the classification policy}
   \begin{itemize}
   \item The \KNN{} algorithm returns a model giving class probabilities for new data points.
-  \item \only<article>{It is up to us to decide how to use this model to decide upon a given class. A typical decision making rule can be in the form of a policy $\pol$ that depends on what the model says. However, the simplest decision rule is to take the most likely class:}
+  \item \only<article>{It is up to us to decide how to use this model to decide upon a given class. A typical decision making rule can be in the form of a policy $\pol$ that depends on what the model says. However, the simplest decision rule is to take the most likely class:\index{policy!classification}}
     \only<presentation>{Deciding a class given the model}
     \[
       \pol(a \mid x) = \ind{p_a \geq p_y \forall y}, \qquad \vp = \KNN(D, k, d, x)
