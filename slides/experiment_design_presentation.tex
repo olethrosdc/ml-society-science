@@ -26,66 +26,6 @@
   \tableofcontents
 \end{frame}
 
-\begin{frame}
-  \frametitle{The reinforcement learning problem}
-  \alert{Learning} how to \alert{act optimally} in an \alert{unknown world} through \alert{interaction} and \alert{reinforcement}.
-
-  \begin{itemize}
-  \item Optimal behaviour implicitly defined through rewards.
-  \item Learning about an unknown world.
-  \item Interactive data collection.
-  \end{itemize}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{Sequential problems}
-  \begin{itemize}
-  \item Observation $x_t$.
-  \item Decision $\decision_t$.
-  \item Steps $t = 1, \ldots, T$.
-  \end{itemize}
-
-  \begin{block}{General utility function}
-    Utility $U(x_1, x_2, \ldots, x_T, \decision_1, \ldots, \decision_T)$
-  \end{block}
-
-  \begin{block}{Linear utility function}
-    \[
-      U(x_1, x_2, \ldots, x_T, \decision_1, \ldots, \decision_T)
-      = 
-      \sum_{t=1}^T \Rew(x_t, \decision_t).
-    \]
-  \end{block}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{Sequential problems: full observation}
-  \begin{example}
-    \begin{itemize}
-    \item $n$ meteorological stations $\cset{\mdp_i}{i=1, \ldots,n}$
-    \item The $i$-th station predicts rain $P_{\mdp_i}(y_t \mid y_1, \ldots, y_{t-1})$.
-    \end{itemize}
-  \end{example}
-  \begin{itemize}
-  \item Observation $x_t$: the predictions of all stations.
-  \item Decision $\decision_t$.
-  \item Steps $t = 1, \ldots, T$.
-  \end{itemize}
-
-  \begin{block}{Linear utility function}
-    Reward function is $\Rew(x_t, a_t) = \ind{x_t = a_t}$ simply rewarding correct predictions with utility being
-    \[
-      U(y_1, y_2, \ldots, y_T, \decision_1, \ldots, \decision_T)
-      = 
-      \sum_{t=1}^T \Rew(y_t, \decision_t),
-    \]
-    the total number of correct predictions.
-  \end{block}
-
-\end{frame}
-
 
 \section{Bandit problems}
 \label{sec:exp-design-bandit}
@@ -276,7 +216,7 @@
     \item Define prior belief  $\xi_1$ on $\Param$.
     \item For each step $t$, select action $a_t$ to maximise 
       \[
-        \E_{\xi_t}( U_t  \mid a_t) = \E_{\xi_t} \left(\sum_{k=1}^{T-t}  r_{t+k} ~\middle|~ a_t \right)
+        \max_\pol \E^\pol_{\xi_t}( U_t  \mid a_t) = \max_\pol \E^\pol_{\xi_t} \left(\sum_{k=1}^{T-t}  r_{t+k} ~\middle|~ a_t \right)
       \]
     \item Obtain reward $r_t$.
     \item Calculate the next belief

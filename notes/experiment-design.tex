@@ -57,10 +57,9 @@ Unfortunately, you do not know $\omega_i$, and consequently the best arm is also
 \begin{definition}[The stochastic $n$-armed bandit problem.]
   This is the problem of selecting a sequence of actions $a_t \in \CA$, with $\CA = \set{1, \ldots, n}$, so as to maximise expected utility, where the utility is 
   \[
-  U = \sum_{t=0}^{T - 1} \disc^t r_t,
+  U = \sum_{t=0}^{T - 1} r_t,
   \]
-  where $T \in (0, \infty]$ is the horizon and $\gamma \in (0,1]$
-  is a \emindex{discount factor}. The reward $r_t$ is stochastic,
+  where $T \in (0, \infty]$ is the horizon. The reward $r_t$ is stochastic,
   and only depends on the current action, with expectation $\E(r_t
   \mid a_t = i) = \omega_i$.
 \end{definition}
@@ -74,11 +73,11 @@ to mean the probability of actions $a_t$ given the history until time $t$.
 How can we solve bandit problems? One idea is to apply the Bayesian
 decision-theoretic framework we have developed earlier to maximise
 utility in expectation.  More specifically, given the horizon $T
-\in (0, \infty]$ and the discount factor $\disc \in (0,1]$, we
+\in (0, \infty]$, we define
 define our utility from time $t$ to be:
 \begin{equation}
   \label{eq:reward-utility}
-  U_t = \sum_{k=1}^{T-t} \gamma^k r_{t+k}.
+  U_t = \sum_{k=1}^{T-t} r_{t+k}.
 \end{equation}
 To apply the decision theoretic framework, we need to define a suitable family of probability measures $\family$, indexed by parameter $\omega \in \Omega$ describing the reward distribution of each bandit, together with a prior distribution $\bel$ on $\Omega$. Since $\omega$ is unknown, we cannot maximise the expected utility with respect to it. However, we can always maximise expected utility with respect to our belief $\bel$. That is, we replace the ill-defined problem of maximising utility in an unknown model with that of maximising expected utility given a distribution over possible models. The problem can be written in a simple form:
 \begin{equation}
@@ -97,7 +96,7 @@ The following figure summarises the statement of the bandit problem in the Bayes
   \item Define prior $\bel$ on $\Omega$.
   \item Select a policy $\pol : \CA^* \times \Reals^* \to \CA$ maximising
     \[
-    \E^\pol_\bel U = \E^\pol_\bel \sum_{t=0}^{T - 1} \disc^t r_{t}
+    \E^\pol_\bel U = \E^\pol_\bel \sum_{t=0}^{T - 1}  r_{t}
     \]
   \end{itemize}
 \end{block}
@@ -687,7 +686,6 @@ In the following section, we shall consider Markov decision processes more gener
 
 \end{frame}
 
-
 \section{Case study: experiment design for clinical trials}
 
 \only<article>{While standard bandit problems are inherently interesting for computer-mediated tasks, they are not typical of experiment design problems that involve humans in the loop. In particular, you would expect humans to only be able to select and implement a small number of intervention policies.}
@@ -697,12 +695,58 @@ In the following section, we shall consider Markov decision processes more gener
     \only<article>{In a classical one-stage experiment design problem, the experimenter only has a single observation}
     \begin{itemize}
     \item Initial belief $\bel_0$
-    \item Side information $\bx_{1}$
-    \item Simultaneously takes actions $\ba_{1}$.
-    \item Observes outcomes $\by_{1}$.
+    \item Side information $\bx$
+    \item Simultaneously takes actions $\ba$.
+    \item Observes outcomes $\by$.
     \end{itemize}
-    \only<article>{You can see this as a standard one-stage contextual bandit problem, but it is better to take advantage of the fact that all the variables are vectors i.e .$\bx_1 = x_{1,1:k}$. You can also see this as a parallelisation of the sequential problem.}
-  \end{example}
+    \only<article>{You can see this as a standard one-stage contextual bandit problem, but it is better to take advantage of the fact that all the variables are vectors i.e .$\bx = x_{1:k}$. You can also see this as a parallelisation of the sequential problem. The goal here is typically to maximise expected utility after the data has been collected. Thus, the question is how to optimise the data collection process itself.}
+    \only<1>{
+    \begin{align}
+      \E^\pol_{\bel_0} \left(U  \mid \bx \right)
+      &=
+        \sum_{\ba, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx) \underbrace{\E^\pol_{\bel_0}(U \mid \bx, \ba, \by)}_{\textrm{post-hoc value}}
+    \end{align}
+  }
+\end{example}
+  \only<article>{There are a few different typical objectives one could have for this type of design. The first might be, how to maximise expected information gain}
+  \only<2>{
+  \begin{definition}[Expected information gain]
+    \begin{align}
+      \E^\pol_{\bel_0} \left(\KL{\bel_{1}}{\bel_0}  \mid \bx \right)
+      &=
+      \sum_{\ba, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx) \KL{\bel_{0}(\cdot \mid \bx, \ba, \by)}{\bel_0} 
+    \end{align}
+    \only<article>{As you can see, here there is no dependence on the policy. We just care about getting the maximal amount of information from our experiment}
+  \end{definition}
+}
+  \only<article>{An alternative is to be able to maximise expected utility for the optimal policy after the observations have been seen.}
+  \only<3>{
+  \begin{definition}[Expected utility of final policy]
+    \only<article>{For some simple reward function $\rho(x_t, y_t)$, maximise:}
+    \begin{align}
+      \E^\pol_{\bel_0} \left(\max_{\pol_1} \E^{\pol_1}_{\bel_1} \rho \middle| \bx\right)
+      &=
+        \sum_{\ba, \by} \Pr_{\bel_0}(\by \mid \ba, \bx) \pol(\ba \mid \bx)
+        \max_{\pol_1} \E^{\pol_1}_{\bel_0}(\rho \mid \ba, \bx, \by)\\
+      \E^{\pol_1}_{\bel_0}(\rho \mid \ba, \bx, \by) 
+      &=
+        \sum_{a, x, y} \rho(a, y) \Pr_{\bel_1}(y \mid x, a) \pol_1(a \mid x) \Pr_{\bel_1}(x)
+    \end{align}
+  \end{definition}
+  }
+\end{frame}
+
+\subsection{Practical approaches to experiment design}
+\begin{frame}
+  \only<article>{Unfortunately, a lot of the time it is not possible to simply select an appropriate prior distribution, select a model, etc, However, the same process can be used in practical scenarios. The procedure can be seen as follows.}
+  \begin{block}{Experiment design for a one-stage problem}
+    \begin{itemize}
+    \item Select some model $\Pr$ for generating data. \only<article>{This can be based on historical data. For example, you can try and fit a neural network, a Gaussian process, or any other model on historical data.}
+    \item Select an inference and/or decision making algorithm $\alg$ for the task. \only<article>{For example, you may simply want to create a classifier, or you may want to do null-hypothesis testing. In all cases, your algorithm and decision making procedure should be fully defined at this point.}
+    \item Select a performance measure $\util$.
+    \item Generate data $D$ from $\Pr$ and measure the performance of $\alg$ on $D$.
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 
