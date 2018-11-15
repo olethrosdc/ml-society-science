@@ -64,6 +64,7 @@ Unfortunately, you do not know $\omega_i$, and consequently the best arm is also
   and only depends on the current action, with expectation $\E(r_t
   \mid a_t = i) = \omega_i$.
 \end{definition}
+\index{policy!bandits}
 In order to select the actions, we must specify some \emindex{policy} or decision rule. This can only depend on the sequence of previously taken actions and observed rewards. Usually, the policy $\pol :  \CA^* \times \Reals^* \to \CA$ is a deterministic mapping from the space of all sequences of actions and rewarsd to actions. That is, for every observation and action history $a_1, r_1, \ldots, a_{t-1}, r_{t-1}$ it suggests a single action $a_t$. However, it could also be a stochastic policy, that specifies a mapping to action distributions. We use the following notation for stochastic history-dependent bandit policies,
 \begin{equation}
   \label{eq:history-dependent-bandit}
@@ -549,6 +550,7 @@ In the following section, we shall consider Markov decision processes more gener
 \subsection{Heuristic algorithms for the $n$-armed bandit problem}
 \only<article>{
   Here we introduce two algorithms, UCB (upper confidence bound) and Thompson sampling, which are nearly optimal heuristics. Although the following algorithms are not optimal in the sense that the maximise Bayes-expected utility, they perform nearly as well as an oracle that knows the model parameters $\param$. In particular, if $\pol^*(\param)$ is the policy that knows the true parameter,and $\pol$ the UCB or Thompson sampling policy, then the expected difference in utility relative to the oracle\footnote{Also called the regret of the algorithm} is
+  \index{regret}
   \[
   \Regret(\pol, \param) \defn \E_\param^{\pol^*} \sum_{t=1}^T (r_t) - \E_\param^{\pol} \sum_{t=1}^T (r_t) \leq O(\sqrt{T}) \forall \param \in \Param.
   \]
@@ -597,7 +599,7 @@ In the following section, we shall consider Markov decision processes more gener
 
 
 \section{Contextual Bandits}
-
+\index{bandit problem!contextual}
 \only<article>{
   In the simplest bandit setting, our only information when selecting an arm is the sequence of previous plays and rewards obtained. However, in many cases we have more information whenever we draw an arm. 
 }
