@@ -1,5 +1,6 @@
 * Artificial Intelligence, Science and Society
 
+
 - ECTS Credits: 6.
 - Expected development time: 400 hours (200 for the lecture notes and 200 for the assignments, tutorials and projects)
 - Teaching time: 264-384 hours (48 contact, 96 preparation, 120-240 corrections for 20-40 students)
@@ -48,10 +49,21 @@ Session 6. Safety: Aletorial and epistemic risk, confidence bounds, intervention
 
 ** Examination
 
-There are 6 small assingments, taking 2-4 hours each (partly done in a
-tutorial session) and 3 mini-projects, taking 8-16 hours each (partly
-done in a lab session). A 15-min oral exam (possibly online) is conducted based on the
-project reports.
+There are 2 take-home exams, split into 3 parts each. Each one takes 2-4 hours each and is partly done in a
+tutorial session. Each question is weighted equally in each home exam, so that by correctly answering the elementary parts of each question, students can be guaranteed a passing grade. Each exam counts for 40% of the score. 
+
+A 15-min seminar is also given by the students. This counts for 20% of the final score.
+
+Criteria for full marks in each part of the exam are: 
+1. Documenting of the work in a way that enables reproduction.
+2. Technical correctness of their analysis.
+3. Demonstrating that they have understood the assumptions underlying their analysis.
+4. Addressing issues of reproducibility in research and ethical questions where applicable (to the extent possible by the material covered in the course).
+
+
+Student participation during class, on the labs, and the online discussion forum counts positively towards their grade. If a student with exceptional performance in the take-home exams (e.g. extensive discussion, or novel and unexpected results) or in the online forum and in-class discussion (e.g. by aiding other students or posting interesting questions) this will count synergistically towards a higher grade.
+
+
 
 ** Motivation
 
