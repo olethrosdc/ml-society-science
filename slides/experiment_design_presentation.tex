@@ -26,38 +26,6 @@
   \tableofcontents
 \end{frame}
 
-\begin{frame}
-  \frametitle{The reinforcement learning problem}
-  \alert{Learning} how to \alert{act optimally} in an \alert{unknown world} through \alert{interaction} and \alert{reinforcement}.
-
-  \begin{itemize}
-  \item Optimal behaviour implicitly defined through rewards.
-  \item Learning about an unknown world.
-  \item Interactive data collection.
-  \end{itemize}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{Sequential problems}
-  \begin{itemize}
-  \item Observation $x_t$.
-  \item Decision $\decision_t$.
-  \item Steps $t = 1, \ldots, T$.
-  \end{itemize}
-
-  \begin{block}{General utility function}
-    Utility $U(x_1, x_2, \ldots, x_T, \decision_1, \ldots, \decision_T)$
-  \end{block}
-
-  \begin{block}{Linear utility function}
-    \[
-      U(x_1, x_2, \ldots, x_T, \decision_1, \ldots, \decision_T)
-      = 
-      \sum_{t=1}^T \Rew(x_t, \decision_t).
-    \]
-  \end{block}
-\end{frame}
 
 
 \begin{frame}
@@ -65,17 +33,18 @@
   \begin{example}
     \begin{itemize}
     \item $n$ meteorological stations $\cset{\mdp_i}{i=1, \ldots,n}$
-    \item The $i$-th station predicts rain $P_{\mdp_i}(y_t \mid y_1, \ldots, y_{t-1})$.
+    \item The $i$-th station gives a rain probability $x_{t,i} = P_{\mdp_i}(y_t \mid y_1, \ldots, y_{t-1})$.
     \end{itemize}
   \end{example}
   \begin{itemize}
-  \item Observation $x_t$: the predictions of all stations.
-  \item Decision $\decision_t$.
+  \item Observation $\bx_t = (x_{t,1}, \ldots, x_{t,n})$: the predictions of all stations.
+  \item Decision $\decision_t$: Guess if it will rain
+  \item Outcome $y_t$: Rain or not rain.
   \item Steps $t = 1, \ldots, T$.
   \end{itemize}
 
   \begin{block}{Linear utility function}
-    Reward function is $\Rew(x_t, a_t) = \ind{x_t = a_t}$ simply rewarding correct predictions with utility being
+    Reward function is $\Rew(y_t, a_t) = \ind{y_t = a_t}$ simply rewarding correct predictions with utility being
     \[
       U(y_1, y_2, \ldots, y_T, \decision_1, \ldots, \decision_T)
       = 
@@ -274,9 +243,9 @@
     \begin{itemize}
     \item Assume $r_t \mid a_t = i \sim P_{\param_i}$, with $\param_i\in \Param$.
     \item Define prior belief  $\xi_1$ on $\Param$.
-    \item For each step $t$, select action $a_t$ to maximise 
+    \item For each step $t$, find a policy $\pol$ selecting action $a_t \mid \bel_t \sim \pol(a \mid \bel_t)$ to 
       \[
-        \E_{\xi_t}( U_t  \mid a_t) = \E_{\xi_t} \left(\sum_{k=1}^{T-t}  r_{t+k} ~\middle|~ a_t \right)
+      \max_\pol \E^\pol_{\xi_t}(U_t) = \max_\pol \E^\pol_{\xi_t} \sum_{a_t} \left(\sum_{k=1}^{T-t}  r_{t+k} ~\middle|~ a_t \right) \pol(a_t \mid \bel_t).
       \]
     \item Obtain reward $r_t$.
     \item Calculate the next belief
