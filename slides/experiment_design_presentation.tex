@@ -27,6 +27,35 @@
 \end{frame}
 
 
+
+\begin{frame}
+  \frametitle{Sequential problems: full observation}
+  \begin{example}
+    \begin{itemize}
+    \item $n$ meteorological stations $\cset{\mdp_i}{i=1, \ldots,n}$
+    \item The $i$-th station gives a rain probability $x_{t,i} = P_{\mdp_i}(y_t \mid y_1, \ldots, y_{t-1})$.
+    \end{itemize}
+  \end{example}
+  \begin{itemize}
+  \item Observation $\bx_t = (x_{t,1}, \ldots, x_{t,n})$: the predictions of all stations.
+  \item Decision $\decision_t$: Guess if it will rain
+  \item Outcome $y_t$: Rain or not rain.
+  \item Steps $t = 1, \ldots, T$.
+  \end{itemize}
+
+  \begin{block}{Linear utility function}
+    Reward function is $\Rew(y_t, a_t) = \ind{y_t = a_t}$ simply rewarding correct predictions with utility being
+    \[
+      U(y_1, y_2, \ldots, y_T, \decision_1, \ldots, \decision_T)
+      = 
+      \sum_{t=1}^T \Rew(y_t, \decision_t),
+    \]
+    the total number of correct predictions.
+  \end{block}
+
+\end{frame}
+
+
 \section{Bandit problems}
 \label{sec:exp-design-bandit}
 
@@ -214,9 +243,9 @@
     \begin{itemize}
     \item Assume $r_t \mid a_t = i \sim P_{\param_i}$, with $\param_i\in \Param$.
     \item Define prior belief  $\xi_1$ on $\Param$.
-    \item For each step $t$, select action $a_t$ to maximise 
+    \item For each step $t$, find a policy $\pol$ selecting action $a_t \mid \bel_t \sim \pol(a \mid \bel_t)$ to 
       \[
-        \max_\pol \E^\pol_{\xi_t}( U_t  \mid a_t) = \max_\pol \E^\pol_{\xi_t} \left(\sum_{k=1}^{T-t}  r_{t+k} ~\middle|~ a_t \right)
+      \max_\pol \E^\pol_{\xi_t}(U_t) = \max_\pol \E^\pol_{\xi_t} \sum_{a_t} \left(\sum_{k=1}^{T-t}  r_{t+k} ~\middle|~ a_t \right) \pol(a_t \mid \bel_t).
       \]
     \item Obtain reward $r_t$.
     \item Calculate the next belief
@@ -749,7 +778,7 @@ In the simplest bandit setting, our only information when selecting an arm is th
         \max_{\pol_1} \E^{\pol_1}_{\bel_0}(\rho \mid \ba, \bx, \by)\\
       \E^{\pol_1}_{\bel_0}(\rho \mid \ba, \bx, \by) 
       &=
-        \sum_{a, x, y} \rho(a, y) \Pr_{\bel_1}(y \mid x, a) \pol_1(x \mid a) \Pr_{\bel_1}(x)
+        \sum_{a, x, y} \rho(a, y) \Pr_{\bel_1}(y \mid x, a) \pol_1(a \mid x) \Pr_{\bel_1}(x)
     \end{align}
   \end{definition}
   }
