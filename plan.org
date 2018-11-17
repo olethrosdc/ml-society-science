@@ -50,18 +50,80 @@ Session 6. Safety: Aletorial and epistemic risk, confidence bounds, intervention
 ** Examination
 
 There are 2 take-home exams, split into 3 parts each. Each one takes 2-4 hours each and is partly done in a
-tutorial session. Each question is weighted equally in each home exam, so that by correctly answering the elementary parts of each question, students can be guaranteed a passing grade. Each exam counts for 40% of the score. 
+tutorial session.
 
+
+Each question is weighted equally in each home exam, so that by correctly answering the elementary parts of each question, students can be guaranteed a passing grade. Each exam counts for 40% of the score. 
 A 15-min seminar is also given by the students. This counts for 20% of the final score.
 
-Criteria for full marks in each part of the exam are: 
+Criteria for full marks in each part of the exam are the following. 
+
 1. Documenting of the work in a way that enables reproduction.
 2. Technical correctness of their analysis.
 3. Demonstrating that they have understood the assumptions underlying their analysis.
-4. Addressing issues of reproducibility in research and ethical questions where applicable (to the extent possible by the material covered in the course).
-
+4. Addressing issues of reproducibility in research.
+5. Addressing ethical questions where applicable.
+6. Consulting additional resources beyond the source material with proper citations.
 
 Student participation during class, on the labs, and the online discussion forum counts positively towards their grade. If a student with exceptional performance in the take-home exams (e.g. extensive discussion, or novel and unexpected results) or in the online forum and in-class discussion (e.g. by aiding other students or posting interesting questions) this will count synergistically towards a higher grade.
+
+The marking guidelines are below:
+
+*** A 
+
+
+1. Submission of a detailed report from which one can definitely reconstruct their work without referring to their code. There should be no ambiguities in the describe methodology. Well-documented code where design decisions are explained. 
+2. Extensive analysis and discussion. Technical correctness of their analysis. Nearly error-free implementation.
+3. The report should detail what models are used and what the assumptions are behind them. The conclusions of the should include appropriate caveats.  When the problem includes simple decision making, the optimality metric should be well-defined and justified. Simiarly, when experiment design is involved, it should be (approximately) optimal according to some well-defined criteria.
+4. Appropriate methods to measure reproducibility. Use of cross-validation or hold-out sets to measure performance. Use of an unbiased methodology for algorithm, model or parameter selection. Appropriate reporting of a confidence level (e.g. using bootstrapping) in their analytical results. Relevant assumptions are mentioned when required.
+5. When dealing with data relating to humans, privacy and/or fairness should be addressed. A formal definition of privacy and/or should be selected, and the resulting policy should be examined.
+6. The report contains some independent thinking, or includes additional resources beyond the source material with proper citations. The students go beyond their way to research material and implement methods not discussed in the course.
+
+*** B
+
+1. Submission of a report from which one can plausibly reconstruct their work without referring to their code. There should be no major ambiguities in the described methodology. 
+2. Technical correctness of their analysis, with a good discussion. Possibly minor errors in the implementation.
+3. The report should detail what models are used, as well as the optimality criteria. The conclusions of the report must contain appropriate caveats.
+4. Use of cross-validation or hold-out sets to measure performance. Use of an unbiased methodology for algorithm, model or parameter selection. 
+5. When dealing with data relating to humans, privacy and/or fairness should be addressed. While an analysis of this issue may not be performed, there is a substantial discussion of the issue that clearly shows understanding by the student.
+6. The report contains some independent thinking, or the students mention other methods beyond the source material, with proper citations, but do not further investigate them.
+
+*** C
+
+1. Submission of a report from which one can partially reconstruct most of their work without referring to their code. There might be some ambiguities in parts of the described methodology. 
+2. Technical correctness of their analysis, with an adequate discussion. Some errors in a part of the implementation.
+3. The report should detail what models are used, as well as the optimality criteria. Analysis caveats are not included.
+4. Either use of cross-validation or hold-out sets to measure performance, or use of an unbiased methodology for algorithm, model or parameter selection - but in a possibly inconsistent manner.
+5. When dealing with data relating to humans, privacy and/or fairness are addressed superficially.
+6. There is little mention of methods beyond the source material or independent thinking.
+
+*** D
+
+1. Submission of a report from which one can partially reconstruct most of their work without referring to their code. There might be serious ambiguities in parts of the described methodology. 
+2. Technical correctness of their analysis with limited discussion. Possibly major errors in a part of the implementation.
+3. The report should detail what models are used, as well as the optimality criteria. Analysis caveats are not included.
+4. Either use of cross-validation or hold-out sets to measure performance, or use of an unbiased methodology for algorithm, model or parameter selection - but in a possibly inconsistent manner.
+5. When dealing with data relating to humans, privacy and/or fairness are addressed superficially or not at all.
+6. There is little mention of methods beyond the source material or independent thinking.
+
+
+*** E
+1. Submission of a report from which one can obtain a high-level idea of their work without referring to their code. There might be serious ambiguities in all of the described methodology. 
+2. Technical correctness of their analysis with very little discussion. Possibly major errors in only a part of the implementation.
+3. The report might mention what models are used or the optimality criteria, but not in sufficient detail and caveats are not mentioned.
+4. Use of cross-validation or hold-out sets to simultaneously measure performance and optimise hyperparameters, but possibly in a way that introduces some bias.
+5. When dealing with data relating to humans, privacy and/or fairness are addressed superficially or not at all.
+6. There is no mention of methods beyond the source material or independent thinking.
+
+*** F 
+
+1. The report does not adequately explain their work.
+2. There is very little discussion and major parts of the analysis are technically incorrect, or there are errors in the implementation.
+3. The models used might be mentioned, but not any other details.
+4. There is no effort to ensure reproducibility or robustness.
+5. When applicable: Privacy and fairness are not mentioned.
+6. There is no mention of methods beyond the source material or independent thinking.
+
 
 
 
