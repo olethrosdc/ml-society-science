@@ -14,9 +14,9 @@ Core learning outcomes:
 1. Ensuring reproducibility in both science and AI development.
 2. Recognising privacy issues and be able to mitigate them using appropriate formalisms.
 3. Mitigating issues with potential fairness and discrimination when algorithms are applied at scale.
-4. Applying AI algorithms to the world wide web.
+4. Performing inference when there are causal elements.
 5. Developing adaptive experimental design protocols for online and scientific applications.
-6. Understanding when it is possible provide safety guarantees for AI algorithms.
+6. Understanding when it is possible provide performance guarantees for AI algorithms.
 
 AI learning outcomes:
 
@@ -24,8 +24,9 @@ AI learning outcomes:
 2. Understanding Bayesian inference and decision theory and being able to develop graphical models.
 3. Understanding neural networks and how to apply stochastic optimisation algorithms.
 4. Understanding and using differential privacy as a formalism.
-5. Understanding the recommendation problem and how to use filtering and bandit algorithms.
-6. Understanding the reinforcement learning problem and how to approximately make sequentially optimal decisions.
+5. Understanding causal inference, interventions and counterfactuals.
+6. Understanding the recommendation problem in terms of both modelling and decision making.
+
 
 
 ** Course content
