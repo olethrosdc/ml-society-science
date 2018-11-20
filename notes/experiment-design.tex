@@ -749,6 +749,18 @@ In the following section, we shall consider Markov decision processes more gener
     \item Generate data $D$ from $\Pr$ and measure the performance of $\alg$ on $D$.
     \end{itemize}
   \end{block}
+
+  \begin{block}{Experiment design for a multi-stage problem}
+    \only<article>{Here we would like to distinguish two cases. The first, where we care about performance during the experiment (e.g. maximising the number of patients cured), or whether we care about the best policy we can find after the experiment has been concluded (e.g. finding the best treatment). There are many heuristic approaches we can follow.}
+    \begin{itemize}
+    \item Use myopic ($n$-step) experiment design. \only<article>{When your utility is of the form $U = \sum_{k=t}^T r_t$, do not solve the complete problem. Instead, at each step $t$, find the policy $\pol_t$ maximising $\E^{\pol_t}_{\bel_t} \sum_{k=t}^{t+n} r_t$. For $n = 1$, you obtain a simply myopic strategy.}
+    \item Use a simple heuristic like UCB (or Linear UCB), or Thompson sampling. 
+    \item If computing posteriors is hard, use bootstrapping-based Thompson sampling\cite{eckles2014thompson} or MCMC.
+    \end{itemize}
+  \end{block}
+  
+
+
 \end{frame}
 
 
