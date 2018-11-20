@@ -39,15 +39,17 @@ Module 4. The web: Recommendation systems, clustering, latent variable models.
 Module 5. Aletorial and epistemic risk, interventions, counterfactuals and causality.
 Module 6. Adaptive experiment design: Bandit problems, stochastic optimisation, Markov decision processes, dynamic programming.
 
-
 ** Examination
 
-Student participation during class, on the labs, and the online discussion forum counts positively towards their grade. If a student with exceptional performance in the take-home exams (e.g. extensive discussion, or novel and unexpected results) or in the online forum and in-class discussion (e.g. by aiding other students or posting interesting questions) this will count synergistically towards a higher grade.
+There are 2 project (formally take-home exams), split into 3 parts
+each. Each one takes 2-4 hours and is partly done in a tutorial
+session.
 
-There are 2 take-home exams, split into 3 parts each. Each one takes 2-4 hours each and is partly done in a
-tutorial session.
-
-Each question is weighted equally in each home exam, so that by correctly answering the elementary parts of each question, students can be guaranteed a passing grade. Each exam counts for 40% of the score. A 15-min seminar is also given by the students. This counts for 20% of the final score.
+Each question is weighted equally in each home exam, so that by
+correctly answering the elementary parts of each question, students
+can be guaranteed a passing grade. Each exam counts for 40% of the
+score. A 15-min seminar is also given by the students. This counts for
+20% of the final score.
 
 Criteria for full marks in each part of the exam are the following. 
 
