@@ -32,20 +32,13 @@ AI learning outcomes:
 
 The course is split in 6 sessions, which should be taken in sequence.
 
-Module 1. Project: Credit Risk.
+Module 1. Reproducibility: kNN, bootstrapping, Bayesian inference, decision problems, false discovery, confidence bounds.
+Module 2. Fairness: Decision diagrams, conditional independence, meritocracy, discrimination.
+Module 3. Privacy: Databases, k-anonymity, graphical models, differential privacy, the reusable holdout.
+Module 4. The web: Recommendation systems, clustering, latent variable models.
+Module 5. Aletorial and epistemic risk, interventions, counterfactuals and causality.
+Module 6. Adaptive experiment design: Bandit problems, stochastic optimisation, Markov decision processes, dynamic programming.
 
-Session 1. Reproducibility: kNN, bootstrapping, Bayesian inference, decision problems, false discovery.
-Session 2. Fairness: Decision diagrams, conditional independence, meritocracy, discrimination.
-
-Module 2. Project: Recommendation systems and fake news.
-
-Session 3. Privacy: Databases, k-anonymity, graphical models, differential privacy, the reusable holdout.
-Session 4. The web: Recommendation systems, clustering, latent variable models, fake news.
-
-Module 3. Project: Medical diagnostics.
-
-Session 5. Adaptive experiment design: Bandit problems, stochastic optimisation, Markov decision processes, dynamic programming, reinforcement learning
-Session 6. Safety: Aletorial and epistemic risk, confidence bounds, interventions, counterfactuals and causality.
 
 ** Examination
 
@@ -270,32 +263,6 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 ** Lecture 4. Safety: Model validation and importance Sampling
 
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
-* Timetable
-
-8.22-23 Lecture: Machine Learning intro, kNN, Reproducibility, probability and decision theory. Lab: Reproducibility
-8.29-30 Lecture: Decision theory, Neural networks and SGD
-
-Project 1: Mortgage decisions
-
-9.05-06 Lab: Decision theory and Neural networks
-9.12-13 Lecture: Privacy, anonymity, differential privacy
-9.19-20 Lab: Privacy
-9.26-27 Lecture: Fairness and Decision diagrams
-10.03-04 Lab: Fairness, COMPAS data
-
-Project 2: Social networks
-
-10.10-11 Lecture: Recommendation Systems, Markov models
-10.17-18 Tutorial: Bayesian Networks, Recsys
-10.24-25 Lecture: Causality, Counterfactuals
-10.31-11.01 Tutorial: Compression. Lab: RNN/HMM
-
-Project 3: Experiment design
-
-11.07-08 Lecture: Bandit Problems and MDPs
-11.14-15 Tutorial: Stochastic optimisation and experiment design
-11.21-22 Lecture: Reinforcement Learning, Lab: Q-learning
-
 * Meetings
 ** DS overview
    CLOCK: [2018-04-23 mån 10:10]--[2018-04-23 mån 11:10] =>  1:00
