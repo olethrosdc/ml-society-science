@@ -1,7 +1,7 @@
 import numpy as np
 import pandas
 def default_reward_function(action, outcome):
-    return outcome
+    return -0.1 * (action!= 0) + outcome
 
 def test_policy(generator, policy, reward_function, T):
     print("Testing for ", T, "steps")
