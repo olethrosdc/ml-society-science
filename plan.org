@@ -20,7 +20,7 @@ The course applies core principles from machine learning, artificial intelligenc
 - Elementary knowledge of probability and statistics (STK1000/STK1100)
 - Linear algebra in Euclidean spaces (MAT1110)
 - Elementary calculus (MAT1100)
-- Python
+- Python programming (IN1900 – Introduction to Programming with Scientific Applications).
 
 ** Learning outcomes
 
