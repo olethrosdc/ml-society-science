@@ -1,12 +1,9 @@
-\documentclass{beamer}
-
 \newcommand{\Bels}{\Xi}
-\newcommand \Bay {\ensuremath{\mathscr{B}}}
-\newcommand \Adv {\ensuremath{\mathscr{A}}}
-\makeatletter
-\renewcommand*{\@fnsymbol}[1]{\ensuremath{*}}
+\newcommand \Params {\Theta}
+\renewcommand \param {\theta}
 
-\makeatother
+% \newcommand \Bay {\ensuremath{\mathscr{B}}}
+% \newcommand \Adv {\ensuremath{\mathscr{A}}}
 
 
 \section{Bayesian inference and privacy}
@@ -29,6 +26,7 @@
 \end{frame}
 
 \subsection{Setting}
+\begin{frame}
   \begin{block}{Dramatis personae}
     \begin{itemize}
     \item $x$ -- data.
@@ -164,7 +162,7 @@
   \frametitle{Differential privacy}
   A randomised mechanism taking data $x$ as input is basically a
   distribution condition on $x$. So we write:
-    \begin{definition}[$\only<2->{(}\epsilon\only<2->{,\delta)}$-differential privacy]
+  \begin{definition}[$\only<2->{(}\epsilon\only<2->{,\delta)}$-differential privacy]
     \label{def:dp-basic}
     $\bel(\cdot \mid x)$ is \emph{$\only<2->{(}\epsilon\only<2->{,\delta)}$-differentially private} if, $\forall x \in \CS \alert{= \CX^n}$, $B \subset \Params$
     \[
@@ -173,25 +171,25 @@
     for all $y$ in the \alert{hamming-$1$ neighbourhood} of $x$. 
   \end{definition}
   \uncover<3->{
-  i.e. neighbouring datasets are statistically indistinguishable wrt the distribution induced by the mechanism.
+    i.e. neighbouring datasets are statistically indistinguishable wrt the distribution induced by the mechanism.
 
-  \begin{remark}
-    A similar definition can be given for computationally indistinguishable distributions.
-  \end{remark}
+    \begin{remark}
+      A similar definition can be given for computationally indistinguishable distributions.
+    \end{remark}
   }
 \end{frame}
 
 \begin{frame}
- \frametitle{The necessity of randomness}
- \begin{itemize}
- \item Consider a deterministic mechanism $f : \CS \to \{0,1\}$.
- \item<2-> If there is at least one pair $x, y \in \CS$ such that
-   \[
-   f(x) = 0, \qquad f(y) = 1.
-   \]
-   then:
- \item<3-> An adversary \Adv{} wants to guess the real data $x^\star$ and knows that $x^* \in \set{x, y}$ can immediately discover the truth.
- \end{itemize}
+  \frametitle{The necessity of randomness}
+  \begin{itemize}
+  \item Consider a deterministic mechanism $f : \CS \to \{0,1\}$.
+  \item<2-> If there is at least one pair $x, y \in \CS$ such that
+    \[
+    f(x) = 0, \qquad f(y) = 1.
+    \]
+    then:
+  \item<3-> An adversary \Adv{} wants to guess the real data $x^\star$ and knows that $x^* \in \set{x, y}$ can immediately discover the truth.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -342,8 +340,8 @@
     \begin{align}
       \left|\ln \frac{P_\param(x)}{P_\param(y)}\right|
       &\leq
-      L \xdist{x}{y}, \qquad \forall x, y \in \mathcal{\CS},
-      \label{eq:hoelder-observations}
+        L \xdist{x}{y}, \qquad \forall x, y \in \mathcal{\CS},
+        \label{eq:hoelder-observations}
     \end{align}  
     \label{ass:hoelder-observations}
   \end{assumption}
@@ -495,11 +493,11 @@
     \]
   \end{block}
   \begin{theorem}
-     	If $\bel^\star$ is \Adv{}'s preferred prior, and we restrict it so  $\bel(\Params_L) = 1$:
-        \begin{enumerate}[(a)]
-        \item The algorithm is $2 L n$-differentially private.
-        \item \Adv{}'s regret is  $O([1 - \bel^\star(\Params_L)] + \sqrt{\ln (1/\delta)/n})$, w.p. $1 - \delta$.
-        \end{enumerate}
+    If $\bel^\star$ is \Adv{}'s preferred prior, and we restrict it so  $\bel(\Params_L) = 1$:
+    \begin{enumerate}[(a)]
+    \item The algorithm is $2 L n$-differentially private.
+    \item \Adv{}'s regret is  $O([1 - \bel^\star(\Params_L)] + \sqrt{\ln (1/\delta)/n})$, w.p. $1 - \delta$.
+    \end{enumerate}
   \end{theorem}
 \end{frame}
 
@@ -644,9 +642,9 @@
 
 \begin{frame}
   \frametitle{Multi-armed bandits}
-	Regret for $\epsilon = 0.1$, 10 arms
+  Regret for $\epsilon = 0.1$, 10 arms
 
-	\scalebox{0.5}{\input{figures/arms_10_eps_01.pgf}}
+  \scalebox{0.5}{\input{figures/arms_10_eps_01.pgf}}
 
 
 \end{frame}
@@ -661,17 +659,17 @@
   \item How to tune for unknown constants? (General problem in DP)
   \end{itemize}
   {\tiny
-  \begin{block}{References}
-    \begin{itemize}
-    \item C Dwork, F McSherry, K Nissim, A Smith, \emph{Calibrating  noise to sensitivity in private data analysis}, TCC 2006.
-    \item C. Dimitrakakis, B. Nelson, A. Mitrokotsa, B. Rubinstein, \emph{Robust and Private Bayesian Inference}, ALT 2014. 
-    \item A. Tossou, C. Dimitrakakis, \emph{Algorithms for differentially private multi-armed bandits}, AAAI 2016.
-    \item D. Mir, \emph{Information-theoretic foundations of
-        differential privacy}, EDBT/ICDT, 2012.
-    \item YX. Wang, SE. Fienberg, A. Smola, \emph{Privacy for Free: Posterior Sampling and Stochastic Gradient Monte Carlo}, ICML 2015.
-    \item Z. Zhang, B. Rubinstein, C. Dimitrakakis, \emph{On the Differential Privacy of Bayesian Inference}, AAAI 2016.
-    \end{itemize}
-  \end{block}
+    \begin{block}{References}
+      \begin{itemize}
+      \item C Dwork, F McSherry, K Nissim, A Smith, \emph{Calibrating  noise to sensitivity in private data analysis}, TCC 2006.
+      \item C. Dimitrakakis, B. Nelson, A. Mitrokotsa, B. Rubinstein, \emph{Robust and Private Bayesian Inference}, ALT 2014. 
+      \item A. Tossou, C. Dimitrakakis, \emph{Algorithms for differentially private multi-armed bandits}, AAAI 2016.
+      \item D. Mir, \emph{Information-theoretic foundations of
+          differential privacy}, EDBT/ICDT, 2012.
+      \item YX. Wang, SE. Fienberg, A. Smola, \emph{Privacy for Free: Posterior Sampling and Stochastic Gradient Monte Carlo}, ICML 2015.
+      \item Z. Zhang, B. Rubinstein, C. Dimitrakakis, \emph{On the Differential Privacy of Bayesian Inference}, AAAI 2016.
+      \end{itemize}
+    \end{block}
   }
 \end{frame}
 
