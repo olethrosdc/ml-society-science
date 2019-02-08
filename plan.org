@@ -17,10 +17,13 @@ The course applies core principles from machine learning, artificial intelligenc
 
 ** Prerequisites
 
+*** Essential
+- Mathematics R1+R2
+- Python programming (e.g. IN1900 – Introduction to Programming with Scientific Applications).
+
+*** Recommended
 - Elementary knowledge of probability and statistics (STK1000/STK1100)
-- Linear algebra in Euclidean spaces (MAT1110)
-- Elementary calculus (MAT1100)
-- Python programming (IN1900 – Introduction to Programming with Scientific Applications).
+- Elementary calculus and linear algebra (MAT1100 or MAT1110)
 
 ** Learning outcomes
 
