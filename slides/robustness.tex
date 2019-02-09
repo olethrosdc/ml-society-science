@@ -406,26 +406,23 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Differential privacy of the posterior}
-  \begin{block}
+  \begin{block}{Differential privacy of the posterior distribution}
     \begin{itemize}
-    \item<1-> Under Assumption~\ref{ass:hoelder-observations}, 
+    \item Under Assumption~\ref{ass:hoelder-observations}, 
       $B \in \fields{\Params}$:
       \begin{align}
         \bel(B \mid x) & \leq e^{ 2L \xdist{x}{y}} \bel(B \mid y) 
       \end{align}
       \ie the posterior is $(2L, 0)$-DP under $\xdistChar$.
       \label{thm:dp1}
-    \item<2-> Under Assumption~\ref{ass:hoelder-measure-observations}, for
+    \item Under Assumption~\ref{ass:hoelder-measure-observations}, for
       all $x,y \in \mathcal{\CS}$, $B \in \fields{\Params}$:
       \begin{align*}
         \abs{\bel(B \mid x) - \bel(B \mid y)}
         & \leq \sqrt{\frac{\constScaleB C_\bel }{2c} \xdist{x}{y}}
       \end{align*}
       \ie the posterior is $\left(0,  \sqrt{\frac{\constScaleB C_\bel }{2c}}\right)$-DP under $\sqrt{\xdistChar}$.
-      \label{thm:dp2}
     \end{itemize}
-    \label{thm:dp}
   \end{block}
 \end{frame}
 
@@ -630,8 +627,7 @@
   \frametitle{Multi-armed bandits}
   Regret for $\epsilon = 0.1$, 10 arms
 
-  \scalebox{0.5}{\input{figures/arms_10_eps_01.pgf}}
-
+  \includegraphics{figures/arms_10_eps_01}
 
 \end{frame}
 
@@ -659,10 +655,7 @@
   }
 \end{frame}
 
-
-
-\end{document}
 %%% Local Variables: 
 %%% mode: latex
-%%% TeX-master: t
+%%% TeX-master: "privacy_presentation.tex"
 %%% End: 
