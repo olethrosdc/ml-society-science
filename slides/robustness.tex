@@ -1,6 +1,5 @@
 \newcommand{\Bels}{\Xi}
 \newcommand \Params {\Theta}
-\renewcommand \param {\theta}
 \newcommand \marg {\phi}
 
 % \newcommand \Bay {\ensuremath{\mathscr{B}}}
@@ -373,20 +372,6 @@
   }
 \end{frame}
 
-\iffalse
-\begin{frame}
-  \frametitle{Necessary condition}
-  To achieve differential privacy, the metric must be based on a \alert{Bayesian sufficient statistic $\tau$}
-  \[
-  \xdist{x}{y} = \norm{\tau(x) - \tau(y)},
-  \]
-  such that $\xdist{x}{y} = 0$ implies that
-  \[
-  \bel(B \mid x) = \bel(B \mid y).
-  \]
-\end{frame}
-\fi
-
 
 \subsection{Robustness and privacy of the posterior distribution}
 \label{sec:robustness}
@@ -422,8 +407,8 @@
 
 \begin{frame}
   \frametitle{Differential privacy of the posterior}
-  \begin{theorem}
-    \begin{enumerate}
+  \begin{block}
+    \begin{itemize}
     \item<1-> Under Assumption~\ref{ass:hoelder-observations}, 
       $B \in \fields{\Params}$:
       \begin{align}
@@ -439,9 +424,9 @@
       \end{align*}
       \ie the posterior is $\left(0,  \sqrt{\frac{\constScaleB C_\bel }{2c}}\right)$-DP under $\sqrt{\xdistChar}$.
       \label{thm:dp2}
-    \end{enumerate}
+    \end{itemize}
     \label{thm:dp}
-  \end{theorem}
+  \end{block}
 \end{frame}
 
 \subsection{Posterior sampling query model}
