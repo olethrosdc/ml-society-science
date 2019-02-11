@@ -82,7 +82,7 @@ The follow marking guidelines are what one would expect from students attaining 
 4. Use of cross-validation or hold-out sets to measure performance. Use of an unbiased methodology for algorithm, model or parameter selection. 
 5. When dealing with data relating to humans, privacy and/or fairness should be addressed. While an analysis of this issue may not be performed, there is a substantial discussion of the issue that clearly shows understanding by the student.
 6. The report contains some independent thinking, or the students mention other methods beyond the source material, with proper citations, but do not further investigate them.
-
+   
 *** C
 
 1. Submission of a report from which one can partially reconstruct most of their work without referring to their code. There might be some ambiguities in parts of the described methodology. 
