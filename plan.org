@@ -65,10 +65,15 @@ Criteria for full marks in each part of the exam are the following.
 5. Addressing ethical questions where applicable.
 6. Consulting additional resources beyond the source material with proper citations.
 
-The following grading classes can be used to represent 
+The following grading classes can be used to represent the quality. The grading scale is suggested to be:
 
+| A |  90 - 100
+| B |  75 - 90
+| C |  60 - 75
+| D |  50 - 60
+| E |  40 - 50
+| F |   0 - 40
 *** A 
-
 
 1. Submission of a detailed report from which one can definitely reconstruct their work without referring to their code. There should be no ambiguities in the describe methodology. Well-documented code where design decisions are explained. 
 2. Extensive analysis and discussion. Technical correctness of their analysis. Nearly error-free implementation.
@@ -103,7 +108,6 @@ The following grading classes can be used to represent
 4. Either use of cross-validation or hold-out sets to measure performance, or use of an unbiased methodology for algorithm, model or parameter selection - but in a possibly inconsistent manner.
 5. When dealing with data relating to humans, privacy and/or fairness are addressed superficially or not at all.
 6. There is little mention of methods beyond the source material or independent thinking.
-
 
 *** E
 1. Submission of a report from which one can obtain a high-level idea of their work without referring to their code. There might be serious ambiguities in all of the described methodology. 
