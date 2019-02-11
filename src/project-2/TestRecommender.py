@@ -1,7 +1,7 @@
 import numpy as np
 import pandas
 def default_reward_function(action, outcome):
-    return outcome
+    return -0.1 * (action!= 0) + outcome
 
 def test_policy(generator, policy, reward_function, T):
     print("Testing for ", T, "steps")
@@ -27,8 +27,8 @@ labels = features[:,128] + features[:,129]*2
 import data_generation
 import random_recommender
 policy_factory = random_recommender.RandomRecommender
-#import reference_recommender
-#policy_factory = reference_recommender.RandomRecommender
+import reference_recommender
+policy_factory = reference_recommender.HistoricalRecommender
 
 ## First test with the same number of treatments
 print("---- Testing with only two treatments ----")
