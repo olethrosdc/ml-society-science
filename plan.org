@@ -5,6 +5,26 @@
 - Expected development time: 400 hours (200 for the lecture notes and 200 for the assignments, tutorials and projects)
 - Teaching time: 264-384 hours (48 contact, 96 preparation, 120-240 corrections for 20-40 students)
 
+
+** Course content
+
+Classic approaches in data analysis are use a static procedure for both collecting and processing data. Modern approaches deal with the adaptive procedures which in practice almost always are used.
+
+In this course you will learn how to design systems that adaptively collect and process data in order to make decisions autonomously or in collaboration with humans.
+
+The course applies core principles from machine learning, artificial intelligence and databases to real-world problems in safety,
+ reproducibility, causal reasoning, privacy and fairness.
+
+** Prerequisites
+
+*** Essential
+- Mathematics R1+R2
+- Python programming (e.g. IN1900 – Introduction to Programming with Scientific Applications).
+
+*** Recommended
+- Elementary knowledge of probability and statistics (STK1000/STK1100)
+- Elementary calculus and linear algebra (MAT1100 or MAT1110)
+
 ** Learning outcomes
 
 There are two types of learning outcomes. Firstly, those that are the core of the course, and secondly methodologies that are used as part of the course.
@@ -16,33 +36,35 @@ Core learning outcomes:
 3. Mitigating issues with potential fairness and discrimination when algorithms are applied at scale.
 4. Performing inference when there are causal elements.
 5. Developing adaptive experimental design protocols for online and scientific applications.
-6. Understanding when it is possible provide performance guarantees for AI algorithms.
+6. Understanding when it is possible to provide performance guarantees for AI algorithms.
 
 AI learning outcomes:
 
 1. Understanding how to use data for learning, estimation and testing to create reproducible research.
-2. Understanding Bayesian inference and decision theory and being able to develop graphical models.
+2. Understanding Bayesian inference and decision theory and being able to describe dependencies with graphical models.
 3. Understanding neural networks and how to apply stochastic optimisation algorithms.
 4. Understanding and using differential privacy as a formalism.
 5. Understanding causal inference, interventions and counterfactuals.
 6. Understanding the recommendation problem in terms of both modelling and decision making.
 
+** Prerequisites
+
 
 
 ** Course content
 
-The course is split in 6 sessions, which should be taken in sequence.
+The course is split in 6 modules, which should be taken in sequence.
 
-Module 1. Reproducibility: kNN, bootstrapping, Bayesian inference, decision problems, false discovery, confidence bounds.
+Module 1. Reproducibility: bootstrapping, Bayesian inference, decision problems, false discovery, confidence bounds.
 Module 2. Fairness: Decision diagrams, conditional independence, meritocracy, discrimination.
-Module 3. Privacy: Databases, k-anonymity, graphical models, differential privacy, the reusable holdout.
+Module 3. Privacy: Databases, k-anonymity, graphical models, differential privacy
 Module 4. The web: Recommendation systems, clustering, latent variable models.
-Module 5. Aletorial and epistemic risk, interventions, counterfactuals and causality.
+Module 5. Causality: Interventions and counterfactuals.
 Module 6. Adaptive experiment design: Bandit problems, stochastic optimisation, Markov decision processes, dynamic programming.
 
 ** Examination
 
-There are 2 project (formally take-home exams), split into 3 parts
+There are 2 projects (formally take-home exams), split into 3 parts
 each. Each one takes 2-4 hours and is partly done in a tutorial
 session.
 
@@ -58,7 +80,7 @@ Criteria for full marks in each part of the exam are the following.
 2. Technical correctness of their analysis.
 3. Demonstrating that they have understood the assumptions underlying their analysis.
 4. Addressing issues of reproducibility in research.
-5. Addressing ethical questions where applicable.
+5. Addressing ethical questions where applicable, and if not, clearly explain why they are not.
 6. Consulting additional resources beyond the source material with proper citations.
 
 The follow marking guidelines are what one would expect from students attaining each grade. 
@@ -100,7 +122,6 @@ The follow marking guidelines are what one would expect from students attaining 
 4. Either use of cross-validation or hold-out sets to measure performance, or use of an unbiased methodology for algorithm, model or parameter selection - but in a possibly inconsistent manner.
 5. When dealing with data relating to humans, privacy and/or fairness are addressed superficially or not at all.
 6. There is little mention of methods beyond the source material or independent thinking.
-
 
 *** E
 1. Submission of a report from which one can obtain a high-level idea of their work without referring to their code. There might be serious ambiguities in all of the described methodology. 
