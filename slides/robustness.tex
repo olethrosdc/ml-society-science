@@ -7,6 +7,15 @@
 
 
 \section{Bayesian inference and privacy}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
+
 \begin{frame}
   \frametitle{Bayesian inference and differential privacy}
   \begin{block}{Bayesian estimation}
@@ -25,7 +34,7 @@
 
 \end{frame}
 
-\subsection{Setting}
+\subsubsection{Setting}
 \begin{frame}
   \begin{block}{Dramatis personae}
     \begin{itemize}
@@ -219,12 +228,6 @@
     \underbrace{p(r)}_{\textrm{response probability}} \propto e^{\epsilon u(x,r)} \underbrace{\mu(r)}_{\textrm{base measure}}.
     \]
   \end{block}
-  \begin{block}{Other methods}
-    \begin{itemize}
-    \item Subsample + aggregate
-    \item Compressed sensing
-    \end{itemize}
-  \end{block}
 \end{frame}
 
 \begin{frame}
@@ -292,7 +295,7 @@
 
 
 
-\section{Bayesian inference for privacy}
+\subsection{Bayesian inference for privacy}
 \begin{frame}
   \tableofcontents[hideothersubsections]
 \end{frame}
@@ -451,14 +454,6 @@
     r_t = q(\theta_t)
     \]
   }
-  \uncover<4->{
-    \begin{block}{Avoiding disclosure with multiple queries}
-      We simply release $n$ samples from the posterior
-      \[
-      \param_t \sim \bel(\param \mid x), \qquad t \in \set{1, \ldots, n}
-      \]
-    \end{block}
-  }
 \end{frame}
 
 \begin{frame}
@@ -508,98 +503,19 @@
   \end{block}
 \end{frame}
 
+
+
+
+\subsection{Experiments}
 \begin{frame}
-  \frametitle{Reduction of privacy to a testing problem}
-  \uncover<1->{
-    \begin{alertblock}{How many samples $n$ should we release?}
-      \begin{itemize}
-      \item Different datasets $x, y$ give different $\bel(\cdot \mid x), \bel(\cdot \mid y)$.
-      \item How many samples are needed to differentiate them?
-      \end{itemize}
-    \end{alertblock}
-  }
-
-  \uncover<2->{
-    \begin{theorem}
-      Under Assumption~\ref{ass:hoelder-observations}, the adversary can distinguish between data $x, y$ with probability $1 - \delta$ if:
-      \begin{equation}
-        \xdist{x}{y} \geq \frac{3}{4L \alert{n}} \ln \frac{1}{\delta}.
-      \end{equation}
-      Under Assumption~\ref{ass:hoelder-measure-observations}, this becomes:
-      \begin{equation}
-        \label{eq:adversary-sample-complexity-2}
-        \xdist{x}{y} \geq \frac{3 c}{2 \constScaleB C_\bel \alert{n}} \ln \frac{1}{\delta}.
-      \end{equation}
-      \label{the:adversary-sample-complexity}
-    \end{theorem}
-  }
-\end{frame}
-
-
-
-\begin{frame}
-  \frametitle{The Le Cam method for lower bounds}
-  Idea: Use $\CS$ for the ``parameter'' space of an estimator.
-  \uncover<2->{
-    \begin{block}{The family of posterior measures}
-      \begin{equation}
-        \label{eq:posterior-family}
-        \Bels \defn \cset{\bel(\cdot \mid x)}{x \in \CS},
-      \end{equation}
-    \end{block}
-  }
-  \uncover<3->{
-    \begin{lemma}[Le Cam's method]
-      Let $\psi(\param)$ be an estimator of $x$. 
-      Let $\CS_1, \CS_2$ be  $2\delta$-separated and say $x \in S_i \Rightarrow \bel(\cdot \mid x) \in \Bels_i \subset \Bels$. Then:
-      \begin{align}
-        \sup_{x \in \CS} \E_\bel (\xdist{\psi}{x} \mid x) \geq \alert{\delta} \sup_{\bel_i \in \textrm{co}(\Bels_i)} \|\bel_1 \wedge \bel_2\|.
-      \end{align}
-    \end{lemma}
-  }
-  \uncover<4->{
-    Expected distance between the real and guessed data:
-    \[
-    \E_\bel (\xdist{\psi}{x} \mid x)
-    =
-    \int_\Theta \xdist{\psi(\theta)}{x} \dd{\bel}(\theta \mid x),
-    \]
-  }
-
-\end{frame}
-
-\section{Examples}
-\begin{frame}
-  \frametitle{When do these assumptions hold?}
-  \begin{example}[Exponential families]
-    Family $\family$, with sufficient statistic $T$.
-    \[
-    p_{\param}(x) = h(x) \exp\left\{ \eta_{\param}^{\top} T(x) -
-      A(\eta_{\param})\right\}
-    \]
-    For a given $\param \in \Params$, we want to test if:
-    \[
-    \left| \ln(h(x)/h(y)) + \eta_{\param}^{\top}\left(T(x)-T(y)\right) \right| \le L \xdist{x}{y}, \qquad \forall x, y \in \mathcal{\CX}
-    \enspace.
-    \]
-  \end{example}
+  \includegraphics[width=0.95\linewidth]{figures/DNB_16_var-accuracy-eps}
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Exponential distribution]
-    Exponential prior with parameter $c > 0$, satisfies Assumption 2.
-  \end{example}
-
-  \begin{example}[Discrete Bayesian networks]
-    \[
-    \left|\ln \frac{P_\param(x)}{P_\param(y)}\right| \leq \ln \frac{1}{\epsilon} \cdot \xdist{x}{y},
-    \]
-    where: $\xdist{x}{y}$ is the number of edges and nodes influenced by the differences in $x,y$
-    and $\epsilon$ the smallest $P_\theta$-mass placed to any event.
-  \end{example}
+  \includegraphics[width=0.95\linewidth]{figures/lr-mse-samplerate.pdf}
 \end{frame}
 
-\section{Multi-armed bandits}
+\subsection{Multi-armed bandits}
 \begin{frame}
   \frametitle{Multi-armed bandits}
   Using one UCB1-style and one interval-style algorithm, we can obtain DP bandits with regret:
@@ -612,14 +528,6 @@
   \]
 \end{frame}
 
-\section{Experiments}
-\begin{frame}
-  \includegraphics[width=0.95\linewidth]{figures/DNB_16_var-accuracy-eps}
-\end{frame}
-
-\begin{frame}
-  \includegraphics[width=0.95\linewidth]{figures/lr-mse-samplerate.pdf}
-\end{frame}
 
 \begin{frame}
   \frametitle{Multi-armed bandits}
