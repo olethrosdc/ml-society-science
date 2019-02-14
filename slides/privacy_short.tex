@@ -337,9 +337,19 @@
     \caption{The centralised privacy model}
     \label{fig:centralised-privacy}
   \end{figure}
-  \begin{assumption}
-    The data $x$ is collected and the result $a$ is published by a \alert{trusted curator}
-  \end{assumption}
+  \only<1>{
+    \begin{assumption}
+      The data $x$ is collected and the result $a$ is published by a \alert{trusted curator}
+    \end{assumption}
+  }
+  \only<2>{
+    \begin{example}
+      Calculate the ratio of people that take drugs
+      \[
+      \E_\pi [a \mid \bx] = \frac{1}{n} \sum_i x_i, \qquad \pi = \Laplace(\frac{1}{n}\sum_{i} x_i, \lambda)
+      \]
+    \end{example}
+  }
 \end{frame}
 
 \begin{frame}
@@ -396,8 +406,57 @@
 
 \end{frame}
 
+\begin{frame}
+  \frametitle{Defining neighbourhoods}
+  \begin{table}[H]
+    \begin{tabular}{l|l|l|l}
+      Birthday & Name & Height  & Weight \\
+      \hline
+      06/07 & Li Pu & 190 & 80 \\
+      06/14 & Sara Lee & 185 & 110  \\
+      \alert<1>{06/12} & \alert<1>{Nikos Papadopoulos} & \alert<1>{170} & \alert<1>{82} \\
+      01/01 & A. B. Student & 170 & 70 \\
+      05/08 & Li Yang & 175 & 72 
+    \end{tabular}
+    \caption{Data $x$}
+  \end{table}
 
+  \only<1>{
+    \begin{table}[H]
+      \begin{tabular}{l|l|l|l}
+        Birthday & Name & Height  & Weight \\
+        \hline
+        06/07 & Li Pu & 190 & 80 \\
+        06/14 & Sara Lee & 185 & 110  \\
+        01/01 & A. B. Student & 170 & 70 \\
+        05/08 & Li Yang & 175 & 72 
+      \end{tabular}
+      \caption{1-Neighbour $x'$}
+    \end{table}
+  }
 
+  \only<2>{
+    \begin{table}[H]
+      \begin{tabular}{l|l|l|l}
+        Birthday & Name & Height  & Weight \\
+        \hline
+        06/07 & Li Pu & 190 & 80 \\
+        06/14 & Sara Lee & 185 & 110  \\
+        06/12 & Nikos Papadopoulos & \alert{180} & \alert{80} \\
+        01/01 & A. B. Student & 170 & 70 \\
+        05/08 & Li Yang & 175 & 72 
+      \end{tabular}
+      \caption{2-Neighbour $x'$}
+    \end{table}
+  }
+
+\end{frame}
+
+\begin{frame}
+  Answering any query with a $\epsilon$-DP algorithm bounds the amount of information gained by \alert{any adversary}, no matter their previous knowledge.
+
+  This means they cannot even guess whether you are \alert{in the dataset}.
+\end{frame}
 
 \begin{frame}
   \frametitle{The Exponential Mechanism.}
@@ -408,32 +467,37 @@
     \begin{block}{Interactive queries}
     \begin{itemize}
     \item System has data $x$.
-    \item User asks query $q$.
-    \item System responds with $a$.
+    \item User asks query $q$. \only<2>{---e.g. ``what is the average of $x$''?}
+    \item System responds with $a$ \only<3>{---e.g. a noisy version of the average.}
     \item We wish to maximise  utility:
       $\util : \CX, \CA, \CQ \to \Reals$.
+      \only<4>{The utility is higher for responses closer to the correct response.}
     \end{itemize}
   \end{block}
-
-  \begin{definition}[The Exponential mechanism]
-    For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy
-    \index{policy!exponential mechanism}
-    \begin{equation}
-      \label{eq:exponential-mechanism}
-      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}}
-    \end{equation}
-  \end{definition}
-  \only<presentation>{
-    What happens when $\epsilon \to \infty$? What about when $\epsilon \to 0$?
+  \uncover<5->{
+    \begin{definition}[The Exponential mechanism]
+      For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy
+      \index{policy!exponential mechanism}
+      \begin{equation}
+        \label{eq:exponential-mechanism}
+        \pol(a \mid x) \defn \frac{e^{\alert{\epsilon \util(q, a, x)} / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}}
+      \end{equation}
+    \end{definition}
   }
-  \only<article>{
-    Clearly, when $\epsilon \to 0$, this mechanism is uniformly random. When $\epsilon \to \infty$ the action maximising $\util(q,a,x)$ is always chosen.
-
-    Although the exponential mechanism can be used to describe most known DP mechanisms, its best use is in settings where there is a natural utility function.
-  }
+  \uncover<6>{The $\sensitivity{}$ term ensures the noise is calibrated to the privacy level we want}
 \end{frame}
 
 
+\begin{frame}
+  \frametitle{Theoretical foundations}
+  A differentially private algorithm is intrinsically \alert{stable}. This leads to a number of results.
+  \begin{itemize}
+  \item \emph{Generalization in adaptive data analysis and holdout reuse}. Dwork et al, NIPS 2015.
+  \item \emph{Algorithmic stability for adaptive data analysis}. Bassily et al, STOC 2016.
+  \item \emph{Concentration Bounds for High Sensitivity Functions Through Differential Privacy}, Nissim and Stemmer, 2017.
+\item \emph{ Subgaussian Tail Bounds via Stability Arguments}, Steinke and Ullman, 2017.
+  \end{itemize}
+\end{frame}
 
 \begin{frame}
   \frametitle{Available privacy toolboxes}
@@ -450,6 +514,7 @@
 \item \url{https://github.com/haiphanNJIT/PrivateDeepLearning} Deep learning and DP
     \end{itemize}
   \end{block}
+  The Privacy Tools Project \url{https://privacytools.seas.harvard.edu/}
 \end{frame}
 
 
