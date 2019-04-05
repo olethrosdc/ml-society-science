@@ -20,10 +20,71 @@
 \author[C. Dimitrakakis]{Christos Dimitrakakis}
 \begin{document}
 
+\usebackgroundtemplate{
+  \tikz[overlay,remember picture] \node[opacity=0.3, at=(current page.center)] {\includegraphics{../figures/IoT.png}};
+}
 \begin{frame}
   \titlepage
 \end{frame}
+\usebackgroundtemplate{}
 
+
+\begin{frame}
+  \frametitle{Pervasive ``intelligent'' systems}
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/echo-home.jpg}
+      \\
+      Home assistants
+
+      \vspace{\fill}
+
+      \bigskip
+
+      \includegraphics[width=\textwidth]{figures/tesla.jpg}
+      \\
+      Autonomous vehicles
+    \end{column}
+    \begin{column}{0.3\textwidth}
+      \centering 
+      \includegraphics[width=\textwidth]{figures/web-ads.png}
+      \\
+      Web advertising
+
+      \vspace{\fill}
+
+      \bigskip
+
+      \includegraphics[width=\textwidth]{figures/uber-here-maps.jpg}
+      \\
+      Ridesharing
+    \end{column}
+    \begin{column}{0.3\textwidth}
+      \centering 
+      \\
+      \includegraphics[width=\textwidth,clip = true, trim=0 0 0 42.5cm]{figures/lending.pdf}
+      \\
+      Lending
+
+      \vspace{\fill}
+
+      \bigskip
+
+      \includegraphics[width=\textwidth]{figures/algorithms-public.jpg}
+      \\
+      Public policy
+    \end{column}
+  \end{columns}
+  \only<2>{
+    \begin{tikzpicture}[remember picture,overlay]
+      \draw[fill=black,opacity=0.75] 
+      (current page.north east) rectangle (current page.south west);
+      \node at (current page.center) {
+        {\Huge \alert{Privacy, Fairness, Safety}}
+      };
+    \end{tikzpicture}}
+\end{frame}
 
 \include{fairness-simple} % fairness
 
