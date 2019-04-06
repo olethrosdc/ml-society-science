@@ -1,0 +1,374 @@
+\section{Fairness in machine learning}
+
+
+
+\begin{frame}
+  \begin{center} 
+    {\Huge Fairness}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}
+  \centering
+  \begin{block}{Fairness Definitions}
+    \begin{itemize}
+    \item \alert{Non-discrimination}.
+    \item Proportionality\footnote{\emph{Y. Liu, G. Radanovic, C. Dimitrakakis, D. C. Parkes, D. Mandal} FAT-ML 2017.}
+    \item Meritocracy.
+    \end{itemize}
+  \end{block}
+  \begin{block}{Bayesian Fairness\footnote{\emph{C. Dimitrakakis, Y. Liu, G. Radanovic, D. C. Parkes,} AAAI 2019.}}
+    \Large{
+      Fairness under partial information.
+    }
+  \end{block}
+
+  \includegraphics[width=0.1\textwidth]{../figures/me-recent} \hspace{1em}
+  \includegraphics[width=0.1\textwidth]{../figures/yang} \hspace{1em}
+  \includegraphics[width=0.1\textwidth]{../figures/parkes} \hspace{1em}
+  \includegraphics[width=0.1\textwidth]{../figures/goran} \hspace{1em}
+  \includegraphics[width=0.1\textwidth]{../figures/deb} 
+  \begin{center}
+    \includegraphics[width=0.1\textwidth]{../figures/oslo}
+    \hspace{1em}
+    \includegraphics[width=0.1\textwidth]{../figures/ucsc}
+    \hspace{1em}
+    \hspace{0.1\textwidth}
+    \hspace{1em}
+    \includegraphics[width=0.1\textwidth]{../figures/harvard}
+    \hspace{1em}
+    \hspace{0.1\textwidth}
+  \end{center}
+  
+  \note{Let us focus a bit on fairness. Fairness can mean many things, and so There are many definitions of fairness. Some relate to equity and non-discrimination, e.g. ensuring equal treatment for different genders and minorities. Some are about proportional representation. Some are about meritocracy, e.g. ensuring that the best-qualified applicants get into university. However most of these choices are not possible to satisfy simultaneously.
+  
+    In our with Yang Liu, David Parkes and Goran Radanovic we do not try and define a new notion of fairness. Instead, we wish to see what happens when we have only partial information. We show that by adapting a Bayesian approach, we can obtain policies that are not only inherently fairer, but that also allow us to take into account informational feedback effects when we make decisions sequentially.}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Bail decisions}
+  \centering
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{tikzpicture}
+        \node[label={$x,z$}] at (-1,2) (person)
+        {\includegraphics[width=0.2\columnwidth]{../figures/zuckerberg}};
+        \node[label=$\pi$] at (0,0) (judge) {\includegraphics[width=0.3\columnwidth]{../figures/judge}};
+        \draw[->] (person) -- (judge);
+        \uncover<2->{
+          \node[label=$a_1$] at (-2,-2) (jail) {\includegraphics[width=0.3\columnwidth]{../figures/jail}};
+          \draw[->] (judge) -- (jail);
+        }
+        \uncover<3->{
+          \node[label=$a_2$] at (2,-2) (bail) {\includegraphics[width=0.3\columnwidth]{../figures/bail}};
+          \draw[->] (judge) -- (bail);
+        }
+        \uncover<4->{
+          \node[label=$y_1$] at (-2,-4) (trial) {\includegraphics[width=0.3\columnwidth]{../figures/trial}};
+          \draw[->] (jail) -- (trial);
+        }
+        \uncover<5->{
+          \draw[->] (bail) -- (trial);
+        }
+        \uncover<6->{
+          \node[label=$y_2$] at (2,-4) (arrest) {\includegraphics[width=0.3\columnwidth]{../figures/handcuffs}};
+          \draw[->] (bail) -- (arrest);
+        }
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \only<1-7>{
+        \begin{itemize}
+        \item $x$ - features
+        \item $z$ - sensitive features
+        \item $a$ - action
+        \item $y$ - outcome
+        \end{itemize}
+      }
+      \only<8>{\includegraphics[width=0.8\columnwidth]{../figures/judge-fairness}}
+      \uncover<2->{\[\pi(a \mid x) \tag{policy}\]}
+      \uncover<4->{\[P_\param(x,y,z) \tag{model}\]}
+      \uncover<7->{\[U(a,y) \tag{utility}\]}
+
+    \end{column}
+  \end{columns}
+
+  \note<1>{Let us begin with a simple example. In the US system of justice, an accused is presented before a judge. The accused has some observable features x, as well as some possibly sensitive features z such as ethnicity or gender.}
+  \note<2>{ Based on what the judge sees, she uses a policy pi to make a decision. Should the defendant be kept in jail until trial?}
+  \note<3>{Or should they be let go?}
+  \note<4>{If they are kept in jail, then they almost invariably go to trial.}
+  \note<5>{They may also go to trial if they are freed...}
+  \note<6>{But they may also flee or commit another crime.}
+  \note<7>{Typically, the judge makes the decision by weighing the risk against a utility function that measures the cost of keeping an innocent in prison versus the cost of them committing another crime.}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The USA COMPAS System\footnote{Pro-publica, 2016}}
+  Assigns a \alert{risk score} $a_t$ to defendant $x_t$.
+  \begin{figure}[H]
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \centering
+        \def\svgwidth{.95\columnwidth}
+        \input{../figures/risk-scores-black.pdf_tex}
+        Black
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \centering
+        \def\svgwidth{0.95\columnwidth}
+        \input{../figures/risk-scores-white.pdf_tex}      
+        White
+      \end{column}
+    \end{columns}
+    \label{fig:risk-bias}
+    \caption{Apparent bias in risk scores towards black versus white defendants.}
+  \end{figure}
+\end{frame}
+
+
+\subsection{Group fairness and conditional independence}
+\begin{frame}
+  \only<1>{
+    \includegraphics[width=\columnwidth]{../figures/imrs}
+    \\\scriptsize{Washington Post, 2016}
+  }
+  \only<2>{
+    \includegraphics[width=\columnwidth]{../figures/imrs-risk}
+    \\\scriptsize{Pro-publica, 2016}
+  }
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+      \begin{itemize}
+      \item[$y$] Result.
+      \item[$a$] Assigned score.
+      \item[$z$] Race.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.7\textwidth}
+      \begin{align}
+        \Pr_\param^\pi(y \mid a, z) &= \Pr_\param^\pi(y \mid a) \tag{\alert<1>{calibration}}\\
+        \Pr_\param^{\pi}(a \mid y, z) &= \Pr_\param^{\pi}(a \mid y) \tag{\alert<2>{balance}}
+      \end{align}
+    \end{column}
+  \end{columns}
+  \note<1>{
+    In the US, there is a system called COMPAS, which assigns a risk score from 1-10 to defendants. If we imagine that it is only the system that acts, and the judge simply makes a decision using the system score, then the score corresponds to the system action. This score informs the judge about whether or not somebody is at risk of recidivism. A typical test to see if the system works well is calibration: what is the probability of somebody committing an offence under different scores? We can see that the system is quite well-calibrated and that the calibration is the same for both black and white americans. This notion of fairness (calibration) implies that the outcome is independent of race given the action - so that the action is entirely predictive of the outcome.}
+  \note<2>{However, a recent study showed a different effect. Black people that did not reoffend had an approximately equal probability of obtaining a high or low score, while black people that reoffended had significantly higher scores that those that did not. For white people, however, this was not the case. Reoffending whites had equal probability of being assigned a high score, while those that did not reoffend had overwhelmingly lower scores. This notion of fairness (balance) implies that our decision should be independent of race if we know the outcome. In hindsight, it is obvious that decisions cannot be simultaneously fair in both senses, as they imply two different type of independence. }
+
+
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{The value of a policy}
+  \begin{block}<1->{Fairness metrics: balance}
+    \begin{equation}
+      F_{\textrm{balance}}(\param, \pol)
+      \defn
+      \sum_{y, z, a}
+      |\Pr_\param^\pol(a \mid y, z) - \Pr_\param^\pol(a  \mid y)|^2
+    \end{equation}
+  \end{block}
+  \begin{block}<2->{Utility: Classification accuracy}
+    \[
+      U(\param, \pol) = \Pr_\param^\pol (y_t = a_t)
+    \]
+  \end{block}
+  \begin{block}<3->{Use $\lambda$ to trade-off utility and fairness}
+    \begin{equation}
+      \label{eq:combined-value}
+      V(\lambda, \param, \pol) = (1 - \lambda) \overbrace{U(\param, \pol)}^{\textrm{utility}} - \lambda \underbrace{F(\param, \pol)}_{\textrm{unfairness}}
+    \end{equation}
+  \end{block}
+  \note<1>{Of course, we care not only about fairness with respect to race, but also about utility: we would like our predictions to be accurate. For that reason, if we say theta describes the environment, then the value of our policy can be seen as the convex combination between a utility term and a fairness violation term.}
+  \note<2>{The fairness violation term simply expresses how far away from e.g. balance our decision rule is. This can be done like in this example, where we use the square difference between the probabilities of the same action under different conditionings on the sensitive variable.}
+  \note<3>{The utility can be something simple, such as the classification utility, by taking $U$ to be the identity function. Then the $I$ term is 1 when we have a correct classification, and the term is the }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Model uncertainty}
+  \begin{theorem}
+    A decision rule in the form of a lottery, i.e.
+    \[
+      \pi(a \mid x) = p_a
+    \]
+    can be the only way to satisfy balance for all possible $\param$.
+  \end{theorem}
+
+  \begin{block}{Possible solutions}
+    \begin{itemize}
+    \item Marginalize over $\param$ ("expected" model)
+    \item Use Bayesian reasoning
+    \end{itemize}
+  \end{block}
+  \note{The discussion here has focused on the case where we are talking about a specific probability distribution $P_\theta(x,y,z)$ from which the data is generated. However, we never know this distribution. Because of this, if we want to be fair with respect to e.g. balance for every possible model of the world, we need to essentially run a lottery: assign a fixed probability to every possible decision. This clearly is far from optimal in terms of utility. So, what can we do? There are two options. The first is to marginalise over the parameters to get an expected model of the world and optimise according to that. The second, which is what we propose, is to use Bayesian reasoning.}
+\end{frame}
+
+
+\begin{frame}<1,2>[label=fairness:setting]
+  \frametitle{The setting}
+  \only<1,2>{
+    \begin{block}{Bayesian modelling of uncertainty}
+      \begin{itemize}
+      \item Model family $\cset{P_\param(x, y, z)}{\param \in \Param}$
+      \item Prior belief $\bel_0(\param)$.
+      \item Data $D \sim P_\param(x, y,z)$.
+      \item Posterior belief $\bel(\param) \defn \bel_0(\param \mid D)$.
+      \end{itemize}
+    \end{block}
+  }
+  \only<2,3,4>{
+    \begin{block}{The Bayesian value of a policy}
+      \begin{equation}
+        \label{eq:combined-value}
+        V(\lambda, \bel, \pol) \defn \sum_{\param \in \Param} V(\lambda, \param, \pol) \bel(\param).
+      \end{equation}
+      \only<article>{This is simply the expected value of our policy over each possible parameter $\theta$, with respect to the belief $\bel$.}
+    \end{block}
+  }
+  \only<3>{
+    \begin{block}{Optimisation with stochastic gradient ascent}
+      \[
+        \nabla_\pol V(\lambda, \bel, \pol)
+        = \int_{\Param} \nabla_\pol V(\lambda, \param, \pol) \dd \bel(\param).
+      \]
+    \end{block}
+  }
+  \only<4>{
+    \begin{block}{Sequential setting}
+      \begin{align*}
+        \bel_t(\param) &= \bel_0(\param \mid x_{1:t-1}, z_{1:t-1}, a_{1:t-1}, y_{1:t-1})\\
+        \max_\pol & \E^\pol_{\bel_1} \sum_{t=1}^T V(\lambda, \bel_t, \pol)
+      \end{align*}
+    \end{block}
+  }
+  \only<5>{
+    \begin{block}{Dynamic programming}
+      \begin{align*}
+        \val^*(\bel_t) &\defn \sup_{\pol_t} \overbrace{\E^{\pol_t}_{\bel_t} \left[(1 - \lambda) U_t - \lambda F_t\right]}^{\textrm{current value}}
+                         + \underbrace{\sum_{\bel_{t+1}} \val^*(\bel_{t+1}) \Pr_{\bel_t}^{\pol_t} (\bel_{t+1})}_{\textrm{future value}}
+      \end{align*}
+    \end{block}
+  }
+  \only<6>{
+    \begin{block}{Posterior sampling}
+      \begin{align*}
+        \hat{\Param}_t &\sim \bel^k_t,
+        &\pol_t &= \max_p \E^\pol_{\hat{\Param}_t} [(1 - \lambda) U_t - \lambda F_t]\\
+        a_t &\sim \pol(a \mid x_t), & y_t \mid x_t &\sim P_\param(y_t \mid x_t)
+      \end{align*}
+    \end{block}
+  }
+  \note<1>{In the Bayesian setting, we assume that the world can be described by one of a set of possible models, and we assign some prior probability $\beta_0$ to each one of them. After we obtain some data $D$ from the world, we calculate a new distribution representing our posterior belief $\bel(\param)$.}
+  \note<2>{Now, instead of looking at the value of our policy for a specific parameter $\param$, we calculate the average value of the policy with respect to our posterior distribution. This automatically takes into account our uncertainty.}
+    \note<3>{In order to implement the algorithm in practice, we perform stochastic gradient descent, by sampling models from the posterior and calculating the gradient for each model. This can be done because the gradient of the expectation is equal to the expectation of the gradient. For comparison with the marginal model, we use the same gradient descent algorithm, but replace the sampling by the marginal calculation.}
+  \note<4>{Of course, in an online setting, the data is not seen at once. Instead, observe $x_t$, make a decision $a_t$, and then obtain a new $x_{t+1}$. For the problem at hand, if our decision was to grant bail, then we also get to see the outcome $y_t$, otherwise we do not. Our goal is to maximise the value of the policy over time.}
+  \note<5>{This optimisation problem can be solved through dynamic programming, where the optimal value for any belief $\bel_t$ is simply the expected value of the policy for that belief, plus the expected cumulative value in the future.}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{Synthetic data}
+  \centering
+    \centering
+    \mbox{
+    \setlength \fwidth {0.3\textwidth}
+    \hspace{-2em}
+    \input{../figures/finite-models-lambda-0.tex}
+    \hspace{-2em}
+    \input{../figures/finite-models-lambda-0.5.tex}
+    \hspace{-2em}
+    \input{../figures/finite-models-lambda-1.tex}
+    }
+
+  \fbox{\parbox{16em}{
+    \begin{itemize}
+    \item Observe $x_t$.
+    \item Take action $a_t$.
+    \item Observe $y_t$.
+    \end{itemize}
+  }}
+  \input{../figures/finite-models-legend.tex}
+
+  \note<1>{In our experiments, we compare the Bayesian approach with simply optimising for a single model, the marginal one. In this particular experiment, there is ground truth is known, so we can measure both fairness and utility accurately. In this synthetic example, the model space is finite, so we have very quick convergence of the posterior distribution and hence it is easy to see the effect of the different algorithms on fairness. The leftmost column shows our value when we only care about utility: there it seems that it doesn't matter very much if we are Bayesian. However, in the middle, where we are equally worried about utility and fairness, the Bayesian approach has a strong advantage. And in the right where we only care about fairness, the Bayesian approach manages to be perfectly fair, while the marginal approach falters. This is because we explicitly take into account model uncertainty.}
+\end{frame}
+
+
+\begin{frame}
+  \centering
+  \textbf{\alert<1>{Offline setting on COMPAS data}}
+  \scalebox{0.35}{
+    \input{../figures/dirichlet-lambda-0.0.tex}
+    \input{../figures/dirichlet-lambda-0.5.tex}
+    \input{../figures/dirichlet-lambda-1.0.tex}
+  }
+  \textbf{\alert<2>{Online setting: data seen depends on decisions}}
+  \scalebox{0.35}{
+    \input{../figures/dirichlet-lambda-seq1-0.0.tex}
+    \input{../figures/dirichlet-lambda-seq1-0.5.tex}
+    \input{../figures/dirichlet-lambda-seq1-1.0.tex}
+  }
+  \fbox{\parbox{16em}{
+    \begin{itemize}
+    \item Observe $x_t$.
+    \item Take action $a_t$.
+    \item Observe $y_t$\only<2>{ if $a_t = 1$}.
+    \end{itemize}
+  }}
+  \input{../figures/finite-models-legend.tex}
+
+  \note<1>{We also experimented with the COMPAS data. Here there is no ground truth, so we measure fairness and utility with respect to the empirical distribution on a hold-out set.
+    In the top, we see the results for the offline setting, where the data that we see at each time step is the same irrespective of our decisions. We see that the results are similar to those of the synthetic data, withe the difference that we converge to something that is different from the empirical distribution on the hold-out set, so it is harder to measure fairness. Again, the Bayesian approach is better than the marginal, apart from the case when $\lambda=0$, where we do not care about fairness. }
+  \note<2>{In the online setting, we observe $x$, then take an action $a$ and only observe the outcome if our action was to release the individual. Thus, just as in the experiment design and bandit setting, our decisions affect the data we see. Here the  difference between the two approaches is more obvious. This is because the Bayesian approach explicitly takes the available model information into account. Hence, there is an advantage even in the case where we do not care about fairness at all. This shows rather clearly that using a certainty equivalence principle is not a very good idea.}
+
+\end{frame}
+\begin{frame}
+  \frametitle{Summary}
+  
+  \begin{itemize}
+  \item Existing criteria hard to satisfy.
+  \item Bayesian framework:
+    \begin{itemize}
+    \item Incorporates model uncertainty.
+    \item Considers informational aspects.
+    \item Lower fairness violation.
+    \end{itemize}
+  \end{itemize}
+  
+  \begin{block}{Future work}
+    \begin{itemize}
+    \item<alert@1> Non-myopic sequential decision making.
+    \item<alert@2> Approximate Bayesian methods.
+    \end{itemize}
+  \end{block}
+  \includegraphics[height=0.1\textwidth]{../figures/me-recent} \hspace{1em}
+  \only<1>{
+    \includegraphics[height=0.1\textwidth]{../figures/parkes} \hspace{1em}
+    \includegraphics[height=0.1\textwidth]{../figures/magdalena}
+    \hspace{1em}
+    \includegraphics[height=0.1\textwidth]{../figures/aleksander}
+    \hspace{1em}
+    \includegraphics[height=0.1\textwidth]{../figures/fabio}
+    \hspace{1em}
+    \includegraphics[height=0.1\textwidth]{../figures/oslo}
+    \hspace{1em}
+    \includegraphics[height=0.1\textwidth]{../figures/harvard}
+  }
+  \only<2>{
+    \includegraphics[height=0.1\textwidth]{../figures/amanda-belfrage} \hspace{1em}
+    \includegraphics[height=0.1\textwidth]{../figures/david-berg} \hspace{1em}
+    \includegraphics[height=0.1\textwidth]{../figures/chalmers_dark}
+  }
+\end{frame}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "fairness-presentation-vetenskap"
+%%% End:
