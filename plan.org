@@ -148,7 +148,22 @@ Algorithms from Artificial Intelligence are becoming ever more complicated and a
 
 The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It will equip  students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining a large set of models. It uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work. It is instead on the issues of reproducibility, data colletion and experiment design, privacy, fairness and safety when applying machine learning algorithms. For that reason, we will cover technical topics not typically covered in an AI course: false discovery rates, differential privacy, fairness, causality and risk. Some familiarity with machine learning concepts and artificial intelligence is expected, but not necessary.
  
+* Lesson plan
+
+1. kNN, Reproducibility
+2. Bayesian Inference, Decision Problems, Hypothesis Testing
+3. Neural Networks, Stochastic Gradient Descent
+4. Databases, k-anonymity, differential privacy
+5. Fairness, Graphical models
+6. Recommendation systems, latent variables, importance sampling
+7. Causality, intereventions, counterfactuals
+8. Bandit problems and experiment design
+9. Markov decision processes
+10. Reinforcement learning
+
 * Lecture plan
+
+
 
 ** Week 1-2: ML Intro and interpretability
    :LOGBOOK:
