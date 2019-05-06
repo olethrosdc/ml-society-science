@@ -56,8 +56,8 @@ AI learning outcomes:
 The course is split in 6 modules, which should be taken in sequence.
 
 Module 1. Reproducibility: bootstrapping, Bayesian inference, decision problems, false discovery, confidence bounds.
-Module 2. Fairness: Decision diagrams, conditional independence, meritocracy, discrimination.
-Module 3. Privacy: Databases, k-anonymity, graphical models, differential privacy
+Module 2. Privacy: Databases, k-anonymity, graphical models, differential privacy
+Module 3. Fairness: Decision diagrams, conditional independence, meritocracy, discrimination.
 Module 4. The web: Recommendation systems, clustering, latent variable models.
 Module 5. Causality: Interventions and counterfactuals.
 Module 6. Adaptive experiment design: Bandit problems, stochastic optimisation, Markov decision processes, dynamic programming.

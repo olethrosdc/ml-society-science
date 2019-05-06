@@ -9,6 +9,7 @@ python3 -m pip install --user keras
 python3 -m pip install --user spark pyspark
 python3 -m pip install --user sqlalchemy
 python3 -m pip install --user seaborn
+python3 -m pip install --user sklearn
 
 # octave, octave-statistics, gnuplot, pgf, tikz
 
