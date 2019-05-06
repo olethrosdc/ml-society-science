@@ -1,0 +1,178 @@
+\documentclass[a4paper]{article}
+\usepackage[notheorems]{beamerarticle}
+
+\input{../preamble}
+
+%\def\solution {1}
+
+
+\title{IN-STK 5000: Introductory assignment} 
+\author{Christos Dimitrakakis}
+\begin{document}
+\maketitle
+The purpose of this assignment is to evaluate the background knowledge
+of the students in the course. Please provide as precise and concise
+answers as possible. 
+
+\section{Probability theory}
+In this section we consider probability as a measure, i.e. as a function from sets to $[0,1]$. All events are subsets of the universal set $\Omega$.
+\begin{exercise}
+  If $A, B$ are mutually exclusive events i.e. $A \cap B = \emptyset$,  then 
+  \[
+  P(A \cup B) =
+  \ifdefined \solution
+  P(A) + P(B)
+  \else
+  \ldots
+  \fi
+  \]
+\end{exercise}
+\begin{exercise}[Union bound]
+  If $A, B$ are not exclusive events, i.e. $A \cap B \neq \emptyset$, then 
+  \[
+  P(A \cup B) \leq
+  \ifdefined \solution
+  P(A) + P(B)
+  \else
+  \ldots
+  \fi
+  \]
+\end{exercise}
+
+\begin{exercise}[Conditional probability]
+  If $A, B$ are two events, then conditional probability is defined as
+  \[
+  P(A \mid B) \defn 
+  \ifdefined \solution
+  \frac{P(A \cap B)}{P(B)}
+  \else
+  \ldots
+  \fi
+  \]
+\end{exercise}
+
+\begin{exercise}[Marginal probability]
+  Let $A_1, \ldots, A_n$ be mutually exclusive events and $B$ an arbitrary other event. Then:
+  \[
+  P(B) = \sum_{A_i} 
+  \ifdefined \solution
+  P(A_i \cap B)
+  \else
+  \ldots
+  \fi
+  \]
+\end{exercise}
+
+\section{Random variables and statistics}
+
+
+\begin{exercise}
+  A real-valued random variable $x$ is simply a mapping $x : \Omega \to \Reals$.
+  Write the definition of the expectation of $x$ drawn from $P$, for a finite $\Omega$:
+  \[
+  \E(x) = 
+  \ifdefined \solution
+  \sum_{\omega} x(\omega) P(\omega) 
+  \else
+  \ldots
+  \fi
+  \]
+\end{exercise}
+
+\begin{exercise}
+  The mean $\mu_n$ of $n$  i.i.d random variables $x_1, \ldots, x_n$ is defined as
+  \[
+  \mu_n \defn
+  \ifdefined \solution
+  \frac{1}{n} \sum_{i=1}^n x_i
+  \else
+  \ldots 
+  \fi
+  \]
+\end{exercise}
+
+\begin{exercise}
+  Write the expectation of the mean $\mu_n$ in relation to $x_1, \ldots, x_n$.
+  \[
+  \E \mu_n =
+  \ifdefined \solution
+  \E \frac{1}{n} \sum_{i=1}^n x_i
+  = \E x_i.
+  \else
+  \ldots
+  \fi
+  \]
+\end{exercise}
+
+\begin{exercise}
+  A null hypothesis test at significance level $p$ is constructed by using a test statistic $\pol: \CX \to [0,1)$ mapping from the space of possible data to the interval $[0,1)$, so that the test rejects the null hypothesis whenever $\pol(x) < p$. Does this mean that:
+  \begin{enumerate}
+  \item The probability that the test will falsely reject the null hypothesis is $p$.
+  \item The probability that the test will falsely accept the null hypothesis is $p$.
+  \item The probability that the test will falsely reject the alternative hypothesis is $p$.
+  \item The probability that the test will falsely accept the alternative hypothesis is $p$.
+  \item Given the data $x$, the probability that the null hypothesis is true is $\pol(x)$.
+  \item Given the data $x$, the probability that the null hypothesis is false is $\pol(x)$.
+  \item Given the data $x$, the probability that the alternative hypothesis is true is $\pol(x)$.
+  \item Given the data $x$, the probability that the alternative hypothesis is false is $\pol(x)$.
+  \end{enumerate}
+  \end{exercise}
+  \ifdefined \solution
+  Null hypothesis tests that have a fixed significance level $p$ are designed so that, if the data comes from the null hypothesis, then the probability that the test statistic $\pol(x) < p$ is exactly equal to $p$. Consequently the correct answer is $1$.
+  \fi
+\section{Linear algebra}
+
+\begin{exercise}
+  If $\bx = x_1, \ldots, x_n$, $\by = y_1, \ldots, y_n$ are two column vectors in $\Reals^n$, what is their inner product:
+  \[
+  \bx \cdot \by = \bx^\top \by = 
+  \ifdefined \solution
+  \sum_{i=1}^n x_i y_i
+  \fi
+  \]
+\end{exercise}
+
+\begin{exercise}
+  The matrix 
+  \[
+  \MA^+ \defn (\MA^\top \MA)^{-1} \MA^\top.
+  \]
+  is the left-pseudoinverse of $\MA$. Complete the following:
+  \[
+  \MA^+ \MA =
+  \ifdefined \solution
+  (\MA^\top \MA)^{-1} \MA^\top \MA
+  = 
+  \eye
+  \fi
+  \]
+\end{exercise}
+
+
+\section{Calculus}
+
+\begin{exercise}
+  If $f : \CX \to \Reals$ is a twice-differentiable function, what are sufficient conditions for $x_0$ to be a maximum of the function, i.e. $f(x_0) \geq f(x)$ $\forall x \in \CX$?
+  \ifdefined\solution
+  If $d f(x_0) /dx  = 0$ then
+  $x_0$ is either a saddle point, a maximum or a minimum. If in addition $d^2 f(x_0) /dx^2 < 0$, then $x_0$ is a maximum.
+  \fi
+\end{exercise}
+
+\begin{exercise}
+  Solve the following integral
+  \[
+  \int_{1}^T \frac{1}{x} \dd x =
+  \ifdefined\solution
+  \ln T
+  \else 
+  \ldots
+  \fi
+  \]
+\end{exercise}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
