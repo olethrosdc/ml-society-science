@@ -207,8 +207,8 @@ The purpose of this course is to familiarise students with societal and scientif
 |   | Project #2 Introduction                                     | Dirk     |
 |   | Recommendation systems                                      | Christos |
 |   | Latent variables and importance sampling                    | Christos |
-|   | Tutorial                                                    | Dirk     |
-|   | Tutorial                                                    | Dirk     |
+|   | ?                                                           | Dirk     |
+|   | ?                                                           | Dirk     |
 |   | Causality                                                   | Christos |
 |   | Interventions and Counterfactuals                           | Christos |
 |   | Causality lab                                               | Dirk     |
