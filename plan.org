@@ -151,30 +151,73 @@ The purpose of this course is to familiarise students with societal and scientif
 * Lesson plan
 ** 2018
 
-|  22.8 | Reproducibility, kNN                                        | Christos |
-|  23.8 | Bayesian inference                                          | Christos |
-|  29.8 | Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
-|  30.8 | Bayesian inference tutorial; neural networks                | Christos |
-|   5.9 | Python tutorial                                             | Summaya  |
-|   6.9 | Credit risk lab                                             | Summaya  |
-|  12.9 | Databases, anonymity, privacy                               | Christos |
-|  13.9 | Differential privacy                                        | Christos |
-|  19.9 | Laplace and differential privacy tutorial                   | Summaya  |
-|  20.9 | Credit risk lab: privacy                                    | Summaya  |
-|  26.9 | Fairness and graphical models                               | Christos |
-|  27.9 | Estimating conditional Independence                         | Christos |
-|  3.10 | Graphical model tutorial                                    | Summaya  |
-|  4.10 | Project lab                                                 | Summaya  |
-| 10.10 | Recommendation systems                                      | Christos |
-| 11.10 | Latent variables and importance sampling                    | Christos |
-| 17.10 | ALS/PyMC  tutorial                                          | Dirk     |
-| 18.10 | Medical project                                             | Summaya  |
-| 24.10 | Causality                                                   | Christos |
-| 25.10 | Interventions and Counterfactuals                           | Christos |
-| 31.10 | Causality lab                                               |          |
-|  7.11 | Bandit problems and experiment design                       |          |
-| 14.11 | Experiment design                                           |          |
-| 21.11 | Presentations                                               |          |
+|-------+-------------------------------------------------------------+------------------|
+|  22.8 | Reproducibility, kNN                                        | Christos         |
+|  23.8 | Bayesian inference                                          | Christos         |
+|  29.8 | Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos         |
+|  30.8 | Bayesian inference tutorial; neural networks                | Christos         |
+|   5.9 | Python tutorial                                             | Summaya          |
+|   6.9 | Credit risk lab                                             | Summaya          |
+|-------+-------------------------------------------------------------+------------------|
+|  12.9 | Databases, anonymity, privacy                               | Christos         |
+|  13.9 | Differential privacy                                        | Christos         |
+|  19.9 | Laplace and differential privacy tutorial                   | Summaya          |
+|  20.9 | Credit risk lab: privacy                                    | Summaya          |
+|  26.9 | Fairness and graphical models                               | Christos         |
+|  27.9 | Estimating conditional Independence                         | Christos         |
+|  3.10 | Graphical model tutorial                                    | Summaya          |
+|  4.10 | Project lab                                                 | Summaya          |
+|-------+-------------------------------------------------------------+------------------|
+| 10.10 | Recommendation systems                                      | Christos         |
+| 11.10 | Latent variables and importance sampling                    | Christos         |
+| 17.10 | ALS/PyMC  tutorial                                          | Dirk             |
+| 18.10 | Medical project                                             | Summaya          |
+| 24.10 | Causality                                                   | Christos         |
+| 25.10 | Interventions and Counterfactuals                           | Christos         |
+| 31.10 | Causality lab                                               | Summaya/Christos |
+|  1.11 | Causality lab                                               | Summaya/Christos |
+|  7.11 | Bandit problems and experiment design                       | Christos         |
+|  8.11 | Experiment design                                           | Christos         |
+| 14.11 | Experiment design lab                                       | Summaya          |
+| 15.11 | Experiment design lab                                       | Summaya          |
+| 21.11 | Presentations                                               | Christos         |
+| 22.11 | Presentations                                               | Christos         |
+|-------+-------------------------------------------------------------+------------------|
+
+** 2019
+
+|---+-------------------------------------------------------------+----------|
+|   | Reproducibility, kNN                                        | Christos |
+|   | Classification, Decision Problems                           | Christos |
+|   | Python tutorial                                             | Dirk     |
+|   | Project #1 introduction                                     | Dirk     |
+|---+-------------------------------------------------------------+----------|
+|   | Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
+|   | Bayesian inference tutorial; neural networks                | Christos |
+|   | ??                                                          | Dirk     |
+|   | ??                                                          | Dirk     |
+|   | Databases, anonymity, privacy                               | Christos |
+|   | Differential privacy                                        | Christos |
+|   | Differential privacy tutorial                               | Dirk     |
+|   | Privacy lab                                                 | Dirk     |
+|   | Fairness and graphical models                               | Christos |
+|   | Estimating conditional independence                         | Christos |
+|---+-------------------------------------------------------------+----------|
+|   | Graphical model tutorial                                    | Dirk     |
+|   | Project #2 Introduction                                     | Dirk     |
+|   | Recommendation systems                                      | Christos |
+|   | Latent variables and importance sampling                    | Christos |
+|   | Tutorial                                                    | Dirk     |
+|   | Tutorial                                                    | Dirk     |
+|   | Causality                                                   | Christos |
+|   | Interventions and Counterfactuals                           | Christos |
+|   | Causality lab                                               | Dirk     |
+|   | Causality lab                                               | Dirk     |
+|   | Bandit problems                                             | Christos |
+|   | Experiment design                                           | Christos |
+|   | Experiment design lab                                       | Dirk     |
+|   | Experiment design lab                                       | Dirk     |
+|---+-------------------------------------------------------------+----------|
 
 
 
