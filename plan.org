@@ -186,38 +186,38 @@ The purpose of this course is to familiarise students with societal and scientif
 
 ** 2019
 
-|---+-------------------------------------------------------------+----------|
-|   | Reproducibility, kNN                                        | Christos |
-|   | Classification, Decision Problems                           | Christos |
-|   | Python tutorial                                             | Dirk     |
-|   | Project #1 introduction                                     | Dirk     |
-|---+-------------------------------------------------------------+----------|
-|   | Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
-|   | Bayesian inference tutorial; neural networks                | Christos |
-|   | ??                                                          | Dirk     |
-|   | ??                                                          | Dirk     |
-|   | Databases, anonymity, privacy                               | Christos |
-|   | Differential privacy                                        | Christos |
-|   | Differential privacy tutorial                               | Dirk     |
-|   | Privacy lab                                                 | Dirk     |
-|   | Fairness and graphical models                               | Christos |
-|   | Estimating conditional independence                         | Christos |
-|---+-------------------------------------------------------------+----------|
-|   | Graphical model tutorial                                    | Dirk     |
-|   | Project #2 Introduction                                     | Dirk     |
-|   | Recommendation systems                                      | Christos |
-|   | Latent variables and importance sampling                    | Christos |
-|   | ?                                                           | Dirk     |
-|   | ?                                                           | Dirk     |
-|   | Causality                                                   | Christos |
-|   | Interventions and Counterfactuals                           | Christos |
-|   | Causality lab                                               | Dirk     |
-|   | Causality lab                                               | Dirk     |
-|   | Bandit problems                                             | Christos |
-|   | Experiment design                                           | Christos |
-|   | Experiment design lab                                       | Dirk     |
-|   | Experiment design lab                                       | Dirk     |
-|---+-------------------------------------------------------------+----------|
+|-----------+-----------------------------------------------------------------+----------|
+| August    | L1. Reproducibility, kNN                                        | Christos |
+|           | L2. Classification, Decision Problems                           | Christos |
+|           | A1. Python, scikitlearn, classification, holdouts, overfitting  | Dirk     |
+|           | A2. Bootstrapping, XV, project #1 introduction                  | Dirk     |
+|-----------+-----------------------------------------------------------------+----------|
+| September | L3. Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
+|           | L4. Bayesian inference tutorial; neural networks                | Christos |
+|           | A3. Compare kNN/MLP, discover interesting features              | Dirk     |
+|           | A4. ?                                                           |          |
+|           | L5. Databases, anonymity, privacy                               | Christos |
+|           | L6. Differential privacy                                        | Christos |
+|           | A5. SQL tutorial                                                | Dirk     |
+|           | A6. DP tutorial: Laplace mechanism                              | Dirk     |
+| October   | L7. Fairness and graphical models                               | Christos |
+|           | L8. Estimating conditional independence                         | Christos |
+|-----------+-----------------------------------------------------------------+----------|
+|           | A7. Simple Tutorial?                                            | Dirk     |
+|           | A8. Simple Graphical models with PyMC?                          | Dirk     |
+|           | L9. Recommendation systems [can be skipped?]                    | Christos |
+|           | L10. Latent variables and importance sampling                   | Christos |
+|           | A9. ALS/Spark intro?                                            | Dirk     |
+|           | A10. An example latent variable model?                          | Dirk     |
+| November  | L11. Causality                                                  | Christos |
+|           | L12. Interventions and Counterfactuals                          | Christos |
+|           | A11. Causality lab                                              | Dirk     |
+|           | A12. Causality lab                                              | Dirk     |
+|           | L13. Bandit problems                                            | Christos |
+|           | l14. Experiment design                                          | Christos |
+|           | Experiment design lab                                           | Dirk     |
+|           | Experiment design lab                                           | Dirk     |
+|-----------+-----------------------------------------------------------------+----------|
 
 
 
