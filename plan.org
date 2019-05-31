@@ -186,38 +186,38 @@ The purpose of this course is to familiarise students with societal and scientif
 
 ** 2019
 
-|-----------+-----------------------------------------------------------------+----------|
-| August    | L1. Reproducibility, kNN                                        | Christos |
-|           | L2. Classification, Decision Problems                           | Christos |
-|           | A1. Python, scikitlearn, classification, holdouts, overfitting  | Dirk     |
-|           | A2. Bootstrapping, XV, project #1 introduction                  | Dirk     |
-|-----------+-----------------------------------------------------------------+----------|
-| September | L3. Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
-|           | L4. Bayesian inference tutorial; neural networks                | Christos |
-|           | A3. Compare kNN/MLP, discover interesting features              | Dirk     |
-|           | A4. ?                                                           |          |
-|           | L5. Databases, anonymity, privacy                               | Christos |
-|           | L6. Differential privacy                                        | Christos |
-|           | A5. SQL tutorial                                                | Dirk     |
-|           | A6. DP tutorial: Laplace mechanism                              | Dirk     |
-| October   | L7. Fairness and graphical models                               | Christos |
-|           | L8. Estimating conditional independence                         | Christos |
-|-----------+-----------------------------------------------------------------+----------|
-|           | A7. Simple Tutorial?                                            | Dirk     |
-|           | A8. Simple Graphical models with PyMC?                          | Dirk     |
-|           | L9. Recommendation systems [can be skipped?]                    | Christos |
-|           | L10. Latent variables and importance sampling                   | Christos |
-|           | A9. ALS/Spark intro?                                            | Dirk     |
-|           | A10. An example latent variable model?                          | Dirk     |
-| November  | L11. Causality                                                  | Christos |
-|           | L12. Interventions and Counterfactuals                          | Christos |
-|           | A11. Causality lab                                              | Dirk     |
-|           | A12. Causality lab                                              | Dirk     |
-|           | L13. Bandit problems                                            | Christos |
-|           | l14. Experiment design                                          | Christos |
-|           | Experiment design lab                                           | Dirk     |
-|           | Experiment design lab                                           | Dirk     |
-|-----------+-----------------------------------------------------------------+----------|
+|--------+-----------------------------------------------------------------+----------|
+| 22 Aug | L1. Reproducibility, kNN                                        | Christos |
+|        | L2. Classification, Decision Problems                           | Christos |
+| 29 Aug | A1. Python, scikitlearn, classification, holdouts, overfitting  | Dirk     |
+|        | A2. Bootstrapping, XV, project #1 introduction                  | Dirk     |
+|--------+-----------------------------------------------------------------+----------|
+| 5 Sep  | L3. Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
+|        | L4. Bayesian inference tutorial; neural networks                | Christos |
+| 12 Sep | A3. Compare kNN/MLP, discover interesting features              | Dirk     |
+|        | A4. Project Lab                                                 |          |
+| 19 Sep | L5. Databases, anonymity, privacy                               | Christos |
+|        | L6. Differential privacy                                        | Christos |
+| 26 Sep | A5. SQL tutorial                                                | Dirk     |
+|        | A6. Project DP tutorial: Laplace mechanism                      | Dirk     |
+| 3 Oct  | L7. Fairness and graphical models                               | Christos |
+|        | L8. Estimating conditional independence                         | Christos |
+|--------+-----------------------------------------------------------------+----------|
+| 10 Oct | A7. Simple Tutorial?                                            | Dirk     |
+|        | A8. Project fairness                                            | Dirk     |
+| 17 Oct | L9. Recommendation systems [can be skipped?]                    | Christos |
+|        | L10. Latent variables and importance sampling                   | Christos |
+| 24 Oct | A9. ALS/Spark intro?                                            | Dirk     |
+|        | A10. An example latent variable model?                          | Dirk     |
+| 31 Oct | L11. Causality                                                  | Christos |
+|        | L12. Interventions and Counterfactuals                          | Christos |
+| 7 Nov  | A11. Causality lab                                              | Dirk     |
+|        | A12. Causality lab                                              | Dirk     |
+| 14 Nov | L13. Bandit problems                                            | Christos |
+|        | L14. Experiment design                                          | Christos |
+| 21 Nov | A13. Experiment design lab                                      | Dirk     |
+|        | A14. Experiment design lab                                      | Dirk     |
+|--------+-----------------------------------------------------------------+----------|
 
 
 
@@ -234,9 +234,7 @@ The purpose of this course is to familiarise students with societal and scientif
 
 * Lecture plan
 
-
-
-** Week 1-2: ML Intro and interpretability
+** Module 1: Reproducibility
    :LOGBOOK:
    CLOCK: [2018-04-04 Wed 09:22]--[2018-04-04 Wed 10:30] =>  1:08
    CLOCK: [2018-04-03 Tue 20:58]--[2018-04-03 Tue 21:16] =>  0:18
@@ -249,9 +247,9 @@ kNN example: What is classification? What is clustering? Making sure you formali
 1. KNN.
 2. Reproducibility
 3. Bootstrapping
-4. Decision hierarchies
-5. Bayesian inference
-6. Optimisation and SGD.
+
+*** kNN :ACTIVITY:
+*** Reproducibility :ACTIVITY:
 
 *** Modelling :TUTORIAL:
 
@@ -267,28 +265,18 @@ decisions made from the beginning to the end of the data science
 process, and with the possible externalities when an algorithm is
 applied to real data.
 
-*** Training vs test in kNN
-	:LOGBOOK:
-	CLOCK: [2018-05-27 Sun 14:10]--[2018-05-27 Sun 22:01] =>  7:51
-	:END:
 
-	:LOGBOOK:
-        CLOCK: [2018-06-23 Sat 14:40]--[2018-06-23 Sat 15:40] =>  1:00
-	CLOCK: [2018-05-28 Mon 14:49]--[2018-05-28 Mon 23:33] =>  8:44
-	CLOCK: [2018-04-06 Fri 20:46]--[2018-04-06 Fri 22:15] =>  1:29
-	CLOCK: [2018-04-06 Fri 15:20]--[2018-04-06 fre 16:20] =>  1:00
-	:END:
+** Module 2: Decision problems
+1. Decision hierarchies
+2. Bayesian inference
+3. Optimisation and SGD.
 
 
-Reproducibility: Finding ‘important features’ in a small dataset.  The
-fallacy of p-values.  The aim of this lecture is to introduce students
-to the use and mis-use of automated decision making algorithms for
-problems in science and society.
+*** Decision Problems
 
-*** ANN models
-	CLOCK: [2018-08-29 ons 08:02]
 
-** Project start: Credit risk for mortgages. [Aim: Reproducibility, Privacy and Fairness]
+*** Project Introduction: Credit risk for mortgages. :TUTORIAL:
+
 ** Week 3: Privacy
    :LOGBOOK:
    CLOCK: [2018-07-14 lör 10:22]--[2018-07-14 Sat 11:22] =>  1:00
