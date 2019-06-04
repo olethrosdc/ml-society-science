@@ -148,7 +148,7 @@ Algorithms from Artificial Intelligence are becoming ever more complicated and a
 
 The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It will equip  students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining a large set of models. It uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work. It is instead on the issues of reproducibility, data colletion and experiment design, privacy, fairness and safety when applying machine learning algorithms. For that reason, we will cover technical topics not typically covered in an AI course: false discovery rates, differential privacy, fairness, causality and risk. Some familiarity with machine learning concepts and artificial intelligence is expected, but not necessary.
  
-* Lesson plan
+* Schedule
 ** 2018
 
 |-------+-------------------------------------------------------------+------------------|
@@ -187,36 +187,36 @@ The purpose of this course is to familiarise students with societal and scientif
 ** 2019
 
 |--------+-----------------------------------------------------------------+----------|
-| 22 Aug | L1. Reproducibility, kNN                                        | Christos |
-|        | L2. Classification, Decision Problems                           | Christos |
-| 29 Aug | A1. Python, scikitlearn, classification, holdouts, overfitting  | Dirk     |
-|        | A2. Bootstrapping, XV, project #1 introduction                  | Dirk     |
+| 21 Aug | L1. Reproducibility, kNN                                        | Christos |
+| 22 Aug | L2. Classification, Decision Problems                           | Christos |
+| 28 Aug | A1. Python, scikitlearn, classification, holdouts, overfitting  | Dirk     |
+| 29 Aug | A2. Bootstrapping, XV, project #1 introduction                  | Dirk     |
 |--------+-----------------------------------------------------------------+----------|
-| 5 Sep  | L3. Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
-|        | L4. Bayesian inference tutorial; neural networks                | Christos |
-| 12 Sep | A3. Compare kNN/MLP, discover interesting features              | Dirk     |
-|        | A4. Project Lab                                                 |          |
-| 19 Sep | L5. Databases, anonymity, privacy                               | Christos |
-|        | L6. Differential privacy                                        | Christos |
-| 26 Sep | A5. SQL tutorial                                                | Dirk     |
-|        | A6. Project DP tutorial: Laplace mechanism                      | Dirk     |
-| 3 Oct  | L7. Fairness and graphical models                               | Christos |
-|        | L8. Estimating conditional independence                         | Christos |
+| 4 Sep  | L3. Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
+| 5 Sep  | L4. Bayesian inference tutorial; neural networks                | Christos |
+| 11 Sep | A3. Compare kNN/MLP, discover interesting features              | Dirk     |
+| 12 Sep | A4. Project Lab                                                 |          |
+| 17 Sep | L5. Databases, anonymity, privacy                               | Christos |
+| 18 Sep | L6. Differential privacy                                        | Christos |
+| 25 Sep | A5. SQL tutorial                                                | Dirk     |
+| 26 Sep | A6. Project DP tutorial: Laplace mechanism                      | Dirk     |
+| 2 Oct  | L7. Fairness and graphical models                               | Christos |
+| 3 Oct  | L8. Estimating conditional independence                         | Christos |
 |--------+-----------------------------------------------------------------+----------|
-| 10 Oct | A7. Simple Tutorial?                                            | Dirk     |
-|        | A8. Project fairness                                            | Dirk     |
-| 17 Oct | L9. Recommendation systems [can be skipped?]                    | Christos |
-|        | L10. Latent variables and importance sampling                   | Christos |
-| 24 Oct | A9. ALS/Spark intro?                                            | Dirk     |
-|        | A10. An example latent variable model?                          | Dirk     |
-| 31 Oct | L11. Causality                                                  | Christos |
-|        | L12. Interventions and Counterfactuals                          | Christos |
-| 7 Nov  | A11. Causality lab                                              | Dirk     |
-|        | A12. Causality lab                                              | Dirk     |
-| 14 Nov | L13. Bandit problems                                            | Christos |
-|        | L14. Experiment design                                          | Christos |
-| 21 Nov | A13. Experiment design lab                                      | Dirk     |
-|        | A14. Experiment design lab                                      | Dirk     |
+| 09 Oct | A7. Simple Tutorial?                                            | Dirk     |
+| 10 Oct | A8. Project fairness                                            | Dirk     |
+| 16 Oct | L9. Recommendation systems [can be skipped?]                    | Christos |
+| 17 Oct | L10. Latent variables and importance sampling                   | Christos |
+| 23 Oct | A9. ALS/Spark intro?                                            | Dirk     |
+| 24 Oct | A10. An example latent variable model?                          | Dirk     |
+| 30 Oct | L11. Causality                                                  | Christos |
+| 31 Oct | L12. Interventions and Counterfactuals                          | Christos |
+| 6 Nov  | A11. Causality lab                                              | Dirk     |
+| 7 Oct  | A12. Causality lab                                              | Dirk     |
+| 13 Nov | L13. Bandit problems                                            | Christos |
+| 14 Nov | L14. Experiment design                                          | Christos |
+| 20 Nov | A13. Experiment design lab                                      | Dirk     |
+| 21 Nov | A14. Experiment design lab                                      | Dirk     |
 |--------+-----------------------------------------------------------------+----------|
 
 
