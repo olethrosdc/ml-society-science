@@ -188,26 +188,28 @@ The purpose of this course is to familiarise students with societal and scientif
 
 |--------+-----------------------------------------------------------------+----------|
 | 21 Aug | L1. Reproducibility, kNN                                        | Christos |
-| 22 Aug | L2. Classification, Decision Problems                           | Christos |
+| 22 Aug | L2. Classification, Decision Problems, Project Overview         | Christos |
 | 28 Aug | A1. Python, scikitlearn, classification, holdouts, overfitting  | Dirk     |
 | 29 Aug | A2. Bootstrapping, XV, project #1 introduction                  | Dirk     |
+| 30 Aug | Mini-assigment                                                  |          |
 |--------+-----------------------------------------------------------------+----------|
 | 4 Sep  | L3. Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
 | 5 Sep  | L4. Bayesian inference tutorial; neural networks                | Christos |
 | 11 Sep | A3. Compare kNN/MLP, discover interesting features              | Dirk     |
-| 12 Sep | A4. Project Lab                                                 |          |
+| 12 Sep | A4. Project Lab                                                 | Dirk     |
 | 17 Sep | L5. Databases, anonymity, privacy                               | Christos |
 | 18 Sep | L6. Differential privacy                                        | Christos |
-| 25 Sep | A5. SQL tutorial                                                | Dirk     |
+| 25 Sep | A5. DB tutorial/distributed computing                           | Dirk     |
 | 26 Sep | A6. Project DP tutorial: Laplace mechanism                      | Dirk     |
 | 2 Oct  | L7. Fairness and graphical models                               | Christos |
 | 3 Oct  | L8. Estimating conditional independence                         | Christos |
 |--------+-----------------------------------------------------------------+----------|
-| 09 Oct | A7. Simple Tutorial?                                            | Dirk     |
-| 10 Oct | A8. Project fairness                                            | Dirk     |
+| 09 Oct | A7. Production ML: SageMaker/Pipelines                          | Dirk     |
+| 10 Oct | A8. Project: fairness                                           | Dirk     |
+| 11 Oct | Project 1 Deadline                                              |          |
 | 16 Oct | L9. Recommendation systems [can be skipped?]                    | Christos |
 | 17 Oct | L10. Latent variables and importance sampling                   | Christos |
-| 23 Oct | A9. ALS/Spark intro?                                            | Dirk     |
+| 23 Oct | A9. Restful APIs                                                | Dirk     |
 | 24 Oct | A10. An example latent variable model?                          | Dirk     |
 | 30 Oct | L11. Causality                                                  | Christos |
 | 31 Oct | L12. Interventions and Counterfactuals                          | Christos |
@@ -217,6 +219,7 @@ The purpose of this course is to familiarise students with societal and scientif
 | 14 Nov | L14. Experiment design                                          | Christos |
 | 20 Nov | A13. Experiment design lab                                      | Dirk     |
 | 21 Nov | A14. Experiment design lab                                      | Dirk     |
+| 22 Nov | Project 2 Deadline                                              |          |
 |--------+-----------------------------------------------------------------+----------|
 
 
