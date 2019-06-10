@@ -186,38 +186,38 @@ The purpose of this course is to familiarise students with societal and scientif
 
 ** 2019
 
-|--------+-----------------------------------------------------------------+----------|
-| 22 Aug | L1. Reproducibility, kNN                                        | Christos |
-|        | L2. Classification, Decision Problems                           | Christos |
-| 29 Aug | A1. Python, scikitlearn, classification, holdouts, overfitting  | Dirk     |
-|        | A2. Bootstrapping, XV, project #1 introduction                  | Dirk     |
-|--------+-----------------------------------------------------------------+----------|
-| 5 Sep  | L3. Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos |
-|        | L4. Bayesian inference tutorial; neural networks                | Christos |
-| 12 Sep | A3. Compare kNN/MLP, discover interesting features              | Dirk     |
-|        | A4. Project Lab                                                 |          |
-| 19 Sep | L5. Databases, anonymity, privacy                               | Christos |
-|        | L6. Differential privacy                                        | Christos |
-| 26 Sep | A5. SQL tutorial                                                | Dirk     |
-|        | A6. Project DP tutorial: Laplace mechanism                      | Dirk     |
-| 3 Oct  | L7. Fairness and graphical models                               | Christos |
-|        | L8. Estimating conditional independence                         | Christos |
-|--------+-----------------------------------------------------------------+----------|
-| 10 Oct | A7. Simple Tutorial?                                            | Dirk     |
-|        | A8. Project fairness                                            | Dirk     |
-| 17 Oct | L9. Recommendation systems [can be skipped?]                    | Christos |
-|        | L10. Latent variables and importance sampling                   | Christos |
-| 24 Oct | A9. ALS/Spark intro?                                            | Dirk     |
-|        | A10. An example latent variable model?                          | Dirk     |
-| 31 Oct | L11. Causality                                                  | Christos |
-|        | L12. Interventions and Counterfactuals                          | Christos |
-| 7 Nov  | A11. Causality lab                                              | Dirk     |
-|        | A12. Causality lab                                              | Dirk     |
-| 14 Nov | L13. Bandit problems                                            | Christos |
-|        | L14. Experiment design                                          | Christos |
-| 21 Nov | A13. Experiment design lab                                      | Dirk     |
-|        | A14. Experiment design lab                                      | Dirk     |
-|--------+-----------------------------------------------------------------+----------|
+|--------+--------------------------------------------------------------------------------+----------|
+| 22 Aug | L1. Reproducibility, kNN                                                       | Christos |
+|        | L2. Classification, Decision Problems                                          | Christos |
+| 29 Aug | A1. Python, scikitlearn, pandas, classification,                               | Dirk     |
+|        | A2. Holdouts, overfitting, bootstrapping, XV, project #1 introduction          | Dirk     |
+|--------+--------------------------------------------------------------------------------+----------|
+| 5 Sep  | L3. Decision Problems, Hypothesis Testing, Neural Networks, SGD                | Christos |
+|        | L4. Bayesian inference tutorial; neural networks                               | Christos |
+| 12 Sep | A3. Advanced sklearn, pielines, Compare kNN/MLP, discover interesting features | Dirk     |
+|        | A4. Advanced pandas, Project Lab                                               | Dirk     |
+| 19 Sep | L5. Databases, anonymity, privacy                                              | Christos |
+|        | L6. Differential privacy                                                       | Christos |
+| 26 Sep | A5. Distributed computing and Spark, (No-)SQL, JSON                            | Dirk     |
+|        | A6. Project DP tutorial: Laplace mechanism                                     | Dirk     |
+| 3 Oct  | L7. Fairness and graphical models                                              | Christos |
+|        | L8. Estimating conditional independence                                        | Christos |
+|--------+--------------------------------------------------------------------------------+----------|
+| 10 Oct | A7. Production ML, how to use ML in larger projecs, Sagemaker, Pipelines       | Dirk     |
+|        | A8. Project fairness                                                           | Dirk     |
+| 17 Oct | L9. Recommendation systems [can be skipped?]                                   | Christos |
+|        | L10. Latent variables and importance sampling                                  | Christos |
+| 24 Oct | A9. Advanced Spark, ALS, Pipelines                                             | Dirk     |
+|        | A10. Severless Machine Learning, APIs, REST                                    | Dirk     |
+| 31 Oct | L11. Causality                                                                 | Christos |
+|        | L12. Interventions and Counterfactuals                                         | Christos |
+| 7 Nov  | A11. Basic NLP                                                                 | Dirk     |
+|        | A12. More on NLP                                                               | Dirk     |
+| 14 Nov | L13. Bandit problems                                                           | Christos |
+|        | L14. Experiment design                                                         | Christos |
+| 21 Nov | A13. Levtovers: Trees, ensembles and boosting                                  | Dirk     |
+|        | A14. Experiment design lab (?)                                                 | Dirk     |
+|--------+--------------------------------------------------------------------------------+----------|
 
 
 
