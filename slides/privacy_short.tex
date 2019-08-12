@@ -93,11 +93,11 @@
 
 % \begin{frame}
 %   \frametitle{Data linkage with SQL}
-%     The original database \verb|database| and adversary side information \verb|side-information| can be combined using the following simple SQL query:
+%   The original database \verb|database| and adversary side information \verb|side-information| can be combined using the following simple SQL query:
 % \begin{verbatim}
 % SELECT * FROM database JOIN side-information ON [condition]
 % \end{verbatim}
-% where \verb|condition| describes how to match the records.
+%   where \verb|condition| describes how to match the records.
 
 %   \begin{example}
 %     For the databases given above, we could use
@@ -315,7 +315,7 @@
   \end{figure}
   \only<article>{
     In the local privacy model, the $i$-th individual's data $x_i$ is used to generate a private response $a_i$. This means that no individual will provide their true data with certainty. This model allows us to publish a complete dataset of private responses.
-    }
+  }
 \end{frame}
 
 \begin{frame}
@@ -346,7 +346,7 @@
     \begin{example}
       Calculate the ratio of people that take drugs
       \[
-      \E_\pi [a \mid \bx] = \frac{1}{n} \sum_i x_i, \qquad \pi = \Laplace(\frac{1}{n}\sum_{i} x_i, \lambda)
+        \E_\pi [a \mid \bx] = \frac{1}{n} \sum_i x_i, \qquad \pi = \Laplace(\frac{1}{n}\sum_{i} x_i, \lambda)
       \]
     \end{example}
   }
@@ -464,7 +464,7 @@
     Here we assume that we can answer queries $q$, whereby each possible answer $a$ to the query has a different utility to the DM: $\util(q, a, x)$.
     Let $\sensitivity{\util(q)} \defn \sup_{x N x'} |\util(q, a, x) -\util(q, a, x)|$ denote the sensitivity of a query. Then the following mechanism is $\epsilon$-differentially private.
   }
-    \begin{block}{Interactive queries}
+  \begin{block}{Interactive queries}
     \begin{itemize}
     \item System has data $x$.
     \item User asks query $q$. \only<2>{---e.g. ``what is the average of $x$''?}
@@ -488,15 +488,26 @@
 \end{frame}
 
 
+
+
 \begin{frame}
   \frametitle{Theoretical foundations}
-  A differentially private algorithm is intrinsically \alert{stable}. This leads to a number of results.
-  \begin{itemize}
-  \item \emph{Generalization in adaptive data analysis and holdout reuse}. Dwork et al, NIPS 2015.
-  \item \emph{Algorithmic stability for adaptive data analysis}. Bassily et al, STOC 2016.
-  \item \emph{Concentration Bounds for High Sensitivity Functions Through Differential Privacy}, Nissim and Stemmer, 2017.
-\item \emph{ Subgaussian Tail Bounds via Stability Arguments}, Steinke and Ullman, 2017.
-  \end{itemize}
+  
+  \begin{block}{Fundamentals of differential privacy}
+    \begin{itemize}
+    \item Samarati, Protecting respondents identities in microdata release, 2001.
+    \item Dwork and Roth, \href{https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf}{The Algorithmic Foundations of Differential Privacy}
+    \end{itemize}
+  \end{block}
+  \begin{block}{Learning theory}
+    A differentially private algorithm is intrinsically \alert{stable}. This leads to a number of results.
+    \begin{itemize}
+    \item \emph{Generalization in adaptive data analysis and holdout reuse}. Dwork et al, NIPS 2015.
+    \item \emph{Algorithmic stability for adaptive data analysis}. Bassily et al, STOC 2016.
+    \item \emph{Concentration Bounds for High Sensitivity Functions Through Differential Privacy}, Nissim and Stemmer, 2017.
+    \item \emph{ Subgaussian Tail Bounds via Stability Arguments}, Steinke and Ullman, 2017.
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \begin{frame}
@@ -510,8 +521,8 @@
     \begin{itemize}
     \item \url{https://github.com/bmcmenamin/thresholdOut-explorations}{Threshold out}
     \item \url{https://github.com/steven7woo/Accuracy-First-Differential-Privacy}{Accuracy-constrained DP}
-      \item \url{https://github.com/menisadi/pydp}{Various DP algorithms}
-\item \url{https://github.com/haiphanNJIT/PrivateDeepLearning} Deep learning and DP
+    \item \url{https://github.com/menisadi/pydp}{Various DP algorithms}
+    \item \url{https://github.com/haiphanNJIT/PrivateDeepLearning} Deep learning and DP
     \end{itemize}
   \end{block}
   The Privacy Tools Project \url{https://privacytools.seas.harvard.edu/}
@@ -519,7 +530,7 @@
 
 
 
-  
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
