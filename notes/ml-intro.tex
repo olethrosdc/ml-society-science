@@ -379,214 +379,226 @@
     \caption{Tycho's measurements of the orbit of Mars and the conclusion about the actual orbits, under the assumption of an earth-centric universe with circular orbits.}
     \label{fig:tycho}
   \end{figure}
-    \begin{itemize}
-    \item Hypothesis: Earth-centric, Circular orbits
-    \item Conclusion: \alert{Specific} circular orbits
-    \end{itemize}
-  \end{frame}
+  \begin{itemize}
+  \item Hypothesis: Earth-centric, Circular orbits
+  \item Conclusion: \alert{Specific} circular orbits
+  \end{itemize}
+\end{frame}
 
 
-  \only<article>{
-    Let's take the example of planetary orbits. Here Tycho famously
-    spent 20 years experimentally measuring the location of Mars. He
-    had a hypothesis: that planetary orbits were circular, but he
-    didn't know which were the right orbits. When he tried to fit his data to this hypothesis, he concluded a specific circular orbit for Mars \ldots around Earth.
-  }
+\only<article>{
+  Let's take the example of planetary orbits. Here Tycho famously
+  spent 20 years experimentally measuring the location of Mars. He
+  had a hypothesis: that planetary orbits were circular, but he
+  didn't know which were the right orbits. When he tried to fit his data to this hypothesis, he concluded a specific circular orbit for Mars \ldots around Earth.
+}
 
 
-  \begin{frame}
-    \frametitle{Johannes Kepler's alternative hypothesis}
-    \begin{columns}
-      \centering
-      \begin{column}{0.5\textwidth}
-        \includegraphics[width=\fwidth]{../figures/orbits}
-      \end{column}
-      \begin{column}{0.5\textwidth}
-        \includegraphics[width=\fwidth]{../figures/tycho-observations}
-      \end{column}
-    \end{columns}
-    \begin{itemize}
-    \item Hypothesis: Circular \alert{or} elliptic orbits
-    \item Conclusion: Specific \alert{elliptic} orbits
-    \end{itemize}
-  \end{frame}
-
-
-  \only<article>{
-    Kepler had a more general hypothesis: that orbits could be
-    circular or elliptic, and he actually accepted that the planets
-    orbited the sun. This led him to the broadly correct model of all
-    planets being in elliptical orbits around the sun. However, the
-    actual verification that all things do not revolve around earth,
-    requires different experiments.
-  }
-
-
-  \begin{frame}
-    \frametitle{200 years later, Gauss formalised this statistically}
-    \begin{columns}
-      \begin{column}{0.5\textwidth}
-        \includegraphics[width=\fwidth]{../figures/gauss-diagram}
-      \end{column}
-      \begin{column}{0.5\textwidth}
-        \includegraphics[width=\fwidth]{../figures/SeptemberTable}
-      \end{column}
-    \end{columns}
-  \end{frame}
-
-
-  \only<article>{
-    Later on, Gauss collected even more experimental data to calculate the orbit of Ceres. He did this using one of the first formal statistical methods; this allowed him to avoid cheating (like Kepler did, to accentuate his finding that orbits were elliptical).
-  }
-
-
-  \begin{frame}
-    \frametitle{A warning: The dead salmon mirage}
-    \includegraphics[width=\fwidth]{../figures/fmri-salmon}
-  \end{frame}
-
-
-  \only<article>{
-    It is quite easy to draw the wrong conclusions from applying
-    machine learning / statistics to your data. For example, it was
-    fashionable to perform fMRI studies in humans to see whether some
-    neurons have a particular functional role. There were even
-    articles saying that "we found the neurons encoding for Angelina
-    Jolie". So some scientists tried to replicate those results. They
-    took a dead salmon, and put it an fMRI scanner. They checked its
-    brain activity when it was shown images of happy or sad
-    people. Perhaps surprisingly, they found an area of the brain that
-    was correlated with the pictures - so it seemed, as though the
-    dead salmon could distinguish photos of happy people from sad
-    ones. However, this was all due to a misapplication of
-    statistics. In this course, we will try and teach you to avoid
-    such mistakes.
-  }
-
-
-  \begin{frame}
-    \frametitle{Planning future experiments}
+\begin{frame}
+  \frametitle{Johannes Kepler's alternative hypothesis}
+  \begin{columns}
     \centering
-    \begin{tikzpicture}[line width=2pt]
-      \node at (0,0) (bt) {hypothesis};
-      \node[select] at (0,2) (at) {experiment};
-      \node[utility] at (3,-2) (rt) {result};
-      \draw[blue,->] (at) -- (rt);
-      \node at (4,0) (bt2) {conclusion};
-      \draw[red,->] (at) -- (bt2);
-      \draw[red,->] (bt) -- (bt2);
-      \draw[red,->] (rt) -- (bt2);
-    \end{tikzpicture}
-  \end{frame}
-
-  \only<article>{
-    I mentioned before that we must decide what experiment to do. This is indeed difficult, especially in setting such as drug discovery where the number of experiments is huge.  However, conceptually, there is a simple and elegant solution to this problem.
-  }
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=\fwidth]{../figures/orbits}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=\fwidth]{../figures/tycho-observations}
+    \end{column}
+  \end{columns}
+  \begin{itemize}
+  \item Hypothesis: Circular \alert{or} elliptic orbits
+  \item Conclusion: Specific \alert{elliptic} orbits
+  \end{itemize}
+\end{frame}
 
 
+\only<article>{
+  Kepler had a more general hypothesis: that orbits could be
+  circular or elliptic, and he actually accepted that the planets
+  orbited the sun. This led him to the broadly correct model of all
+  planets being in elliptical orbits around the sun. However, the
+  actual verification that all things do not revolve around earth,
+  requires different experiments.
+}
+
+
+\begin{frame}
+  \frametitle{200 years later, Gauss formalised this statistically}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=\fwidth]{../figures/gauss-diagram}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=\fwidth]{../figures/SeptemberTable}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\only<article>{
+  Later on, Gauss collected even more experimental data to calculate the orbit of Ceres. He did this using one of the first formal statistical methods; this allowed him to avoid cheating (like Kepler did, to accentuate his finding that orbits were elliptical).
+}
+
+
+\begin{frame}
+  \frametitle{A warning: The dead salmon mirage}
+  \includegraphics[width=\fwidth]{../figures/fmri-salmon}
+\end{frame}
+
+
+\only<article>{
+  It is quite easy to draw the wrong conclusions from applying
+  machine learning / statistics to your data. For example, it was
+  fashionable to perform fMRI studies in humans to see whether some
+  neurons have a particular functional role. There were even
+  articles saying that "we found the neurons encoding for Angelina
+  Jolie". So some scientists tried to replicate those results. They
+  took a dead salmon, and put it an fMRI scanner. They checked its
+  brain activity when it was shown images of happy or sad
+  people. Perhaps surprisingly, they found an area of the brain that
+  was correlated with the pictures - so it seemed, as though the
+  dead salmon could distinguish photos of happy people from sad
+  ones. However, this was all due to a misapplication of
+  statistics. In this course, we will try and teach you to avoid
+  such mistakes.
+
+}
+
+
+\begin{frame}
+  \frametitle{Planning future experiments}
+  \centering
+  \begin{tikzpicture}[line width=2pt]
+    \node at (0,0) (bt) {hypothesis};
+    \node[select] at (0,2) (at) {experiment};
+    \node[utility] at (3,-2) (rt) {result};
+    \draw[blue,->] (at) -- (rt);
+    \node at (4,0) (bt2) {conclusion};
+    \draw[red,->] (at) -- (bt2);
+    \draw[red,->] (bt) -- (bt2);
+    \draw[red,->] (rt) -- (bt2);
+  \end{tikzpicture}
+\end{frame}
+
+\only<article>{
+  I mentioned before that we must decide what experiment to do. This is indeed difficult, especially in setting such as drug discovery where the number of experiments is huge.  However, conceptually, there is a simple and elegant solution to this problem.
+}
+
+
+\begin{frame}
+  \frametitle{Planning experiments is like Tic-Tac-Toe}
+  \begin{center}
+    \includegraphics[width=\textwidth]{../figures/Tic-tac-toe-game-tree}
+  \end{center}
+\end{frame}
+
+
+\only<article>{
+  The basic idea is to think of experiment design as a game between the scientist and Nature. At every step, the scientist plays an X to  denote an experiment. Then Nature responds with an Observation. The main difference from a game is that Nature is (probably) not adversarial. We can also generalise this idea to problems in robotics, etc.
+}
+
+\only<presentation>{
   \begin{frame}
-    \frametitle{Planning experiments is like Tic-Tac-Toe}
-    \begin{center}
-      \includegraphics[width=\textwidth]{../figures/Tic-tac-toe-game-tree}
-    \end{center}
+    \frametitle{Eve, another robot scientist}
+    \includegraphics[width=\textwidth]{../figures/eve.jpg}
+    Discovered a malaria drug
   \end{frame}
+}
+\only<article>{
+  These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot, called Eve, that recently (re)-discovered a malaria drug.
+}
+
+\subsection{Course overview}
+
+\begin{frame}
+  \frametitle{Machine learning in practice}
+  \begin{block}{Avoiding pitfalls}
+    \begin{itemize}
+    \item Choosing hypotheses.
+    \item Correctly interpreting conclusions.
+    \item Using a good testing methodology.
+    \end{itemize}
+  \end{block}
+  \begin{block}{Machine learning in society}
+    \begin{itemize}
+    \item<alert@2> Privacy \uncover<2->{--- Credit risk.}
+    \item<alert@3> Fairness \uncover<3->{--- Job market.}
+    \item<alert@4> Safety \uncover<4->{--- Medicine.}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\only<article>{
+  One of the things we want to do in this course is teach you to
+  avoid common pitfalls.
+
+  Now I want to get into a different track. So far everything has
+  been about pure research, but now machine learning is pervasive:
+  Our phones, cars, watches, bathrooms, kettles are connected to the
+  internet and send a continuous stream of data to companies. In
+  addition, many companies and government actors use machine
+  learning algorithms to make or support decisions. This creates a
+  number of problems in privacy, fairness and safety.
+}
 
 
-  \only<article>{
-    The basic idea is to think of experiment design as a game between the scientist and Nature. At every step, the scientist plays an X to  denote an experiment. Then Nature responds with an Observation. The main difference from a game is that Nature is (probably) not adversarial. We can also generalise this idea to problems in robotics, etc.
-  }
+\begin{frame}
+  \frametitle{Technical topics}
+  
+  \begin{block}{Machine learning problems}
+    \begin{itemize}
+    \item Unsupervised learning. \only<article>{Loosely speaking, this is simply the problem of estimating some structure from data. In statistical terms, it is usually the problem of estimating some joint distribution of random variables under some model assumptions. Problems in unsupervised learning include clustering, anomaly detection, compression}.
+    \item Supervised learning. \only<article>{In this setting data can be split in two groups of variables. One group that is always available, and another group that must be predicted. A special case of the problem is when we wish to estimate some function $f : \CX \to \CY$ from data. Classical problems in this setting are classification and regression.}
+    \item Reinforcement learning. \only<article>{This is a very general sequential decision problem, where an agent must learn how to behave optimally in an unknown environment only by limited feedback and reinforcement. The standard setting involves the agent trying to maximise its (expected) cumulative reward over time.}
+    \end{itemize}
+  \end{block}
 
-  \only<presentation>{
-    \begin{frame}
-      \frametitle{Eve, another robot scientist}
-      \includegraphics[width=\textwidth]{../figures/eve.jpg}
-      Discovered a malaria drug
-    \end{frame}
-  }
-  \only<article>{
-    These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot, called Eve, that recently (re)-discovered a malaria drug.
-  }
+  \begin{block}{Algorithms and models}
+    \begin{itemize}
+    \item Bayesian inference and graphical models.
+    \item Stochastic optimisation and neural networks.
+    \item Backwards induction and Markov decision processes.
+    \end{itemize}
+  \end{block}
+\end{frame}
 
-  \subsection{Course overview}
+\begin{frame}
+  \frametitle{Course structure}
+  \begin{block}{Module structure}
+    \begin{itemize}
+    \item \alert{Activity}-based, hands-on.
+    \item Mini-lectures with short exercises in each class.
+    \item Technical tutorials and labs in alternate week.
+    \end{itemize}
+  \end{block}
 
-  \begin{frame}
-    \frametitle{Machine learning in practice}
-    \begin{block}{Avoiding pitfalls}
-      \begin{itemize}
-      \item Choosing hypotheses.
-      \item Correctly interpreting conclusions.
-      \item Using a good testing methodology.
-      \end{itemize}
-    \end{block}
-    \begin{block}{Machine learning in society}
-      \begin{itemize}
-      \item<alert@2> Privacy \uncover<2->{--- Credit risk.}
-      \item<alert@3> Fairness \uncover<3->{--- Job market.}
-      \item<alert@4> Safety \uncover<4->{--- Medicine.}
-      \end{itemize}
-    \end{block}
-  \end{frame}
+  \begin{block}{Modules}
+    Three mini-projects.
+    \begin{itemize}
+    \item Simple decision problems: Credit risk.
+    \item Structured problems: Fake news.
+    \item Sequential problems: Medical diagnostics and treatment.
+    \end{itemize}
+  \end{block}
+\end{frame}
 
-  \only<article>{
-    One of the things we want to do in this course is teach you to
-    avoid common pitfalls.
-
-    Now I want to get into a different track. So far everything has
-    been about pure research, but now machine learning is pervasive:
-    Our phones, cars, watches, bathrooms, kettles are connected to the
-    internet and send a continuous stream of data to companies. In
-    addition, many companies and government actors use machine
-    learning algorithms to make or support decisions. This creates a
-    number of problems in privacy, fairness and safety.
-  }
-
-
-  \begin{frame}
-    \frametitle{Technical topics}
-    
-    \begin{block}{Machine learning problems}
-      \begin{itemize}
-      \item Unsupervised learning. \only<article>{Loosely speaking, this is simply the problem of estimating some structure from data. In statistical terms, it is usually the problem of estimating some joint distribution of random variables under some model assumptions. Problems in unsupervised learning include clustering, anomaly detection, compression}.
-      \item Supervised learning. \only<article>{In this setting data can be split in two groups of variables. One group that is always available, and another group that must be predicted. A special case of the problem is when we wish to estimate some function $f : \CX \to \CY$ from data. Classical problems in this setting are classification and regression.}
-      \item Reinforcement learning. \only<article>{This is a very general sequential decision problem, where an agent must learn how to behave optimally in an unknown environment only by limited feedback and reinforcement. The standard setting involves the agent trying to maximise its (expected) cumulative reward over time.}
-      \end{itemize}
-    \end{block}
-
-    \begin{block}{Algorithms and models}
-      \begin{itemize}
-      \item Bayesian inference and graphical models.
-      \item Stochastic optimisation and neural networks.
-      \item Backwards induction and Markov decision processes.
-      \end{itemize}
-    \end{block}
-  \end{frame}
-
-  \begin{frame}
-    \frametitle{Course structure}
-    \begin{block}{Module structure}
-      \begin{itemize}
-      \item \alert{Activity}-based, hands-on.
-      \item Mini-lectures with short exercises in each class.
-      \item Technical tutorials and labs in alternate week.
-      \end{itemize}
-    \end{block}
-
-    \begin{block}{Modules}
-      Three mini-projects.
-      \begin{itemize}
-      \item Simple decision problems: Credit risk.
-      \item Structured problems: Fake news.
-      \item Sequential problems: Medical diagnostics and treatment.
-      \end{itemize}
-    \end{block}
-  \end{frame}
-
-
-
+\begin{frame}
+  \frametitle{Further reading}
+  \begin{block}
+    \begin{itemize}
+    \item \citet{bennett2012journal} describe how the usual
+      uncorrected analysis of fMRI data leads to the conclusion that
+      the dead salmon can reason about human images.
+    \item \citet{Bennett2009ThePC} discuss how to perform analyses of medical images in a principled way. They also introduce the use of simulations in order to test how well a particular method is going to perform.
+    \end{itemize}
+  \end{block}
+\end{frame}
 
 
 
-  %%% Local Variables: 
-  %%% mode: latex
-  %%% TeX-master: "notes.tex"
-  %%% End: 
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "notes.tex"
+%%% End: 
