@@ -33,7 +33,7 @@ i.e. when we can replace the explicit summation over all possible outcomes, weig
       f(\pol_{\alert{\param}}, \model, \util) &= 
       \sum_{x, y, a} \util(a, y) \pol_{\alert{\param}}(a \mid x) P_\model(y \mid x) P_\model(x)\\
       &\approx
-        \sum_{t=1}^T \sum_{a_t} \util(a_t, y_t) \pol_{\alert{\param```232}}(a_t \mid x_t ),
+        \sum_{t=1}^T \sum_{a_t} \util(a_t, y_t) \pol_{\alert{\param}}(a_t \mid x_t ),
         & (x_t, y_t)_{t=1}^T &\sim P_\model.
     \end{align}
     \only<article>{In practice, this is the empirical expectation on the training set $\cset{(x_t, y_t)}{t=1, \ldots, T}$. However, when the amount of data is insufficient, this expectation may be far from reality, and so our classification rule might be far from optimal.}
