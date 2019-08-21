@@ -334,6 +334,33 @@ Finally, bagging also allows us to generate probabilistic predictions from deter
     \end{enumerate}
   \end{block}
 \end{frame}
+
+\subsection{Beyond the data you have: simulation and replication}
+\only<article>{
+In the end, however, you are always limited by the data you actually have. The more you tweak your models and algorithms to improve performance with your current dataset, the more you are simply engineering a solution that is adapted to the specific data. This may not generalise well, even if you are using cross-validation or bootstrapping every step of the way. How can you then make sure that your methodology is robust? 
+
+The first method is simply to simulate data from an artificial process, where the ground truth (e.g. the labels) is known, and where the dataset size and dimensionality is similar to the one you have.  You can use this to see whether the overall process is robust, and this can give you confidence that you will get reasonable results when using real data.
+The second method requires actually collecting new data, and repeating the study. If the results can be replicated, the original study was not a fluke.
+
+
+}
+\begin{frame}
+\frametitle{Simulation}
+\only<article>{Simulation can be extremely useful. It allows you to examine the performance of various methods as you change aspect of the data-generating process without ever having to look at the data in detail. Since the data is synthetically generated, you always know the ground truth, so you know precisely how good your methods are going to be. This is useful in particular when you want to perform a null hypothesis test, and want to see under which conditions you actually accept or reject a null hypothesis.
+
+A good example of the use of simulation to validate a method is in the article by~\citet{Bennett2009ThePC} where they discuss the use of corrections for multiple comparison tests. This followed their study of uncorrected methods for fMRI analysis~\citep{bennett2012journal}, where they found that commonly used such methods would detect meaningful brain activity in a dead salmon. They use simulation to select a correction method that would be neither too conservative (i.e. not detecting any significant brain activity) nor too sensitive (i.e. detecting activity where there is none). 
+}
+\begin{block}{Steps for a simulation pre-study}
+  \begin{enumerate}
+  \item Define a data-generating process as close to the original dataset as possible.
+  \item Collect data according to your protocol.
+  \item Run the intended analysis.
+  \item See if the results are reasonable, or if you need more power.
+  \end{enumerate}
+\end{block}
+\end{frame}
+
+
 \begin{frame}
 \frametitle{Simulation}
 \only<article>{Using simulation, we can examine how our methodology (including the data collection process, the modelling, and the manner in which we finally make decisions) performs under controlled conditions. This allows us to avoid potential pitfalls when using it with real data.}
@@ -349,7 +376,7 @@ Finally, bagging also allows us to generate probabilistic predictions from deter
 
 \begin{frame}
 \frametitle{Independent replication}
-\only<article>{The gold standard for reproducibility is independent replication. Simply have another team try and reproduce the results you obtained, using completely new data. If the replication is successful, then you can be pretty sure there was no flaw in your original analysis.}
+\only<article>{The gold standard for reproducibility is independent replication. Simply have another team try and reproduce the results you obtained, using completely new data. If the replication is successful, then you can be pretty sure there was no flaw in your original analysis. In typical scientific publishing, the replication study is done by a different set of authors than those of the original study.}
 \begin{block}{Replication study}
   \begin{enumerate}
   \item Reinterpret the original hypothesis and experiment.
