@@ -450,10 +450,7 @@
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{A simple analysis}
-  \url{src/reproducibility/mri_analysis.ipynb}
-\end{frame}
+
 \only<article>{
   It is quite easy to draw the wrong conclusions from applying
   machine learning / statistics to your data. For example, it was
@@ -472,9 +469,17 @@
 
 }
 
+\begin{frame}
+  \frametitle{A simple simulation study}
+  \only<article>{Sometimes we want to use a simple simulation study to understand how well our methods work. The following code is an example of how to do this. Here we are doing a simplified fMRI analysis, but the general idea is not significantly different from what people actually do in the field.}
+  \url{src/reproducibility/mri_analysis.ipynb}
+\end{frame}
 
 \begin{frame}
   \frametitle{Planning future experiments}
+  \only<article>{
+    So far we have focused only on the problem of data analysis. However, we also need to think about the problem of planning for experiments. This is called \alert{experiment design}. Experiment designs are usually fixed. In that case, we can use assumptions about the data and how much accuracy we need to design the experiment. However, it is also possible to have an adaptive experiment design where our future experiments depend on our current conclusions.
+  }
   \centering
   \begin{tikzpicture}[line width=2pt]
     \node at (0,0) (bt) {hypothesis};
@@ -489,7 +494,7 @@
 \end{frame}
 
 \only<article>{
-  I mentioned before that we must decide what experiment to do. This is indeed difficult, especially in setting such as drug discovery where the number of experiments is huge.  However, conceptually, there is a simple and elegant solution to this problem.
+  In general, optimal experiment design is indeed difficult, especially in setting such as drug discovery where the number of experiments is huge.  However, conceptually, there is a simple and elegant solution to this problem.
 }
 
 
@@ -598,6 +603,14 @@
       uncorrected analysis of fMRI data leads to the conclusion that
       the dead salmon can reason about human images.
     \item \citet{Bennett2009ThePC} discuss how to perform analyses of medical images in a principled way. They also introduce the use of simulations in order to test how well a particular method is going to perform.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Resources}
+    \begin{itemize}
+    \item Online QA platform:
+    \item Course code and notes: 
+    \item Book 
     \end{itemize}
   \end{block}
 \end{frame}
