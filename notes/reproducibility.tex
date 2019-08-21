@@ -335,6 +335,19 @@ Finally, bagging also allows us to generate probabilistic predictions from deter
   \end{block}
 \end{frame}
 \begin{frame}
+\frametitle{Simulation}
+\only<article>{Using simulation, we can examine how our methodology (including the data collection process, the modelling, and the manner in which we finally make decisions) performs under controlled conditions. This allows us to avoid potential pitfalls when using it with real data.}
+\begin{block}{Simulation study}
+  \begin{enumerate}
+  \item Create a simulation that allows you to collect data similar to the real one.
+  \item Collect data from the simulation and analyse it according to your protocol.
+  \item If the results are not as expected, alter the protocol or the simulation. In which cases do you get good results?
+  \item Finally, use the best-performing method as the protocol.
+  \end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
 \frametitle{Independent replication}
 \only<article>{The gold standard for reproducibility is independent replication. Simply have another team try and reproduce the results you obtained, using completely new data. If the replication is successful, then you can be pretty sure there was no flaw in your original analysis.}
 \begin{block}{Replication study}

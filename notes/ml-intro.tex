@@ -442,7 +442,12 @@
 
   \begin{frame}
     \frametitle{A warning: The dead salmon mirage}
-    \includegraphics[width=\fwidth]{../figures/fmri-salmon}
+    \only<presentation>{
+      \includegraphics[width=\textwidth]{../figures/fmri-salmon}
+    }
+    \only<article>{
+      \includegraphics[width=\fwidth]{../figures/fmri-salmon}
+    }
   \end{frame}
 
 
@@ -575,7 +580,6 @@
       Three mini-projects.
       \begin{itemize}
       \item Simple decision problems: Credit risk.
-      \item Structured problems: Fake news.
       \item Sequential problems: Medical diagnostics and treatment.
       \end{itemize}
     \end{block}

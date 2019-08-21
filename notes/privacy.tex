@@ -379,6 +379,54 @@
   }
 \end{frame}
 
+
+\begin{frame}
+  \frametitle{Defining neighbourhoods}
+  \begin{table}[H]
+    \begin{tabular}{l|l|l|l}
+      Birthday & Name & Height  & Weight \\
+      \hline
+      06/07 & Li Pu & 190 & 80 \\
+      06/14 & Sara Lee & 185 & 110  \\
+      \alert<1>{06/12} & \alert<1>{Nikos Papadopoulos} & \alert<1>{170} & \alert<1>{82} \\
+      01/01 & A. B. Student & 170 & 70 \\
+      05/08 & Li Yang & 175 & 72 
+    \end{tabular}
+    \caption{Data $x$}
+  \end{table}
+
+  \only<1>{
+    \begin{table}[H]
+      \begin{tabular}{l|l|l|l}
+        Birthday & Name & Height  & Weight \\
+        \hline
+        06/07 & Li Pu & 190 & 80 \\
+        06/14 & Sara Lee & 185 & 110  \\
+        01/01 & A. B. Student & 170 & 70 \\
+        05/08 & Li Yang & 175 & 72 
+      \end{tabular}
+      \caption{1-Neighbour $x'$}
+    \end{table}
+  }
+
+  \only<2>{
+    \begin{table}[H]
+      \begin{tabular}{l|l|l|l}
+        Birthday & Name & Height  & Weight \\
+        \hline
+        06/07 & Li Pu & 190 & 80 \\
+        06/14 & Sara Lee & 185 & 110  \\
+        \alert{06/13} & Nikos Papadopoulos & \alert{180} & \alert{80} \\
+        01/01 & A. B. Student & 170 & 70 \\
+        05/08 & Li Yang & 175 & 72 
+      \end{tabular}
+      \caption{2-Neighbour $x'$}
+    \end{table}
+  }
+
+\end{frame}
+
+
 \begin{frame}
   \begin{block}{The definition of differential privacy}
     \begin{itemize}

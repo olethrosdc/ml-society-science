@@ -149,41 +149,6 @@ Algorithms from Artificial Intelligence are becoming ever more complicated and a
 The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It will equip  students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining a large set of models. It uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work. It is instead on the issues of reproducibility, data colletion and experiment design, privacy, fairness and safety when applying machine learning algorithms. For that reason, we will cover technical topics not typically covered in an AI course: false discovery rates, differential privacy, fairness, causality and risk. Some familiarity with machine learning concepts and artificial intelligence is expected, but not necessary.
  
 * Schedule
-** 2018
-
-|-------+-------------------------------------------------------------+------------------|
-|  22.8 | Reproducibility, kNN                                        | Christos         |
-|  23.8 | Bayesian inference                                          | Christos         |
-|  29.8 | Decision Problems, Hypothesis Testing, Neural Networks, SGD | Christos         |
-|  30.8 | Bayesian inference tutorial; neural networks                | Christos         |
-|   5.9 | Python tutorial                                             | Summaya          |
-|   6.9 | Credit risk lab                                             | Summaya          |
-|-------+-------------------------------------------------------------+------------------|
-|  12.9 | Databases, anonymity, privacy                               | Christos         |
-|  13.9 | Differential privacy                                        | Christos         |
-|  19.9 | Laplace and differential privacy tutorial                   | Summaya          |
-|  20.9 | Credit risk lab: privacy                                    | Summaya          |
-|  26.9 | Fairness and graphical models                               | Christos         |
-|  27.9 | Estimating conditional Independence                         | Christos         |
-|  3.10 | Graphical model tutorial                                    | Summaya          |
-|  4.10 | Project lab                                                 | Summaya          |
-|-------+-------------------------------------------------------------+------------------|
-| 10.10 | Recommendation systems                                      | Christos         |
-| 11.10 | Latent variables and importance sampling                    | Christos         |
-| 17.10 | ALS/PyMC  tutorial                                          | Dirk             |
-| 18.10 | Medical project                                             | Summaya          |
-| 24.10 | Causality                                                   | Christos         |
-| 25.10 | Interventions and Counterfactuals                           | Christos         |
-| 31.10 | Causality lab                                               | Summaya/Christos |
-|  1.11 | Causality lab                                               | Summaya/Christos |
-|  7.11 | Bandit problems and experiment design                       | Christos         |
-|  8.11 | Experiment design                                           | Christos         |
-| 14.11 | Experiment design lab                                       | Summaya          |
-| 15.11 | Experiment design lab                                       | Summaya          |
-| 21.11 | Presentations                                               | Christos         |
-| 22.11 | Presentations                                               | Christos         |
-|-------+-------------------------------------------------------------+------------------|
-
 ** 2019
 
 |--------+-----------------------------------------------------------------+----------|
@@ -247,8 +212,8 @@ The purpose of this course is to familiarise students with societal and scientif
 Machine learning as science: hypotheses, experiments and conclusions.
 kNN example: What is classification? What is clustering? Making sure you formalise the problem.
 
-1. KNN.
-2. Reproducibility
+1. Reproducibility
+2. KNN.
 3. Bootstrapping
 
 *** kNN :ACTIVITY:
@@ -313,8 +278,7 @@ The purpose of this lecture is to introduce the students to basic database conce
 5. Fairness as meritocracy.
 6. Bayesian notions of fairness.
 
-** Poject start: Fake news.
-
+** Project start: Experiment design for Medical Diagnostics [Aim: Reproducibility, Safety] :PROJECT:
 ** Week 5: Clustering
    :LOGBOOK:
    CLOCK: [2018-07-17 Tue 14:21]--[2018-07-17 Tue 22:05] =>  7:44
@@ -344,32 +308,16 @@ Matrix Factorisation / LDA: Recommendation systems I (user similarity)
 
 This lecture introduces analysis of text data, and an application to recommendation systems.
 
-** Project start: Experiment design for Medical Diagnostics [Aim: Reproducibility, Safety] :PROJECT:
-
-** Lecture 1. Online data collection. Optimal stopping (expensive labels) A/B Testing, Bandit Problems.
+***  Online data collection. Optimal stopping (expensive labels) A/B Testing, Bandit Problems.
 
 This lecture introduces the concept of online data collection, rather than going through existing data. The applications considered are manual labelling via AMT or advertising.
 
-** Lecture 2. Markov decision processes and Dynamic Programming (active learning and experiment design more generally)
+*** Markov decision processes and Dynamic Programming (active learning and experiment design more generally)
 
 The optimal data collection procedure can be formalised as an MDP, and this is explained here.
 
-** Lecture 3. Safety: Risk-Sensitive Decision Making
+** Optional. Safety: Risk-Sensitive Decision Making
 
 Sometimes we are risk averse… what do we mean by this, and what algorithms can we use?
-
-** Lecture 4. Safety: Model validation and importance Sampling
-
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
-* Meetings
-** DS overview
-   CLOCK: [2018-04-23 mån 10:10]--[2018-04-23 mån 11:10] =>  1:00
 
-Admission qualifications are quie sringent.
-
-Maximum number of students supervised.
-6 Master theses seems to be 
-* MSc students
-  :LOGBOOK:
-  CLOCK: [2018-06-04 Mon 18:20]--[2018-06-04 Mon 21:52] =>  3:32
-  :END:
