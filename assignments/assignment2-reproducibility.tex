@@ -1,0 +1,39 @@
+\documentclass[a4paper]{article}
+\usepackage[notheorems]{beamerarticle}
+
+\input{../preamble}
+
+%\def\solution {1}
+
+
+\title{IN-STK 5000: Introductory assignment} 
+\author{Christos Dimitrakakis}
+\begin{document}
+\maketitle
+The purpose of this assignment is to obtain some practice in the art of reproducibility.
+
+\begin{exercise}
+  Work in teams of 2-4 students.
+
+  Select an arbitrary classification dataset from \url{https://archive.ics.uci.edu/ml/datasets.html?task=cla}. 
+
+  Select any arbitrary machine learning algorithm for classification
+  from \texttt{scikitlearn} that can be used with this dataset, and identify its main hyperparameters.
+    
+  Varying at least one hyperparameter, use bootstrapping and/or
+  cross-validation to find the optimal value for that hyperparameter,
+  and report its performance. How close to the reported accuracy do
+  you expect its performance to be in reality?  What are the factors
+  that might cause it to deviate?
+  
+  Write a short report summarising both your methodology and your
+  results. Exchange this report with another group of students. See
+  whether you can reproduce exactly what they have done. Was it easy
+  to reproduce their results? If not, what was the main problem?
+\end{exercise}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
