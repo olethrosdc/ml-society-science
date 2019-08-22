@@ -323,5 +323,24 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 
 * Exam subjects
-
+* Assignments
+** Assignment 1
+  |----+---------+-----------|
+  | N. | Correct | Incorrect |
+  |----+---------+-----------|
+  |  1 |       1 |           |
+  |  2 |       1 |           |
+  |  3 |       1 |           |
+  |  4 |       1 |           |
+  |----+---------+-----------|
+  |  5 |       1 |           |
+  |  6 |         |         1 |
+  |  7 |         |         1 |
+  |----+---------+-----------|
+  |  8 |       1 |           |
+  |  9 |       1 |           |
+  |----+---------+-----------|
+  | 10 |     0.5 |       0.5 |
+  | 11 |       1 |           |
+  |----+---------+-----------|
 

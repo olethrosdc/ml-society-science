@@ -335,6 +335,29 @@ Finally, bagging also allows us to generate probabilistic predictions from deter
   \end{block}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Online evaluation}
+  \only<article>{
+    We can get around this problem if we consider online evaluation of learning algorithms. This means that the learning algorithm is always evaluated on previously unseen data. However, when new data is seen, it can be used by the algorithm to learn. 
+  }
+  \begin{example}{Online prediction accuracy}
+    \begin{itemize}
+    \item Adaptive decision rule $\pol$
+    \item At time $t$
+      \begin{enumerate}
+      \item $\pol$ predicts $a_t$
+      \item The true data $x_t$ is observed and we see whether $a_t = x_t$.
+      \item $\pol$ adapts to the new data $x_t$
+      \end{enumerate}
+    \end{itemize}
+    \only<article>{For this example, you can consider the decision rule $\pol$ as being conditioned on the previous data, i.e.
+      \[
+      \pol(a_t \mid x_1, \ldots, x_t)
+      \]
+    }
+  \end{example}
+\end{frame}
+
 \subsection{Beyond the data you have: simulation and replication}
 \only<article>{
 In the end, however, you are always limited by the data you actually have. The more you tweak your models and algorithms to improve performance with your current dataset, the more you are simply engineering a solution that is adapted to the specific data. This may not generalise well, even if you are using cross-validation or bootstrapping every step of the way. How can you then make sure that your methodology is robust? 
@@ -352,20 +375,6 @@ A good example of the use of simulation to validate a method is in the article b
 }
 \begin{block}{Steps for a simulation pre-study}
   \begin{enumerate}
-  \item Define a data-generating process as close to the original dataset as possible.
-  \item Collect data according to your protocol.
-  \item Run the intended analysis.
-  \item See if the results are reasonable, or if you need more power.
-  \end{enumerate}
-\end{block}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Simulation}
-\only<article>{Using simulation, we can examine how our methodology (including the data collection process, the modelling, and the manner in which we finally make decisions) performs under controlled conditions. This allows us to avoid potential pitfalls when using it with real data.}
-\begin{block}{Simulation study}
-  \begin{enumerate}
   \item Create a simulation that allows you to collect data similar to the real one.
   \item Collect data from the simulation and analyse it according to your protocol.
   \item If the results are not as expected, alter the protocol or the simulation. In which cases do you get good results?
@@ -373,6 +382,8 @@ A good example of the use of simulation to validate a method is in the article b
   \end{enumerate}
 \end{block}
 \end{frame}
+
+
 
 \begin{frame}
 \frametitle{Independent replication}
