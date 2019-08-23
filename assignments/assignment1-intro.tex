@@ -3,7 +3,7 @@
 
 \input{../preamble}
 
-%\def\solution {1}
+%\def\solution {0}
 
 
 \title{IN-STK 5000: Introductory assignment} 
@@ -40,7 +40,7 @@ In this section we consider probability as a measure, i.e. as a function from se
 \end{exercise}
 
 \begin{exercise}[Conditional probability]
-  If $A, B$ are two events, then conditional probability is defined as
+  If $A, B$ are two events, with $P(B) > 0$, then conditional probability is defined as
   \[
   P(A \mid B) \defn 
   \ifdefined \solution
@@ -52,11 +52,15 @@ In this section we consider probability as a measure, i.e. as a function from se
 \end{exercise}
 
 \begin{exercise}[Marginal probability]
-  Let $A_1, \ldots, A_n$ be mutually exclusive events so that $\Cup_{i=1}^n A_i = \Omega$ and $B$ an arbitrary other event. Then:
+  Let $A_1, \ldots, A_n$ be mutually exclusive events so that $\bigcup_{i=1}^n A_i = \Omega$ and $B$ an arbitrary other event. Then:
   \[
   P(B) = \sum_{A_i} 
   \ifdefined \solution
   P(A_i \cap B)
+  =
+  \sum_{A_i} 
+  P(B \mid A_i)
+  P(A_i )
   \else
   \ldots
   \fi
@@ -93,15 +97,19 @@ In this section we consider probability as a measure, i.e. as a function from se
 
 \begin{exercise}
   Write the expectation of the mean $\mu_n$ in relation to $x_1, \ldots, x_n$.
+  \ifdefined \solution
+  Since $x_i$ are i.i.d, there is some $\bar{x}$ so that $\E x_i = \bar{x}$ for all $i$. Then
+  \fi
   \[
   \E \mu_n =
   \ifdefined \solution
   \E \frac{1}{n} \sum_{i=1}^n x_i
-  = \E x_i.
+  = \frac{1}{n} \sum_{i=1}^n \E x_i = \bar{x}
   \else
   \ldots
   \fi
   \]
+
 \end{exercise}
 
 \begin{exercise}
@@ -118,7 +126,7 @@ In this section we consider probability as a measure, i.e. as a function from se
   \end{enumerate}
   \end{exercise}
   \ifdefined \solution
-  Null hypothesis tests that have a fixed significance level $p$ are designed so that, if the data comes from the null hypothesis, then the probability that the test statistic $\pol(x) < p$ is exactly equal to $p$. Consequently the correct answer is $1$.
+  Null hypothesis tests that have a fixed significance level $p$ are designed so that, if the data comes from a given null hypothesis, then the probability that the test statistic $\pol(x) < p$ is exactly equal to $p$. The probability of falsely accepting the null hypothesis, however, depends on the unknown alternative hypothesis and so cannot be computed. Consequently the correct answer is $1$.
   \fi
 \section{Linear algebra}
 
@@ -152,7 +160,7 @@ In this section we consider probability as a measure, i.e. as a function from se
 \section{Calculus}
 
 \begin{exercise}
-  If $f : \CX \to \Reals$ is a twice-differentiable function, what are sufficient conditions for $x_0$ to be a maximum of the function, i.e. $f(x_0) \geq f(x)$ $\forall x \in \CX$?
+  If $f : \CX \to \Reals$ is a twice-differentiable function, what are \emph{sufficient} conditions for $x_0$ to be a \emph{local maximum} of the function, i.e. there exists $\epsilon > 0$ so that $f(x_0) \geq f(x)$ for all $x : |x - x_0| < \epsilon$?
   \ifdefined\solution
   If $d f(x_0) /dx  = 0$ then
   $x_0$ is either a saddle point, a maximum or a minimum. If in addition $d^2 f(x_0) /dx^2 < 0$, then $x_0$ is a maximum.
@@ -160,7 +168,7 @@ In this section we consider probability as a measure, i.e. as a function from se
 \end{exercise}
 
 \begin{exercise}
-  Solve the following integral
+  Solve the following integral, for $T > 0$
   \[
   \int_{1}^T \frac{1}{x} \dd x =
   \ifdefined\solution
