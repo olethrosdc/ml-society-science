@@ -13,12 +13,14 @@
 \only<article>{Probability can be used to describe purely chance events, as in for example quantum physics. However, it is mostly used to describe uncertain events, such as the outcome of a dice roll or a coin flip, which only appear random. In fact, one can take it even further than that, and use it to model subjective uncertainty about any arbitrary event. Although probabilities are not the only way in which we can quantify uncertainty, it is a simple enough model, and with a rich enough history in mathematics, statistics, computer science and engineering that it is the most useful.}
 \begin{frame}
   \frametitle{Uncertainty}
+  \only<presentation>{
   \begin{itemize}
   \item We cannot perfectly predict the future.
   \item We cannot know for sure what happened in the past.
   \item How can we quantify this uncertainty?
   \item Probabilities!
   \end{itemize}
+  }
   \begin{block}{Axioms of probability}
     For any probability measure\footnote{$\Sigma$ is the set of possible events, with $A \in \Sigma$ always $A \subset \Omega$. Technically $\Sigma$ is a $\sigma$-algebra} $P$ on $(\Omega, \Sigma)$,
     \begin{enumerate}
@@ -107,6 +109,7 @@
 
 \begin{frame}
   \frametitle{Classification in terms of conditional probabilities}
+  \only<1>{
   \only<presentation>{
     \begin{itemize}
     \item Features $x_t \in \CX$.
@@ -115,14 +118,17 @@
     \item Prior class probability $P_\model(y_t = c)$.
     \end{itemize}
   }
+  }
   \only<article>{
     Conditional probability naturally appears in classification problems. Given a new example vector of data $x_t \in \CX$, we would like to calculate the probability of different classes $c \in \CY$ given the data, $P_\model(y_t = c \mid x_t)$.  
     If we somehow obtained the distribution of data $P_\model(x_t \mid y_t)$ for each possible class, as well as the prior class probability $P_\model(y_t = c)$, 
     from Bayes's theorem, we see that we can obtain the probability of the class:
   }
+  \only<1>{
   \[
   P_\model(y_t = c \mid x_t) = \frac{P_\model(x_t \mid y_t = c) P_\model(y_t = c)}{\sum_{c' \in \CY} P_\model(x_t \mid y_t = c') P_\model(y_t = c')}
   \]
+  }
   \only<article>{
     for any class $c$. This directly gives us a method for classifying new data, as long as we have a way to obtain $P_\model(x_t \mid y_t)$ and $P_\model(y_t)$.
   }
@@ -139,27 +145,25 @@
       \caption{A generative classification model. $\model$ identifies the model (paramter). $x_t$ are the features and $y_t$ the class label of the $t$-th example.}
     \end{figure}
   }
-  \uncover<2->{
-
-      \begin{figure}[H]
-        \centering
-        \begin{subfigure}{\fwidth}
-          \includegraphics[width=\textwidth]{../figures/equal-variance}
-          \caption{Equal prior and variance}
-        \end{subfigure}
-        \begin{subfigure}{\fwidth}
-          \includegraphics[width=\textwidth]{../figures/unequal-variance}
-          \caption{Unequal variance}
-        \end{subfigure}
-        \begin{subfigure}{\fwidth}
-          \includegraphics[width=\textwidth]{../figures/unequal-prior}
-          \caption{Unequal prior}
-        \end{subfigure}
-        \caption{The effect of changing variance and prior on the classification decision when we assume a normal distribution.}
-        \label{fig:normal-generative}
-      \end{figure}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}{\fwidth}
+      \includegraphics[width=\textwidth]{../figures/equal-variance}
+      \caption{Equal prior and variance}
+    \end{subfigure}
+    \begin{subfigure}{\fwidth}
+      \includegraphics[width=\textwidth]{../figures/unequal-variance}
+      \caption{Unequal variance}
+    \end{subfigure}
+    \begin{subfigure}{\fwidth}
+      \includegraphics[width=\textwidth]{../figures/unequal-prior}
+      \caption{Unequal prior}
+    \end{subfigure}
+    \caption{The effect of changing variance and prior on the classification decision when we assume a normal distribution.}
+    \label{fig:normal-generative}
+  \end{figure}
     \begin{example}[Normal distribution]
-      A simple example is when $x_t$ is normally distributed in a matter that depends in the class.  Figure~\ref{fig:normal-generative} shows the distribution of $x_t$ for two different classes, with means of $-1$ and $+1$ respectively, for three different case. In the first case, both classes have variance of 1, and we assume the same prior probability for both
+      A simple example is when $x_t$ is normally distributed in a matter that depends on the class.  Figure~\ref{fig:normal-generative} shows the distribution of $x_t$ for two different classes, with means of $-1$ and $+1$ respectively, for three different case. In the first case, both classes have variance of 1, and we assume the same prior probability for both
       \[
       x_t \mid y_t = 0 \sim \Normal(-1,1),
       \qquad
@@ -172,7 +176,7 @@
       \]
 
     \end{example}
-  }
+  
   \uncover<5>{
     \alert{But how can we get a probability model in the first place?}
   }
