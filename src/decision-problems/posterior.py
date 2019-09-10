@@ -12,7 +12,8 @@ import random
 ## - outcome: actual outcome
 def get_posterior(prior, P, outcome):
     n_models = len(prior)
-
+    total_probability = prior * P[:, outcome] # get total_probability[i] = prior[i] * P[i, outcome]
+    posterior = total_probability / np.sum(total_probability)
     ## So probability of outcome for model i is just...
     return posterior
 
@@ -23,21 +24,33 @@ def get_posterior(prior, P, outcome):
 ## - outcome: actual outcome
 def get_marginal_prediction(belief, P, outcome):
     n_models = len(belief)
-#...
+    outcome_probability = 0
+    for mu in range(n_models):
+        outcome_probability += P[mu][outcome] * belief[mu]
     return outcome_probability
 
 ## In this function, U[action,outcome] should be the utility of the action/outcome pair
 def get_expected_utility(belief, P, action, U):
     n_models = len(belief)
     n_outcomes = np.shape(P)[1]
- #...
-    
+
+    utility = 0
+    for x in range(n_outcomes):
+        utility += get_marginal_prediction(belief, P, x) * U[action][x]
+
     return utility
     
 def get_best_action(belief, P, U):
     n_models = len(belief)
     n_actions = np.shape(U)[0]
-#...    
+    best_action = 0
+    best_U = get_expected_utility(belief, P, best_action, U)
+    for a in range(n_actions):
+        U_a = get_expected_utility(belief, P, a, U)
+        if (U_a > best_U):
+            best_U  = U_a
+            best_action = a
+    
     return best_action
     
 
@@ -55,7 +68,6 @@ P = np.zeros([n_models, n_outcomes])
 belief = np.ones(n_models) / n_models;
 rain = [1, 0, 1, 1];
 
-
 for t in range(T):
     # utility to loop to fill in predictions for that day
     for model in range(n_models):
@@ -63,7 +75,7 @@ for t in range(T):
         P[model,0] = 1.0 - prediction[model,t] # so no-rain probability is 1 - that.
     probability_of_rain = get_marginal_prediction(belief, P, 1)
     print(probability_of_rain)
-    U  = np.matrix('1 -1; 0 0')
+    U  = np.matrix('1 -10; 0 0')
     action = GetBestAction(belief, P, U)
     print(action, rain[t], U[action, rain[t]])
     belief = get_posterior(belief, P, rain[t])

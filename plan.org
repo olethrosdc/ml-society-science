@@ -162,16 +162,18 @@ The purpose of this course is to familiarise students with societal and scientif
 | 5 Sep  | L4. Bayesian inference tutorial; neural networks               | Christos |
 | 12 Sep | A3. Compare kNN/MLP, discover interesting features             | Dirk     |
 | 12 Sep | A4. Project Lab                                                | Dirk     |
+| 18 Sep | Project 1 1st Deadline                                         |          |
 | 18 Sep | L5. Databases, anonymity, privacy                              | Christos |
 | 19 Sep | L6. Differential privacy                                       | Christos |
 | 26 Sep | A5. DB tutorial/distributed computing                          | Dirk     |
 | 26 Sep | A6. Project DP tutorial: Laplace mechanism                     | Dirk     |
+| 2 Oct  | Project 1 2nd Deadline                                         |          |
 | 2 Oct  | L7. Fairness and graphical models                              | Christos |
 | 3 Oct  | L8. Estimating conditional independence                        | Christos |
 |--------+----------------------------------------------------------------+----------|
 | 10 Oct | A7. Production ML: SageMaker/Pipelines                         | Dirk     |
 | 10 Oct | A8. Project: fairness                                          | Dirk     |
-| 11 Oct | Project 1 Deadline                                             |          |
+| 16 Oct | Project 1 Final Deadline                                       |          |
 | 16 Oct | L9. Recommendation systems [can be skipped?]                   | Christos |
 | 17 Oct | L10. Latent variables and importance sampling                  | Christos |
 | 24 Oct | A9. Restful APIs                                               | Dirk     |
@@ -323,28 +325,11 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 
 * Exam subjects
-* Assignments
-** Assignment 1
-  | N. | Correct | Incorrect |
-  |----+---------+-----------|
-  |  1 |       8 |         2 |
-  |  2 |       7 |         3 |
-  |  3 |       9 |         1 |
-  |  4 |       7 |         3 |
-  |----+---------+-----------|
-  |  5 |      10 |           |
-  |  6 |       7 |         3 |
-  |  7 |       7 |         3 |
-  |  8 |       3 |         7 |
-  |----+---------+-----------|
-  |  9 |       9 |         1 |
-  | 10 |       8 |         2 |
-  |----+---------+-----------|
-  | 11 |     8.5 |       1.5 |
-  | 12 |      10 |           |
-  |----+---------+-----------|
-
-
-
-
-Some students think 5,8 are correct answers for the statistical test
+This is an outline of the topics to be covered in the final exam
+** Reproducibility
+** Conditional probability
+** Expected utility
+** Differential privacy
+** Graphical models
+** Conditional independence
+** Experiment design

@@ -6,8 +6,8 @@ As an example, take a look at the historical data in \texttt{data/credit/german.
 
 A skeleton for the project is available at \url{https://github.com/olethrosdc/ml-society-science/tree/master/src/project-1}. Start with \verb|random_banker.py| as a template, and create a new module \verb|name_banker.py|. You can test your implementation with the \verb|TestLending.py| program. 
 
-For ensuring progress, the project is split into two parts:
-\subsection{Deadline 1: September 14}
+For ensuring progress, the project is split into three parts:
+\subsection{Deadline 1: September 18}
 The first part of the project focuses on a baseline implementation of a banker module.
 \begin{enumerate}
 \item Design a policy for giving or denying credit to individuals, given their probability for being credit-worthy. Assuming that if an individual is credit-worthy, you will obtain a return on investement of $r = 0.5\%$ per month. Take into account the length of the loan to calculate the utility through \verb|NameBanker.expected_utility()|. Assume that the loan is either fully repaid at the end of the lending period $n$, or not at all to make things simple. If an individual is not credit-worthy you will lose your investment of $m$ credits, otherwise you will gain $m [(1 + r)^{n} - 1]$ . Ignore macroenomic aspects, such as inflation. In this section, simply assume you have a model for predicting creditworthiness as input to your policy, which you can access \verb|NameBanker.get_proba()|. 
@@ -16,14 +16,14 @@ The first part of the project focuses on a baseline implementation of a banker m
 \item Finally, using \verb|TestLending.py| as a baseline, create a jupyter notebook where you document your model development. Then compare your model against \verb|RandomBanker|.
 \end{enumerate}
 
-\subsection{Deadline 2: September 28}
+\subsection{Deadline 2: October 2}
 The second part of the project focuses on issues of reproducibility, reliability, privacy and fairness. That is, how desirable would it be to use this model in practice? Here are some sample questions that you can explore, but you should be free to think about other questions.
 \begin{enumerate}
 \item Is it possible to ensure that your policy maximises revenue? How can you take into account the uncertainty due to the limited and/or biased data? What if you have to decide for credit for thousands of individuals and your model is wrong? How should you take that type of risk into account?\footnote{You do not need to implement anything specific for this to pass the assignment, but you should outline an algorithm in a precise enough manner that it can be implemented. In either case you should explain how your solution mitigates this type of risk.}
 \item Does the existence of this database raise any privacy concerns? If the database was secret (and only known by the bank), but the credit decisions were public, how would that affect privacy? (a) Explain how you would protect the data of the people in the training set. (b) Explain how would protect the data of the people that apply for new loans. (c) \emph{Implement} a private decision making mechanism for (b),\footnote{If you have already implemented (a) as part of the tutorial, feel free to include the results in your report.} and estimate the amount of loss in utility as you change the privacy guarantee.
 \end{enumerate}
 
-\subsection{Deadline 3: October 10}
+\subsection{Deadline 3: October 16}
 
  Choose one concept of fairness, e.g. balance of decisions with respect to gender. How can you measure whether your policy is fair? How does the original training data affect the fairness of your policy? To help you in this part of the project, here is a list of guiding questions.
 
