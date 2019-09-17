@@ -71,7 +71,7 @@ session.
 Each question is weighted equally in each home exam, so that by
 correctly answering the elementary parts of each question, students
 can be guaranteed a passing grade. Each exam counts for 40% of the
-score. A 15-min seminar is also given by the students. This counts for
+score. A final exam is also given by the students. This counts for
 20% of the final score.
 
 Criteria for full marks in each part of the exam are the following. 
