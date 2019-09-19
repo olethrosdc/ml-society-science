@@ -468,7 +468,7 @@
       \pol(a \mid x)
       \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
                      \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-                                       \uncover<4->{\\ &\leq \frac{p}{1 - p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+                                       \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
                                                          \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
     \end{align*}
     \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
