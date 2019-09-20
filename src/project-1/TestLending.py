@@ -10,7 +10,7 @@ target = 'repaid'
 df = pandas.read_csv('../../data/credit/german.data', sep=' ',
                      names=features+[target])
 import matplotlib.pyplot as plt
-numerical_features = ['duration', 'age', 'residence time', 'installment', 'amount', 'duration', 'persons', 'credits']
+numerical_features = ['duration', 'age', 'residence time', 'installment', 'amount', 'persons', 'credits']
 quantitative_features = list(filter(lambda x: x not in numerical_features, features))
 X = pandas.get_dummies(df, columns=quantitative_features, drop_first=True)
 encoded_features = list(filter(lambda x: x != target, X.columns))
@@ -39,10 +39,10 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
 
 
 ### Setup model
-#import random_banker # this is a random banker
-#decision_maker = random_banker.RandomBanker()
-import aleksaw_banker
-decision_maker = aleksaw_banker.AlexBanker()
+import random_banker # this is a random banker
+decision_maker = random_banker.RandomBanker()
+#import aleksaw_banker
+#decision_maker = aleksaw_banker.AlexBanker()
 
 interest_rate = 0.05
 
