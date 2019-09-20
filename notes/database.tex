@@ -49,6 +49,25 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{SQL: A language for database access}
+  \begin{block}{Creating and filling tables}
+    \begin{itemize}
+    \item \texttt{CREATE TABLE table-name (column1, column2)}
+      \only<article>{Create a new table}
+    \item \texttt{INSERT INTO table-name VALUES ('value1', 'value2')}
+      \only<article>{Add specific values into a table}
+    \item \texttt{INSERT INTO table-name VALUES (?, ?), variable}
+      \only<article>{Fill in values from a variable}
+    \end{itemize}
+  \end{block}
+
+  \begin{example}{Database creation}
+    \url{src/privacy/database-creation.py}
+    \\
+    \url{src/privacy/database-access.py}
+  \end{example}
+\end{frame}
+\begin{frame}
   \frametitle{Queries in SQL}
   \begin{block}{The \texttt{SELECT} statement}
     \begin{itemize}

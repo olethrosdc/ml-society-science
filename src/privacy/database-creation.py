@@ -1,7 +1,7 @@
-import sqlite3
-conn = sqlite3.connect('example.db')
+import sqlite3 # library that we are going to use
+conn = sqlite3.connect('example.db') # connection to a local database
 
-c = conn.cursor()
+c = conn.cursor() # pointer to database 
 
 # Create table
 c.execute('''CREATE TABLE stocks

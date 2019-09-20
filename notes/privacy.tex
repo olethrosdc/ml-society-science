@@ -136,7 +136,7 @@
         \hline
         06/07 & Li Pu & 190 & 80 & 60+ & 1001 & Politician\\
         06/14 & Sara Lee & 185 & 110 & 60+ & 1001 & Rentier\\
-        06/12 & Nikos Papadopoulos & 170 & 82 & 60+ & 1243 & Politician\\
+        06/12 & Nikos Papadopoulos & 180 & 82 & 60+ & 1243 & Politician\\
         01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller\\
         05/08 & Li Yang & 175 & 72 & 30-40 & 6910 & Time Traveller
       \end{tabular}
@@ -151,7 +151,7 @@
         \hline
         06/07 &  & 190 & 80 & 60+ & 1001 & Politician\\
         06/14 &  & 185 & 110 & 60+ & 1001 & Rentier\\
-        06/12 &  & 170 & 82 & 60+ & 1243 & Politician\\
+        06/12 &  & 180 & 82 & 60+ & 1243 & Politician\\
         01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller\\
         05/08 &  & 175 & 72 & 30-40 & 6910 & Policeman
       \end{tabular}
@@ -164,7 +164,7 @@
         \hline
         06/07 &  & 180-190 & 80+ & 60+ & 1* & \\
         06/14 &  & 180-190 & 80+ & 60+ & 1* &\\
-        06/12 &  & 170-180 & 60+ & 60+ & 1* & \\
+        06/12 &  & 180-190 & 80+ & 60+ & 1* & \\
         01/01 &  & 170-180 & 60-80 & 20-60 & 6* &\\
         05/08 &  & 170-180 & 60-80 & 20-60 & 6* & 
       \end{tabular}
@@ -178,7 +178,7 @@
         \hline
                  &  & 180-190 & 80+ & 60+ & 1* & \\
                  &  & 180-190 & 80+ & 60+ & 1* &\\
-                 &  & 170-180 & 60-80 & 60+ & 1* & \\
+                 &  & 180-190 & 80+ & 60+ & 1* & \\
                  &  & 170-180 & 60-80 & 20-60 & 6* &\\
                  &  & 170-180 & 60-80 & 20-60 & 6* & 
       \end{tabular}
@@ -263,7 +263,9 @@
     \item Aim: calculate \% of doping.
     \item How can we get truthful / accurate results?
     \end{itemize}
-    \alert{Write responses in class: Age, Gender, Tobacco use}
+    \only<1>{
+      \alert{Write responses in class}
+    }
   }
   \only<2>{
     \begin{block}{Algorithm for randomising responses about drug use}
@@ -466,7 +468,7 @@
       \pol(a \mid x)
       \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
                      \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-                                       \uncover<4->{\\ &\leq \frac{p}{1 - p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+                                       \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
                                                          \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
     \end{align*}
     \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}

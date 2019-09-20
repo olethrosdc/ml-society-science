@@ -19,7 +19,8 @@ print(c.fetchone())
 
 # get the average price for IBM
 c.execute('SELECT AVG(price) FROM stocks WHERE symbol="IBM"')
-c.fetchall()
+print(c.fetchall())
+
 
 
 
