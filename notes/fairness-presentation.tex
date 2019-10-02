@@ -21,11 +21,101 @@
 \end{frame}
 
 
+\section{Fairness definitions}
+
+\begin{frame}
+  \frametitle{Fairness}
+  What is it?
+  \begin{itemize}
+  \item<2-> \alert{Meritocracy}.
+  \item<3-> Proportionality and representation.
+  \item<4-> Equal treatment.
+  \item<5-> \alert{Non-discrimination}.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Meritocracy}
+  
+  \uncover<2->{
+    \begin{example}[College admissions]
+      \begin{itemize}
+      \item Student $A$ has a grade 4/5 from Gota Highschool.
+      \item Student $B$ has a grade 5/5 from Vasa Highschool.
+      \end{itemize}
+    \end{example}
+  }
+  \uncover<3->{
+    \begin{example}[Additional information]
+      \begin{itemize}
+      \item 70\% of admitted Gota graduates with 4+ get their degree.
+      \item 50\% of admitted Vasa graduates with 5 get their degree.
+      \end{itemize}
+    \end{example}
+  }
+  \uncover<4->{We still don't know how a \alert{specific} student will do!}
+  \begin{block}<4->{Solutions}
+    \begin{itemize}
+    \item<5-> Admit \alert{everybody}?
+    \item<6-> Admit \alert{randomly}?
+    \item<7-> Use \alert{prediction} of individual academic performance?
+    \end{itemize}
+  \end{block}
+  
+
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proportional representation}
+  \includegraphics[width=\textwidth]{../figures/genomics-diversity}
+  \url{https://qz.com/1367177/}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Hiring decisions}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[height=\textheight]{../figures/cmu-headcount}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=\columnwidth]{../figures/amazon-hiring}
+      \\
+      \includegraphics[width=\columnwidth]{../figures/recruitement-automation}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fairness and information}
+  \begin{example}[College admissions data]
+    \begin{table}[H]
+      \begin{tabular}{l|r|r}
+        School & Male  & Female\\
+        \hline
+        A & 62\% & 82\%\\
+        B & 63\% & 68\%\\
+        C & 37\% & 34\%\\
+        D & 33\% & 35\%\\
+        E & 28\% & 24\%\\
+        F &  6\% &  7\%\\
+        \hline
+        \emph{Average} & \emph{45\%} & \emph{38\%}
+      \end{tabular}
+    \end{table}
+  \end{example}
+\end{frame}
+
+
 \include{fairness} % fairness
 
 \end{document}
 
-
 %%% Local Variables:
 %%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: t
 %%% End:

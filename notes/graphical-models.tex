@@ -219,6 +219,7 @@
 \input{graphical-models-exercises.tex}
 
 
+
 \begin{frame}
   \begin{alertblock}{Deciding conditional independence}
     There is an algorithm for deciding conditional independence of any two variables in a graphical model.
@@ -226,6 +227,104 @@
   \end{alertblock}
 
 \end{frame}
+
+\subsection{Inference and prediction in graphical models}
+\begin{frame}
+\frametitle{Inference and prediction in graphical models}
+ \begin{figure}[H]
+     \centering
+     \begin{tikzpicture}
+       \node[RV, hidden] at (0,0) (param) {$\param$};
+       \node[RV] at (-1,1) (data1) {$x_1$};
+       \node at (0,1) (data2) {$\cdots$};
+       \node[RV] at (1,1) (data3) {$ x_t$};
+       \draw[->] (param)--(data1);
+       \draw[->] (param)--(data3);
+       \node<2->[RV] at (2,1) (new_data) {$x_{t+1}$};
+       \draw<2->[->] (param)--(new_data);
+     \end{tikzpicture}
+     \caption{Inference and prediction in a graphical model.}
+  \end{figure}
+  \only<1>{
+    \begin{block}{Inference of latent variables}\index{inference}
+      \[
+      \Pr(\param \mid x_1, \ldots, x_t)
+      \]
+      \only<article>{Inference in graphical models typically refers to the problem of estimating the distribution of some \emph{hiddeen} or \emph{latent} variable from data. These variables are generally thought of as two types:}
+      \begin{itemize}
+      \item Model parameters. \only<article>{These generally do not change over time. One example is estimating the mean of a Gaussian distribution from data.}
+      \item System states. \only<article>{These typically are time-indexed. We will see further examples of such variables when we discuss latent variable models. On example is inferring location from GPS measurements.} 
+      \end{itemize}
+    \end{block}
+  }
+  \only<2>{
+    \begin{block}{Prediction}\index{prediction}
+      \[
+      \Pr(x_{t+1} \mid x_1, \ldots, x_t)
+      =
+      \int_\Param P(x_{t+1} \mid x_1, \ldots, x_t) \dd P(\param \mid x_1, \ldots, x_t)
+      \]
+      \only<article>{Prediction is a type of inference, but differs in that the variable whose distribution we wish to estimate is only temporarily not observed: we can actually obtain its value in the future. Thus, a prediction is always testable!}
+      \only<presentation>{
+        Predictions are \alert{testable.}
+      }
+    \end{block}
+  }
+\end{frame}
+
+\begin{frame}
+\frametitle{Coin tossing, revisited}
+\begin{example}{The Beta-Bernoulli prior}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (bel) {$\bel$}; \node[RV, hidden] at (1,0)
+      (param) {$\param$}; \node[RV] at (2,0) (data) {$x$}; \draw[->]
+      (bel)--(param); \draw[->] (param)--(data);
+    \end{tikzpicture}
+    \caption{Graphical model for a Beta-Bernoulli prior}
+  \end{figure}
+  \begin{align}
+    \param &\sim \BetaDist(\bel_1, \bel_2), && \textrm{i.e.  $\bel$ are Beta distribution parameters}\\
+    x \mid \param &\sim \Bernoulli(\param), && \textrm{i.e. $P_\param(x)$ is a Bernoulli}
+  \end{align}
+  \only<article>{In this example, it is obvious why we use the notation above for describing hierarchical models.\index{hierarchical Bayesian model} We simply state what is the distribution on one variable conditioned on the other variables. Here, $\bel$ is fixed, and it is something we can choose arbitrarily. The data $x$ is observed, while the parameter $\param$ remains \emindex{latent}. Using Bayes theorem, we can derive the distribution for $\bel(\theta \mid x)$.}
+\end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}{The $n$-meteorologists problem (again)}
+    \only<presentation>{
+      \begin{itemize}
+      \item Meteorological models $\CM = \set{\model_1, \ldots, \model_n}$
+      \item Rain predictions at time $t$: $p_{t,\model} \defn  P_{\model}(x_t = \textrm{rain})$.
+      \item Prior probability $\bel(\model) = 1/n$ for each model.
+      \item Decision $a$, resulting in utility $\util(a, x_{t+1})$
+      \end{itemize}
+    }
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,-1) (bel) {$\bel$};
+        \node[RV, hidden] at (0,0) (param) {$\model$};
+        \node[RV] at (-1,1) (data1) {$x_1$};
+        \node at (0,1) (data2) {$\cdots$};
+        \node[RV] at (1,1) (data3) {$ x_t$};
+        \draw[->] (param)--(data1);
+        \draw[->] (param)--(data3);
+        \node[RV] at (2,1) (new_data) {$x_{t+1}$};
+        \draw[->] (param)--(new_data);
+        \draw[->] (bel)--(param);
+        \node[select] at (2,-1) (act) {$a$};
+        \node[utility] at (4,-1) (util) {$\util$};
+        \draw[->] (act)--(util);
+        \draw[->] (new_data)--(util);
+      \end{tikzpicture}
+     \caption{Inference, prediction and decisions in a graphical model.}
+   \end{figure}
+  \end{example}
+\end{frame}
+
 
 \subsection{Testing conditional independence}
 \begin{frame}
@@ -264,25 +363,6 @@
   \end{example}
 \end{frame}
 
-\begin{frame}
-\frametitle{Coin tossing, revisited}
-\begin{example}{The Beta-Bernoulli prior}
-  \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-      \node[RV] at (0,0) (bel) {$\bel$}; \node[RV, hidden] at (1,0)
-      (param) {$\param$}; \node[RV] at (2,0) (data) {$x$}; \draw[->]
-      (bel)--(param); \draw[->] (param)--(data);
-    \end{tikzpicture}
-    \caption{Graphical model for a Beta-Bernoulli prior}
-  \end{figure}
-  \begin{align}
-    \param &\sim \BetaDist(\bel_1, \bel_2), && \textrm{i.e.  $\bel$ are Beta distribution parameters}\\
-    x \mid \param &\sim \Bernoulli(\param), && \textrm{i.e. $P_\param(x)$ is a Bernoulli}
-  \end{align}
-  \only<article>{In this example, it is obvious why we use the notation above for describing hierarchical models.\index{hierarchical Bayesian model} We simply state what is the distribution on one variable conditioned on the other variables. Here, $\bel$ is fixed, and it is something we can choose arbitrarily. The data $x$ is observed, while the parameter $\param$ remains \emindex{latent}. Using Bayes theorem, we can derive the distribution for $\bel(\theta \mid x)$.}
-\end{example}
-\end{frame}
 
 \begin{frame}
 \begin{example}{An alternative model for coin-tossing}

@@ -5,6 +5,8 @@
 
   In this course we will look at two aspects of fairness. The first has to do with disadvantaged populations that form distinct social classes due to a shared income stratum, race or gender. The second has to do with meritocratic notions of fairness.
 }
+
+
 \begin{frame}
   \frametitle{Bail decisions}
   \only<article>{
@@ -202,6 +204,38 @@
 
 
 \subsection{Group fairness and conditional independence}
+
+\begin{frame}
+  \frametitle{Independence}
+  \begin{figure}[H]
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \centering
+        \def\svgwidth{.95\columnwidth}
+        \input{../figures/risk-scores-black.pdf_tex}
+        Black
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \centering
+        \def\svgwidth{0.95\columnwidth}
+        \input{../figures/risk-scores-white.pdf_tex}      
+        White
+      \end{column}
+    \end{columns}
+    \label{fig:risk-bias}
+    \caption{Apparent bias in risk scores towards black versus white defendants.}
+  \end{figure}
+  \begin{align}
+    \Pr^\pi_\param(a \mid z) &= \Pr_\param^\pi(a) \tag{\alert<1>{non-discrimination}}
+  \end{align}
+  \only<presentatiion>{
+    \begin{itemize}
+    \item[$a$] Assigned score.
+    \item[$z$] Race.
+    \end{itemize}
+  }
+\end{frame}
+
 \begin{frame}
   \only<article>{So how can we reframe the above fairness notions in a more precise way? Both of them involve conditional independence between $y, a$ and a sensitive attribute $z$, such as race. The first notion says that the actions of the judge (or equivalently, the scores of the algorithm) are \emph{calibrated} with respect to the outcomes. The second says that they are \emph{balanced}, so that were the outcome known to the judge, she would be making a decision independently of the defendant's race. Both of these conditions were discussed in a more restricted setting by }
   \only<presentation>{
@@ -306,7 +340,7 @@
   }    
   \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[scale=2,thick,domain=-2:2]
+    \begin{tikzpicture}[scale=1.5,thick,domain=-2:2]
       \draw[->] (-2,0) -- (2,0) node[right] {$x$};
       \draw[->] (0,0) -- (0,1) node[above] {$\pol(a \mid x)$};
       \draw[color=blue] plot (\x,{0.5 + 0.5 * tanh(\x)}); % node[right] {$f(x) = \frac{1}{20} \mathrm e^x$};
@@ -343,6 +377,7 @@
 
 \subsection{A unifying view of fairness}
 \only<article>{In both cases, we defined conditional independence for a fixed probability distribution $P_\param(x,y,z)$ on the various variables. We also considered meritocratic fairness with respect to $\param$. First of all, we can simply define a function $F$ that measures the amount of fairness violation for a given parameter value. As an example, the deviation from calibration of a policy $\pol$ for a given parameter value $\param$ can be written as:
+
 \begin{equation}
   F_{\textrm{calibration}}(\param, \pol)
   \defn
@@ -365,6 +400,52 @@ Finally, we can also create a deviation for the constrains in the maximisation p
 
 If we the decision maker did not care about fairness, she could just maximise some utility function $\util$ of interest. In order to take fairness into account, we define the value of the policy to be a linear combination between the original utility and the fairness violation.
 }
+
+\begin{frame}
+  \frametitle{The value of a policy}
+  \begin{block}<1->{Fairness metrics: balance}
+    \begin{equation}
+      F_{\textrm{balance}}(\param, \pol)
+      \defn
+      \sum_{y, z, a}
+      |\Pr_\param^\pol(a \mid y, z) - \Pr_\param^\pol(a  \mid y)|^2
+    \end{equation}
+  \end{block}
+  \begin{block}<2->{Utility: Classification accuracy}
+    \[
+      U(\param, \pol) = \Pr_\param^\pol (y_t = a_t)
+    \]
+  \end{block}
+  \begin{block}<3->{Use $\lambda$ to trade-off utility and fairness}
+    \begin{equation}
+      \label{eq:combined-value}
+      V(\lambda, \param, \pol) = (1 - \lambda) \overbrace{U(\param, \pol)}^{\textrm{utility}} - \lambda \underbrace{F(\param, \pol)}_{\textrm{unfairness}}
+    \end{equation}
+  \end{block}
+  \note<1>{Of course, we care not only about fairness with respect to race, but also about utility: we would like our predictions to be accurate. For that reason, if we say theta describes the environment, then the value of our policy can be seen as the convex combination between a utility term and a fairness violation term.}
+  \note<2>{The fairness violation term simply expresses how far away from e.g. balance our decision rule is. This can be done like in this example, where we use the square difference between the probabilities of the same action under different conditionings on the sensitive variable.}
+  \note<3>{The utility can be something simple, such as the classification utility, by taking $U$ to be the identity function. Then the $I$ term is 1 when we have a correct classification, and the term is the }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Model uncertainty}
+  \alert{$\param$ is unknown}
+  \begin{theorem}
+    A decision rule in the form of a lottery, i.e.
+    \[
+      \pi(a \mid x) = p_a
+    \]
+    can be the only way to satisfy balance for all possible $\param$.
+  \end{theorem}
+
+  \begin{block}{Possible solutions}
+    \begin{itemize}
+    \item Marginalize over $\param$ ("expected" model)
+    \item Use Bayesian reasoning
+    \end{itemize}
+  \end{block}
+  \note{The discussion here has focused on the case where we are talking about a specific probability distribution $P_\theta(x,y,z)$ from which the data is generated. However, we never know this distribution. Because of this, if we want to be fair with respect to e.g. balance for every possible model of the world, we need to essentially run a lottery: assign a fixed probability to every possible decision. This clearly is far from optimal in terms of utility. So, what can we do? There are two options. The first is to marginalise over the parameters to get an expected model of the world and optimise according to that. The second, which is what we propose, is to use Bayesian reasoning.}
+\end{frame}
 
 \begin{block}{The value of a policy}
   Let $\lambda$ represent the trade-off between utility and fairness.
