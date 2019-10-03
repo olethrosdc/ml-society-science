@@ -13,13 +13,13 @@ class BetaBernoulli:
         n_data = len(data)
         for t in range(n_data):
             if (data[t] > 0):
-                belief[1] += 1
+                self.belief[1] += 1
             else:
-                belief[0] += 1
+                self.belief[0] += 1
 
     ## Get the marginal bernoulli probability of each symbol
     def get_merginal(self):
-        return belief / sum(belief)
+        return self.belief / sum(self.belief)
 
     ## Generate a bernoulli probability distribution from the posterior
     def generate(self):
@@ -43,9 +43,9 @@ class Bernoulli:
 
     ## This does nothing here
     def update_belief(self, data):
-
+        return
     ## We define this to keep the same API, even though there is no marginal
-    def get_merginal(self):
+    def get_marginal(self):
         return self.p
 
     ## Return the probability of a (sequence of) observations

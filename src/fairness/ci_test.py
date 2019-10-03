@@ -11,6 +11,8 @@ Y = np.zeros(n_data)
 Z = np.zeros(n_data)
 A = np.zeros(n_data)
 
+
+# By changing the structure of this, you get different dependencies
 for t in range(n_data):
     ## This is P(Z | X)
     Z[t] = X[t] + np.random.normal()
@@ -26,8 +28,13 @@ for t in range(n_data):
     else:
         Y[t] = 1
 
-    ## This is P(A | X)
-    A[t] = Z[t] + np.random.normal()
+    ## There are three cases for A's distribution. Comment out each to see the result
+    ## (a) P(A | Z,X,Y) = P(A | X)
+    A[t] = X[t] + np.random.normal()
+    ## (b) P(A | Z,X,Y) = P(A | Y) 
+    A[t] = Y[t] + np.random.normal()
+    ## (c) P(A | Z,X,Y) = P(A | Z)
+    #A[t] = Z[t] + np.random.normal()
     if (A[t] < 0):
         A[t] = -1
     else:
@@ -57,7 +64,7 @@ def marginal_posterior(data, alpha, beta):
 
             
 ## Now measure the distribution of A for each value of Y, for different values of Z
-##
+## The aim is to check whether P(A | Z,X,Y) = P(A | Y), which is condition (b)
 n_figures = 0
 P_independent = 1
 P_dependent = 1
@@ -66,22 +73,22 @@ for y in [-1, 1]:
     positive = (Y==y) & (Z==1)
     positive_alpha = sum(A[positive]==1)
     positive_beta = sum(A[positive]==-1)
-    #positive_ratio = positive_alpha / (positive_alpha + positive_beta)
+    positive_ratio = positive_alpha / (positive_alpha + positive_beta)
 
     ## P(A | Y, Z = - 1)
     negative = (Y==y) & (Z==-1)
     negative_alpha = sum(A[negative]==1)
     negative_beta = sum(A[negative]==-1)
-    #negative_ratio = negative_alpha / (negative_alpha + negative_beta)
+    negative_ratio = negative_alpha / (negative_alpha + negative_beta)
 
-    #print("y: ", y, "Deviation: ", abs(positive_ratio - negative_ratio))
+    print("y: ", y, "Deviation: ", abs(positive_ratio - negative_ratio), "\n")
 
     print ("Calculate the marginals for each model")
     P_D_positive = marginal_posterior(A[positive], 1, 1)
     P_D_negative = marginal_posterior(A[negative], 1, 1)
     P_D = marginal_posterior(A[(Y==y)], 1, 1)
     
-    
+
     print("Marginal likelihoods: ", P_D, "Dependent:", P_D_negative, P_D_positive)
     
     ## Now you need to calculate the probability of either the

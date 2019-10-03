@@ -261,6 +261,31 @@
     \only<article>{However, both methods are able to reject the null hypothesis more often when it is false, as long as we have more data.}
   }
 \end{frame}
+
+\begin{frame}
+\frametitle{Concentration inequalities and confidence intervals}
+\only<article>{
+There are a number of inequalities from probability theory that allow us to construct high-probability confidence intervals. The most well-known of those is Hoeffding's inequality \index{Hoeffding inequality|textbf}, the simplest version of which is the following:
+\begin{lemma}[Hoeffding's inequality]
+  Let $x_1, \ldots, x_n$ be a series of random variables, $x_i \in [0, 1]$. Then it holds that, for the empirical mean:
+  \[
+  \mu_n \defn \frac{1}{n} sum_{t=1}^n x_t
+  \]
+  \begin{equation}
+    \Pr(\mu_n \geq \E \mu_n+ \epsilon) \leq e^{-2n\epsilon^2}.
+    \label{eq:hoeffding}
+  \end{equation}
+\end{lemma}
+When $x_t$ are i.i.d, $\E \mu_n = \E x_t$. This allows us to construct an interval of size $\epsilob$ around the true mean. This can generalise to a two-sided interval:
+\[
+\Pr(|\mu_n - \E \mu_n| \geq \epsilon) \leq 2e^{-2n\epsilon^2}.
+\]
+We can also rewrite the equation to say that, with probability at least $1 - \delta$
+\[
+|\mu_n - \E \mu_n| \leq \sqrt{\frac{\ln 2/\delta}{2n}}
+\]
+}
+\end{frame}
 \begin{frame}
   \frametitle{Further reading}
   \begin{block}{Points of significance (Nature Methods)}
