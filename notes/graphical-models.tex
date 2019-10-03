@@ -243,8 +243,9 @@
        \node<2->[RV] at (2,1) (new_data) {$x_{t+1}$};
        \draw<2->[->] (param)--(new_data);
      \end{tikzpicture}
-     \caption{Inference and prediction in a graphical model. \only<article>{In this particular example, $x_1, \ldots, x_t$ are all i.i.d, drawn from the distribution $P_\param$.}}
-  \end{figure}
+     \caption{Inference and prediction in a graphical model}. 
+   \end{figure}
+\only<article>{In this example, $x_1, \ldots, x_t$ are all i.i.d, drawn from the distribution $P_\param(x_t) = \Pr(x_t \mid \param)$.}
   \only<1>{
     \begin{block}{Inference of latent variables}\index{inference}
       \[
