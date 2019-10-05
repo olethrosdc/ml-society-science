@@ -28,13 +28,17 @@ for t in range(n_data):
     else:
         Y[t] = 1
 
+ #   X - A
+ #   | \ 
+ #   Z   Y
+ #   
     ## There are three cases for A's distribution. Comment out each to see the result
     ## (a) P(A | Z,X,Y) = P(A | X)
     A[t] = X[t] + np.random.normal()
     ## (b) P(A | Z,X,Y) = P(A | Y) 
-    A[t] = Y[t] + np.random.normal()
+    ## A[t] = Y[t] + np.random.normal()
     ## (c) P(A | Z,X,Y) = P(A | Z)
-    #A[t] = Z[t] + np.random.normal()
+    ## A[t] = Z[t] + np.random.normal()
     if (A[t] < 0):
         A[t] = -1
     else:
