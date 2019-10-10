@@ -457,8 +457,22 @@
   }
 \end{frame}
 
-
-
+\subsubsection{Riemann and Lebesgue integrals}
+\only<article>{
+Since $\bel$ is a probability measure over models $\Param$, it is always simple to write the posterior probability given some data $x$ in the following terms when $\Param$ is discrete (finite or countable):
+\[
+\bel(\param \mid x) = \frac{P_\param(x) \bel(\param)}{\sum_{\param'} P_{\param'(x) \bel(\param')}.
+\]
+However, in many situations $\Param$ is uncountable, i.e. $\Param \subset \Reals^\k$. Then, as both the prior $\bel$ and the posterior $\bel(\cdot \mid x)$ have to be probability measures on $\Param$, they are defined over subsets of $\Param$. This means that we can write the posterior in terms of Lebesgue integrals:
+\[
+\bel(B \mid x) = \frac{\int_B P_\param(x) \dd \bel(\param)}{\int_\Param P_\param(x) \dd \bel(\param)}.
+\]
+Alternatively, we can abuse notation and use $\bel(\param)$ to describe a density, so that the \emindex{posterior density} is written in terms of a Riemann integral:
+\[
+\bel(\param \mid x) \defn \frac{P_\param(x) \bel(\param) \dd \param}{\int_{\Param} P_{\param'}(x) \bel(\param') \param'}.
+\]
+However, the advantage of the Lebesgue integral notation is that it works the same no matter whether $\Param$ is discrete or continuous.
+}
 \begin{frame}
   \frametitle{Learning outcomes}
   \begin{block}{Understanding}
