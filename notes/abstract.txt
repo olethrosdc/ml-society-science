@@ -1,0 +1,50 @@
+Problems in machine learning are similar to problems in science.
+Scientists must plan experiments intelligently and collect data.
+The must be able to use the data to verify a different hypothesis.
+More generally, they must be able to make decisions under
+uncertainty: without uncertainty, there would be no need to gather
+more data.  Similar problems appear in more mundane tasks, like
+learning to drive a car.
+
+For that reason, science is a very natural application area for
+machine learning.  We can model the effects of climate change and
+how to mitigate it; discover structure in social networks; map
+the existence of dark matter in the universe by intelligently
+shifting through weak gravitational lens data, and not only study
+the mechanisms of protein folding, but discover methods to
+synthesize new drugs.
+
+We must be careful, however. In many cases we need to be able to
+interpret what our model tells us. We also must make sure that
+ any results we obtain are reproducible. I like to take the example of the dead salmon mirage, where scientists used a common fMRI analysis methodology (typically used then to show that there was an 'Angelina Jolie' neuron in the brain) to show that a dead salmon could apparently tell whether people were lonely.
+ 
+  
+  While machine learning models in science are (usually) carefully
+  handcrafted by scientists and experts in machine learning and
+  statistics, this is not typically the case in everyday
+  applications. Nevertheless, well-known or home-grown machine
+  learning models are being deployed across the application
+  spectrum. This involve home assistants that try and get you want,
+  web advertising, which tries to find new things for you to want,
+  lending, which tries to optimally lend you money so that you buy
+  what you didn't need before. We also have autonomous vehicles, which
+  take you were you want to go, and ridesharing services, which do the
+  same thing, but use humans instead. Finally, there are many
+  applications in public policy, such as crime prevention, justice,
+  and disease control which use machine learning.  In all those cases,
+  we have to worry about many externalities such as: privacy, fairness
+  and safety.
+  
+   If we wish to publish a database, we need to protect the identities of people involved. A naive method  is to erase identifiers. However, this does not generally work time, since attackers can have useful side-information: When Bill Weld, the then governor of Massachussets decided to publish anonymised health records of state employess, Dr. McSweeny was able to identify his own records from a voter registration database. The industry standard now is the concept of differential privacy. A differentially-private algorithm has the property that its output only allows you to discover a small amount of information about its input.
+
+  The problem of fairness in machine learning and artificial intelligence has only recently been widely recognised. When any algorithm is implemented at scale, no matter the original objective, it has significant societal effects: Even if an algorithm achieves its narrow objective,  it may increase inequality. There have been two main notions of fairness:  The first has to do with disadvantaged populations that form distinct social classes due to a shared income stratum, race or gender and the second has to do with meritocracy. Designing algorithms with fairness constraints in mind is now a major effort in academia.
+
+Finally, safety is a very broadly defined concept, with concrete definitons for specific applications: for cars, one typically considers the kilometers per accident. While this is a useful statistic, things become a bit more hazy when considering AI-enabled vehicles. We now have an AI system interacting at a large scale with the driver network,  creating feedback effects. If a Brand X automated vehicle only has 1 crash per million kilometers when there are few of them around,  this may increase suddenly when the density of such vehicles becomes higher. Human and AI interaction is also a critical factor, especially when they do not understand each other, as evinced by recent high profile airplane crashes.
+
+Some form of artificial intelligence or machine learning is used everywhere in data analysis. With respect to science, the benefits are clear: increased automation and more sophisticated models allow scientists to target harder and more complex questions.
+
+However, AI/ML is now used pervasively, and with frequently little understanding by the companies that deploy them. There needs to be an interdiscipinary dialogue between CS/STATS researchers and the humanities and law, so that we can deploy algorithms and systems that better address societal needs and not only focus on narrow optimisation goals that can have large negative side-effects. This is something that has been recognised for some time in the machine learning community and we must strive to make the message heard: systems must be designed from the ground up with both social and scientific goals in mind.
+
+
+
+
