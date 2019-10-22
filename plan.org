@@ -325,11 +325,23 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 
 * Exam subjects
-This is an outline of the topics to be covered in the final exam
+This is an outline of the topics to be covered in the final exam, with some example questions
+
 ** Reproducibility
+
 ** Conditional probability
+
+A prosecutor claims that the defendant is guilty because they have found DNA matching them on the scene of the crime. He claims that DNA testing has a false positive rate of one in a million ($10^{-6$}$). While this is indeed evidence for the prosecution, it does not mean that the probability that the defendant is innocent is $10^{-6}$. What other information would you need to calculate the probability of the defendant being guilty given the evidence, and how would you incorporate it?
+
 ** Expected utility
+
 ** Differential privacy
+
 ** Graphical models
+
+Consider four random variables $w, x, y, z$ with the following properties: (a)  $w$ is independent of $x$ given $y$ and $z$, (b) it is not completely independent of $x$. Draw a graphical model that satisfies them.
+
+
 ** Conditional independence
+
 ** Experiment design
