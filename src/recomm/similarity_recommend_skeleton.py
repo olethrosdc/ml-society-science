@@ -3,8 +3,10 @@
 import numpy as np
 
 ## Calculate the distance between two people
+## (helper function, if necessary)
 def distance(x, y):
 
+## Get the similarity between two people
 def get_similarity(data, u):
     n_users = data.shape[0]
     similarity = np.zeros(n_users)
@@ -20,7 +22,8 @@ def generate_random_data(n_users, n_movies, gamma):
     return data
 
 
-def infer_ratings(data, linkage):
+## data[u,m] = 0 if somebody hasn't watched a movie
+def infer_ratings(data):
     n_users = data.shape[0]
     n_movies = data.shape[1]
     inferred_ratings = data
