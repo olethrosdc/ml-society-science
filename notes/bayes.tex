@@ -14,12 +14,12 @@
 \begin{frame}
   \frametitle{Uncertainty}
   \only<presentation>{
-  \begin{itemize}
-  \item We cannot perfectly predict the future.
-  \item We cannot know for sure what happened in the past.
-  \item How can we quantify this uncertainty?
-  \item Probabilities!
-  \end{itemize}
+    \begin{itemize}
+    \item We cannot perfectly predict the future.
+    \item We cannot know for sure what happened in the past.
+    \item How can we quantify this uncertainty?
+    \item Probabilities!
+    \end{itemize}
   }
   \begin{block}{Axioms of probability}
     For any probability measure\footnote{$\Sigma$ is the set of possible events, with $A \in \Sigma$ always $A \subset \Omega$. Technically $\Sigma$ is a $\sigma$-algebra} $P$ on $(\Omega, \Sigma)$,
@@ -110,14 +110,14 @@
 \begin{frame}
   \frametitle{Classification in terms of conditional probabilities}
   \only<1>{
-  \only<presentation>{
-    \begin{itemize}
-    \item Features $x_t \in \CX$.
-    \item Class label $y_t \in \CY$.
-    \item Probability model $P_\model(x_t \mid y_t)$.
-    \item Prior class probability $P_\model(y_t = c)$.
-    \end{itemize}
-  }
+    \only<presentation>{
+      \begin{itemize}
+      \item Features $x_t \in \CX$.
+      \item Class label $y_t \in \CY$.
+      \item Probability model $P_\model(x_t \mid y_t)$.
+      \item Prior class probability $P_\model(y_t = c)$.
+      \end{itemize}
+    }
   }
   \only<article>{
     Conditional probability naturally appears in classification problems. Given a new example vector of data $x_t \in \CX$, we would like to calculate the probability of different classes $c \in \CY$ given the data, $P_\model(y_t = c \mid x_t)$.  
@@ -125,9 +125,9 @@
     from Bayes's theorem, we see that we can obtain the probability of the class:
   }
   \only<1>{
-  \[
-  P_\model(y_t = c \mid x_t) = \frac{P_\model(x_t \mid y_t = c) P_\model(y_t = c)}{\sum_{c' \in \CY} P_\model(x_t \mid y_t = c') P_\model(y_t = c')}
-  \]
+    \[
+    P_\model(y_t = c \mid x_t) = \frac{P_\model(x_t \mid y_t = c) P_\model(y_t = c)}{\sum_{c' \in \CY} P_\model(x_t \mid y_t = c') P_\model(y_t = c')}
+    \]
   }
   \only<article>{
     for any class $c$. This directly gives us a method for classifying new data, as long as we have a way to obtain $P_\model(x_t \mid y_t)$ and $P_\model(y_t)$.
@@ -162,20 +162,20 @@
     \caption{The effect of changing variance and prior on the classification decision when we assume a normal distribution.}
     \label{fig:normal-generative}
   \end{figure}
-    \begin{example}[Normal distribution]
-      A simple example is when $x_t$ is normally distributed in a matter that depends on the class.  Figure~\ref{fig:normal-generative} shows the distribution of $x_t$ for two different classes, with means of $-1$ and $+1$ respectively, for three different case. In the first case, both classes have variance of 1, and we assume the same prior probability for both
-      \[
-      x_t \mid y_t = 0 \sim \Normal(-1,1),
-      \qquad
-      x_t \mid y_t = 1 \sim \Normal(1,1)
-      \]
-      \[
-      x_t \mid y_t = 0 \sim \Normal(-1,1),
-      \qquad
-      x_t \mid y_t = 1 \sim \Normal(1,1)
-      \]
+  \begin{example}[Normal distribution]
+    A simple example is when $x_t$ is normally distributed in a matter that depends on the class.  Figure~\ref{fig:normal-generative} shows the distribution of $x_t$ for two different classes, with means of $-1$ and $+1$ respectively, for three different case. In the first case, both classes have variance of 1, and we assume the same prior probability for both
+    \[
+    x_t \mid y_t = 0 \sim \Normal(-1,1),
+    \qquad
+    x_t \mid y_t = 1 \sim \Normal(1,1)
+    \]
+    \[
+    x_t \mid y_t = 0 \sim \Normal(-1,1),
+    \qquad
+    x_t \mid y_t = 1 \sim \Normal(1,1)
+    \]
 
-    \end{example}
+  \end{example}
   
   \uncover<5>{
     \alert{But how can we get a probability model in the first place?}
@@ -459,19 +459,19 @@
 
 \subsubsection{Riemann and Lebesgue integrals}
 \only<article>{
-Since $\bel$ is a probability measure over models $\Param$, it is always simple to write the posterior probability given some data $x$ in the following terms when $\Param$ is discrete (finite or countable):
-\[
-\bel(\param \mid x) = \frac{P_\param(x) \bel(\param)}{\sum_{\param'} P_{\param'(x) \bel(\param')}.
-\]
-However, in many situations $\Param$ is uncountable, i.e. $\Param \subset \Reals^\k$. Then, as both the prior $\bel$ and the posterior $\bel(\cdot \mid x)$ have to be probability measures on $\Param$, they are defined over subsets of $\Param$. This means that we can write the posterior in terms of Lebesgue integrals:
-\[
-\bel(B \mid x) = \frac{\int_B P_\param(x) \dd \bel(\param)}{\int_\Param P_\param(x) \dd \bel(\param)}.
-\]
-Alternatively, we can abuse notation and use $\bel(\param)$ to describe a density, so that the \emindex{posterior density} is written in terms of a Riemann integral:
-\[
-\bel(\param \mid x) \defn \frac{P_\param(x) \bel(\param) \dd \param}{\int_{\Param} P_{\param'}(x) \bel(\param') \param'}.
-\]
-However, the advantage of the Lebesgue integral notation is that it works the same no matter whether $\Param$ is discrete or continuous.
+  Since $\bel$ is a probability measure over models $\Param$, it is always simple to write the posterior probability given some data $x$ in the following terms when $\Param$ is discrete (finite or countable):
+  \[
+  \bel(\param \mid x) = \frac{P_\param(x) \bel(\param)}{\sum_{\param'} P_{\param'(x) \bel(\param')}.}
+  \]
+  However, in many situations $\Param$ is uncountable, i.e. $\Param \subset \Reals^k$. Then, as both the prior $\bel$ and the posterior $\bel(\cdot \mid x)$ have to be probability measures on $\Param$, they are defined over subsets of $\Param$. This means that we can write the posterior in terms of Lebesgue integrals:
+  \[
+  \bel(B \mid x) = \frac{\int_B P_\param(x) \dd \bel(\param)}{\int_\Param P_\param(x) \dd \bel(\param)}.
+  \]
+  Alternatively, we can abuse notation and use $\bel(\param)$ to describe a density, so that the \emindex{posterior density} is written in terms of a Riemann integral:
+  \[
+  \bel(\param \mid x) \defn \frac{P_\param(x) \bel(\param) \dd \param}{\int_{\Param} P_{\param'}(x) \bel(\param') \param'}.
+  \]
+  However, the advantage of the Lebesgue integral notation is that it works the same no matter whether $\Param$ is discrete or continuous.
 }
 \begin{frame}
   \frametitle{Learning outcomes}
