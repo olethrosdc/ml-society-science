@@ -64,8 +64,6 @@ class CovariateModel:
         return hat_U/n_samples
 
 
-    
-    
 
 ### Get an estimate for theta for the simple model where the response is an additive function (in expectation) of theta and the action
 

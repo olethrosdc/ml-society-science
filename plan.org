@@ -339,9 +339,13 @@ A prosecutor claims that the defendant is guilty because they have found DNA mat
 
 ** Graphical models
 
+A patient is coming to the doctor complaining of chest pains. The doctor recommends that the patient undergoes EEG examination and observes the result. Describe apropriate random variables corresponding to this problem and draw a graphical model detailing their relationship.
+
+** Conditional independence
 Consider four random variables $w, x, y, z$ with the following properties: (a)  $w$ is independent of $x$ given $y$ and $z$, (b) it is not completely independent of $x$. Draw a graphical model that satisfies them.
 
 
-** Conditional independence
+
 
 ** Experiment design
+   
