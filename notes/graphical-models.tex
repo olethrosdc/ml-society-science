@@ -92,9 +92,23 @@
   }
   \only<article>{In a graphical model, conditional independence is represented through directed edges.}
 
-
 \end{frame}
 
+\only<article>{
+  \begin{example}[Specifying a probability model]
+    A graphical model does not specify the complete distribution, only
+    an allowed factorisation. If we want to specify a complete
+    distribution for the above graphical model of $x_1, x_2, x_3$, we
+    can use the following notation:
+    \begin{align}
+      \label{eq:factored-model}
+      x_1 &\sim f\\
+      x_2 \mid x_1 = a &\sim g(a)\\
+      x_3 \mid x_2 = b &\sim h(b),
+    \end{align}
+    where $f, g, h$ are three different distributions, with $g$ and $h$ being specified through a single parameter.
+  \end{example}
+}
 \begin{frame}
   \begin{example}[Smoking and lung cancer]
     \begin{figure}[H]
