@@ -32,7 +32,7 @@ hat_theta = np.zeros(2) # use this to estimate the model
 hat_pi = np.zeros(2) # use this to estimate the policy
 counts = np.zeros(2) # this is needed for getting the right 
 
-## This corresponds to estimating the historical policy, the model parameters and the expected utility of that policy, with the only difference that the data here is generated online. So, the code could be used to estimate the utility of a new policy, if you had access to the model.
+
 ## Generate data
 for t in range(n_samples):
     a[t] = int(policy.get_action()) 
