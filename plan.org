@@ -333,18 +333,27 @@ This is an outline of the topics to be covered in the final exam, with some exam
 
 A prosecutor claims that the defendant is guilty because they have found DNA matching them on the scene of the crime. He claims that DNA testing has a false positive rate of one in a million ($10^{-6$}$). While this is indeed evidence for the prosecution, it does not mean that the probability that the defendant is innocent is $10^{-6}$. What other information would you need to calculate the probability of the defendant being guilty given the evidence, and how would you incorporate it?
 
-** Expected utility
+** Utility
+
+  If $X$ is our set of rewards, our utility function is $U : X \to \mathbb{R} and we prefer reward $a$ to $b$ (and write $a >^* b$) iff $U(a) > U(b)$, then our preferences are transitive.
+  Give an example of a utility function, not necessarily mapping to $\mathbb{R}$, and a binary relation $>$ such that transitivity can be violated. Back your example with a thought experiment.
+
 
 ** Differential privacy
+
+Consider a system where we obtain data $x_1, \ldots, x_n$ from individuals, where $x_t \in X$ corresponds to data from a single individual. Consider a mechanism that, from this data, publishes an output $a_1, \ldots, a_n$ by partitioning $X$ in two sets, $A, B$ so that $a_t = 1$ if $x_t \in A$ and $0$ otherwise.
+Is the mechanism $\pi(a | x)$ $\epsilon$-differentially private? If so, with what value of $\epsilon$?
+
 
 ** Graphical models
 
 A patient is coming to the doctor complaining of chest pains. The doctor recommends that the patient undergoes EEG examination and observes the result. Describe apropriate random variables corresponding to this problem and draw a graphical model detailing their relationship.
 
 ** Conditional independence
+
 Consider four random variables $w, x, y, z$ with the following properties: (a)  $w$ is independent of $x$ given $y$ and $z$, (b) it is not completely independent of $x$. Draw a graphical model that satisfies them.
 
-
+** Causality
 
 
 ** Experiment design

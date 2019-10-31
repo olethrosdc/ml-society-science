@@ -21,8 +21,21 @@
     \item Probabilities!
     \end{itemize}
   }
+  \only<artice>{
+    \begin{definition}[$\sigma$-algebra]
+      \index{$\sigma$-algebra}
+      A $\sigma$-algebra $\Sigma$ on a set $\Omega$ has the following properties:
+      \begin{enumerate}[(a)]
+      \item $\Omega \in \Sigma$.
+      \item If $A \in \Sigma$ then $A \subset \Omega$.
+      \item If $A, B \in \Sigma$ then $A \cup B \in \Sigma$.
+      \item If $A \in \Sigma$ then $\Omega \setminus A \in \Sigma$.
+      \end{enumerate}
+    \end{definition}
+  }
   \begin{block}{Axioms of probability}
-    For any probability measure\footnote{$\Sigma$ is the set of possible events, with $A \in \Sigma$ always $A \subset \Omega$. Technically $\Sigma$ is a $\sigma$-algebra.} $P$ on $(\Omega, \Sigma)$,
+    \only<article>{Let $\Omega$ be the certain event, and $\Sigma$ is an appropriate $\sigma$-algebra on $\Omega$.}
+    A probability measure $P$ on $(\Omega, \Sigma)$ has the following properties:
     \begin{enumerate}
     \item<2-> The probability of the certain event is $P(\Omega) = 1$
     \item<3->The probability of the impossible event is

@@ -17,9 +17,11 @@
     \caption{Graphical model (directed acyclic graph) for three variables.}
   \end{figure}
   \only<article>{Consider for example the model in Figure~\ref{fig:bn}. It involves three variables, $x_1, x_2, x_3$ and there are three arrows, which show how one variable depends on another. Simply put, if you think of each $x_k$ as a stochastic function, then $x_k$'s value only depends on the values of its parents, i.e. the nodes that are point to it. In this example, $x_1$ does not depend on any other variable, but the value of $x_2$ depends on the value of $x_1$. Such models are useful when we want to describe the joint probability distribution of all the variables in the collection.}
+
+  \only<article>{The graphical model allows us to factorise the joint probability distribution of these random variables in a simplified manner. First, we define what we mean by a joint probability with respect to some probability measure $P$.}
   \begin{block}{Joint probability}
     Let $P$ is a probability measure on $(\Omega, \Sigma)$. Then let the random variable
-     $\bx = (x_1, \ldots, x_n)$ so that $\bx : \Omega \to X$, $X = \prod_i X_i$. The joint probability of $\bx$ can be written in terms of the underlying probability measure $P
+     $\bx = (x_1, \ldots, x_n)$ so that $\bx : \Omega \to X$, $X = \prod_i X_i$. The joint probability of $\bx$ can be written in terms of the underlying probability measure $P$:
      \[
      \Pr(\bx \in A) = P(\cset{\omega \in \Omega}{\bx(\omega) \in A}).
      \]
@@ -31,6 +33,7 @@
     \]
     for the probability that $x_i = a_i$ for all $i \in [n]$.
   }
+  \only<article>{Through the definition of conditional probability, we can always factorise the joint distribution of random variables as follows:}
   \begin{block}{Factorisation}
     \only<article>{
       For any subsets $B \subset [n]$ and its complement $C$ so that
