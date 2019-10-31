@@ -7,9 +7,9 @@ import seaborn as sns
 
 class BasicPolicy:
     def __init__(self, pi):
-        self.pi = pi
+        self.pi = [1 - pi, pi]
     def get_action(self):
-        return np.random.choice(2, 1, p=[1-self.pi, self.pi])
+        return np.random.choice(2, 1, p=self.pi)
     def get_n_actions(self):
         return 2
 

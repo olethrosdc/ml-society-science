@@ -24,16 +24,48 @@ print(np.mean(y))
 theta = 0.1*np.random.normal(size=2)
 model = StandardModel(theta)
 policy = BasicPolicy(0.1)
-n_samples = 10
+n_samples = 1000
 n_actions = policy.get_n_actions()
 a = np.empty(n_samples, dtype=int)
 y = np.zeros(n_samples)
 hat_theta = np.zeros(2) # use this to estimate the model
 hat_pi = np.zeros(2) # use this to estimate the policy
 counts = np.zeros(2) # this is needed for getting the right 
+hat_U = 0
 
 
 ## Generate data
 for t in range(n_samples):
     a[t] = int(policy.get_action()) 
     y[t] = model.get_response(a[t])
+
+for t in range(n_samples):
+    hat_U += y[t]
+    hat_theta[a[t]] += y[t]
+    counts[a[t]] += 1
+
+hat_U /= n_samples
+hat_theta /= counts
+
+print(theta)
+print(hat_theta)
+print(hat_U)
+
+alt_policy = BasicPolicy(0.5)
+# How do we calculate the value of this policy?
+
+if (argmax(hat_theta)==1):
+    alt_policy = BasicPolicy(1)
+else:
+    alt_policy = BasicPolicy(0)
+    
+hat_alt_U = 0
+for t in range(n_samples):
+    hat_alt_U += alt_policy.pi[a[t]] / policy.pi[a[t]] * y[t]
+hat_alt_U /= n_samples
+print(hat_alt_U)
+
+
+
+
+
