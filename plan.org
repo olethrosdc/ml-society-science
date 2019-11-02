@@ -1,3 +1,8 @@
+#+LaTeX_HEADER: \newcommand \E {\mathop{\mbox{\ensuremath{\mathbb{E}}}}\nolimits}
+#+LaTeX_HEADER: \renewcommand \Pr {\mathop{\mbox{\ensuremath{\mathbb{P}}}}\nolimits}
+#+LaTeX_HEADER: \newcommand \defn {\mathrel{\triangleq}}
+#+LaTeX_HEADER: \newcommand \Reals {\mathbb{R}}
+
 * Artificial Intelligence, Science and Society
 
 
@@ -325,25 +330,25 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 
 * Exam subjects
-This is an outline of the topics to be covered in the final exam, with some example questions
+This is an outline of the topics to be covered in the final exam, with some example questions.
 
 ** Reproducibility
 
-** Conditional probability
+You are given a set of clinical data $x_1, \ldots, x_T$ with associated labels $y_1, \ldots, y_T$, where $y_t \in \{0,1\}$ indicates whether a patient has a disease. 
+
+** Conditional probability and Bayesian inference
 
 A prosecutor claims that the defendant is guilty because they have found DNA matching them on the scene of the crime. He claims that DNA testing has a false positive rate of one in a million ($10^{-6$}$). While this is indeed evidence for the prosecution, it does not mean that the probability that the defendant is innocent is $10^{-6}$. What other information would you need to calculate the probability of the defendant being guilty given the evidence, and how would you incorporate it?
 
 ** Utility
 
-  If $X$ is our set of rewards, our utility function is $U : X \to \mathbb{R} and we prefer reward $a$ to $b$ (and write $a >^* b$) iff $U(a) > U(b)$, then our preferences are transitive.
-  Give an example of a utility function, not necessarily mapping to $\mathbb{R}$, and a binary relation $>$ such that transitivity can be violated. Back your example with a thought experiment.
+  If $X$ is our set of rewards, our utility function is $U : X \to \mathbb{R} and we prefer reward $a$ to $b$ (and write $a >^* b$) iff $U(a) > U(b)$, then our preferences are transitive. Give an example of a utility function, not necessarily mapping to $\mathbb{R}$, and a binary relation $>$ such that transitivity can be violated. Back your example with a thought experiment.
 
 
 ** Differential privacy
 
 Consider a system where we obtain data $x_1, \ldots, x_n$ from individuals, where $x_t \in X$ corresponds to data from a single individual. Consider a mechanism that, from this data, publishes an output $a_1, \ldots, a_n$ by partitioning $X$ in two sets, $A, B$ so that $a_t = 1$ if $x_t \in A$ and $0$ otherwise.
 Is the mechanism $\pi(a | x)$ $\epsilon$-differentially private? If so, with what value of $\epsilon$?
-
 
 ** Graphical models
 
@@ -353,8 +358,55 @@ A patient is coming to the doctor complaining of chest pains. The doctor recomme
 
 Consider four random variables $w, x, y, z$ with the following properties: (a)  $w$ is independent of $x$ given $y$ and $z$, (b) it is not completely independent of $x$. Draw a graphical model that satisfies them.
 
+** Fairness
+
+Consider a decision problem where a decision maker (DM) takes actions affecting a set of individuals. Let the DM's action be $a \in A$. This action results in an outcome $y \in Y$, also depending on the underlying characteristics $x$ of the population and has conditional distribution $P(y \mid x, a)$.
+Assume that the DM has a utility function $U : A \times Y \to \Reals$. 
+1. Complete the following formula to show how the DM would maximise expected utility, assuming she observes $x$:
+\[
+\max_{a} \cdots
+\]
+
+2. Assume each individual $i$ also receives some utility from the DM's actions. This is specified through a collection of utility functions $v_i : A \times Y \to \Reals$. Two typical definitions of fairness from social choice theory concentrate on maximising a /social welfare/ function that depends on the utilities of the whole population. There are two typical such functions
+ (a) The (expected) total utility of the population
+ (b) The (expected) utility of the worst-off member of the population.
+Formalise those definitions within our framework.
+
+3. Describe a method whereby the DM can trade-off maximising her own utility and social welfare. Under which conditions do the to objectives coincide?
+
+
 ** Causality
+
+Patients arrive at a hospital and receive a treatment that depends on their symptoms. The first table shows how many people receive each treatment.
+
+|--------------+-----------+-----------|
+| Applications | Symptom 1 | Symptom 2 |
+|--------------+-----------+-----------|
+| Treatment A  |        10 |        90 |
+| Treatment B  |        90 |        10 |
+|--------------+-----------+-----------|
+Table 1: Number of treatment applications
+
+The second table describes the number of people that were cured after the treatment was applied.
+
+|-------------+-----------+-----------|
+| Cured       | Symptom 1 | Symptom 2 |
+|-------------+-----------+-----------|
+| Treatment A |         9 |        43 |
+| Treatment B |        50 |         5 |
+|-------------+-----------+-----------|
+Table 2: Effect of treatment
+
+Draw a graphical model with the following three variables:
+- $\pi$: Treatment policy
+- $x_t$: Symptoms
+- $a_t$: Treatment
+- $y_t$: Treatment effect
 
 
 ** Experiment design
    
+Consider a Markov decision process with three states $s_1, s_2, s_3$ and the following
+
+
+
