@@ -189,10 +189,10 @@ The purpose of this course is to familiarise students with societal and scientif
 | 7 Oct  | A12. Causality lab                                             | Dirk     |
 | 13 Nov | L13. Bandit problems                                           | Christos |
 | 14 Nov | L14. Experiment design                                         | Christos |
-| 20 Nov | A13. Experiment design lab                                     | Christos |
-| 21 Nov | A14. Experiment design lab                                     | Christos |
-| 25 Nov | Project 2 Deadline                                             |          |
+| 20 Nov | A13. Experiment design lab                                     | Dirk     |
+| 21 Nov | A14. Experiment design lab                                     | Dirk     |
 | 2 Dec  | Exam: 9AM Lessart  Lesesal A Eilert Sundts hus, A-blokka       |          |
+| 11 Dec | Project 2 Deadline                                             |          |
 |--------+----------------------------------------------------------------+----------|
 
 
