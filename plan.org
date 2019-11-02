@@ -377,13 +377,13 @@ Formalise those definitions within our framework.
 
 ** Causality
 
-Patients arrive at a hospital and receive a treatment that depends on their symptoms. The first table shows how many people receive each treatment.
+Patients arrive at a hospital and receive a treatment that depends on their symptoms. The first table shows how many people receive each treatment. Assume that the number of people with each symptom is representative of the population.
 
 |--------------+-----------+-----------|
 | Applications | Symptom 1 | Symptom 2 |
 |--------------+-----------+-----------|
-| Treatment A  |        10 |        90 |
-| Treatment B  |        90 |        10 |
+| Treatment A  |        20 |        90 |
+| Treatment B  |       180 |        10 |
 |--------------+-----------+-----------|
 Table 1: Number of treatment applications
 
@@ -392,21 +392,47 @@ The second table describes the number of people that were cured after the treatm
 |-------------+-----------+-----------|
 | Cured       | Symptom 1 | Symptom 2 |
 |-------------+-----------+-----------|
-| Treatment A |         9 |        43 |
-| Treatment B |        50 |         5 |
+| Treatment A |        15 |        60 |
+| Treatment B |        90 |         4 |
 |-------------+-----------+-----------|
 Table 2: Effect of treatment
 
-Draw a graphical model with the following three variables:
+1 .Draw a graphical model with the following three variables:
 - $\pi$: Treatment policy
 - $x_t$: Symptoms
 - $a_t$: Treatment
 - $y_t$: Treatment effect
 
+2. What would the expected curing rate of a policy that uniformly randomly assigned treatments have been? (It is OK to provide a simple point estimate)
 
-** Experiment design
+3. Given the above data, what would be the treatment policy $\hat{\pi}^*$ that maximises the curing rate? and how much would the curing rate of $\hat{\pi}^*$ be?
+
+4. Is there some reason why the original policy $\pi$ would be preferred to $\hat{\pi}^*$?
+
+** Markov decision processes and experiment design
    
-Consider a Markov decision process with three states $s_1, s_2, s_3$ and the following
+Consider a Markov decision process with two actions $A = \{0, 1\}$ and three states $S = \{0, 1, 2\}$, with a horizon $T=2$, with starting state $s_1 = 10 and the following transition distribution:
+
+$P(s_t = 0 \mid s_t = 0, a_t = 0) = 1$
+$P(s_t = 1 \mid s_t = 0, a_t = 1) = 0.8$
+$P(s_t = 2 \mid s_t = 0, a_t = 1) = 0.2$
+
+We also receive a deterministic reward:
+\[
+r_t = \begin{cases}
+0 & s_t = 0\\
+1 & s_t = 1\\
+-1 & s_t = 2
+\]
+
+Since $T=2$, the MDP ends after we take the first action,observe Ss_2$ and obtain $r_2$. Our goal is to maximise
+\[
+\E \sum_{t=1}^2 r_t.
+\]
+What is the optimal policy for achieving that?
+
+
+
 
 
 
