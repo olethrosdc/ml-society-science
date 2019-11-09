@@ -1,5 +1,5 @@
 
-\section{Historical data}
+\section{Historical data (Nov 6)}
 
 First, we shall take a look at historical data present in Matlab/Octave format in
 \texttt{data/medical/historical.dat}
@@ -21,7 +21,7 @@ You need to be able to validate your findings either through a holdout-set metho
 We also observe the effects of two different therapeutic interventions, one of which is placebo, and the other is an experimental drug. Try and measure the effectiveness of the placebo versus the active treatment. Are there perhaps cases where the active treatment is never effective, or should it always be recommended?
 
 
-\section{Improved policies (Nov 9)}
+\section{Improved policies (Nov 20)}
 
 The data we have observed comes from some policy $\pol_0$, taking actions in $\{0,1\}$. Now we have to be more specific about what the meaning of each treatment and outcome variable is. In this case, $a_t = 0$ is a placebo, and $a_t = 1$ is an experimental drug, with $y_t = 0$ meaning no effect, and $y_t = 1$ meaning a measurable effect. For the purposes of this exercise, you can assume the utility function is:
 \begin{align}
@@ -52,7 +52,7 @@ Use the skeleton \verb!random_recommender.py! to implement your code.
   \end{enumerate}
 \end{exercise}
 
-\section{Adaptive experiment design (Nov 30)}
+\section{Adaptive experiment design (Dec 6)}
 For this part of the exercise, make sure that you have implemented everything within the API defined in the \verb!random_recommender.py! skeleton. All the methods you have implemented for feature selection, dimensionality reduction, policy evaluation, etc. must be self-contained within the recommender. The test bench will call your recommender's \verb!fit_data()! and \verb!fit_treatment_outcome()! with possibly new datasets. This will be done mainly in order to test how your algorithm behaves with varying amounts of data.
 \begin{exercise}[Online policy testing]
   Here, make sure that you recommenders are based on \verb!random_recommender.py!.

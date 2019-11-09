@@ -1,3 +1,8 @@
+#+LaTeX_HEADER: \newcommand \E {\mathop{\mbox{\ensuremath{\mathbb{E}}}}\nolimits}
+#+LaTeX_HEADER: \renewcommand \Pr {\mathop{\mbox{\ensuremath{\mathbb{P}}}}\nolimits}
+#+LaTeX_HEADER: \newcommand \defn {\mathrel{\triangleq}}
+#+LaTeX_HEADER: \newcommand \Reals {\mathbb{R}}
+
 * Artificial Intelligence, Science and Society
 
 
@@ -184,10 +189,10 @@ The purpose of this course is to familiarise students with societal and scientif
 | 7 Oct  | A12. Causality lab                                             | Dirk     |
 | 13 Nov | L13. Bandit problems                                           | Christos |
 | 14 Nov | L14. Experiment design                                         | Christos |
-| 20 Nov | A13. Experiment design lab                                     | Christos |
-| 21 Nov | A14. Experiment design lab                                     | Christos |
-| 25 Nov | Project 2 Deadline                                             |          |
+| 20 Nov | A13. Experiment design lab                                     | Dirk     |
+| 21 Nov | A14. Experiment design lab                                     | Dirk     |
 | 2 Dec  | Exam: 9AM Lessart  Lesesal A Eilert Sundts hus, A-blokka       |          |
+| 11 Dec | Project 2 Deadline                                             |          |
 |--------+----------------------------------------------------------------+----------|
 
 
@@ -325,11 +330,109 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 
 * Exam subjects
-This is an outline of the topics to be covered in the final exam
+This is an outline of the topics to be covered in the final exam, with some example questions.
+
 ** Reproducibility
-** Conditional probability
-** Expected utility
+
+You are given a set of clinical data $x_1, \ldots, x_T$ with associated labels $y_1, \ldots, y_T$, where $y_t \in \{0,1\}$ indicates whether a patient has a disease. 
+
+** Conditional probability and Bayesian inference
+
+A prosecutor claims that the defendant is guilty because they have found DNA matching them on the scene of the crime. He claims that DNA testing has a false positive rate of one in a million ($10^{-6$}$). While this is indeed evidence for the prosecution, it does not mean that the probability that the defendant is innocent is $10^{-6}$. What other information would you need to calculate the probability of the defendant being guilty given the evidence, and how would you incorporate it?
+
+** Utility
+
+  If $X$ is our set of rewards, our utility function is $U : X \to \mathbb{R} and we prefer reward $a$ to $b$ (and write $a >^* b$) iff $U(a) > U(b)$, then our preferences are transitive. Give an example of a utility function, not necessarily mapping to $\mathbb{R}$, and a binary relation $>$ such that transitivity can be violated. Back your example with a thought experiment.
+
+
 ** Differential privacy
+
+Consider a system where we obtain data $x_1, \ldots, x_n$ from individuals, where $x_t \in X$ corresponds to data from a single individual. Consider a mechanism that, from this data, publishes an output $a_1, \ldots, a_n$ by partitioning $X$ in two sets, $A, B$ so that $a_t = 1$ if $x_t \in A$ and $0$ otherwise.
+Is the mechanism $\pi(a | x)$ $\epsilon$-differentially private? If so, with what value of $\epsilon$?
+
 ** Graphical models
+
+A patient is coming to the doctor complaining of chest pains. The doctor recommends that the patient undergoes EEG examination and observes the result. Describe apropriate random variables corresponding to this problem and draw a graphical model detailing their relationship.
+
 ** Conditional independence
-** Experiment design
+
+Consider four random variables $w, x, y, z$ with the following properties: (a)  $w$ is independent of $x$ given $y$ and $z$, (b) it is not completely independent of $x$. Draw a graphical model that satisfies them.
+
+** Fairness
+
+Consider a decision problem where a decision maker (DM) takes actions affecting a set of individuals. Let the DM's action be $a \in A$. This action results in an outcome $y \in Y$, also depending on the underlying characteristics $x$ of the population and has conditional distribution $P(y \mid x, a)$.
+Assume that the DM has a utility function $U : A \times Y \to \Reals$. 
+1. Complete the following formula to show how the DM would maximise expected utility, assuming she observes $x$:
+\[
+\max_{a} \cdots
+\]
+
+2. Assume each individual $i$ also receives some utility from the DM's actions. This is specified through a collection of utility functions $v_i : A \times Y \to \Reals$. Two typical definitions of fairness from social choice theory concentrate on maximising a /social welfare/ function that depends on the utilities of the whole population. There are two typical such functions
+ (a) The (expected) total utility of the population
+ (b) The (expected) utility of the worst-off member of the population.
+Formalise those definitions within our framework.
+
+3. Describe a method whereby the DM can trade-off maximising her own utility and social welfare. Under which conditions do the to objectives coincide?
+
+
+** Causality
+
+Patients arrive at a hospital and receive a treatment that depends on their symptoms. The first table shows how many people receive each treatment. Assume that the number of people with each symptom is representative of the population.
+
+|--------------+-----------+-----------|
+| Applications | Symptom 1 | Symptom 2 |
+|--------------+-----------+-----------|
+| Treatment A  |        20 |        90 |
+| Treatment B  |       180 |        10 |
+|--------------+-----------+-----------|
+Table 1: Number of treatment applications
+
+The second table describes the number of people that were cured after the treatment was applied.
+
+|-------------+-----------+-----------|
+| Cured       | Symptom 1 | Symptom 2 |
+|-------------+-----------+-----------|
+| Treatment A |        15 |        60 |
+| Treatment B |        90 |         4 |
+|-------------+-----------+-----------|
+Table 2: Effect of treatment
+
+1 .Draw a graphical model with the following three variables:
+- $\pi$: Treatment policy
+- $x_t$: Symptoms
+- $a_t$: Treatment
+- $y_t$: Treatment effect
+
+2. What would the expected curing rate of a policy that uniformly randomly assigned treatments have been? (It is OK to provide a simple point estimate)
+
+3. Given the above data, what would be the treatment policy $\hat{\pi}^*$ that maximises the curing rate? and how much would the curing rate of $\hat{\pi}^*$ be?
+
+4. Is there some reason why the original policy $\pi$ would be preferred to $\hat{\pi}^*$?
+
+** Markov decision processes and experiment design
+   
+Consider a Markov decision process with two actions $A = \{0, 1\}$ and three states $S = \{0, 1, 2\}$, with a horizon $T=2$, with starting state $s_1 = 10 and the following transition distribution:
+
+$P(s_t = 0 \mid s_t = 0, a_t = 0) = 1$
+$P(s_t = 1 \mid s_t = 0, a_t = 1) = 0.8$
+$P(s_t = 2 \mid s_t = 0, a_t = 1) = 0.2$
+
+We also receive a deterministic reward:
+\[
+r_t = \begin{cases}
+0 & s_t = 0\\
+1 & s_t = 1\\
+-1 & s_t = 2
+\]
+
+Since $T=2$, the MDP ends after we take the first action,observe Ss_2$ and obtain $r_2$. Our goal is to maximise
+\[
+\E \sum_{t=1}^2 r_t.
+\]
+What is the optimal policy for achieving that?
+
+
+
+
+
+

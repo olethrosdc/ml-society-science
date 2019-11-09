@@ -7,8 +7,12 @@ features = ['checking account balance', 'duration', 'credit history',
             'property', 'age', 'other installments', 'housing', 'credits',
             'job', 'persons', 'phone', 'foreign']
 target = 'repaid'
-df = pandas.read_csv('../../data/credit/german.data', sep=' ',
+#df = pandas.read_csv('../../data/credit/german.data', sep=' ',
+#                     names=features+[target])
+df = pandas.read_csv('D_valid.csv', sep=' ',
                      names=features+[target])
+#df = pa
+
 import matplotlib.pyplot as plt
 numerical_features = ['duration', 'age', 'residence time', 'installment', 'amount', 'persons', 'credits']
 quantitative_features = list(filter(lambda x: x not in numerical_features, features))
@@ -23,6 +27,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
     ## Example test function - this is only an unbiased test if the data has not been seen in training
     total_amount = 0
     total_utility = 0
+    decision_maker.set_interest_rate(interest_rate)
     for t in range(n_test_examples):
         action = decision_maker.get_best_action(X_test.iloc[t])
         good_loan = y_test.iloc[t] # assume the labels are correct

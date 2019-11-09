@@ -550,7 +550,7 @@
       \E^\pol_\param(\util)
       &=
         \int_\CX \dd P_\param(x)
-        \sum_{y \in \CY} P_\param(y \mid x, a) \util(a, y) \sum_{a \in \CA} \pol(a \mid x).
+        \sum_{a \in \CA}  \pol(a \mid x)  \sum_{y \in \CY} P_\param(y \mid x, a) \util(a, y)
     \end{align*}
   \end{block}
   The optimal policy under a known parameter $\param$ is given simply by
@@ -781,13 +781,13 @@
       \theta &\sim \Normal(\vectorsym{0}_4, \eye_4),\\
       x_t &= \theta_0 \omega_{t,x},
           & \omega_{t,x} &\sim \Bernoulli(0.5)\\
-      y_t &= \theta_1 y_t + \theta_2 x_t + \theta_3 a_t + \omega_{t,y},
+      y_t &= \theta_1  + \theta_2 x_t + \theta_3 a_t + \omega_{t,y},
           &\omega_{t,y} &\sim \Normal(0,1)\\
       a_t &= \pol(x_t) + \omega_{t,a} \mod |\CA| 
           &\omega_{t,a} &\sim 0.1 \Singular(0) + 0.9 \Uniform(\CA),
     \end{align*}
   \end{example}
-  \only<article>{Structural equation models are particularly interesting in applications such as economics, where there are postulated relations between various economic quantities. }
+  \only<article>{Structural equation models are particularly interesting in applications such as economics, where there are postulated relations between various economic quantities. If relationships between variables satisfy nice properties, then we can perform counterfactual inferences of the type : ``What if I had \emph{not} taken an aspirin?'' In the example above, if we can infer the noise variables $\omega$, we can change the value of some choice variables, i.e. $a_t$ and see the effect on other variables like $y_t$ directly.}
 \end{frame}
 
 \begin{frame}

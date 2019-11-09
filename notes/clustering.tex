@@ -63,7 +63,7 @@
     \begin{align}
       \bel(\param \mid x^T)
       &=
-      \frac{P_\param(x^T) \bel(\param)}{\int_\Param P_{\param'}(x^T) \dd \bel(\param')}, &
+      \frac{P_\param(x^T) \bel(\param)}{\sum_{\param \in \Param} P_{\param'}(x^T) \bel(\param')}, &
       P_\param(x^T) &=  \sum_{c^T \in \CC^T} \overbrace{P_\param(x^T \mid c^T)}^{\mathclap{\textrm{Cluster Density}}}  \underbrace{P_\param(c^T)}_{\mathclap{\textrm{Cluster prior}}}
     \end{align}
     \only<article>{We simply need to expand the data-dependent term to include all possible cluster assignments. This is of course not trivial, since the number of assignments is exponential in $T$. However, algorithms such as Markov Chain Monte Carlo can be used instead.}
@@ -72,7 +72,7 @@
   \begin{block}{Marginal posterior prediction}
     \[
     P_\bel(c_t \mid x_t, x^T) = 
-    \int_\Param P_\param(c_t \mid x_t) \dd \bel(\param \mid x^T)
+    \sum_{\param \in \Param} P_\param(c_t \mid x_t) \bel(\param \mid x^T)
     \]
   \end{block}
 }
