@@ -334,7 +334,7 @@ This is an outline of the topics to be covered in the final exam, with some exam
 
 ** Reproducibility
 
-You are given a set of clinical data $x_1, \ldots, x_T$ with associated labels $y_1, \ldots, y_T$, where $y_t \in \{0,1\}$ indicates whether a patient has a disease. 
+You are given a set of clinical data $x_1, \ldots, x_T$ with associated labels $y_1, \ldots, y_T$, where $y_t \in \{0,1\}$ indicates whether a patient has a disease. Discuss how you can use a classification algorithm that estimates $\hat{P}(y | x)$ from the data in order to discover predictive features, and how you can validate your findings in a reproducibile manner.
 
 ** Conditional probability and Bayesian inference
 
