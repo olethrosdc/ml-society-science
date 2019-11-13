@@ -33,8 +33,7 @@ below.
 \begin{example}\indexmargin{Adaptive hypothesis testing}
   An alternative goal would be to do a \emph{clinical trail}\index{clinical trial}, in order to find the best possible treatment. For simplicity, consider the problem of trying to find out whether a particular treatment is better or not than a placebo.  We are given a hypothesis set $\Omega$, with each $\omega \in \Omega$ corresponding to different models for the effect of the treatment and the placebo. Since we don't know what is the right model, we place a prior $\bel_0$ on $\Omega$. We can perform $T$ experiments, after which we must make decide whether or not the treatment is significantly better than the placebo. To model this, we define a decision set $\CA = \{a_0, a_1\}$ and a utility function $U : \CA \times \Omega \to \Reals$, which models the effect of each decision $d$ given different versions of reality $\omega$. One hypothesis $\omega \in \Omega$ is true. To distinguish them, we can choose
   from a set of $k$ possible experiments to be performed over $T$
-  trials.  At the $t$-th trial, we choose experiment $a_t \in \{1,
-  \ldots, k\}$ and observe outcome $x_t \in \CX$, with $x_t \sim
+  trials.  At the $t$-th trial, we choose experiment $a_t$ and observe outcome $x_t \in \CX$, with $x_t \sim
   P_\omega$ drawn from the true hypothesis. Our posterior is
   \[
   \bel_t(\omega) \defn
