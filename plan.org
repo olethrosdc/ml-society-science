@@ -352,7 +352,7 @@ Is the mechanism $\pi(a | x)$ $\epsilon$-differentially private? If so, with wha
 
 ** Graphical models
 
-A patient is coming to the doctor complaining of chest pains. The doctor recommends that the patient undergoes EEG examination and observes the result. Describe apropriate random variables corresponding to this problem and draw a graphical model detailing their relationship.
+A patient is coming to the doctor complaining of chest pains. The doctor recommends that the patient undergoes EEG examination and observes the result. Describe apropriate decision variables and random variables  corresponding to this problem and draw a graphical model detailing their relationship.
 
 ** Conditional independence
 
