@@ -532,6 +532,9 @@
       \begin{theorem}
         For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold adaptive composition.
       \end{theorem}
+      \begin{theorem}[Post-processing]
+        Let mechanism $\pi(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
+      \end{theorem}
  }
     \only<presentation>{
       \begin{alertblock}{Composition}
@@ -539,6 +542,7 @@
       \end{alertblock}
     }
 \end{frame}
+
 
 \begin{frame}
   \begin{exercise}{Adversary knowledge}
