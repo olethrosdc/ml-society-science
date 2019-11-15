@@ -330,7 +330,7 @@ Sometimes we are risk averse… what do we mean by this, and what algorithms can
 When we have developed an algorithm, how sure can we be that it works well in the real world? 
 
 * Exam subjects
-This is an outline of the topics to be covered in the final exam, with some example questions.
+Here are some example questions for the exam. Answers can range from simple one-liners to relatively complex designs. Half of the points will come from 10 1-point questions and the remaining from 2 or 3 2-5-point questions.
 
 ** Reproducibility
 
