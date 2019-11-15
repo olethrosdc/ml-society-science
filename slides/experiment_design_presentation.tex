@@ -3,7 +3,7 @@
 \input{../preamble}
 %\usepackage{pstool}
 \usepackage{listings}
-
+\usepackage{overpic}
 \title{Experiment design}
 \subtitle{Bandit problems and Markov decision processes}
 \author{Christos Dimitrakakis}
@@ -797,6 +797,160 @@ In the simplest bandit setting, our only information when selecting an arm is th
   \end{block}
 \end{frame}
 
+
+\section{Reinforcement learning}
+
+\begin{frame}
+  % \frametitle{Reinforcement learning and Markov decision processes}
+
+  \begin{exampleblock}{The reinforcement learning problem}
+    \alert{Learning} to act in an \alert{unknown} world, by \textcolor{blue}{interaction} and \textcolor{blue}{reinforcement}.
+  \end{exampleblock}
+  \begin{columns}
+    \begin{column}{0.39\textwidth}
+      \uncover<2->{
+      \begin{block}{Expected total reward}
+        \ldots when using policy $\pol$ in $\mdp$:
+        \[
+        U(\mdp, \pol) 
+        \]
+      \end{block}
+      }
+    \end{column}
+    \begin{column}{0.69\textwidth}
+      \centering
+      \begin{overpic}[width=0.8\columnwidth]{../figures/rl_interaction}
+        \put (45,12) {$x_t$}
+        \put (50,28) {$a_t$}
+        \put (90,62) {$r_t$}
+        \put (70,14) {$\mdp$}
+      \end{overpic}
+    \end{column}
+  \end{columns}
+  \only<3>{Can't we just $\max_\pol U(\mdp, \pol)$?}  
+  \only<4>{\alert{Knowing $\mdp$ contradicts the problem definition}}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Solving a given MDP}
+  \begin{columns}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Markov decision processes (MDP).}
+        At each time
+        step $t$:
+        \begin{itemize}
+        \item We observe \alert{state} $s_t \in \CS$.
+        \item We take \alert{action} $a_t \in \CA$.
+        \item We receive a \alert{reward} $r_t \in \Reals$ with $r_t \sim P_\mdp(r_t \mid s_t, a_t)$
+        \item We go to the \alert{next} state $s_{t+1} \in \CS$ with $s_{t+1} \sim P_\mdp(s_{t+1} \mid s_t, a_t)$
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{center}
+        \begin{tikzpicture}
+          % \node[RV] at (0,3) (mu) {$\mdp$};
+          \node[select] at (1,0) (a1) {$a_t$};
+          \node[RV] (s1) [above of=a1] {$s_t$};
+          \node[RV] (s2) [right of=s1] {$s_{t+1}$};
+          \node[utility] (r2) [above of=s2] {$r_{t}$};
+          \draw [->] (s1) -- (s2);
+          \draw [->] (a1) -- (s2);
+          \draw [->] (a1) -- (r2);
+          \draw [->] (s1) -- (r2); 
+          % \draw [->, bend right=45] (mu) -- (s2);
+          % \draw [->, bend right=45] (mu) -- (r2);
+        \end{tikzpicture}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \begin{exampleblock}{Backwards induction (Value iteration)}
+    \begin{algorithmic}
+      \For{$n=1, 2, \ldots$ and $s \in \CS$}
+      \State 
+      \[
+        \E^{\pol^*}_\mdp(U_t \mid s_t) = \max_{a_t \in \CA} \E_\mdp(r_t \mid s_t, a_t) + \sum_{{s_{t+1}}} \Pr_\mdp(s_{t+1} \mid s_t, a_t) \E^{\pol^*}_\mdp(U_{t+1} \mid s_{t+1})
+      \]
+      \EndFor
+    \end{algorithmic}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The discounted setting}
+  \[
+  U_t = \sum_{k=0}^\infty \disc^k r_{t+k}, \qquad \gamma \in (0, 1)
+  \]
+  \begin{block}{Value functions}
+    \[
+    V^\pol_\mdp(s) \defn \E(U_t \mid s_t = s), 
+    \qquad
+    Q^\pol_\mdp(s,a) \defn \E(U_t \mid s_t = s, a_t = a)
+    \]
+  \end{block}
+  \uncover<2->{
+  \begin{block}{Bellman equation}
+    \begin{align*}
+      V^\pol_\mdp(s) &= \E^\pol_\mdp(r_t \mid s_t = s) + \disc \sum_{s_{t+1}} V^\pol_\mdp(s_{t+1}) \Pr_\mdp^\pol(s_{t+1} \mid s_t)
+                       \\
+      Q^\pol_\mdp(s,a) &= \E_\mdp(r_t \mid s_t = s, a_t = a) + \disc \sum_{s_{t+1}} Q^\pol_\mdp(s_{t+1}, \pol(s_{t+1}))
+                         P_\mdp(s_{t+1} \mid s_t, a_t = a)
+    \end{align*}
+  \end{block}
+  }
+  \uncover<3>{
+    \begin{block}{Optimality condition}
+      \[
+      V^*_\mdp(s) \geq V^\pol_\mdp(s) \forall s
+      \]
+    \end{block}
+  }
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{$Q$-learning and induction}
+    \begin{block}{$Q$-Value iteration}
+      \[
+      Q_{n+1}(s,a) = r(s,a) + \disc \sum_{s_{t+1}}  P_\mdp(s_{t+1} \mid s_t, a_t = a) \max_{a'} Q_n(s_{t+1}, a')
+      \]
+    \end{block}
+
+    \begin{block}{$Q$-learning}
+      \[
+      \hat{R}_t = r_t + \disc \max_{a'}  \hat{Q}_t(s_{t+1}, a')
+      \]
+      \[
+      \hat{Q}_{t+1}(s,a) = (1 - \alpha) \hat{Q}_n(s,a) + \alpha(\hat{R}_t)
+      \]
+    \end{block}
+    
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Summary}
+    \begin{block}{Markov decision processes}
+      \begin{itemize}
+      \item Formalise experiment design
+      \item Formalise environments in reinforcement learning
+      \end{itemize}
+    \end{block}
+    \begin{block}{Solving MDPs}
+      \begin{itemize}
+      \item Discrete case: dynamic programming.
+      \item General case: approximations, gradient methods, etc.
+      \end{itemize}
+    \end{block}
+    \begin{block}{Reinforcement learning and experiment design}
+      \begin{itemize}
+      \item Formal but intractable Bayesian solution.
+      \item Convergent algorithms in simple settings.
+      \end{itemize}
+    \end{block}
+
+
+  \end{frame}
 
 
 \end{document}

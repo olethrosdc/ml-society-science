@@ -815,3 +815,36 @@ data. The overall complexity is
 $\tilde{O}(|\CS|^2 |\CA| L (1 - \disc)^{-1}$, omitting logarithmic
 factors, where $L$ is the total number of bits used to represent the
 input.\footnote{Thus the result is \emph{weakly} polynomial complexity, due to the dependence on the input size description.}
+
+\section{Reinforcement learning}
+\label{sec:reinf-learn}
+\index{Reinforcement learning}|
+
+Markov decision processes are also a central formalism in reinforcement learning. In particular, we can use an MDP to represent the model of the world and how it responds to an agent's actions. The policy, or decision-making algorithm, $\pol$ describes the agent's behaviour, and the MDP $\mdp$ describes how the environment responds. Since MDPs have the Markov property, everything that agent needs to calculate its optimal actions is contained in the current state of the world. There are three main research problems in reinforcement learning with MPDs from a computer science perspective.
+
+\paragraph{The computational complexity of solving MDPs.}
+If we are given the MDP $\mdp$, then there is no learning involved. The basic computational problem is finding the optimal policy $\pol^*(\mdp)$ for that MDP. When $\CS, \CA$ are discrete, there are a number of algorithms such as backwards induction (usually called value iteration in the infinite horizon setting), policy iteration and linear programming which can obtain the optimal policy. However, the exact computational complexity of solving MDPs is thought not to be polynomial.
+
+\paragraph{Convergent algorithms for learning an optimal policy.}
+Here our only focus is an algorithm that, through interaction with the MDP will eventually find the optimal (or a nearly-optimal) policy. In this setting interactions with the problem are so cheap as to be negligible. Algorithms in this domain include well-known examples such as $Q$-learning~\cite{mach:Watkins+Dayan:1992} and other stochastic approximations.
+
+\paragraph{The sample complexity of learning in MDPs.}
+This is the problem of finding a nearly-optimal policy as quickly as possible. In this case, we do not really care about the reward we obtain while interacting with the MDP, but we still want to minimise the computational cost of simulation. This goal is typically interesting from a theoretical perspective.\footnote{Specifically, we are typically interested in results under the probably approximately correct (PAC) framework. See~\citet{nips:kearns:1999} for an analysis of $Q$-learning.} However, it is also of practical use when the interaction with the MDP can be done without much risk. This is the case when the whole problem is a simulation, as in playing Atari games. It is also the case when the algorithm can interact in the real world without any directly negative consequences, such as when we let a robot explore in a controlled laboratory setting.
+
+\paragraph{Nearly-optimal learning in MDPs and regret.}
+Finally, we may want to perform as well as possible while acting in the MDP, when we initially know very little or nothing about it. In a Bayesian decision-theoretic setting, the problem can be formulated directly as the optimisation of expected utility under our belief. However, a way of measuring how fast an algorithm can learn the optimal policy is given by the notion of regret. This is a time-dependent function that measures the gap in total reward by an agent that knows $\mdp$ and the learning algorithm:
+\[
+\regret_\mdp^\pol(T) \defn \sum_{t=1}^T \E_\mdp^{\pol^*(\mdp)} (r_t) - \E_\mdp^{\pol} (r_t).
+\]
+If an algorithm can achieve a sublinear regret for any MDP, e.g. $\max_\mdp \regret_\mdp^\pol(T) \in O(\sqrt{T})$, this implies that the algorithm converges to the optimal policy. For finite MDPs, the question of finding an algorithm that is optimal in the sense of having a regret as close as possible to the best known regret lower bound is close to being settled.
+
+\subsection{More general settings.}
+
+Typically the world is not fully observable, meaning that even if the environment has Markovian dynamics, the agent does not observe the state $s_t$ directly. Instead, it might obtain some observation $x_t$ with conditional distribution $P_\mdp(x_t \mid s_t)$. Then the process is known as Partially Observable Markov Decision Process (POMDP). This makes the problem significantly harder, even when the underlying model $\mdp$ is known.
+
+Finally, it is common that agents do not act by themselves, but also interact with other agents. Work in this area is related to game theory, and in particular stochastic and partial information games. These games introduce new solution concepts such as Nash equilibria, even when something like agent utilities are well-defined. However, the simple case of full-information adversarial games like chess, is remarkably similar to MDPs, and indeed reinforcement learning algorithms have been successfully employed to obtain master-level play.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "notes"
+%%% End:
