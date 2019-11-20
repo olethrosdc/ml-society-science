@@ -455,11 +455,12 @@ Variables:
 - X: examination decision
 - Y: test result.
 
-
+#+BEGIN_SRC
    {H}->(C)  
     |    | 
     v    v
    (Y)<-(X)<-[P]
+#+END_SRC
 
 [ ] indicates decision variables, ( ) observed random variables, { } latent variables
 
@@ -480,6 +481,7 @@ satisfies them.
 
 So a graphical model representing this is:
 
+#+BEGIN_SRC
 (z)--\ 
  ^    |
  |    v
@@ -487,7 +489,7 @@ So a graphical model representing this is:
  |    ^
  v    |
 (y)--/
- 
+#+END_SRC
 
 ** Fairness
    CLOCK: [2019-11-20 ons 15:31]--[2019-11-20 ons 15:37] =>  0:06
@@ -570,12 +572,15 @@ Table 2: Effect of treatment
    CLOCK: [2019-11-20 ons 15:37]--[2019-11-20 ons 16:01] =>  0:24
 
 1. Note that typically the symptoms and treatment effect depend on an underlying medical condition, but the question did not ask about this.
+#+BEGIN_SRC
 [$\pi$] ---> ($a_t$)
                 ^   \
                 |    \($y_t$)
                 |    /
                 |   /
              ($x_t$)
+#+END_SRC
+
 
 
 
