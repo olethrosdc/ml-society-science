@@ -334,15 +334,84 @@ Here are some example questions for the exam. Answers can range from simple one-
 
 ** Reproducibility
 
-You are given a set of clinical data $x_1, \ldots, x_T$ with associated labels $y_1, \ldots, y_T$, where $y_t \in \{0,1\}$ indicates whether a patient has a disease. Discuss how you can use a classification algorithm that estimates $\hat{P}(y | x)$ from the data in order to discover predictive features, and how you can validate your findings in a reproducibile manner.
+You are given a set of clinical data $x_1, \ldots, x_T$ with associated labels $y_1, \ldots, y_T$, where $y_t \in \{0,1\}$ indicates whether a patient has a disease. Each point $x_t$ is decomposable into $n$ features $x_{t,1}, \ldots, x_{t,n}$. Discuss how you can use a classification algorithm that estimates $\hat{P}(y | x)$ from the data in order to discover predictive features, and how you can validate your findings in a reproducibile manner.
+
+*** Possible answer
+
+(Many approaches are possible, the main thing I want to see is that you can validate your findings)
+
+From a statistical point of view, we want to see the strength of the dependence between an individual feature (or set of features) and the data.
+The strictest possible test is to see whether or not the labels are completely independent of a feature $i$ given the remaining features, i.e. we want to check that
+\[
+y_t \perp x_{t,i} \mid x_{t,-i} \qquad x_{t,-i} \defn x_{t, 1}, \ldots, x_{t, i-1}, x_{t, i+1},  x_{t, n}
+\]
+However this check is possibly too strict.
+
+If this is the case, then $P(y_t \mid x_{t}) = P(y_t \mid x_{t,-i})$. One possible method is to fit the classification model of choice $\mu = \hat{P}(y_t \mid x_t)$ and a sequence of models $\mu_i = \hat{P}(y_t \mid x_{t,-i})$ on a subset $D_1$ of the dataset. Consequently, we can measure the likelihood of models on the remaining data $D_2$, so that we obtain
+\[
+\ell(\mu) = \prod_{t \in D_2} \hat{P}(y_t \mid x_t),
+\qquad
+\ell(\mu_i) = \prod_{t \in D_2} \hat{P}(y_t \mid x_{t,-i}).
+\]
+We may then consider all features $i$ with $\ell(\mu_i) < \ell(\mu)$ to be redundant. However, this may not be the case for two reasons:
+1. If individually redundant features are correlated, then removing all of them may be difficult. For that reason, we may want to also test the performance of models which remove combinations of featutes.
+2. Since probably no feature is completely useless, one reason for the apparent lack of predictive ability of some features maybe the amount of data we have. In the limit, if $y_t \perp x_{t,i} \mid x_{t,-i}$ then our estimators will satisfy $\hat{P}(y_t \mid x_{t}) = \hat{P}(y_t \mid x_{t,-i})$. However, it is hard to verify this condition when the amount of data is little. Conversely, with a lot of data, even weakly dependent features will not satisfy independence.
+
 
 ** Conditional probability and Bayesian inference
 
 A prosecutor claims that the defendant is guilty because they have found DNA matching them on the scene of the crime. He claims that DNA testing has a false positive rate of one in a million ($10^{-6$}$). While this is indeed evidence for the prosecution, it does not mean that the probability that the defendant is innocent is $10^{-6}$. What other information would you need to calculate the probability of the defendant being guilty given the evidence, and how would you incorporate it?
 
+*** Possible answer
+	CLOCK: [2019-11-20 ons 14:20]--[2019-11-20 ons 14:40] =>  0:20
+
+Let us define the fact that the defendant committed a crime as $C$ and the converse as $\neg C$. Let us also denote the event that a test is positive as $T$. Let us also define the case where the DNA being tested is the one being compared to as $M$. Then the information we have is
+\begin{align}
+\Pr(T \mid \neg M) &= 10^{-6}
+\\
+T & \textrm{~is true}
+\end{align}
+In order to predict whether somebody has actually committed the crime given the information, we must calculate $\Pr(C \mid T)$.
+This means we must calculate the following
+\begin{align}
+\Pr(C \mid T) &= \Pr(C \mid M) \Pr(M \mid T) + \Pr(C \mid \neg M) \Pr(\neg M \mid T)
+\\
+&= \Pr(C \mid M) [1 - \Pr(\neg M \mid T) + \Pr(C \mid \neg M) \Pr(\neg M \mid T)]
+\\
+&= \Pr(C \mid M) [1 - \Pr(T \mid \neg M) \Pr(\neg M) / \Pr(T) + \Pr(C \mid \neg M) \Pr(T \mid \neg M) \Pr(\neg M) / \Pr(T)],
+&
+\Pr(T) = \Pr(T \mid M) \Pr(M) + \Pr(T \mid \neg M) [1 - \Pr(M)]
+\end{align}
+
+As you can see, we are missing four important quantities. 
+- $\Pr(M)$, the /a priori/ probability that this is the defendant's DNA 
+- $\Pr(T \mid M)$ the probability of a test being positive if the DNA fragments come from the same person.
+- $\Pr(C \mid M)$,  the probability that the defendant committed the crime if the DNA was really theirs.
+- $\Pr(C \mid \neg M)$,  the probability that the defendant committed the crime if the DNA was not  theirs.
+
+So the false positive rate is far from sufficient evidence for a conviction and must be combined with other evidence.
+
+
 ** Utility
 
-  If $X$ is our set of rewards, our utility function is $U : X \to \mathbb{R} and we prefer reward $a$ to $b$ (and write $a >^* b$) iff $U(a) > U(b)$, then our preferences are transitive. Give an example of a utility function, not necessarily mapping to $\mathbb{R}$, and a binary relation $>$ such that transitivity can be violated. Back your example with a thought experiment.
+  If $X$ is our set of rewards, our utility function is $U : X \to \Reals$ and we prefer reward $a$ to $b$ (and write $a >^* b$) iff $U(a) > U(b)$, then our preferences are transitive. Give an example of a preference relation $>^*$ among objects so that transitivity can be violated, e.g when $X = \Reals^2$. In that case, we cannot create a utility function that will satisfy the same relation. Back your example with a thought experiment.
+
+*** Possible answer
+	CLOCK: [2019-11-20 ons 14:40]--[2019-11-20 ons 14:58] =>  0:18
+
+A simple example is when $U : \Reals^2 \to \Reals$, with rewards having two attributes. Then we might prefer $a$ to $b$ if $a_1 > b_1 + \epsilon$ , but if $|a_1 - b_1| \epsilon$ then we prefer $a$ to $b$ if $a_2 > b_2$. An example is if the first attribute is the IQ score of a job candidate and the second attribute their years of experience. We might prefer a brighter candidate as long as they are clearly much better (as IQ scores are fiddly), otherwise we will prefer the ones that have more experience. As an example, consider three candidates
+
+| Id |  IQ | XP |
+|----+-----+----|
+| a  | 120 |  5 |
+| b  | 130 |  4 |
+| c  | 140 |  3 |
+|----+-----+----|
+
+In this example, we can set $\epsilon = 15$ so we prefer a candidate if he has at least an IQ score 15 points higher than another. 
+Due to this, we have $a >^* c$. However, as $a$ and $b$ have similar IQs we prefer $a$ to $b$, i.e. $b >^* a$ and similarly $c >^* b$. If transitivity held, then we'd have $c >^* a$, which we don't.
+
+Note that if we mapped these to a utility function, i.e. $U(a) = a_1 + a_2$, we will always get a transitive relation.
 
 
 ** Differential privacy
@@ -350,29 +419,112 @@ A prosecutor claims that the defendant is guilty because they have found DNA mat
 Consider a system where we obtain data $x_1, \ldots, x_n$ from individuals, where $x_t \in X$ corresponds to data from a single individual. Consider a mechanism that, from this data, publishes an output $a_1, \ldots, a_n$ by partitioning $X$ in two sets, $A, B$ so that $a_t = 1$ if $x_t \in A$ and $0$ otherwise.
 Is the mechanism $\pi(a | x)$ $\epsilon$-differentially private? If so, with what value of $\epsilon$?
 
+*** Possible answer
+	CLOCK: [2019-11-20 ons 15:04]--[2019-11-20 ons 15:13] =>  0:09
+
+In general, DP algorithms must be stochastic, so that this algorithm cannot satisfy DP at all.
+
+In more detail, differential privacy requires that $\pi(a \mid x) \leq \pi(a \mid x') e^\epsilon$ for some $\epsilon$ for any neighbouring $x, x'$.
+Consider a dataset where the $t$-th person has $x_t \in A$. Then $a_t = 1$. Consider a neighbouring dataset where $x'_t \nin A$. Then $a_t = 0$ w.p. 1, so $a_t = 1$ has probability $0$. 
+
+\[
+\pi(a \mid x) = \prod_i \pi(a_i \mid x_i)  
+= \pi(a_t \mid x_t)] \prod_{i \neq t} \pi(a_i \mid x_i) 
+\]
+\[
+\pi(a \mid x') = \prod_i \pi(a_i \mid x_i) 
+= [1 - \pi(a_t \mid x_t)] \prod_{i \neq t} \pi(a_i \mid x_i) 
+\]
+Dividing the two, we get
+\[
+\pi(a \mid x)   =  \pi(a \mid x') \pi(a_t \mid x_t)] / [1 - \pi(a_t \mid x_t)].
+\]
+However, the ratio on the right is not bounded (i.e. it can be $\infty$), hence there is no DP.
+
+
 ** Graphical models
 
-A patient is coming to the doctor complaining of chest pains. The doctor recommends that the patient undergoes EEG examination and observes the result. Describe apropriate decision variables and random variables  corresponding to this problem and draw a graphical model detailing their relationship.
+A patient is coming to the doctor complaining of chest pains. The doctor recommends that the patient undergoes EEG examination in order to diagnose the patient's underlying condition and observes the result. Describe apropriate decision variables and random variables  corresponding to this problem and draw a graphical model detailing their relationship.
+
+*** Possible answer
+	CLOCK: [2019-11-20 ons 15:13]--[2019-11-20 ons 15:18] =>  0:05
+Variables:
+- C: Chest pain
+- H: Underlying health condition
+- P: Doctor policy
+- X: examination decision
+- Y: test result.
+
+
+   {H}->(C)  
+    |    | 
+    v    v
+   (Y)<-(X)<-[P]
+
+[ ] indicates decision variables, ( ) observed random variables, { } latent variables
+
+
 
 ** Conditional independence
 
-Consider four random variables $w, x, y, z$ with the following properties: (a)  $w$ is independent of $x$ given $y$ and $z$, (b) it is not completely independent of $x$. Draw a graphical model that satisfies them.
+Consider four random variables $w, x, y, z$ with the following
+properties: (a) $w$ is independent of $x$ given $y$ and $z$, (b) it is
+not completely independent of $x$. Draw a graphical model that
+satisfies them.
+
+*** Possible answer
+	CLOCK: [2019-11-20 ons 15:18]--[2019-11-20 ons 15:21] =>  0:03
+
+(a) means that there is no path from $x$ to $w$ given $y, z$
+(b) means that there is some path from $x$ to $w$. 
+
+So a graphical model representing this is:
+
+(z)--\ 
+ ^    |
+ |    v
+(x)  (w)
+ |    ^
+ v    |
+(y)--/
+ 
 
 ** Fairness
+   CLOCK: [2019-11-20 ons 15:31]--[2019-11-20 ons 15:37] =>  0:06
 
 Consider a decision problem where a decision maker (DM) takes actions affecting a set of individuals. Let the DM's action be $a \in A$. This action results in an outcome $y \in Y$, also depending on the underlying characteristics $x$ of the population and has conditional distribution $P(y \mid x, a)$.
 Assume that the DM has a utility function $U : A \times Y \to \Reals$. 
 1. Complete the following formula to show how the DM would maximise expected utility, assuming she observes $x$:
 \[
-\max_{a} \cdots
+\max_{a} \E [U \mid a, x]
 \]
+Note that $\E [U \mid a, x] = \sum_y U(a, y) P(y, \mid x, a)$.
 
 2. Assume each individual $i$ also receives some utility from the DM's actions. This is specified through a collection of utility functions $v_i : A \times Y \to \Reals$. Two typical definitions of fairness from social choice theory concentrate on maximising a /social welfare/ function that depends on the utilities of the whole population. There are two typical such functions
  (a) The (expected) total utility of the population
  (b) The (expected) utility of the worst-off member of the population.
 Formalise those definitions within our framework.
 
+(a) Can be described as $V = \sum_i v_i$. Then the objective of the decision maker would be to find an $a$ maximising
+\[
+\E\left[\sum_i v_i \mid a, x\right]
+=
+\sum_y P(y \mid a, x) \sum_i v_i(a, y) 
+\]
+(b) can be described as  $V = \min_i v_i$. Similarly
+\[
+\E\left[\sum_i v_i \mid a, x\right]
+=
+\sum_y P(y \mid a, x) \min_i v_i(a, y) 
+\]
+
 3. Describe a method whereby the DM can trade-off maximising her own utility and social welfare. Under which conditions do the to objectives coincide?
+
+A simple idea is to combine the social welfare linearly with the DM's utility. Then we can try to maximise
+\[
+\E[(1 - \alpha) U + \alpha V \mid x, a].
+\]
+The two objectives obviously coincide when $U = V$. However, any utility function $U$ which has the same maximum as $V$ is compatible with social welfare. 
 
 
 ** Causality
@@ -397,19 +549,49 @@ The second table describes the number of people that were cured after the treatm
 |-------------+-----------+-----------|
 Table 2: Effect of treatment
 
-1 .Draw a graphical model with the following three variables:
+1 .Draw a graphical model with the following four variables:
 - $\pi$: Treatment policy
 - $x_t$: Symptoms
 - $a_t$: Treatment
 - $y_t$: Treatment effect
 
+
+
 2. What would the expected curing rate of a policy that uniformly randomly assigned treatments have been? (It is OK to provide a simple point estimate)
+
+
 
 3. Given the above data, what would be the treatment policy $\hat{\pi}^*$ that maximises the curing rate? and how much would the curing rate of $\hat{\pi}^*$ be?
 
 4. Is there some reason why the original policy $\pi$ would be preferred to $\hat{\pi}^*$?
 
+*** Possible answer
+
+   CLOCK: [2019-11-20 ons 15:37]--[2019-11-20 ons 16:01] =>  0:24
+
+1. Note that typically the symptoms and treatment effect depend on an underlying medical condition, but the question did not ask about this.
+[$\pi$] ---> ($a_t$)
+                ^   \
+                |    \($y_t$)
+                |    /
+                |   /
+             ($x_t$)
+
+
+
+2. For S1, Treatment A works 15/20=3/4 and B: 90/180=1/2. Randomly assigning treatments: 3/8+1/4 = (3+2)/8 = 5/8
+For S2, Treatment B works 60/90=2/3 and B: 4/10=2/5. Randomly assigning treatments: 1/3+1/5 = (3+5)/15 = 8/15
+S1 has 200 patients and S2 has 100 patients, so 2/3 of people have S1. So the overall treatment rate would have been
+5/8 * 2/3 + 8/15*1/3 = 10 / 24 + 8 / 45 ~ 5 / 12 + 2 / 11 ~ 7 / 12
+
+3. It appears that Treatment A always works best, i.e. 3/4 of the time and 1/2 for each symptom.
+So the overall curing rate based on the data would be 3/4 * 2/3 + 1/2*1/3 = 6/12 + 1/6 = 3/6+1/6 = 4/6=2/3.
+
+4. Firstly, there could be hidden medical or financial costs. One treatment might be more expensive than the other, or may have more side-effects. In addition, one type of symptoms might be less acute or life-threatening than the other, thus requiring less aggressive treatment. Secondly, the new policy always uses the same treatment, and this means that we do not get information about the effectiveness of alternative treatments. This may be important in the initial stages of executing a treatment.
+
+
 ** Markov decision processes and experiment design
+
    
 Consider a Markov decision process with two actions $A = \{0, 1\}$ and three states $S = \{0, 1, 2\}$, with a horizon $T=2$, with starting state $s_1 = 10 and the following transition distribution:
 
@@ -432,7 +614,15 @@ Since $T=2$, the MDP ends after we take the first action,observe Ss_2$ and obtai
 What is the optimal policy for achieving that?
 
 
+*** Possible answer
+	CLOCK: [2019-11-20 ons 16:05]--[2019-11-20 ons 16:09] =>  0:04
 
+We always start in state 1.
+Taking action 0, we end up in state 1 again, with reward 0.
+So $\E[\sum_{t=1}^2 r_t \mid a_1 = 0] = 0 + 0$.
 
+Taking action 1, we end up in state 2 w.p 0.2 and state 1 w.p. 0.8.
+So $\E[\sum_{t=1}^2 r_t \mid a_1 = 1] = 1 \times 0.8 - 1 \times 0.2 = 0.6$
 
+So it is better to take action 1 in state 0. 
 
