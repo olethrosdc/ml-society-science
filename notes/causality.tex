@@ -586,18 +586,17 @@
         \E^\pol_\param(\util)
         &=
           \int_\CX \dd P_\param(x)
-          \sum_{t=1}^T
           \sum_a
           \E_\param(\util \mid a, x)
           \pol(a \mid x)\\
         &\approx
           \frac{1}{T}
-          \sum_a
+          \sum_a \sum_t
           \E_\param(\util \mid a, x_t)
           \pol(a \mid x_t), & x_t & \sim P_\param(x)\\
         &=
           \frac{1}{T}
-          \sum_a
+          \sum_t \sum_a
           \E_\param(\util \mid a, x_t)
           \frac{\pol(a \mid x_t)}{\pol_0(a \mid x_t)} \pol_0(a \mid x_t)\\
         &\approx
