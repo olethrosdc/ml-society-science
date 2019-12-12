@@ -34,7 +34,7 @@ policy_factory = reference_recommender.HistoricalRecommender
 print("---- Testing with only two treatments ----")
 
 print("Setting up simulator")
-generator = data_generation.DataGenerator(matrices="./generating_matrices.mat")
+generator = data_generation.DataGenerator(matrices="./big_generating_matrices.mat")
 print("Setting up policy")
 policy = policy_factory(generator.get_n_actions(), generator.get_n_outcomes())
 ## Fit the policy on historical data first
