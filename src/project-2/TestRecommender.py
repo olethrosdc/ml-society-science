@@ -15,7 +15,7 @@ def test_policy(generator, policy, reward_function, T):
         u += r
         policy.observe(x, a, y)
         #print(a)
-        #print("x: ", x, "a: ", a, "y:", y, "r:", r)
+        print("x: ", x, "a: ", a, "y:", y, "r:", r)
     return u
 
 features = pandas.read_csv('data/medical/historical_X.dat', header=None, sep=" ").values
@@ -28,7 +28,7 @@ import data_generation
 import random_recommender
 policy_factory = random_recommender.RandomRecommender
 import reference_recommender
-policy_factory = reference_recommender.HistoricalRecommender
+#policy_factory = reference_recommender.HistoricalRecommender
 
 ## First test with the same number of treatments
 print("---- Testing with only two treatments ----")
