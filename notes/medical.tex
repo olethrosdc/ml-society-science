@@ -13,7 +13,7 @@ For each patient, we observe the attributes $\bx$, with
 We also observe a therapeutic intervention $a \in \CA$, which is followed by an outcome $y_t \in \{0,1\}$. Consequently, historical data can be described by $(\bx_t, a_t, y_t)$
 
 \paragraph{Discovering structure in the data.}
-It is uncertain if the symptoms present are all due to the same disease, or if they are different conditions with similar symptoms. (a) looking at only the attributes, estimate whether a single-cluster model is more likely than a multiple-cluster model. You can use anything, starting from a simple clustering algorithm like $k$-means to a hierarchical Bayesian model. (b) Try and determine whether some particular factors are important for disease epidemiology and may require further investigations.
+It is uncertain if the symptoms present are all due to the same disease, or if they are different conditions with similar symptoms. (a) looking at the data (including symptoms), estimate whether a single-cause model is more likely than a multiple-cause model. You can use anything, ranging from histograms or  simple clustering algorithms to a hierarchical Bayesian model. (b) Try and determine whether some particular factors are important for disease epidemiology and may require further investigations.
 
 You need to be able to validate your findings either through a holdout-set methodology, appropriately used statistical tests, or Bayesian model comparison.
 
