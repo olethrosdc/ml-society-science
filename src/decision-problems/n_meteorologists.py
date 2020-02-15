@@ -12,9 +12,9 @@ import random
 ## - outcome: actual outcome
 def get_posterior(prior, P, outcome):
     n_models = len(prior)
-    total_probability = prior * P[:, outcome] # get total_probability[i] = prior[i] * P[i, outcome]
-    posterior = total_probability / np.sum(total_probability)
+    posterior = prior
     ## So probability of outcome for model i is just...
+    
     return posterior
 
 
@@ -24,33 +24,19 @@ def get_posterior(prior, P, outcome):
 ## - outcome: actual outcome
 def get_marginal_prediction(belief, P, outcome):
     n_models = len(belief)
-    outcome_probability = 0
-    for mu in range(n_models):
-        outcome_probability += P[mu][outcome] * belief[mu]
     return outcome_probability
 
 ## In this function, U[action,outcome] should be the utility of the action/outcome pair
 def get_expected_utility(belief, P, action, U):
     n_models = len(belief)
     n_outcomes = np.shape(P)[1]
-
     utility = 0
-    for x in range(n_outcomes):
-        utility += get_marginal_prediction(belief, P, x) * U[action][x]
-
     return utility
     
 def get_best_action(belief, P, U):
     n_models = len(belief)
     n_actions = np.shape(U)[0]
     best_action = 0
-    best_U = get_expected_utility(belief, P, best_action, U)
-    for a in range(n_actions):
-        U_a = get_expected_utility(belief, P, a, U)
-        if (U_a > best_U):
-            best_U  = U_a
-            best_action = a
-    
     return best_action
     
 
