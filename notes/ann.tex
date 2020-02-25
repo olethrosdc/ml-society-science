@@ -1,4 +1,4 @@
-\section{Classification with stochastic gradient descent}
+\section{Classification with stochastic gradient descent\textsuperscript{*}}
 \only<presentation>{
   \begin{frame}
     \tableofcontents[ 
@@ -11,7 +11,7 @@
 
 \begin{frame}
   \frametitle{Classification as an optimisation problem.}
-  \only<article>{Finding the optimal policy for our belief $\bel$ is not normally very difficult. However, it requires that we maintain the complete distribution $\bel$ and that we also under some probability distribution $P$. In simple decision problems, e.g. where the set of actions $\CA$ is finite, it is possible to do this calculation on-the-fly. However, in some cases we might not have a model.
+  \only<article>{Finding the optimal policy for our belief $\bel$ is not normally very difficult. However, it requires that we maintain the complete distribution $\bel$ and the set of models $P_\model(y \mid x)$. In simple decision problems, e.g. where the set of actions $\CA$ is finite, it is possible to do this calculation on-the-fly. However, in some cases we might not have a model.
     
 Recall that we wish to maximise expected utility for some policy under some distribution. In general, this has the form 
 \[

@@ -216,6 +216,8 @@
 
 \begin{frame}
   \frametitle{Bayesian inference illustration}
+\only<article>{
+Here is a simple example to illustrate the idea of Bayesian inference. Imagine you are a rat in the maze and you need to get to the cheese. In the example below, you believe that the maze lay out is only one of two possibilities $\model_1, \model_2$. Initially you might believe that the first model is more likely than the second, so you decide upon some function $\bel$ so that $\bel(\model_1) > \bel(\model_2)$, for example $\bel(\model_1) = 2/3$, $\bel(\model_2) = 1/3$. Now you start acting in the maze, collecting data $h$ consisting of your history of observation in this maze. The data gives a different amount of \emph{evidence} for each model of the world, which we can write as $P_\model(h)$. In the end, we want to combine this evidence with our initial belief to arrive at a conclusion. In the Bayesian setting, all of these quantities are probabilities, and the conclusion is simply the conditional probability of the model given the data.}
   \begin{columns}
     \begin{column}{0.7\textwidth}
       \begin{block}{Use a subjective belief $\bel(\model)$ on $\Model$}
