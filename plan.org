@@ -154,6 +154,46 @@ Algorithms from Artificial Intelligence are becoming ever more complicated and a
 The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It will equip  students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining a large set of models. It uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work. It is instead on the issues of reproducibility, data colletion and experiment design, privacy, fairness and safety when applying machine learning algorithms. For that reason, we will cover technical topics not typically covered in an AI course: false discovery rates, differential privacy, fairness, causality and risk. Some familiarity with machine learning concepts and artificial intelligence is expected, but not necessary.
  
 * Schedule
+** 2020
+
+|--------+----------------------------------------------------------------+----------|
+| 19 Aug | L1. Reproducibility, kNN                                       | Christos |
+| 20 Aug | A1. Python, scikitlearn, classification, holdouts, overfitting | Dirk     |
+| 26 Aug | L2. Classification, Decision Problems, Project Overview        | Christos |
+| 27 Aug | A2. Bootstrapping, XV, project #1 introduction                 | Dirk     |
+|--------+----------------------------------------------------------------+----------|
+| 2 Sep  | L3. Decision Problems, Classification, Neural Networks, SGD    | Christos |
+| 3 Sep  | A3. Compare kNN/MLP, discover interesting features             | Dirk     |
+| 9 Sep  | L4. Bayesian inference tutorial; neural networks               | Christos |
+| 10 Sep | A4. Project Lab                                                | Dirk     |
+|--------+----------------------------------------------------------------+----------|
+| 16 Sep | L5. Databases, anonymity, privacy                              | Christos |
+| 17 Sep | A5. DB tutorial/distributed computing                          | Dirk     |
+| 23 Sep | L6. Differential privacy                                       | Christos |
+| 24 Sep | A6. Project DP tutorial: Laplace mechanism                     | Dirk     |
+|--------+----------------------------------------------------------------+----------|
+| 30 Sep | L7. Fairness and graphical models                              | Christos |
+| 1 Oct  | A7. Production ML: SageMaker/Pipelines                         | Dirk     |
+| 7 Oct  | L8. Estimating conditional independence                        | Christos |
+| 8 Oct  | A8. Project: fairness                                          | Dirk     |
+|--------+----------------------------------------------------------------+----------|
+| 14 Oct | L9. Recommendation systems [can be skipped?]                   | Christos |
+| 15 Oct | A9. Restful APIs                                               | Dirk     |
+| 21 Oct | L10. Latent variables and importance sampling                  | Christos |
+| 22 Oct | A10. An example latent variable model?                         | Dirk     |
+|--------+----------------------------------------------------------------+----------|
+| 28 Oct | L11. Causality                                                 | Christos |
+| 29 Oct | A11. Causality lab                                             | Dirk     |
+| 4 Nov  | L12. Interventions and Counterfactuals                         | Christos |
+| 5 Nov  | A12. Interventions lab                                         | Dirk     |
+|--------+----------------------------------------------------------------+----------|
+| 11 Nov | L13. Bandit problems                                           | Christos |
+| 12 Nov | A13. Bandit optimisationm lab                                  | Dirk     |
+| 17 Nov | L14. Experiment design                                         | Christos |
+| 18 Nov | A14. Experiment design lab                                     | Dirk     |
+|--------+----------------------------------------------------------------+----------|
+
+
 ** 2019
 
 |--------+----------------------------------------------------------------+----------|
