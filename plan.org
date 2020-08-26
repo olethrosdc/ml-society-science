@@ -159,12 +159,12 @@ The purpose of this course is to familiarise students with societal and scientif
 |--------+----------------------------------------------------------------+----------|
 | 19 Aug | L1. Reproducibility, kNN                                       | Christos |
 | 20 Aug | A1. Python, scikitlearn, classification, holdouts, overfitting | Dirk     |
-| 26 Aug | L2. Classification, Decision Problems, Project Overview        | Christos |
-| 27 Aug | A2. Bootstrapping, XV, project #1 introduction                 | Dirk     |
+| 26 Aug | A2. Bootstrapping, XV, project #1 introduction                 | Dirk     |
+| 27 Aug | L2. Classification, Decision Problems                          | Christos |
 |--------+----------------------------------------------------------------+----------|
-| 2 Sep  | L3. Decision Problems, Classification, Neural Networks, SGD    | Christos |
+| 2 Aug  | L3. Decisions, inference, optimisation.                        | Christos |
 | 3 Sep  | A3. Compare kNN/MLP, discover interesting features             | Dirk     |
-| 9 Sep  | L4. Bayesian inference tutorial; neural networks               | Christos |
+| 9 Sep  | L4. Bayesian inference tutorial                                | Christos |
 | 10 Sep | A4. Project Lab                                                | Dirk     |
 |--------+----------------------------------------------------------------+----------|
 | 16 Sep | L5. Databases, anonymity, privacy                              | Christos |
@@ -203,7 +203,7 @@ The purpose of this course is to familiarise students with societal and scientif
 | 29 Aug | A2. Bootstrapping, XV, project #1 introduction                 | Dirk     |
 | 30 Aug | Mini-assigment                                                 |          |
 |--------+----------------------------------------------------------------+----------|
-| 4 Sep  | L3. Decision Problems, Classification, Neural Networks, SGD    | Christos |
+| 4 Sep  | L3. Bayesian inference, Networks, SGD                          | Christos |
 | 5 Sep  | L4. Bayesian inference tutorial; neural networks               | Christos |
 | 12 Sep | A3. Compare kNN/MLP, discover interesting features             | Dirk     |
 | 12 Sep | A4. Project Lab                                                | Dirk     |
