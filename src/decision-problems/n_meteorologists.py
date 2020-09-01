@@ -1,4 +1,4 @@
-
+# Skeleton code
 
 # Assume the number of models is equal to n=len(prior).  The argument
 # P is an n-by-m array, where m is the number of possible
@@ -14,7 +14,7 @@ def get_posterior(prior, P, outcome):
     n_models = len(prior)
     posterior = prior
     ## So probability of outcome for model i is just...
-    
+    ## FILL IN
     return posterior
 
 
@@ -24,19 +24,21 @@ def get_posterior(prior, P, outcome):
 ## - outcome: actual outcome
 def get_marginal_prediction(belief, P, outcome):
     n_models = len(belief)
+    ## FILL IN
     return outcome_probability
 
 ## In this function, U[action,outcome] should be the utility of the action/outcome pair
 def get_expected_utility(belief, P, action, U):
     n_models = len(belief)
     n_outcomes = np.shape(P)[1]
-    utility = 0
+    utility = ## FILL IN
     return utility
-    
+
+## Here you should return the action maximising expected utility    
 def get_best_action(belief, P, U):
     n_models = len(belief)
     n_actions = np.shape(U)[0]
-    best_action = 0
+    best_action = ## FILL IN
     return best_action
     
 
