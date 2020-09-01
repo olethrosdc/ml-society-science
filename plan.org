@@ -169,28 +169,35 @@ The purpose of this course is to familiarise students with societal and scientif
 |--------+----------------------------------------------------------------+----------|
 | 16 Sep | L5. Databases, anonymity, privacy                              | Christos |
 | 17 Sep | A5. DB tutorial/distributed computing                          | Dirk     |
+| 18 Sep | Project 1 *Deadline 1*                                         |          |
 | 23 Sep | L6. Differential privacy                                       | Christos |
 | 24 Sep | A6. Project DP tutorial: Laplace mechanism                     | Dirk     |
 |--------+----------------------------------------------------------------+----------|
 | 30 Sep | L7. Fairness and graphical models                              | Christos |
 | 1 Oct  | A7. Production ML: SageMaker/Pipelines                         | Dirk     |
+| 2 Oct  | Project 1 *Deadline 2*                                         |          |
 | 7 Oct  | L8. Estimating conditional independence                        | Christos |
 | 8 Oct  | A8. Project: fairness                                          | Dirk     |
 |--------+----------------------------------------------------------------+----------|
 | 14 Oct | L9. Recommendation systems [can be skipped?]                   | Christos |
 | 15 Oct | A9. Restful APIs                                               | Dirk     |
+| 16 Oct | Project 1 *Final Deadline*                                     |          |
 | 21 Oct | L10. Latent variables and importance sampling                  | Christos |
 | 22 Oct | A10. An example latent variable model?                         | Dirk     |
 |--------+----------------------------------------------------------------+----------|
 | 28 Oct | L11. Causality                                                 | Christos |
 | 29 Oct | A11. Causality lab                                             | Dirk     |
+| 30 Oct | Project 2 *Deadline 1*                                         |          |
 | 4 Nov  | L12. Interventions and Counterfactuals                         | Christos |
 | 5 Nov  | A12. Interventions lab                                         | Dirk     |
 |--------+----------------------------------------------------------------+----------|
 | 11 Nov | L13. Bandit problems                                           | Christos |
 | 12 Nov | A13. Bandit optimisationm lab                                  | Dirk     |
+| 13 Nov | Project 2 *Deadline 2*                                         |          |
 | 17 Nov | L14. Experiment design                                         | Christos |
 | 18 Nov | A14. Experiment design lab                                     | Dirk     |
+|--------+----------------------------------------------------------------+----------|
+| 27 Nov | Project 2 *Final Deadline*                                     |          |
 |--------+----------------------------------------------------------------+----------|
 
 
