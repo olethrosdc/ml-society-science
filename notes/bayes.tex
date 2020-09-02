@@ -436,7 +436,7 @@ Here is a simple example to illustrate the idea of Bayesian inference. Imagine y
     \item The $i$-th station predicts rain $P_{\mdp_i}(x_t \mid x_1, \ldots, x_{t-1})$.
     \item Let $\bel_t(\mdp)$ be our belief at time $t$.
       Derive the next-step belief
-      $\bel_{t+1}(\mdp) \defn  \bel_t(\mdp | y_{t})$ in terms of the current belief $\bel_t$.
+      $\bel_{t+1}(\mdp) \defn  \bel_t(\mdp | x_{t})$ in terms of the current belief $\bel_t$.
     \item Write a python function that computes this posterior
     \end{itemize}
   \end{exercise}

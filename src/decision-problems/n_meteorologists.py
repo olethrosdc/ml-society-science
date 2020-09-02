@@ -12,7 +12,6 @@ import random
 ## - outcome: actual outcome
 def get_posterior(prior, P, outcome):
     n_models = len(prior)
-    posterior = prior
     ## So probability of outcome for model i is just...
     ## FILL IN
     return posterior
@@ -24,6 +23,7 @@ def get_posterior(prior, P, outcome):
 ## - outcome: actual outcome
 def get_marginal_prediction(belief, P, outcome):
     n_models = len(belief)
+    outcome_probability = 0
     ## FILL IN
     return outcome_probability
 
@@ -31,14 +31,14 @@ def get_marginal_prediction(belief, P, outcome):
 def get_expected_utility(belief, P, action, U):
     n_models = len(belief)
     n_outcomes = np.shape(P)[1]
-    utility = ## FILL IN
+    utility = 0 ## FILL IN
     return utility
 
 ## Here you should return the action maximising expected utility    
 def get_best_action(belief, P, U):
     n_models = len(belief)
     n_actions = np.shape(U)[0]
-    best_action = ## FILL IN
+    best_action = 0## FILL IN
     return best_action
     
 
@@ -62,10 +62,10 @@ for t in range(T):
         P[model,1] = prediction[model,t] # the table predictions give rain probabilities
         P[model,0] = 1.0 - prediction[model,t] # so no-rain probability is 1 - that.
     probability_of_rain = get_marginal_prediction(belief, P, 1)
-    print(probability_of_rain)
+#    print(probability_of_rain)
     U  = np.matrix('1 -10; 0 0')
-    action = GetBestAction(belief, P, U)
-    print(action, rain[t], U[action, rain[t]])
+    action = get_best_action(belief, P, U)
+#    print(action, rain[t], U[action, rain[t]])
     belief = get_posterior(belief, P, rain[t])
     print(belief)
 
