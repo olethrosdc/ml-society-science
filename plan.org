@@ -197,6 +197,8 @@ The purpose of this course is to familiarise students with societal and scientif
 | 17 Nov | L14. Experiment design                                         | Christos |
 | 18 Nov | A14. Experiment design lab                                     | Dirk     |
 |--------+----------------------------------------------------------------+----------|
+| 23 Nov | Exam                                                           |          |
+|--------+----------------------------------------------------------------+----------|
 | 27 Nov | Project 2 *Final Deadline*                                     |          |
 |--------+----------------------------------------------------------------+----------|
 
