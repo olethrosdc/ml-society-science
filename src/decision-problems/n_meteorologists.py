@@ -12,6 +12,10 @@ import random
 ## - outcome: actual outcome
 def get_posterior(prior, P, outcome):
     n_models = len(prior)
+    posterior = prior
+    for k in range(n_models):
+        posterior[k] *= P[k][outcome]
+    posterior /= sum(posterior)
     ## So probability of outcome for model i is just...
     ## FILL IN
     return posterior
@@ -24,7 +28,8 @@ def get_posterior(prior, P, outcome):
 def get_marginal_prediction(belief, P, outcome):
     n_models = len(belief)
     outcome_probability = 0
-    ## FILL IN
+    for k in range(n_models):
+        outcome_probability += belief[k] * P[k][outcome]
     return outcome_probability
 
 ## In this function, U[action,outcome] should be the utility of the action/outcome pair
@@ -32,13 +37,19 @@ def get_expected_utility(belief, P, action, U):
     n_models = len(belief)
     n_outcomes = np.shape(P)[1]
     utility = 0 ## FILL IN
+    for x in range(n_outcomes):
+        P_x = get_marginal_prediction(belief, P, x)
+        utility += P_x * U[action,x]
     return utility
 
 ## Here you should return the action maximising expected utility    
 def get_best_action(belief, P, U):
     n_models = len(belief)
     n_actions = np.shape(U)[0]
-    best_action = 0## FILL IN
+    util = np.zeros(n_actions)
+    for a in range(n_actions):
+        util[a] = get_expected_utility(belief, P, a, U)
+    best_action = np.argmax(util)
     return best_action
     
 
@@ -46,7 +57,7 @@ T = 4 # number of time steps
 n_models = 3 # number of models
 
 # build predictions for each station of rain probability
-prediction = np.matrix('0.1 0.2 0.3 0.4; 0.4 0.5 0.6 0.7; 0.7 0.8 0.9 0.99')
+prediction = np.matrix('0.1 0.2 0.3 0.4; 0.1 0.5 0.6 0.7; 0.1 0.8 0.9 0.99')
 
 
 n_outcomes = 2 # 0 = no rain, 1 = rain
@@ -62,12 +73,12 @@ for t in range(T):
         P[model,1] = prediction[model,t] # the table predictions give rain probabilities
         P[model,0] = 1.0 - prediction[model,t] # so no-rain probability is 1 - that.
     probability_of_rain = get_marginal_prediction(belief, P, 1)
-#    print(probability_of_rain)
+    #print(probability_of_rain)
     U  = np.matrix('1 -10; 0 0')
     action = get_best_action(belief, P, U)
-#    print(action, rain[t], U[action, rain[t]])
+    print(action, rain[t], U[action, rain[t]])
     belief = get_posterior(belief, P, rain[t])
-    print(belief)
+    #print(belief)
 
                 
     
