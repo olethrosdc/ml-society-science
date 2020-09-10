@@ -194,8 +194,8 @@ The purpose of this course is to familiarise students with societal and scientif
 | 11 Nov | L13. Bandit problems                                           | Christos |
 | 12 Nov | A13. Bandit optimisationm lab                                  | Dirk     |
 | 13 Nov | Project 2 *Deadline 2*                                         |          |
-| 17 Nov | L14. Experiment design                                         | Christos |
-| 18 Nov | A14. Experiment design lab                                     | Dirk     |
+| 18 Nov | L14. Experiment design                                         | Christos |
+| 19 Nov | A14. Experiment design lab                                     | Dirk     |
 |--------+----------------------------------------------------------------+----------|
 | 23 Nov | Exam                                                           |          |
 |--------+----------------------------------------------------------------+----------|
