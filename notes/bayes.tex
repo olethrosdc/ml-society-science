@@ -314,20 +314,45 @@ Here is a simple example to illustrate the idea of Bayesian inference. Imagine y
     \]
     The only thing left to specify is $\bel(\model_1)$, the probability that John is a medium before seeing the data. This is our subjective prior belief that mediums exist and that John is one of them.
     More generally, we can think of Bayesian inference as follows: }
+\only<article>{
   \begin{itemize}
-  \item<1-> \only<article>{We start with a set of } mutually exclusive models $\Model = \{\model_1, \ldots, \model_k\}$.
-  \item<2->\only<article>{Each model $\model$ is represented by a specific probabilistic model for any possible data $x$, that is}
-    \only<presentation>{Probability model for any data $x$:} $P_\model(x) \equiv \Pr(x \mid \model)$.
+  \item<1-> We start with a set of mutually exclusive models $\Model = \{\model_1, \ldots, \model_k\}$.
+  \item<2->Each model $\model$ is represented by a specific probabilistic model for any possible data $x$, that is
+    $P_\model(x) \equiv \Pr(x \mid \model)$.
   \item<3-> For each model, we have a prior probability $\bel(\model)$ that it is correct.
-  \item<4-> \only<article>{After observing the data, we can calculate a posterior probability that the model is correct:}
-    \only<presentation>{Posterior probability}
+  \item<4-> After observing the data, we can calculate a posterior probability that the model is correct:
     \[
     \bel(\model \mid x) = \frac{\Pr(x \mid \model) \bel(\model)}{\sum_{\model' \in \Model} \Pr(x \mid \model') \bel(\model')}
     = \frac{P_\model(x) \bel(\model)}{\sum_{\model' \in \Model} P_{\model'} (x) \bel(\model')}.
     \]
   \end{itemize}
+}
+\only<presentation>{
+  \begin{block}{Family of models $\Model = \{\model_1, \ldots, \model_k\}$}
+    Defines a family of probabilities for \alert{any} data $x$:
+    \[
+     \{P_\model | \model \in \Model\}, \qquad P_\model(x) \equiv \Pr(x \mid \model).
+    \]
+  \end{block}
+  \only<2->{
+    \begin{block}{Prior belief $\bel$ over models $\Model$}
+      $\bel(\model)$ is a \alert{distribution} how much we believe it is correct before seeing any data.
+    \end{block}
+  }
+  \only<3->{
+    \begin{block}{Posterior belief $\bel(\model \mid x)$ over models after seeing $x$}
+      \[
+      \bel(\model \mid x)
+= \frac{P_\model(x) \bel(\model)}{\sum_{\model' \in \Model} P_{\model'} (x) \bel(\model')}
+\only<4->{
+  = \frac{\Pr(x \mid \model) \bel(\model)}{\sum_{\model' \in \Model} \Pr(x \mid \model') \bel(\model')}.
+}
+       \]
+    \end{block}
+  }
+}
   \only<5->{
-    \begin{block}{Interpretation}
+    \begin{exampleblock}{Interpretation}
       \begin{itemize}
       \item $\CM$: Set of all possible models that could describe the data.
       \item $P_\model(x)$: Probability of $x$ under model $\model$.
@@ -335,7 +360,7 @@ Here is a simple example to illustrate the idea of Bayesian inference. Imagine y
       \item $\bel(\model)$: Our belief, before seeing the data, that $\model$ is correct.
       \item $\bel(\model \mid x)$: Our belief, aftering seeing the data, that $\model$ is correct.
       \end{itemize}
-    \end{block}
+    \end{exampleblock}
     \only<article>{It must be emphasized that $P_\model(x) = \Pr(x \mid \model)$ as they are simply two different notations for the same thing. In words the first can be seen as the probability that model $\model$ assigns to data $x$, while the second as the probability of $x$ if $\model$ is the true model.}
   }
   \only<article>{
@@ -350,6 +375,7 @@ Here is a simple example to illustrate the idea of Bayesian inference. Imagine y
                        \tag{independence property}
     \end{align}
     \only<article>{We first need to specify how well a medium could predict. Let's assume that a true medium would be able to predict perfectly, and that a non-medium would only predict randomly. This leads to the following models:}
+    \uncover<2->{
     \begin{align}
       P_{\model_1}(x_t = 1) &= 1, &P_{\model_1}(x_t = 0) &= 0.
                                                            \tag{true medium model}
@@ -357,6 +383,7 @@ Here is a simple example to illustrate the idea of Bayesian inference. Imagine y
       P_{\model_0}(x_t = 1) &= 1/2, &P_{\model_0}(x_t = 0) &= 1/2.
                                                              \tag{non-medium model}
     \end{align}
+  }
     \only<article>{
       The only thing left to specify is $\bel(\model_1)$, the probability
       that John is a medium before seeing the data. This is our
@@ -380,7 +407,7 @@ Here is a simple example to illustrate the idea of Bayesian inference. Imagine y
                       \tag{marginal distribution}
       \end{align}
     }
-    Throw a coin 4 times, and have a classmate make a prediction. What your belief that your classmate is a medium? Is the prior you used reasonable?
+    If a classmate correctly predicts 4 coin tosses, what is your belief they are a medium? 
   \end{exercise}
 \end{frame}
 
@@ -409,7 +436,7 @@ Here is a simple example to illustrate the idea of Bayesian inference. Imagine y
     \item The $i$-th station predicts rain $P_{\mdp_i}(x_t \mid x_1, \ldots, x_{t-1})$.
     \item Let $\bel_t(\mdp)$ be our belief at time $t$.
       Derive the next-step belief
-      $\bel_{t+1}(\mdp) \defn  \bel_t(\mdp | y_{t})$ in terms of the current belief $\bel_t$.
+      $\bel_{t+1}(\mdp) \defn  \bel_t(\mdp | x_{t})$ in terms of the current belief $\bel_t$.
     \item Write a python function that computes this posterior
     \end{itemize}
   \end{exercise}
