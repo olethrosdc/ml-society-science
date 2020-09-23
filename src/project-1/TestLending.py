@@ -7,10 +7,10 @@ features = ['checking account balance', 'duration', 'credit history',
             'property', 'age', 'other installments', 'housing', 'credits',
             'job', 'persons', 'phone', 'foreign']
 target = 'repaid'
-#df = pandas.read_csv('../../data/credit/german.data', sep=' ',
-#                     names=features+[target])
-df = pandas.read_csv('D_valid.csv', sep=' ',
+df = pandas.read_csv('../../data/credit/german.data', sep=' ',
                      names=features+[target])
+#df = pandas.read_csv('D_valid.csv', sep=' ',
+#                    names=features+[target])
 #df = pa
 
 import matplotlib.pyplot as plt
@@ -29,6 +29,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
     total_utility = 0
     decision_maker.set_interest_rate(interest_rate)
     for t in range(n_test_examples):
+        print(decision_maker.predict_proba(X_test.iloc[t]))
         action = decision_maker.get_best_action(X_test.iloc[t])
         good_loan = y_test.iloc[t] # assume the labels are correct
         duration = X_test['duration'].iloc[t]
@@ -48,12 +49,12 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
 
 
 ### Setup model
-import random_banker # this is a random banker
-decision_maker = random_banker.RandomBanker()
+import name_banker  #this is a random banker
+decision_maker = name_banker.NameBanker()
 #import aleksaw_banker
 #decision_maker = aleksaw_banker.AlexBanker()
 
-interest_rate = 0.017
+interest_rate = 0.05
 
 ### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
