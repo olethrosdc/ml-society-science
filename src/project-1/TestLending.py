@@ -29,7 +29,6 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
     total_utility = 0
     decision_maker.set_interest_rate(interest_rate)
     for t in range(n_test_examples):
-        print(decision_maker.predict_proba(X_test.iloc[t]))
         action = decision_maker.get_best_action(X_test.iloc[t])
         good_loan = y_test.iloc[t] # assume the labels are correct
         duration = X_test['duration'].iloc[t]
