@@ -49,7 +49,9 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
 
 ### Setup model
 import name_banker  #this is a random banker
-decision_maker = name_banker.NameBanker()
+import random_banker
+#decision_maker = name_banker.NameBanker()
+decision_maker = random_banker.RandomBanker()
 #import aleksaw_banker
 #decision_maker = aleksaw_banker.AlexBanker()
 
