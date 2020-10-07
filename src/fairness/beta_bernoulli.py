@@ -18,15 +18,15 @@ class BetaBernoulli:
                 self.belief[0] += 1
 
     ## Get the marginal bernoulli probability of each symbol
-    def get_merginal(self):
+    def get_marginal(self):
         return self.belief / sum(self.belief)
 
     ## Generate a bernoulli probability distribution from the posterior
     def generate(self):
-        p = np.zeros(self.alphabet_size)
-        for i in range(self.alphabet_size):
-            p[i] = np.random.gamma(self.belief[i], 1)
-        return Bernoulli(p/sum(p))
+        p = np.zeros(2)
+        p[1] = np.random.beta(self.belief[0], self.belief[1])
+        p[0] = 1 - p[1]
+        return Bernoulli(p)
 
     ## Get the marginal probability for a large number of data.
     ## This has an analytical formula in this case.
@@ -44,6 +44,7 @@ class Bernoulli:
     ## This does nothing here
     def update_belief(self, data):
         return
+    
     ## We define this to keep the same API, even though there is no marginal
     def get_marginal(self):
         return self.p
