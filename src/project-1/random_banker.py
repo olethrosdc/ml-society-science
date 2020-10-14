@@ -22,7 +22,7 @@ class RandomBanker:
     # action = 1 grant the loan
     #
     # Make sure that you extract the length_of_loan from the
-    # 2nd attribute of x. Then the return if the loan is paid off to you is amount_of_loan*(1 + rate)^length_of_loan
+    # 2nd attribute of x. Then the return if the loan is paid off to you is amount_of_loan*(1 + rate)^length_of_loan - amount_of_loan
     # The return if the loan is not paid off is -amount_of_loan.
     def expected_utility(self, x, action):
         print("Expected utility: Not implemented")
