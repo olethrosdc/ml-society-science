@@ -22,6 +22,7 @@
 \tableofcontents
 
 \chapter{Introduction}
+\label{ch:introduction}
 \include{ml-intro}
 
 \chapter{Simple decision problems}
@@ -41,6 +42,7 @@ In this chapter, we shall formalise all these simple decision problems from the 
 %\include{credit}
 
 \chapter{Privacy}
+\label{ch:privacy}
 \only<article>{
   Participating in a study always carries a risk for individuals, namely that of data disclosure. In this chapter, we first explain how simple database query methods, and show even a small number of queries to a database they can compromise the privacy of individuals. We then introduce to formal concepts of privacy protection: $k$-anonymity and differential privacy. The first is relatively simple to apply and provides some limited resistance to identification of individuals through record linkage attacks. The latter is a more general concept, and can be simple apply in some settings, while it offers information-theoretic protection to individuals. A major problem with any privacy definition and method, however is correct interpretation of the privacy concept used, and correct implementation of the algorithm used.}
 
@@ -48,6 +50,7 @@ In this chapter, we shall formalise all these simple decision problems from the 
 \include{privacy} %data bases
 
 \chapter{Fairness}
+\label{ch:fairness}
 \only<article>{
   When machine learning algorithms are applied at scale, it can be difficult to imagine what their effects might be. In this part of the course, we consider notions of fairness as seen through the prism of conditional independence and meritocracy. The first notion requires that we look deeper into directed graphical models.
 }
@@ -59,6 +62,7 @@ In this chapter, we shall formalise all these simple decision problems from the 
 
 
 \chapter{Recommendation systems}
+\label{ch:recommendation}
 \only<article>{Structured learning problems involve multiple latent variables with a complex structure. These range from clustering and spech recognition to DNA and biological and social network analysis. Since structured problems include relationships between many variables, they can be analysed using graphical models.}
 \include{recommendation}
 \include{clustering}
@@ -67,9 +71,11 @@ In this chapter, we shall formalise all these simple decision problems from the 
 \include{rnn}
 
 \chapter{Causality}
+\label{ch:causality}
 \include{causality}
 
 \chapter{Bandit problems and experiment design}
+\label{ch:bandit}
 \include{experiment-design}
 \chapter{Markov decision processes}
 \label{ch:mdp}
