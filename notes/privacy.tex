@@ -552,7 +552,7 @@
     For $n$ users and $k$ attributes, if the release of each attribute $i$ is $\epsilon$-DP then 
     the data release is $k \epsilon$-DP. Thus to get $\epsilon$-DP overall,  we need $\epsilon / k$-DP per attribute.
   \end{block}
-  \only<article>{The result follows immediately from the composition theorem. We can see each attribute release as the result of an individual query.}
+  \only<article>{The result follows immediately from the composition theorem. We can see each attribute release as the result of an individual query. More generally, if each attribute $i$ is released with an $\epsilon_i$-DP mechanism, the overall mechanism is $\sum_i \epsilon_i$-DP.}
 
 \end{frame}
 
@@ -647,50 +647,99 @@
 
 \begin{frame}
   \begin{example}[Calculating the average salary]
+   \only<article>{Here we have $n$ individuals for which we wish to calculate the average salary.}
     \begin{itemize}
     \item The $i$-th person receives salary $x_i$
     \item We wish to calculate the average salary in a private manner.
     \end{itemize}
+    \only<article>{We can do this in two ways. By using a DP mechanism on each individual salary and then calculating the average, or by first calculating the average and then applying a DP mechanism to the result. In particular, we can add try adding Laplace noise in both cases.}
   \end{example}
   \begin{block}{Local privacy model}
+    \only<article>{In this case, $\pol(a \mid x)$ is obtained by drawing independent Laplace noise $\omega_i$ for each individual and then averaging}
     \begin{itemize}
-    \item Obtain $y_i = x_i + \omega$, where $\omega \sim \Laplace(\lambda)$.
+    \item Obtain $y_i = x_i + \omega_i$, where $\omega_i \sim \Laplace(\lambda)$.
     \item Return $a = n^{-1} \sum_{i=1}^n y_i$.
     \end{itemize}
   \end{block}
   \begin{block}{Centralised privacy model}
+    \only<article>{In this case, $\pol(a \mid x)$ is obtained by averaging first and adding noise later.}
     Return $a = n^{-1} \sum_{i=1}^n x_i + \omega$, where $\omega \sim \Laplace(\lambda')$.
   \end{block}
   
-  How should we add noise in order to guarantee privacy?
+  How should we add noise in order to guarantee privacy? \only<article>{In particular, what should $\lambda, \lambda'$ be in order to obtain the same $\epsilon$-DP guarantee?}
 \end{frame}
 
 \begin{frame}
   \frametitle{The centralised privacy model}
+  \only<article>{This is the standard model of differential privacy. We wish to calculate a function $f : \CX \to \CY$ on individual data. However, we do not want to simply release $y = f(x)$ because we want to guarantee some privacy properties. Instead, a trusted curator obtains the data $x$ of all individuals and selects a DP policy $\pol(a \mid x)$ to generate the output $a$. Of course, we want to make sure that $f(x) \approx a$ in some sense, otherwise the mechanism will not be useful.}
+
   \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-      \node[RV] at (0,0) (x1) {$x_1$};
-      \node[RV] at (0,1) (x2) {$x_2$};
-      \node[RV] at (0,2) (xn) {$x_n$};
-      \node[RV] at (2,1) (a) {$a$};
-      \node[select] at (1,-1) (pol) {$\pol$};
-      \draw[->] (x1) -- (a);
-      \draw[->] (x2) -- (a);
-      \draw[->] (xn) -- (a);
-      \draw[->] (pol) -- (a);
-    \end{tikzpicture}
-    
-    \caption{The centralised privacy model}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,1) (y) {$y$};
+        \node[select] at (1,-1) (pol) {$f$};
+        \draw[->] (x1) -- (y);
+        \draw[->] (x2) -- (y);
+        \draw[->] (xn) -- (y);
+        \draw[->] (pol) -- (y);
+      \end{tikzpicture}
+      \caption{Non-private calculation}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,1) (a) {$a$};
+        \node[select] at (1,-1) (pol) {$\pol$};
+        \draw[->] (x1) -- (a);
+        \draw[->] (x2) -- (a);
+        \draw[->] (xn) -- (a);
+        \draw[->] (pol) -- (a);
+      \end{tikzpicture}
+      \caption{Centralised DP calculation}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,1) (y) {$y$};
+        \node[select] at (1,-1) (f) {$f$};
+        \node[select] at (3,-1) (pol) {$\pol$};
+        \node[RV] at (4,1) (a) {$a$};
+        \draw[->] (f) -- (y);
+        \draw[->] (x1) -- (y);
+        \draw[->] (x2) -- (y);
+        \draw[->] (xn) -- (y);
+        \draw[->] (y) -- (a);
+        \draw[->] (pol) -- (a);
+      \end{tikzpicture}
+      \caption{Laplace mechanism}
+    \end{subfigure}
+
+    \caption{The centralised privacy model. The non-private calculation directly outputs $y = f(x)$. We can approximate this with a DP calculation with distribution $\pol(a \mid x)$. The Laplace mechanism does so by first calculating $y = f(x)$ and then generating $\pol(a \mid y)$ so that $\E_\pol[a \mid x] = f(x)$.}
     \label{fig:centralised-privacy}
   \end{figure}
+
+  
+  \only<article>{The main difference between the local and centralised privacy models are the following.  }
   \begin{assumption}
     The data $x$ is collected and the result $a$ is published by a \alert{trusted curator}
   \end{assumption}
+
+  \only<article>{Let us now talk about how the Laplace mechanism that can be used both in the centralised and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$.}
 \end{frame}
 
 \begin{frame}
   \frametitle{DP properties of the Laplace mechanism}
+  \only<article>{To use the Laplace mechanism in the centralised setting, we must relate it to a specific function $f$ that we wish to compute. In particular, the mecnahism works by adding noise to the output of the function $f$ in a carefully calibrated manner so that we achieve exactly $\epsilon$-differential privacy. }
   \begin{definition}[Sensitivity]
     The sensitivity of a function $f$ is
     \[
@@ -733,7 +782,7 @@
 \end{frame}
 \begin{frame}
 \begin{theorem}
-    The Laplace mechanism on a function $f$ with sensitivity $\sensitivity{f}$, ran with $\Laplace(\lambda)$ is $\sensitivity{f} / \lambda$-DP. 
+    The Laplace mechanism on a function $f$ with sensitivity $\sensitivity{f}$, ran with $\Laplace(\lambda)$ is $\sensitivity{f} / \lambda$-DP. Consequently, if the Laplace mechanism is ran with $\lambda = \sensitivity{f} / \epsilon$, then it is $\epsilon$-DP. 
   \end{theorem}
   \begin{proof}
     \begin{align*}
@@ -744,19 +793,37 @@
         \frac{e^{|a - f(x)|/\lambda + \sensitivity{f}/\lambda}}{e^{|a - f(x)|/\lambda}}
         = e^{\sensitivity{f} / \lambda}
     \end{align*}
+    \only<article>{
+      The first step follows from the definition of the Laplace mechanism. The inequality follows from the fact that for  $x N x'$, we have $|f(x) - f(x')| \leq \sensitivity{f}$. In particular, 
+      \begin{enumerate}[(a)]
+      \item If $f(x') - a \geq 0$ then
+        \[|f(x') - a| = f(x') - a  \leq \sensitivity{f} + f(x) - a \leq L + |a - f(x)|,\]
+        as $f(x') \leq f(x) + \sensitivity{f}$ from the Lipschitz property.
+      \item If $f(x') - a < 0$ then
+        \[
+          |f(x') - a| = a - f(x')   \leq \sensitivity{f} - f(x) + a \leq L + |a - f(x)|,
+        \]
+        as $-f(x') \leq \sensitivity{f} - f(x)$.
+      \end{enumerate}
+      Replacing into the exponential gives us the required inequality. The final result is obtained with elementary algebra.
+    }
   \end{proof}
-  So we need to use $\lambda = \sensitivity{f} / \epsilon$ for $\epsilon$-DP. 
-  What is the effect of applying the Laplace mechanism in the local versus centralised model?
-  \only<article>{
-    Here let us assume $x_i \in [0, B]$ for all $i$ and consider the problem of calculating the average. 
+
+  \begin{example}[Calculating an average.]
+    What is the effect of applying the Laplace mechanism in the local
+    versus centralised model?  \only<article>{ Let us continue the
+      average example.  Here let us assume $x_i \in [0, B]$ for all
+      $i$.
     \begin{block}{Laplace in the local privacy model}
-      The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(M/\epsilon)^2$, so the total variance is $2M^2/\epsilon^2 n$.
+      The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(B/\epsilon)^2$, so the total variance is $2M^2/\epsilon^2 n$.
     \end{block}
     \begin{block}{Laplace in the centralised privacy model}
-      The sensitivity of $f$ is $M / n$, so we only need to use $\lambda = \frac{M}{n \epsilon}$. The variance of $a$ is $2(M / \epsilon n)^2$. 
+      The sensitivity of $f$ is $M / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $2(B / \epsilon n)^2$. 
     \end{block}
     Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under this mechanism. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data.
   }
+      
+  \end{example}
 \end{frame}
 
 \subsection{Utility of queries}
