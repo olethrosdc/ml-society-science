@@ -18,7 +18,7 @@ y = np.zeros(n_data)
 for t in range(n_data):
     y[t] = x[t] - a[t]
 
-print(np.mean(y))
+print("Average outcome:", np.mean(y))
 
 ### Get an estimate for theta for the model where the response is one of two different normal distributions, whose mean arbitrarily depends on the action
 theta = 0.1*np.random.normal(size=2)
@@ -47,14 +47,14 @@ for t in range(n_samples):
 hat_U /= n_samples
 hat_theta /= counts
 
-print(theta)
-print(hat_theta)
-print(hat_U)
+print("Actual parameter: ", theta)
+print("Estimated parameter:", hat_theta)
+print("Estimated utility:", hat_U)
 
 alt_policy = BasicPolicy(0.5)
 # How do we calculate the value of this policy?
 
-if (argmax(hat_theta)==1):
+if (np.argmax(hat_theta)==1):
     alt_policy = BasicPolicy(1)
 else:
     alt_policy = BasicPolicy(0)
@@ -63,7 +63,12 @@ hat_alt_U = 0
 for t in range(n_samples):
     hat_alt_U += alt_policy.pi[a[t]] / policy.pi[a[t]] * y[t]
 hat_alt_U /= n_samples
-print(hat_alt_U)
+print("Estimated improved policy:", hat_alt_U)
+
+## Exercise 1: Calculate the actual value of the improved policy by generating new data from that policy
+
+## Exercise 2: Use the covariate model to generate data, and then obtain a new policy that is optimal for this covariate model
+
 
 
 
