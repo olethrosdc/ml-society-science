@@ -403,7 +403,8 @@ If we the decision maker did not care about fairness, she could just maximise so
 
 \begin{frame}
   \frametitle{The value of a policy}
-  \begin{block}<1->{Fairness metrics: balance}
+  \begin{block}{Fairness metrics: balance}
+    \only<article>{Let us first give an example of a fairness metric, like balance. Note that this is slightly different from the previous balance metric, but it is still zero when balance is satisfied. It is additionally easier to differentiate.}
     \begin{equation}
       F_{\textrm{balance}}(\param, \pol)
       \defn
@@ -411,20 +412,34 @@ If we the decision maker did not care about fairness, she could just maximise so
       |\Pr_\param^\pol(a \mid y, z) - \Pr_\param^\pol(a  \mid y)|^2
     \end{equation}
   \end{block}
-  \begin{block}<2->{Utility: Classification accuracy}
+  \begin{block}{Utility: Classification accuracy}
+    \only<article>{To make it really simple, we can select the utility function to simply be the classification accuracy.}
     \[
       U(\param, \pol) = \Pr_\param^\pol (y_t = a_t)
     \]
   \end{block}
-  \begin{block}<3->{Use $\lambda$ to trade-off utility and fairness}
+  \begin{block}{Use $\lambda$ to trade-off utility and fairness}
     \begin{equation}
       \label{eq:combined-value}
       V(\lambda, \param, \pol) = (1 - \lambda) \overbrace{U(\param, \pol)}^{\textrm{utility}} - \lambda \underbrace{F(\param, \pol)}_{\textrm{unfairness}}
     \end{equation}
   \end{block}
-  \note<1>{Of course, we care not only about fairness with respect to race, but also about utility: we would like our predictions to be accurate. For that reason, if we say theta describes the environment, then the value of our policy can be seen as the convex combination between a utility term and a fairness violation term.}
-  \note<2>{The fairness violation term simply expresses how far away from e.g. balance our decision rule is. This can be done like in this example, where we use the square difference between the probabilities of the same action under different conditionings on the sensitive variable.}
-  \note<3>{The utility can be something simple, such as the classification utility, by taking $U$ to be the identity function. Then the $I$ term is 1 when we have a correct classification, and the term is the }
+  \only<artcle>{Of course, we care not only about fairness with respect to race, but also about utility: we would like our predictions to be accurate. For that reason, if we say theta describes the environment, then the value of our policy can be seen as the convex combination between a utility term and a fairness violation term.}
+  \only<article>{The fairness violation term simply expresses how far away from e.g. balance our decision rule is. This can be done like in this example, where we use the square difference between the probabilities of the same action under different conditionings on the sensitive variable.}
+  \only<article>{The utility can be something simple, such as the classification utility, by taking $U$ to be the identity function. Then the $I$ term is 1 when we have a correct classification, and the term is the }
+
+
+\only<article>{
+  \begin{remark}
+    It is also possible to define the above problem in terms of a constrained optimisation
+    \[
+      \max\cset{U(\param, \pol)}{F(\param, \pol) \leq \epsilon}.
+    \]
+    The advantage of specifying just a single value function to maximise is that unconstrained problems are usually simpler to handle.
+\end{remark}
+
+}
+  
 \end{frame}
 
 \begin{frame}
@@ -438,34 +453,19 @@ If we the decision maker did not care about fairness, she could just maximise so
     can be the only way to satisfy balance for all possible $\param$.
   \end{theorem}
 
-  \begin{block}{Possible solutions}
-    \begin{itemize}
-    \item Marginalize over $\param$ ("expected" model)
-    \item Use Bayesian reasoning
-    \end{itemize}
-  \end{block}
-  \note{The discussion here has focused on the case where we are talking about a specific probability distribution $P_\theta(x,y,z)$ from which the data is generated. However, we never know this distribution. Because of this, if we want to be fair with respect to e.g. balance for every possible model of the world, we need to essentially run a lottery: assign a fixed probability to every possible decision. This clearly is far from optimal in terms of utility. So, what can we do? There are two options. The first is to marginalise over the parameters to get an expected model of the world and optimise according to that. The second, which is what we propose, is to use Bayesian reasoning.}
+  \only<presentation>{
+    \begin{block}{Possible solutions}
+      \begin{itemize}
+      \item Marginalize over $\param$ ("expected" model)
+      \item Use Bayesian reasoning
+      \end{itemize}
+    \end{block}
+  }
+  \only<article>{
+    The discussion here has focused on the case where we are talking about a specific probability distribution $P_\theta(x,y,z)$ from which the data is generated. However, we never know this distribution. Because of this, if we want to be fair with respect to e.g. balance for every possible model of the world, we need to essentially run a lottery: assign a fixed probability to every possible decision. This clearly is far from optimal in terms of utility. So, what can we do? There are two options. The first is to marginalise over the parameters to get an expected model of the world and optimise according to that. The second, which we expand upon in the following, is to use Bayesian reasoning.}
 \end{frame}
 
-\begin{block}{The value of a policy}
-  Let $\lambda$ represent the trade-off between utility and fairness.
-  \only<article>{The combined value for a given parameter $\param$ is}
-  \begin{equation}
-    \label{eq:combined-value}
-    V(\lambda, \param, \pol) = \lambda \overbrace{U(\param, \pol)}^{\textrm{utility}} - \underbrace{(1 - \lambda) F(\param, \pol)}_{\textrm{fairness violation}}
-  \end{equation}
-\end{block}
 
-\only<article>{
-  \begin{remark}
-    It is also possible to define the above problem in terms of a constrained optimisation
-    \[
-      \max\cset{U(\param, \pol)}{F(\param, \pol) \leq \epsilon}.
-    \]
-    The advantage of specifying just a single value function to maximise is that unconstrained problems are usually simpler to handle.
-\end{remark}
-
-}
 \subsection{Bayesian fairness}
 \only<article>{
   The previous section defined a simple universal framework for trading off utility and fairness in terms of an unconstrained optimisation problem. This involved defining the value of a policy for a given trade-off $\lambda$ and an underlying distribution with parameter $\param$. However, in a learning context this parameter cannot be assumed to be known. One solution to this problem is to assume a Bayesian approach and simply specify a subjective probability distribution $\bel$ over parameters. Typically, this would be calculated from a prior distribution and some available data. }
@@ -485,6 +485,15 @@ If we the decision maker did not care about fairness, she could just maximise so
   \only<article>{
     \index{gradient ascent!stochastic}
     Maximising the value of this policy should be possible with stochastic gradient ascent we can easily obtain samples from $\bel$.
+
+    In particular, taking the gradient with respect to the policy, we have:
+    \[
+      \nabla_\pol V(\lambda, \bel, \pol)
+      = \nabla_\pol \int_{\Param} V(\lambda, \param, \pol) \dd \bel(\param).
+      = \int_{\Param} \nabla_\pol V(\lambda, \param, \pol) \dd \bel(\param).
+      \approx \frac{1}{n} \sum_{i=1}^n \nabla_\pol V(\lambda, \param^{(i)}, \pol) ,
+    \]
+    where $\param{(i)}$ is sampled from the subjective belief $\bel$.
   }
 \end{frame}
 

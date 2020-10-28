@@ -211,6 +211,7 @@
     \label{fig:basic-preference-model}
   \end{figure}
   \begin{example}[Discrete preference model]
+    \only<article>{In the example, each user $t$ has a latent possible type $c_t$. Their preferences $x_t$, e.g. the rating $x_{t.m}$ they would give to different movies $m$ only depend on the unknown parameter $\param$ and their latent type through a \emph{subset} of the parameters. That is, the probability that user $t$ likes the movie $m$ is simply $\param_{m,c}$.}
     \begin{itemize}
     \item User type $c \in \CC$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
     \item User ratings  $\bx$ with $x_{m} \in \CX = \{0, 1\}$ rating for movie $m$.
@@ -225,7 +226,7 @@
 
 \begin{frame}
   \frametitle{A more complex preference model}
-  \only<article>{As a simple model, we can assume that each person belongs to a \alert{type}. Every type has the same preferences over films. In the simplest possible model, a user of type $c_i$ that has watched a movie $m$ will rate the film deterministically $x_{c,m}$. More generally, we can assume the following model.}
+  \only<article>{In the following model, movies also have a type $z$. Now preferences only depend on the user type and the movie \emph{type}, and not the movie itself. That means the user has the same probability of liking two movies of the same type. When $c,z \in \Reals^d$ we recover the ALS model.}
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
@@ -244,8 +245,8 @@
   \end{figure}
   \begin{block}{Preference model}
     \begin{itemize}
-    \item User type $\bc \in \CC$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
-    \item Movie type $\bz \in \CZ$.
+    \item User type $\bc \in \CC \subset \Reals^d$. \only<article>{For simplicity, we can think of there being a finite number of types $\CC = \{1, \ldots, n\}$.}
+    \item Movie type $\bz \in \CZ \subset \Reals^d$.
     \item Preference distribution 
       \[
       P_\param(x | \bc, \bz) = \Normal(\bc^\top \bz, \sigma_\theta)
@@ -262,7 +263,9 @@
 
 
 \subsection{The recommendation problem}
-
+\only<article>{
+  Given a model about what users like, what should we recommend? We can heuristically recommend whatever we think they would rate most highly. However, this is not exactly what we want. Typically, we recommend something with an action $a$ and then the user selects $y$, i.e. to accept or reject our recommendation. So, we would like to recommend things that they would watch. One can think that certain recommendations might be more valuable (e.g. ads that pay for clickthroughs). This means that we should incorporate a utility function $\util(a, y)$ in our decision making process so that we recommend whatever we expect will give us the highest utility in expectation. 
+  }
 \begin{frame}
   \frametitle{What to recommend}
   \begin{figure}[H]
@@ -284,6 +287,7 @@
     \caption{Preference model}
   \end{figure}
   \begin{block}{The recommendation problem for a given $\param$}
+    \only<article>{If we know the unknown parameter $\param$, the optimisation problem is as follows.}
     \index{policy!recommendation}
     \uncover<2->{
       \begin{align}
@@ -294,7 +298,7 @@
           \max_a \sum_{c, z} U(a, y) \sum_{x_a} \alert{\Pr(y \mid a, x_a)} P_\param(x_a \mid c, z) P_\param(c, z \mid \bx)
       \end{align}
     }
-
+    \only<article>{If $\param$ is unknown, there are a number of approaches we can follow, which we will investigate in Chapter~\ref{ch:bandit}.}
 
   \end{block}
 \end{frame}

@@ -18,7 +18,7 @@
       \begin{subfigure}{\fwidth}
         \centering
         \begin{tikzpicture}[scale=0.5]
-          \begin{axis}[xmin=0,xmax=5, xlabel={Dose}, ylabel={Response} ]
+          \begin{axis}[xmin=0,xmax=5, xlabel={Dose}, ylabel={Response}, legend pos=north west]
             % use TeX as calculator:
             \addplot[color=blue] {1/(1 + e^(1-x))};
             \addplot[color=red] {1/(1 + e^(3-x))};
@@ -28,20 +28,21 @@
         \caption{Dose-response curve.}
         \label{fig:dose-response}
       \end{subfigure}
+      \hspace{2em}
       \begin{subfigure}{\fwidth}
         \centering
         \begin{tikzpicture}[scale=0.5]
-          \begin{axis}[xmin=-2,xmax=2, xlabel={Sensitivity}, ylabel={Response}, samples=50 ]
+          \begin{axis}[xmin=-1,xmax=3, xlabel={Sensitivity}, ylabel={Response}, samples=50, legend pos=north west ]
             % use TeX as calculator:
-            \addplot[color=blue] {e^(-x^2))};
-            \addplot[color=red] {0.5*e^(-4*x^2)};
+            \addplot[color=red] {0.1 + 0.9*e^(4*(x-1))/(1+e^(4*(x-1)))};
+            \addplot[color=blue] {0.1 + 0.9*e^(x-4)/(1+e^(x-4))};
             \legend{High dose, Low dose}
           \end{axis}
         \end{tikzpicture}
-        \caption{Response distribution}
-        \label{fig:dose-response}
+        \caption{Response sensitivity}
+        \label{fig:dose-sensitivity}
       \end{subfigure}
-      \caption{Investigation the response of the population to various doses of the drug. }
+      \caption{Investigating the response of the population to various doses of the drug.}
     \end{figure}
     \only<article>{
       We can ask ourselves two different questions about the effect of population effect aspirin on headaches.
@@ -51,6 +52,8 @@
     \item Does having a headache lead to aspirin-taking?
     \end{itemize}
   \end{example}
+  \only<article>{To examine the effect of aspirin on the population, we can look at the dose-response curve in Figure~\ref{fig:dose-response}. We first have to define what it means to be 'cured'. We also need to define possible side-effects. We can then measure how increased doses of aspirin lead to different outcomes. If the experiment has been properly conducted, this dose-response curve suggests that aspirin does have an effect in curing headaches, though it also has some side-effects. However, not all individuals are the same. Let us assume each person has a different \emph{sensitivity} to aspirin, so that some individuals responds better to treatment, especially at high doses, and some do not respond very much at all, as shown in Figure~\ref{fig:dose-sensitivity}}
+
 \end{frame}
 \begin{frame}
   \only<article>{For individuals, the first question is,  what is the possible effect of our actions? This is called the \emph{effect of causes}. The second question is, what was the reason for something happening? That is called the \emph{cause of effects?} }
