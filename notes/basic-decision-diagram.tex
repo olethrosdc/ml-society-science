@@ -1,0 +1,21 @@
+      \begin{tikzpicture}
+        \node[RV, hidden] at (0,1) (p) {$\param$};
+        \node[RV] at (0,0) (x) {$x_t$};
+        \node[RV] at (1,1) (y) {$y_t$};
+        \node[RV] at (2,0) (a) {$a_t$};
+        \draw[->] (p)--(x);
+        \draw[->] (p)--(y);
+        \draw[->] (x)--(y);
+        \draw[->] (x)--(a);
+        \draw[->] (a)--(y);
+        \node[select] at (4,0) (p) {$\pol$};
+        \draw[->] (p)--(a);
+        \node[utility] at (3,1) (u) {$\util$};
+        \draw[->] (a)--(u);
+        \draw[->] (y)--(u);
+      \end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "notes"
+%%% End:
