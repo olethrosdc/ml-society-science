@@ -1,0 +1,30 @@
+
+\section{Simulation selection (Nov 6)}
+
+Firstly, visit \url{https://ai.googleblog.com/2020/02/ml-fairness-gym-tool-for-exploring-long.html} and  \url{https://github.com/google/ml-fairness-gym} and start working on one of the dynamic environments there. In particular, I recommend you study the credit score environment. Using the environments requires the open-AI gym \url{https://gym.openai.com/}
+
+Describe the variables into the following categories:
+\begin{itemize}
+\item Features $x_t$, that e.g. describe the patient $t$ in a medical database
+\item Actions $a_t$ that describe whatever intervention has been taken, if applicable. There is always at least one action, even if not included in the dataset. E.g. for a diagnostic database, the action would be 'perform the diagnosis'.
+\item Outcomes $y_t$ that describe what happens after the action has been taken.
+\item The utility function $U$ that describes what  $y_t$ that describe what happens after the action has been taken.
+\end{itemize}
+
+
+\textbf{Simulation selection and analysis (Nov 6)} Here you should describe the simulation, and analyse the data it produces with a simple, default policy for making decisions.
+
+\textbf{Improved policies (Nov 20)} Here you should come up with an algorithm that produces improved policies in some sense.
+
+\textbf{Final report (Dec 6)} In the final report, make sure to communicate everything related to reproducibility, fairness and privacy of your methodology and the policy you have derived.
+
+
+
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "open-ended-project"
+%%% End:
