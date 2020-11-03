@@ -428,7 +428,7 @@
     \end{example}
   }
 
-
+  \only<article>{Finally, variables which are neither confounders, nor instrumental, are called nuisance variables. Typically these include the latent variables of the problem, and any other variable that is marginalised out.}
 \end{frame}
 
 
@@ -794,6 +794,7 @@
 
 \begin{frame}
   \frametitle{Treatment-unit additivity}
+  \only<article>{An example for a particular assumption for structural equation models is treatment-unit additivity. This states that the outcome depends on the action through a deterministic transformation and some additive noise that is only applied to the specific individual. More specifically, if individual $t$ obtains treatment $a_t$, then the outcome only depends on $a_t$ and individual-specific noise $\omega_{t,y}$. The assumption is given more formally below.}
   \begin{figure}[H]
     \centering
     \begin{tikzpicture}
@@ -822,10 +823,7 @@
     \]
   \end{assumption}
   \only<article>{
-    This implies that
-    \begin{align*}
-      \E[y_t \mid a_t = a] = g(a_t) + \E(\omega_{t,y})
-    \end{align*}
+    This implies that $\E[y_t \mid a_t = a] = g(a_t) + \E(\omega_{t,y})$. This implies that we might be able to easily estimate $g$, for example if the noise is zero-mean. The assumption makes sense for a lot of cases where we do not expect the outcomes of different individuals to be correlated through some confounding variable.
   }
 \end{frame}
 
