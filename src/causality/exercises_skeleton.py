@@ -28,7 +28,8 @@ n_samples = 1000
 n_actions = policy.get_n_actions()
 a = np.empty(n_samples, dtype=int)
 y = np.zeros(n_samples)
-hat_theta = np.zeros(2) # use this to estimate the model
+#hat_theta = np.zeros(2) # use this to estimate the model
+hat_theta = 0
 hat_pi = np.zeros(2) # use this to estimate the policy
 counts = np.zeros(2) # this is needed for getting the right 
 hat_U = 0
@@ -41,29 +42,15 @@ for t in range(n_samples):
 
 for t in range(n_samples):
     hat_U += y[t]
-    hat_theta[a[t]] += y[t]
-    counts[a[t]] += 1
+    hat_theta += y[t] - a[t]
 
 hat_U /= n_samples
-hat_theta /= counts
+#hat_theta /= counts
 
 print("Actual parameter: ", theta)
 print("Estimated parameter:", hat_theta)
 print("Estimated utility:", hat_U)
 
-alt_policy = BasicPolicy(0.5)
-# How do we calculate the value of this policy?
-
-if (np.argmax(hat_theta)==1):
-    alt_policy = BasicPolicy(1)
-else:
-    alt_policy = BasicPolicy(0)
-    
-hat_alt_U = 0
-for t in range(n_samples):
-    hat_alt_U += alt_policy.pi[a[t]] / policy.pi[a[t]] * y[t]
-hat_alt_U /= n_samples
-print("Estimated improved policy:", hat_alt_U)
 
 ## Exercise 1: Calculate the actual value of the improved policy by generating new data from that policy
 
