@@ -5,7 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-## The basic policy only returns a random action (action 1 with probability pi)
+## Exercise 15,16 policy. The basic policy only returns a random action
+## (action 1 with probability pi)
 class BasicPolicy:
     def __init__(self, pi):
         self.pi = [1 - pi, pi]
@@ -14,9 +15,9 @@ class BasicPolicy:
     def get_n_actions(self):
         return 2
 
-## The Markov policy has a different action probability for each possible x.
-## It maintains a vector pi so that it takes action 1
-## with probability pi[x] when it observes x.
+## Exercise 17 policy. The Markov policy has a different action
+## probability for each possible x.  It maintains a vector pi so that
+## it takes action 1 with probability pi[x] when it observes x.
 class MarkovPolicy:
     ## There is now one parameter for each possible value of x
     def __init__(self, pi):
@@ -27,8 +28,8 @@ class MarkovPolicy:
     def get_n_actions(self):
         return 2
 
-## The basic model simply gives a response with mean equal to the action and has gaussian noise
-## So, it models a -> y
+## Exercise 15 model.  The basic model simply gives a response with mean
+## equal to the action and has gaussian noise So, it models a -> y
 class BasicModel:
     def __init__(self, mean):
         self.mean = mean
@@ -36,8 +37,8 @@ class BasicModel:
     def get_response(self, action):
         return np.random.normal(action + self.mean, 1)
 
-## In this setting, each action has a different mean.
-## The model is a -> y
+## Exercise 16 model. In this setting, each action has a different
+## mean.  The model is a -> y
 class StandardModel:
     ## Now the mean is a vector
     def __init__(self, mean):
@@ -56,8 +57,8 @@ class StandardModel:
             hat_U += y
         return hat_U/n_samples
 
-## In this setting, the response depends on both the action and the
-## covariate x (which is a sufficient statistic)
+## Exercise 17 model. In this setting, the response depends on both
+## the action and the covariate x (which is a sufficient statistic)
 class CovariateModel:
     ## Now the mean is a 2x2 matrix
     def __init__(self, mean):
