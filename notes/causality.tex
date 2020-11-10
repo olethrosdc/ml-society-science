@@ -383,7 +383,9 @@
 
 
   \begin{block}{Instrumental variables and confounders}
-    \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, on the basis of which we make our decisions. This is called an \emph{instrumental variable.} \index{instrument@see{variable!instrumental}}\index{variable!instrumental}. In this case $z_t$ still depends on $x_t$ and the effect of the treatment depends on $x_t$ directly. As $x_t$ is a latent covariate, it can be called a \emph{confounder.} \index{confounder}}
+    \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, on the basis of which we make our decisions. This is called an \emph{instrumental variable.} \index{instrument@see{variable!instrumental}}\index{variable!instrumental}. More formally, $z_t$ is an instrumental variable with respect to $y_t$ since the latent variables on which $y_t$ depends satisfy $x_t, \param \indep \pol$ and the outcome variable is independent of the policy given the action and the two latent variables: $y \indep pol \mid a_t, x_t, \param$.
+      
+      In this case $z_t$ and $x_t$ are dependent, but the effect of the treatment depends on $x_t$ directly. As $x_t$ is a latent covariate, it can be called a \emph{confounder.} \index{confounder}}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
@@ -430,8 +432,7 @@
 
   \only<article>{Finally, variables which are neither confounders, nor instrumental, are called nuisance variables. Typically these include the latent variables of the problem, and any other variable that is marginalised out.}
 \end{frame}
-
-
+  
 \section{Interventions}
 \only<article>{Interventions are of primary interest when we have a set of observational data, collected under a \emph{null} or \emph{default} policy $\pol_0$.  We then wish to intervene with some policy $\pol$ in order to maximise our utility function, or to simply try and estimate the exact relationships between variables.}
 \begin{frame}
