@@ -154,6 +154,34 @@ Algorithms from Artificial Intelligence are becoming ever more complicated and a
 The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It will equip  students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining a large set of models. It uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work. It is instead on the issues of reproducibility, data colletion and experiment design, privacy, fairness and safety when applying machine learning algorithms. For that reason, we will cover technical topics not typically covered in an AI course: false discovery rates, differential privacy, fairness, causality and risk. Some familiarity with machine learning concepts and artificial intelligence is expected, but not necessary.
  
 * Schedule
+** 2021
+
+| Theory                            | Practice                                          |
+|-----------------------------------+---------------------------------------------------|
+| Decision problems                 | Pandas intro                                      |
+| Bayesian inference                | Credible intervals, bootstrapping, XV             |
+| Conjugate priors                  | Linear regression: ML/MAP vs Bayes                |
+| Optimisation                      | MLP classifiers                                   |
+|-----------------------------------+---------------------------------------------------|
+| Databases, anonymity              | SQL, DB tutorial                                  |
+| DP and RP mech                    | Private data collection, distributed DB           |
+| Laplace/Exponential mech          | Compare mechanisms in an ML task                  |
+|-----------------------------------+---------------------------------------------------|
+| Fairness introduction             | Tensorflow? Experimental analysis of a classifier |
+| Conditional Independence          | Constrained classifiers                           |
+| Meritocracy and smoothness        | Penalised classificaiton                          |
+|-----------------------------------+---------------------------------------------------|
+| Latent variable models            | PyTorch/Tensorflow Monte-Carlo methods            |
+| Causality                         | SCMs                                              |
+| Interventions and counterfactuals | Pyro (do operator)                                |
+|-----------------------------------+---------------------------------------------------|
+| Experiment design                 | Pyro Bayes-Optimal design                         |
+| Adaptive experiment design        | Custom class                                      |
+| Other topics                      | Leftovers                                         |
+|-----------------------------------+---------------------------------------------------|
+
+
+
 ** 2020
 
 |--------+----------------------------------------------------------------+----------|
