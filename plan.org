@@ -156,29 +156,30 @@ The purpose of this course is to familiarise students with societal and scientif
 * Schedule
 ** 2021
 
-| Theory                            | Practice                                          |
-|-----------------------------------+---------------------------------------------------|
-| Decision problems                 | Pandas intro                                      |
-| Bayesian inference                | Credible intervals, bootstrapping, XV             |
-| Conjugate priors                  | Linear regression: ML/MAP vs Bayes                |
-| Optimisation                      | MLP classifiers                                   |
-|-----------------------------------+---------------------------------------------------|
-| Databases, anonymity              | SQL, DB tutorial                                  |
-| DP and RP mech                    | Private data collection, distributed DB           |
-| Laplace/Exponential mech          | Compare mechanisms in an ML task                  |
-|-----------------------------------+---------------------------------------------------|
-| Fairness introduction             | Tensorflow? Experimental analysis of a classifier |
-| Conditional Independence          | Constrained classifiers                           |
-| Meritocracy and smoothness        | Penalised classificaiton                          |
-|-----------------------------------+---------------------------------------------------|
-| Latent variable models            | PyTorch/Tensorflow Monte-Carlo methods            |
-| Causality                         | SCMs                                              |
-| Interventions and counterfactuals | Pyro (do operator)                                |
-|-----------------------------------+---------------------------------------------------|
-| Experiment design                 | Pyro Bayes-Optimal design                         |
-| Adaptive experiment design        | Custom class                                      |
-| Other topics                      | Leftovers                                         |
-|-----------------------------------+---------------------------------------------------|
+| Theory                            | Practice                                |
+|-----------------------------------+-----------------------------------------|
+| Decision problems                 | Pandas intro                            |
+| Experiment design                 | Experimental analysis of a classifier   |
+| Data prepration                   |                                         |
+|-----------------------------------+-----------------------------------------|
+| Bayesian inference                | Credible intervals, bootstrapping, XV   |
+| Conjugate priors                  | Linear regression: ML/MAP vs Bayes      |
+| Bayes-optimal decisions           | Tensorflow Probability intro            |
+|-----------------------------------+-----------------------------------------|
+| Databases, anonymity              | SQL, DB tutorial                        |
+| DP and RP mech                    | Private data collection, distributed DB |
+| Laplace/Exponential mech          | Compare mechanisms in an ML task        |
+|-----------------------------------+-----------------------------------------|
+| Fairness introduction             | Tensorflow?                             |
+| Conditional Independence          | Constrained classifiers                 |
+| Meritocracy and smoothness        | Penalised classification                |
+|-----------------------------------+-----------------------------------------|
+| Latent variable models            | Tensorflow Monte-Carlo methods          |
+| Causality                         | SCMs                                    |
+| Interventions and counterfactuals |                                         |
+|-----------------------------------+-----------------------------------------|
+| Adaptive experiment design        | Custom class                            |
+|-----------------------------------+-----------------------------------------|
 
 
 
