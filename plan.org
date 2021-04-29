@@ -146,7 +146,6 @@ The follow marking guidelines are what one would expect from students attaining 
 6. There is no mention of methods beyond the source material or independent thinking.
 
 
-
 ** Motivation
 
 Algorithms from Artificial Intelligence are becoming ever more complicated and are used in manifold ways in today's society: from prosaic applications like web advertising to scientific research. Their indiscriminate use creates many externalities that can be, however, precisely quantified and mitigated against.
@@ -156,31 +155,104 @@ The purpose of this course is to familiarise students with societal and scientif
 * Schedule
 ** 2021
 
-| Theory                            | Practice                                |
-|-----------------------------------+-----------------------------------------|
-| Decision problems                 | Pandas intro                            |
-| Experiment design                 | Experimental analysis of a classifier   |
-| Data prepration                   |                                         |
-|-----------------------------------+-----------------------------------------|
-| Bayesian inference                | Credible intervals, bootstrapping, XV   |
-| Conjugate priors                  | Linear regression: ML/MAP vs Bayes      |
-| Bayes-optimal decisions           | Tensorflow Probability intro            |
-|-----------------------------------+-----------------------------------------|
-| Databases, anonymity              | SQL, DB tutorial                        |
-| DP and RP mech                    | Private data collection, distributed DB |
-| Laplace/Exponential mech          | Compare mechanisms in an ML task        |
-|-----------------------------------+-----------------------------------------|
-| Fairness introduction             | Tensorflow?                             |
-| Conditional Independence          | Constrained classifiers                 |
-| Meritocracy and smoothness        | Penalised classification                |
-|-----------------------------------+-----------------------------------------|
-| Latent variable models            | Tensorflow Monte-Carlo methods          |
-| Causality                         | SCMs                                    |
-| Interventions and counterfactuals |                                         |
-|-----------------------------------+-----------------------------------------|
-| Adaptive experiment design        | Custom class                            |
-|-----------------------------------+-----------------------------------------|
+| Theory                                             | Practice                                      |
+|----------------------------------------------------+-----------------------------------------------|
+| Decision problems                                  | Python intro, numpy, expectation              |
+| Probability and Utility                            | Scikitlearn                                   |
+| Decision problems in ML                            | Model selection, hyperparameters              |
+|----------------------------------------------------+-----------------------------------------------|
+| Basic experiment design                            | Data collection, pipelines  (Dirk)            |
+| Decision analysis                                  | Bootstrapping, XV (Dirk)                      |
+|----------------------------------------------------+-----------------------------------------------|
+| Bayesian inference                                 | Meteorologists problem, Credible intervals    |
+| Conjugate priors,                                  | Beta/Bernoulli, Linear regression             |
+|----------------------------------------------------+-----------------------------------------------|
+| Bayes-optimal decisions: discrete case             | Meteorologists continued                      |
+| General case and connection with estimation        | Tensor flow Keras Optimisers (Dirk)           |
+|----------------------------------------------------+-----------------------------------------------|
+| Non-conjugate priors                               | Tensor flow probability (Dirk)                |
+| Logistic regression                                | LR with TFP             (Dirk)                |
+|----------------------------------------------------+-----------------------------------------------|
+| Databases, anonymity, GDPR                         | SQL, DB tutorial        (Dirk)                |
+| Differential privacy                               | Private data collection (Dirk)                |
+| Randomised response                                | Distributed DB, OpenDP (opendp.org)           |
+| Laplace mechanism                                  | Lab: Compare mechanisms in an ML task  (Dirk) |
+| Exponential mechnism                               |                                               |
+|----------------------------------------------------+-----------------------------------------------|
+| Fairness introduction and conditional independence | Graphical models with TFP         (Dirk)      |
+| Balanced/Calibrated classification                 | Constrained classifiers           (Dirk)      |
+| Meritocracy and smoothness                         | Penalised classification          (Dirk)      |
+|----------------------------------------------------+-----------------------------------------------|
+| Latent variable models                             | Tensorflow Monte-Carlo methods    (Dirk)      |
+| Examples: Outliers, recommendation systems         | Recommender systems                (Dirk)     |
+|----------------------------------------------------+-----------------------------------------------|
+| Causality                                          | Importance Sampling                           |
+| Interventions and counterfactuals                  | tfcausalimpact                     (Dirk)     |
+|----------------------------------------------------+-----------------------------------------------|
+| Adaptive experiment design                         | Thompson sampling                             |
+| Active learning, bandits                           | Active learning example with classification   |
+| Markov decision processes                          | Approximations to the Bayes-optimal solution  |
+|----------------------------------------------------+-----------------------------------------------|
 
+
+*** Module 1: Decision problems, probability and utility.
+
+Here the students get familiar with the concept of expected
+utility. They perform simple exercises in python.  We define utility
+in terms of the classification accuracy for individual decisions and
+in terms of the generalisation performance in terms of choosing a
+specific classifier model.
+
+*** Module 2: Experiment design and decision analysis
+
+This includes how data will be collected and processed, focusing on
+automation of the process. I will encourage students to develop an
+automated pipeline mainly through simulation, where all the variables
+can be perfectly controlled. 
+
+*** Module 3: Bayesian inference
+
+Introduction to BI through the meteorolgical prediction
+problem. Dicsussion of simple conjugate priors (Beta, Normal). 
+Contrast credible intervals with bootstrapping.
+
+*** Module 4: Simple decision problems
+
+The optimal decision in the meteorological problem.
+Optimal decisions in continuous cases: stochastic gradient descent and Bayesian quadrature.
+MAP Bayesian estimation: Finding the highest posterior parameter.
+
+*** Module 5: Non-conjugate priors
+
+Here we will focus on logistic regression as an example, the
+module will be mainly practical and focus on TF probability.
+
+*** Module 6: Databases and privacy
+
+Introduction to databases, SQL and k-anonymity, consent, and the GDPR.
+Various mechanisms for DP. Pointers to the opendp.org framework for differential privacy.
+Comparison of various mechanisms in an ML task.
+
+*** Module 7: Fairness
+
+Introduction to fairness and condtional independence. Fairness as parity, balance, calibration, meritocracy or smoothness. Measuring conditional independence. Balancing performance with fairness constraints through constrained or penalised optimisation, or Bayesian methods.
+
+*** Module 8: Latent variable models
+
+Examples:
+(a) Gaussian mixture model (b) epsilon-contamination model and outliers (c) preferences and attributes in recommendation systems
+
+Practical work with Tensorflow probability, including outlier detection etc.
+
+*** Module 9: Causality
+
+Confounders, Instrumental variables, Interventions, Counterfactuals.
+Hands-on: Importance sampling for estimating the impact of decisions.
+Lab: tfcausalimpact
+
+*** Module 10: Adaptive experiment design
+
+Here we discuss experiment design in the adaptive setting, where our future experiments depend on data we have not seen yet. Two interesting cases are bandits (e.g. for recommendation systems) and active learning (e.g. for classification).
 
 
 ** 2020
@@ -364,7 +436,7 @@ The purpose of this lecture is to introduce the students to basic database conce
 5. Fairness as meritocracy.
 6. Bayesian notions of fairness.
 
-** Project start: Experiment design for Medical Diagnostics [Aim: Reproducibility, Safety] :PROJECT:
+
 ** Week 5: Clustering
    :LOGBOOK:
    CLOCK: [2018-07-17 Tue 14:21]--[2018-07-17 Tue 22:05] =>  7:44
@@ -402,10 +474,6 @@ This lecture introduces the concept of online data collection, rather than going
 
 The optimal data collection procedure can be formalised as an MDP, and this is explained here.
 
-** Optional. Safety: Risk-Sensitive Decision Making
-
-Sometimes we are risk averse… what do we mean by this, and what algorithms can we use?
-When we have developed an algorithm, how sure can we be that it works well in the real world? 
 
 * Exam subjects
 Here are some example questions for the exam. Answers can range from simple one-liners to relatively complex designs. Half of the points will come from 10 1-point questions and the remaining from 2 or 3 2-5-point questions.
