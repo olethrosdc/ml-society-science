@@ -203,6 +203,8 @@ in terms of the classification accuracy for individual decisions and
 in terms of the generalisation performance in terms of choosing a
 specific classifier model.
 
+src/decision-problems/expected-utility.py
+
 *** Module 2: Experiment design and decision analysis
 
 This includes how data will be collected and processed, focusing on
