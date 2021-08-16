@@ -212,6 +212,8 @@ automation of the process. I will encourage students to develop an
 automated pipeline mainly through simulation, where all the variables
 can be perfectly controlled. 
 
+
+
 *** Module 3: Bayesian inference
 
 Introduction to BI through the meteorolgical prediction
