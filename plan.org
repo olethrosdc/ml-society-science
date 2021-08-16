@@ -155,44 +155,69 @@ The purpose of this course is to familiarise students with societal and scientif
 * Schedule
 ** 2021
 
-| Theory                                             | Practice                                      |
-|----------------------------------------------------+-----------------------------------------------|
-| Decision problems                                  | Python intro, numpy, expectation              |
-| Probability and Utility                            | Scikitlearn                                   |
-| Decision problems in ML                            | Model selection, hyperparameters              |
-|----------------------------------------------------+-----------------------------------------------|
-| Basic experiment design                            | Data collection, pipelines  (Dirk)            |
-| Decision analysis                                  | Bootstrapping, XV (Dirk)                      |
-|----------------------------------------------------+-----------------------------------------------|
-| Bayesian inference                                 | Meteorologists problem, Credible intervals    |
-| Conjugate priors,                                  | Beta/Bernoulli, Linear regression             |
-|----------------------------------------------------+-----------------------------------------------|
-| Bayes-optimal decisions: discrete case             | Meteorologists continued                      |
-| General case and connection with estimation        | Tensor flow Keras Optimisers (Dirk)           |
-|----------------------------------------------------+-----------------------------------------------|
-| Non-conjugate priors                               | Tensor flow probability (Dirk)                |
-| Logistic regression                                | LR with TFP             (Dirk)                |
-|----------------------------------------------------+-----------------------------------------------|
-| Databases, anonymity, GDPR                         | SQL, DB tutorial        (Dirk)                |
-| Differential privacy                               | Private data collection (Dirk)                |
-| Randomised response                                | Distributed DB, OpenDP (opendp.org)           |
-| Laplace mechanism                                  | Lab: Compare mechanisms in an ML task  (Dirk) |
-| Exponential mechnism                               |                                               |
-|----------------------------------------------------+-----------------------------------------------|
-| Fairness introduction and conditional independence | Graphical models with TFP         (Dirk)      |
-| Balanced/Calibrated classification                 | Constrained classifiers           (Dirk)      |
-| Meritocracy and smoothness                         | Penalised classification          (Dirk)      |
-|----------------------------------------------------+-----------------------------------------------|
-| Latent variable models                             | Tensorflow Monte-Carlo methods    (Dirk)      |
-| Examples: Outliers, recommendation systems         | Recommender systems                (Dirk)     |
-|----------------------------------------------------+-----------------------------------------------|
-| Causality                                          | Importance Sampling                           |
-| Interventions and counterfactuals                  | tfcausalimpact                     (Dirk)     |
-|----------------------------------------------------+-----------------------------------------------|
-| Adaptive experiment design                         | Thompson sampling                             |
-| Active learning, bandits                           | Active learning example with classification   |
-| Markov decision processes                          | Approximations to the Bayes-optimal solution  |
-|----------------------------------------------------+-----------------------------------------------|
+|       | Theory                     |       | Practice                                       |
+|-------+----------------------------+-------+------------------------------------------------|
+|  24.8 | Decision problems          |  25.8 | Python intro, numpy, expectation               |
+|       | Probability and Utility    |       | Scikitlearn                                    |
+|       | Decision problems in ML    |       | Model selection, hyperparameters               |
+|-------+----------------------------+-------+------------------------------------------------|
+|  27.8 | Assignment 1               |       | DEADLINE                                       |
+|-------+----------------------------+-------+------------------------------------------------|
+|  31.8 | Basic experiment design    |   1.9 | Data collection, pipelines  (Dirk)             |
+|       | Decision analysis          |       | Bootstrapping, XV (Dirk)                       |
+|-------+----------------------------+-------+------------------------------------------------|
+|   3.9 | Assignment 2               |       | DEADLINE                                       |
+|-------+----------------------------+-------+------------------------------------------------|
+|   7.9 | Bayesian inference         |   8.9 | Meteorologists problem, Credible intervals     |
+|       | Conjugate priors,          |       | Beta/Bernoulli, Linear regression              |
+|-------+----------------------------+-------+------------------------------------------------|
+|  14.9 | Bayes-optimal decisions    |  15.9 | Meteorologists continued                       |
+|       | Discrete case              |       | Tensor flow Keras Optimisers (Dirk)            |
+|       | General case               |       |                                                |
+|       | Estimation theory          |       |                                                |
+|-------+----------------------------+-------+------------------------------------------------|
+|  21.9 | Non-conjugate priors       |  22.9 | Tensor flow probability (Dirk)                 |
+|       | Logistic regression        |       | LR with TFP             (Dirk)                 |
+|-------+----------------------------+-------+------------------------------------------------|
+|  24.9 | Project 1                  |       | PRELIMINARY REPORT                             |
+|-------+----------------------------+-------+------------------------------------------------|
+|  28.9 | Databases, anonymity, GDPR |  29.9 | SQL, DB tutorial        (Dirk)                 |
+|       | Differential privacy       |       | Private data collection (Dirk)                 |
+|       | Randomised response        |       | Distributed DB, OpenDP (opendp.org)            |
+|-------+----------------------------+-------+------------------------------------------------|
+|  5.10 | Laplace mechanism          |  6.10 | Lab: Compare mechanisms in an ML task   (Dirk) |
+|       | Exponential mechnism       |       |                                                |
+|-------+----------------------------+-------+------------------------------------------------|
+| 12.10 | Fairness                   | 13.10 | Graphical models with TFP         (Dirk)       |
+|       | Conditional independence   |       |                                                |
+|-------+----------------------------+-------+------------------------------------------------|
+| 15.10 | Project 1                  |       | DEADLINE                                       |
+|-------+----------------------------+-------+------------------------------------------------|
+| 19.10 | Balance                    | 20.10 | Constrained classifiers           (Dirk)       |
+|       | Calibration                |       | Penalised classification          (Dirk)       |
+|       | Meritocracy                |       |                                                |
+|       | Smoothness                 |       |                                                |
+|-------+----------------------------+-------+------------------------------------------------|
+| 26.10 | Latent variable models     | 27.10 | Tensorflow Monte-Carlo methods    (Dirk)       |
+|       | Outliers                   |       | Recommender systems                (Dirk)      |
+|       | Rrecommender systems       |       |                                                |
+|-------+----------------------------+-------+------------------------------------------------|
+|  2.11 | Causality                  |  3.11 | Importance Sampling                            |
+|       | Interventions              |       | tfcausalimpact                     (Dirk)      |
+|       | Counterfactuals            |       |                                                |
+|-------+----------------------------+-------+------------------------------------------------|
+|  1.10 | Project 2                  |       | PRELIMINARY REPORT                             |
+|-------+----------------------------+-------+------------------------------------------------|
+|  9.11 | Adaptive experiments       | 10.11 | Thompson sampling                              |
+|       | n-armed Bandits            |       |                                                |
+|       | Contextual bandits         |       |                                                |
+|-------+----------------------------+-------+------------------------------------------------|
+| 16.11 | Active learning            | 17.11 | Active learning example with classification    |
+|-------+----------------------------+-------+------------------------------------------------|
+| 23.11 | Markov decision processes  | 24.11 | Approximations to the Bayes-optimal solution   |
+|-------+----------------------------+-------+------------------------------------------------|
+| 26.11 | Project 2                  |       | DEADLINE                                       |
+|-------+----------------------------+-------+------------------------------------------------|
 
 
 *** Module 1: Decision problems, probability and utility.

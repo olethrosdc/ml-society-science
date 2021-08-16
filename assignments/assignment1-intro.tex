@@ -3,7 +3,7 @@
 
 \input{../preamble}
 
-\def\solution {0}
+%\def\solution {0}
 
 
 \title{IN-STK 5000: Introductory assignment} 
@@ -113,7 +113,7 @@ In this section we consider probability as a measure, i.e. as a function from se
 \end{exercise}
 
 \begin{exercise}
-  A null hypothesis test at significance level $p$ is constructed by using a test statistic $\pol: \CX \to [0,1)$ mapping from the space of possible data to the interval $[0,1)$, so that the test rejects the null hypothesis whenever $\pol(x) < p$. Does this mean that:
+  A null hypothesis test at significance level $p$ is constructed by using a test statistic $\pol: \CX \to [0,1)$ mapping from the space of possible data to the interval $[0,1)$, so that the test rejects the null hypothesis whenever $\pol(x) < p$. Which of the following statements are true?
   \begin{enumerate}
   \item The probability that the test will falsely reject the null hypothesis is $p$.
   \item The probability that the test will falsely accept the null hypothesis is $p$.
@@ -160,7 +160,7 @@ In this section we consider probability as a measure, i.e. as a function from se
 \section{Calculus}
 
 \begin{exercise}
-  If $f : \CX \to \Reals$ is a twice-differentiable function, what are \emph{sufficient} conditions for $x_0$ to be a \emph{local maximum} of the function, i.e. there exists $\epsilon > 0$ so that $f(x_0) \geq f(x)$ for all $x : |x - x_0| < \epsilon$?
+  If $f : \Reals \to \Reals$ is a real-valued twice-differentiable function, what are \emph{sufficient} conditions for $x_0$ to be a \emph{local maximum} of the function, i.e. there exists $\epsilon > 0$ so that $f(x_0) \geq f(x)$ for all $x : |x - x_0| < \epsilon$?
   \ifdefined\solution
   If $d f(x_0) /dx  = 0$ then
   $x_0$ is either a saddle point, a maximum or a minimum. If in addition $d^2 f(x_0) /dx^2 < 0$, then $x_0$ is a maximum.
