@@ -85,6 +85,3 @@ for t in range(T):
     print(action, rain[t], U[action, rain[t]])
     belief = get_posterior(belief, P, rain[t])
     print(belief)
-
-                
-    

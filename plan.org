@@ -159,12 +159,12 @@ The purpose of this course is to familiarise students with societal and scientif
 |       | Theory                     |       | Practice                                       |
 |-------+----------------------------+-------+------------------------------------------------|
 |  24.8 | Decision problems          |  25.8 | [[file:src/decision-problems/expected-utility.py][Expected utility]]                               |
-|       | Probability and Utility    |       |                                                |
-|       | Decision problems in ML    |       |                                                |
+|       | Probability and Utility    |       | Conditional probability                        |
+|       | Decision problems in ML    |       | Hypothesis testing                             |
 |-------+----------------------------+-------+------------------------------------------------|
 |  27.8 | Assignment 1               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|  31.8 | Basic experiment design    |   1.9 |                                                |
+|  31.8 | Basic experiment design    |   1.9 | [[file:src/experiment-design/Pipeline.ipynb][Experiment pipeline]]                            |
 |       | Decision analysis          |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
 |   3.9 | Assignment 2               |       | DEADLINE                                       |
@@ -173,12 +173,12 @@ The purpose of this course is to familiarise students with societal and scientif
 |       | Conjugate priors,          |       | Beta/Bernoulli, Linear regression              |
 |-------+----------------------------+-------+------------------------------------------------|
 |  14.9 | Bayes-optimal decisions    |  15.9 | Meteorologists continued                       |
-|       | Discrete case              |       | Tensor flow Keras Optimisers (Dirk)            |
+|       | Discrete case              |       | Tensor flow Keras Optimisers                   |
 |       | General case               |       |                                                |
 |       | Estimation theory          |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
-|  21.9 | Non-conjugate priors       |  22.9 | Tensor flow probability (Dirk)                 |
-|       | Logistic regression        |       | LR with TFP             (Dirk)                 |
+|  21.9 | Non-conjugate priors       |  22.9 | Tensor flow probability                        |
+|       | Logistic regression        |       | LR with TFP                                    |
 |-------+----------------------------+-------+------------------------------------------------|
 |  24.9 | Project 1                  |       | PRELIMINARY REPORT                             |
 |-------+----------------------------+-------+------------------------------------------------|
