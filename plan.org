@@ -155,6 +155,7 @@ The purpose of this course is to familiarise students with societal and scientif
 * Schedule
 ** 2021
 
+|-------+----------------------------+-------+------------------------------------------------|
 |       | Theory                     |       | Practice                                       |
 |-------+----------------------------+-------+------------------------------------------------|
 |  24.8 | Decision problems          |  25.8 | Python intro, numpy, expectation               |
