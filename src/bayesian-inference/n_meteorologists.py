@@ -12,13 +12,9 @@ import random
 ## - outcome: actual outcome
 def get_posterior(prior, P, outcome):
     n_models = len(prior)
-    posterior = prior
-    for k in range(n_models):
-        posterior[k] *= P[k][outcome]
-    posterior /= sum(posterior)
     ## So probability of outcome for model i is just...
     ## FILL IN
-    return posterior
+##    return posterior
 
 
 ## Get the probability of the specific outcome given your current
@@ -27,31 +23,20 @@ def get_posterior(prior, P, outcome):
 ## - outcome: actual outcome
 def get_marginal_prediction(belief, P, outcome):
     n_models = len(belief)
-    outcome_probability = 0
-    for k in range(n_models):
-        outcome_probability += belief[k] * P[k][outcome]
-    return outcome_probability
+##    return outcome_probability
 
 ## In this function, U[action,outcome] should be the utility of the action/outcome pair
 def get_expected_utility(belief, P, action, U):
     n_models = len(belief)
     n_outcomes = np.shape(P)[1]
-    utility = 0 ## FILL IN
-    for x in range(n_outcomes):
-        P_x = get_marginal_prediction(belief, P, x)
-        utility += P_x * U[action,x]
-    return utility
+##    return utility
 
 ## In this function, U[action,outcome] should be the utility of the action/outcome pair, using MAP inference
 def get_MAP_utility(belief, P, action, U):
     n_models = len(belief)
     n_outcomes = np.shape(P)[1]
-    utility = 0 ## FILL IN
-    MAP_model = belief.argmax() # get the maximising model
-    for x in range(n_outcomes):
-        P_x = P[MAP_model][x]
-        utility += P_x * U[action,x]
-    return utility
+#    utility = 0 ## FILL IN
+
 
 
 ## Here you should return the action maximising expected utility
@@ -59,22 +44,15 @@ def get_MAP_utility(belief, P, action, U):
 def get_best_action(belief, P, U):
     n_models = len(belief)
     n_actions = np.shape(U)[0]
-    util = np.zeros(n_actions)
-    for a in range(n_actions):
-        util[a] = get_expected_utility(belief, P, a, U)
-    best_action = np.argmax(util)
-    return best_action
+#    return best_action
 
 ## Here you should return the action maximising expected utility
 ## Here we are using the MAP model
 def get_best_action_MAP(belief, P, U):
     n_models = len(belief)
     n_actions = np.shape(U)[0]
-    util = np.zeros(n_actions)
-    for a in range(n_actions):
-        util[a] = get_MAP_utility(belief, P, a, U)
-    best_action = np.argmax(util)
-    return best_action
+
+
 
 
 

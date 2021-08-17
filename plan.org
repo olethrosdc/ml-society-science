@@ -158,18 +158,18 @@ The purpose of this course is to familiarise students with societal and scientif
 |-------+----------------------------+-------+------------------------------------------------|
 |       | Theory                     |       | Practice                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|  24.8 | Decision problems          |  25.8 | Python intro, numpy, expectation               |
-|       | Probability and Utility    |       | Scikitlearn                                    |
-|       | Decision problems in ML    |       | Model selection, hyperparameters               |
+|  24.8 | Decision problems          |  25.8 | [[file:src/decision-problems/expected-utility.py][Expected utility]]                               |
+|       | Probability and Utility    |       |                                                |
+|       | Decision problems in ML    |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
 |  27.8 | Assignment 1               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|  31.8 | Basic experiment design    |   1.9 | Data collection, pipelines  (Dirk)             |
-|       | Decision analysis          |       | Bootstrapping, XV (Dirk)                       |
+|  31.8 | Basic experiment design    |   1.9 |                                                |
+|       | Decision analysis          |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
 |   3.9 | Assignment 2               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|   7.9 | Bayesian inference         |   8.9 | Meteorologists problem, Credible intervals     |
+|   7.9 | Bayesian inference         |   8.9 | [[file:src/bayesian-inference/n_meteorologists.py][n-Meteorologists]]                               |
 |       | Conjugate priors,          |       | Beta/Bernoulli, Linear regression              |
 |-------+----------------------------+-------+------------------------------------------------|
 |  14.9 | Bayes-optimal decisions    |  15.9 | Meteorologists continued                       |
