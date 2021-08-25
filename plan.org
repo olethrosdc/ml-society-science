@@ -158,14 +158,14 @@ The purpose of this course is to familiarise students with societal and scientif
 |-------+----------------------------+-------+------------------------------------------------|
 |       | Theory                     |       | Practice                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|  24.8 | Basic experiment design    |  25.8 | [[file:src/experiment-design/Pipeline.ipynb][Experiment pipeline]]                            |
-|       | Decision analysis          |       |                                                |
+|  24.8 | Decision problems          |  25.8 | [[file:src/decision-problems/expected-utility.py][Expected utility]]                               |
+|       | Probability and Utility    |       | Conditional probability                        |
+|       | Decision problems in ML    |       | Hypothesis testing                             |
 |-------+----------------------------+-------+------------------------------------------------|
 |  27.8 | Assignment 1               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|  31.8 | Decision problems          |   1.9 | [[file:src/decision-problems/expected-utility.py][Expected utility]]                               |
-|       | Probability and Utility    |       | Conditional probability                        |
-|       | Decision problems in ML    |       | Hypothesis testing                             |
+|  31.8 | Basic experiment design    |   1.9 | [[file:src/experiment-design/Pipeline.ipynb][Experiment pipeline]]                            |
+|       | Decision analysis          |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
 |   3.9 | Assignment 2               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
@@ -284,6 +284,7 @@ Lab: tfcausalimpact
 
 Here we discuss experiment design in the adaptive setting, where our future experiments depend on data we have not seen yet. Two interesting cases are bandits (e.g. for recommendation systems) and active learning (e.g. for classification).
 
+
 ** 2020
 
 |--------+----------------------------------------------------------------+----------|
@@ -331,6 +332,7 @@ Here we discuss experiment design in the adaptive setting, where our future expe
 |--------+----------------------------------------------------------------+----------|
 | 6 Dec  | Project 2 *Final Deadline*                                     |          |
 |--------+----------------------------------------------------------------+----------|
+
 
 ** 2019
 
