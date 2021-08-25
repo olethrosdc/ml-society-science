@@ -158,14 +158,14 @@ The purpose of this course is to familiarise students with societal and scientif
 |-------+----------------------------+-------+------------------------------------------------|
 |       | Theory                     |       | Practice                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|  24.8 | Decision problems          |  25.8 | [[file:src/decision-problems/expected-utility.py][Expected utility]]                               |
-|       | Probability and Utility    |       | Conditional probability                        |
-|       | Decision problems in ML    |       | Hypothesis testing                             |
+|  24.8 | Basic experiment design    |  25.8 | [[file:src/experiment-design/Pipeline.ipynb][Experiment pipeline]]                            |
+|       | Decision analysis          |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
 |  27.8 | Assignment 1               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|  31.8 | Basic experiment design    |   1.9 | [[file:src/experiment-design/Pipeline.ipynb][Experiment pipeline]]                            |
-|       | Decision analysis          |       |                                                |
+|  31.8 | Decision problems          |   1.9 | [[file:src/decision-problems/expected-utility.py][Expected utility]]                               |
+|       | Probability and Utility    |       | Conditional probability                        |
+|       | Decision problems in ML    |       | Hypothesis testing                             |
 |-------+----------------------------+-------+------------------------------------------------|
 |   3.9 | Assignment 2               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
@@ -284,7 +284,6 @@ Lab: tfcausalimpact
 
 Here we discuss experiment design in the adaptive setting, where our future experiments depend on data we have not seen yet. Two interesting cases are bandits (e.g. for recommendation systems) and active learning (e.g. for classification).
 
-
 ** 2020
 
 |--------+----------------------------------------------------------------+----------|
@@ -332,7 +331,6 @@ Here we discuss experiment design in the adaptive setting, where our future expe
 |--------+----------------------------------------------------------------+----------|
 | 6 Dec  | Project 2 *Final Deadline*                                     |          |
 |--------+----------------------------------------------------------------+----------|
-
 
 ** 2019
 
@@ -387,123 +385,6 @@ Here we discuss experiment design in the adaptive setting, where our future expe
 8. Bandit problems and experiment design
 9. Markov decision processes
 10. Reinforcement learning
-
-* Lecture plan
-
-** Module 1: Reproducibility
-   :LOGBOOK:
-   CLOCK: [2018-04-04 Wed 09:22]--[2018-04-04 Wed 10:30] =>  1:08
-   CLOCK: [2018-04-03 Tue 20:58]--[2018-04-03 Tue 21:16] =>  0:18
-   CLOCK: [2018-04-02 Mon 21:25]--[2018-04-02 Mon 22:25] =>  1:00
-   CLOCK: [2018-03-19 mån 12:04]--[2018-03-20 tis 15:57] => 27:53
-   :END:
-Machine learning as science: hypotheses, experiments and conclusions.
-kNN example: What is classification? What is clustering? Making sure you formalise the problem.
-
-1. Reproducibility
-2. KNN.
-3. Bootstrapping
-
-*** kNN :ACTIVITY:
-*** Reproducibility :ACTIVITY:
-
-*** Modelling :TUTORIAL:
-
-1. Linear models
-2. Neural networks
-3. Confidence and $p$-values
-4. Naive Bayes: Model mismatch
-5. $p$-values, cross-validation and  model mismatch
-
-
-The purpose of this lecture is to familiarise students with all the
-decisions made from the beginning to the end of the data science
-process, and with the possible externalities when an algorithm is
-applied to real data.
-
-
-** Module 2: Decision problems
-1. Decision hierarchies
-2. Bayesian inference
-3. Optimisation and SGD.
-
-
-*** Decision Problems
-
-
-*** Project Introduction: Credit risk for mortgages. :TUTORIAL:
-
-** Week 3: Privacy
-   :LOGBOOK:
-   CLOCK: [2018-07-14 lör 10:22]--[2018-07-14 Sat 11:22] =>  1:00
-   CLOCK: [2018-07-12 tor 11:07]--[2018-07-12 tor 14:09] =>  3:02
-   CLOCK: [2018-07-09 Mon 14:20]--[2018-07-09 mån 15:20] =>  1:00
-   CLOCK: [2018-07-07 Sat 15:14]--[2018-07-07 Sat 16:14] =>  1:00
-   CLOCK: [2018-07-06 Fri 15:39]--[2018-07-06 Fri 16:39] =>  1:00
-   CLOCK: [2018-04-22 sön 17:16]--[2018-04-22 sön 19:19] =>  2:03
-   CLOCK: [2018-04-24 tis 16:18]--[2018-04-24 tis 16:44] =>  0:26
-   :END:
-
-1. Privacy in databases.
-2. k-anonymity.
-3. Differential Privacy.
-4. The Random Response Mechanism. 
-5. Laplace Mechanism.
-6. Exponential mechanism.
-
-The purpose of this lecture is to introduce the students to basic database concepts, as well as to privacy problems that can occur when allowing access to a database to a third party.
-
-
-** Week 4: Fairness
-   :LOGBOOK:
-   CLOCK: [2018-05-22 Tue 13:57]--[2018-05-22 Tue 14:57] =>  1:00
-   :END:
-
-1. Graphical Models.
-2. Fairness as independence.
-3. Decision diagrams.
-4. Fairness as smoothness.
-5. Fairness as meritocracy.
-6. Bayesian notions of fairness.
-
-
-** Week 5: Clustering
-   :LOGBOOK:
-   CLOCK: [2018-07-17 Tue 14:21]--[2018-07-17 Tue 22:05] =>  7:44
-   :END:
-
-Unstructured databases.
-Clustering / Anomaly detection.
-
-The purpose of this lecture is to talk about non-matrix data, like
-graphs, and make a link to graphical models and simple problems like
-anomaly detection.
-
-
-DNA testing and HMMs.
-
-Here we talk more about unstructured data, in this case about DNA
-data.
-
-** Week 6: The web and recommendation systems
-
-Web data, ontologies, crawling.
-Knowledge representation.
- 
-This is web-structured data, which typically has some meta-information. 
-
-Matrix Factorisation / LDA: Recommendation systems I (user similarity)
-
-This lecture introduces analysis of text data, and an application to recommendation systems.
-
-***  Online data collection. Optimal stopping (expensive labels) A/B Testing, Bandit Problems.
-
-This lecture introduces the concept of online data collection, rather than going through existing data. The applications considered are manual labelling via AMT or advertising.
-
-*** Markov decision processes and Dynamic Programming (active learning and experiment design more generally)
-
-The optimal data collection procedure can be formalised as an MDP, and this is explained here.
-
 
 * Exam subjects
 Here are some example questions for the exam. Answers can range from simple one-liners to relatively complex designs. Half of the points will come from 10 1-point questions and the remaining from 2 or 3 2-5-point questions.
