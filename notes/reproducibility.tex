@@ -377,10 +377,13 @@ A good example of the use of simulation to validate a method is in the article b
 }
 \begin{block}{Steps for a simulation pre-study}
   \begin{enumerate}
-  \item Create a simulation that allows you to collect data similar to the real one.
-  \item Collect data from the simulation and analyse it according to your protocol.
-  \item If the results are not as expected, alter the protocol or the simulation. In which cases do you get good results?
-  \item Finally, use the best-performing method as the protocol.
+  \item \textbf{Criteria}: Define your quality criteria, e.g. a utility function $\util$.
+  \item \textbf{Algorithms}: Define the class of algorithms, models or to consider.
+  \item \textbf{Simulation}: Create a simulation that allows you to collect data similar to the real one.
+  \item \textbf{Protocol}: This defines the processing and model pipeline, as you would do it with the actual data.
+  \item \textbf{Pre-study}: Collect data from the simulation and analyse it with the created according to your protocl.
+  \item \textbf{Adjustment:} If the results are not as expected, alter the simulation, protocol etc as needed. The aim is to find a \emph{protocol} for the pre-study that would lead to (a) reproducible results (b) allows you to analyse the behaviour of different algorithms under different assumptions.
+  \item \textbf{Use:} Apply the protocol to actual data, whether it has been already collected, or will be collected according to the protocol.
   \end{enumerate}
 \end{block}
 \end{frame}

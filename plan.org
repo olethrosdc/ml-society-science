@@ -160,20 +160,21 @@ The purpose of this course is to familiarise students with societal and scientif
 |-------+----------------------------+-------+------------------------------------------------|
 |  24.8 | Decision problems          |  25.8 | [[file:src/decision-problems/expected-utility.py][Expected utility]]                               |
 |       | Probability and Utility    |       | Conditional probability                        |
-|       | Decision problems in ML    |       | Hypothesis testing                             |
+|       | Decision problems in ML    |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
 |  27.8 | Assignment 1               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|  31.8 | Basic experiment design    |   1.9 | [[file:src/experiment-design/Pipeline.ipynb][Experiment pipeline]]                            |
-|       | Decision analysis          |       |                                                |
+|  31.8 | Infinite Decision Spaces   |   1.9 | [[file:src/experiment-design/Pipeline.ipynb][Experiment pipeline]]                            |
+|       | Stochastic Gradient        |       | Basic experiment design                        |
+|       | Tensor Flow Keras          |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
 |   3.9 | Assignment 2               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
-|   7.9 | Bayesian inference         |   8.9 | [[file:src/bayesian-inference/n_meteorologists.py][n-Meteorologists]]                               |
+|   7.9 | Conditional Probability    |   8.9 | [[file:src/bayesian-inference/n_meteorologists.py][n-Meteorologists]]                               |
 |       | Conjugate priors,          |       | Beta/Bernoulli, Linear regression              |
 |-------+----------------------------+-------+------------------------------------------------|
 |  14.9 | Bayes-optimal decisions    |  15.9 | Meteorologists continued                       |
-|       | Discrete case              |       | Tensor flow Keras Optimisers                   |
+|       | Discrete case              |       |                                                |
 |       | General case               |       |                                                |
 |       | Estimation theory          |       |                                                |
 |-------+----------------------------+-------+------------------------------------------------|
@@ -182,8 +183,8 @@ The purpose of this course is to familiarise students with societal and scientif
 |-------+----------------------------+-------+------------------------------------------------|
 |  24.9 | Project 1                  |       | PRELIMINARY REPORT                             |
 |-------+----------------------------+-------+------------------------------------------------|
-|  28.9 | Databases, anonymity, GDPR |  29.9 | SQL, DB tutorial        (Dirk)                 |
-|       | Differential privacy       |       | Private data collection (Dirk)                 |
+|  28.9 | Databases, anonymity, GDPR |  29.9 | SQL, DB tutorial                               |
+|       | Differential privacy       |       | Private data collection                        |
 |       | Randomised response        |       | Distributed DB, OpenDP (opendp.org)            |
 |-------+----------------------------+-------+------------------------------------------------|
 |  5.10 | Laplace mechanism          |  6.10 | Lab: Compare mechanisms in an ML task   (Dirk) |
