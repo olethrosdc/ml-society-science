@@ -247,6 +247,26 @@ Introduction to BI through the meteorolgical prediction
 problem. Dicsussion of simple conjugate priors (Beta, Normal). 
 Contrast credible intervals with bootstrapping.
 
+Day 1, Part 1
+- Conditional probability (5')
+- Bayes Theorem (5')
+- Marginal distributions (5')
+- The n-meteorologists problem (30')
+Day 1, Part 2
+- Suffficient Statistics / Conjugate priors (15')
+- The Beta-Bernoulli conjugate pair (15')
+- The Normal-Normal conjugate pair (15')
+
+Day 1, Part 1
+- Estimating which classifier is best (45')
+-- Beta-Bernoulli (15')
+-- Bootstrapping (15')
+
+- Assignment 2 discussion (45')
+
+
+
+
 *** Module 4: Simple decision problems
 
 The optimal decision in the meteorological problem.
