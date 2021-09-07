@@ -80,7 +80,7 @@ for t in range(T):
     probability_of_rain = get_marginal_prediction(belief, P, 1)
     #print(probability_of_rain)
     U  = np.matrix('1 -10; 0 0')
-    action = get_best_action_MAP(belief, P, U)
+    action = get_best_action(belief, P, U)
     
     print(action, rain[t], U[action, rain[t]])
     belief = get_posterior(belief, P, rain[t])
