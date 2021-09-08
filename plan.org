@@ -171,7 +171,7 @@ The purpose of this course is to familiarise students with societal and scientif
 |   3.9 | Assignment 2               |       | DEADLINE                                       |
 |-------+----------------------------+-------+------------------------------------------------|
 |   7.9 | Conditional Probability    |   8.9 | [[file:src/bayesian-inference/n_meteorologists.py][n-Meteorologists]]                               |
-|       | Conjugate priors,          |       | Beta/Bernoulli, Linear regression              |
+|       | Conjugate priors           |       | Beta/Bernoulli, Linear regression              |
 |-------+----------------------------+-------+------------------------------------------------|
 |  14.9 | Bayes-optimal decisions    |  15.9 | Meteorologists continued                       |
 |       | Discrete case              |       |                                                |
