@@ -235,13 +235,14 @@ src/decision-problems/expected-utility.py
 
 *** Module 2: Experiment design and decision analysis
 
-Reading: Sec. 2.4.1, 2.2, 2.1
+Reading: Sec. 2.4.1, 2.2, 2.1, 2.6
 
 This includes how data will be collected and processed, focusing on
 automation of the process. I will encourage students to develop an
 automated pipeline mainly through simulation, where all the variables
 can be perfectly controlled. 
 
+- Optimal decisions in continuous cases: stochastic gradient descent and Bayesian quadrature. 
 
 
 *** Module 3: Bayesian inference
@@ -250,7 +251,7 @@ Reading; Sec 2.3
 
 Introduction to BI through the meteorolgical prediction
 problem. Dicsussion of simple conjugate priors (Beta, Normal). 
-Contrast credible intervals with bootstrapping.
+
 
 Day 1, Part 1
 - Graphical model recap (5')
@@ -274,10 +275,12 @@ Day 2, Part 1
 
 *** Module 4: Bayes-optimal Decisions
 
+
 Reading: Sec. 2.4-2.6
-Hypothesis testing.
-Optimal decisions in continuous cases: stochastic gradient descent and Bayesian quadrature. 
-MAP Bayesian estimation: Finding the highest posterior parameter.
+
+- Bayesian decisions for models.
+- Hypothesis testing: Hierarchical Bayesian models
+- Contrast credible intervals with bootstrapping.
 
 
 *** Module 5: Non-conjugate priors
