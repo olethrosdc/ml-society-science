@@ -3,7 +3,7 @@
 
 \input{../preamble}
 
-%\def\solution {0}
+\def\solution {1}
 
 
 \title{IN-STK 5000: Introductory assignment} 
@@ -126,7 +126,7 @@ In this section we consider probability as a measure, i.e. as a function from se
   \end{enumerate}
   \end{exercise}
   \ifdefined \solution
-  Null hypothesis tests that have a fixed significance level $p$ are designed so that, if the data comes from a given null hypothesis, then the probability that the test statistic $\pol(x) < p$ is exactly equal to $p$. The probability of falsely accepting the null hypothesis, however, depends on the unknown alternative hypothesis and so cannot be computed. Consequently the correct answers are $1$ and $4$ (Since the decision rule either accepts or rejects the null hypothesis, $4$ is correct too).
+  Null hypothesis tests that have a fixed significance level $p$ are designed so that, if the data comes from a given null hypothesis, then the probability that the test statistic $\pol(x) < p$ is exactly equal to $p$.\footnote{Equivalently, $\pol$ has a uniform distribution on $[0,1]$ when the null hypothesis is true.} The probability of falsely accepting the null hypothesis, however, depends on the unknown alternative hypothesis and so cannot be computed. Consequently the correct answers are $1$ and $4$ (Since the decision rule either accepts or rejects the null hypothesis, $4$ is correct too). 6-8 cannot be true as $\pol(x)$ on its own is uninformative.
   \fi
 \section{Linear algebra}
 
