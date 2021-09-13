@@ -276,7 +276,7 @@ Day 2, Part 1
 *** Module 4: Bayes-optimal Decisions
 
 
-Reading: Sec. 2.4-2.6
+Reading: Sec. 2.4-2.6, 4.1.3
 
 - Bayesian decisions for models.
 - Hypothesis testing: Hierarchical Bayesian models
@@ -285,10 +285,14 @@ Reading: Sec. 2.4-2.6
 
 *** Module 5: Non-conjugate priors
 
+Reading: None
+
 Here we will focus on logistic regression as an example, the
 module will be mainly practical and focus on TF probability.
 
 *** Module 6: Databases and privacy
+
+Reading: Chapter 3.
 
 Introduction to databases, SQL and k-anonymity, consent, and the GDPR.
 Various mechanisms for DP. Pointers to the opendp.org framework for differential privacy.
@@ -296,9 +300,13 @@ Comparison of various mechanisms in an ML task.
 
 *** Module 7: Fairness
 
+Reading: Chapter 4.
+
 Introduction to fairness and condtional independence. Fairness as parity, balance, calibration, meritocracy or smoothness. Measuring conditional independence. Balancing performance with fairness constraints through constrained or penalised optimisation, or Bayesian methods.
 
 *** Module 8: Latent variable models
+
+Reading: Chapter 5.
 
 Examples:
 (a) Gaussian mixture model (b) epsilon-contamination model and outliers (c) preferences and attributes in recommendation systems
@@ -307,11 +315,15 @@ Practical work with Tensorflow probability, including outlier detection etc.
 
 *** Module 9: Causality
 
+Reading: Chapter 6.
+
 Confounders, Instrumental variables, Interventions, Counterfactuals.
 Hands-on: Importance sampling for estimating the impact of decisions.
 Lab: tfcausalimpact
 
 *** Module 10: Adaptive experiment design
+
+Reading: Chapter 7.
 
 Here we discuss experiment design in the adaptive setting, where our future experiments depend on data we have not seen yet. Two interesting cases are bandits (e.g. for recommendation systems) and active learning (e.g. for classification).
 
