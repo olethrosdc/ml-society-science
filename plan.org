@@ -223,6 +223,8 @@ The purpose of this course is to familiarise students with societal and scientif
 
 *** Module 1: Decision problems, probability and utility.
 
+Reading: Chapter 1
+
 Here the students get familiar with the concept of expected
 utility. They perform simple exercises in python.  We define utility
 in terms of the classification accuracy for individual decisions and
@@ -233,6 +235,8 @@ src/decision-problems/expected-utility.py
 
 *** Module 2: Experiment design and decision analysis
 
+Reading: Sec. 2.4.1, 2.2, 2.1
+
 This includes how data will be collected and processed, focusing on
 automation of the process. I will encourage students to develop an
 automated pipeline mainly through simulation, where all the variables
@@ -241,6 +245,8 @@ can be perfectly controlled.
 
 
 *** Module 3: Bayesian inference
+
+Reading; Sec 2.3
 
 Introduction to BI through the meteorolgical prediction
 problem. Dicsussion of simple conjugate priors (Beta, Normal). 
@@ -266,12 +272,13 @@ Day 2, Part 1
 
 
 
+*** Module 4: Bayes-optimal Decisions
 
-*** Module 4: Simple decision problems
-
-The optimal decision in the meteorological problem.
-Optimal decisions in continuous cases: stochastic gradient descent and Bayesian quadrature.
+Reading: Sec. 2.4-2.6
+Hypothesis testing.
+Optimal decisions in continuous cases: stochastic gradient descent and Bayesian quadrature. 
 MAP Bayesian estimation: Finding the highest posterior parameter.
+
 
 *** Module 5: Non-conjugate priors
 

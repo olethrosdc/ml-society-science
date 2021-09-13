@@ -29,14 +29,14 @@
     \only<article>{
       Let $x_t$ be $0$ if John makes an incorrect prediction at time $t$ and $x_t = 1$ if he makes a correct prediction. Let us once more assume a Bernoulli model, so that John's claim that he can predict our tosses perfectly means that for a sequence of tosses $\bx = x_1, \ldots, x_n$,
       \[
-      P_{\model_1}(\bx) = \begin{cases}
-        1, & x_t = 1 \forall t \in [n]\\
-        0, & \exists t \in [n] : x_t = 0.
-      \end{cases}
+        P_{\model_1}(\bx) = \begin{cases}
+          1, & x_t = 1 \forall t \in [n]\\
+          0, & \exists t \in [n] : x_t = 0.
+        \end{cases}
       \]
       That is, the probability of perfectly correct predictions is 1, and that of one or more incorrect prediction is 0. For the other model, we can assume that all draws are independently and identically distributed from a fair coin. Consequently, no matter what John's predictions are, we have that:
       \[
-      P_{\model_0}(\bx = 1 \ldots 1) = 2^{-n}.
+        P_{\model_0}(\bx = 1 \ldots 1) = 2^{-n}.
       \]
       So, for the given example, as stated, we have the following facts:
       \begin{itemize}
@@ -50,13 +50,13 @@
       \end{itemize}
       Now we can calculate the posterior distribution, which is
       \[
-      \bel(\model_1 \mid \bx = 1, \ldots, 1) = \frac{1 \times \bel(\model_1)}{1 \times \bel(model_1) + 2^{-n} (1 - \bel(\model_1))}.
+        \bel(\model_1 \mid \bx = 1, \ldots, 1) = \frac{1 \times \bel(\model_1)}{1 \times \bel(model_1) + 2^{-n} (1 - \bel(\model_1))}.
       \]
       Our expected utility for taking action $a_0$ is actually
     }
     \[
-    \E_\bel(\util \mid a_0) = 1 \times \bel(\model_0 \mid \bx) + 0 \times \bel(\model_1 \mid \bx), \qquad
-    \E_\bel(\util \mid a_1) = 0 \times \bel(\model_0 \mid \bx) + 1 \times \bel(\model_1 \mid \bx)
+      \E_\bel(\util \mid a_0) = 1 \times \bel(\model_0 \mid \bx) + 0 \times \bel(\model_1 \mid \bx), \qquad
+      \E_\bel(\util \mid a_1) = 0 \times \bel(\model_0 \mid \bx) + 1 \times \bel(\model_1 \mid \bx)
     \]
   \end{example}
   
@@ -91,15 +91,15 @@
       A statistical test $\pol$ is a decision rule for accepting or rejecting a hypothesis on the basis of evidence. A $p$-value test rejects a hypothesis whenever the value of the statistic $f(x)$ is smaller than a threshold.}
     The statistic $f : \CX \to [0,1]$ is  designed to have the property:
     \[
-    P_{\model_0}(\cset{x}{f(x) \leq \delta}) = \delta.
+      P_{\model_0}(\cset{x}{f(x) \leq \delta}) = \delta.
     \]
     If our decision rule is:
     \[
-    \pol(a \mid x) =
-    \begin{cases}
-      a_0, & f(x) \geq \delta\\
-      a_1, & f(x) < \delta,
-    \end{cases}
+      \pol(a \mid x) =
+      \begin{cases}
+        a_0, & f(x) \geq \delta\\
+        a_1, & f(x) < \delta,
+      \end{cases}
     \]
     the probability of rejecting the null hypothesis when it is true is exactly $\delta$.
   \end{definition}
@@ -107,27 +107,30 @@
   \only<article>{This is because, by definition, $f(x)$ has a uniform distribution under $\model_0$. Hence the value of $f(x)$ itself is uninformative: high and low values are equally likely. In theory we should simply choose $\delta$ before seeing the data and just accept or reject based on whether $f(x) \leq \delta$. However nobody does that in practice, meaning that $p$-values are used incorrectly. Better not to use them at all, if uncertain about their meaning.}
 \end{frame}
 \begin{frame}
-  \frametitle{Issues with $p$-values}
-  \begin{itemize}
-  \item They only measure quality of fit \alert{on the data}.
-  \item Not robust to model misspecification. \only<article>{For example, zero-mean testing using the $\chi^2$-test has a normality assumption.}
-  \item They ignore effect sizes. \only<article>{For example, a linear analysis may determine that there is a significant deviation from zero-mean, but with only a small effect size of 0.01. Thus, reporting only the $p$-value is misleading}
-  \item They do not consider prior information. 
-  \item They do not represent the probability of having made an error. \only<article>{In particular, a $p$-value of $\delta$ does not mean that the probability that the null hypothesis is false given the data $x$, is $\delta$, i.e. $\delta \neq \Pr(\neg \model_0 \mid x)$.}
-  \item The null-rejection error probability is the same irrespective of the amount of data (by design).
-  \end{itemize}
+  \begin{block}{Issues with $p$-values}
+    \begin{itemize}
+    \item They only measure quality of fit \alert{on the data}.
+    \item Not robust to model misspecification. \only<article>{For example, zero-mean testing using the $\chi^2$-test has a normality assumption.}
+    \item They ignore effect sizes. \only<article>{For example, a linear analysis may determine that there is a significant deviation from zero-mean, but with only a small effect size of 0.01. Thus, reporting only the $p$-value is misleading}
+    \item They do not consider prior information. 
+    \item They do not represent the probability of having made an error. \only<article>{In particular, a $p$-value of $\delta$ does not mean that the probability that the null hypothesis is false given the data $x$, is $\delta$, i.e. $\delta \neq \Pr(\neg \model_0 \mid x)$.}
+    \item The null-rejection error probability is the same irrespective of the amount of data (by design).
+    \end{itemize}
+  \end{block}
 \end{frame}
 
-\begin{frame}\frametitle{$p$-values for the medium example}
+\begin{frame}
   \only<article>{Let us consider the example of the medium.}
-  \begin{itemize}
-  \item<2->$\model_0$ is simply the $\Bernoulli(1/2)$ model:
-    responses are by chance. 
-  \item<3->CDF: $P_{\model_0}(N \leq n \mid K = 100)$ \only<article> {is the probability of at most $N$ successes if we throw the coin 100 times. This is in fact the cumulative probability function of the binomial distribution. Recall that the binomial represents the distribution for the number of successes of independent experiments, each following a Bernoulli distribution.}
-  \item<4->ICDF:  the number of successes that will happen with probability at least $\delta$
-  \item<5->e.g. we'll get at most 50 successes a proportion $\delta = 1/2$ of the time.
-  \item<6>Using the (inverse) CDF we can construct a policy $\pol$ that selects $a_1$ when $\model_0$ is true only a $\delta$ portion of the time, for any choice of $\delta$.
-  \end{itemize}
+  \begin{block}{$p$-values for the medium example}
+    \begin{itemize}
+    \item<2->$\model_0$ is simply the $\Bernoulli(1/2)$ model:
+      responses are by chance. 
+    \item<3->CDF: $P_{\model_0}(N \leq n \mid K = 100)$ \only<article> {is the probability of at most $N$ successes if we throw the coin 100 times. This is in fact the cumulative probability function of the binomial distribution. Recall that the binomial represents the distribution for the number of successes of independent experiments, each following a Bernoulli distribution.}
+    \item<4->ICDF:  the number of successes that will happen with probability at least $\delta$
+    \item<5->e.g. we'll get at most 50 successes a proportion $\delta = 1/2$ of the time.
+    \item<6>Using the (inverse) CDF we can construct a policy $\pol$ that selects $a_1$ when $\model_0$ is true only a $\delta$ portion of the time, for any choice of $\delta$.
+    \end{itemize}
+  \end{block}
   \begin{columns}
     \setlength\fheight{0.33\columnwidth}
     \setlength\fwidth{0.33\columnwidth}
@@ -147,7 +150,7 @@
   \begin{block}{The test statistic}
     We want the test to reflect that we don't have a significant number of failures.
     \[
-    f(x) = 1 - \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
+      f(x) = 1 - \textrm{binocdf}(\sum_{t=1}^n x_t, n, 0.5)
     \]
   \end{block}
   \begin{alertblock}{What $f(x)$ is and is not}
@@ -268,28 +271,28 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Concentration inequalities and confidence intervals}
-\only<article>{
-There are a number of inequalities from probability theory that allow us to construct high-probability confidence intervals. The most well-known of those is Hoeffding's inequality \index{Hoeffding inequality|textbf}, the simplest version of which is the following:
-\begin{lemma}[Hoeffding's inequality]
-  Let $x_1, \ldots, x_n$ be a series of random variables, $x_i \in [0, 1]$. Then it holds that, for the empirical mean:
-  \[
-  \mu_n \defn \frac{1}{n} sum_{t=1}^n x_t
-  \]
-  \begin{equation}
-    \Pr(\mu_n \geq \E \mu_n+ \epsilon) \leq e^{-2n\epsilon^2}.
-    \label{eq:hoeffding}
-  \end{equation}
-\end{lemma}
-When $x_t$ are i.i.d, $\E \mu_n = \E x_t$. This allows us to construct an interval of size $\epsilon$ around the true mean. This can generalise to a two-sided interval:
-\[
-\Pr(|\mu_n - \E \mu_n| \geq \epsilon) \leq 2e^{-2n\epsilon^2}.
-\]
-We can also rewrite the equation to say that, with probability at least $1 - \delta$
-\[
-|\mu_n - \E \mu_n| \leq \sqrt{\frac{\ln 2/\delta}{2n}}
-\]
-}
+  \frametitle{Concentration inequalities and confidence intervals}
+  \only<article>{
+    There are a number of inequalities from probability theory that allow us to construct high-probability confidence intervals. The most well-known of those is Hoeffding's inequality \index{Hoeffding inequality|textbf}, the simplest version of which is the following:
+    \begin{lemma}[Hoeffding's inequality]
+      Let $x_1, \ldots, x_n$ be a series of random variables, $x_i \in [0, 1]$. Then it holds that, for the empirical mean:
+      \[
+        \mu_n \defn \frac{1}{n} sum_{t=1}^n x_t
+      \]
+      \begin{equation}
+        \Pr(\mu_n \geq \E \mu_n+ \epsilon) \leq e^{-2n\epsilon^2}.
+        \label{eq:hoeffding}
+      \end{equation}
+    \end{lemma}
+    When $x_t$ are i.i.d, $\E \mu_n = \E x_t$. This allows us to construct an interval of size $\epsilon$ around the true mean. This can generalise to a two-sided interval:
+    \[
+      \Pr(|\mu_n - \E \mu_n| \geq \epsilon) \leq 2e^{-2n\epsilon^2}.
+    \]
+    We can also rewrite the equation to say that, with probability at least $1 - \delta$
+    \[
+      |\mu_n - \E \mu_n| \leq \sqrt{\frac{\ln 2/\delta}{2n}}
+    \]
+  }
 \end{frame}
 \begin{frame}
   \frametitle{Further reading}
