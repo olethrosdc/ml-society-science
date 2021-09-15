@@ -174,8 +174,8 @@ The purpose of this course is to familiarise students with societal and scientif
 |       | Conjugate priors           |       | Beta/Bernoulli                                 |
 |-------+----------------------------+-------+------------------------------------------------|
 |  14.9 | Bayes-optimal decisions    |  15.9 | Beta/Bernoulli for hypothesis testing          |
-|       | Hypothesis testing         |       |                                                |
-|       | Hierarchical models        |       | [Project introduction]                         |
+|       | Hypothesis testing         |       | Hierarchical models                            |
+|       |                            |       | [Project introduction]                         |
 |-------+----------------------------+-------+------------------------------------------------|
 |  21.9 | Non-conjugate priors       |  22.9 | Tensor flow probability                        |
 |       | Logistic regression        |       | LR with TFP                                    |
