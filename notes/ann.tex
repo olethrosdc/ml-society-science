@@ -62,7 +62,7 @@ An alternative idea is to use our uncertainty to create a distribution over mode
 %}
 
 \begin{frame}
-  \frametitle{Stochastic gradient methdos}
+  \frametitle{Stochastic gradient methods}
   \index{gradient ascent}
   \only<article>{To find the maximum of a differentiable function $g$, we can use gradient descent}
   \begin{block}{Gradient ascent}
@@ -98,6 +98,8 @@ An alternative idea is to use our uncertainty to create a distribution over mode
       \draw[->, bend right] (input) to (output);
     \end{tikzpicture}    
     Objective: Find the best model for $\Training$.
+
+    \only<article>{In this case, we consider a utility function that minimises the divergence between the network's probability predictions and the labels, such as $U(\param, y_t, x_t) = \ln P_\param(y_t | x_t)$.}
   \end{block}
 
   
@@ -109,6 +111,8 @@ An alternative idea is to use our uncertainty to create a distribution over mode
     \end{tikzpicture}    
     \vspace{1em}
     Objective: Find the best policy for $\util(a, \bx)$.
+
+    \only<article>{In this case, we consider a utility function that considers the actual classification decisions, so that if $u(a_t, y_t)$ is how much we gain by choosing $a_t$ when the label is $y_t$, then the expected utility for a decision a is $\util(a,\bx_t) = \sum_y \Pr(y_t = y | \bx_t) u(a,y)$.}
   \end{block}
 
   \uncover<2->{
