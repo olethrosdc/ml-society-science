@@ -45,10 +45,10 @@ i.e. when we can replace the explicit summation over all possible outcomes, weig
   \begin{block}{The Bayes-optimal classifier}
 An alternative idea is to use our uncertainty to create a distribution over models, and then use this distribution to obtain a single classifier that does take the uncertainty into account.
     \[
-      \max_\Param f(\pol_\Param, \bel)
+      \max_{\param \in \Param} f(\pol_\param \bel)
       \approx
-      \max_\Param N^{-1} \sum_{n=1}^N
-      \pol(a_t = y_n \mid x_t = x_n),
+      \max_{\param \in \Param} N^{-1} \sum_{n=1}^N
+      \pol_\param(a_t = y_n \mid x_t = x_n),
       \qquad
       (x_n, y_n) \sim P_{\model_n}, \model_n \sim \bel.
     \]
