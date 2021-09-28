@@ -37,8 +37,6 @@ voter = [('1996-03-28', '1123', 'John Doe'),
 
 c.executemany('INSERT INTO registration VALUES (?,?,?)', voter)
 
-c.execute('SELECT * FROM drugs JOIN registration ON drugs.birth = registration.birth')
-
 print(c.fetchall())
 
 
