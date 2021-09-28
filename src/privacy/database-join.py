@@ -37,6 +37,8 @@ voter = [('1996-03-28', '1123', 'John Doe'),
 
 c.executemany('INSERT INTO registration VALUES (?,?,?)', voter)
 
+# Insert an appropriate JOIN statement here to identify people who took drugs in the 'registration' table
+
 print(c.fetchall())
 
 
