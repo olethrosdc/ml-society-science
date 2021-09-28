@@ -25,10 +25,10 @@ c.execute('''CREATE TABLE registration
 
 voter = [('1996-03-28', '1123', 'John Doe'),
          ('1928-12-01', '1493', 'James Madisson'),
-        ('1935-05-05', '2131', 'Pu Li'),
-         ('1949-11-08', '2931', 'Goran Glikovits'),
-         ('1945-11-08', '1014', 'Natalia Glakova'),
-         ('1968-05-07', '1491', 'Mady Madisson'),
+        ('1935-05-05', '3131', 'Pu Li'),
+         ('1949-11-08', '4931', 'Goran Glikovits'),
+         ('1985-11-08', '3014', 'Natalia Glakova'),
+         ('1988-05-07', '2491', 'Mady Madisson'),
         ('1979-10-01', '2238', 'Lia Johnsson'),
          ('1978-09-03', '2313', 'Yama Tanaka'),
 ]
@@ -37,7 +37,7 @@ voter = [('1996-03-28', '1123', 'John Doe'),
 
 c.executemany('INSERT INTO registration VALUES (?,?,?)', voter)
 
-c.execute('SELECT drugs.drugs, registration.name FROM drugs JOIN registration ON drugs.birth = registration.birth')
+c.execute('SELECT drugs.drugs, registration.name FROM drugs JOIN registration ON drugs.birth = registration.birth AND drugs.zip = registration.zip')
 
 print(c.fetchall())
 
