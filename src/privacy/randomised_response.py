@@ -23,6 +23,7 @@ def rp_binary(data: np.array, epsilon: np.float):
     ## TODO: set p correctly depending on features
     p = 1.0 / (1.0 + np.exp(epsilon)) # should be calculated based on epsilon
     mask = np.random.choice(2, size=n_people, p=[1-p, p])
+    # fix this so it works for multiple features as well
     private_data = mask^data
     return private_data
 
