@@ -7,7 +7,7 @@ epsilon = 0.1 # the amount of privacy we can lose
 
 # Assume the probability of smoking is fixed
 true_ratio = 0.1
-data=np.random.coice(2, size=n_people, p=[1 - true_ratio, true_ratio])
+data=np.random.choice(2, size=n_people, p=[1 - true_ratio, true_ratio])
 
 # Calculate the average salary
 empirical_ratio = np.average(data)
