@@ -1,38 +1,46 @@
-import matplotlib.pyplot as plt
-import numpy
+import numpy as np
 
-## We want to calculate the share of people smoking
-n_people = 100 # The number of people participating
-epsilon = 0.1 # the amount of privacy we can lose
+def rp_binary(data: np.array, epsilon: np.float):
+    '''
+    Random-Response mechanism for local DP on binary data.
 
-# Assume the probability of smoking is fixed
-true_ratio = 0.1
-data=numpy.zeros(n_people)
-for i in range(n_people):
-    data[i] = min(data[i], max_salary)
+    Given a specific value for epsilon, flips individual bits in the features
+    so that epsilon-differential privacy is preserved.
 
-# Calculate the average salary
-empirical_ratio = numpy.average(data)
-print("The empirical ratio is ", empirical_ratio)
+    Parameters:
+        data: An np.array with data.shape[0] records to which local DP is applied. The data must be binary.
+        epsilon: the privacy parameter.
 
-#### Random-Resposne mechanism for local DP
-## If $\epsilon = ln (1-p)/p$ then we need to set $p = 1 / (1 + e^\epsilon)$
-def RandomisedResponse(x, epsilon):
-    
+    Returns:
+        private_data: data modified with randomised response.
+    '''
 
-# Calculate the average
-local_average = numpy.average(private_data)
-print("The average salary computed with local DP + randomised response ", local_average)
+    # Dummy implementation
+    private_data = data
+    return private_data
 
-#### Laplace mechanism for centralised DP
-#
-# We calculate the average, so if an individual's data changes by max_salary, the average
-# changes by 1 / n. So:
-central_sensitivity = 1 / n_people
-# We now tune sensitivity to the function
-central_noise = numpy.random.laplace(scale=central_sensitivity / epsilon, size=1)
-# Calculate the average
-central_average = numpy.average(data + central_noise)
-print("The average salary computed with central DP + Laplace is ", central_average)
+
+def rp_float(data: np.array, epsilon: np.float, bounds: np.array):
+    '''
+    Random-Response mechanism for local DP on floating data.
+
+    Given a specific value for epsilon, adds Laplace noise to the features
+    so that epsilon-differential privacy is preserved. The noise is tuned according to the number of features and the epsilon
+
+    Parameters:
+        data: An np.array with data.shape[0] records to which local DP is applied. The data must be binary.
+        epsilon: the privacy parameter.
+        bounds: lower and upper on the range of each feature. In particular, x[t,i] must be in the range [bounds[0,i], bounds[1,i]].
+
+    Returns:
+        private_data: data modified with randomised response.
+    '''
+    # Dummy implementation
+    private_data = data
+    return private_data
+
+
+
+
 
 
