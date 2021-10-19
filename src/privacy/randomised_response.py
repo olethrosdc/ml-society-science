@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def rp_binary(data: np.array, epsilon: np.float):
     '''
     Random-Response mechanism for local DP on binary data.
@@ -28,7 +29,7 @@ def rp_binary(data: np.array, epsilon: np.float):
     return private_data
 
 
-def rp_float(data: np.array, epsilon: np.float, bounds: np.array):
+def rp_float(data: np.array, epsilon: np.float, bound: np.float):
     '''
     Random-Response mechanism for local DP on floating data.
 
@@ -38,13 +39,21 @@ def rp_float(data: np.array, epsilon: np.float, bounds: np.array):
     Parameters:
         data: An np.array with data.shape[0] records to which local DP is applied. The data must be binary.
         epsilon: the privacy parameter.
-        bounds: lower and upper on the range of each feature. In particular, x[t,i] must be in the range [bounds[0,i], bounds[1,i]].
+        bound: a bound on the range of each feature.
 
     Returns:
         private_data: data modified with randomised response.
     '''
     # Dummy implementation
-    private_data = data
+    # Basic implementation
+    n_people = data.shape[0]
+    n_features = 1#data.shape[1]
+
+    private_data = data.copy()
+    for t in range(n_people):
+        #for i in range(n_features):
+        private_data[t] += np.random.laplace(scale=n_features * bound/epsilon)
+
     return private_data
 
 

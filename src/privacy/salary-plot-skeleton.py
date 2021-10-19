@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import randomised_response
+from laplace_mechanism import laplace_mechanism
 
 ## We want to calculate teh average salary
-n_people = 100 # The number of people participating
+n_people = 1000 # The number of people participating
 max_salary = 10 # maximum salary of people - otherwise we can't use Laplace
 epsilon = 0.1 # the amount of privacy we want to lose
 
@@ -25,13 +26,17 @@ n_iter = 1000
 variance_local = np.zeros(100)
 variance_central = np.zeros(100)
 t = 0
-epsilon = np.linspace(0.1,1,100)
-for t in range(100):
+epsilon = np.linspace(0.5,1,100)
+for t in range(1):
     central = np.zeros(n_iter)
     local = np.zeros(n_iter)
     for i in range(n_iter):
-        central[i] = CentralDPLaplace(data, epsilon[t], max_salary, n_people)
-        local[i] = LocalDPLaplace(data, epsilon[t], max_salary, n_people)
+        central[i] = np.mean(data) + np.random.laplace(scale = max_salary/(n_people*epsilon[t]))
+    for i in range(n_iter):
+        local[i] = np.mean(randomised_response.rp_float(data, epsilon[t], max_salary))
+    plt.hist(central, alpha=0.5, bins=100)
+    plt.hist(local, alpha=0.5, bins=100)
+    plt.show()
     variance_local[t] = np.var(local)
     variance_central[t] = np.var(central)
 

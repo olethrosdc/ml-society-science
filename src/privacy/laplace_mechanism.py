@@ -1,6 +1,6 @@
 import numpy as np
 
-def laplace_mechanism(data: np.array, epsilon: np.float, function: Callable, sensitivity: np.float):
+def laplace_mechanism(data: np.array, epsilon: np.float, function: callable, sensitivity: np.float):
     '''
     Laplace mechanism for calculating the value of a function in a differentially-private manner.
 
@@ -16,10 +16,7 @@ def laplace_mechanism(data: np.array, epsilon: np.float, function: Callable, sen
         value: the value of f with Laplace noise added
     '''
     # Dummy implementation. You must also add the appropriate amount of noise .
-    return function(data)
-
-
-
+    return function(data) + np.random.laplace(scale = sensitivity / epsilon)
 
 
 
