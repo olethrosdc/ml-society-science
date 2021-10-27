@@ -9,19 +9,32 @@ import numpy as np
 from aux import symptom_names
 
 class Policy:
+    """ A policy for treatment/vaccination. """
     def __init__(self, n_actions, action_set):
+        """ Initialise.
+
+        :param int n_actions: the number of actions
+        :param list action_set: the set of actions
+        """
         self.n_actions = n_actions
         self.action_set = action_set
         print("Initialising policy with ", n_actions, "actions")
         print("A = {", action_set, "}")
     ## Observe the features, treatments and outcomes of one or more individuals
-    def observe(self, features, treatments, outcomes):
+    def observe(self, features, action, outcomes):
+        """ Observe features, actions and outcomes.
+
+        :param array features
+        :param array actions
+        :param array outcomes
+        """
         pass
-    ## Obtain the empirical utility of the policy on a set of one or more people
     def get_utility(self, features, treatment, outcome):
+        """ Obtain the empirical utility of the policy on a set of one or more people. """
+
         return 0
-    ## Get actions fro one or more people
     def get_action(self, features):
+        """ Get actions fro one or more people. """
         return 0
 
 ## This is a purely random policy!
