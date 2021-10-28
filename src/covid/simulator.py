@@ -54,7 +54,6 @@ class Person:
     # use vaccine = -1 if no vaccine is given
     def vaccinate(self, vaccine_array, pop):
         ## Vaccinated
-        print("V:", vaccine_array, pop.n_vaccines)
         if (sum(vaccine_array) >=0 ):
             vaccinated = True
         else:
@@ -137,6 +136,7 @@ class Population:
         :param int n_individuals: the number of individuals to generate
 
         """
+        self.n_individuals = n_individuals
         X = np.zeros([n_individuals, 3 + self.n_genes + self.n_comorbidities + self.n_vaccines + self.n_symptoms])
         Y = np.zeros([n_individuals, self.n_treatments, self.n_symptoms])
         self.persons = []
@@ -144,7 +144,7 @@ class Population:
             person = Person(self)
             vaccine = np.random.choice(4, p=self.vaccination_rate) - 1
             vaccine_array = np.zeros(self.n_vaccines)
-            print(":", vaccine_array)
+            
             if (vaccine>=0):
                 vaccine_array[vaccine] = 1
             person.vaccinate(vaccine_array, self)
@@ -159,34 +159,51 @@ class Population:
 
 
         Args:
-        person_index (int), index of a person in the population
-        vaccine_array (|A| array), array indicating which vaccines are given.
+        person_index (int array), indices of person in the population
+        vaccine_array (n*|A| array), array indicating which vaccines are to be given to each patient
+
+        Returns:
+        The symptoms of the selected individuals 
         
         Notes:
         Currently only one vaccine dose is implemented, but in the future multiple doses may be modelled.
         """
-        self.persons[person_index].vaccinate(vaccine_array, self)
-        return self.persons[person_index].symptoms
-
+        outcome = np.zeros([len(person_index), self.n_symptoms])
+        i = 0
+        for t in person_index:
+            self.persons[t].vaccinate(vaccine_array[i], self)
+            outcome[i] = self.persons[i].symptoms
+            i+=1
+        return outcome
+    
     def treat(self, person_index, treatment):
         """ Treat a patient.
 
         Args:
-        person_index (int), index of a person in the population
-        treatment_array (|A| array), array indicating which treatment are to be given.
+        person_index (int array), indices of persons in the population to treat
+        treatment_array (n*|A| array), array indicating which treatments are to be given to each patient
+
+        Returns:
+        The symptoms of the selected individuals 
 
         """
 
-        r = np.array(treatment * self.A).flatten()
-        result = np.zeros(self.n_symptoms)
-        for k in range(self.n_symptoms):
-            if (k <= 1):
-                result[k] = self.X[person_index, k]
-            else:
-                if (np.random.uniform() < r[k]):
-                    result[k] = 0
+        N = len(person_index)
+        result = np.zeros([N, self.n_symptoms])
+        # use i to index the treated
+        # use t to index the original population
+        #print(treatment)
+        for i in range(N):
+            t = person_index[i]
+            r = np.array(np.matrix(treatment[i]) * self.A).flatten()
+            for k in range(self.n_symptoms):
+                if (k <= 1):
+                    result[i, k] = self.X[t, k]
                 else:
-                    result[k] = self.X[person_index,k]
+                    if (np.random.uniform() < r[k]):
+                        result[i, k] = 0
+                    else:
+                        result[i, k] = self.X[t, k]
         return result
 
     def get_features(self, person_index):
