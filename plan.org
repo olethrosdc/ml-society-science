@@ -201,21 +201,21 @@ The purpose of this course is to familiarise students with societal and scientif
 | 26.10 | Lab: Constrained Classification (Dirk) | 27.10 | Latent Variable Models                |
 |       |                                        |       | Recommender Systems                   |
 |-------+----------------------------------------+-------+---------------------------------------|
-|  2.11 | Lab: Latent Variable Models (Dirk)     |  3.11 | Causality                             |
-|       |                                        |       | Interventions                         |
-|       |                                        |       | Counterfactuals                       |
-|-------+----------------------------------------+-------+---------------------------------------|
-|  4.10 | Project 2                              |       | Deadline #1                           |
-|-------+----------------------------------------+-------+---------------------------------------|
-|  9.11 | Lab: Importance Sampling  (Dirk)       | 10.11 | Adaptive Experiment Design            |
-|       | tfcausalimpact                         |       |                                       |
+|  2.11 | Latent Variable Models                 |  3.11 | Lab: Latent Variables with TFP        |
+|       | Recommender Systems                    |       |                                       |
 |       |                                        |       |                                       |
 |-------+----------------------------------------+-------+---------------------------------------|
-| 16.11 | Lab; Thompson sampling (Dirk)          | 17.11 | Markov decision processes             |
+|  5.11 | Project 2                              |       | Deadline #1                           |
+|-------+----------------------------------------+-------+---------------------------------------|
+|  9.11 | Causality                              | 10.11 | Group work                            |
+|       | Interventions                          |       |                                       |
+|       | Counterfactuals                        |       |                                       |
+|-------+----------------------------------------+-------+---------------------------------------|
+| 16.11 | Markov Decision Processes              | 17.11 | Lab: Project work                     |
 |-------+----------------------------------------+-------+---------------------------------------|
 | 18.10 | Project 2                              |       | Deadline #2                           |
 |-------+----------------------------------------+-------+---------------------------------------|
-| 23.11 | Lab: Project work                      | 24.11 | Lab: Q&A                              |
+| 23.11 | Group work                             | 24.11 | Group work                            |
 |-------+----------------------------------------+-------+---------------------------------------|
 |  3.12 | Project 2                              |       | Final Deadline                        |
 |-------+----------------------------------------+-------+---------------------------------------|
