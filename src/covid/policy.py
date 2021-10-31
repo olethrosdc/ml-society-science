@@ -34,7 +34,13 @@ class Policy:
         outcomes, given the actions and features. I suggest you create
         a model that estimates P(y | x,a) and fit it as appropriate.
 
-        If the model cannot be updated incrementally, you can save all observed x,a,y triplets in a database and retrain whenever you obtain new data.
+        If the model cannot be updated incrementally, you can save all
+        observed x,a,y triplets in a database and retrain whenever you
+        obtain new data.
+
+        Pseudocode:
+            self.data.append(features, actions, outcomes)
+            self.model.fit(data)
 
         """
         pass
@@ -55,13 +61,26 @@ class Policy:
 
         return 0
     def get_action(self, features):
-        """ Get actions for one or more people. 
+        """Get actions for one or more people. 
 
         Args: 
         features (t*|X| array)
 
         Returns: 
         actions (t*|A| array)
+
+        Here you should take the action maximising expected utility
+        according to your model. This model can be arbitrary, but
+        should be adapted using the observe() method.
+
+        Pseudocode:
+           for action in appropriate_action_set:
+                p = self.model.get_probabilities(features, action)
+                u[action] = self.get_expected_utility(action, p)
+           return argmax(u)
+
+        You are expected to create whatever helper functions you need.
+
         """
         return 0
 
