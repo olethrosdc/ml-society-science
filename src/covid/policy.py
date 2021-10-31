@@ -23,13 +23,19 @@ class Policy:
         print("A = {", action_set, "}")
     ## Observe the features, treatments and outcomes of one or more individuals
     def observe(self, features, action, outcomes):
-        """ Observe features, actions and outcomes.
+        """Observe features, actions and outcomes.
 
         Args:
         features (t*|X| array)
         actions (t*|A| array)
         outcomes (t*|Y| array)
-        
+
+        The function is used to adapt a model to the observed
+        outcomes, given the actions and features. I suggest you create
+        a model that estimates P(y | x,a) and fit it as appropriate.
+
+        If the model cannot be updated incrementally, you can save all observed x,a,y triplets in a database and retrain whenever you obtain new data.
+
         """
         pass
     def get_utility(self, features, action, outcome):

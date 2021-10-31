@@ -34,7 +34,8 @@ for t in range(n_population):
     a_t = vaccine_policy.get_action(X[t])
     # Then you can obtain results for everybody
     y_t = population.vaccinate([t], a_t)
-    # Feed the results back in your policy
+    # Feed the results back in your policy. This allows you to fit the
+    # statistical model you have.
     vaccine_policy.observe(X[t], a_t, y_t)
 
 print("Vaccinate'em all")
