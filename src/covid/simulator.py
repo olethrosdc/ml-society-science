@@ -246,7 +246,7 @@ if __name__ == "__main__":
     X_treatment = pop.generate(n_treated)
     X_treatment = X_treatment[X_treatment[:,1]==1]
     print("Generating treatment outcomes")
-    a, y = pop.treatment(X_treatment, policy.RandomPolicy(n_treatments))
+    a, y = pop.treatment(X_treatment, policy.RandomPolicy(n_treatments, list(range(n_treatments))))
     pandas.DataFrame(X_treatment).to_csv('treatment_features.csv', header=False, index=False)
     pandas.DataFrame(a).to_csv('treatment_actions.csv', header=False, index=False)
     pandas.DataFrame(y).to_csv('treatment_outcomes.csv', header=False, index=False)
