@@ -191,19 +191,19 @@ The purpose of this course is to familiarise students with societal and scientif
 |       | (Dirk)                                 |       | Conditional Independence              |
 |       |                                        |       |                                       |
 |-------+----------------------------------------+-------+---------------------------------------|
-| 19.10 | Lab: TFP                    (Dirk)     | 20.10 | Balance                               |
+| 19.10 | Fairness                               | 20.10 | Balance                               |
 |       |                                        |       | Calibration                           |
 |       |                                        |       | Meritocracy                           |
 |       |                                        |       |                                       |
 |-------+----------------------------------------+-------+---------------------------------------|
 | 22.10 | Project 1                              |       | DEADLINE                              |
 |-------+----------------------------------------+-------+---------------------------------------|
-| 26.10 | Lab: Constrained Classification (Dirk) | 27.10 | Latent Variable Models                |
+| 26.10 | Fairness                               | 27.10 | Latent Variable Models                |
 |       |                                        |       | Recommender Systems                   |
 |-------+----------------------------------------+-------+---------------------------------------|
 |  2.11 | Latent Variable Models                 |  3.11 | Lab: Latent Variables with TFP        |
 |       | Recommender Systems                    |       |                                       |
-|       |                                        |       |                                       |
+|       | Group work                             |       |                                       |
 |-------+----------------------------------------+-------+---------------------------------------|
 |  5.11 | Project 2                              |       | Deadline #1                           |
 |-------+----------------------------------------+-------+---------------------------------------|

@@ -31,8 +31,14 @@
 \begin{frame}
   \begin{alertblock}{The two problems in recommendation systems}
     \begin{itemize}
-    \item The modelling (or prediction) problem. \only<article>{Given the data, how to e.g. predict what movies a user likes and dislikes.}
-    \item The recommendation problem. \only<article>{What movie(s) to actually recommend to a user.}
+    \item The modelling (or prediction) problem. \only<article>{Given the data, how to e.g. predict what movies a user likes and dislikes, or whether or not the customer will buy one of our recommendations.}
+      \[
+        P(y_t | x_t, a_t)
+      \]
+    \item The recommendation problem. \only<article>{What movie(s) to actually recommend to a user in order to maximise revenue or some other notion of utility. Given some specific model, this can be written as}
+      \[
+        \max_a \sum_y \rho(a, y) P(y_t = y | x_t, a_t = a)
+      \]
     \end{itemize}
     \only<article>{Although closely linked, those two problems have different evaluation metrics. The recommendation problem is harder, especially because the data do not tell us what our recommendation have been in the past, but only what users watched.}
   \end{alertblock}

@@ -6,7 +6,7 @@
 ## outcomes: symptoms (including covid-positive)
 
 import numpy as np
-from aux import symptom_names
+from auxilliary import symptom_names
 
 class Policy:
     """ A policy for treatment/vaccination. """

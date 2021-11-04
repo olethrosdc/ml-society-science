@@ -11,7 +11,7 @@ n_treatments = 4
 n_population = 10000
 
 # symptom names for easy reference
-from aux import symptom_names
+from auxilliary import symptom_names
 
 
 # Create the underlying population
