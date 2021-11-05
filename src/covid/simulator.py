@@ -9,7 +9,7 @@ import pickle
 class Person:
     def __init__(self, pop):
         self.genes = np.random.choice(2, size=pop.n_genes)
-        self.gender = np.random.choice(2,1)
+        self.gender = np.random.choice(2)
         self.age = np.random.gamma(3,11)
         self.age_adj = self.age/100 # age affects everything
         self.income = np.random.gamma(1,10000)
@@ -216,7 +216,7 @@ class Population:
         result = np.zeros([X.shape[0], self.n_symptoms])
         for t in range(X.shape[0]):
             #print ("X:", result[t])
-            treatments[t][policy.get_action(X[t])] = 1
+            treatments[t] = policy.get_action(X[t].reshape(1,-1))
             r = np.array(np.matrix(treatments[t]) * self.A).flatten()
             for k in range(self.n_symptoms):
                 if (k <= 1):
