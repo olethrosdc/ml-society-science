@@ -207,11 +207,11 @@ The purpose of this course is to familiarise students with societal and scientif
 |-------+----------------------------------------+-------+---------------------------------------|
 |  4.10 | Project 2                              |       | Deadline #1                           |
 |-------+----------------------------------------+-------+---------------------------------------|
-|  9.11 | Lab: Importance Sampling  (Dirk)       | 10.11 | Adaptive Experiment Design            |
-|       | tfcausalimpact                         |       |                                       |
+|  9.11 | Causality                              | 10.11 | tfcausalimpact                        |
+|       |                                        |       |                                       |
 |       |                                        |       |                                       |
 |-------+----------------------------------------+-------+---------------------------------------|
-| 16.11 | Lab; Thompson sampling (Dirk)          | 17.11 | Markov decision processes             |
+| 16.11 | Markov decision processes              | 17.11 | Thompson sampling                     |
 |-------+----------------------------------------+-------+---------------------------------------|
 | 18.10 | Project 2                              |       | Deadline #2                           |
 |-------+----------------------------------------+-------+---------------------------------------|
