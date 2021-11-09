@@ -406,7 +406,7 @@
           \draw[bend right=45,->] (param) to (z);
         }
       \end{tikzpicture}
-      \caption{Instrumental variable $z_t$}
+      \caption{Instrumental variable $z_t$, confounder $x_t$}
       \label{fig:instrumental-variable}
     \end{figure}
   \end{block}
@@ -902,11 +902,15 @@
   \begin{block}{Further reading}
     \begin{itemize}
     \item Pearl, \emph{Causality}.
-    \item \citet{dawid2012decision}
+    \item \citet{dawid2012decision}'s decision-theoretic causality
+    \item Halpern's book  \url{https://www.cs.cornell.edu/home/halpern/papers/causalitybook-ch1-3.html}
+    \item Halpern's video lecture: \url{https://www.cs.cornell.edu/home/halpern/papers/causalitybook-ch1-3.html}
     \end{itemize}
   \end{block}
+\end{frame}
 
-  \subsection{Exercises}
+\begin{frame}
+\subsection{Exercises}
   In the following exercises, we are taking actions $a_t$ and obtaining outcomes $y_t$. Our utility function is simply $U = y_t$.
   \only<article>{
     \begin{exercise}
