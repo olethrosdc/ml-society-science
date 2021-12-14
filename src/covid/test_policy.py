@@ -8,7 +8,7 @@ import simulator
 n_genes = 128
 n_vaccines = 3
 n_treatments = 4
-n_population = 13
+n_population = 8
 
 # symptom names for easy reference
 from aux import symptom_names
@@ -29,6 +29,7 @@ vaccine_policy = policy.RandomPolicy(n_vaccines, list(range(-1,n_vaccines))) # m
 A = vaccine_policy.get_action(X)
 Y = population.vaccinate(list(range(n_population)), A)
 vaccine_policy.observe(X, A, Y)
+print("Treatment:\n", A, "\nSymptoms:\n", Y)
 
 # Generate treatment results
 print("Treatment")
@@ -37,5 +38,6 @@ treatment_policy = policy.RandomPolicy(n_treatments, list(range(n_treatments)))
 A = treatment_policy.get_action(X)
 Y = population.treat(list(range(n_population)), A)
 treatment_policy.observe(X, A, Y)
+print("Treatment:\n", A, "\nSymptoms:\n", Y)
 
 
