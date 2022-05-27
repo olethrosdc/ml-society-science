@@ -380,7 +380,12 @@
       \end{figure}
     \end{example}
   }
-
+  \only<article>{
+    \begin{definition}[non-confounder]
+      A latent variable $x_t$ is not a confounder if either
+      $x_t \indep a_t \mid \pi$ or $x_t \indep y_t \mid a_t$
+    \end{definition}
+  }
 
   \begin{block}{Instrumental variables and confounders}
     \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, on the basis of which we make our decisions. This is called an \emph{instrumental variable.} \index{instrument@see{variable!instrumental}}\index{variable!instrumental}. More formally, $z_t$ is an instrumental variable with respect to $y_t$ since the latent variables on which $y_t$ depends satisfy $x_t, \param \indep \pol$ and the outcome variable is independent of the policy given the action and the two latent variables: $y \indep pol \mid a_t, x_t, \param$.
@@ -406,7 +411,7 @@
           \draw[bend right=45,->] (param) to (z);
         }
       \end{tikzpicture}
-      \caption{Instrumental variable $z_t$}
+      \caption{Instrumental variable $z_t$, confounder $x_t$}
       \label{fig:instrumental-variable}
     \end{figure}
   \end{block}
@@ -902,11 +907,15 @@
   \begin{block}{Further reading}
     \begin{itemize}
     \item Pearl, \emph{Causality}.
-    \item \citet{dawid2012decision}
+    \item \citet{dawid2012decision}'s decision-theoretic causality
+    \item Halpern's book  \url{https://www.cs.cornell.edu/home/halpern/papers/causalitybook-ch1-3.html}
+    \item Halpern's video lecture: \url{https://www.cs.cornell.edu/home/halpern/papers/causalitybook-ch1-3.html}
     \end{itemize}
   \end{block}
+\end{frame}
 
-  \subsection{Exercises}
+\begin{frame}
+\subsection{Exercises}
   In the following exercises, we are taking actions $a_t$ and obtaining outcomes $y_t$. Our utility function is simply $U = y_t$.
   \only<article>{
     \begin{exercise}

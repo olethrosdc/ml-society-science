@@ -153,6 +153,56 @@ Algorithms from Artificial Intelligence are becoming ever more complicated and a
 The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It will equip  students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining a large set of models. It uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work. It is instead on the issues of reproducibility, data colletion and experiment design, privacy, fairness and safety when applying machine learning algorithms. For that reason, we will cover technical topics not typically covered in an AI course: false discovery rates, differential privacy, fairness, causality and risk. Some familiarity with machine learning concepts and artificial intelligence is expected, but not necessary.
  
 * Schedule
+** 2022
+
+
+   |-------+------------------------+----------------------------|
+   |  23.9 | Algorithms             |                            |
+   |       | Privacy                |                            |
+   |       | Fairness               |                            |
+   |       | Reproducibility        |                            |
+   |-------+------------------------+----------------------------|
+   |  30.9 | Privacy and anonymity  | Netflix paper              |
+   |       | k-anonymity            |                            |
+   |-------+------------------------+----------------------------|
+   |  7.10 | Differential Privacy   | Staircase mechanism        |
+   |       | Randomised response    |                            |
+   |       | Laplace Mechanism      |                            |
+   |-------+------------------------+----------------------------|
+   | 14.10 | Approximate  Mechanism | Renyi DP                   |
+   |       | Gaussian Mechanism     |                            |
+   |-------+------------------------+----------------------------|
+   | 21.10 | Exponential mechanism  | Shuffle privacy            |
+   |       | Privacy amplification  | Federated learning         |
+   |-------+------------------------+----------------------------|
+   | 28.10 | Group fairness         |                            |
+   |       | Equalised odds         |                            |
+   |-------+------------------------+----------------------------|
+   |  4.11 | Balance                |                            |
+   |       | Calibration            |                            |
+   |-------+------------------------+----------------------------|
+   | 11.11 | Meritocracy            | top-k                      |
+   |       |                        |                            |
+   |-------+------------------------+----------------------------|
+   | 18.11 | Smoothness             | Fairness through Awareness |
+   |-------+------------------------+----------------------------|
+   | 25.11 | Reproducibility        | GWA                        |
+   |       | Train/Test             |                            |
+   |-------+------------------------+----------------------------|
+   |  2.12 | GWAS                   |                            |
+   |-------+------------------------+----------------------------|
+   |  9.12 |                        |                            |
+   |-------+------------------------+----------------------------|
+   | 16.12 |                        |                            |
+   |-------+------------------------+----------------------------|
+
+*** Papers
+1. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
+2. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
+3. Genomic privacy and limits of individual detection in a pool
+4. Privacy Preserving GWAS Data Sharing
+
+
 ** 2021
 
 |-------+----------------------------------------+-------+---------------------------------------|

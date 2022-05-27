@@ -45,6 +45,7 @@ A = vaccine_policy.get_action(X)
 Y = population.vaccinate(list(range(n_population)), A)
 # Feed the results back in your policy. 
 vaccine_policy.observe(X, A, Y)
+print("Treatment:\n", A, "\nSymptoms:\n", Y)
 
 
 
@@ -68,5 +69,6 @@ treatment_policy = policy.RandomPolicy(n_treatments, list(range(n_treatments)))
 A = treatment_policy.get_action(X)
 Y = population.treat(list(range(n_population)), A)
 treatment_policy.observe(X, A, Y)
+print("Treatment:\n", A, "\nSymptoms:\n", Y)
 
 
