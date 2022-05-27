@@ -1,3 +1,84 @@
+\begin{frame}
+  \centering
+  \includegraphics[height=\textheight]{../figures/smbc-the-problem}
+\end{frame}
+\begin{frame}
+  \only<article>{ ``Data is everywhere'', said the statistician,
+    ``data, data!''. In the past, statistical analysis was performed
+    with laboriously collected and annotated datasets. Even as
+    recently as in the early 21st century, databases for machine
+    learning were limited to a few thousand entries at most. At the
+    time of writing, not only has the size of datasets become
+    extremely large, but the sources of data are much more
+    diverse. Data are collected and commercialised whenever we visit a
+    website and even as we walk around with our phone. To a limited
+    extent, there is a tradeoff between what we can get out of a
+    service and what we pay into it. Many free services such as
+    navigation software rely on collecting user data to perform
+    better: If you can tell that there is a traffic jam in Central
+    Avenue, you can after all try and take another route.  As long as
+    informed consent exists, use of private data is generally regarded
+    as unproblematic.\footnote{This is actually underscored by the
+      GDPR legislation, which focuses on consent and data use
+      methods.}
+
+    However, even apparently benign data collected with appropriate
+    consent can lead to serious and unexpected privacy
+    violations. There are three famous examples of this: Firstly, the
+    identification of people in supposedly anonymous health data in
+    the 1990s in the state of Massachussets, which we will go over in
+    detail in this chapter. Secondly, the identifications of users
+    through anonymised movie ratings in the Netflix dataset. Finally,
+    the ability to discover if any given individual's data is
+    contained in a pooled genomic study.
+
+    In this chapter, we will introduce one of the main tools for
+    giving formal guarantees about the privacy of any algorithm ran on
+    a dataset, \emph{differential privacy}. This will provide
+    individual-level privacy, in the sense that an algorithm that is
+    differentially private guarantees that no adversary can
+    significantly increase their knowledge about any particular
+    individual by observing the algorithm's output. This is independent
+    of the adversary's existing knowledge, or computational power.
+  }
+  \begin{block}{Privacy in statistical disclosure.}
+    \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
+      published,\footnote{If somebody knows that the analysis is being
+        conducted, however, they could still learn something private from the fact that the analysis has /emph{not} been published.} this
+      creates two types of possible privacy violations.}
+    \begin{itemize}
+    \item Public analysis of sensitive data.
+    \item Publication of ``anonymised'' data.
+    \end{itemize}
+    \only<article>{ The first is direct exposure of sensitive data
+      through publication of the analysis, if for example the study is
+      about something such as drug use. The second is through
+      publication of ``anonymised'' versions of the dataset, for
+      example by removing names and addresses, which create
+      opportunities for linkage attacks.}
+  \end{block}
+  \begin{alertblock}{Not about cryptography}
+    \only<article>{
+      The problems we are considering can not be solved through cryptographic means. Cryptography provides:}
+    \begin{itemize}
+    \item Secure communication and computation.
+    \item Authentication and verification.
+    \end{itemize}
+    \only<article>{These are useful to establish secure channels with somebody that we trust. However, the issue that}
+  \end{alertblock}
+
+  \begin{block}{An issue of trust}
+    \only<article>{Fundamentally, privacy in statistics is an issue of trust. The analyst, whether it be a human statistician, or an automated service provided by a company, will use your data to make decisions. You must also decide:}
+    \begin{itemize}
+    \item Who to trust and how much.
+    \item With what data to trust them.
+    \item What you want out of the service.
+    \end{itemize}
+    \only<article>{These are difficult questions and are hard to quantify, hence in this course we are assuming that we have already decided how to answer them, and we simply want to find an appropriate methodology for achieving a good result.}
+  \end{block}
+\end{frame}
+
+
 \section{Privacy in databases}
 \only<presentation>{
   \begin{frame}
@@ -9,9 +90,16 @@
   \end{frame}
 }
 
+\only<article>{
+  Every day ,
+  
+}
 \begin{frame}
   \frametitle{Anonymisation}
-  \only<article>{If we wish to publish a database, frequently we need to protect identities of people involved. The simplest method for doing that is simply erasing directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data.}
+  \only<article>{If we wish to publish a database, frequently we need to protect identities of people involved. The simplest method for doing that is simply erasing directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data.
+    
+    
+  }
   
   \begin{example}[Typical relational database in Tinder]
     \begin{table}[H]
@@ -190,7 +278,103 @@
 \end{frame}
 
 
+\section{Database access models}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
 
+\begin{frame}
+  \frametitle{Databases}
+  \begin{example}[Typical relational database in a tax office]
+    \begin{table}[H]
+      \centering
+  \begin{tabular}{l|l|l|l|l|l|l}
+    ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
+    \hline
+    1959060783 & Li Pu & 150,000 & 1e6 & 60 & 1001 & Politician\\
+    1946061408 & Sara Lee & 300,000 & -1e9 & 72 & 1001 & Rentier\\
+    2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 1001 & Time Traveller
+  \end{tabular}
+\end{table}
+\end{example}
+
+\only<1>{
+  \begin{block}{Database access}
+    \begin{itemize}
+    \item When owning the database: Direct look-up.
+    \item When accessing a server etc: Query model.
+    \end{itemize}
+  \end{block}
+}
+\only<2>{
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[rectangle] at (0,0) (python) {Python program};
+        \node[rectangle] at (8,0) (database) {Database System};
+        \draw[thickarrow, bend right]   (python) to node[black]{Query} (database) ;
+        \draw[thickarrow, bend right]   (database) to node[black]{response} (python) ;
+      \end{tikzpicture}
+    \label{fig:database-access}
+    \caption{Database access model}
+  \end{figure}
+}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{SQL: A language for database access}
+  \begin{block}{Creating and filling tables}
+    \begin{itemize}
+    \item \texttt{CREATE TABLE table-name (column1, column2)}
+      \only<article>{Create a new table}
+    \item \texttt{INSERT INTO table-name VALUES ('value1', 'value2')}
+      \only<article>{Add specific values into a table}
+    \item \texttt{INSERT INTO table-name VALUES (?, ?), variable}
+      \only<article>{Fill in values from a variable}
+    \end{itemize}
+  \end{block}
+
+  \begin{example}{Database creation}
+    \url{src/privacy/database-creation.py}
+    \\
+    \url{src/privacy/database-access.py}
+  \end{example}
+\end{frame}
+\begin{frame}
+  \frametitle{Queries in SQL}
+  \begin{block}{The \texttt{SELECT} statement}
+    \begin{itemize}
+    \item \texttt{SELECT column1, column2 FROM table;}
+      \only<article>{This selects only some columns from the table}
+    \item \texttt{SELECT * FROM table;}
+      \only<article>{This selects all the columns from the table}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Selecting rows}
+    \texttt{SELECT * FROM table WHERE column = value;}
+  \end{block}
+
+  \begin{exampleblock}{Arithmetic queries}
+    \only<article>{Here are some example SQL statements}
+    \begin{itemize}
+    \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
+      \only<article>{This allows you to count the number of rows matching \texttt{condition}}
+    \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
+      \only<article>{This lets you to count the number of rows matching \texttt{condition}}
+    \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
+      \only<article>{This is used to sum up the values in a column.}
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
 
 \section{Differential privacy}
 \only<article>{While $k$-anonymity can protect against specific re-identification attacks when used with care, it says little about what to do when the adversary has a lot of power. For example, if the  adversary knows the data of everybody that has participated in the database,  it is trivial for them to infer what our own data is. Differential privacy offers protection against adversaries with unlimited side-information or computational power. Informally, an algorithmic computation is differentially-private if an adversary cannot distinguish two similar database based on the result of the computation. While the notion of similarity is for the analyst to define, it is common to say that two databases are similar when they are identical apart from the data of one person.}
