@@ -12,7 +12,6 @@
 
 \only<article>{
   %What are the central problems in machine learning?
-
   Problems in machine learning are similar to problems in science.
   Scientists must plan experiments intelligently and collect data.
   The must be able to use the data to verify a different hypothesis.
@@ -58,8 +57,7 @@
 
   We must be careful, however. In many cases we need to be able to
   interpret what our model tells us. We also must make sure that
-  the any results we obtain are reproducible. This is something
-  that we shall emphasize in this course.
+  the any results we obtain are reproducible.
 }
 
 \only<presentation>{
@@ -196,10 +194,12 @@
   \begin{center}
     \includegraphics[width=0.7\textwidth]{../figures/rl_interaction}
   \end{center}
-  \begin{block}{Reinforcement learning}
-    Take actions $a_1, \ldots, a_t$, so as to maximise utility
-    $U = \sum_{t=1}^T r_t$
-  \end{block}
+  \only<presentation>{
+    \begin{block}{Reinforcement learning}
+      Take actions $a_1, \ldots, a_t$, so as to maximise utility
+      $U = \sum_{t=1}^T r_t$
+    \end{block}
+  }
 \end{frame}
 
 
