@@ -197,10 +197,19 @@ The purpose of this course is to familiarise students with societal and scientif
    |-------+------------------------+----------------------------|
 
 *** Papers
-1. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
-2. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
-3. Genomic privacy and limits of individual detection in a pool
-4. Privacy Preserving GWAS Data Sharing
+1. Big Data's Disparate Impact
+2. Netflix Paper
+3. Staircase mechanism
+4. Renyi DP / Optimal DP
+5. Shuffle Privacy / Federated learning
+6. Egalitarian fairness
+7. Trade-offs in scores
+8. Top-k
+9. Fairness through awareness
+10. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
+11. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
+12. Genomic privacy and limits of individual detection in a pool
+13. Privacy Preserving GWAS Data Sharing
 
 
 ** 2021
