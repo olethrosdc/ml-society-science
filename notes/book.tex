@@ -1,3 +1,4 @@
+%% This is a shortened version of the notes
 \documentclass[a4paper,twoside]{book}
 \usepackage{geometry}
 \usepackage[notheorems]{beamerarticle}
@@ -25,21 +26,6 @@
 \label{ch:introduction}
 \include{ml-intro}
 
-\chapter{Simple decision problems}
-\label{ch:decision-problems}
-\only<article>{This chapter deals with simple decision problems, whereby a decision maker (DM) makes a simple choice among many. In some of this problems the DM has to make a decision after first observing some side-information. Then the DM uses a \emph{decision rule} to assign a probability to each possible decision for each possible side-information. However, designing the decision rule is not trivial, as it relies on previously collected data. A higher-level decision includes choosing the decision rule itself. The problems of classification and regression fall within this framework. While most steps in the process can be automated and formalised, a lot of decisions are actual design choices made by humans. This creates scope for errors and misinterpretation of results.
-
-In this chapter, we shall formalise all these simple decision problems from the point of view of statistical decision theory. The first question is, given a real world application, what type of decision problem does it map to? Then, what kind of machine learning algorithms can we use to solve it? What are the underlying assumptions and how valid are our conclusions? 
-}
-
-\include{knn}  % knn, reproducability and bootstrapping
-\include{reproducibility}
-\include{reproducibility-assignment}
-\include{bayes} % Bayesian inference
-\include{decision-problems} % decision hierarchies
-\include{ann} % linear models and stochastic gradient descent
-\include{naive-bayes} % naive Bayes classifiers
-%\include{credit}
 
 \chapter{Privacy}
 \label{ch:privacy}
@@ -60,10 +46,27 @@ In this chapter, we shall formalise all these simple decision problems from the 
 
 
 
-%\chapter{Recommendation systems}
-%\label{ch:recommendation}
-%\only<article>{Structured learning problems involve multiple latent variables with a complex structure. These range from clustering and spech recognition to DNA and biological and social network analysis. Since structured problems include relationships between many variables, they can be analysed using graphical models.}
-%\include{recommendation}
+\chapter{Simple decision problems}
+\label{ch:decision-problems}
+\only<article>{This chapter deals with simple decision problems, whereby a decision maker (DM) makes a simple choice among many. In some of this problems the DM has to make a decision after first observing some side-information. Then the DM uses a \emph{decision rule} to assign a probability to each possible decision for each possible side-information. However, designing the decision rule is not trivial, as it relies on previously collected data. A higher-level decision includes choosing the decision rule itself. The problems of classification and regression fall within this framework. While most steps in the process can be automated and formalised, a lot of decisions are actual design choices made by humans. This creates scope for errors and misinterpretation of results.
+
+In this chapter, we shall formalise all these simple decision problems from the point of view of statistical decision theory. The first question is, given a real world application, what type of decision problem does it map to? Then, what kind of machine learning algorithms can we use to solve it? What are the underlying assumptions and how valid are our conclusions? 
+}
+
+\include{knn}  % knn, reproducability and bootstrapping
+\include{reproducibility}
+\include{reproducibility-assignment}
+\include{bayes} % Bayesian inference
+\include{decision-problems} % decision hierarchies
+\include{ann} % linear models and stochastic gradient descent
+\include{naive-bayes} % naive Bayes classifiers
+%\include{credit}
+
+
+\chapter{Recommendation systems}
+\label{ch:recommendation}
+\only<article>{Structured learning problems involve multiple latent variables with a complex structure. These range from clustering and spech recognition to DNA and biological and social network analysis. Since structured problems include relationships between many variables, they can be analysed using graphical models.}
+\include{recommendation}
 \include{clustering}
 \include{networks}
 \include{hmm}
@@ -76,9 +79,6 @@ In this chapter, we shall formalise all these simple decision problems from the 
 \chapter{Experiment design}
 \label{ch:bandit}
 \include{experiment-design}
-\chapter{Markov decision processes}
-\label{ch:mdp}
-\include{mdp}
 
 \chapter{Index}
 \printindex
@@ -92,5 +92,5 @@ In this chapter, we shall formalise all these simple decision problems from the 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
-%%% TeX-master: "notes"
+%%% TeX-master: "book"
 %%% End:
