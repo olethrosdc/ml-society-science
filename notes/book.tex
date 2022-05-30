@@ -13,15 +13,19 @@
 }
 \input{../preamble}
 
-\include{preface}
+\begin{document}
+
 
 %\includeonly{causality}
 \title{Machine learning in science and society}
 \subtitle{From automated science to beneficial artificial intelligence}
 \author[C. Dimitrakakis]{Christos Dimitrakakis}
-\begin{document}
+
 
 \maketitle
+
+\include{preface}
+
 \tableofcontents
 
 
@@ -33,9 +37,9 @@
 \only<article>{
   When machine learning algorithms are applied at scale, it can be difficult to imagine what their effects might be. In this part of the course, we consider notions of fairness as seen through the prism of conditional independence and meritocracy. The first notion requires that we look deeper into directed graphical models.
 }
-\include{graphical-models}
-\include{fairness}
-\include{credit}
+\input{graphical-models}
+\input{fairness}
+\input{credit}
 
 
 
@@ -46,12 +50,17 @@
 In this chapter, we shall formalise all these simple decision problems from the point of view of statistical decision theory. The first question is, given a real world application, what type of decision problem does it map to? Then, what kind of machine learning algorithms can we use to solve it? What are the underlying assumptions and how valid are our conclusions? 
 }
 
-\include{knn}  % knn, reproducability and bootstrapping
-\include{reproducibility}
-\include{bayes} % Bayesian inference
-\include{decision-problems} % decision hierarchies
-\include{ann} % linear models and stochastic gradient descent
-\include{naive-bayes} % naive Bayes classifiers
+\input{decision-problems} % decision hierarchies
+\input{bayes} % Bayesian inference
+\input{ann} % linear models and stochastic gradient descent
+\input{knn}  % knn, reproducability and bootstrapping
+\input{naive-bayes} % naive Bayes classifiers
+
+\chapter{Reproducibility}
+\label{ch:reproducibility}
+\input{reproducibility}
+
+
 
 \chapter{Causality}
 \label{ch:causality}
@@ -70,8 +79,6 @@ In this chapter, we shall formalise all these simple decision problems from the 
 %\include{hmm}
 %\include{rnn}
 
-
-\chapter{Index}
 \printindex
 
 
