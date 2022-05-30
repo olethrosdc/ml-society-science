@@ -2,8 +2,43 @@
 \label{ch:privacy}
 
 
-\only<article>{
-  Participating in a study always carries a risk for individuals, namely that of data disclosure. In this chapter, we first explain how simple database query methods, and show even a small number of queries to a database they can compromise the privacy of individuals. We then introduce to formal concepts of privacy protection: $k$-anonymity and differential privacy. The first is relatively simple to apply and provides some limited resistance to identification of individuals through record linkage attacks. The latter is a more general concept, and can be simple apply in some settings, while it offers information-theoretic protection to individuals. A major problem with any privacy definition and method, however is correct interpretation of the privacy concept used, and correct implementation of the algorithm used.}
+\only<article>{ What do we mean by privacy? One interpretation is
+  simply the ability to maintain a personal secret. Is it possible to
+  maintain perfect secrecy? In the context of cryptography, yes: We
+  can securely store and transmit data. Through homomorphic
+  computation, an untrusted server can even perform some computations
+  on encrypted data, returning an encrypted result to us, while
+  learning nothing about the original secret.
+
+  As long as the data, and any computation that is made using it is
+  kept under lock and key by somebody we trust, our secrets are
+  safe. Sometimes, however, we must make public decisions or release
+  public information based on this data. For example, you can trust
+  your doctor to maintain confidentiality, but when you go to the
+  pharmacy to get the prescribed medicine, somebody can infer the
+  medical condition you suffer from. 
+
+  However, it is also possible to learn personal information from
+  aggregate statistic.  Let us say your doctor publishes a list of
+  cases of different diseases every week, together with some other
+  information such as the approximate patient age. Even though your
+  own data is mixed with that of all other patients, it is not
+  difficult for somebody to infer your diagnosis, especially if they
+  already have some additional side-information.
+
+  
+      
+  In this chapter, we two formal concepts of privacy protection:
+  $k$-anonymity and differential privacy. The first is relatively
+  simple to apply, but provides only limited resistance to
+  identification of individuals through record linkage attacks. The
+  latter is a more general concept, and can be simple to apply in some
+  settings, while it offers information-theoretic protection to
+  individuals. A major problem with any privacy definition and method,
+  however is correct interpretation of the privacy concept used, and
+  correct implementation of the algorithm used.
+
+}
 
 \begin{frame}
   \centering
