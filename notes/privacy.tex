@@ -4,41 +4,55 @@
 
 \only<article>{ What do we mean by privacy? One interpretation is
   simply the ability to maintain a personal secret. Is it possible to
-  maintain perfect secrecy? In the context of cryptography, yes: We
-  can securely store and transmit data. Through homomorphic
-  computation, an untrusted server can even perform some computations
-  on encrypted data, returning an encrypted result to us, while
-  learning nothing about the original secret.
-
-  As long as the data, and any computation that is made using it is
-  kept under lock and key by somebody we trust, our secrets are
-  safe. Sometimes, however, we must make public decisions or release
-  public information based on this data. For example, you can trust
-  your doctor to maintain confidentiality, but when you go to the
-  pharmacy to get the prescribed medicine, somebody can infer the
-  medical condition you suffer from. 
-
-  However, it is also possible to learn personal information from
-  aggregate statistic.  Let us say your doctor publishes a list of
-  cases of different diseases every week, together with some other
-  information such as the approximate patient age. Even though your
-  own data is mixed with that of all other patients, it is not
-  difficult for somebody to infer your diagnosis, especially if they
-  already have some additional side-information.
-
+  maintain perfect secrecy? Can the thoughts in our head be perfectly
+  safe, or can they be revealed indirectly through our actions? 
   
-      
-  In this chapter, we two formal concepts of privacy protection:
-  $k$-anonymity and differential privacy. The first is relatively
-  simple to apply, but provides only limited resistance to
-  identification of individuals through record linkage attacks. The
-  latter is a more general concept, and can be simple to apply in some
-  settings, while it offers information-theoretic protection to
-  individuals. A major problem with any privacy definition and method,
-  however is correct interpretation of the privacy concept used, and
-  correct implementation of the algorithm used.
+  We certainly /emph{can} securely store and transmit data using
+  cryptography. Through homomorphic computation, an untrusted server
+  can even perform some computations on encrypted data, returning an
+  encrypted result to us, while learning nothing about the original
+  secret.  As long as the data, as well as any derivative information,
+  using it is kept under lock and key, our personal information cannot
+  be revealed.
 
-}
+  However, sometimes we must make public decisions or release public
+  information based on this data. Then the data can be revealed
+  indirectly. For example, you can trust your doctor to maintain
+  confidentiality, but when you go to the pharmacy to get the
+  prescribed medicine, somebody can infer the medical condition you
+  suffer from.
+
+  It is even possible to learn personal information from aggregate
+  statistic.  Let us say your doctor publishes a list of cases of
+  different diseases every week, together with some other information
+  such as the approximate patient age. Even though your own data is
+  mixed with that of all other patients, it is not difficult for
+  somebody to infer your diagnosis, especially if they already have
+  some additional side-information.
+
+  We will emphasize an algorithmic view of privacy. Here, participants
+  entrusts their data to an algorithm, which is in turn supposed to
+  produce something useful in return. The algorithm is typically not
+  fully automated, as it also depends on some human input. One example
+  is a medical study examining different treatments for a
+  disease. While humans select and administer the treatments, they
+  will typically rely on a randomised strategy for assigning
+  treatments to individuals, and use a statistical method to report
+  their results. A navigation application would collect data from
+  multiple users in real-time to be able to plan new routes and detect
+  traffic jams. Given this mixture of ad-hoc decisions and formal
+  algorithmic methods, is it possible to guarantee privacy in any
+  sense? 
+      
+  In this chapter, we will look at two formal concepts of privacy
+  protection: $k$-anonymity and \emph{differential privacy}. The first
+  is a simple method for anonymising databases. However, it provides
+  only limited resistance to identification. The latter is a more
+  general concept, which provides full information-theoretic
+  protection to individuals. A major problem with any privacy
+  definition and method, however is correct interpretation of the
+  privacy concept used, and correct implementation of the algorithm
+  used.  }
 
 \begin{frame}
   \centering
