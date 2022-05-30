@@ -6,14 +6,15 @@
   simply the ability to maintain a personal secret. Is it possible to
   maintain perfect secrecy? Can the thoughts in our head be perfectly
   safe, or can they be revealed indirectly through our actions? 
-  
-  We certainly /emph{can} securely store and transmit data using
-  cryptography. Through homomorphic computation, an untrusted server
-  can even perform some computations on encrypted data, returning an
-  encrypted result to us, while learning nothing about the original
-  secret.  As long as the data, as well as any derivative information,
-  using it is kept under lock and key, our personal information cannot
-  be revealed.
+
+  THe problems we will discuss in this chapter are \emph{not}
+  solveable through cryptography. We certainly /emph{can} securely
+  store and transmit data using cryptography. Through homomorphic
+  computation, an untrusted server can even perform some computations
+  on encrypted data, returning an encrypted result to us, while
+  learning nothing about the original secret.  As long as the data, as
+  well as any derivative information, using it is kept under lock and
+  key, our personal information cannot be revealed.
 
   However, sometimes we must make public decisions or release public
   information based on this data. Then the data can be revealed
@@ -30,6 +31,8 @@
   somebody to infer your diagnosis, especially if they already have
   some additional side-information.
 
+
+ 
   We will emphasize an algorithmic view of privacy. Here, participants
   entrusts their data to an algorithm, which is in turn supposed to
   produce something useful in return. The algorithm is typically not
@@ -42,8 +45,23 @@
   multiple users in real-time to be able to plan new routes and detect
   traffic jams. Given this mixture of ad-hoc decisions and formal
   algorithmic methods, is it possible to guarantee privacy in any
-  sense? 
-      
+  sense? What kind of guarantees can we make?
+
+  Generally speaking, an algorithm has good privacy properties, if the
+  amount of information that can be revealed through the algorithm's
+  output abound any individual contributing data is bounded. In
+  particular, we are interested in how much an adversary can learn
+  about the algorithm's input from the algorithm's output. This does
+  not preclude learning general facts about individuals from the
+  output. For example, a study about the use of steroids in sports may
+  show that 90\% of sprinters with times under 10 seconds are using
+  steroids. Any sprinter with a time under 10 seconds is thus tainted
+  by association, even if their data has not been used in the
+  study. The publication of the result, then, does not impact their
+  privacy, even though it has a negative effect.
+  
+ 
+  
   In this chapter, we will look at two formal concepts of privacy
   protection: $k$-anonymity and \emph{differential privacy}. The first
   is a simple method for anonymising databases. However, it provides
