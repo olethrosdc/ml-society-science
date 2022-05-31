@@ -7,17 +7,17 @@
   maintain perfect secrecy? Can the thoughts in our head be perfectly
   safe, or can they be revealed indirectly through our actions? 
 
-  THe problems we will discuss in this chapter are \emph{not}
-  solveable through cryptography. We certainly /emph{can} securely
+  The problems we will discuss in this chapter are \emph{not}
+  solveable through cryptography. We certainly \emph{can} securely
   store and transmit data using cryptography. Through homomorphic
-  computation, an untrusted server can even perform some computations
+  computation, an untrusted party can even perform some computations
   on encrypted data, returning an encrypted result to us, while
-  learning nothing about the original secret.  As long as the data, as
-  well as any derivative information, using it is kept under lock and
+  learning nothing about the original secret.  As long as the data,
+  and the results of any computation on it, is kept under lock and
   key, our personal information cannot be revealed.
 
   However, sometimes we must make public decisions or release public
-  information based on this data. Then the data can be revealed
+  information based on this data. Then it can be revealed
   indirectly. For example, you can trust your doctor to maintain
   confidentiality, but when you go to the pharmacy to get the
   prescribed medicine, somebody can infer the medical condition you
@@ -27,40 +27,39 @@
   statistics.  Let us say your doctor publishes a list of cases of
   different diseases every week, together with some other information
   such as the approximate patient age. Even though your own data is
-  mixed with that of all other patients, it is not difficult for
-  somebody to infer your diagnosis, especially if they already have
-  some additional side-information.
-
+  mixed with that of all other patients, it is possible to infer your
+  diagnosis, especially with some additional side-information: If you
+  are the only person in that age group visiting the doctor that week,
+  and you are seeing doing so, then your diagnosis will be revealed.
  
-  We will emphasize an algorithmic view of privacy. Here, participants
-  entrusts their data to an algorithm, which is in turn supposed to
-  produce something useful in return. The algorithm is typically not
-  fully automated, as it also depends on some human input. One example
-  is a medical study examining different treatments for a
-  disease. While humans select and administer the treatments, they
-  will typically rely on a randomised strategy for assigning
-  treatments to individuals, and use a statistical method to report
-  their results. A navigation application would collect data from
-  multiple users in real-time to be able to plan new routes and detect
-  traffic jams. Given this mixture of ad-hoc decisions and formal
-  algorithmic methods, is it possible to guarantee privacy in any
-  sense? What kind of guarantees can we make?
+  We will emphasize an algorithmic view of privacy: participants
+  entrusts their data to an algorithm, which produces a useful output
+  in return. The algorithm is typically not fully automated, as it
+  also depends on some human input: One example is a medical study
+  examining different treatments for a disease. While humans select
+  and administer the treatments, they will typically rely on a
+  randomised strategy for assigning treatments to individuals, and use
+  a statistical method to report their results. A navigation
+  application would collect data from multiple users in real-time to
+  be able to plan new routes and detect traffic jams. Given this
+  mixture of ad-hoc decisions and formal algorithmic methods, is it
+  possible to guarantee privacy in any sense? What kind of guarantees
+  can we make?
 
   Generally speaking, an algorithm has good privacy properties, if the
   amount of information that can be revealed through the algorithm's
   output abound any individual contributing data is bounded. In
   particular, we are interested in how much an adversary can learn
-  about the algorithm's input from the algorithm's output. This does
-  not preclude learning general facts about individuals from the
-  output. For example, a study about the use of steroids in sports may
-  show that 90\% of sprinters with times under 10 seconds are using
-  steroids. Any sprinter with a time under 10 seconds is thus tainted
-  by association, even if their data has not been used in the
-  study. The publication of the result, then, does not impact their
-  privacy, even though it has a negative effect.
-  
- 
-  
+  about any individual's input to the algorithm from the algorithm's
+  output.
+
+  This does not preclude learning general facts about individuals from
+  the output. For example, a study about the use of steroids in sports
+  may show that 90\% of sprinters with times under 10 seconds are
+  using steroids. Any sprinter with a time under 10 seconds is thus
+  tainted by association, even if their data has not been used in the
+  study. The publication of the result does not impact their privacy.
+    
   In this chapter, we will look at two formal concepts of privacy
   protection: $k$-anonymity and \emph{differential privacy}. The first
   is a simple method for anonymising databases. However, it provides
@@ -118,17 +117,12 @@
     \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
       published,\footnote{If somebody knows that the analysis is being
         conducted, however, they could still learn something private from the fact that the analysis has /emph{not} been published.} this
-      creates two types of possible privacy violations.}
+      creates two possible scenarios for that may lead to privacy violations.}
     \begin{itemize}
-    \item Public analysis of sensitive data.
     \item Publication of ``anonymised'' data.
+      \only<article>{Sometimes we may collect data in order to publish the dataset itself for other researchers to use. This is common practice in machine learning, with image classification datasets being a good example. However, if the data contains personal information, there is always some privacy risk even if the data has been anonymised with standard methods.}
+    \item Public data analysis. \only<article>{This is a more general setting, where we never publish individual data records, but only summary statistics or models about the data. A prime example is a national census analysis, which may provide detailed demographic information for all towns and regions in a nation. Although only aggregate data is published, it is theoretically possible to infer personal information. For that reason, the US Census Bureau conducted its analysis in 2020 using differential private algorithms.}
     \end{itemize}
-    \only<article>{ The first is direct exposure of sensitive data
-      through publication of the analysis, if for example the study is
-      about something such as drug use. The second is through
-      publication of ``anonymised'' versions of the dataset, for
-      example by removing names and addresses, which create
-      opportunities for linkage attacks.}
   \end{block}
   \begin{alertblock}{Not about cryptography}
     \only<article>{
@@ -137,17 +131,16 @@
     \item Secure communication and computation.
     \item Authentication and verification.
     \end{itemize}
-    \only<article>{These are useful to establish secure channels with somebody that we trust. However, the issue that}
+    \only<article>{These are useful to establish secure channels with somebody that we trust. However, the privacy violations we are concerned with relate to \alert{publicly released} outputs of algorithms. It is not important whether or not all the data and computation are encrypted: as long as the algorithm generates a public output, it is theoretically possible for somebody to learn something about the algorithm's input.}
   \end{alertblock}
 
   \begin{block}{An issue of trust}
     \only<article>{Fundamentally, privacy in statistics is an issue of trust. The analyst, whether it be a human statistician, or an automated service provided by a company, will use your data to make decisions. You must also decide:}
     \begin{itemize}
-    \item Who to trust and how much.
-    \item With what data to trust them.
-    \item What you want out of the service.
+    \item Who to trust and how much.\only<article>{Do we trust the data analyst? How much privacy are we willing to sacrifice to the analyst? How much to the public at large?}
+    \item What you want out of the service.\only<article>{Is the service important enough to sacrifice significant amounts of privacy? Is there a good trade-off between utility and privacy?}
     \end{itemize}
-    \only<article>{These are difficult questions and are hard to quantify, hence in this course we are assuming that we have already decided how to answer them, and we simply want to find an appropriate methodology for achieving a good result.}
+    \only<article>{These are difficult questions and are hard to quantify, hence we assume that we have already decided how to answer them, and we simply want to find an appropriate methodology for achieving a good result.}
   \end{block}
 \end{frame}
 
