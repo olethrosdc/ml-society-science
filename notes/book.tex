@@ -32,15 +32,13 @@
 \include{ml-intro}
 \include{privacy} %data bases
 
+
 \chapter{Fairness}
 \label{ch:fairness}
 \only<article>{
   When machine learning algorithms are applied at scale, it can be difficult to imagine what their effects might be. In this part of the course, we consider notions of fairness as seen through the prism of conditional independence and meritocracy. The first notion requires that we look deeper into directed graphical models.
 }
-\input{graphical-models}
 \input{fairness}
-\input{credit}
-
 
 
 \chapter{Simple decision problems}
@@ -70,16 +68,17 @@ In this chapter, we shall formalise all these simple decision problems from the 
 \label{ch:bandit}
 \include{experiment-design}
 
-\chapter{Recommendation systems}
-\label{ch:recommendation}
-\only<article>{Structured learning problems involve multiple latent variables with a complex structure. These range from clustering and spech recognition to DNA and biological and social network analysis. Since structured problems include relationships between many variables, they can be analysed using graphical models.}
-\include{recommendation}
 %\include{clustering}
 %\include{networks}
 %\include{hmm}
 %\include{rnn}
 
 \printindex
+
+\appendix
+
+\include{graphical-models}
+
 
 
 \bibliographystyle{plainnat}

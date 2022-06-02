@@ -7,21 +7,26 @@
   maintain perfect secrecy? Can the thoughts in our head be perfectly
   safe, or can they be revealed indirectly through our actions? 
 
-  The problems we will discuss in this chapter are \emph{not}
-  solveable through cryptography. We certainly \emph{can} securely
-  store and transmit data using cryptography. Through homomorphic
-  computation, an untrusted party can even perform some computations
-  on encrypted data, returning an encrypted result to us, while
-  learning nothing about the original secret.  As long as the data,
-  and the results of any computation on it, is kept under lock and
-  key, our personal information cannot be revealed.
+  While we certainly \emph{can} securely store and transmit data using
+  cryptography, the problems we will discuss in this chapter are
+  \emph{not} solveable through cryptography. We are interested in
+  scenarios where we must make a public decision or release some summary
+  statistics that depend on private data, in such a way as to minimise
+  harm to the individuals contributing their data.
 
-  However, sometimes we must make public decisions or release public
-  information based on this data. Then it can be revealed
+  If we never have to reveal any of our computations, cryptography is
+  what is needed. For example, through homomorphic computation, an
+  untrusted party can even perform some computations on encrypted data,
+  returning an encrypted result to us, while learning nothing about the
+  original secret.  As long as the data, and the results of any
+  computation on it, is kept under lock and key, our personal
+  information cannot be revealed.
+
+  However, sometimes we must make public decisions or release
+  public information based on this data. Then it can be revealed
   indirectly. For example, you can trust your doctor to maintain
-  confidentiality, but when you go to the pharmacy to get the
-  prescribed medicine, somebody can infer the medical condition you
-  suffer from.
+  confidentiality, but when you go to the pharmacy to get the prescribed
+  medicine, somebody can infer the medical condition you suffer from.
 
   It is even possible to learn personal information from aggregate
   statistics.  Let us say your doctor publishes a list of cases of
@@ -31,7 +36,7 @@
   diagnosis, especially with some additional side-information: If you
   are the only person in that age group visiting the doctor that week,
   and you are seeing doing so, then your diagnosis will be revealed.
- 
+  
   We will emphasize an algorithmic view of privacy: participants
   entrusts their data to an algorithm, which produces a useful output
   in return. The algorithm is typically not fully automated, as it
@@ -59,7 +64,7 @@
   using steroids. Any sprinter with a time under 10 seconds is thus
   tainted by association, even if their data has not been used in the
   study. The publication of the result does not impact their privacy.
-    
+  
   In this chapter, we will look at two formal concepts of privacy
   protection: $k$-anonymity and \emph{differential privacy}. The first
   is a simple method for anonymising databases. However, it provides
@@ -68,51 +73,14 @@
   protection to individuals. A major problem with any privacy
   definition and method, however is correct interpretation of the
   privacy concept used, and correct implementation of the algorithm
-  used.  }
+  used.
+}
 
 \begin{frame}
   \centering
-  \includegraphics[height=\textheight]{../figures/smbc-the-problem}
+  \includegraphics[height=\fheight]{../figures/smbc-the-problem}
 \end{frame}
 \begin{frame}
-  \only<article>{ ``Data is everywhere'', said the statistician,
-    ``data, data!''. In the past, statistical analysis was performed
-    with laboriously collected and annotated datasets. Even as
-    recently as in the early 21st century, databases for machine
-    learning were limited to a few thousand entries at most. At the
-    time of writing, not only has the size of datasets become
-    extremely large, but the sources of data are much more
-    diverse. Data are collected and commercialised whenever we visit a
-    website and even as we walk around with our phone. To a limited
-    extent, there is a tradeoff between what we can get out of a
-    service and what we pay into it. Many free services such as
-    navigation software rely on collecting user data to perform
-    better: If you can tell that there is a traffic jam in Central
-    Avenue, you can after all try and take another route.  As long as
-    informed consent exists, use of private data is generally regarded
-    as unproblematic.\footnote{This is actually underscored by the
-      GDPR legislation, which focuses on consent and data use
-      methods.}
-
-    However, even apparently benign data collected with appropriate
-    consent can lead to serious and unexpected privacy
-    violations. There are three famous examples of this: Firstly, the
-    identification of people in supposedly anonymous health data in
-    the 1990s in the state of Massachussets, which we will go over in
-    detail in this chapter. Secondly, the identifications of users
-    through anonymised movie ratings in the Netflix dataset. Finally,
-    the ability to discover if any given individual's data is
-    contained in a pooled genomic study.
-
-    In this chapter, we will introduce one of the main tools for
-    giving formal guarantees about the privacy of any algorithm ran on
-    a dataset, \emph{differential privacy}. This will provide
-    individual-level privacy, in the sense that an algorithm that is
-    differentially private guarantees that no adversary can
-    significantly increase their knowledge about any particular
-    individual by observing the algorithm's output. This is independent
-    of the adversary's existing knowledge, or computational power.
-  }
   \begin{block}{Privacy in statistical disclosure.}
     \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
       published,\footnote{If somebody knows that the analysis is being
@@ -149,16 +117,42 @@
 \only<presentation>{
   \begin{frame}
     \tableofcontents[ 
-    currentsection, 
-    hideothersubsections, 
-    sectionstyle=show/shaded
+      currentsection, 
+      hideothersubsections, 
+      sectionstyle=show/shaded
     ] 
   \end{frame}
 }
 
 \only<article>{
-  Every day ,
-  
+  ``Data is everywhere'', said the statistician,
+  ``data, data!''. In the past, statistical analysis was performed
+  with laboriously collected and annotated datasets. Even as
+  recently as in the early 21st century, databases for machine
+  learning were limited to a few thousand entries at most. At the
+  time of writing, not only has the size of datasets become
+  extremely large, but the sources of data are much more
+  diverse. Data are collected and commercialised whenever we visit a
+  website and even as we walk around with our phone. To a limited
+  extent, there is a tradeoff between what we can get out of a
+  service and what we pay into it. Many free services such as
+  navigation software rely on collecting user data to perform
+  better: If you can tell that there is a traffic jam in Central
+  Avenue, you can after all try and take another route.  As long as
+  informed consent exists, use of private data is generally regarded
+  as unproblematic.\footnote{This is actually underscored by the
+    GDPR legislation, which focuses on consent and data use
+    methods.}
+
+  However, even apparently benign data collected with appropriate
+  consent can lead to serious and unexpected privacy
+  violations. There are three famous examples of this: Firstly, the
+  identification of people in supposedly anonymous health data in
+  the 1990s in the state of Massachussets, which we will go over in
+  detail in this chapter. Secondly, the identifications of users
+  through anonymised movie ratings in the Netflix dataset. Finally,
+  the ability to discover if any given individual's data is
+  contained in a pooled genomic study.
 }
 \begin{frame}
   \frametitle{Anonymisation}
@@ -186,6 +180,37 @@
 
 \begin{frame}
   \frametitle{Record linkage}
+  \only<article>{
+    In particular, even if somebody is unable to infer the information of any individual from the published, anonymised, dataset, they may be able to do so via some side-information. All that is needed is another dataset with some columns in common with the dataset they want to target.
+
+    As an example, in the 1990s a the governor of Massachussets,
+    decided to publish anonymised information about the health records
+    of individual state employs. They were careful to hide all
+    obviously identifying information such as their name, and thus
+    claimed that there are no potential privacy violations. However,
+    they left in some information that they thought would be useful
+    for researchers: the postcode, the birthdate, and the sex of each
+    individual.
+
+    This allowed a PhD student, McSweeney, to perform the following
+    linkage attack. She order a floppy disk containing database of
+    voting records in the state. This contained names and addresses,
+    as well as the postcode, birthdate and sex of every voter. In that
+    way, she was able to cross-reference this data, and so obtain the
+    identities of individuals in that database. The first record she
+    obtained was that of the governor himself, Bill Weld. Later, she
+    estimated that approximately 87\% of Americans are uniquely
+    identifiable through those three attributes.
+
+    Clearly, anonymisation is not enough. So, is there a way to
+    formally guarantee privacy? In the next section we will go over
+    the solution of McSweeny, which is sadly insufficient to protect
+    privacy in general. Later, we will introduce the notion of
+    differential privacy, which protects individuals against
+    statistical disclosure in an information-theoretic manner.
+
+  }
+
   \begin{columns}
     \begin{column}{0.7\textwidth}
       \centering \def\firstcircle{(0,0) circle (7em)}
@@ -199,7 +224,7 @@
             \clip \firstcircle; \fill[red] \secondcircle;
           \end{scope}
         } \uncover<2,3>{\draw \secondcircle node [text width=2em,
-          align=right] {Name \newline Address \newline Registration
+            align=right] {Name \newline Address \newline Registration
             \newline Party \newline Lastvote}; } \node [text width=4em]
         (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
         \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
@@ -208,13 +233,13 @@
       \end{tikzpicture}
     \end{column}
     \begin{column}{0.3\textwidth}
-      \includegraphics[width=0.5\columnwidth]{../figures/Bill_Weld}
+      \includegraphics[height=\fheight]{../figures/Bill_Weld}
       \\
       Bill Weld, R-MA
     \end{column}
   \end{columns}
-  \note{As an example, in the 1990s a study published anonymised information about the health records of individuals. They were careful to hide all obviously identifying information such as their name. However, a publically available database of voting records allowed attackers to cross-reference this data, and so obtain the identities of individuals in that database. Clearly, anonymisation is not enough. So, is there a way to formally guarantee privacy?}
 \end{frame}
+
 \begin{frame}
   \begin{example}[Typical relational database in a tax office]
     \begin{table}[H]
@@ -265,34 +290,51 @@
   \begin{figure}[H]
     \centering
     \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=0.25\textwidth]{../figures/samarati}
+      \centering
+      \includegraphics[width=\fwidth]{../figures/samarati}
       \caption{Samarati}
     \end{subfigure}
+    \hspace{0.05\textwidth}
     \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=0.25\textwidth]{../figures/sweeney}
+      \centering
+      \includegraphics[width=\fwidth]{../figures/sweeney}
       \caption{Sweeney}
     \end{subfigure}
   \end{figure}
-  \only<article>{The concept of $k$-anonymity was introduced by~\citet{samarati1998protecting} and provides good guarantees when accessing a single database}
-
+  \only<article>{The concept of $k$-anonymity was introduced
+    by~\citet{samarati1998protecting} and provides good guarantees
+    against inferring personal information from a single
+    database. This requires the analyst to first determine the
+    variables of interest, and then determine which variables could be
+    potentially used to identify somebody in the database.}
+  \alert{It's the analyst's job to define quasi-identifiers.}
   \begin{definition}[$k$-anonymity]
-    A database provides $k$-anonymity if for every person in the database is indistinguishable from $k-1$ persons with respect to \emph{quasi-identifiers}.
+    A database provides $k$-anonymity if for every person in the
+    database is indistinguishable from $k-1$ persons with respect to
+    \emph{quasi-identifiers}.
   \end{definition}
-  \alert{It's the analyst's job to define quasi-identifiers}
-  
+  \only<article>{This hope is that, if the database satisfies
+    $k$-anonymity it can be safely released, without revealing any
+    private information directly. Let us now walk through an extended
+    example.}
 \end{frame}
 
 \begin{frame}
+  \frametitle{$k$-anonymity example}
+  \only<article>{
+    In particular, let us say that the analyst simply wants to calculate some statistics about how different professions correlate with age, weight, height and where people live. Some areas of the country might produce more politicians, for example. And taller people may be more successful in politics. The initial data collected might look like the table below. It was obvious to the analyst, that even if he did remove all the names, somebody knowing where A. B. Student lived and saw the table would have little trouble recognising them.
+  }
+
   \only<1>{
     \begin{table}[H]
       \begin{tabular}{l|l|l|l|l|l|l}
         Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
         \hline
-        06/07 & Li Pu & 190 & 80 & 60+ & 1001 & Politician\\
-        06/14 & Sara Lee & 185 & 110 & 60+ & 1001 & Rentier\\
-        06/12 & Nikos Papadopoulos & 180 & 82 & 60+ & 1243 & Politician\\
-        01/01 & A. B. Student & 170 & 70 & 40-60 & 6732 & Time Traveller\\
-        05/08 & Li Yang & 175 & 72 & 30-40 & 6910 & Time Traveller
+        06/07 & Li Pu & 190 & 80 & 65 & 1001 & Politician\\
+        06/14 & Sara Lee & 185 & 110 & 67 & 1001 & Rentier\\
+        06/12 & Nikos Karavas & 180 & 82 & 72+ & 1243 & Politician\\
+        01/01 & A. B. Student & 170 & 70 & 52 & 6732 & Time Traveller\\
+        05/08 & Li Yang & 175 & 72 & 35 & 6910 & Politician
       \end{tabular}
       \caption{1-anonymity.}
     \end{table}
@@ -307,7 +349,7 @@
         06/14 &  & 185 & 110 & 60+ & 1001 & Rentier\\
         06/12 &  & 180 & 82 & 60+ & 1243 & Politician\\
         01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller\\
-        05/08 &  & 175 & 72 & 30-40 & 6910 & Policeman
+        05/08 &  & 175 & 72 & 30-40 & 6910 & Politician
       \end{tabular}
       1-anonymity
     }
@@ -316,134 +358,75 @@
       \begin{tabular}{l|l|l|l|l|l|l}
         Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
         \hline
-        06/07 &  & 180-190 & 80+ & 60+ & 1* & \\
-        06/14 &  & 180-190 & 80+ & 60+ & 1* &\\
-        06/12 &  & 180-190 & 80+ & 60+ & 1* & \\
-        01/01 &  & 170-180 & 60-80 & 20-60 & 6* &\\
-        05/08 &  & 170-180 & 60-80 & 20-60 & 6* & 
+        06/07 &  & 180-190 & 80+ & 60+ & 1* & Politician\\
+        06/14 &  & 180-190 & 80+ & 60+ & 1* & Rentier\\
+        06/12 &  & 180-190 & 80+ & 60+ & 1* & Politician\\
+        01/01 &  & 170-180 & 60-80 & 20-60 & 6* & Time Traveller\\
+        05/08 &  & 170-180 & 60-80 & 20-60 & 6* & Politician
       \end{tabular}
       1-anonymity
     }
   }
+
+  \only<article>{After thinking about it for a bit, the analyst decides to remove the birthday and name, and broadly categorise people according to their height in increments of 10cm, the weight in increments of 20cm, and keep just the first digit of the postcode. Now that looked much more reasonable. Still, somebody that knows that Li Yang and A. B. Student are in the table, as well as their postcodes, and they also know that Li Yang is a politician, can infer that A. B. Student is a Time Traveller.}
   \only<4>{
     \begin{table}[H]
       \begin{tabular}{l|l|l|l|l|l|l}
-        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        Height  & Weight & Age & Postcode & Profession\\
         \hline
-                 &  & 180-190 & 80+ & 60+ & 1* & \\
-                 &  & 180-190 & 80+ & 60+ & 1* &\\
-                 &  & 180-190 & 80+ & 60+ & 1* & \\
-                 &  & 170-180 & 60-80 & 20-60 & 6* &\\
-                 &  & 170-180 & 60-80 & 20-60 & 6* & 
+        180-190 & 80+ & 60+ & 1* & Politician\\
+        180-190 & 80+ & 60+ & 1* & Rentier\\
+        180-190 & 80+ & 60+ & 1* & Politician\\
+        170-180 & 60-80 & 20-60 & 6* & Time Traveller\\
+        170-180 & 60-80 & 20-60 & 6* & Politician
       \end{tabular}
       \caption{2-anonymity: the database can be partitioned in sets of at least 2 records}
     \end{table}
   }
 
-  \only<article>{However, with enough information, somebody may still be able to infer something about the individuals}
+
+  \only<article>{However, with enough information, somebody may still
+    be able to infer something about the individuals. In the example
+    above, it remains true that if somebody knows that both
+    A. B. Student and Li Yang are in the database, as well as their
+    postcodes, as well as that Li Yang is a politician, they can infer
+    A. B. Student's profession.
+
+    Fortunately, there is a way to protect individual information from
+    adversaries with arbitrary side-information. This is given by
+    differential privacy.
+  }
 \end{frame}
 
 
-\section{Database access models}
-\only<presentation>{
-  \begin{frame}
-    \tableofcontents[ 
-    currentsection, 
-    hideothersubsections, 
-    sectionstyle=show/shaded
-    ] 
-  \end{frame}
-}
-
-\begin{frame}
-  \frametitle{Databases}
-  \begin{example}[Typical relational database in a tax office]
-    \begin{table}[H]
-      \centering
-  \begin{tabular}{l|l|l|l|l|l|l}
-    ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
-    \hline
-    1959060783 & Li Pu & 150,000 & 1e6 & 60 & 1001 & Politician\\
-    1946061408 & Sara Lee & 300,000 & -1e9 & 72 & 1001 & Rentier\\
-    2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 1001 & Time Traveller
-  \end{tabular}
-\end{table}
-\end{example}
-
-\only<1>{
-  \begin{block}{Database access}
-    \begin{itemize}
-    \item When owning the database: Direct look-up.
-    \item When accessing a server etc: Query model.
-    \end{itemize}
-  \end{block}
-}
-\only<2>{
-  \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-        \node[rectangle] at (0,0) (python) {Python program};
-        \node[rectangle] at (8,0) (database) {Database System};
-        \draw[thickarrow, bend right]   (python) to node[black]{Query} (database) ;
-        \draw[thickarrow, bend right]   (database) to node[black]{response} (python) ;
-      \end{tikzpicture}
-    \label{fig:database-access}
-    \caption{Database access model}
-  \end{figure}
-}
-  
-\end{frame}
-
-\begin{frame}
-  \frametitle{SQL: A language for database access}
-  \begin{block}{Creating and filling tables}
-    \begin{itemize}
-    \item \texttt{CREATE TABLE table-name (column1, column2)}
-      \only<article>{Create a new table}
-    \item \texttt{INSERT INTO table-name VALUES ('value1', 'value2')}
-      \only<article>{Add specific values into a table}
-    \item \texttt{INSERT INTO table-name VALUES (?, ?), variable}
-      \only<article>{Fill in values from a variable}
-    \end{itemize}
-  \end{block}
-
-  \begin{example}{Database creation}
-    \url{src/privacy/database-creation.py}
-    \\
-    \url{src/privacy/database-access.py}
-  \end{example}
-\end{frame}
-\begin{frame}
-  \frametitle{Queries in SQL}
-  \begin{block}{The \texttt{SELECT} statement}
-    \begin{itemize}
-    \item \texttt{SELECT column1, column2 FROM table;}
-      \only<article>{This selects only some columns from the table}
-    \item \texttt{SELECT * FROM table;}
-      \only<article>{This selects all the columns from the table}
-    \end{itemize}
-  \end{block}
-
-  \begin{block}{Selecting rows}
-    \texttt{SELECT * FROM table WHERE column = value;}
-  \end{block}
-
-  \begin{exampleblock}{Arithmetic queries}
-    \only<article>{Here are some example SQL statements}
-    \begin{itemize}
-    \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
-      \only<article>{This allows you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
-      \only<article>{This lets you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
-      \only<article>{This is used to sum up the values in a column.}
-    \end{itemize}
-  \end{exampleblock}
-
-\end{frame}
 
 \section{Differential privacy}
-\only<article>{While $k$-anonymity can protect against specific re-identification attacks when used with care, it says little about what to do when the adversary has a lot of power. For example, if the  adversary knows the data of everybody that has participated in the database,  it is trivial for them to infer what our own data is. Differential privacy offers protection against adversaries with unlimited side-information or computational power. Informally, an algorithmic computation is differentially-private if an adversary cannot distinguish two similar database based on the result of the computation. While the notion of similarity is for the analyst to define, it is common to say that two databases are similar when they are identical apart from the data of one person.}
+\only<article>{ This section introduces one of the main tools for
+  giving formal guarantees about the privacy of any algorithm ran on
+  a dataset, \emph{differential privacy}. This will provide
+  individual-level privacy, in the sense that an algorithm that is
+  differentially private guarantees that no adversary can
+  significantly increase their knowledge about any particular
+  individual by observing the algorithm's output. This is
+  independent of the adversary's existing knowledge, or
+  computational power. }
+
+\only<article>{While $k$-anonymity can protect against specific
+  re-identification attacks when used with care, it says little about
+  what to do when the adversary has a lot of knowledge. For example,
+  if the adversary knows the data of everybody that has participated
+  in the database, it is trivial for them to infer what our own data
+  is. For some particularly sensitive datasets, we may want for the
+  adversary to be unable to tell whether or not your data was part of
+  the base. Differential privacy offers protection against adversaries
+  with unlimited side-information or computational power. Informally,
+  an algorithmic computation is differentially-private if an adversary
+  cannot distinguish two ``neighbouring'' database based on the result
+  of the computation. Informally, two databases are neighbours when
+  they are identical apart from the data of one person. A
+  differentially private algorithm, because of its randomness, makes
+  it impossible for somebody to tell from the algorithm's output
+  whether any specific individual's data was in the database. }
 
 \begin{frame}
   \begin{figure}[H]
@@ -471,14 +454,27 @@
       }
     \end{tikzpicture}
     \caption{If two people contribute their data $x = (x_1, x_2)$ to a medical database, and an algorithm $\pol$ computes some public output $a$ from $x$, then it should be hard infer anything about the data from the public output.}
+    \label{fig:privacy-data}
   \end{figure}
+  \only<article>{
 
+    Consider the example given in Figure~\ref{fig:privacy-data}, where
+    two people contribute their data to a medical database. The $i$-th
+    individual contributes data $x_i$, and the complete dataset is $x
+    = (x_1, x_2)$. The algorithm $\pol$ defines a distribution over
+    the set of possible outputs $a \in \CA$, with $\pol(a | x)$ being
+    the probability that the algorithm outputs $a$ if the data is $x$.
+    If the algorith was deterministic, then it might be possible for
+    an adversary to invert the computation and obtain $x$ from $a$.
+    But even if that is not possible, maybe they can learn
+    \emph{something} about the data from the output. In the section below, we will formalise this notion. }
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Privacy desiderata}
   \only<article>{
-    Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation $f(x)$ on the data and published the result. The following properties are desirable from a general standpoint.
+    Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation on the data and publishes the result through a randomised algorithm $\pol(a | x)$. The following properties are desirable from a general standpoint.
 
     \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database.
 
@@ -531,17 +527,19 @@
     \end{exercise}
   }
   \onslide<3->{
-    \begin{proof}[Solution]
-      Since the responses are random, we will deal with expectations first
+    \only<presentation>{
+      \begin{proof}[Solution]
+        Since the responses are random, we will deal with expectations first
         \begin{align*}
           \E p
           &= \frac{1}{2} \times \frac{1}{2} + q \times \frac{1}{2}
           \uncover<4->{= \frac{1}{4} + \frac{q}{2}}
           \uncover<5->{\\
-          q &= 2 \E p - \frac{1}{2}.}
+            q &= 2 \E p - \frac{1}{2}.}
         \end{align*}
-      
-    \end{proof}
+        
+      \end{proof}
+    }
   }
   \only<article>{The problem with this approach, of course, is that we are effectively throwing away half of our data. In particular, if we repeated the experiment with a coin that came heads at a rate $\epsilon$, then our error bounds would scale as $O(1/\sqrt{\epsilon n})$ for $n$ data points.}
 \end{frame}
@@ -552,26 +550,57 @@
   \begin{definition}[Randomised response]
     The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
     \[
-      \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
+    \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
     \]
     where $j \neq k$.
   \end{definition}
 
-  \uncover<2->{Given the complete data $x$, the mechanism's output is $a = (a_1, \ldots, a_n)$.}
-  \uncover<3->{Since the algorithm independently calculates a new value for each data entry, the output is
+  \uncover<2->{Given the complete data $x$, the algorithm's output is $a = (a_1, \ldots, a_n)$.}
+  \uncover<3->{Since the algorithm independently calculates a new value for each data entry, the output probability is
     \[
-      \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
+    \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
     \]
   }
-
   \only<article>{This mechanism satisfies so-called $\epsilon$-differential privacy, which we will define later.}
 
 \end{frame}
 
 \begin{frame}
-  \begin{exercise}
-    Let the adversary have a prior $\bel(x = 0) = 1 - \bel(x = 1)$ over the values of the true response of an individual. we use the randomised response mechanism with $p$ and the adversary observes the randomised data $a = 1$ for that individual, then what is $\bel(x = 1 \mid a = 1)$?
-  \end{exercise}
+  \frametitle{What can we learn from the output?}
+  
+  In the Bayesian
+  setting, we can think of the adversary as having some prior belief
+  $\bel(x_i)$, expressed as a probability distribution over the secret
+  value of each individual. After the adversary observes the output,
+  they can form a posterior belief $\bel(x_i \mid a_i)$, representing
+  the information they collected. The following example quantifies
+  the amount of information gained by the adversary.}
+    \begin{example}
+      For simplicity, consider only one individual, and let the
+      adversary have a prior $\bel(x = 0) = 1 - \bel(x = 1)$ over the
+      values of the true response of an individual. We use the
+      randomised response mechanism with parameter $p$ and the adversary
+      observes the randomised data $a = 1$ for that individual, then
+      what is $\bel(x = 1 \mid a = 1)$, assuming the adversary knows the mechanism?
+    \end{example}
+    \begin{proof}
+      Bayes's theorem states that
+      \[
+      \bel(x \mid a) = \pol(a \mid x) \bel(x) / \Pr^\pol_\bel(a),
+      \]
+      where
+      \[
+      \Pr^\pol_\bel(a) = \sum_{x'} \pol(a \mid x') \bel(x') / \Pr^\pol_\bel(a).
+      \]
+      Let $q = \bel(x = 1)$. Then we have:
+      \[
+      \bel(x = 1 \mid a = 1) = pq / [pq + (1-p)(1 - q)].
+      \]
+      It is particularly interesting to consider the case where $q = 1/2$. Then
+      \[
+      \bel(x = 1 \mid a = 1) = p.
+      \]
+    \end{proof}
 \end{frame}
 
 \begin{frame}
@@ -599,7 +628,7 @@
   \end{figure}
   \only<article>{
     In the local privacy model, the $i$-th individual's data $x_i$ is used to generate a private response $a_i$. This means that no individual will provide their true data with certainty. This model allows us to publish a complete dataset of private responses.
-    }
+  }
 \end{frame}
 
 \begin{frame}
@@ -676,65 +705,105 @@
 \end{frame}
 
 
-\begin{frame}
-  \begin{block}{The definition of differential privacy}
-    \begin{itemize}
-    \item First rigorous mathematical definition of privacy.
-    \item Relaxations and generalisations possible.
-    \item Connection to learning theory and reproducibility.
-    \end{itemize}
-  \end{block}
+\section{The local and central privacy models}
 
-  \begin{block}{Current uses}
-    \begin{itemize}
-    \item Apple. \only<article>{DP is used internally in the company to ``protect user privacy''. It is not clear exactly what they are doing but their efforts seem to be going in the right direction.}
-    \item Google. \only<article>{The company has a DP API available based on randomised response, RAPPOR.}
-    \item Uber. \only<article>{Elastic sensitivity for SQL queries, which is available as open source. This is a good thing, because it is easy to get things wrong with privacy.}
-    \item US 2020 Census. \only<article>{It uses differential privacy to protect the condidentiality of responders' information while maintaining data that are suitable for their intended uses.}
-    \end{itemize}
-  \end{block}
-
-  \begin{block}{Open problems}
-    \begin{itemize}
-    \item Complexity of differential privacy.
-    \item Verification of implementations and queries.
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}
-  \only<article>{
-    \begin{remark}
-      Any differentially private algorithm must be stochastic.
-    \end{remark}
-
-    To prove that this is necessary, consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.}
-  \begin{remark}
-    The randomised response mechanism with $p \leq 1/2$ is $(\ln \frac{1 - p}{p})$-DP.
-  \end{remark}
-  \begin{proof}
-    Consider $x = (x_1, \ldots, x_j,  \ldots, x_n)$, $x' = (x_1, \ldots, x'_j,  \ldots, x_n)$. Then
-    \begin{align*}
-      \pol(a \mid x)
-      \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
-                     \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-                                       \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-                                                         \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
-    \end{align*}
-    \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
-  \end{proof}
-\end{frame}
-
-\only<article>{
-  \begin{block}{Cryptographic communication.}
-    In this setting, Alice wants to communicate a message $x$ to Bob.
-    In a secret key cryptographic scheme, information theoretic
-    security is achieved by making sure that the encrypted message $a$
-    comes from a uniform distribution $\pol(a | x)$. This is achieved
-    by uniformly selecting a key and selecting an appropriate hash function
-  \end{block}
-  
+\section{Database access models}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+      currentsection, 
+      hideothersubsections, 
+      sectionstyle=show/shaded
+    ] 
+  \end{frame}
 }
+
+\begin{frame}
+  \frametitle{Databases}
+  \begin{example}[Typical relational database in a tax office]
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{l|l|l|l|l|l|l}
+        ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
+        \hline
+        1959060783 & Li Pu & 150,000 & 1e6 & 60 & 1001 & Politician\\
+        1946061408 & Sara Lee & 300,000 & -1e9 & 72 & 1001 & Rentier\\
+        2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 1001 & Time Traveller
+      \end{tabular}
+    \end{table}
+  \end{example}
+
+  \only<1>{
+    \begin{block}{Database access}
+      \begin{itemize}
+      \item When owning the database: Direct look-up.
+      \item When accessing a server etc: Query model.
+      \end{itemize}
+    \end{block}
+  }
+  \only<2>{
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \node[rectangle] at (0,0) (python) {Python program};
+        \node[rectangle] at (8,0) (database) {Database System};
+        \draw[thickarrow, bend right]   (python) to node[black]{Query} (database) ;
+        \draw[thickarrow, bend right]   (database) to node[black]{response} (python) ;
+      \end{tikzpicture}
+      \label{fig:database-access}
+      \caption{Database access model}
+    \end{figure}
+  }
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{SQL: A language for database access}
+  \begin{block}{Creating and filling tables}
+    \begin{itemize}
+    \item \texttt{CREATE TABLE table-name (column1, column2)}
+      \only<article>{Create a new table}
+    \item \texttt{INSERT INTO table-name VALUES ('value1', 'value2')}
+      \only<article>{Add specific values into a table}
+    \item \texttt{INSERT INTO table-name VALUES (?, ?), variable}
+      \only<article>{Fill in values from a variable}
+    \end{itemize}
+  \end{block}
+
+  \begin{example}{Database creation}
+    \url{src/privacy/database-creation.py}
+    \\
+    \url{src/privacy/database-access.py}
+  \end{example}
+\end{frame}
+\begin{frame}
+  \frametitle{Queries in SQL}
+  \begin{block}{The \texttt{SELECT} statement}
+    \begin{itemize}
+    \item \texttt{SELECT column1, column2 FROM table;}
+      \only<article>{This selects only some columns from the table}
+    \item \texttt{SELECT * FROM table;}
+      \only<article>{This selects all the columns from the table}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Selecting rows}
+    \texttt{SELECT * FROM table WHERE column = value;}
+  \end{block}
+
+  \begin{exampleblock}{Arithmetic queries}
+    \only<article>{Here are some example SQL statements}
+    \begin{itemize}
+    \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
+      \only<article>{This allows you to count the number of rows matching \texttt{condition}}
+    \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
+      \only<article>{This lets you to count the number of rows matching \texttt{condition}}
+    \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
+      \only<article>{This is used to sum up the values in a column.}
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
 
 \begin{frame}
   \begin{figure}[H]
@@ -752,7 +821,7 @@
     \index{policy!database response}
     The  policy defines a distribution over responses $a$ given the data $x$ and the query $q$.
     \[
-      \pol(a \mid x, q)
+    \pol(a \mid x, q)
     \]
   \end{block}
 \end{frame}
@@ -787,26 +856,63 @@
 
 \end{frame}
 
+
+
+\begin{frame}
+  \only<article>{
+    \begin{remark}
+      Any differentially private algorithm must be stochastic.
+    \end{remark}
+
+    To prove that this is necessary, consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.}
+  \begin{remark}
+    The randomised response mechanism with $p \leq 1/2$ is $(\ln \frac{1 - p}{p})$-DP.
+  \end{remark}
+  \begin{proof}
+    Consider $x = (x_1, \ldots, x_j,  \ldots, x_n)$, $x' = (x_1, \ldots, x'_j,  \ldots, x_n)$. Then
+    \begin{align*}
+      \pol(a \mid x)
+      \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
+      \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+      \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+      \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
+    \end{align*}
+    \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
+  \end{proof}
+\end{frame}
+
+\only<article>{
+  \begin{block}{Cryptographic communication.}
+    In this setting, Alice wants to communicate a message $x$ to Bob.
+    In a secret key cryptographic scheme, information theoretic
+    security is achieved by making sure that the encrypted message $a$
+    comes from a uniform distribution $\pol(a | x)$. This is achieved
+    by uniformly selecting a key and selecting an appropriate hash function
+  \end{block}
+  
+}
+
+
 \begin{frame}
 
-    \only<article>{Depending on the DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can bound the total privacy loss.
+  \only<article>{Depending on the DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can bound the total privacy loss.
 
-      \begin{definition}[$T$-fold adaptive composition]
-        In this privacy model, an adversary is allowed to compose $T$ queries. The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
-      \end{definition}
-      \begin{theorem}
-        For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold adaptive composition.
-      \end{theorem}
-}
-      \begin{theorem}[Post-processing]
-        Let mechanism $\pi(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
-      \end{theorem}
+    \begin{definition}[$T$-fold adaptive composition]
+      In this privacy model, an adversary is allowed to compose $T$ queries. The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
+    \end{definition}
+    \begin{theorem}
+      For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold adaptive composition.
+    \end{theorem}
+  }
+  \begin{theorem}[Post-processing]
+    Let mechanism $\pi(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
+  \end{theorem}
 
-    \only<presentation>{
-      \begin{alertblock}{Composition}
-        If we answer $T$ queries with an $\epsilon$-DP mechanism, then our cumulative privacy loss is $\epsilon T$.
-      \end{alertblock}
-    }
+  \only<presentation>{
+    \begin{alertblock}{Composition}
+      If we answer $T$ queries with an $\epsilon$-DP mechanism, then our cumulative privacy loss is $\epsilon T$.
+    \end{alertblock}
+  }
 
   \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
   \begin{block}{Independent release of multiple attributes.}
@@ -822,26 +928,26 @@
   \begin{exercise}{Adversary knowledge}
     \only<article>{Assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
     \[
-      \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
+    \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
     \]
     \only<article>{where $x_i$ indicates whether or not the $i$-th person takes drugs, or}
     \[
-      \bx' = (x_1, \ldots, x_j=1, \ldots, x_n).
+    \bx' = (x_1, \ldots, x_j=1, \ldots, x_n).
     \]
     \only<article>{In other words, the adversary knows the data of all people apart from one, the $j$-th person. We can assume that the adversary has some prior belief}
     \[
-      \bel(\bx) = 1 - \bel(\bx')
+    \bel(\bx) = 1 - \bel(\bx')
     \]
     \only<article>{for the two cases. Assume the adversary knows
       the output $a$ of a mechanism $\pol$}
     \only<presentation>{
       \onslide<2->{
         \[
-          a_t, \qquad \pol(a_t \mid \bx_t) \Rightarrow
-          \begin{cases}
-            \pol(a_t \mid \bx_t = \bx)\\
-            \pol(a_t \mid \bx_t = \bx')
-          \end{cases}
+        a_t, \qquad \pol(a_t \mid \bx_t) \Rightarrow
+        \begin{cases}
+          \pol(a_t \mid \bx_t = \bx)\\
+          \pol(a_t \mid \bx_t = \bx')
+        \end{cases}
         \]
       }
     }
@@ -857,15 +963,15 @@
         \bel(\bx \mid a, \pol)
         &=
         \frac{\pol(a  \mid \bx) \bel(\bx)}
-          {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx') \bel(\bx')}
-        \\
-        &\geq
-          \frac{\pol(a  \mid \bx) \bel(\bx)}
-          {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx) e^\epsilon \bel(\bx')} \tag{from DP definition}
-        \\
-        &=
-          \frac{\bel(\bx)}
-          {\bel(\bx) +  e^\epsilon \bel(\bx')}
+             {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx') \bel(\bx')}
+             \\
+             &\geq
+             \frac{\pol(a  \mid \bx) \bel(\bx)}
+                  {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx) e^\epsilon \bel(\bx')} \tag{from DP definition}
+                  \\
+                  &=
+                  \frac{\bel(\bx)}
+                       {\bel(\bx) +  e^\epsilon \bel(\bx')}
       \end{align}
       But this is not very informative. We can also write
       \begin{align}
@@ -881,13 +987,17 @@
   \end{frame}
 }
 
+
+
+
+
 \subsection{Other differentially private mechanisms}
 \begin{frame}
   \frametitle{The Laplace mechanism.}
   \only<article>{
     A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise, so that the output of the algorithm is simply 
     \[
-      a = f(x) + \omega, \qquad \omega \sim \Laplace.
+    a = f(x) + \omega, \qquad \omega \sim \Laplace.
     \]
     The amount of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have.
   }
@@ -899,7 +1009,7 @@
     \end{equation}
     where the Laplace density is defined as
     \[
-      p(\omega \mid \mu, \lambda) = \frac{1}{2 \lambda} \exp\left(-\frac{|\omega - \mu|}{\lambda}\right).
+    p(\omega \mid \mu, \lambda) = \frac{1}{2 \lambda} \exp\left(-\frac{|\omega - \mu|}{\lambda}\right).
     \]
     and has mean $\mu$ and variance $2 \lambda^2$.
   \end{definition}
@@ -908,7 +1018,7 @@
 
 \begin{frame}
   \begin{example}[Calculating the average salary]
-   \only<article>{Here we have $n$ individuals for which we wish to calculate the average salary.}
+    \only<article>{Here we have $n$ individuals for which we wish to calculate the average salary.}
     \begin{itemize}
     \item The $i$-th person receives salary $x_i$
     \item We wish to calculate the average salary in a private manner.
@@ -1004,12 +1114,12 @@
   \begin{definition}[Sensitivity]
     The sensitivity of a function $f$ is
     \[
-      \sensitivity{f} \defn \sup_{x N x'} |f(x) - f(x')|
+    \sensitivity{f} \defn \sup_{x N x'} |f(x) - f(x')|
     \]
     \only<article>{
       If we define a metric $d$, so that $d(x, x') = 1$ for $x N x'$, then:
       \[
-        |f(x) - f(x')| \leq \sensitivity{f} d(x, x'),
+      |f(x) - f(x')| \leq \sensitivity{f} d(x, x'),
       \]
       i.e. $f$ is $\sensitivity{f}$-Lipschitz with respect to $d$.
     }
@@ -1042,17 +1152,17 @@
   }
 \end{frame}
 \begin{frame}
-\begin{theorem}
+  \begin{theorem}
     The Laplace mechanism on a function $f$ with sensitivity $\sensitivity{f}$, ran with $\Laplace(\lambda)$ is $\sensitivity{f} / \lambda$-DP. Consequently, if the Laplace mechanism is ran with $\lambda = \sensitivity{f} / \epsilon$, then it is $\epsilon$-DP. 
   \end{theorem}
   \begin{proof}
     \begin{align*}
       \frac{\pol(a \mid x)}{\pol(a \mid x')}
       &=
-        \frac{e^{|a - f(x')|/\lambda}}{e^{|a - f(x)|/\lambda}}
-        \leq
-        \frac{e^{|a - f(x)|/\lambda + \sensitivity{f}/\lambda}}{e^{|a - f(x)|/\lambda}}
-        = e^{\sensitivity{f} / \lambda}
+      \frac{e^{|a - f(x')|/\lambda}}{e^{|a - f(x)|/\lambda}}
+      \leq
+      \frac{e^{|a - f(x)|/\lambda + \sensitivity{f}/\lambda}}{e^{|a - f(x)|/\lambda}}
+      = e^{\sensitivity{f} / \lambda}
     \end{align*}
     \only<article>{
       The first step follows from the definition of the Laplace mechanism. The inequality follows from the fact that for  $x N x'$, we have $|f(x) - f(x')| \leq \sensitivity{f}$. In particular, 
@@ -1062,7 +1172,7 @@
         as $f(x') \leq f(x) + \sensitivity{f}$ from the Lipschitz property.
       \item If $f(x') - a < 0$ then
         \[
-          |f(x') - a| = a - f(x')   \leq \sensitivity{f} - f(x) + a \leq L + |a - f(x)|,
+        |f(x') - a| = a - f(x')   \leq \sensitivity{f} - f(x) + a \leq L + |a - f(x)|,
         \]
         as $-f(x') \leq \sensitivity{f} - f(x)$.
       \end{enumerate}
@@ -1075,15 +1185,15 @@
     versus centralised model?  \only<article>{ Let us continue the
       average example.  Here let us assume $x_i \in [0, B]$ for all
       $i$.
-    \begin{block}{Laplace in the local privacy model}
-      The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(B/\epsilon)^2$, so the total variance is $2M^2/\epsilon^2 n$.
-    \end{block}
-    \begin{block}{Laplace in the centralised privacy model}
-      The sensitivity of $f$ is $M / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $2(B / \epsilon n)^2$. 
-    \end{block}
-    Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under this mechanism. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data.
-  }
-      
+      \begin{block}{Laplace in the local privacy model}
+        The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(B/\epsilon)^2$, so the total variance is $2M^2/\epsilon^2 n$.
+      \end{block}
+      \begin{block}{Laplace in the centralised privacy model}
+        The sensitivity of $f$ is $M / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $2(B / \epsilon n)^2$. 
+      \end{block}
+      Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under this mechanism. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data.
+    }
+    
   \end{example}
 \end{frame}
 
@@ -1179,6 +1289,34 @@
   \only<article>{So instead of reporting the holdout performance at all, you just see if you are much worse than the training performance, i.e. if you're overfitting. The fact that the mechanism is DP also makes it difficult to learn the holdout set. See the thresholdout link for more details.}
 \end{frame}
 
+\section{Discussion}
+\begin{frame}
+  \begin{block}{The definition of differential privacy}
+    \begin{itemize}
+    \item First rigorous mathematical definition of privacy.
+    \item Relaxations and generalisations possible.
+    \item Connection to learning theory and reproducibility.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Current uses}
+    \begin{itemize}
+    \item Apple. \only<article>{DP is used internally in the company to ``protect user privacy''. It is not clear exactly what they are doing but their efforts seem to be going in the right direction.}
+    \item Google. \only<article>{The company has a DP API available based on randomised response, RAPPOR.}
+    \item Uber. \only<article>{Elastic sensitivity for SQL queries, which is available as open source. This is a good thing, because it is easy to get things wrong with privacy.}
+    \item US 2020 Census. \only<article>{It uses differential privacy to protect the condidentiality of responders' information while maintaining data that are suitable for their intended uses.}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Open problems}
+    \begin{itemize}
+    \item Complexity of differential privacy.
+    \item Verification of implementations and queries.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
 \begin{frame}
   \frametitle{Available privacy toolboxes}
   \begin{block}{$k$-anonymity}
@@ -1190,8 +1328,8 @@
     \begin{itemize}
     \item \url{https://github.com/bmcmenamin/thresholdOut-explorations}{Threshold out}
     \item \url{https://github.com/steven7woo/Accuracy-First-Differential-Privacy}{Accuracy-constrained DP}
-      \item \url{https://github.com/menisadi/pydp}{Various DP algorithms}
-\item \url{https://github.com/haiphanNJIT/PrivateDeepLearning} Deep learning and DP
+    \item \url{https://github.com/menisadi/pydp}{Various DP algorithms}
+    \item \url{https://github.com/haiphanNJIT/PrivateDeepLearning} Deep learning and DP
     \end{itemize}
   \end{block}
 \end{frame}
@@ -1241,10 +1379,10 @@
   \end{itemize}
 \end{frame}
 
-  
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
-%%% TeX-master: "notes"
+%%% TeX-master: "book"
 %%% End:
 

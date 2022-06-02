@@ -25,12 +25,12 @@
 \newlength\fheight
 \newlength\fwidth
 \only<presentation>{
-\setlength\fheight{0.5\columnwidth}
-\setlength\fwidth{0.5\columnwidth}
+\setlength\fheight{\columnheight}
+\setlength\fwidth{\columnwidth}
 }
 \only<article>{
-\setlength\fheight{0.25\textwidth}
-\setlength\fwidth{0.25\textwidth}
+\setlength\fheight{0.25\textheight}
+\setlength\fwidth{0.5\textwidth}
 }
 \usepackage[sort&compress,comma,super]{natbib}
 \def\newblock{} % To avoid a compilation error about a function \newblock undefined
@@ -255,7 +255,7 @@
 \newcommand{\eg}{\emph{e.g.}~}
 \newcommand{\etal}{\emph{et al.}~}
 \newcommand{\constg}{}
-\newcommand{\Bel}{\Xi}
+\newcommand{\Bel}{\mathcal{B}}
 \newcommand \Bay {\ensuremath{\mathscr{B}}}
 \newcommand \Adv {\ensuremath{\mathscr{A}}}
 
@@ -392,7 +392,7 @@
 \newcommand \pn[1] {\vx_{[#1]}}
 
 \newcommand \basis {f}
-\newcommand \bel {\xi}
+\newcommand \bel {\beta}
 \newcommand \hyper {\omega}
 \newcommand \mbel {\bel^D}
 \newcommand \pbel {\bel^C}
