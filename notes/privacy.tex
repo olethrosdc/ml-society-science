@@ -116,9 +116,9 @@
 \only<presentation>{
   \begin{frame}
     \tableofcontents[ 
-      currentsection, 
-      hideothersubsections, 
-      sectionstyle=show/shaded
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
     ] 
   \end{frame}
 }
@@ -223,7 +223,7 @@
             \clip \firstcircle; \fill[red] \secondcircle;
           \end{scope}
         } \uncover<2,3>{\draw \secondcircle node [text width=2em,
-            align=right] {Name \newline Address \newline Registration
+          align=right] {Name \newline Address \newline Registration
             \newline Party \newline Lastvote}; } \node [text width=4em]
         (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
         \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
@@ -532,9 +532,9 @@
         \begin{align*}
           \E p
           &= \frac{1}{2} \times \frac{1}{2} + q \times \frac{1}{2}
-          \uncover<4->{= \frac{1}{4} + \frac{q}{2}}
-          \uncover<5->{\\
-            q &= 2 \E p - \frac{1}{2}.}
+            \uncover<4->{= \frac{1}{4} + \frac{q}{2}}
+            \uncover<5->{\\
+          q &= 2 \E p - \frac{1}{2}.}
         \end{align*}
         
       \end{proof}
@@ -549,7 +549,7 @@
   \begin{definition}[Randomised response]
     The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
     \[
-    \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
+      \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
     \]
     where $j \neq k$.
   \end{definition}
@@ -557,7 +557,7 @@
   \uncover<2->{Given the complete data $x$, the algorithm's output is $a = (a_1, \ldots, a_n)$.}
   \uncover<3->{Since the algorithm independently calculates a new value for each data entry, the output probability is
     \[
-    \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
+      \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
     \]
   }
   \only<article>{This mechanism satisfies so-called $\epsilon$-differential privacy, which we will define later.}
@@ -567,70 +567,49 @@
 \begin{frame}
   \frametitle{What can we learn from the output?}
 
-  \only<article>{
-    In the Bayesian setting, we can think of the
+  \only<article>{ In the Bayesian setting, we can think of the
     adversary as having some prior belief $\bel(x_i)$, expressed as a
-    probability distribution over the secret value of each
-    individual. After the adversary observes the output, they can form
+    probability distribution over the secret value of each individual.
+
+    After the adversary observes the output, they can form
     a posterior belief $\bel(x_i \mid a_i)$, representing the
     information they collected. The following example quantifies the
     amount of information gained by the adversary.
   }
-    \begin{example}
-      For simplicity, consider only one individual, and let the
-      adversary have a prior $\bel(x = 0) = 1 - \bel(x = 1)$ over the
-      values of the true response of an individual. We use the
-      randomised response mechanism with parameter $p$ and the adversary
-      observes the randomised data $a = 1$ for that individual, then
-      what is $\bel(x = 1 \mid a = 1)$, assuming the adversary knows the mechanism?
-    \end{example}
-    \begin{proof}
-      Bayes's theorem states that
-      \[
+  \begin{example}
+    For simplicity, consider only one individual, and let the
+    adversary have a prior $\bel(x = 0) = 1 - \bel(x = 1)$ over the
+    values of the true response of an individual. We use the
+    randomised response mechanism with parameter $p$ and the
+    adversary observes the randomised data $a = 1$ for that
+    individual, then what is $\bel(x = 1 \mid a = 1)$, assuming the
+    adversary knows the mechanism?
+  \end{example}
+  \begin{proof}
+    Bayes's theorem states that
+    \[
       \bel(x \mid a) = \pol(a \mid x) \bel(x) / \Pr^\pol_\bel(a),
-      \]
-      where
-      \[
-      \Pr^\pol_\bel(a) = \sum_{x'} \pol(a \mid x') \bel(x') / \Pr^\pol_\bel(a).
-      \]
-      Let $q = \bel(x = 1)$. Then we have:
-      \[
+    \]
+    where
+    \[
+      \Pr^\pol_\bel(a) = \sum_{x'} \pol(a \mid x') \bel(x').
+    \]
+    Let $q = \bel(x = 1)$. Then we have:
+    \[
       \bel(x = 1 \mid a = 1) = pq / [pq + (1-p)(1 - q)].
-      \]
-      It is particularly interesting to consider the case where $q = 1/2$. Then
-      \[
-      \bel(x = 1 \mid a = 1) = p.
-      \]
-    \end{proof}
+    \]
+    It is particularly interesting to consider the case where $q = 1/2$. Then
+    \[
+      \bel(x = 1 \mid a = 1) = p,
+    \]
+    so we only have limited evidence for whether $x=1$. Now consider the case where we have some arbitrary prior $q$, and $p=1/2$. This means that the output of the algorithm is completely random. Consequently:
+    \[
+      \bel(x = 1 \mid a = 1) = q = \bel(x=1).
+    \]
+    So, in this scenario we learn nothing from the algorithm's output.
+  \end{proof}
 \end{frame}
 
-\begin{frame}
-  \frametitle{The local privacy model}
-  \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-      \node[RV] at (0,0) (x1) {$x_1$};
-      \node[RV] at (0,1) (x2) {$x_2$};
-      \node[RV] at (0,2) (xn) {$x_n$};
-      \node[RV] at (2,0) (a1) {$a_1$};
-      \node[RV] at (2,1) (a2) {$a_2$};
-      \node[RV] at (2,2) (an) {$a_n$};
-      \draw[->] (x1) -- (a1);
-      \draw[->] (x2) -- (a2);
-      \draw[->] (xn) -- (an);
-      % \node[select] at (1,-1) (pol) {$\pol$};
-      % \draw[->] (pol) -- (a1);
-      % \draw[->] (pol) -- (a2);
-      % \draw[->] (pol) -- (an);
-    \end{tikzpicture}
-    
-    \caption{The local privacy model}
-    \label{fig:local-privacy}
-  \end{figure}
-  \only<article>{
-    In the local privacy model, the $i$-th individual's data $x_i$ is used to generate a private response $a_i$. This means that no individual will provide their true data with certainty. This model allows us to publish a complete dataset of private responses.
-  }
-\end{frame}
 
 \begin{frame}
   \frametitle{Differential privacy.}
@@ -638,83 +617,171 @@
   \includegraphics[width=0.2\textwidth]{../figures/mcsherry} \hspace{1em}
   \includegraphics[width=0.2\textwidth]{../figures/nissim} \hspace{1em}
   \includegraphics[width=0.2\textwidth]{../figures/smith}
+  
   \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from the result of a computation $\pol$ on the data. For reasons that will be made clear later, this computation has to be stochastic.}
   
   \begin{definition}[$\epsilon$-Differential Privacy]
-    A stochastic algorithm $\pol : \CX \to \CA$, where $\CX$ is endowed with a neighbourhood relation $N$, is said to be $\epsilon$-differentially private if
+    A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
+    is endowed with a neighbourhood relation $N$, is said to be
+    $\epsilon$-differentially private if
     \begin{equation}
       \label{eq:epsilon-dp}
       \left|\ln \frac{\pol(a \mid x)}{\pol(a \mid x')}\right| \leq \epsilon , \qquad \forall x N x'.
     \end{equation}
   \end{definition}
   
-  \only<article>{Typically, algorithms are applied to datasets $x = (x_1, \ldots, x_n)$ composed of the data of $n$ individuals. Thus, all privacy guarantees relate to the data contributed by these individuals. 
+  \only<article>{Typically, algorithms are applied to datasets
+    $x = (x_1, \ldots, x_n)$ composed of the data of $n$
+    individuals. Thus, all privacy guarantees relate to the data
+    contributed by these individuals.
 
-    In this context, two datasets are usually called neighbouring if $x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1} x_n)$ and 
-    $x' = (x_1, \ldots, x_{i-1}, x_{i+1} x_n)$, i.e. if one dataset is missing an element.
-    
-    A slightly weaker definition of neighbourhood is to say that $x N x'$ if $x' = (x_1, \ldots, x_{i-1}, x'_i, x_{i+1} x_n)$, i.e. if one dataset has an altered element. We will usually employ this latter definition, especially for the local privacy model.
-
+    \paragraph{Neighbourhoods.} In this context, two datasets are
+    usually called neighbouring if
+    \[
+      x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1} x_n),
+      \qquad
+      x' = (x_1, \ldots, x_{i-1}, x_{i+1} x_n),
+    \]
+    i.e. if one dataset is
+    missing an element.  A slightly weaker definition of neighbourhood
+    is to say that $x N x'$ if
+    \[
+      x' = (x_1, \ldots, x_{i-1}, x'_i, x_{i+1} x_n),
+    \]
+    i.e. if one dataset has an altered element. We will usually employ
+    this latter definition, especially for the local privacy model.
   }
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{Defining neighbourhoods}
-  \begin{table}[H]
-    \begin{tabular}{l|l|l|l}
-      Birthday & Name & Height  & Weight \\
-      \hline
-      06/07 & Li Pu & 190 & 80 \\
-      06/14 & Sara Lee & 185 & 110  \\
-      \alert<1>{06/12} & \alert<1>{Nikos Papadopoulos} & \alert<1>{170} & \alert<1>{82} \\
-      01/01 & A. B. Student & 170 & 70 \\
-      05/08 & Li Yang & 175 & 72 
-    \end{tabular}
-    \caption{Data $x$}
-  \end{table}
-
-  \only<1>{
+  \begin{example}[Neihgbourhood]
     \begin{table}[H]
+      \centering
       \begin{tabular}{l|l|l|l}
         Birthday & Name & Height  & Weight \\
         \hline
         06/07 & Li Pu & 190 & 80 \\
         06/14 & Sara Lee & 185 & 110  \\
+        \alert<1>{06/12} & \alert<1>{Nikos Papadopoulos} & \alert<1>{170} & \alert<1>{82} \\
         01/01 & A. B. Student & 170 & 70 \\
         05/08 & Li Yang & 175 & 72 
       \end{tabular}
-      \caption{1-Neighbour $x'$}
+      \caption{Data $x$}
     \end{table}
-  }
 
-  \only<2>{
-    \begin{table}[H]
-      \begin{tabular}{l|l|l|l}
-        Birthday & Name & Height  & Weight \\
-        \hline
-        06/07 & Li Pu & 190 & 80 \\
-        06/14 & Sara Lee & 185 & 110  \\
-        \alert{06/13} & Nikos Papadopoulos & \alert{180} & \alert{80} \\
-        01/01 & A. B. Student & 170 & 70 \\
-        05/08 & Li Yang & 175 & 72 
-      \end{tabular}
-      \caption{2-Neighbour $x'$}
-    \end{table}
-  }
+    \only<1>{
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{l|l|l|l}
+          Birthday & Name & Height  & Weight \\
+          \hline
+          06/07 & Li Pu & 190 & 80 \\
+          06/14 & Sara Lee & 185 & 110  \\
+          01/01 & A. B. Student & 170 & 70 \\
+          05/08 & Li Yang & 175 & 72 
+        \end{tabular}
+        \caption{1-Neighbour $x'$}
+      \end{table}
+    }
 
+    \only<2>{
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{l|l|l|l}
+          Birthday & Name & Height  & Weight \\
+          \hline
+          06/07 & Li Pu & 190 & 80 \\
+          06/14 & Sara Lee & 185 & 110  \\
+          \alert{06/13} & Nikos Papadopoulos & \alert{180} & \alert{80} \\
+          01/01 & A. B. Student & 170 & 70 \\
+          05/08 & Li Yang & 175 & 72 
+        \end{tabular}
+        \caption{2-Neighbour $x'$}
+      \end{table}
+    }
+  \end{example}
 \end{frame}
 
 
-\section{The local and central privacy models}
 
-\section{Database access models}
+\section{The local and central privacy models}
+\begin{frame}
+  \frametitle{The local privacy model}
+  \centering
+
+  \only<article>{This is the standard model of differential privacy. We wish to calculate a function $f : \CX \to \CY$ on individual data. However, we do not want to simply release $y = f(x)$ because we want to guarantee some privacy properties. Instead, a trusted curator obtains the data $x$ of all individuals and selects a DP policy $\pol(a \mid x)$ to generate the output $a$. Of course, we want to make sure that $f(x) \approx a$ in some sense, otherwise the mechanism will not be useful.}
+
+  \begin{figure}[H]
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,0) (a1) {$a_1$};
+        \node[RV] at (2,1) (a2) {$a_2$};
+        \node[RV] at (2,2) (an) {$a_n$};
+        \draw[->] (x1) -- (a1);
+        \draw[->] (x2) -- (a2);
+        \draw[->] (xn) -- (an);
+        % \node[select] at (1,-1) (pol) {$\pol$};
+        % \draw[->] (pol) -- (a1);
+        % \draw[->] (pol) -- (a2);
+        % \draw[->] (pol) -- (an);
+      \end{tikzpicture}
+      \caption{The local privacy model}
+      \label{fig:local-privacy}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,1) (y) {$y$};
+        \node[select] at (1,-1) (pol) {$f$};
+        \draw[->] (x1) -- (y);
+        \draw[->] (x2) -- (y);
+        \draw[->] (xn) -- (y);
+        \draw[->] (pol) -- (y);
+      \end{tikzpicture}
+      \caption{Non-private calculation}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,1) (a) {$a$};
+        \node[select] at (1,-1) (pol) {$\pol$};
+        \draw[->] (x1) -- (a);
+        \draw[->] (x2) -- (a);
+        \draw[->] (xn) -- (a);
+        \draw[->] (pol) -- (a);
+      \end{tikzpicture}
+      \caption{Centralised DP calculation}
+    \end{subfigure}
+    \caption{Non-privacy, local privacy, and centralised privacy models.}
+  \end{figure}
+  
+  \only<article>{
+    In the local privacy model, the $i$-th individual's data $x_i$ is used to generate a private response $a_i$. This means that no individual will provide their true data with certainty. This model allows us to publish a complete dataset of private responses.
+  }
+  \begin{assumption}
+    In the central privacy model, the data $x$ is collected and the
+    result $a$ is published by a \alert{trusted curator}.
+  \end{assumption}
+\end{frame}
+
+\subsection{Database access models}
 \only<presentation>{
   \begin{frame}
     \tableofcontents[ 
-      currentsection, 
-      hideothersubsections, 
-      sectionstyle=show/shaded
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
     ] 
   \end{frame}
 }
@@ -822,7 +889,7 @@
     \index{policy!database response}
     The  policy defines a distribution over responses $a$ given the data $x$ and the query $q$.
     \[
-    \pol(a \mid x, q)
+      \pol(a \mid x, q)
     \]
   \end{block}
 \end{frame}
@@ -874,9 +941,9 @@
     \begin{align*}
       \pol(a \mid x)
       \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
-      \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-      \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-      \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
+                     \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+                                       \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+                                                         \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
     \end{align*}
     \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
   \end{proof}
@@ -929,26 +996,26 @@
   \begin{exercise}{Adversary knowledge}
     \only<article>{Assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
     \[
-    \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
+      \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
     \]
     \only<article>{where $x_i$ indicates whether or not the $i$-th person takes drugs, or}
     \[
-    \bx' = (x_1, \ldots, x_j=1, \ldots, x_n).
+      \bx' = (x_1, \ldots, x_j=1, \ldots, x_n).
     \]
     \only<article>{In other words, the adversary knows the data of all people apart from one, the $j$-th person. We can assume that the adversary has some prior belief}
     \[
-    \bel(\bx) = 1 - \bel(\bx')
+      \bel(\bx) = 1 - \bel(\bx')
     \]
     \only<article>{for the two cases. Assume the adversary knows
       the output $a$ of a mechanism $\pol$}
     \only<presentation>{
       \onslide<2->{
         \[
-        a_t, \qquad \pol(a_t \mid \bx_t) \Rightarrow
-        \begin{cases}
-          \pol(a_t \mid \bx_t = \bx)\\
-          \pol(a_t \mid \bx_t = \bx')
-        \end{cases}
+          a_t, \qquad \pol(a_t \mid \bx_t) \Rightarrow
+          \begin{cases}
+            \pol(a_t \mid \bx_t = \bx)\\
+            \pol(a_t \mid \bx_t = \bx')
+          \end{cases}
         \]
       }
     }
@@ -963,16 +1030,16 @@
       \begin{align}
         \bel(\bx \mid a, \pol)
         &=
-        \frac{\pol(a  \mid \bx) \bel(\bx)}
-             {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx') \bel(\bx')}
-             \\
-             &\geq
-             \frac{\pol(a  \mid \bx) \bel(\bx)}
-                  {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx) e^\epsilon \bel(\bx')} \tag{from DP definition}
-                  \\
-                  &=
-                  \frac{\bel(\bx)}
-                       {\bel(\bx) +  e^\epsilon \bel(\bx')}
+          \frac{\pol(a  \mid \bx) \bel(\bx)}
+          {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx') \bel(\bx')}
+        \\
+        &\geq
+          \frac{\pol(a  \mid \bx) \bel(\bx)}
+          {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx) e^\epsilon \bel(\bx')} \tag{from DP definition}
+        \\
+        &=
+          \frac{\bel(\bx)}
+          {\bel(\bx) +  e^\epsilon \bel(\bx')}
       \end{align}
       But this is not very informative. We can also write
       \begin{align}
@@ -992,13 +1059,13 @@
 
 
 
-\subsection{Other differentially private mechanisms}
+\subsection{The Laplace mechanism}
 \begin{frame}
   \frametitle{The Laplace mechanism.}
   \only<article>{
     A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise, so that the output of the algorithm is simply 
     \[
-    a = f(x) + \omega, \qquad \omega \sim \Laplace.
+      a = f(x) + \omega, \qquad \omega \sim \Laplace.
     \]
     The amount of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have.
   }
@@ -1010,7 +1077,7 @@
     \end{equation}
     where the Laplace density is defined as
     \[
-    p(\omega \mid \mu, \lambda) = \frac{1}{2 \lambda} \exp\left(-\frac{|\omega - \mu|}{\lambda}\right).
+      p(\omega \mid \mu, \lambda) = \frac{1}{2 \lambda} \exp\left(-\frac{|\omega - \mu|}{\lambda}\right).
     \]
     and has mean $\mu$ and variance $2 \lambda^2$.
   \end{definition}
@@ -1039,74 +1106,30 @@
   \end{block}
   
   How should we add noise in order to guarantee privacy? \only<article>{In particular, what should $\lambda, \lambda'$ be in order to obtain the same $\epsilon$-DP guarantee?}
-\end{frame}
-
-\begin{frame}
-  \frametitle{The centralised privacy model}
-  \only<article>{This is the standard model of differential privacy. We wish to calculate a function $f : \CX \to \CY$ on individual data. However, we do not want to simply release $y = f(x)$ because we want to guarantee some privacy properties. Instead, a trusted curator obtains the data $x$ of all individuals and selects a DP policy $\pol(a \mid x)$ to generate the output $a$. Of course, we want to make sure that $f(x) \approx a$ in some sense, otherwise the mechanism will not be useful.}
-
-  \begin{figure}[H]
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (x1) {$x_1$};
-        \node[RV] at (0,1) (x2) {$x_2$};
-        \node[RV] at (0,2) (xn) {$x_n$};
-        \node[RV] at (2,1) (y) {$y$};
-        \node[select] at (1,-1) (pol) {$f$};
-        \draw[->] (x1) -- (y);
-        \draw[->] (x2) -- (y);
-        \draw[->] (xn) -- (y);
-        \draw[->] (pol) -- (y);
-      \end{tikzpicture}
-      \caption{Non-private calculation}
-    \end{subfigure}
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (x1) {$x_1$};
-        \node[RV] at (0,1) (x2) {$x_2$};
-        \node[RV] at (0,2) (xn) {$x_n$};
-        \node[RV] at (2,1) (a) {$a$};
-        \node[select] at (1,-1) (pol) {$\pol$};
-        \draw[->] (x1) -- (a);
-        \draw[->] (x2) -- (a);
-        \draw[->] (xn) -- (a);
-        \draw[->] (pol) -- (a);
-      \end{tikzpicture}
-      \caption{Centralised DP calculation}
-    \end{subfigure}
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (x1) {$x_1$};
-        \node[RV] at (0,1) (x2) {$x_2$};
-        \node[RV] at (0,2) (xn) {$x_n$};
-        \node[RV] at (2,1) (y) {$y$};
-        \node[select] at (1,-1) (f) {$f$};
-        \node[select] at (3,-1) (pol) {$\pol$};
-        \node[RV] at (4,1) (a) {$a$};
-        \draw[->] (f) -- (y);
-        \draw[->] (x1) -- (y);
-        \draw[->] (x2) -- (y);
-        \draw[->] (xn) -- (y);
-        \draw[->] (y) -- (a);
-        \draw[->] (pol) -- (a);
-      \end{tikzpicture}
-      \caption{Laplace mechanism}
-    \end{subfigure}
-
-    \caption{The centralised privacy model. The non-private calculation directly outputs $y = f(x)$. We can approximate this with a DP calculation with distribution $\pol(a \mid x)$. The Laplace mechanism does so by first calculating $y = f(x)$ and then generating $\pol(a \mid y)$ so that $\E_\pol[a \mid x] = f(x)$.}
-    \label{fig:centralised-privacy}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,1) (x2) {$x_2$};
+      \node[RV] at (0,2) (xn) {$x_n$};
+      \node[RV] at (2,1) (y) {$y$};
+      \node[select] at (1,-1) (f) {$f$};
+      \node[select] at (3,-1) (pol) {$\pol$};
+      \node[RV] at (4,1) (a) {$a$};
+      \draw[->] (f) -- (y);
+      \draw[->] (x1) -- (y);
+      \draw[->] (x2) -- (y);
+      \draw[->] (xn) -- (y);
+      \draw[->] (y) -- (a);
+      \draw[->] (pol) -- (a);
+    \end{tikzpicture}
+    \caption{Laplace mechanism}
   \end{figure}
-
   
-  \only<article>{The main difference between the local and centralised privacy models are the following.  }
-  \begin{assumption}
-    The data $x$ is collected and the result $a$ is published by a \alert{trusted curator}
-  \end{assumption}
+  \only<article>{In the centralised privacy model, the non-private calculation directly outputs $y = f(x)$. We can approximate this with a DP calculation with distribution $\pol(a \mid x)$. The Laplace mechanism does so by first calculating $y = f(x)$ and then generating $\pol(a \mid y)$ so that $\E_\pol[a \mid x] = f(x)$.}
 
-  \only<article>{Let us now talk about how the Laplace mechanism that can be used both in the centralised and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$.}
+
+\only<article>{Let us now talk about how the Laplace mechanism that can be used both in the centralised and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$.}
 \end{frame}
 
 \begin{frame}
@@ -1115,12 +1138,12 @@
   \begin{definition}[Sensitivity]
     The sensitivity of a function $f$ is
     \[
-    \sensitivity{f} \defn \sup_{x N x'} |f(x) - f(x')|
+      \sensitivity{f} \defn \sup_{x N x'} |f(x) - f(x')|
     \]
     \only<article>{
       If we define a metric $d$, so that $d(x, x') = 1$ for $x N x'$, then:
       \[
-      |f(x) - f(x')| \leq \sensitivity{f} d(x, x'),
+        |f(x) - f(x')| \leq \sensitivity{f} d(x, x'),
       \]
       i.e. $f$ is $\sensitivity{f}$-Lipschitz with respect to $d$.
     }
@@ -1144,9 +1167,9 @@
       \begin{proof}
         Consider two neighbouring datasets $x, x'$ differing in example $j$. Then
         \[
-        f(x) - f(x')
-        = \frac{1}{n}\left[f(x_j) - f(x'_j)\right]
-        \leq \frac{1}{n}\left[B - 0\right]
+          f(x) - f(x')
+          = \frac{1}{n}\left[f(x_j) - f(x'_j)\right]
+          \leq \frac{1}{n}\left[B - 0\right]
         \]
       \end{proof}
     }
@@ -1160,10 +1183,10 @@
     \begin{align*}
       \frac{\pol(a \mid x)}{\pol(a \mid x')}
       &=
-      \frac{e^{|a - f(x')|/\lambda}}{e^{|a - f(x)|/\lambda}}
-      \leq
-      \frac{e^{|a - f(x)|/\lambda + \sensitivity{f}/\lambda}}{e^{|a - f(x)|/\lambda}}
-      = e^{\sensitivity{f} / \lambda}
+        \frac{e^{|a - f(x')|/\lambda}}{e^{|a - f(x)|/\lambda}}
+        \leq
+        \frac{e^{|a - f(x)|/\lambda + \sensitivity{f}/\lambda}}{e^{|a - f(x)|/\lambda}}
+        = e^{\sensitivity{f} / \lambda}
     \end{align*}
     \only<article>{
       The first step follows from the definition of the Laplace mechanism. The inequality follows from the fact that for  $x N x'$, we have $|f(x) - f(x')| \leq \sensitivity{f}$. In particular, 
@@ -1173,7 +1196,7 @@
         as $f(x') \leq f(x) + \sensitivity{f}$ from the Lipschitz property.
       \item If $f(x') - a < 0$ then
         \[
-        |f(x') - a| = a - f(x')   \leq \sensitivity{f} - f(x) + a \leq L + |a - f(x)|,
+          |f(x') - a| = a - f(x')   \leq \sensitivity{f} - f(x) + a \leq L + |a - f(x)|,
         \]
         as $-f(x') \leq \sensitivity{f} - f(x)$.
       \end{enumerate}
@@ -1341,7 +1364,7 @@
     \begin{itemize}
     \item Linkage attacks and $k$-anonymity.
     \item Inferring data from summary statistics.
-    \item The local versus global differential privacy model.
+    \item The local versus centralised differential privacy model.
     \item False discovery rates.
     \end{itemize}
   \end{block}
