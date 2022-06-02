@@ -1,7 +1,6 @@
 \chapter{Privacy}
 \label{ch:privacy}
 
-
 \only<article>{ What do we mean by privacy? One interpretation is
   simply the ability to maintain a personal secret. Is it possible to
   maintain perfect secrecy? Can the thoughts in our head be perfectly
@@ -567,14 +566,16 @@
 
 \begin{frame}
   \frametitle{What can we learn from the output?}
-  
-  In the Bayesian
-  setting, we can think of the adversary as having some prior belief
-  $\bel(x_i)$, expressed as a probability distribution over the secret
-  value of each individual. After the adversary observes the output,
-  they can form a posterior belief $\bel(x_i \mid a_i)$, representing
-  the information they collected. The following example quantifies
-  the amount of information gained by the adversary.}
+
+  \only<article>{
+    In the Bayesian setting, we can think of the
+    adversary as having some prior belief $\bel(x_i)$, expressed as a
+    probability distribution over the secret value of each
+    individual. After the adversary observes the output, they can form
+    a posterior belief $\bel(x_i \mid a_i)$, representing the
+    information they collected. The following example quantifies the
+    amount of information gained by the adversary.
+  }
     \begin{example}
       For simplicity, consider only one individual, and let the
       adversary have a prior $\bel(x = 0) = 1 - \bel(x = 1)$ over the
