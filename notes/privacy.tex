@@ -155,12 +155,8 @@
 }
 \begin{frame}
   \frametitle{Anonymisation}
-  \only<article>{If we wish to publish a database, frequently we need to protect identities of people involved. The simplest method for doing that is simply erasing directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data.
-    
-    
-  }
-  
-  \begin{example}[Typical relational database in Tinder]
+  \only<article>{Data is collected for many reasons. Any typical service you might want to use will require a minimal amount of data. For example, a dating service will at a minimum require your age and location, as shown in the example below.}
+vv  \begin{example}[Typical relational database in a dating website.]
     \begin{table}[H]
       \begin{tabular}{l|l|l|l|l|l|l}
         Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
@@ -170,8 +166,16 @@
         01/01 & \only<1>{A. B. Student} & 170 & 70 & 40-60 & 6732 & Time Traveller
       \end{tabular} 
     \end{table}
+    \only<article>{ If somebody is a user in a dating website, you
+      expect them to give some minimal personal information to be
+      stored in the site's database. This might include their
+      birthday, location and profession, for example.} 
   \end{example}
+  \only<article>{When you submit your data to a service, you expect it to be used responsibly. For the dating service, you expect it to use the information to find good matches, based on your preferences and location. 
 
+    If we wish to publish a database, frequently we need to protect identities of people involved. The simplest method for doing that is simply erasing directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data.
+  }
+  
   \only<2>{The simple act of hiding or using random identifiers is called anonymisation.}
   \only<article>{However this is generally insufficient as other identifying information may be used to re-identify individuals in the data.}
 \end{frame}
