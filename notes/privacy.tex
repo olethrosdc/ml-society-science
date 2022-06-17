@@ -80,6 +80,14 @@
 }
 
 \begin{frame}
+  \frametitle{What is an algorithm?}
+  \only<article>{Any functional process is an algorithm. In this book, an algorithm is any function with inputs $x$ in some set of possible inputs $\CX$, and outputs $a \in \CA$. We typically identify inputs with observations or features, and outputs with actions by the algorithm: i.e. we view the algorithm as making decisions and taking actions that have an observable effect on its external environment. We generally consider \emph{stochastic} algorithms.}
+  \begin{definition}[Stochastic algorithm $\pi$.]
+    x
+  \end{definition}
+\end{frame}
+
+\begin{frame}
   \begin{figure}
     \centering
     \includegraphics[height=\fheight]{../figures/smbc-the-problem}
@@ -443,15 +451,16 @@
 
 \begin{frame}
   \begin{figure}[H]
-    \begin{tikzpicture}
-      \node[label=left:$x$] at (0,0) (data) {\includegraphics[width=0.2\columnwidth]{../figures/medical}};
+    \centering
+    \begin{tikzpicture}[node distance=0.4\textwidth]
+      \node[label=left:$x$] at (0,0) (data) {\includegraphics[width=0.1\columnwidth]{../figures/medical}};
 
-      \node[label=$x_1$] at (-2,3)(patient1) {\includegraphics[width=0.1\columnwidth]{../figures/me-recent}};
+      \node[label=$x_1$] at (-2,3)(patient1) {\includegraphics[width=0.05\columnwidth]{../figures/me-recent}};
       \uncover<3->{
-        \node[label=$x_2$] at (2,3) (patient2) {\includegraphics[width=0.2\columnwidth]{../figures/judge}};
+        \node[label=$x_2$] at (2,3) (patient2) {\includegraphics[width=0.1\columnwidth]{../figures/judge}};
       }
       \uncover<4->{
-        \node[label=$a$] at (4,0)   (statistics) {\includegraphics[width=0.3\columnwidth]{../figures/coronary-disease}};
+        \node[label=$a$] at (4,0)   (statistics) {\includegraphics[width=0.2\columnwidth]{../figures/coronary-disease}};
       }
       \uncover<2->{
         \draw[->] (patient1) -- (data);
@@ -487,7 +496,8 @@
 \begin{frame}
   \frametitle{Privacy desiderata}
   \only<article>{
-    Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation on the data and publishes the result through a randomised algorithm $\pol(a | x)$. The following properties are desirable from a general standpoint.
+    Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation on the data and publishes the result through a randomised algorithm $\pol$, where for any output $a$, and any dataset $x$, $\pol(a | x)$ is the probability that the algorithm generates $a$.
+    The following properties are desirable from a general standpoint.}
 
     \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database.
 
