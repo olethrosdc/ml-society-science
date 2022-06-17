@@ -295,7 +295,7 @@
 % \end{frame}
 
 \section{$k$-anonymity}
-
+\label{sec:k-anonymity}
 \begin{frame}
   \frametitle{$k$-anonymity}
   \begin{figure}[H]
@@ -424,7 +424,7 @@
   independent of the adversary's existing knowledge, or
   computational power. }
 
-\only<article>{XXX While $k$-anonymity can protect against specific
+\only<article>{While $k$-anonymity can protect against specific
   re-identification attacks when used with care, it says little about
   what to do when the adversary has a lot of knowledge. For example,
   if the adversary knows the data of everybody that has participated
@@ -469,17 +469,18 @@
     \caption{If two people contribute their data $x = (x_1, x_2)$ to a medical database, and an algorithm $\pol$ computes some public output $a$ from $x$, then it should be hard infer anything about the data from the public output.}
     \label{fig:privacy-data}
   \end{figure}
-  \only<article>{
-    Consider the example given in Figure~\ref{fig:privacy-data}, where
-    two people contribute their data to a medical database. The $i$-th
-    individual contributes data $x_i$, and the complete dataset is $x
-    = (x_1, x_2)$. The algorithm $\pol$ defines a distribution over
-    the set of possible outputs $a \in \CA$, with $\pol(a | x)$ being
-    the probability that the algorithm outputs $a$ if the data is $x$.
-    If the algorith was deterministic, then it might be possible for
-    an adversary to invert the computation and obtain $x$ from $a$.
-    But even if that is not possible, maybe they can learn
-    \emph{something} about the data from the output. In the section below, we will formalise this notion. }
+  \only<article>{ Consider the example given in
+    Figure~\ref{fig:privacy-data}, where two people contribute their
+    data to a medical database. The $i$-th individual contributes data
+    $x_i$, and the complete dataset is $x = (x_1, x_2)$. The algorithm
+    $\pol$ defines a distribution over the set of possible outputs
+    $a \in \CA$, with $\pol(a | x)$ being the probability that the
+    algorithm outputs $a$ if the data is $x$.  If the algorith was
+    deterministic, then it might be possible for an adversary to
+    invert the computation and obtain $x$ from $a$.  But even if that
+    is not possible, maybe they can learn \emph{something} about the
+    data from the output. In the section below, we will formalise this
+    notion. }
   
 \end{frame}
 
@@ -669,7 +670,7 @@
     for some $i$,  i.e. if one dataset is
     missing an element.
   \end{definition}
-  \only<article<{
+  \only<article>{
     This is an important concept if the participation in the dataset is itself sensitive. For example, if somebody is enlisted in study for experimental treatment of a rare disease, then the mere fact that they are part of the study is strong evidence that they have the disease.
     
     A slightly weaker definition of neighbourhood is whether or not we can distinguish between different \emph{values} of individual data. If not, then they cannot infer whether the data submitted by the individual has particular value.}
@@ -685,13 +686,14 @@
     i.e. if one dataset has an altered element.
   \end{definition}
   \only<article>{ It is easy to see that this definition is slightly
-    weaker: If $x,x'$ are 1-neighbours under the second definition,
-    then they are 2-neighbours under the first definition. Let's
-    create a new dataset $\hat{x}$ missing the data of person
-    $i$. Then $x N \hat{x}$ and $\hat{x} N x'$, since we can change the
-    data of one person by removing the original data $x_i$ and then
-    re-inserting the altered data $x'_i$.}
+   weaker: If $x,x'$ are 1-neighbours under the second definition,
+   then they are 2-neighbours under the first definition. Let's
+   create a new dataset $\hat{x}$ missing the data of person
+   $i$. Then $x N \hat{x}$ and $\hat{x} N x'$, since we can change the
+   data of one person by removing the original data $x_i$ and then
+   re-inserting the altered data $x'_i$.}
 \end{frame}
+
 
 
 \begin{frame}
@@ -1169,7 +1171,7 @@
   \only<article>{In the centralised privacy model, the non-private calculation directly outputs $y = f(x)$. We can approximate this with a DP calculation with distribution $\pol(a \mid x)$. The Laplace mechanism does so by first calculating $y = f(x)$ and then generating $\pol(a \mid y)$ so that $\E_\pol[a \mid x] = f(x)$.}
 
 
-\only<article>{Let us now talk about how the Laplace mechanism that can be used both in the centralised and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$.}
+  \only<article>{Let us now talk about how the Laplace mechanism that can be used both in the centralised and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$.}
 \end{frame}
 
 \begin{frame}
