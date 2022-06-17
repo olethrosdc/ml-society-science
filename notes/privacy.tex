@@ -80,8 +80,11 @@
 }
 
 \begin{frame}
-  \centering
-  \includegraphics[height=\fheight]{../figures/smbc-the-problem}
+  \begin{figure}
+    \centering
+    \includegraphics[height=\fheight]{../figures/smbc-the-problem}
+    % Copyright: SMBC
+  \end{figure}
 \end{frame}
 \begin{frame}
   \begin{block}{Privacy in statistical disclosure.}
@@ -106,12 +109,22 @@
   \end{alertblock}
 
   \begin{block}{An issue of trust}
-    \only<article>{Fundamentally, privacy in statistics is an issue of trust. The analyst, whether it be a human statistician, or an automated service provided by a company, will use your data to make decisions. You must also decide:}
+    \only<article>{Fundamentally, privacy in statistics is an issue of
+      trust. The analyst, be it a human, or an automated service, will
+      use your data to make decisions. You must also decide:}
     \begin{itemize}
-    \item Who to trust and how much.\only<article>{Do we trust the data analyst? How much privacy are we willing to sacrifice to the analyst? How much to the public at large?}
-    \item What you want out of the service.\only<article>{Is the service important enough to sacrifice significant amounts of privacy? Is there a good trade-off between utility and privacy?}
+    \item Who to trust and how much.  \only<article>{Do we trust the
+        data analyst? How much privacy are we willing to sacrifice to
+        the analyst? How much to the public at large?}
+    \item What you want out of the service.  \only<article>{Is the
+        service important enough to sacrifice significant amounts of
+        privacy? What is an acceptable trade-off between utility and
+        privacy?}
     \end{itemize}
-    \only<article>{These are difficult questions and are hard to quantify, hence we assume that we have already decided how to answer them, and we simply want to find an appropriate methodology for achieving a good result.}
+    \only<article>{These are difficult questions and are hard to
+      quantify, hence we assume that we have already decided how to
+      answer them, and we simply want to find an appropriate
+      methodology for achieving a good result.}
   \end{block}
 \end{frame}
 
@@ -128,8 +141,11 @@
 }
 
 \only<article>{
-  ``Data is everywhere'', said the statistician,
-  ``data, data!''. In the past, statistical analysis was performed
+  \begin{centering}
+    \emph{``Data is everywhere'', said the statistician, ``data, data!''.}
+  \end{centering}
+
+  In the past, statistical analysis was performed
   with laboriously collected and annotated datasets. Even as
   recently as in the early 21st century, databases for machine
   learning were limited to a few thousand entries at most. At the
@@ -160,7 +176,7 @@
 \begin{frame}
   \frametitle{Anonymisation}
   \only<article>{Data is collected for many reasons. Any typical service you might want to use will require a minimal amount of data. For example, a dating service will at a minimum require your age and location, as shown in the example below.}
-vv  \begin{example}[Typical relational database in a dating website.]
+  \begin{example}[Typical relational database in a dating website.]
     \begin{table}[H]
       \begin{tabular}{l|l|l|l|l|l|l}
         Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
@@ -259,18 +275,6 @@ vv  \begin{example}[Typical relational database in a dating website.]
       \end{tabular}
     \end{table}
   \end{example}
-  
-  \begin{example}[Typical relational database in a tax office]
-    \begin{table}[H]
-      \begin{tabular}{l|l|l|l|l|l|l}
-        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
-        \hline
-        06/07 & & 190 & 80 & 60-70 & 1001 & Politician\\
-        06/14 &  & 185 & 110 & 70+ & 1001 & Rentier\\
-        01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller
-      \end{tabular}
-    \end{table}
-  \end{example}
 \end{frame}
 
 % \begin{frame}
@@ -298,13 +302,13 @@ vv  \begin{example}[Typical relational database in a dating website.]
     \centering
     \begin{subfigure}{0.45\textwidth}
       \centering
-      \includegraphics[width=\fwidth]{../figures/samarati}
+      \includegraphics[width=0.9\fwidth]{../figures/samarati}
       \caption{Samarati}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}{0.45\textwidth}
       \centering
-      \includegraphics[width=\fwidth]{../figures/sweeney}
+      \includegraphics[width=0.9\fwidth]{../figures/sweeney}
       \caption{Sweeney}
     \end{subfigure}
   \end{figure}
@@ -334,6 +338,7 @@ vv  \begin{example}[Typical relational database in a dating website.]
 
   \only<1>{
     \begin{table}[H]
+      \centering
       \begin{tabular}{l|l|l|l|l|l|l}
         Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
         \hline
@@ -378,6 +383,7 @@ vv  \begin{example}[Typical relational database in a dating website.]
   \only<article>{After thinking about it for a bit, the analyst decides to remove the birthday and name, and broadly categorise people according to their height in increments of 10cm, the weight in increments of 20cm, and keep just the first digit of the postcode. Now that looked much more reasonable. Still, somebody that knows that Li Yang and A. B. Student are in the table, as well as their postcodes, and they also know that Li Yang is a politician, can infer that A. B. Student is a Time Traveller.}
   \only<4>{
     \begin{table}[H]
+      \centering
       \begin{tabular}{l|l|l|l|l|l|l}
         Height  & Weight & Age & Postcode & Profession\\
         \hline
@@ -418,7 +424,7 @@ vv  \begin{example}[Typical relational database in a dating website.]
   independent of the adversary's existing knowledge, or
   computational power. }
 
-\only<article>{While $k$-anonymity can protect against specific
+\only<article>{XXX While $k$-anonymity can protect against specific
   re-identification attacks when used with care, it says little about
   what to do when the adversary has a lot of knowledge. For example,
   if the adversary knows the data of everybody that has participated
@@ -464,7 +470,6 @@ vv  \begin{example}[Typical relational database in a dating website.]
     \label{fig:privacy-data}
   \end{figure}
   \only<article>{
-
     Consider the example given in Figure~\ref{fig:privacy-data}, where
     two people contribute their data to a medical database. The $i$-th
     individual contributes data $x_i$, and the complete dataset is $x
@@ -637,28 +642,55 @@ vv  \begin{example}[Typical relational database in a dating website.]
       \left|\ln \frac{\pol(a \mid x)}{\pol(a \mid x')}\right| \leq \epsilon , \qquad \forall x N x'.
     \end{equation}
   \end{definition}
-  
+
   \only<article>{Typically, algorithms are applied to datasets
     $x = (x_1, \ldots, x_n)$ composed of the data of $n$
     individuals. Thus, all privacy guarantees relate to the data
     contributed by these individuals.
 
-    \paragraph{Neighbourhoods.} In this context, two datasets are
-    usually called neighbouring if
+    \paragraph{Neighbourhoods.} Differential privacy guarantees that
+    it is hard to distinguish neighbouring datasets. Hence, the
+    definition of neighbourhood we use reflects what we want to
+    protect. It makes sense to define neighbourhoods in terms of
+    changes in one individual's data, because then an adversary cannot
+    learn about the values of any particular individual.
+
+    The first definition is constructed so that the adversary cannot
+    distinguish whether or not any particular individual's information
+    is in the dataset. If not, then they cannot infer the individual's
+    presence from the output of the algorithm.}
+  \begin{definition}[Addition/deletion neighbourhood]
+    If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
     \[
-      x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1} x_n),
+      x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1}, \ldots, x_n),
       \qquad
-      x' = (x_1, \ldots, x_{i-1}, x_{i+1} x_n),
+      x' = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_n),
     \]
-    i.e. if one dataset is
-    missing an element.  A slightly weaker definition of neighbourhood
-    is to say that $x N x'$ if
+    for some $i$,  i.e. if one dataset is
+    missing an element.
+  \end{definition}
+  \only<article<{
+    This is an important concept if the participation in the dataset is itself sensitive. For example, if somebody is enlisted in study for experimental treatment of a rare disease, then the mere fact that they are part of the study is strong evidence that they have the disease.
+    
+    A slightly weaker definition of neighbourhood is whether or not we can distinguish between different \emph{values} of individual data. If not, then they cannot infer whether the data submitted by the individual has particular value.}
+  \begin{definition}{Edit neighbourhood}
+    We say that two datasets $x, x'$ are neighbours, and write $x N x'$ if
     \[
-      x' = (x_1, \ldots, x_{i-1}, x'_i, x_{i+1} x_n),
+      x' = (x_1, \ldots,  x_i, \ldots, x_n),
+      \qquad
+      x' = (x_1, \ldots, x'_i, \ldots,  x_n),
+      \qquad
+      x_i \neq x'_i.
     \]
-    i.e. if one dataset has an altered element. We will usually employ
-    this latter definition, especially for the local privacy model.
-  }
+    i.e. if one dataset has an altered element.
+  \end{definition}
+  \only<article>{ It is easy to see that this definition is slightly
+    weaker: If $x,x'$ are 1-neighbours under the second definition,
+    then they are 2-neighbours under the first definition. Let's
+    create a new dataset $\hat{x}$ missing the data of person
+    $i$. Then $x N \hat{x}$ and $\hat{x} N x'$, since we can change the
+    data of one person by removing the original data $x_i$ and then
+    re-inserting the altered data $x'_i$.}
 \end{frame}
 
 
