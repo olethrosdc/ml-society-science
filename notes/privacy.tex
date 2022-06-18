@@ -79,12 +79,39 @@
   used.
 }
 
+\section{Algorithmic privacy.}
 \begin{frame}
   \frametitle{What is an algorithm?}
   \only<article>{Any functional process is an algorithm. In this book, an algorithm is any function with inputs $x$ in some set of possible inputs $\CX$, and outputs $a \in \CA$. We typically identify inputs with observations or features, and outputs with actions by the algorithm: i.e. we view the algorithm as making decisions and taking actions that have an observable effect on its external environment. We generally consider \emph{stochastic} algorithms.}
   \begin{definition}[Stochastic algorithm $\pi$.]
-    x
+    A stochastic algorithm $\pi$ with input domain $\CX$ and output
+    domain $\CA$ is defined as a mapping $\pi : \CX \to \Simplex(\CA)$
+    from observations to distributions over outputs. When $\CA$ is
+    finite, we will write $\pol(a | x)$ to denote the conditional
+    probability that the algorithm outputs $a$ given input $x$.
   \end{definition}
+  \only<article>{
+    \begin{mdframed}{The general case.}
+    When $\CA$ is infinite, $\pol(\cdot | x)$ is a probability
+    measure. Then we write
+    \[
+      \pol(A | x) \defn \Pr_\pol(a \in A \mid x)
+    \]
+    to denote the conditional probability that algorithm's output is
+    in some set $A \subset \CA$ given input $x$.
+  \end{mdframed}
+  
+  \begin{exampleblock}{Algorithmic randomness.}
+    It is perhaps simpler to explain how an algorithm can be
+    stochastic by imagining it has access to a random coin taking
+    values $\omega \in \Omega$ with some corresponding probability
+    measure $P$. Then the algorithm's output $a$ is a function
+    $a : \Omega \times \CX \to \CA$, so that
+    \[
+      \pol(A | x) = P_\pol(\cset{\omega \in \Omega}{a_\pol(\omega, x) \in A}).
+    \]
+  \end{exampleblock}
+}
 \end{frame}
 
 \begin{frame}
