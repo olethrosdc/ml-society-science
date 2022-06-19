@@ -1288,10 +1288,10 @@
     versus centralised model?  \only<article>{ Let us continue the
       average example.  Here let us assume $x_i \in [0, B]$ for all
       $i$.
-      \begin{block}{Laplace in the local privacy model}
+      \begin{block}{The Laplace mechanism in the local privacy model}
         The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(B/\epsilon)^2$, so the total variance is $2M^2/\epsilon^2 n$.
       \end{block}
-      \begin{block}{Laplace in the centralised privacy model}
+      \begin{block}{The Laplace mechanism in the centralised privacy model}
         The sensitivity of $f$ is $M / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $2(B / \epsilon n)^2$. 
       \end{block}
       Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under this mechanism. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data.

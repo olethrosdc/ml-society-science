@@ -77,18 +77,21 @@
 \newtheorem{exercise}{Exercise}
 
 \usepackage{framed}
-\usepackage{mdframed}
+\usepackage[framemethod=tikz]{mdframed}
+\mdfsetup{%
+roundcorner=10pt}
 \renewenvironment{block}[1]
-{\framed \par \textbf{#1} \newline}
-{\par \endframed}
+{\begin{mdframed}[roundcorner=10pt,backgroundcolor=black!10,frametitle={#1}]}
+{\end{mdframed}}
 
 \renewenvironment{exampleblock}[1]
-{\framed \par \textit{#1} \newline \bigskip}
-{\par \endframed}
+{\begin{mdframed}[roundcorner=20pt,backgroundcolor=blue!10,frametitle={#1}]}
+{\end{mdframed}}
+
 
 \renewenvironment{alertblock}[1]
-{\framed \par \textit{\textbf{#1}} \newline \hrule \bigskip}
-{\par \endframed}
+{\begin{mdframed}[roundcorner=10pt,backgroundcolor=green!10,frametitle={#1}] \hrule}
+{\end{mdframed}}
 }
 
 
