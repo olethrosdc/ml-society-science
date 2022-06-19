@@ -91,7 +91,7 @@
     probability that the algorithm outputs $a$ given input $x$.
   \end{definition}
   \only<article>{
-    \begin{mdframed}{The general case.}
+    \begin{theoryblock}{The general case.}
     When $\CA$ is infinite, $\pol(\cdot | x)$ is a probability
     measure. Then we write
     \[
@@ -99,16 +99,17 @@
     \]
     to denote the conditional probability that algorithm's output is
     in some set $A \subset \CA$ given input $x$.
-  \end{mdframed}
+  \end{theoryblock}
   
   \begin{exampleblock}{Algorithmic randomness.}
-    It is perhaps simpler to explain how an algorithm can be
-    stochastic by imagining it has access to a random coin taking
-    values $\omega \in \Omega$ with some corresponding probability
-    measure $P$. Then the algorithm's output $a$ is a function
-    $a : \Omega \times \CX \to \CA$, so that
+    We can construct a random algorithm through access to a random
+    coin $\omega$ taking values in $\Omega$. We can then define the
+    output through a deterministic function $a_\pi(\omega, x)$. Since
+    $\omega$ is random, the output of the function is also random.
+    Formally, if $P$ is the probability distribution of $\omega$, the
+    conditional distribution of outputs obeys
     \[
-      \pol(A | x) = P_\pol(\cset{\omega \in \Omega}{a_\pol(\omega, x) \in A}).
+      \pi(A | x) = P(\cset{\omega \in \Omega}{a_\pi(\omega, x) \in A}).
     \]
   \end{exampleblock}
 }
@@ -122,7 +123,28 @@
   \end{figure}
 \end{frame}
 \begin{frame}
-  \begin{block}{Privacy in statistical disclosure.}
+  \frametitle{Privacy in statistical disclosure.}
+    \only<article>{ Fundamentally, privacy in statistics is an \emph{issue of
+    trust.} The analyst, be it a human, or an automated service, will
+    use your data to make decisions. You must also decide who to trust
+    and how much. Do we trust the data analyst? How much privacy are
+    we willing to sacrifice to the analyst? How much to the public at
+    large?  What you want out of the service.  Is the service
+    important enough to sacrifice significant amounts of privacy? What
+    is an acceptable trade-off between utility and privacy?  These are
+    difficult questions and are hard to quantify, hence we assume that
+    we have already decided how to answer them, and we simply want to
+    find an appropriate methodology for achieving a good result.  }
+  
+  \only<presentation>{
+    \begin{block}{An issue of trust}
+      \begin{itemize}
+      \item Who to trust and how much.
+      \item What you want out of the service.
+      \end{itemize}
+    \end{block}
+  }
+
     \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
       published,\footnote{If somebody knows that the analysis is being
         conducted, however, they could still learn something private from the fact that the analysis has \emph{not} been published.} this
@@ -132,10 +154,8 @@
       \only<article>{Sometimes we may collect data in order to publish the dataset itself for other researchers to use. This is common practice in machine learning, with image classification datasets being a good example. However, if the data contains personal information, there is always some privacy risk even if the data has been anonymised with standard methods.}
     \item Public data analysis. \only<article>{This is a more general setting, where we never publish individual data records, but only summary statistics or models about the data. A prime example is a national census analysis, which may provide detailed demographic information for all towns and regions in a nation. Although only aggregate data is published, it is theoretically possible to infer personal information. For that reason, the US Census Bureau conducted its analysis in 2020 using differential private algorithms.}
     \end{itemize}
-  \end{block}
-  \begin{alertblock}{Not about cryptography}
-    \only<article>{
-      The problems we are considering can not be solved through cryptographic means. Cryptography provides:}
+  \begin{alertblock}{Cryptography is not enough.}
+    \only<article>{ Cryptography provides:}
     \begin{itemize}
     \item Secure communication and computation.
     \item Authentication and verification.
@@ -143,24 +163,7 @@
     \only<article>{These are useful to establish secure channels with somebody that we trust. However, the privacy violations we are concerned with relate to \alert{publicly released} outputs of algorithms. It is not important whether or not all the data and computation are encrypted: as long as the algorithm generates a public output, it is theoretically possible for somebody to learn something about the algorithm's input.}
   \end{alertblock}
 
-  \begin{block}{An issue of trust}
-    \only<article>{Fundamentally, privacy in statistics is an issue of
-      trust. The analyst, be it a human, or an automated service, will
-      use your data to make decisions. You must also decide:}
-    \begin{itemize}
-    \item Who to trust and how much.  \only<article>{Do we trust the
-        data analyst? How much privacy are we willing to sacrifice to
-        the analyst? How much to the public at large?}
-    \item What you want out of the service.  \only<article>{Is the
-        service important enough to sacrifice significant amounts of
-        privacy? What is an acceptable trade-off between utility and
-        privacy?}
-    \end{itemize}
-    \only<article>{These are difficult questions and are hard to
-      quantify, hence we assume that we have already decided how to
-      answer them, and we simply want to find an appropriate
-      methodology for achieving a good result.}
-  \end{block}
+
 \end{frame}
 
 
