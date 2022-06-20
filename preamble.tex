@@ -96,8 +96,13 @@
 
 
   \newenvironment{theoryblock}[1]
-  {\begin{mdframed}[backgroundcolor=green!10,frametitle={\Coffeecup #1}]}
+  {\begin{mdframed}[backgroundcolor=yellow!10,frametitle={\Coffeecup #1}]}
     {\end{mdframed}}
+
+  \newenvironment{exerciseblock}[1]
+  {\begin{mdframed}[backgroundcolor=red!10,frametitle={\faPencilSquareO{} #1}]}
+    {\end{mdframed}}
+
 }
 %\theoremstyle{plain} \newtheorem{conjecture}{Conjecture}[section]
 %\theoremstyle{plain} \newtheorem{theorem}{Theorem}[section]

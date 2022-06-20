@@ -82,22 +82,26 @@
 \section{Algorithmic privacy.}
 \begin{frame}
   \frametitle{What is an algorithm?}
-  \only<article>{Any functional process is an algorithm. In this book, an algorithm is any function with inputs $x$ in some set of possible inputs $\CX$, and outputs $a \in \CA$. We typically identify inputs with observations or features, and outputs with actions by the algorithm: i.e. we view the algorithm as making decisions and taking actions that have an observable effect on its external environment. We generally consider \emph{stochastic} algorithms.}
-  \begin{definition}[Stochastic algorithm $\pi$.]
+  \only<article>{Any functional process is an algorithm. We typically
+    identify inputs with observations or features $\CX$, and outputs
+    with actions $\CA$ by the algorithm: i.e. we view the algorithm as
+    taking actions that have an observable effect on its external
+    environment. We generally consider \emph{stochastic} algorithms.}
+  \begin{definition}[Stochastic algorithm $\pi$]
     A stochastic algorithm $\pi$ with input domain $\CX$ and output
-    domain $\CA$ is defined as a mapping $\pi : \CX \to \Simplex(\CA)$
+    domain $\CA$ is a mapping $\pi : \CX \to \Simplex(\CA)$
     from observations to distributions over outputs. When $\CA$ is
-    finite, we will write $\pol(a | x)$ to denote the conditional
+    finite, we will write $\pol(a \mid x)$ to denote the conditional
     probability that the algorithm outputs $a$ given input $x$.
   \end{definition}
   \only<article>{
     \begin{theoryblock}{The general case.}
-    When $\CA$ is infinite, $\pol(\cdot | x)$ is a probability
-    measure. Then we write
+    When $\CA$ is infinite, $\pol(\cdot | x)$ defines a probability
+    measure over $\CA$. Then we write
     \[
-      \pol(A | x) \defn \Pr_\pol(a \in A \mid x)
+      \pol(A \mid x) \defn \Pr_\pol(a \in A \mid x), \qquad A \subset \CA,
     \]
-    to denote the conditional probability that algorithm's output is
+    for the conditional probability that algorithm's output is
     in some set $A \subset \CA$ given input $x$.
   \end{theoryblock}
   
@@ -106,11 +110,13 @@
     coin $\omega$ taking values in $\Omega$. We can then define the
     output through a deterministic function $a_\pi(\omega, x)$. Since
     $\omega$ is random, the output of the function is also random.
-    Formally, if $P$ is the probability distribution of $\omega$, the
-    conditional distribution of outputs obeys
+    If $P$ is the probability distribution of $\omega$, then:
     \[
-      \pi(A | x) = P(\cset{\omega \in \Omega}{a_\pi(\omega, x) \in A}).
+      \pi(A \mid x) = P(\cset{\omega \in \Omega}{a_\pi(\omega, x) \in A}),
     \]
+    i.e. the probability that the algorithm's output is in $A$ is
+    equal to the measure of the values of $\omega$ for which the
+    $a_\pi(\omega, x) \in A$.
   \end{exampleblock}
 }
 \end{frame}
@@ -549,7 +555,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Example: The prevalence of drug use in sport}
+  \begin{exampleblock}{The prevalence of drugs in sport}
   
   \only<article>{
     Let's say you need to perform a statistical analysis of the drug-use habits of athletes. Obviously, even if you promise the athlete not to reveal their information, you still might not convince them. Yet, you'd like them to be truthful. The trick is to allow them to randomly change their answers, so that you can't be \emph{sure} if they take drugs, no matter what they answer.
@@ -566,7 +572,7 @@
       \alert{Write responses in class}
     }
   }
-  \only<2>{
+  \only<2->{
     \begin{block}{Algorithm for randomising responses about drug use}
       \begin{enumerate}
       \item Flip a coin.
@@ -574,40 +580,43 @@
       \item Otherwise, flip another coin and respond \texttt{yes} if it comes heads and \texttt{no} otherwise.
       \end{enumerate}
     \end{block}
+    \begin{exerciseblock}{Calculating the true rate of responses.}
+    Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
+  \end{exerciseblock}
 
-    \begin{exercise}
-      Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
-    \end{exercise}
   }
-  \onslide<3->{
-    \only<presentation>{
-      \begin{proof}[Solution]
-        Since the responses are random, we will deal with expectations first
-        \begin{align*}
-          \E p
-          &= \frac{1}{2} \times \frac{1}{2} + q \times \frac{1}{2}
-            \uncover<4->{= \frac{1}{4} + \frac{q}{2}}
-            \uncover<5->{\\
-          q &= 2 \E p - \frac{1}{2}.}
-        \end{align*}
-        
-      \end{proof}
-    }
+\end{exampleblock}
+\only<3->{
+}
+\onslide<3->{
+  \only<presentation>{
+    \begin{proof}[Solution]
+      Since the responses are random, we will deal with expectations first
+      \begin{align*}
+        \E p
+        &= \frac{1}{2} \times \frac{1}{2} + q \times \frac{1}{2}
+          \uncover<4->{= \frac{1}{4} + \frac{q}{2}}
+          \uncover<5->{\\
+        q &= 2 \E p - \frac{1}{2}.}
+      \end{align*}
+      
+    \end{proof}
   }
-  \only<article>{The problem with this approach, of course, is that we are effectively throwing away half of our data. In particular, if we repeated the experiment with a coin that came heads at a rate $\epsilon$, then our error bounds would scale as $O(1/\sqrt{\epsilon n})$ for $n$ data points.}
+}
+\only<article>{The problem with this approach, of course, is that we are effectively throwing away half of our data sources. In particular, if we repeated the experiment with a coin that came heads at a rate $\epsilon$, then our error bounds would scale as $O(1/\sqrt{\epsilon n})$ for $n$ data points.}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The randomised response mechanism}
   \only<article>{The above idea can be generalised. Consider we have data $x_1, \ldots, x_n$ from $n$ users and we transform it randomly to $y_1, \ldots, y_n$ using the following mapping.}
-  \begin{definition}[Randomised response]
-    The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
-    \[
-      \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
-    \]
-    where $j \neq k$.
-  \end{definition}
-
+  \begin{block}{The randomised response mechanism}
+    \begin{definition}[Randomised response]
+      The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
+      \[
+        \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
+      \]
+      where $j \neq k$.
+    \end{definition}
+  \end{block}
   \uncover<2->{Given the complete data $x$, the algorithm's output is $a = (a_1, \ldots, a_n)$.}
   \uncover<3->{Since the algorithm independently calculates a new value for each data entry, the output probability is
     \[
