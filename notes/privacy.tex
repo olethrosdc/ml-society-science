@@ -458,6 +458,7 @@
 
 
 \section{Differential privacy}
+\label{sec:differential-privacy}
 \only<article>{ This section introduces one of the main tools for
   giving formal guarantees about the privacy of any algorithm ran on
   a dataset, \emph{differential privacy}. This will provide
@@ -583,8 +584,8 @@
     \begin{exerciseblock}{Calculating the true rate of responses.}
     Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
   \end{exerciseblock}
-
-  }
+ 
+ }
 \end{exampleblock}
 \only<3->{
 }
@@ -623,7 +624,7 @@
       \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
     \]
   }
-  \only<article>{This mechanism satisfies so-called $\epsilon$-differential privacy, which we will define later.}
+  \only<article>{This mechanism satisfies the formal notion of $\epsilon$-differential privacy, which will be given in Definition~\ref{def:epsilon-dp}}
 
 \end{frame}
 
@@ -676,14 +677,16 @@
 
 \begin{frame}
   \frametitle{Differential privacy.}
-  \includegraphics[width=0.2\textwidth]{../figures/dwork} \hspace{1em}
-  \includegraphics[width=0.2\textwidth]{../figures/mcsherry} \hspace{1em}
-  \includegraphics[width=0.2\textwidth]{../figures/nissim} \hspace{1em}
-  \includegraphics[width=0.2\textwidth]{../figures/smith}
-  
+  \only<presentation>{
+    \includegraphics[width=0.2\textwidth]{../figures/dwork} \hspace{1em}
+    \includegraphics[width=0.2\textwidth]{../figures/mcsherry} \hspace{1em}
+    \includegraphics[width=0.2\textwidth]{../figures/nissim} \hspace{1em}
+    \includegraphics[width=0.2\textwidth]{../figures/smith}
+  }
   \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from the result of a computation $\pol$ on the data. For reasons that will be made clear later, this computation has to be stochastic.}
-  
-  \begin{definition}[$\epsilon$-Differential Privacy]
+  \begin{theoryblock}{$\epsilon$-Differential Privacy}
+  \begin{definition}
+    \label{def:epsilon-dp}
     A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
     is endowed with a neighbourhood relation $N$, is said to be
     $\epsilon$-differentially private if
@@ -692,55 +695,58 @@
       \left|\ln \frac{\pol(a \mid x)}{\pol(a \mid x')}\right| \leq \epsilon , \qquad \forall x N x'.
     \end{equation}
   \end{definition}
-
-  \only<article>{Typically, algorithms are applied to datasets
+\end{theoryblock}
+\only<article>{Typically, algorithms are applied to datasets
     $x = (x_1, \ldots, x_n)$ composed of the data of $n$
     individuals. Thus, all privacy guarantees relate to the data
     contributed by these individuals.
 
-    \paragraph{Neighbourhoods.} Differential privacy guarantees that
-    it is hard to distinguish neighbouring datasets. Hence, the
-    definition of neighbourhood we use reflects what we want to
-    protect. It makes sense to define neighbourhoods in terms of
-    changes in one individual's data, because then an adversary cannot
-    learn about the values of any particular individual.
-
-    The first definition is constructed so that the adversary cannot
-    distinguish whether or not any particular individual's information
-    is in the dataset. If not, then they cannot infer the individual's
-    presence from the output of the algorithm.}
-  \begin{definition}[Addition/deletion neighbourhood]
-    If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
-    \[
-      x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1}, \ldots, x_n),
-      \qquad
-      x' = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_n),
-    \]
-    for some $i$,  i.e. if one dataset is
-    missing an element.
-  \end{definition}
-  \only<article>{
-    This is an important concept if the participation in the dataset is itself sensitive. For example, if somebody is enlisted in study for experimental treatment of a rare disease, then the mere fact that they are part of the study is strong evidence that they have the disease.
-    
-    A slightly weaker definition of neighbourhood is whether or not we can distinguish between different \emph{values} of individual data. If not, then they cannot infer whether the data submitted by the individual has particular value.}
-  \begin{definition}{Edit neighbourhood}
-    We say that two datasets $x, x'$ are neighbours, and write $x N x'$ if
-    \[
-      x' = (x_1, \ldots,  x_i, \ldots, x_n),
-      \qquad
-      x' = (x_1, \ldots, x'_i, \ldots,  x_n),
-      \qquad
-      x_i \neq x'_i.
-    \]
-    i.e. if one dataset has an altered element.
-  \end{definition}
-  \only<article>{ It is easy to see that this definition is slightly
-   weaker: If $x,x'$ are 1-neighbours under the second definition,
-   then they are 2-neighbours under the first definition. Let's
-   create a new dataset $\hat{x}$ missing the data of person
-   $i$. Then $x N \hat{x}$ and $\hat{x} N x'$, since we can change the
-   data of one person by removing the original data $x_i$ and then
-   re-inserting the altered data $x'_i$.}
+    \begin{exampleblock}{Neighbourhoods}
+      Differential privacy guarantees that
+      it is hard to distinguish neighbouring datasets. Hence, the
+      definition of neighbourhood we use reflects what we want to
+      protect. It makes sense to define neighbourhoods in terms of
+      changes in one individual's data, because then an adversary cannot
+      learn about the values of any particular individual.
+      
+      The first definition is constructed so that the adversary cannot
+      distinguish whether or not any particular individual's information
+      is in the dataset. If not, then they cannot infer the individual's
+      presence from the output of the algorithm.
+    \end{exampleblock}
+    }
+    \begin{definition}[Addition/deletion neighbourhood]
+        If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
+        \[
+          x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1}, \ldots, x_n),
+          \qquad
+          x' = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_n),
+        \]
+        for some $i$,  i.e. if one dataset is
+        missing an element.
+      \end{definition}
+      \only<article>{
+        This is an important concept if the participation in the dataset is itself sensitive. For example, if somebody is enlisted in study for experimental treatment of a rare disease, then the mere fact that they are part of the study is strong evidence that they have the disease.
+        
+        A slightly weaker definition of neighbourhood is whether or not we can distinguish between different \emph{values} of individual data. If not, then they cannot infer whether the data submitted by the individual has particular value.}
+      \begin{definition}[Edit neighbourhood]
+        We say that two datasets $x, x'$ are neighbours, and write $x N x'$ if
+        \[
+          x' = (x_1, \ldots,  x_i, \ldots, x_n),
+          \qquad
+          x' = (x_1, \ldots, x'_i, \ldots,  x_n),
+          \qquad
+          x_i \neq x'_i.
+        \]
+        i.e. if one dataset has an altered element.
+      \end{definition}
+      \only<article>{ It is easy to see that this definition is slightly
+        weaker: If $x,x'$ are 1-neighbours under the second definition,
+        then they are 2-neighbours under the first definition. Let's
+        create a new dataset $\hat{x}$ missing the data of person
+        $i$. Then $x N \hat{x}$ and $\hat{x} N x'$, since we can change the
+        data of one person by removing the original data $x_i$ and then
+        re-inserting the altered data $x'_i$.}
 \end{frame}
 
 
@@ -1352,6 +1358,10 @@
     Although the exponential mechanism can be used to describe most known DP mechanisms, its best use is in settings where there is a natural utility function.
   }
 \end{frame}
+
+
+\subsection{Relaxations of differential privacy.}
+In practice, \ldots
 
 
 \subsection{Privacy and reproducibility}
