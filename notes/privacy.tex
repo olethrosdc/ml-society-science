@@ -574,13 +574,13 @@
     }
   }
   \only<2->{
-    \begin{block}{Algorithm for randomising responses about drug use}
+    \begin{groupactivity}{Algorithm for randomising responses about drug use}
       \begin{enumerate}
       \item Flip a coin.
       \item If it comes heads, respond truthfully. 
       \item Otherwise, flip another coin and respond \texttt{yes} if it comes heads and \texttt{no} otherwise.
       \end{enumerate}
-    \end{block}
+    \end{groupactivity}
     \begin{exerciseblock}{Calculating the true rate of responses.}
     Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
   \end{exerciseblock}
@@ -608,7 +608,7 @@
 \end{frame}
 
 \begin{frame}
-  \only<article>{The above idea can be generalised. Consider we have data $x_1, \ldots, x_n$ from $n$ users and we transform it randomly to $y_1, \ldots, y_n$ using the following mapping.}
+  \only<article>{This algorithm is very specific, as there is no need to give the responses. The above idea can be generalised. Consider we have data $x_1, \ldots, x_n$ from $n$ users and we transform it randomly to $y_1, \ldots, y_n$ using the following mapping.}
   \begin{block}{The randomised response mechanism}
     \begin{definition}[Randomised response]
       The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
@@ -701,19 +701,21 @@
     individuals. Thus, all privacy guarantees relate to the data
     contributed by these individuals.
 
-    \begin{exampleblock}{Neighbourhoods}
+    \begin{block}{Neighbourhoods}
       Differential privacy guarantees that
       it is hard to distinguish neighbouring datasets. Hence, the
       definition of neighbourhood we use reflects what we want to
       protect. It makes sense to define neighbourhoods in terms of
       changes in one individual's data, because then an adversary cannot
       learn about the values of any particular individual.
-      
-      The first definition is constructed so that the adversary cannot
-      distinguish whether or not any particular individual's information
-      is in the dataset. If not, then they cannot infer the individual's
-      presence from the output of the algorithm.
-    \end{exampleblock}
+    \end{block}
+    
+    In this book we will use two definitions of neighbourhoods. The
+    first is constructed so that the adversary cannot distinguish
+    whether or not any particular individual's information is in the
+    dataset. If not, then they cannot infer the individual's presence
+    from the output of the algorithm.
+
     }
     \begin{definition}[Addition/deletion neighbourhood]
         If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
@@ -728,7 +730,11 @@
       \only<article>{
         This is an important concept if the participation in the dataset is itself sensitive. For example, if somebody is enlisted in study for experimental treatment of a rare disease, then the mere fact that they are part of the study is strong evidence that they have the disease.
         
-        A slightly weaker definition of neighbourhood is whether or not we can distinguish between different \emph{values} of individual data. If not, then they cannot infer whether the data submitted by the individual has particular value.}
+        The second definition is slightly weaker. It determines
+        whether or not we can distinguish between different
+        \emph{values} of individual data. If not, then they cannot
+        infer whether the data submitted by the individual has a
+        particular value.}
       \begin{definition}[Edit neighbourhood]
         We say that two datasets $x, x'$ are neighbours, and write $x N x'$ if
         \[
@@ -740,19 +746,22 @@
         \]
         i.e. if one dataset has an altered element.
       \end{definition}
-      \only<article>{ It is easy to see that this definition is slightly
-        weaker: If $x,x'$ are 1-neighbours under the second definition,
-        then they are 2-neighbours under the first definition. Let's
-        create a new dataset $\hat{x}$ missing the data of person
-        $i$. Then $x N \hat{x}$ and $\hat{x} N x'$, since we can change the
-        data of one person by removing the original data $x_i$ and then
-        re-inserting the altered data $x'_i$.}
+      \only<article>{ If $x,x'$ are 1-neighbours under the second
+        definition, then they are 2-neighbours under the first
+        definition. Let's create a new dataset $\hat{x}$ missing the
+        data of person $i$. Then $x N \hat{x}$ and $\hat{x} N x'$,
+        since we can change the data of one person by removing the
+        original data $x_i$ and then re-inserting the altered data
+        $x'_i$. This is illustrated in the example below.}
 \end{frame}
 
 
 
 \begin{frame}
-  \begin{example}[Neihgbourhood]
+  \begin{exampleblock}{Neihgbourhood}
+    \only<article>{
+      In this example, we have three datasets, $x, x'$ and $x''$. In the second dataset, $x'$, the highlighted row in $x'$ is missing. In the third dataset, $x''$, another row with the same name is added, but the height and weight are changed.
+    }
     \begin{table}[H]
       \centering
       \begin{tabular}{l|l|l|l}
@@ -760,13 +769,15 @@
         \hline
         06/07 & Li Pu & 190 & 80 \\
         06/14 & Sara Lee & 185 & 110  \\
-        \alert<1>{06/12} & \alert<1>{Nikos Papadopoulos} & \alert<1>{170} & \alert<1>{82} \\
+        \alert<1>{06/12} & \alert<1>{John Smith} & \alert<1>{170} & \alert<1>{82} \\
         01/01 & A. B. Student & 170 & 70 \\
         05/08 & Li Yang & 175 & 72 
       \end{tabular}
       \caption{Data $x$}
     \end{table}
-
+    \only<article>{
+      In fact, $x'$ is obtained through a deletion from $x$. Of course, the operation can be reversed: $x$ can be obtained from an addition to $x'$.
+    }
     \only<1>{
       \begin{table}[H]
         \centering
@@ -778,10 +789,10 @@
           01/01 & A. B. Student & 170 & 70 \\
           05/08 & Li Yang & 175 & 72 
         \end{tabular}
-        \caption{1-Neighbour $x'$}
+        \caption{$x'$, 1-Neighbour of $x'$.}
       \end{table}
     }
-
+    \only<article>{We can now instead add another row to $x'$, which will be similar to the row we had removed. This will have the effect of altering the original data in $x$.}
     \only<2>{
       \begin{table}[H]
         \centering
@@ -790,14 +801,16 @@
           \hline
           06/07 & Li Pu & 190 & 80 \\
           06/14 & Sara Lee & 185 & 110  \\
-          \alert{06/13} & Nikos Papadopoulos & \alert{180} & \alert{80} \\
+          06/12 & John Smith & \alert{180} & \alert{80} \\
           01/01 & A. B. Student & 170 & 70 \\
           05/08 & Li Yang & 175 & 72 
         \end{tabular}
-        \caption{2-Neighbour $x'$}
+        \caption{$x''$, 2-Neighbour of $x'$.}
       \end{table}
+      \only<article>{Since $x,x''$ only differ in the contents of a single row, they are edit-neighbours.}
+      }
     }
-  \end{example}
+  \end{exampleblock}
 \end{frame}
 
 
@@ -1368,6 +1381,8 @@ In practice, \ldots
 
 \begin{frame}
   \frametitle{The unfortunate practice of adaptive analysis}
+  \begin{figure}
+    \centering
   \begin{tikzpicture}
     \node<1->[rectangle] at (0,4) (prior) {Prior};
     \node<2->[rectangle] at (0,0) (training) {Training data};
@@ -1385,7 +1400,8 @@ In practice, \ldots
     \draw<5->[red,medarrow] (result)--(posterior2);
     \draw<5->[red,medarrow] (posterior)--(posterior2);
   \end{tikzpicture}
-  \only<article>{In the ideal data analysis, we start from some prior hypothesis, then obtain some data, which we split into training and holdout. We then examine the training data and obtain a posterior that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
+\end{figure}
+\only<article>{In the ideal data analysis, we start from some prior hypothesis, then obtain some data, which we split into training and holdout. We then examine the training data and obtain a posterior that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
 
     However, this is not what happens in general. Analysts typically use the same holdout repeatedly, in order to improve the performance of their algorithms. This can be seen as indirectly using the holdout data to obtain a new posterior, and so it is possible that you can overfit on the holdout data, even if you never directly see it. It turns out we can solve this problem if we use differential privacy, so that the analyst only sees a differentially private version of queries.
   }
