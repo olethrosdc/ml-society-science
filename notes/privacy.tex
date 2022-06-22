@@ -52,7 +52,7 @@
 
   Generally speaking, an algorithm has good privacy properties, if the
   amount of information that can be revealed through the algorithm's
-  output abound any individual contributing data is bounded. In
+  output about any individual contributing data is bounded. In
   particular, we are interested in how much an adversary can learn
   about any individual's input to the algorithm from the algorithm's
   output.
@@ -96,29 +96,29 @@
   \end{definition}
   \only<article>{
     \begin{theoryblock}{The general case.}
-    When $\CA$ is infinite, $\pol(\cdot | x)$ defines a probability
-    measure over $\CA$. Then we write
-    \[
-      \pol(A \mid x) \defn \Pr_\pol(a \in A \mid x), \qquad A \subset \CA,
-    \]
-    for the conditional probability that algorithm's output is
-    in some set $A \subset \CA$ given input $x$.
-  \end{theoryblock}
-  
-  \begin{exampleblock}{Algorithmic randomness.}
-    We can construct a random algorithm through access to a random
-    coin $\omega$ taking values in $\Omega$. We can then define the
-    output through a deterministic function $a_\pi(\omega, x)$. Since
-    $\omega$ is random, the output of the function is also random.
-    If $P$ is the probability distribution of $\omega$, then:
-    \[
-      \pi(A \mid x) = P(\cset{\omega \in \Omega}{a_\pi(\omega, x) \in A}),
-    \]
-    i.e. the probability that the algorithm's output is in $A$ is
-    equal to the measure of the values of $\omega$ for which the
-    $a_\pi(\omega, x) \in A$.
-  \end{exampleblock}
-}
+      When $\CA$ is infinite, $\pol(\cdot | x)$ defines a probability
+      measure over $\CA$. Then we write
+      \[
+        \pol(A \mid x) \defn \Pr_\pol(a \in A \mid x), \qquad A \subset \CA,
+      \]
+      for the conditional probability that algorithm's output is
+      in some set $A \subset \CA$ given input $x$.
+    \end{theoryblock}
+    
+    \begin{exampleblock}{Algorithmic randomness.}
+      We can construct a random algorithm through access to a random
+      coin $\omega$ taking values in $\Omega$. We can then define the
+      output through a deterministic function $a_\pi(\omega, x)$. Since
+      $\omega$ is random, the output of the function is also random.
+      If $P$ is the probability distribution of $\omega$, then:
+      \[
+        \pi(A \mid x) = P(\cset{\omega \in \Omega}{a_\pi(\omega, x) \in A}),
+      \]
+      i.e. the probability that the algorithm's output is in $A$ is
+      equal to the measure of the values of $\omega$ for which the
+      $a_\pi(\omega, x) \in A$.
+    \end{exampleblock}
+  }
 \end{frame}
 
 \begin{frame}
@@ -130,8 +130,8 @@
 \end{frame}
 \begin{frame}
   \frametitle{Privacy in statistical disclosure.}
-    \only<article>{ Fundamentally, privacy in statistics is an \emph{issue of
-    trust.} The analyst, be it a human, or an automated service, will
+  \only<article>{ Fundamentally, privacy in statistics is an \emph{issue of
+      trust.} The analyst, be it a human, or an automated service, will
     use your data to make decisions. You must also decide who to trust
     and how much. Do we trust the data analyst? How much privacy are
     we willing to sacrifice to the analyst? How much to the public at
@@ -151,15 +151,15 @@
     \end{block}
   }
 
-    \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
-      published,\footnote{If somebody knows that the analysis is being
-        conducted, however, they could still learn something private from the fact that the analysis has \emph{not} been published.} this
-      creates two possible scenarios for that may lead to privacy violations.}
-    \begin{itemize}
-    \item Publication of ``anonymised'' data.
-      \only<article>{Sometimes we may collect data in order to publish the dataset itself for other researchers to use. This is common practice in machine learning, with image classification datasets being a good example. However, if the data contains personal information, there is always some privacy risk even if the data has been anonymised with standard methods.}
-    \item Public data analysis. \only<article>{This is a more general setting, where we never publish individual data records, but only summary statistics or models about the data. A prime example is a national census analysis, which may provide detailed demographic information for all towns and regions in a nation. Although only aggregate data is published, it is theoretically possible to infer personal information. For that reason, the US Census Bureau conducted its analysis in 2020 using differential private algorithms.}
-    \end{itemize}
+  \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
+    published,\footnote{If somebody knows that the analysis is being
+      conducted, however, they could still learn something private from the fact that the analysis has \emph{not} been published.} this
+    creates two possible scenarios for that may lead to privacy violations.}
+  \begin{itemize}
+  \item Publication of ``anonymised'' data.
+    \only<article>{Sometimes we may collect data in order to publish the dataset itself for other researchers to use. This is common practice in machine learning, with image classification datasets being a good example. However, if the data contains personal information, there is always some privacy risk even if the data has been anonymised with standard methods.}
+  \item Public data analysis. \only<article>{This is a more general setting, where we never publish individual data records, but only summary statistics or models about the data. A prime example is a national census analysis, which may provide detailed demographic information for all towns and regions in a nation. Although only aggregate data is published, it is theoretically possible to infer personal information. For that reason, the US Census Bureau conducted its analysis in 2020 using differential private algorithms.}
+  \end{itemize}
   \begin{alertblock}{Cryptography is not enough.}
     \only<article>{ Cryptography provides:}
     \begin{itemize}
@@ -557,59 +557,59 @@
 
 \begin{frame}
   \begin{exampleblock}{The prevalence of drugs in sport}
-  
-  \only<article>{
-    Let's say you need to perform a statistical analysis of the drug-use habits of athletes. Obviously, even if you promise the athlete not to reveal their information, you still might not convince them. Yet, you'd like them to be truthful. The trick is to allow them to randomly change their answers, so that you can't be \emph{sure} if they take drugs, no matter what they answer.
-  }
+    
+    \only<article>{
+      Let's say you need to perform a statistical analysis of the drug-use habits of athletes. Obviously, even if you promise the athlete not to reveal their information, you still might not convince them. Yet, you'd like them to be truthful. The trick is to allow them to randomly change their answers, so that you can't be \emph{sure} if they take drugs, no matter what they answer.
+    }
 
-  \only<presentation>{
-    \begin{itemize}
-    \item $n$ athletes
-    \item Ask whether they have doped in the past year.
-    \item Aim: calculate \% of doping.
-    \item How can we get truthful / accurate results?
-    \end{itemize}
-    \only<1>{
-      \alert{Write responses in class}
+    \only<presentation>{
+      \begin{itemize}
+      \item $n$ athletes
+      \item Ask whether they have doped in the past year.
+      \item Aim: calculate \% of doping.
+      \item How can we get truthful / accurate results?
+      \end{itemize}
+      \only<1>{
+        \alert{Write responses in class}
+      }
+    }
+    \only<2->{
+      \begin{groupactivity}{Algorithm for randomising responses about drug use}
+        \begin{enumerate}
+        \item Flip a coin.
+        \item If it comes heads, respond truthfully. 
+        \item Otherwise, flip another coin and respond \texttt{yes} if it comes heads and \texttt{no} otherwise.
+        \end{enumerate}
+      \end{groupactivity}
+      \begin{exerciseblock}{Calculating the true rate of responses.}
+        Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
+      \end{exerciseblock}
+      
+    }
+  \end{exampleblock}
+  \only<3->{
+  }
+  \onslide<3->{
+    \only<presentation>{
+      \begin{proof}[Solution]
+        Since the responses are random, we will deal with expectations first
+        \begin{align*}
+          \E p
+          &= \frac{1}{2} \times \frac{1}{2} + q \times \frac{1}{2}
+            \uncover<4->{= \frac{1}{4} + \frac{q}{2}}
+            \uncover<5->{\\
+          q &= 2 \E p - \frac{1}{2}.}
+        \end{align*}
+        
+      \end{proof}
     }
   }
-  \only<2->{
-    \begin{groupactivity}{Algorithm for randomising responses about drug use}
-      \begin{enumerate}
-      \item Flip a coin.
-      \item If it comes heads, respond truthfully. 
-      \item Otherwise, flip another coin and respond \texttt{yes} if it comes heads and \texttt{no} otherwise.
-      \end{enumerate}
-    \end{groupactivity}
-    \begin{exerciseblock}{Calculating the true rate of responses.}
-    Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
-  \end{exerciseblock}
- 
- }
-\end{exampleblock}
-\only<3->{
-}
-\onslide<3->{
-  \only<presentation>{
-    \begin{proof}[Solution]
-      Since the responses are random, we will deal with expectations first
-      \begin{align*}
-        \E p
-        &= \frac{1}{2} \times \frac{1}{2} + q \times \frac{1}{2}
-          \uncover<4->{= \frac{1}{4} + \frac{q}{2}}
-          \uncover<5->{\\
-        q &= 2 \E p - \frac{1}{2}.}
-      \end{align*}
-      
-    \end{proof}
-  }
-}
-\only<article>{The problem with this approach, of course, is that we are effectively throwing away half of our data sources. In particular, if we repeated the experiment with a coin that came heads at a rate $\epsilon$, then our error bounds would scale as $O(1/\sqrt{\epsilon n})$ for $n$ data points.}
+  \only<article>{The problem with this approach, of course, is that we are effectively throwing away half of our data sources. In particular, if we repeated the experiment with a coin that came heads at a rate $\epsilon$, then our error bounds would scale as $O(1/\sqrt{\epsilon n})$ for $n$ data points.}
 \end{frame}
 
 \begin{frame}
-  \only<article>{This algorithm is very specific, as there is no need to give the responses. The above idea can be generalised. Consider we have data $x_1, \ldots, x_n$ from $n$ users and we transform it randomly to $y_1, \ldots, y_n$ using the following mapping.}
-  \begin{block}{The randomised response mechanism}
+  \only<article>{This algorithm is very specific: it assumes binary responses, and it uses a fair coin, which introduces a lot of noise.  Since the coin flips make the responses noisy, we may want to have some way of controlling it. In general, we want to consider an algorithm that takes data $x_1, \ldots, x_n$ from $n$ users transforms it randomly to $a_1, \ldots, a_n$ using the following mapping.}
+  \begin{block}{The binary randomised response mechanism}
     \begin{definition}[Randomised response]
       The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
       \[
@@ -623,9 +623,12 @@
     \[
       \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
     \]
-  }
-  \only<article>{This mechanism satisfies the formal notion of $\epsilon$-differential privacy, which will be given in Definition~\ref{def:epsilon-dp}}
-
+  } \only<article>{This mechanism satisfies the formal notion of
+    $\epsilon$-differential privacy, which will be given in
+    Definition~\ref{def:epsilon-dp}. In a more general setting, we may
+    have multiple possible responses. While the algorithm can be
+    trivially generalised to $n$-ary outputs, the special case of when
+    the outputs are integers is deferred until later.}
 \end{frame}
 
 \begin{frame}
@@ -646,13 +649,13 @@
     values of the true response of an individual. We use the
     randomised response mechanism with parameter $p$ and the
     adversary observes the randomised data $a = 1$ for that
-    individual, then what is $\bel(x = 1 \mid a = 1)$, assuming the
+    individual, then what is $\Pr^\pol_\bel(x = 1 \mid a = 1)$, assuming the
     adversary knows the mechanism?
   \end{example}
   \begin{proof}
-    Bayes's theorem states that
+    Bayes's theorem states that\footnote{If there are too many symbols for you, you can write Bayes theorem simply with $P(x | a) = P(a | x) P(x) / P(a)$.}
     \[
-      \bel(x \mid a) = \pol(a \mid x) \bel(x) / \Pr^\pol_\bel(a),
+      \Pr^\pol_\bel(x \mid a) = \pol(a \mid x) \bel(x) / \Pr^\pol_\bel(a),
     \]
     where
     \[
@@ -660,11 +663,11 @@
     \]
     Let $q = \bel(x = 1)$. Then we have:
     \[
-      \bel(x = 1 \mid a = 1) = pq / [pq + (1-p)(1 - q)].
+      \Pr^\pol_\bel(x = 1 \mid a = 1) = pq / [pq + (1-p)(1 - q)].
     \]
     It is particularly interesting to consider the case where $q = 1/2$. Then
     \[
-      \bel(x = 1 \mid a = 1) = p,
+      \Pr^\pol_\bel(x = 1 \mid a = 1) = p,
     \]
     so we only have limited evidence for whether $x=1$. Now consider the case where we have some arbitrary prior $q$, and $p=1/2$. This means that the output of the algorithm is completely random. Consequently:
     \[
@@ -685,18 +688,25 @@
   }
   \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from the result of a computation $\pol$ on the data. For reasons that will be made clear later, this computation has to be stochastic.}
   \begin{theoryblock}{$\epsilon$-Differential Privacy}
-  \begin{definition}
-    \label{def:epsilon-dp}
-    A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
-    is endowed with a neighbourhood relation $N$, is said to be
-    $\epsilon$-differentially private if
-    \begin{equation}
-      \label{eq:epsilon-dp}
-      \left|\ln \frac{\pol(a \mid x)}{\pol(a \mid x')}\right| \leq \epsilon , \qquad \forall x N x'.
-    \end{equation}
-  \end{definition}
-\end{theoryblock}
-\only<article>{Typically, algorithms are applied to datasets
+    \begin{definition}
+      \label{def:epsilon-dp}
+      A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
+      is endowed with a neighbourhood relation $N$, is said to be
+      $\epsilon$-differentially private if
+      \begin{equation}
+        \label{eq:epsilon-dp}
+        \left|\ln \frac{\pol(a \mid x)}{\pol(a \mid x')}\right| \leq \epsilon , \qquad \forall x N x'.
+      \end{equation}
+    \end{definition}
+  \end{theoryblock}
+  \only<article>{
+    The above inequality can be equivalently rewritten as
+    \[
+      \pol(a \mid x) \leq e^\epsilon \pol(a \mid x'). 
+    \]
+    However, the form given in the definition is easier to interpret as it can be related to standard notions of statistical distance such as the KL divergence $\sum_a \ln \frac{\pol(a \mid x)}{\pol(a \mid x')} \pol(a \mid x)$.
+  }
+  \only<article>{Typically, algorithms are applied to datasets
     $x = (x_1, \ldots, x_n)$ composed of the data of $n$
     individuals. Thus, all privacy guarantees relate to the data
     contributed by these individuals.
@@ -716,43 +726,43 @@
     dataset. If not, then they cannot infer the individual's presence
     from the output of the algorithm.
 
-    }
-    \begin{definition}[Addition/deletion neighbourhood]
-        If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
-        \[
-          x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1}, \ldots, x_n),
-          \qquad
-          x' = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_n),
-        \]
-        for some $i$,  i.e. if one dataset is
-        missing an element.
-      \end{definition}
-      \only<article>{
-        This is an important concept if the participation in the dataset is itself sensitive. For example, if somebody is enlisted in study for experimental treatment of a rare disease, then the mere fact that they are part of the study is strong evidence that they have the disease.
-        
-        The second definition is slightly weaker. It determines
-        whether or not we can distinguish between different
-        \emph{values} of individual data. If not, then they cannot
-        infer whether the data submitted by the individual has a
-        particular value.}
-      \begin{definition}[Edit neighbourhood]
-        We say that two datasets $x, x'$ are neighbours, and write $x N x'$ if
-        \[
-          x' = (x_1, \ldots,  x_i, \ldots, x_n),
-          \qquad
-          x' = (x_1, \ldots, x'_i, \ldots,  x_n),
-          \qquad
-          x_i \neq x'_i.
-        \]
-        i.e. if one dataset has an altered element.
-      \end{definition}
-      \only<article>{ If $x,x'$ are 1-neighbours under the second
-        definition, then they are 2-neighbours under the first
-        definition. Let's create a new dataset $\hat{x}$ missing the
-        data of person $i$. Then $x N \hat{x}$ and $\hat{x} N x'$,
-        since we can change the data of one person by removing the
-        original data $x_i$ and then re-inserting the altered data
-        $x'_i$. This is illustrated in the example below.}
+  }
+  \begin{definition}[Addition/deletion neighbourhood]
+    If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
+    \[
+      x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1}, \ldots, x_n),
+      \qquad
+      x' = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_n),
+    \]
+    for some $i$,  i.e. if one dataset is
+    missing an element.
+  \end{definition}
+  \only<article>{
+    This is an important concept if the participation in the dataset is itself sensitive. For example, if somebody is enlisted in study for experimental treatment of a rare disease, then the mere fact that they are part of the study is strong evidence that they have the disease.
+    
+    The second definition is slightly weaker. It determines
+    whether or not we can distinguish between different
+    \emph{values} of individual data. If not, then they cannot
+    infer whether the data submitted by the individual has a
+    particular value.}
+  \begin{definition}[Edit neighbourhood]
+    We say that two datasets $x, x'$ are neighbours, and write $x N_e x'$ if
+    \[
+      x' = (x_1, \ldots,  x_i, \ldots, x_n),
+      \qquad
+      x' = (x_1, \ldots, x'_i, \ldots,  x_n),
+      \qquad
+      x_i \neq x'_i.
+    \]
+    i.e. if one dataset has an altered element.
+  \end{definition}
+  \only<article>{ If $x,x'$ are 1-neighbours under the second
+    definition, then they are 2-neighbours under the first
+    definition. Let's create a new dataset $\hat{x}$ missing the
+    data of person $i$. Then $x N \hat{x}$ and $\hat{x} N x'$,
+    since we can change the data of one person by removing the
+    original data $x_i$ and then re-inserting the altered data
+    $x'_i$. This is illustrated in the example below.}
 \end{frame}
 
 
@@ -808,20 +818,87 @@
         \caption{$x''$, 2-Neighbour of $x'$.}
       \end{table}
       \only<article>{Since $x,x''$ only differ in the contents of a single row, they are edit-neighbours.}
-      }
     }
   \end{exampleblock}
 \end{frame}
 
+\begin{frame}
+  \only<article>{
+   As we hinted earlier, the randomised response mechanism satisfies $\epsilon$-DP. 
+  }
+  \begin{remark}
+    The randomised response mechanism with $p \leq 1/2$ is $(\ln \frac{1 - p}{p})$-DP with respect to the edit neighbourhood $N_e$.
+  \end{remark}
+  \begin{proof}
+    Consider $x = (x_1, \ldots, x_j,  \ldots, x_n)$, $x' = (x_1, \ldots, x'_j,  \ldots, x_n)$. Then
+    \begin{align*}
+      \pol(a \mid x)
+      \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
+                     \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+                                       \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
+                                                         \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
+    \end{align*}
+    \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
+  \end{proof}
+
+  \begin{groupactivity}{Change of neighbourhood}
+    Do you need to change something in the randomised-response
+    mechanism for it to be differentially private with respect to the
+    insertion-neighbourhood definition?
+  \end{groupactivity}
+  \begin{proof}
+    Let $\bx_1, \bx_2, \bx_3$ be three datasets with
+    $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.
+    
+    First of all, an algorithm that is $\epsilon$-DP with respect to
+    the $N$, is $2\epsilon$-DP with respect to $N_e$.
+    This follows from the fact that $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq e^{2\epsilon} \pol( a | \bx_3)$.
+
+    What about the
+    converse?
+
+    Then
+
+  \end{proof}
+  \only<article>{Finally, it may be convenient to subsume both definitions into one by considering the following distance between datasets. Let $\Naturals^{|\CX|}$ be the set of all possible dataset histograms, i.e. counts of different possible rows in each dataset.
+
+    
+    \begin{definition}[Hamming distance between datasets]
+      \begin{align}
+        \|\bx - \bx'\|_1
+        &= \sum_j |\sum_{i=1}^n \ind{x_i =j} - \sum_{i=1}^{n'} \ind{x_i =j}|
+        = \sum_j |N_j(\bx) - N_j(\bx')|,
+      \end{align}
+      where $N_j(\bx)$ is the number of elements in $\bx$ equal to $j$.
+    \end{definition}
+    In this definition, if $\bx'$ has one less element than $\bx$,
+    then there is some $j$ for which $N_j(\bx) = N_j(\bx) +
+    1$. Consequently, $\|\bx - \bx'\|_1 = 1$.  On the other hand, if
+    some elements $x_i = j$ but $x'_i = k$, then
+     $N_j(\bx) = N_j(\bx) + 1$ and  $N_k(\bx) = N_k(\bx) - 1$. Consequently
+    $\|\bx - \bx'\|_1 = 2$.  
+  }
+\end{frame}
 
 
 \section{The local and central privacy models}
 \begin{frame}
-  \frametitle{The local privacy model}
-  \centering
+  \only<article>{
+    So far, we have only seen the concept of differential privacy applied as a method to generate a privatised version of a dataset.
+  }
+  \begin{theoryblock}{From non-private to private calculations.}
+    In the
+  \end{theoryblock}
+  
+  \begin{block}{The local privacy model.}
+    \only<article>{This is the standard model of differential privacy. We wish to calculate a function $f : \CX \to \CY$ on individual data. However, we do not want to simply release $y = f(x)$ because we want to guarantee some privacy properties. Instead, a trusted curator obtains the data $x$ of all individuals and selects a DP policy $\pol(a \mid x)$ to generate the output $a$. Of course, we want to make sure that $f(x) \approx a$ in some sense, otherwise the mechanism will not be useful.}    
+  \end{block}
 
-  \only<article>{This is the standard model of differential privacy. We wish to calculate a function $f : \CX \to \CY$ on individual data. However, we do not want to simply release $y = f(x)$ because we want to guarantee some privacy properties. Instead, a trusted curator obtains the data $x$ of all individuals and selects a DP policy $\pol(a \mid x)$ to generate the output $a$. Of course, we want to make sure that $f(x) \approx a$ in some sense, otherwise the mechanism will not be useful.}
+  \begin{block}{The central privacy model.}
+    \only<article>{This is the standard model of differential privacy. We wish to calculate a function $f : \CX \to \CY$ on individual data. However, we do not want to simply release $y = f(x)$ because we want to guarantee some privacy properties. Instead, a trusted curator obtains the data $x$ of all individuals and selects a DP policy $\pol(a \mid x)$ to generate the output $a$. Of course, we want to make sure that $f(x) \approx a$ in some sense, otherwise the mechanism will not be useful.}    
+  \end{block}
 
+  
   \begin{figure}[H]
     \begin{subfigure}{0.3\textwidth}
       \centering
@@ -1043,20 +1120,6 @@
     \end{remark}
 
     To prove that this is necessary, consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.}
-  \begin{remark}
-    The randomised response mechanism with $p \leq 1/2$ is $(\ln \frac{1 - p}{p})$-DP.
-  \end{remark}
-  \begin{proof}
-    Consider $x = (x_1, \ldots, x_j,  \ldots, x_n)$, $x' = (x_1, \ldots, x'_j,  \ldots, x_n)$. Then
-    \begin{align*}
-      \pol(a \mid x)
-      \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
-                     \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-                                       \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-                                                         \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
-    \end{align*}
-    \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
-  \end{proof}
 \end{frame}
 
 \only<article>{
@@ -1103,7 +1166,8 @@
 
 
 \begin{frame}
-  \begin{exercise}{Adversary knowledge}
+  
+  \begin{exerciseblock}{Adversary knowledge}
     \only<article>{Assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
     \[
       \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
@@ -1129,16 +1193,14 @@
         \]
       }
     }
-    What can we say about the posterior distribution of the adversary $\bel(\bx \mid a, \pol)$ after having seen the output, if $\pol$ is $\epsilon$-DP?
-  \end{exercise}
+    What can we say about the posterior distribution of the adversary $\bel(\bx \mid a, \pol)$ after having seen the output, if $\pol$ is $\epsilon$-DP? How does it depend on $\epsilon$?
+  \end{exerciseblock}    
   
-\end{frame}
-\only<article>{
-  \begin{frame}
+  \only<article>{
     \begin{proof}[Solution]
       We can write the adversary posterior as follows.
       \begin{align}
-        \bel(\bx \mid a, \pol)
+        \Pr^\pol_\bel(\bx \mid a)
         &=
           \frac{\pol(a  \mid \bx) \bel(\bx)}
           {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx') \bel(\bx')}
@@ -1149,21 +1211,13 @@
         \\
         &=
           \frac{\bel(\bx)}
-          {\bel(\bx) +  e^\epsilon \bel(\bx')}
+          {\bel(\bx) +  e^\epsilon \bel(\bx')}.
       \end{align}
-      But this is not very informative. We can also write
-      \begin{align}
-        \frac{\bel(\bx \mid a, \pol)}{\bel(\bx' \mid a, \pol)}
-        =
-        \frac{\pol(a  \mid \bx) \bel(\bx)}{\pol(a  \mid \bx') \bel(\bx')}
-        \geq
-        \frac{\pol(a  \mid \bx) \bel(\bx)}{\pol(a  \mid \bx) e^{-\epsilon} \bel(\bx')}
-        =
-        \frac{\bel(\bx)}{\bel(\bx')} e^\epsilon
-      \end{align}
+      We can see that $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior. 
     \end{proof}
-  \end{frame}
-}
+  }
+
+\end{frame}
 
 
 
@@ -1171,7 +1225,6 @@
 
 \subsection{The Laplace mechanism}
 \begin{frame}
-  \frametitle{The Laplace mechanism.}
   \only<article>{
     A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise, so that the output of the algorithm is simply 
     \[
@@ -1383,25 +1436,25 @@ In practice, \ldots
   \frametitle{The unfortunate practice of adaptive analysis}
   \begin{figure}
     \centering
-  \begin{tikzpicture}
-    \node<1->[rectangle] at (0,4) (prior) {Prior};
-    \node<2->[rectangle] at (0,0) (training) {Training data};
-    \node<3->[rectangle] at (4,4) (posterior) {Posterior};
-    \node<5->[rectangle] at (8,4) (posterior2) {Posterior'};
-    \node<2->[rectangle] at (4,0) (holdout) {Holdout};
-    \node<4->[RV] at (4,2) (result) {Result};
-    \node<5->[RV] at (8,2) (result2) {Result'};
-    \draw<3->[medarrow] (training)--(posterior);
-    \draw<3->[medarrow] (prior)--(posterior);
-    \draw<4->[medarrow] (posterior)--(result);
-    \draw<4->[medarrow] (holdout)--(result);
-    \draw<5->[red,medarrow] (posterior2)--(result2);
-    \draw<5->[red,medarrow] (holdout)--(result2);
-    \draw<5->[red,medarrow] (result)--(posterior2);
-    \draw<5->[red,medarrow] (posterior)--(posterior2);
-  \end{tikzpicture}
-\end{figure}
-\only<article>{In the ideal data analysis, we start from some prior hypothesis, then obtain some data, which we split into training and holdout. We then examine the training data and obtain a posterior that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
+    \begin{tikzpicture}
+      \node<1->[rectangle] at (0,4) (prior) {Prior};
+      \node<2->[rectangle] at (0,0) (training) {Training data};
+      \node<3->[rectangle] at (4,4) (posterior) {Posterior};
+      \node<5->[rectangle] at (8,4) (posterior2) {Posterior'};
+      \node<2->[rectangle] at (4,0) (holdout) {Holdout};
+      \node<4->[RV] at (4,2) (result) {Result};
+      \node<5->[RV] at (8,2) (result2) {Result'};
+      \draw<3->[medarrow] (training)--(posterior);
+      \draw<3->[medarrow] (prior)--(posterior);
+      \draw<4->[medarrow] (posterior)--(result);
+      \draw<4->[medarrow] (holdout)--(result);
+      \draw<5->[red,medarrow] (posterior2)--(result2);
+      \draw<5->[red,medarrow] (holdout)--(result2);
+      \draw<5->[red,medarrow] (result)--(posterior2);
+      \draw<5->[red,medarrow] (posterior)--(posterior2);
+    \end{tikzpicture}
+  \end{figure}
+  \only<article>{In the ideal data analysis, we start from some prior hypothesis, then obtain some data, which we split into training and holdout. We then examine the training data and obtain a posterior that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
 
     However, this is not what happens in general. Analysts typically use the same holdout repeatedly, in order to improve the performance of their algorithms. This can be seen as indirectly using the holdout data to obtain a new posterior, and so it is possible that you can overfit on the holdout data, even if you never directly see it. It turns out we can solve this problem if we use differential privacy, so that the analyst only sees a differentially private version of queries.
   }
