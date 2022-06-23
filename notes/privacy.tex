@@ -773,7 +773,7 @@
 
 
 \begin{frame}
-  \begin{exampleblock}{Neihgbourhood}
+  \begin{exampleblock}{Neihgbourhood example}
     \only<article>{
       In this example, we have three datasets, $x, x'$ and $x''$. In the second dataset, $x'$, the highlighted row in $x'$ is missing. In the third dataset, $x''$, another row with the same name is added, but the height and weight are changed.
     }
@@ -846,18 +846,27 @@
     \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
   \end{proof}
 
-  \begin{groupactivity}{Change of neighbourhood}
+  \begin{groupactivity}{Moving to a new neighbourhood}
     Do you need to change something in the randomised-response
     mechanism for it to be differentially private with respect to the
-    insertion-neighbourhood definition?
+    insertion-neighbourhood definition? If so, how?
   \end{groupactivity}
   
   \begin{proof}
     Let $\bx_1, \bx_2, \bx_3$ be three datasets with
-    $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.
-    First of all, an algorithm that is $\epsilon$-DP with respect to
-    the $N$, is $2\epsilon$-DP with respect to $N_e$.
-    This follows from the fact that $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq e^{2\epsilon} \pol( a | \bx_3)$.  What about the converse? Let us take two events 
+    $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.  First of all, an
+    algorithm that is $\epsilon$-DP with respect to the $N$, is
+    $2\epsilon$-DP with respect to $N_e$.  This follows from the fact
+    that
+    $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq
+    e^{2\epsilon} \pol( a | \bx_3)$.  What about the converse?
+    Consider the case where $\bx_1$ has $n$ entries and $\bx_2$ has
+    $n+1$ entries. Let $A_n$ be the set of all responses with $n$
+    entries. Then clearly $\pi(A_n | \bx_1) = 1$ and
+    $\pi(A_{n} | \bx_2) = 0$. Consequently
+    $|\ln\frac{\pi(A_n | \bx_1)}{\pi(A_{n} | \bx_2)}|$ is not bounded by
+      any constant, and differential privacy is not satisfied with
+      respect to insertions and deletions.
   \end{proof}
   \only<article>{Finally, it may be convenient to subsume both definitions into one by considering the following distance between datasets. Let $\Naturals^{|\CX|}$ be the set of all possible dataset histograms, i.e. counts of different possible rows in each dataset.
 
