@@ -1,9 +1,25 @@
 \chapter{Decision and Learning Theory}
 \label{ch:decision-problems}
-\only<article>{This chapter deals with simple decision problems, whereby a decision maker (DM) makes a simple choice among many. In some of this problems the DM has to make a decision after first observing some side-information. Then the DM uses a \emph{decision rule} to assign a probability to each possible decision for each possible side-information. However, designing the decision rule is not trivial, as it relies on previously collected data. A higher-level decision includes choosing the decision rule itself. The problems of classification and regression fall within this framework. While most steps in the process can be automated and formalised, a lot of decisions are actual design choices made by humans. This creates scope for errors and misinterpretation of results.
+\only<article>{This chapter deals with simple decision problems,
+  whereby a decision maker (DM) makes a simple choice among many. In
+  some of this problems the DM has to make a decision after first
+  observing some side-information. Then the DM uses a \emph{decision
+    rule} to assign a probability to each possible decision for each
+  possible side-information. However, designing the decision rule is
+  not trivial, as it relies on previously collected data. A
+  higher-level decision includes choosing the decision rule
+  itself. The problems of classification and regression fall within
+  this framework. While most steps in the process can be automated and
+  formalised, a lot of decisions are actual design choices made by
+  humans. This creates scope for errors and misinterpretation of
+  results.
 
-In this chapter, we shall formalise all these simple decision problems from the point of view of statistical decision theory. The first question is, given a real world application, what type of decision problem does it map to? Then, what kind of machine learning algorithms can we use to solve it? What are the underlying assumptions and how valid are our conclusions? 
-}
+  In this chapter, we shall formalise all these simple decision
+  problems from the point of view of statistical decision theory. The
+  first question is, given a real world application, what type of
+  decision problem does it map to? Then, what kind of machine learning
+  algorithms can we use to solve it? What are the underlying
+  assumptions and how valid are our conclusions?  }
 
 \section{Hierarchies of decision making problems}
 \label{sec:decision-problems}
@@ -18,8 +34,20 @@ In this chapter, we shall formalise all these simple decision problems from the 
 }
 
 
-\only<article>{
-  All machine learning problems are essentially decision problems. This essentially means replacing some human decisions with machine decisions. One of the simplest decision problems is classification, where you want an algorithm to decide the correct class of some data, but even within this simple framework there is a multitude of decisions to be made. The first is how to frame the classification problem the first place. The second is how to collect, process and annotate the data. The third is choosing the type of classification model to use. The fourth is how to use the collected data to find an optimal classifier within the selected type. After all this has been done, there is the problem of classifying new data. In this course, we will take a holistic view of the problem, and consider each problem in turn, starting from the lowest level and working our way up.}
+\only<article>{ All machine learning problems are essentially decision
+  problems. This essentially means replacing some human decisions with
+  machine decisions. One of the simplest decision problems is
+  classification, where you want an algorithm to decide the correct
+  class of some data, but even within this simple framework there is a
+  multitude of decisions to be made. The first is how to frame the
+  classification problem the first place. The second is how to
+  collect, process and annotate the data. The third is choosing the
+  type of classification model to use. The fourth is how to use the
+  collected data to find an optimal classifier within the selected
+  type. After all this has been done, there is the problem of
+  classifying new data. In this course, we will take a holistic view
+  of the problem, and consider each problem in turn, starting from the
+  lowest level and working our way up.}
 
 
 \subsection{Simple decision problems}
@@ -36,16 +64,16 @@ In this chapter, we shall formalise all these simple decision problems from the 
     \end{block}
     \begin{block}{Money}
       \begin{itemize}
-      \item[A] 10,000,000 SEK
+      \item[A] 10,000,000 CHF
       \item[B] 10,000,000 USD
-      \item[C] 10,000,000 BTC
+      \item[C] 1,000 BTC
       \end{itemize}
     \end{block}
     \begin{block}{Entertainment}
       \begin{itemize}
-      \item[A] Ticket to Liseberg
-      \item[B] Ticket to Rebstar
-      \item[C] Ticket to Nutcracker
+      \item[A] 1 Week in Venice
+      \item[B] 1 Week Hoch-Tour in the Alps
+      \item[C] 1 Week Transatlantic Cruise
       \end{itemize}
     \end{block}
   \end{example}
@@ -53,7 +81,9 @@ In this chapter, we shall formalise all these simple decision problems from the 
 
 \begin{frame}
   \frametitle{Rewards and utilities}
-  \only<article>{In the decision theoretic framework, the things we receive are called rewards, and we assign a utility value to each one of them, showing which one we prefer.}
+  \only<article>{In the decision theoretic framework, the things we
+    receive are called rewards, and we assign a utility value to each
+    one of them, showing which one we prefer.}
   \begin{itemize}
   \item Each choice is called a \alert{reward} $r \in \CR$.
   \item There is a \alert{utility function} $U : \CR \to \Reals$, assigning values to reward.
@@ -63,10 +93,17 @@ In this chapter, we shall formalise all these simple decision problems from the 
     \[
     r^* \in \argmax_r U(r)
     \]
-    The main difficult is actually selecting the appropriate utility function. In a behavioural context, we simply assume that humans act with respect to a specific utility function. However, figuring out this function from behavioural data is non trivial. ven when this assumption is correct, individuals do not have a common utility function.
-  }
+    The main difficult is actually selecting the appropriate utility
+    function. In a behavioural context, we simply assume that humans
+    act with respect to a specific utility function. However, figuring
+    out this function from behavioural data is non trivial. ven when
+    this assumption is correct, individuals do not have a common
+    utility function.  }
   \begin{exercise}
-    From your individual preferences, derive a \alert{common utility function} that reflects everybody's preferences in the class for each of the three examples. Is there a simple algorithm for deciding this? Would you consider the outcome fair?
+    From your individual preferences, derive a \alert{common utility
+      function} that reflects everybody's preferences in the class for
+    each of the three examples. Is there a simple algorithm for
+    deciding this? Would you consider the outcome fair?
   \end{exercise}
 \end{frame}
 

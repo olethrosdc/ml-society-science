@@ -17,7 +17,7 @@
 
 
 \only<article>{
-  %What are the central problems in machine learning?
+  % What are the central problems in machine learning?
   Problems in machine learning are similar to problems in science.
   Scientists must plan experiments intelligently and collect data.
   The must be able to use the data to verify a different hypothesis.
@@ -306,12 +306,13 @@
 }
 
 
-\begin{frame}
-  \frametitle{Adam, the robot scientist}
-  \centering
-  \includegraphics[width=\fwidth]{../figures/robot-scientist}
-\end{frame}
-
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Adam, the robot scientist}
+    \centering
+    \includegraphics[width=\fwidth]{../figures/robot-scientist}
+  \end{frame}
+}
 
 \only<article>{
   Let's say we want to build a robot scientist and tell it to
@@ -319,13 +320,13 @@
 }
 
 
-
+\only<presentation>{
 \begin{frame}
   \frametitle{Drug discovery}
   \centering
   \includegraphics[width=\columnwidth]{../figures/drug-discovery-000}
 \end{frame}
-
+}
 
 \only<article>{
   Simplifying the problem a bit, consider that you have a large
@@ -369,19 +370,21 @@
 }
 
 \subsection{Bayesian inference.}
+\only<presentation>{
 \begin{frame}
   \frametitle{Tycho Brahe's minute eye measurements}
-  \begin{figure}[H]
+  \begin{figure}[h]
     \centering
     \begin{columns}
-      \begin{column}{0.5\textwidth}
-        \includegraphics[width=\fwidth]{../figures/circular-orbits}
+      \begin{column}{0.45\textwidth}
+        \includegraphics[width=0.9\fwidth]{../figures/circular-orbits}
       \end{column}
-      \begin{column}{0.5\textwidth}
-        \includegraphics[width=\fwidth]{../figures/tycho-observations}
+      \hspace{1em}
+      \begin{column}{0.45\textwidth}
+        \includegraphics[width=0.9\fwidth]{../figures/tycho-observations}
       \end{column}
     \end{columns}
-    
+
     \caption{Tycho's measurements of the orbit of Mars and the conclusion about the actual orbits, under the assumption of an earth-centric universe with circular orbits.}
     \label{fig:tycho}
   \end{figure}
@@ -390,7 +393,7 @@
   \item Conclusion: \alert{Specific} circular orbits
   \end{itemize}
 \end{frame}
-
+}
 
 \only<article>{
   Let's take the example of planetary orbits. Here Tycho famously
@@ -399,8 +402,8 @@
   didn't know which were the right orbits. When he tried to fit his data to this hypothesis, he concluded a specific circular orbit for Mars \ldots around Earth.
 }
 
-
-\begin{frame}
+\only<presentation>{
+  \begin{frame}
   \frametitle{Johannes Kepler's alternative hypothesis}
   \begin{columns}
     \centering
@@ -411,12 +414,26 @@
       \includegraphics[width=\fwidth]{../figures/tycho-observations}
     \end{column}
   \end{columns}
-  \begin{itemize}
-  \item Hypothesis: Circular \alert{or} elliptic orbits
-  \item Conclusion: Specific \alert{elliptic} orbits
-  \end{itemize}
+    \begin{itemize}
+    \item Hypothesis: Circular \alert{or} elliptic orbits
+    \item Conclusion: Specific \alert{elliptic} orbits
+    \end{itemize}
 \end{frame}
+}
 
+\only<article>{
+  \begin{figure}[h]
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\fwidth]{../figures/tycho-observations}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\fwidth]{../figures/circular-orbits}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\fwidth]{../figures/orbits}
+    \end{subfigure}
+  \end{figure}
+}
 
 \only<article>{
   Kepler had a more general hypothesis: that orbits could be
@@ -428,34 +445,30 @@
 }
 
 
-\begin{frame}
-  \frametitle{200 years later, Gauss formalised this statistically}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \includegraphics[width=\fwidth]{../figures/gauss-diagram}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \includegraphics[width=\fwidth]{../figures/SeptemberTable}
-    \end{column}
-  \end{columns}
-\end{frame}
-
+\only<presentation>{
+  \begin{frame}
+    \frametitle{200 years later, Gauss formalised this statistically}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \includegraphics[width=\fwidth]{../figures/gauss-diagram}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \includegraphics[width=\fwidth]{../figures/SeptemberTable}
+      \end{column}
+    \end{columns}
+  \end{frame}
+}
 
 \only<article>{
   Later on, Gauss collected even more experimental data to calculate the orbit of Ceres. He did this using one of the first formal statistical methods; this allowed him to avoid cheating (like Kepler did, to accentuate his finding that orbits were elliptical).
 }
 
-\begin{frame}
-  \frametitle{A warning: The dead salmon mirage}
-  \only<presentation>{
+\only<presentation>{
+  \begin{frame}
+    \frametitle{A warning: The dead salmon mirage}
     \includegraphics[width=\textwidth]{../figures/fmri-salmon}
-  }
-  \only<article>{
-    \centering
-    \includegraphics[width=2\fwidth]{../figures/fmri-salmon}
-  }
-\end{frame}
-
+  \end{frame}
+}
 
 
 \only<article>{
@@ -487,17 +500,19 @@
   \only<article>{
     So far we have focused only on the problem of data analysis. However, we also need to think about the problem of planning for experiments. This is called \alert{experiment design}. Experiment designs are usually fixed. In that case, we can use assumptions about the data and how much accuracy we need to design the experiment. However, it is also possible to have an adaptive experiment design where our future experiments depend on our current conclusions.
   }
-  \centering
-  \begin{tikzpicture}[line width=2pt]
-    \node at (0,0) (bt) {hypothesis};
-    \node[select] at (0,2) (at) {experiment};
-    \node[utility] at (3,-2) (rt) {result};
-    \draw[blue,->] (at) -- (rt);
-    \node at (4,0) (bt2) {conclusion};
-    \draw[red,->] (at) -- (bt2);
-    \draw[red,->] (bt) -- (bt2);
-    \draw[red,->] (rt) -- (bt2);
-  \end{tikzpicture}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[line width=2pt]
+      \node at (0,0) (bt) {hypothesis};
+      \node[select] at (0,2) (at) {experiment};
+      \node[utility] at (3,-2) (rt) {result};
+      \draw[blue,->] (at) -- (rt);
+      \node at (4,0) (bt2) {conclusion};
+      \draw[red,->] (at) -- (bt2);
+      \draw[red,->] (bt) -- (bt2);
+      \draw[red,->] (rt) -- (bt2);
+    \end{tikzpicture}
+  \end{figure}
 \end{frame}
 
 \only<article>{
@@ -528,7 +543,7 @@
   These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot, called Eve, that recently (re)-discovered a malaria drug.
 }
 
-\subsection{Course overview}
+\subsection{Book overview}
 
 \begin{frame}
   \frametitle{Machine learning in practice}
@@ -563,19 +578,19 @@
 
 
 \begin{frame}
-\frametitle{The view from statistics}
-\only<article>{While in machine learning people generally discuss mainly supervised, unsupervised or reinforcement learning, these are actually three rather broad, but still limited categories of problems. There are many other problems, such as semi-supervised learning, active learning, imitation/apprenticeship learning, inverse reinforcement learning, preference elicitation, adaptive control, and possibly many others to come. The statistical view is that there basically three types of problems:}
+  \frametitle{The view from statistics}
+  \only<article>{While in machine learning people generally discuss mainly supervised, unsupervised or reinforcement learning, these are actually three rather broad, but still limited categories of problems. There are many other problems, such as semi-supervised learning, active learning, imitation/apprenticeship learning, inverse reinforcement learning, preference elicitation, adaptive control, and possibly many others to come. The statistical view is that there basically three types of problems:}
 
-\begin{block}{Inference}\index{inference|textbf}
-  Given what we know, what can we say about how the world works, the current state of the world or events in the past?
-\end{block}
-\begin{block}{Prediction.}\index{prediction|textbf}
-  Can we predict specific evens in the future? \only<article>{This frequently is done through some type of inference.}
-\end{block}
-\begin{block}{Decision making.}\index{prediction|textbf}
-  Given what we know, and what we want to achieve, what is the best decision we can make? \only<article>{This typically requires some ability to predict the effect of our actions.}
-\end{block}
-\only<article>{We will encounter many specific inference, prediction and decision making tasks during this course.}
+  \begin{block}{Inference}\index{inference|textbf}
+    Given what we know, what can we say about how the world works, the current state of the world or events in the past?
+  \end{block}
+  \begin{block}{Prediction.}\index{prediction|textbf}
+    Can we predict specific evens in the future? \only<article>{This frequently is done through some type of inference.}
+  \end{block}
+  \begin{block}{Decision making.}\index{prediction|textbf}
+    Given what we know, and what we want to achieve, what is the best decision we can make? \only<article>{This typically requires some ability to predict the effect of our actions.}
+  \end{block}
+  \only<article>{We will encounter many specific inference, prediction and decision making tasks during this course.}
 \end{frame}
 
 \begin{frame}
