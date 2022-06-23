@@ -89,20 +89,22 @@
     environment. We generally consider \emph{stochastic} algorithms.}
   \begin{definition}[Stochastic algorithm $\pi$]
     A stochastic algorithm $\pi$ with input domain $\CX$ and output
-    domain $\CA$ is a mapping $\pi : \CX \to \Simplex(\CA)$
-    from observations to distributions over outputs. When $\CA$ is
-    finite, we will write $\pol(a \mid x)$ to denote the conditional
-    probability that the algorithm outputs $a$ given input $x$.
+    domain $\CA$ is a mapping $\pi : \CX \to \Simplex(\CA)$ from
+    observations $\CX$ to distributions over outputs
+    $\Simplex(\CA$). When $\CA$ is finite, we will write
+    $\pol(a \mid x)$ to denote the conditional probability that the
+    algorithm outputs $a$ given input $x$.
   \end{definition}
   \only<article>{
     \begin{theoryblock}{The general case.}
-      When $\CA$ is infinite, $\pol(\cdot | x)$ defines a probability
+      It is best to think of $\pol(\cdot | x)$ as a probability
       measure over $\CA$. Then we write
       \[
         \pol(A \mid x) \defn \Pr_\pol(a \in A \mid x), \qquad A \subset \CA,
       \]
-      for the conditional probability that algorithm's output is
-      in some set $A \subset \CA$ given input $x$.
+      for the conditional probability that algorithm's output is in
+      some set $A \subset \CA$ given input $x$. This allows us to treat
+      the case when $\CA$ is continuous or discrete with the same notation.
     \end{theoryblock}
     
     \begin{exampleblock}{Algorithmic randomness.}
@@ -695,19 +697,22 @@
       $\epsilon$-differentially private if
       \begin{equation}
         \label{eq:epsilon-dp}
-        \left|\ln \frac{\pol(a \mid x)}{\pol(a \mid x')}\right| \leq \epsilon , \qquad \forall x N x'.
+        \left|\ln \frac{\pol(A \mid x)}{\pol(A \mid x')}\right| \leq \epsilon , \qquad \forall x N x', \quad A \subset \CA.
       \end{equation}
     \end{definition}
   \end{theoryblock}
-  \only<article>{
-    The above inequality can be equivalently rewritten as
+  \only<article>{ This form is related to standard notions of
+    statistical distance such as the KL divergence
+    $\sum_a \ln \frac{\pol(a \mid x)}{\pol(a \mid x')} \pol(a \mid
+    x)$.  However, the above inequality can be equivalently rewritten as
     \[
-      \pol(a \mid x) \leq e^\epsilon \pol(a \mid x'). 
+      \pol(A \mid x) \leq e^\epsilon \pol(A \mid x'). 
     \]
-    However, the form given in the definition is easier to interpret as it can be related to standard notions of statistical distance such as the KL divergence $\sum_a \ln \frac{\pol(a \mid x)}{\pol(a \mid x')} \pol(a \mid x)$.
-  }
-  \only<article>{Typically, algorithms are applied to datasets
-    $x = (x_1, \ldots, x_n)$ composed of the data of $n$
+    Frequently (and particularly when $\CA$ is finite) we can also use
+    $\pol(a \mid x)$ without any technical difficulties.  }
+
+  \only<article>{Typically, algorithms are applied to
+    datasets $x = (x_1, \ldots, x_n)$ composed of the data of $n$
     individuals. Thus, all privacy guarantees relate to the data
     contributed by these individuals.
 
@@ -846,19 +851,13 @@
     mechanism for it to be differentially private with respect to the
     insertion-neighbourhood definition?
   \end{groupactivity}
+  
   \begin{proof}
     Let $\bx_1, \bx_2, \bx_3$ be three datasets with
     $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.
-    
     First of all, an algorithm that is $\epsilon$-DP with respect to
     the $N$, is $2\epsilon$-DP with respect to $N_e$.
-    This follows from the fact that $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq e^{2\epsilon} \pol( a | \bx_3)$.
-
-    What about the
-    converse?
-
-    Then
-
+    This follows from the fact that $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq e^{2\epsilon} \pol( a | \bx_3)$.  What about the converse? Let us take two events 
   \end{proof}
   \only<article>{Finally, it may be convenient to subsume both definitions into one by considering the following distance between datasets. Let $\Naturals^{|\CX|}$ be the set of all possible dataset histograms, i.e. counts of different possible rows in each dataset.
 
