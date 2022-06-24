@@ -828,11 +828,14 @@
 \end{frame}
 
 \begin{frame}
-  \only<article>{
-   As we hinted earlier, the randomised response mechanism satisfies $\epsilon$-DP. 
-  }
+  \only<article>{ As we hinted earlier, the randomised response
+    mechanism satisfies $\epsilon$-DP.  The $\epsilon$ parameter is
+    dependent on $p$, with higher values giving a smaller $\epsilon$,
+    and thus better privacy protection.}
   \begin{remark}
-    The randomised response mechanism with $p \leq 1/2$ is $(\ln \frac{1 - p}{p})$-DP with respect to the edit neighbourhood $N_e$.
+    The randomised response mechanism with $p \leq 1/2$ is
+    $(\ln \frac{1 - p}{p})$-DP with respect to the edit neighbourhood
+    $N_e$.
   \end{remark}
   \begin{proof}
     Consider $x = (x_1, \ldots, x_j,  \ldots, x_n)$, $x' = (x_1, \ldots, x'_j,  \ldots, x_n)$. Then
@@ -851,26 +854,13 @@
     mechanism for it to be differentially private with respect to the
     insertion-neighbourhood definition? If so, how?
   \end{groupactivity}
-  
-  \begin{proof}
-    Let $\bx_1, \bx_2, \bx_3$ be three datasets with
-    $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.  First of all, an
-    algorithm that is $\epsilon$-DP with respect to the $N$, is
-    $2\epsilon$-DP with respect to $N_e$.  This follows from the fact
-    that
-    $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq
-    e^{2\epsilon} \pol( a | \bx_3)$.  What about the converse?
-    Consider the case where $\bx_1$ has $n$ entries and $\bx_2$ has
-    $n+1$ entries. Let $A_n$ be the set of all responses with $n$
-    entries. Then clearly $\pi(A_n | \bx_1) = 1$ and
-    $\pi(A_{n} | \bx_2) = 0$. Consequently
-    $|\ln\frac{\pi(A_n | \bx_1)}{\pi(A_{n} | \bx_2)}|$ is not bounded by
-      any constant, and differential privacy is not satisfied with
-      respect to insertions and deletions.
-  \end{proof}
-  \only<article>{Finally, it may be convenient to subsume both definitions into one by considering the following distance between datasets. Let $\Naturals^{|\CX|}$ be the set of all possible dataset histograms, i.e. counts of different possible rows in each dataset.
 
-    
+  \only<article>{Finally, it may be convenient to the look at
+    neighbourhoods in terms of a distance between daasets. Let
+    $\Naturals^{|\CX|}$ be the set of all possible dataset histograms,
+    i.e. counts of different possible rows in each dataset. Then the
+    distance between two datasets is simply the total difference in
+    counts:
     \begin{definition}[Hamming distance between datasets]
       \begin{align}
         \|\bx - \bx'\|_1
@@ -890,20 +880,33 @@
 
 
 \section{The local and central privacy models}
+\label{sec:local-central-dp}
 \begin{frame}
-  \only<article>{
-    So far, we have only seen the concept of differential privacy applied as a method to generate a privatised version of a dataset.
-  }
-  \begin{theoryblock}{From non-private to private calculations.}
-    In the
-  \end{theoryblock}
+  \only<article>{ So far, we have only seen the concept of
+    differential privacy applied as a method to generate a privatised
+    version of a dataset. In general, however, we want to perform some
+    specific calculations on the data. Is it possible to compute
+    things privately in the first place? Let us assume that you have
+    defined a function $f : \CX \to \CY$, which you wish to compute on
+    arbitrary data $x \in \CX$. If you wish to preserve privacy,
+    however, you need the computation to satisfy some formal guarantee
+    like differential privacy. The simplest way to do this is by
+    simply generating a dataset $a$ with a DP algorithm and then
+    processing the data with the function we have already specified.}
   
   \begin{block}{The local privacy model.}
-    \only<article>{This is the standard model of differential privacy. We wish to calculate a function $f : \CX \to \CY$ on individual data. However, we do not want to simply release $y = f(x)$ because we want to guarantee some privacy properties. Instead, a trusted curator obtains the data $x$ of all individuals and selects a DP policy $\pol(a \mid x)$ to generate the output $a$. Of course, we want to make sure that $f(x) \approx a$ in some sense, otherwise the mechanism will not be useful.}    
+    \only<article>{From each individual data $x_i$, generate
+      $a_i$. Then calculate $f(a)$.}
   \end{block}
 
+  The advantage of the local model is that the calculation $f$ does
+  not need to be modified. The individuals do not have to trust
+  anybody, as they can modify their data locally.
+  z
   \begin{block}{The central privacy model.}
-    \only<article>{This is the standard model of differential privacy. We wish to calculate a function $f : \CX \to \CY$ on individual data. However, we do not want to simply release $y = f(x)$ because we want to guarantee some privacy properties. Instead, a trusted curator obtains the data $x$ of all individuals and selects a DP policy $\pol(a \mid x)$ to generate the output $a$. Of course, we want to make sure that $f(x) \approx a$ in some sense, otherwise the mechanism will not be useful.}    
+    \only<article>{A trusted curator obtains the data $x$ of all
+      individuals and selects a DP policy $\pol(a \mid x)$ to generate
+      the output $a$, so that $a \approx f(x)$.}
   \end{block}
 
   
@@ -970,17 +973,6 @@
   \end{assumption}
 \end{frame}
 
-\subsection{Database access models}
-\only<presentation>{
-  \begin{frame}
-    \tableofcontents[ 
-    currentsection, 
-    hideothersubsections, 
-    sectionstyle=show/shaded
-    ] 
-  \end{frame}
-}
-
 \begin{frame}
   \frametitle{Databases}
   \begin{example}[Typical relational database in a tax office]
@@ -1020,6 +1012,7 @@
   
 \end{frame}
 
+\only<presentation>{
 \begin{frame}
   \frametitle{SQL: A language for database access}
   \begin{block}{Creating and filling tables}
@@ -1067,7 +1060,7 @@
   \end{exampleblock}
 
 \end{frame}
-
+}
 \begin{frame}
   \begin{figure}[H]
     \centering
@@ -1089,6 +1082,7 @@
   \end{block}
 \end{frame}
 
+\only<presentation>{
 \begin{frame}
   \frametitle{Differentially private queries}
   \only<article>{There is no actual \texttt{DP-SELECT} statement, but we can imagine it.}
@@ -1118,7 +1112,7 @@
   \end{exampleblock}
 
 \end{frame}
-
+}
 
 
 \begin{frame}
@@ -1164,7 +1158,7 @@
   }
 
   \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
-  \begin{block}{Independent release of multiple attributes.}
+  \begin{block}{Randomised response for multiple attributes.}
     For $n$ users and $k$ attributes, if the release of each attribute $i$ is $\epsilon$-DP then 
     the data release is $k \epsilon$-DP. Thus to get $\epsilon$-DP overall,  we need $\epsilon / k$-DP per attribute.
   \end{block}
@@ -1231,7 +1225,8 @@
 
 
 
-\subsection{The Laplace mechanism}
+\section{The Laplace mechanism}
+\label{sec:laplace-mechanism}
 \begin{frame}
   \only<article>{
     A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise, so that the output of the algorithm is simply 
@@ -1582,6 +1577,28 @@ In practice, \ldots
 \end{frame}
 
 
+\only<article>{
+\section{Exercises}
+  \begin{exercise}
+    Show that the randomised response mechanism, as originally defined, is not differentially private with respect to the addition/deletion neighbourhood.
+  \end{exercise}
+  \begin{proof}
+    Let $\bx_1, \bx_2, \bx_3$ be three datasets with
+    $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.  First of all, an
+    algorithm that is $\epsilon$-DP with respect to the $N$, is
+    $2\epsilon$-DP with respect to $N_e$.  This follows from the fact
+    that
+    $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq
+    e^{2\epsilon} \pol( a | \bx_3)$.  What about the converse?
+    Consider the case where $\bx_1$ has $n$ entries and $\bx_2$ has
+    $n+1$ entries. Let $A_n$ be the set of all responses with $n$
+    entries. Then clearly $\pi(A_n | \bx_1) = 1$ and
+    $\pi(A_{n} | \bx_2) = 0$. Consequently
+    $|\ln\frac{\pi(A_n | \bx_1)}{\pi(A_{n} | \bx_2)}|$ is not bounded by
+      any constant, and differential privacy is not satisfied with
+      respect to insertions and deletions.
+  \end{proof}
+|
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
