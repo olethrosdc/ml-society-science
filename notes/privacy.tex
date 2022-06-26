@@ -176,15 +176,15 @@
 
 \section{Things we do with data}
 \only<presentation>{
-\begin{frame}
-  \begin{block}{Reasons for data collection}
-    \begin{itemize}
-    \item To publish it.
-    \item To publish specific statistics.
-    \item To make decisions through arbitrary computations.
-    \end{itemize}
-  \end{block}
-\end{frame}
+  \begin{frame}
+    \begin{block}{Reasons for data collection}
+      \begin{itemize}
+      \item To publish it.
+      \item To publish specific statistics.
+      \item To make decisions through arbitrary computations.
+      \end{itemize}
+    \end{block}
+  \end{frame}
 } \only<article>{ How do we use data in the first place? Sometimes we
   simply publish the data, perhaps after some initial
   processing. Publication of datasets is useful for researchers that
@@ -880,7 +880,7 @@
       \begin{align}
         \|\bx - \bx'\|_1
         &= \sum_j |\sum_{i=1}^n \ind{x_i =j} - \sum_{i=1}^{n'} \ind{x_i =j}|
-        = \sum_j |N_j(\bx) - N_j(\bx')|,
+          = \sum_j |N_j(\bx) - N_j(\bx')|,
       \end{align}
       where $N_j(\bx)$ is the number of elements in $\bx$ equal to $j$.
     \end{definition}
@@ -888,7 +888,7 @@
     then there is some $j$ for which $N_j(\bx) = N_j(\bx) +
     1$. Consequently, $\|\bx - \bx'\|_1 = 1$.  On the other hand, if
     some elements $x_i = j$ but $x'_i = k$, then
-     $N_j(\bx) = N_j(\bx) + 1$ and  $N_k(\bx) = N_k(\bx) - 1$. Consequently
+    $N_j(\bx) = N_j(\bx) + 1$ and  $N_k(\bx) = N_k(\bx) - 1$. Consequently
     $\|\bx - \bx'\|_1 = 2$.  
   }
 \end{frame}
@@ -1028,53 +1028,53 @@
 \end{frame}
 
 \only<presentation>{
-\begin{frame}
-  \frametitle{SQL: A language for database access}
-  \begin{block}{Creating and filling tables}
-    \begin{itemize}
-    \item \texttt{CREATE TABLE table-name (column1, column2)}
-      \only<article>{Create a new table}
-    \item \texttt{INSERT INTO table-name VALUES ('value1', 'value2')}
-      \only<article>{Add specific values into a table}
-    \item \texttt{INSERT INTO table-name VALUES (?, ?), variable}
-      \only<article>{Fill in values from a variable}
-    \end{itemize}
-  \end{block}
+  \begin{frame}
+    \frametitle{SQL: A language for database access}
+    \begin{block}{Creating and filling tables}
+      \begin{itemize}
+      \item \texttt{CREATE TABLE table-name (column1, column2)}
+        \only<article>{Create a new table}
+      \item \texttt{INSERT INTO table-name VALUES ('value1', 'value2')}
+        \only<article>{Add specific values into a table}
+      \item \texttt{INSERT INTO table-name VALUES (?, ?), variable}
+        \only<article>{Fill in values from a variable}
+      \end{itemize}
+    \end{block}
 
-  \begin{example}{Database creation}
-    \url{src/privacy/database-creation.py}
-    \\
-    \url{src/privacy/database-access.py}
-  \end{example}
-\end{frame}
-\begin{frame}
-  \frametitle{Queries in SQL}
-  \begin{block}{The \texttt{SELECT} statement}
-    \begin{itemize}
-    \item \texttt{SELECT column1, column2 FROM table;}
-      \only<article>{This selects only some columns from the table}
-    \item \texttt{SELECT * FROM table;}
-      \only<article>{This selects all the columns from the table}
-    \end{itemize}
-  \end{block}
+    \begin{example}{Database creation}
+      \url{src/privacy/database-creation.py}
+      \\
+      \url{src/privacy/database-access.py}
+    \end{example}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Queries in SQL}
+    \begin{block}{The \texttt{SELECT} statement}
+      \begin{itemize}
+      \item \texttt{SELECT column1, column2 FROM table;}
+        \only<article>{This selects only some columns from the table}
+      \item \texttt{SELECT * FROM table;}
+        \only<article>{This selects all the columns from the table}
+      \end{itemize}
+    \end{block}
 
-  \begin{block}{Selecting rows}
-    \texttt{SELECT * FROM table WHERE column = value;}
-  \end{block}
+    \begin{block}{Selecting rows}
+      \texttt{SELECT * FROM table WHERE column = value;}
+    \end{block}
 
-  \begin{exampleblock}{Arithmetic queries}
-    \only<article>{Here are some example SQL statements}
-    \begin{itemize}
-    \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
-      \only<article>{This allows you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
-      \only<article>{This lets you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
-      \only<article>{This is used to sum up the values in a column.}
-    \end{itemize}
-  \end{exampleblock}
+    \begin{exampleblock}{Arithmetic queries}
+      \only<article>{Here are some example SQL statements}
+      \begin{itemize}
+      \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
+        \only<article>{This allows you to count the number of rows matching \texttt{condition}}
+      \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
+        \only<article>{This lets you to count the number of rows matching \texttt{condition}}
+      \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
+        \only<article>{This is used to sum up the values in a column.}
+      \end{itemize}
+    \end{exampleblock}
 
-\end{frame}
+  \end{frame}
 }
 \begin{frame}
   \begin{figure}[H]
@@ -1098,35 +1098,35 @@
 \end{frame}
 
 \only<presentation>{
-\begin{frame}
-  \frametitle{Differentially private queries}
-  \only<article>{There is no actual \texttt{DP-SELECT} statement, but we can imagine it.}
-  \begin{block}{The \texttt{DP-SELECT} statement}
-    \begin{itemize}
-    \item \texttt{DP-SELECT $\epsilon$ column1, column2 FROM table;}
-      \only<article>{This selects only some columns from the table}
-    \item \texttt{DP-SELECT $\epsilon$ * FROM table;}
-      \only<article>{This selects all the columns from the table}
-    \end{itemize}
-  \end{block}
+  \begin{frame}
+    \frametitle{Differentially private queries}
+    \only<article>{There is no actual \texttt{DP-SELECT} statement, but we can imagine it.}
+    \begin{block}{The \texttt{DP-SELECT} statement}
+      \begin{itemize}
+      \item \texttt{DP-SELECT $\epsilon$ column1, column2 FROM table;}
+        \only<article>{This selects only some columns from the table}
+      \item \texttt{DP-SELECT $\epsilon$ * FROM table;}
+        \only<article>{This selects all the columns from the table}
+      \end{itemize}
+    \end{block}
 
-  \begin{block}{Selecting rows}
-    \texttt{DP-SELECT $\epsilon$  * FROM table WHERE column = value;}
-  \end{block}
+    \begin{block}{Selecting rows}
+      \texttt{DP-SELECT $\epsilon$  * FROM table WHERE column = value;}
+    \end{block}
 
-  \begin{exampleblock}{Arithmetic queries}
-    \only<article>{Here are some example SQL statements}
-    \begin{itemize}
-    \item  \texttt{DP-SELECT $\epsilon$ COUNT(column) FROM table WHERE condition;}
-      \only<article>{This allows you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{DP-SELECT $\epsilon$ AVG(column) FROM table WHERE condition;}
-      \only<article>{This lets you to count the number of rows matching \texttt{condition}}
-    \item  \texttt{DP-SELECT $\epsilon$ SUM(column) FROM table WHERE condition;}
-      \only<article>{This is used to sum up the values in a column.}
-    \end{itemize}
-  \end{exampleblock}
+    \begin{exampleblock}{Arithmetic queries}
+      \only<article>{Here are some example SQL statements}
+      \begin{itemize}
+      \item  \texttt{DP-SELECT $\epsilon$ COUNT(column) FROM table WHERE condition;}
+        \only<article>{This allows you to count the number of rows matching \texttt{condition}}
+      \item  \texttt{DP-SELECT $\epsilon$ AVG(column) FROM table WHERE condition;}
+        \only<article>{This lets you to count the number of rows matching \texttt{condition}}
+      \item  \texttt{DP-SELECT $\epsilon$ SUM(column) FROM table WHERE condition;}
+        \only<article>{This is used to sum up the values in a column.}
+      \end{itemize}
+    \end{exampleblock}
 
-\end{frame}
+  \end{frame}
 }
 
 
@@ -1593,7 +1593,7 @@ In practice, \ldots
 
 
 \only<article>{
-\section{Exercises}
+  \section{Exercises}
   \begin{exercise}
     Show that the randomised response mechanism, as originally defined, is not differentially private with respect to the addition/deletion neighbourhood.
   \end{exercise}
@@ -1610,10 +1610,10 @@ In practice, \ldots
     entries. Then clearly $\pi(A_n | \bx_1) = 1$ and
     $\pi(A_{n} | \bx_2) = 0$. Consequently
     $|\ln\frac{\pi(A_n | \bx_1)}{\pi(A_{n} | \bx_2)}|$ is not bounded by
-      any constant, and differential privacy is not satisfied with
-      respect to insertions and deletions.
+    any constant, and differential privacy is not satisfied with
+    respect to insertions and deletions.
   \end{proof}
-|
+}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
