@@ -262,12 +262,48 @@
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{Record linkage}
+
   \only<article>{
     In particular, even if somebody is unable to infer the information of any individual from the published, anonymised, dataset, they may be able to do so via some side-information. All that is needed is another dataset with some columns in common with the dataset they want to target.
 
-    As an example, in the 1990s a the governor of Massachussets,
+
+
+  }
+  
+  \begin{frame}
+    \frametitle{Record linkage}
+    \begin{figure}
+      \begin{columns}
+        \begin{column}{0.7\textwidth}
+          \centering \def\firstcircle{(0,0) circle (7em)}
+          \def\secondcircle{(3,0) circle (7em)}
+          
+          \begin{tikzpicture}
+            \uncover<1,3>{ \draw \firstcircle node[text width=7em]
+              {Ethnicity\newline Date\newline Diagnosis \newline Procedure
+                \newline Medication \newline Charge }; } \uncover<3>{
+              \begin{scope}
+                \clip \firstcircle; \fill[red] \secondcircle;
+              \end{scope}
+            } \uncover<2,3>{\draw \secondcircle node [text width=2em,
+              align=right] {Name \newline Address \newline Registration
+                \newline Party \newline Lastvote}; } \node [text width=4em]
+            (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
+            \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
+              {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
+              (QI); }
+          \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+          \includegraphics[height=\fheight]{../figures/Bill_Weld}
+          \\
+          Bill Weld, R-MA
+        \end{column}
+      \end{columns}
+      \caption{Linkage attack on a anonymised patient information database.}
+    \end{figure}
+    \only<article>{
+      As an example, in the 1990s a the governor of Massachussets,
     decided to publish anonymised information about the health records
     of individual state employs. They were careful to hide all
     obviously identifying information such as their name, and thus
@@ -275,7 +311,7 @@
     they left in some information that they thought would be useful
     for researchers: the postcode, the birthdate, and the sex of each
     individual.
-
+    
     This allowed a PhD student, McSweeney, to perform the following
     linkage attack. She order a floppy disk containing database of
     voting records in the state. This contained names and addresses,
@@ -285,58 +321,9 @@
     obtained was that of the governor himself, Bill Weld. Later, she
     estimated that approximately 87\% of Americans are uniquely
     identifiable through those three attributes.
-
-    Clearly, anonymisation is not enough. So, is there a way to
-    formally guarantee privacy? In the next section we will go over
-    the solution of McSweeny, which is sadly insufficient to protect
-    privacy in general. Later, we will introduce the notion of
-    differential privacy, which protects individuals against
-    statistical disclosure in an information-theoretic manner.
-
   }
-
-  \begin{columns}
-    \begin{column}{0.7\textwidth}
-      \centering \def\firstcircle{(0,0) circle (7em)}
-      \def\secondcircle{(3,0) circle (7em)}
-      
-      \begin{tikzpicture}
-        \uncover<1,3>{ \draw \firstcircle node[text width=7em]
-          {Ethnicity\newline Date\newline Diagnosis \newline Procedure
-            \newline Medication \newline Charge }; } \uncover<3>{
-          \begin{scope}
-            \clip \firstcircle; \fill[red] \secondcircle;
-          \end{scope}
-        } \uncover<2,3>{\draw \secondcircle node [text width=2em,
-          align=right] {Name \newline Address \newline Registration
-            \newline Party \newline Lastvote}; } \node [text width=4em]
-        (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
-        \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
-          {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
-          (QI); }
-      \end{tikzpicture}
-    \end{column}
-    \begin{column}{0.3\textwidth}
-      \includegraphics[height=\fheight]{../figures/Bill_Weld}
-      \\
-      Bill Weld, R-MA
-    \end{column}
-  \end{columns}
 \end{frame}
 
-\begin{frame}
-  \begin{example}[Typical relational database in a tax office]
-    \begin{table}[H]
-      \begin{tabular}{l|l|l|l|l|l|l}
-        ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
-        \hline
-        1959060783 & Li Pu & 150,000 & 1e6 & 60 & 1001 & Politician\\
-        1946061408 & Sara Lee & 300,000 & -1e9 & 72 & 1001 & Rentier\\
-        2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 6732 & Time Traveller
-      \end{tabular}
-    \end{table}
-  \end{example}
-\end{frame}
 
 % \begin{frame}
 %   \frametitle{Data linkage with SQL}
@@ -355,6 +342,14 @@
 %   \end{example}
 % \end{frame}
 
+\only<article>{
+    Clearly, anonymisation is not enough. So, is there a way to
+    formally guarantee privacy? In the next section we will go over
+    the solution of McSweeny, which is sadly insufficient to protect
+    privacy in general. Later, we will introduce the notion of
+    differential privacy, which protects individuals against
+    statistical disclosure in an information-theoretic manner.
+}
 \section{$k$-anonymity}
 \label{sec:k-anonymity}
 \begin{frame}
@@ -907,23 +902,53 @@
     however, you need the computation to satisfy some formal guarantee
     like differential privacy. The simplest way to do this is by
     simply generating a dataset $a$ with a DP algorithm and then
-    processing the data with the function we have already specified.}
+    processing the data with the function we have already
+    specified. This corresponds to the local privacy model.}
+
+
   
   \begin{block}{The local privacy model.}
-    \only<article>{From each individual data $x_i$, generate
-      $a_i$. Then calculate $f(a)$.}
+    \only<presentation>{
+      \begin{itemize}
+      \item Individuals generate $a_i$ from $x_i$ using a DP policy $\pol(a_i | x_i)$.
+      \item The analyst calculates $f(\ba)$.
+      \end{itemize}
+    }
+    \only<article>{Given a function $f : \CX \to \CY$, and a set of
+      individual data $\bx = (x_i)_{i=1}^n$, use a differentially
+      private algorithm $\pol(\ba | \bx)$ to generate $\ba \in
+      \CX$. Then outptut $f(\ba)$.}
   \end{block}
 
-  The advantage of the local model is that the calculation $f$ does
-  not need to be modified. The individuals do not have to trust
-  anybody, as they can modify their data locally.
-  z
-  \begin{block}{The central privacy model.}
-    \only<article>{A trusted curator obtains the data $x$ of all
-      individuals and selects a DP policy $\pol(a \mid x)$ to generate
-      the output $a$, so that $a \approx f(x)$.}
-  \end{block}
+  \only<article>{ The advantage of the local model is that the
+    calculation $f$ does not need to be modified. The individuals do
+    not have to trust anybody, as they can modify their data
+    locally. However, they must take care that the DP calculation is
+    performed correctly.  }
 
+  \only<article>{ Typically, in the local privacy model, the $i$-th
+    individual's data $x_i$ is used to generate a private response
+    $a_i$. This means that individual data is only available to a
+    local private mechanism. This model allows us to publish a
+    complete dataset of private responses.  In the central privacy
+    model, the data $x$ is collected and the result $a$ is published
+    by a \alert{trusted curator.}}
+  
+\begin{block}{The central privacy model.}
+  \only<presentation>{
+    \begin{itemize}
+    \item A \alert{trusted analyst} obtains $\bx$.
+    \item She designs a DP policy $\pol(\ba \mid \bx)$ so that $\ba \approx f(\bx)$.
+    \end{itemize}
+  }
+  \only<article>{A trusted curator obtains the data $\bx$ of all
+    individuals and selects a DP policy $\pol(\ba \mid \bx)$ to generate
+    the output $a$, so that $\ba \approx f(\bx)$.}
+\end{block}
+\only<article>{ The main advantage of the centralised model is that
+  approximating $f$ with a differentially-private version can be much
+  more accurate than simply using the original function with noisy
+  data. However, obtaining such an approximation is not always easy.}
   
   \begin{figure}[H]
     \begin{subfigure}{0.3\textwidth}
@@ -979,13 +1004,14 @@
     \caption{Non-privacy, local privacy, and centralised privacy models.}
   \end{figure}
   
-  \only<article>{
-    In the local privacy model, the $i$-th individual's data $x_i$ is used to generate a private response $a_i$. This means that no individual will provide their true data with certainty. This model allows us to publish a complete dataset of private responses.
-  }
-  \begin{assumption}
-    In the central privacy model, the data $x$ is collected and the
-    result $a$ is published by a \alert{trusted curator}.
-  \end{assumption}
+
+  \begin{groupactivity}{Trust models.}
+    Google uses a local privacy model to collect data from Android
+    phone users. How does this compare to Google gathering data in the
+    clear and then performing private computations? Who do the users
+    have to trust? What are the privacy risks in either case?
+  \end{groupactivity}
+  
 \end{frame}
 
 \begin{frame}
