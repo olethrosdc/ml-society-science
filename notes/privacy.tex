@@ -948,70 +948,85 @@
 \only<article>{ The main advantage of the centralised model is that
   approximating $f$ with a differentially-private version can be much
   more accurate than simply using the original function with noisy
-  data. However, obtaining such an approximation is not always easy.}
-  
-  \begin{figure}[H]
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (x1) {$x_1$};
-        \node[RV] at (0,1) (x2) {$x_2$};
-        \node[RV] at (0,2) (xn) {$x_n$};
-        \node[RV] at (2,0) (a1) {$a_1$};
-        \node[RV] at (2,1) (a2) {$a_2$};
-        \node[RV] at (2,2) (an) {$a_n$};
-        \draw[->] (x1) -- (a1);
-        \draw[->] (x2) -- (a2);
-        \draw[->] (xn) -- (an);
-        % \node[select] at (1,-1) (pol) {$\pol$};
-        % \draw[->] (pol) -- (a1);
-        % \draw[->] (pol) -- (a2);
-        % \draw[->] (pol) -- (an);
-      \end{tikzpicture}
-      \caption{The local privacy model}
-      \label{fig:local-privacy}
-    \end{subfigure}
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (x1) {$x_1$};
-        \node[RV] at (0,1) (x2) {$x_2$};
-        \node[RV] at (0,2) (xn) {$x_n$};
-        \node[RV] at (2,1) (y) {$y$};
-        \node[select] at (1,-1) (pol) {$f$};
-        \draw[->] (x1) -- (y);
-        \draw[->] (x2) -- (y);
-        \draw[->] (xn) -- (y);
-        \draw[->] (pol) -- (y);
-      \end{tikzpicture}
-      \caption{Non-private calculation}
-    \end{subfigure}
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[RV] at (0,0) (x1) {$x_1$};
-        \node[RV] at (0,1) (x2) {$x_2$};
-        \node[RV] at (0,2) (xn) {$x_n$};
-        \node[RV] at (2,1) (a) {$a$};
-        \node[select] at (1,-1) (pol) {$\pol$};
-        \draw[->] (x1) -- (a);
-        \draw[->] (x2) -- (a);
-        \draw[->] (xn) -- (a);
-        \draw[->] (pol) -- (a);
-      \end{tikzpicture}
-      \caption{Centralised DP calculation}
-    \end{subfigure}
-    \caption{Non-privacy, local privacy, and centralised privacy models.}
-  \end{figure}
-  
+  data. However, obtaining such an approximation is not always easy.
 
-  \begin{groupactivity}{Trust models.}
-    Google uses a local privacy model to collect data from Android
-    phone users. How does this compare to Google gathering data in the
-    clear and then performing private computations? Who do the users
-    have to trust? What are the privacy risks in either case?
-  \end{groupactivity}
+  The dependency diagrams in Figures~\ref{fig:privacy-diagrams} shows
+  how the output depends on the individual data, the non-private and
+  private algorithm. 
+
+}
   
+\begin{figure}[H]
+  \begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,1) (x2) {$x_2$};
+      \node[RV] at (0,2) (xn) {$x_n$};
+      \node[RV] at (2,1) (y) {$y$};
+      \node[select] at (1,-1) (pol) {$f$};
+      \draw[->] (x1) -- (y);
+      \draw[->] (x2) -- (y);
+      \draw[->] (xn) -- (y);
+      \draw[->] (pol) -- (y);
+    \end{tikzpicture}
+    \caption{Non-private calculation}
+    \label{fig:non-private}
+  \end{subfigure}
+  \begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,1) (x2) {$x_2$};
+      \node[RV] at (0,2) (xn) {$x_n$};
+      \node[RV] at (2,0) (a1) {$a_1$};
+      \node[RV] at (2,1) (a2) {$a_2$};
+      \node[RV] at (2,2) (an) {$a_n$};
+      \draw[->] (x1) -- (a1);
+      \draw[->] (x2) -- (a2);
+      \draw[->] (xn) -- (an);
+      \node[select] at (2,-1) (f) {$f$};
+      \node[select] at (1,-1) (p) {$\pol$};
+      \node[RV] at (3,1) (y) {$y$};
+      \draw[->] (a1) -- (y);
+      \draw[->] (a2) -- (y);
+      \draw[->] (an) -- (y);
+      \draw[->] (f) -- (y);
+      \draw[->] (p) -- (a1);
+      \draw[->] (p) -- (a2);
+      \draw[->] (p) -- (an);
+    \end{tikzpicture}
+    \caption{Local privacy}
+    \label{fig:local-privacy}
+  \end{subfigure}
+  \begin{subfigure}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (x1) {$x_1$};
+      \node[RV] at (0,1) (x2) {$x_2$};
+      \node[RV] at (0,2) (xn) {$x_n$};
+      \node[RV] at (2,1) (a) {$a$};
+      \node[select] at (1,-1) (pol) {$\pol_f$};
+      \draw[->] (x1) -- (a);
+      \draw[->] (x2) -- (a);
+      \draw[->] (xn) -- (a);
+      \draw[->] (pol) -- (a);
+    \end{tikzpicture}
+    \caption{Central privacy}
+    \label{fig:central-privacy}
+  \end{subfigure}
+  \caption{Non-privacy, local privacy, and centralised privacy models. In the first case, the value of $y$ depends directly on the function $f$ to be calculated, as well as the data $x$. In the local privacy model, noise is added to the individual data with a differentially private algorithm $\pol$, and the function is calculated on the output. In the central model, a stochastic version $\pol_f$ of the original function $f$ is calculated on the data.}
+  \label{fig:privacy-diagrams}
+\end{figure}
+
+
+\begin{groupactivity}{Trust models.}
+  Google uses a local privacy model to collect data from Android
+  phone users. How does this compare to Google gathering data in the
+  clear and then performing private computations? Who do the users
+  have to trust? What are the privacy risks in either case?
+\end{groupactivity}
+
 \end{frame}
 
 \begin{frame}
