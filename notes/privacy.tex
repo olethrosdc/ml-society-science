@@ -163,12 +163,15 @@
   \item Public data analysis. \only<article>{This is a more general setting, where we never publish individual data records, but only summary statistics or models about the data. A prime example is a national census analysis, which may provide detailed demographic information for all towns and regions in a nation. Although only aggregate data is published, it is theoretically possible to infer personal information. For that reason, the US Census Bureau conducted its analysis in 2020 using differential private algorithms.}
   \end{itemize}
   \begin{alertblock}{Cryptography is not enough.}
-    \only<article>{ Cryptography provides:}
-    \begin{itemize}
-    \item Secure communication and computation.
-    \item Authentication and verification.
-    \end{itemize}
-    \only<article>{These are useful to establish secure channels with somebody that we trust. However, the privacy violations we are concerned with relate to \alert{publicly released} outputs of algorithms. It is not important whether or not all the data and computation are encrypted: as long as the algorithm generates a public output, it is theoretically possible for somebody to learn something about the algorithm's input.}
+    \only<presentation>{
+      Cryptography provides:
+      \begin{itemize}
+      \item Secure communication and computation.
+      \item Authentication and verification.
+      \end{itemize}
+      Public outputs are by definition \alert{not} protected.
+    }
+    \only<article>{Cryptography provides secure communication and computation, authentication and verification. These are used to establish secure channels with somebody that we trust. However, the privacy violations we are concerned with relate to \alert{publicly released} outputs of algorithms. It is not important whether or not all the data and computation are encrypted: as long as the algorithm generates a public output, it is theoretically possible for somebody to learn something about the algorithm's input.}
   \end{alertblock}
 
 
@@ -449,12 +452,9 @@
     above, it remains true that if somebody knows that both
     A. B. Student and Li Yang are in the database, as well as their
     postcodes, as well as that Li Yang is a politician, they can infer
-    A. B. Student's profession.
-
-    Fortunately, there is a way to protect individual information from
-    adversaries with arbitrary side-information. This is given by
-    differential privacy.
-  }
+    A. B. Student's profession.  Fortunately, there is a way to
+    protect individual information from adversaries with arbitrary
+    side-information. This is given by differential privacy.  }
 \end{frame}
 
 
@@ -902,7 +902,7 @@
   The advantage of the local model is that the calculation $f$ does
   not need to be modified. The individuals do not have to trust
   anybody, as they can modify their data locally.
-  z
+
   \begin{block}{The central privacy model.}
     \only<article>{A trusted curator obtains the data $x$ of all
       individuals and selects a DP policy $\pol(a \mid x)$ to generate
