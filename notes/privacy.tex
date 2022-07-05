@@ -79,49 +79,25 @@
   used.
 }
 
-\section{Algorithmic privacy.}
-\begin{frame}
-  \frametitle{What is an algorithm?}
-  \only<article>{Any functional process is an algorithm. We typically
-    identify inputs with observations or features $\CX$, and outputs
-    with actions $\CA$ by the algorithm: i.e. we view the algorithm as
-    taking actions that have an observable effect on its external
-    environment. We generally consider \emph{stochastic} algorithms.}
-  \begin{definition}[Stochastic algorithm $\pi$]
-    A stochastic algorithm $\pi$ with input domain $\CX$ and output
-    domain $\CA$ is a mapping $\pi : \CX \to \Simplex(\CA)$ from
-    observations $\CX$ to distributions over outputs
-    $\Simplex(\CA$). When $\CA$ is finite, we will write
-    $\pol(a \mid x)$ to denote the conditional probability that the
-    algorithm outputs $a$ given input $x$.
-  \end{definition}
-  \only<article>{
-    \begin{theoryblock}{The general case.}
-      It is best to think of $\pol(\cdot | x)$ as a probability
-      measure over $\CA$. Then we write
-      \[
-        \pol(A \mid x) \defn \Pr_\pol(a \in A \mid x), \qquad A \subset \CA,
-      \]
-      for the conditional probability that algorithm's output is in
-      some set $A \subset \CA$ given input $x$. This allows us to treat
-      the case when $\CA$ is continuous or discrete with the same notation.
-    \end{theoryblock}
-    
-    \begin{exampleblock}{Algorithmic randomness.}
-      We can construct a random algorithm through access to a random
-      coin $\omega$ taking values in $\Omega$. We can then define the
-      output through a deterministic function $a_\pi(\omega, x)$. Since
-      $\omega$ is random, the output of the function is also random.
-      If $P$ is the probability distribution of $\omega$, then:
-      \[
-        \pi(A \mid x) = P(\cset{\omega \in \Omega}{a_\pi(\omega, x) \in A}),
-      \]
-      i.e. the probability that the algorithm's output is in $A$ is
-      equal to the measure of the values of $\omega$ for which the
-      $a_\pi(\omega, x) \in A$.
-    \end{exampleblock}
-  }
-\end{frame}
+
+
+\section{Things we do with data}
+
+\only<presentation>{
+  \begin{frame}
+    \begin{block}{Reasons for data collection}
+      \begin{itemize}
+      \item To publish it.
+      \item To publish specific statistics.
+      \item To make decisions through arbitrary computations.
+      \end{itemize}
+    \end{block}
+  \end{frame}
+} \only<article>{ How do we use data in the first place? Sometimes we
+  simply publish the data, perhaps after some initial
+  processing. Publication of datasets is useful for researchers that
+  want to do perform further analysis on the data. Usually though, we collect data in order to calculate specific statistics. For example the census collects data about the number of people in different households, wages, etc, and then publishes tables detailing the average age and number of people per household in different areas of the country. This demographic information is useful for policy makers, urban planning to organise voting centers and the distribution of police and fire stations, as well as other public services. }
+
 
 \begin{frame}
   \begin{figure}
@@ -131,7 +107,7 @@
   \end{figure}
 \end{frame}
 \begin{frame}
-  \frametitle{Privacy in statistical disclosure.}
+
   \only<article>{ Fundamentally, privacy in statistics is an \emph{issue of
       trust.} The analyst, be it a human, or an automated service, will
     use your data to make decisions. You must also decide who to trust
@@ -177,21 +153,8 @@
 
 \end{frame}
 
-\section{Things we do with data}
-\only<presentation>{
-  \begin{frame}
-    \begin{block}{Reasons for data collection}
-      \begin{itemize}
-      \item To publish it.
-      \item To publish specific statistics.
-      \item To make decisions through arbitrary computations.
-      \end{itemize}
-    \end{block}
-  \end{frame}
-} \only<article>{ How do we use data in the first place? Sometimes we
-  simply publish the data, perhaps after some initial
-  processing. Publication of datasets is useful for researchers that
-  want to do perform further analysis on the data. Usually though, we collect data in order to calculate specific statistics. For example the census collects data about the number of people in different households, wages, etc, and then publishes tables detailing the average age and number of people per household in different areas of the country. This demographic information is useful for policy makers, urban planning to organise voting centers and the distribution of police and fire stations, as well as other public services. }
+
+
 \section{Statistical disclosure}
 
 \only<presentation>{
@@ -270,43 +233,43 @@
   In particular, even if somebody is unable to infer the information of any individual from the published, anonymised, dataset, they may be able to do so via some side-information. All that is needed is another dataset with some columns in common with the dataset they want to target.
 
 
-
-}
-
-\begin{frame}
-  \frametitle{Record linkage}
-  \begin{figure}
-    \begin{columns}
-      \begin{column}{0.7\textwidth}
-        \centering \def\firstcircle{(0,0) circle (7em)}
-        \def\secondcircle{(3,0) circle (7em)}
-        
-        \begin{tikzpicture}
-          \uncover<1,3>{ \draw \firstcircle node[text width=7em]
-            {Ethnicity\newline Date\newline Diagnosis \newline Procedure
-              \newline Medication \newline Charge }; } \uncover<3>{
-            \begin{scope}
-              \clip \firstcircle; \fill[red] \secondcircle;
-            \end{scope}
-          } \uncover<2,3>{\draw \secondcircle node [text width=2em,
-            align=right] {Name \newline Address \newline Registration
-              \newline Party \newline Lastvote}; } \node [text width=4em]
-          (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
-          \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
-            {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
-            (QI); }
-        \end{tikzpicture}
-      \end{column}
-      \begin{column}{0.3\textwidth}
-        \includegraphics[height=\fheight]{../figures/Bill_Weld}
-        \\
-        Bill Weld, R-MA
-      \end{column}
-    \end{columns}
-    \caption{Linkage attack on a anonymised patient information database.}
-  \end{figure}
-  \only<article>{
-    As an example, in the 1990s a the governor of Massachussets,
+  }
+  
+  \begin{frame}
+    \frametitle{Record linkage}
+    \begin{figure}
+      \centering
+      \begin{columns}
+        \begin{column}{0.7\textwidth}
+          \centering \def\firstcircle{(0,0) circle (7em)}
+          \def\secondcircle{(3,0) circle (7em)}
+          
+          \begin{tikzpicture}
+            \uncover<1,3>{ \draw \firstcircle node[text width=7em]
+              {Ethnicity\newline Date\newline Diagnosis \newline Procedure
+                \newline Medication \newline Charge }; } \uncover<3>{
+              \begin{scope}
+                \clip \firstcircle; \fill[red] \secondcircle;
+              \end{scope}
+            } \uncover<2,3>{\draw \secondcircle node [text width=2em,
+              align=right] {Name \newline Address \newline Registration
+                \newline Party \newline Lastvote}; } \node [text width=4em]
+            (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
+            \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
+              {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
+              (QI); }
+          \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+          \includegraphics[height=\fheight]{../figures/Bill_Weld}
+          \\
+          Bill Weld, R-MA
+        \end{column}
+      \end{columns}
+      \caption{Linkage attack on a anonymised patient information database.}
+    \end{figure}
+    \only<article>{
+      As an example, in the 1990s a the governor of Massachussets,
     decided to publish anonymised information about the health records
     of individual state employs. They were careful to hide all
     obviously identifying information such as their name, and thus
@@ -353,6 +316,68 @@
   differential privacy, which protects individuals against
   statistical disclosure in an information-theoretic manner.
 }
+
+
+\section{Algorithmic privacy.}
+\only<article>{ The above discussion should help emphasise that what a
+  given dataset contains cannot be characterised as private or
+  non-private. We should actually start from the observation that any
+  data contributed by an individual can be considered private, because
+  it could be combined with other datasets to obtain sensitive
+  personal information.
+
+  For that reason, we wish to ensure that 
+  
+}
+\begin{frame}
+  \frametitle{What is an algorithm?}
+  \only<article>{Any functional process is an algorithm. We typically
+    identify inputs with observations or features $\CX$, and outputs
+    with actions $\CA$ by the algorithm: i.e. we view the algorithm as
+    taking actions that have an observable effect on its external
+    environment. We generally consider \emph{stochastic} algorithms.}
+  \begin{definition}[Stochastic algorithm $\pi$]
+    A stochastic algorithm $\pi$ with input domain $\CX$ and output
+    domain $\CA$ is a mapping $\pi : \CX \to \Simplex(\CA)$ from
+    observations $\CX$ to distributions over outputs
+    $\Simplex(\CA$). When $\CA$ is finite, we will write
+    $\pol(a \mid x)$ to denote the conditional probability that the
+    algorithm outputs $a$ given input $x$.
+  \end{definition}
+  \only<article>{
+    \begin{theoryblock}{The general case.}
+      It is best to think of $\pol(\cdot | x)$ as a probability
+      measure over $\CA$. Then we write
+      \[
+        \pol(A \mid x) \defn \Pr_\pol(a \in A \mid x), \qquad A \subset \CA,
+      \]
+      for the conditional probability that algorithm's output is in
+      some set $A \subset \CA$ given input $x$. This allows us to treat
+      the case when $\CA$ is continuous or discrete with the same notation.
+    \end{theoryblock}
+    
+    \begin{exampleblock}{Algorithmic randomness.}
+      We can construct a random algorithm through access to a random
+      coin $\omega$ taking values in $\Omega$. We can then define the
+      output through a deterministic function $a_\pi(\omega, x)$. Since
+      $\omega$ is random, the output of the function is also random.
+      If $P$ is the probability distribution of $\omega$, then:
+      \[
+        \pi(A \mid x) = P(\cset{\omega \in \Omega}{a_\pi(\omega, x) \in A}),
+      \]
+      i.e. the probability that the algorithm's output is in $A$ is
+      equal to the measure of the values of $\omega$ for which the
+      $a_\pi(\omega, x) \in A$.
+    \end{exampleblock}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{What is private?}
+\end{frame}
+
+
+
 \section{$k$-anonymity}
 \label{sec:k-anonymity}
 \begin{frame}
@@ -1497,11 +1522,28 @@
 \end{frame}
 
 
+
+\section{Advanced topics.}
+
 \subsection{Relaxations of differential privacy.}
-In practice, \ldots
+\only<article>{
+  In practice, satisfying differential privacy results in nearly
+}
+
+\begin{definition}{Approximate differential privacy.}
+\end{definition}
+
+\begin{theorem}{Advanced composition.}
+\end{theorem}
+
+\begin{definition}{R\'enyi differential privacy.}
+\end{definition}
 
 
-\subsection{Privacy and reproducibility}
+\subsection{Reproducibility}
+\only<article>{
+  Training and testing, overfitting on the test set.
+}
 
 \begin{frame}
   \frametitle{The unfortunate practice of adaptive analysis}
