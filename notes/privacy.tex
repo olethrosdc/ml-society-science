@@ -153,14 +153,14 @@
     \end{block}
   }
 
-  \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
+  \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. If the analysis is eventually
     published,\footnote{If somebody knows that the analysis is being
       conducted, however, they could still learn something private from the fact that the analysis has \emph{not} been published.} this
     creates two possible scenarios for that may lead to privacy violations.}
   \begin{itemize}
   \item Publication of ``anonymised'' data.
-    \only<article>{Sometimes we may collect data in order to publish the dataset itself for other researchers to use. This is common practice in machine learning, with image classification datasets being a good example. However, if the data contains personal information, there is always some privacy risk even if the data has been anonymised with standard methods.}
-  \item Public data analysis. \only<article>{This is a more general setting, where we never publish individual data records, but only summary statistics or models about the data. A prime example is a national census analysis, which may provide detailed demographic information for all towns and regions in a nation. Although only aggregate data is published, it is theoretically possible to infer personal information. For that reason, the US Census Bureau conducted its analysis in 2020 using differential private algorithms.}
+    \only<article>{Sometimes we may collect data in order to publish the dataset itself for other researchers to use. This is common practice in machine learning, with image classification datasets being a good example. However, there is always some privacy risk even if identifying information such as names are removed.}
+  \item Public data analysis. \only<article>{In this setting, we only publish summary statistics or models about the data. A prime example is a national census analysis, which may provide detailed demographic information for all towns and regions in a nation. Although only aggregate data is published, it is theoretically possible to infer personal information. For that reason, the US Census Bureau conducted its analysis in 2020 using differential private algorithms.}
   \end{itemize}
   \begin{alertblock}{Cryptography is not enough.}
     \only<presentation>{
@@ -266,47 +266,47 @@
 
 
 
+\only<article>{
+  In particular, even if somebody is unable to infer the information of any individual from the published, anonymised, dataset, they may be able to do so via some side-information. All that is needed is another dataset with some columns in common with the dataset they want to target.
+
+
+
+}
+
+\begin{frame}
+  \frametitle{Record linkage}
+  \begin{figure}
+    \begin{columns}
+      \begin{column}{0.7\textwidth}
+        \centering \def\firstcircle{(0,0) circle (7em)}
+        \def\secondcircle{(3,0) circle (7em)}
+        
+        \begin{tikzpicture}
+          \uncover<1,3>{ \draw \firstcircle node[text width=7em]
+            {Ethnicity\newline Date\newline Diagnosis \newline Procedure
+              \newline Medication \newline Charge }; } \uncover<3>{
+            \begin{scope}
+              \clip \firstcircle; \fill[red] \secondcircle;
+            \end{scope}
+          } \uncover<2,3>{\draw \secondcircle node [text width=2em,
+            align=right] {Name \newline Address \newline Registration
+              \newline Party \newline Lastvote}; } \node [text width=4em]
+          (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
+          \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
+            {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
+            (QI); }
+        \end{tikzpicture}
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        \includegraphics[height=\fheight]{../figures/Bill_Weld}
+        \\
+        Bill Weld, R-MA
+      \end{column}
+    \end{columns}
+    \caption{Linkage attack on a anonymised patient information database.}
+  \end{figure}
   \only<article>{
-    In particular, even if somebody is unable to infer the information of any individual from the published, anonymised, dataset, they may be able to do so via some side-information. All that is needed is another dataset with some columns in common with the dataset they want to target.
-
-
-
-  }
-  
-  \begin{frame}
-    \frametitle{Record linkage}
-    \begin{figure}
-      \begin{columns}
-        \begin{column}{0.7\textwidth}
-          \centering \def\firstcircle{(0,0) circle (7em)}
-          \def\secondcircle{(3,0) circle (7em)}
-          
-          \begin{tikzpicture}
-            \uncover<1,3>{ \draw \firstcircle node[text width=7em]
-              {Ethnicity\newline Date\newline Diagnosis \newline Procedure
-                \newline Medication \newline Charge }; } \uncover<3>{
-              \begin{scope}
-                \clip \firstcircle; \fill[red] \secondcircle;
-              \end{scope}
-            } \uncover<2,3>{\draw \secondcircle node [text width=2em,
-              align=right] {Name \newline Address \newline Registration
-                \newline Party \newline Lastvote}; } \node [text width=4em]
-            (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
-            \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
-              {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
-              (QI); }
-          \end{tikzpicture}
-        \end{column}
-        \begin{column}{0.3\textwidth}
-          \includegraphics[height=\fheight]{../figures/Bill_Weld}
-          \\
-          Bill Weld, R-MA
-        \end{column}
-      \end{columns}
-      \caption{Linkage attack on a anonymised patient information database.}
-    \end{figure}
-    \only<article>{
-      As an example, in the 1990s a the governor of Massachussets,
+    As an example, in the 1990s a the governor of Massachussets,
     decided to publish anonymised information about the health records
     of individual state employs. They were careful to hide all
     obviously identifying information such as their name, and thus
@@ -346,12 +346,12 @@
 % \end{frame}
 
 \only<article>{
-    Clearly, anonymisation is not enough. So, is there a way to
-    formally guarantee privacy? In the next section we will go over
-    the solution of McSweeny, which is sadly insufficient to protect
-    privacy in general. Later, we will introduce the notion of
-    differential privacy, which protects individuals against
-    statistical disclosure in an information-theoretic manner.
+  Clearly, anonymisation is not enough. So, is there a way to
+  formally guarantee privacy? In the next section we will go over
+  the solution of McSweeny, which is sadly insufficient to protect
+  privacy in general. Later, we will introduce the notion of
+  differential privacy, which protects individuals against
+  statistical disclosure in an information-theoretic manner.
 }
 \section{$k$-anonymity}
 \label{sec:k-anonymity}
@@ -891,22 +891,21 @@
 
 \section{The local and central privacy models}
 \label{sec:local-central-dp}
+\only<article>{ So far, we have only seen the concept of
+  differential privacy applied as a method to generate a privatised
+  version of a dataset. In general, however, we want to perform some
+  specific calculations on the data. Is it possible to compute
+  things privately in the first place? Let us assume that you have
+  defined a function $f : \CX \to \CY$, which you wish to compute on
+  arbitrary data $x \in \CX$. If you wish to preserve privacy,
+  however, you need the computation to satisfy some formal guarantee
+  like differential privacy. The simplest way to do this is by
+  simply generating a dataset $a$ with a DP algorithm and then
+  processing the data with the function we have already
+  specified. This corresponds to the local privacy model.}
+
+
 \begin{frame}
-  \only<article>{ So far, we have only seen the concept of
-    differential privacy applied as a method to generate a privatised
-    version of a dataset. In general, however, we want to perform some
-    specific calculations on the data. Is it possible to compute
-    things privately in the first place? Let us assume that you have
-    defined a function $f : \CX \to \CY$, which you wish to compute on
-    arbitrary data $x \in \CX$. If you wish to preserve privacy,
-    however, you need the computation to satisfy some formal guarantee
-    like differential privacy. The simplest way to do this is by
-    simply generating a dataset $a$ with a DP algorithm and then
-    processing the data with the function we have already
-    specified. This corresponds to the local privacy model.}
-
-
-  
   \begin{block}{The local privacy model.}
     \only<presentation>{
       \begin{itemize}
@@ -934,243 +933,99 @@
     model, the data $x$ is collected and the result $a$ is published
     by a \alert{trusted curator.}}
   
-\begin{block}{The central privacy model.}
-  \only<presentation>{
-    \begin{itemize}
-    \item A \alert{trusted analyst} obtains $\bx$.
-    \item She designs a DP policy $\pol(\ba \mid \bx)$ so that $\ba \approx f(\bx)$.
-    \end{itemize}
-  }
-  \only<article>{A trusted curator obtains the data $\bx$ of all
-    individuals and selects a DP policy $\pol(\ba \mid \bx)$ to generate
-    the output $a$, so that $\ba \approx f(\bx)$.}
-\end{block}
-\only<article>{ The main advantage of the centralised model is that
-  approximating $f$ with a differentially-private version can be much
-  more accurate than simply using the original function with noisy
-  data. However, obtaining such an approximation is not always easy.
-
-  The dependency diagrams in Figures~\ref{fig:privacy-diagrams} shows
-  how the output depends on the individual data, the non-private and
-  private algorithm. 
-
-}
-  
-\begin{figure}[H]
-  \begin{subfigure}{0.3\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \node[RV] at (0,0) (x1) {$x_1$};
-      \node[RV] at (0,1) (x2) {$x_2$};
-      \node[RV] at (0,2) (xn) {$x_n$};
-      \node[RV] at (2,1) (y) {$y$};
-      \node[select] at (1,-1) (pol) {$f$};
-      \draw[->] (x1) -- (y);
-      \draw[->] (x2) -- (y);
-      \draw[->] (xn) -- (y);
-      \draw[->] (pol) -- (y);
-    \end{tikzpicture}
-    \caption{Non-private calculation}
-    \label{fig:non-private}
-  \end{subfigure}
-  \begin{subfigure}{0.3\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \node[RV] at (0,0) (x1) {$x_1$};
-      \node[RV] at (0,1) (x2) {$x_2$};
-      \node[RV] at (0,2) (xn) {$x_n$};
-      \node[RV] at (2,0) (a1) {$a_1$};
-      \node[RV] at (2,1) (a2) {$a_2$};
-      \node[RV] at (2,2) (an) {$a_n$};
-      \draw[->] (x1) -- (a1);
-      \draw[->] (x2) -- (a2);
-      \draw[->] (xn) -- (an);
-      \node[select] at (2,-1) (f) {$f$};
-      \node[select] at (1,-1) (p) {$\pol$};
-      \node[RV] at (3,1) (y) {$y$};
-      \draw[->] (a1) -- (y);
-      \draw[->] (a2) -- (y);
-      \draw[->] (an) -- (y);
-      \draw[->] (f) -- (y);
-      \draw[->] (p) -- (a1);
-      \draw[->] (p) -- (a2);
-      \draw[->] (p) -- (an);
-    \end{tikzpicture}
-    \caption{Local privacy}
-    \label{fig:local-privacy}
-  \end{subfigure}
-  \begin{subfigure}{0.3\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \node[RV] at (0,0) (x1) {$x_1$};
-      \node[RV] at (0,1) (x2) {$x_2$};
-      \node[RV] at (0,2) (xn) {$x_n$};
-      \node[RV] at (2,1) (a) {$a$};
-      \node[select] at (1,-1) (pol) {$\pol_f$};
-      \draw[->] (x1) -- (a);
-      \draw[->] (x2) -- (a);
-      \draw[->] (xn) -- (a);
-      \draw[->] (pol) -- (a);
-    \end{tikzpicture}
-    \caption{Central privacy}
-    \label{fig:central-privacy}
-  \end{subfigure}
-  \caption{Non-privacy, local privacy, and centralised privacy models. In the first case, the value of $y$ depends directly on the function $f$ to be calculated, as well as the data $x$. In the local privacy model, noise is added to the individual data with a differentially private algorithm $\pol$, and the function is calculated on the output. In the central model, a stochastic version $\pol_f$ of the original function $f$ is calculated on the data.}
-  \label{fig:privacy-diagrams}
-\end{figure}
-
-
-\begin{groupactivity}{Trust models.}
-  Google uses a local privacy model to collect data from Android
-  phone users. How does this compare to Google gathering data in the
-  clear and then performing private computations? Who do the users
-  have to trust? What are the privacy risks in either case?
-\end{groupactivity}
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Databases}
-  \begin{example}[Typical relational database in a tax office]
-    \begin{table}[H]
-      \centering
-      \begin{tabular}{l|l|l|l|l|l|l}
-        ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
-        \hline
-        1959060783 & Li Pu & 150,000 & 1e6 & 60 & 1001 & Politician\\
-        1946061408 & Sara Lee & 300,000 & -1e9 & 72 & 1001 & Rentier\\
-        2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 1001 & Time Traveller
-      \end{tabular}
-    \end{table}
-  \end{example}
-
-  \only<1>{
-    \begin{block}{Database access}
+  \begin{block}{The central privacy model.}
+    \only<presentation>{
       \begin{itemize}
-      \item When owning the database: Direct look-up.
-      \item When accessing a server etc: Query model.
+      \item A \alert{trusted analyst} obtains $\bx$.
+      \item She designs a DP policy $\pol(\ba \mid \bx)$ so that $\ba \approx f(\bx)$.
       \end{itemize}
-    \end{block}
+    }
+    \only<article>{A trusted curator obtains the data $\bx$ of all
+      individuals and selects a DP policy $\pol(\ba \mid \bx)$ to generate
+      the output $a$, so that $\ba \approx f(\bx)$.}
+  \end{block}
+  \only<article>{ The main advantage of the centralised model is that
+    approximating $f$ with a differentially-private version can be much
+    more accurate than simply using the original function with noisy
+    data. However, obtaining such an approximation is not always easy.
+
+    The dependency diagrams in Figures~\ref{fig:privacy-diagrams} shows
+    how the output depends on the individual data, the non-private and
+    private algorithm. 
+
   }
-  \only<2>{
-    \begin{figure}[H]
+  
+  \begin{figure}[H]
+    \begin{subfigure}{0.3\textwidth}
       \centering
       \begin{tikzpicture}
-        \node[rectangle] at (0,0) (python) {Python program};
-        \node[rectangle] at (8,0) (database) {Database System};
-        \draw[thickarrow, bend right]   (python) to node[black]{Query} (database) ;
-        \draw[thickarrow, bend right]   (database) to node[black]{response} (python) ;
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,1) (y) {$y$};
+        \node[select] at (1,-1) (pol) {$f$};
+        \draw[->] (x1) -- (y);
+        \draw[->] (x2) -- (y);
+        \draw[->] (xn) -- (y);
+        \draw[->] (pol) -- (y);
       \end{tikzpicture}
-      \label{fig:database-access}
-      \caption{Database access model}
-    \end{figure}
-  }
-  
-\end{frame}
-
-\only<presentation>{
-  \begin{frame}
-    \frametitle{SQL: A language for database access}
-    \begin{block}{Creating and filling tables}
-      \begin{itemize}
-      \item \texttt{CREATE TABLE table-name (column1, column2)}
-        \only<article>{Create a new table}
-      \item \texttt{INSERT INTO table-name VALUES ('value1', 'value2')}
-        \only<article>{Add specific values into a table}
-      \item \texttt{INSERT INTO table-name VALUES (?, ?), variable}
-        \only<article>{Fill in values from a variable}
-      \end{itemize}
-    \end{block}
-
-    \begin{example}{Database creation}
-      \url{src/privacy/database-creation.py}
-      \\
-      \url{src/privacy/database-access.py}
-    \end{example}
-  \end{frame}
-  \begin{frame}
-    \frametitle{Queries in SQL}
-    \begin{block}{The \texttt{SELECT} statement}
-      \begin{itemize}
-      \item \texttt{SELECT column1, column2 FROM table;}
-        \only<article>{This selects only some columns from the table}
-      \item \texttt{SELECT * FROM table;}
-        \only<article>{This selects all the columns from the table}
-      \end{itemize}
-    \end{block}
-
-    \begin{block}{Selecting rows}
-      \texttt{SELECT * FROM table WHERE column = value;}
-    \end{block}
-
-    \begin{exampleblock}{Arithmetic queries}
-      \only<article>{Here are some example SQL statements}
-      \begin{itemize}
-      \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
-        \only<article>{This allows you to count the number of rows matching \texttt{condition}}
-      \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
-        \only<article>{This lets you to count the number of rows matching \texttt{condition}}
-      \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
-        \only<article>{This is used to sum up the values in a column.}
-      \end{itemize}
-    \end{exampleblock}
-
-  \end{frame}
-}
-\begin{frame}
-  \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-      \node[rectangle] at (0,0) (python) {Python program};
-      \node[rectangle] at (8,0) (database) {Database System};
-      \draw[thickarrow, bend right]   (python) to node[black]{Query $q$} (database) ;
-      \draw[thickarrow, bend right]   (database) to node[black]{Private response $a$} (python) ;
-    \end{tikzpicture}
-    \label{fig:database-access}
-    \caption{Private database access model}
+      \caption{Non-private calculation}
+      \label{fig:non-private}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,0) (a1) {$a_1$};
+        \node[RV] at (2,1) (a2) {$a_2$};
+        \node[RV] at (2,2) (an) {$a_n$};
+        \draw[->] (x1) -- (a1);
+        \draw[->] (x2) -- (a2);
+        \draw[->] (xn) -- (an);
+        \node[select] at (2,-1) (f) {$f$};
+        \node[select] at (1,-1) (p) {$\pol$};
+        \node[RV] at (3,1) (y) {$y$};
+        \draw[->] (a1) -- (y);
+        \draw[->] (a2) -- (y);
+        \draw[->] (an) -- (y);
+        \draw[->] (f) -- (y);
+        \draw[->] (p) -- (a1);
+        \draw[->] (p) -- (a2);
+        \draw[->] (p) -- (an);
+      \end{tikzpicture}
+      \caption{Local privacy}
+      \label{fig:local-privacy}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[RV] at (0,0) (x1) {$x_1$};
+        \node[RV] at (0,1) (x2) {$x_2$};
+        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[RV] at (2,1) (a) {$a$};
+        \node[select] at (1,-1) (pol) {$\pol_f$};
+        \draw[->] (x1) -- (a);
+        \draw[->] (x2) -- (a);
+        \draw[->] (xn) -- (a);
+        \draw[->] (pol) -- (a);
+      \end{tikzpicture}
+      \caption{Central privacy}
+      \label{fig:central-privacy}
+    \end{subfigure}
+    \caption{Non-privacy, local privacy, and centralised privacy models. In the first case, the value of $y$ depends directly on the function $f$ to be calculated, as well as the data $x$. In the local privacy model, noise is added to the individual data with a differentially private algorithm $\pol$, and the function is calculated on the output. In the central model, a stochastic version $\pol_f$ of the original function $f$ is calculated on the data.}
+    \label{fig:privacy-diagrams}
   \end{figure}
-  \begin{block}{Response policy}
-    \index{policy!database response}
-    The  policy defines a distribution over responses $a$ given the data $x$ and the query $q$.
-    \[
-      \pol(a \mid x, q)
-    \]
-  \end{block}
+
+
+  \begin{groupactivity}{Trust models.}
+    Google uses a local privacy model to collect data from Android
+    phone users. How does this compare to Google gathering data in the
+    clear and then performing private computations? Who do the users
+    have to trust? What are the privacy risks in either case?
+  \end{groupactivity}
 \end{frame}
-
-\only<presentation>{
-  \begin{frame}
-    \frametitle{Differentially private queries}
-    \only<article>{There is no actual \texttt{DP-SELECT} statement, but we can imagine it.}
-    \begin{block}{The \texttt{DP-SELECT} statement}
-      \begin{itemize}
-      \item \texttt{DP-SELECT $\epsilon$ column1, column2 FROM table;}
-        \only<article>{This selects only some columns from the table}
-      \item \texttt{DP-SELECT $\epsilon$ * FROM table;}
-        \only<article>{This selects all the columns from the table}
-      \end{itemize}
-    \end{block}
-
-    \begin{block}{Selecting rows}
-      \texttt{DP-SELECT $\epsilon$  * FROM table WHERE column = value;}
-    \end{block}
-
-    \begin{exampleblock}{Arithmetic queries}
-      \only<article>{Here are some example SQL statements}
-      \begin{itemize}
-      \item  \texttt{DP-SELECT $\epsilon$ COUNT(column) FROM table WHERE condition;}
-        \only<article>{This allows you to count the number of rows matching \texttt{condition}}
-      \item  \texttt{DP-SELECT $\epsilon$ AVG(column) FROM table WHERE condition;}
-        \only<article>{This lets you to count the number of rows matching \texttt{condition}}
-      \item  \texttt{DP-SELECT $\epsilon$ SUM(column) FROM table WHERE condition;}
-        \only<article>{This is used to sum up the values in a column.}
-      \end{itemize}
-    \end{exampleblock}
-
-  \end{frame}
-}
-
-
 \begin{frame}
   \only<article>{
     \begin{remark}
@@ -1180,16 +1035,12 @@
     To prove that this is necessary, consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.}
 \end{frame}
 
-\only<article>{
-  \begin{block}{Cryptographic communication.}
-    In this setting, Alice wants to communicate a message $x$ to Bob.
-    In a secret key cryptographic scheme, information theoretic
-    security is achieved by making sure that the encrypted message $a$
-    comes from a uniform distribution $\pol(a | x)$. This is achieved
-    by uniformly selecting a key and selecting an appropriate hash function
-  \end{block}
-  
-}
+\only<article>{ Randomness is also necessary in cryptography.  In that
+  setting, Alice wants to communicate a message $x$ to Bob.  In a
+  secret key cryptographic scheme, information theoretic security is
+  achieved by making sure that the encrypted message $a$ comes from a
+  uniform distribution $\pol(a | x)$. This is achieved by uniformly
+  selecting a key and selecting an appropriate hash function }
 
 
 \begin{frame}
@@ -1307,27 +1158,28 @@
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Calculating the average salary]
+  \begin{exampleblock}{The Laplace mechanism for averages}
     \only<article>{Here we have $n$ individuals for which we wish to calculate the average salary.}
     \begin{itemize}
     \item The $i$-th person receives salary $x_i$
     \item We wish to calculate the average salary in a private manner.
     \end{itemize}
     \only<article>{We can do this in two ways. By using a DP mechanism on each individual salary and then calculating the average, or by first calculating the average and then applying a DP mechanism to the result. In particular, we can add try adding Laplace noise in both cases.}
-  \end{example}
-  \begin{block}{Local privacy model}
-    \only<article>{In this case, $\pol(a \mid x)$ is obtained by drawing independent Laplace noise $\omega_i$ for each individual and then averaging}
+
+    \textbf{The local model.}
+    \only<article>{In this case, $\pol(a \mid x)$ is obtained by independent Laplace noise $\omega_i$ for each individual:}
     \begin{itemize}
     \item Obtain $y_i = x_i + \omega_i$, where $\omega_i \sim \Laplace(\lambda)$.
     \item Return $a = n^{-1} \sum_{i=1}^n y_i$.
     \end{itemize}
-  \end{block}
-  \begin{block}{Centralised privacy model}
+
+    \textbf{The centralised model.}
     \only<article>{In this case, $\pol(a \mid x)$ is obtained by averaging first and adding noise later.}
     Return $a = n^{-1} \sum_{i=1}^n x_i + \omega$, where $\omega \sim \Laplace(\lambda')$.
-  \end{block}
-  
-  How should we add noise in order to guarantee privacy? \only<article>{In particular, what should $\lambda, \lambda'$ be in order to obtain the same $\epsilon$-DP guarantee?}
+    \only<article>{We must tune $\lambda, \lambda'$ appropriately in to obtain the needed $\epsilon$-DP guarantee.}
+  \end{exampleblock}
+
+
   \begin{figure}
     \centering
     \begin{tikzpicture}
@@ -1426,7 +1278,7 @@
     }
   \end{proof}
 
-  \begin{example}[Calculating an average.]
+  \begin{exampleblock}{DP properties of the average in the local and central model.}
     What is the effect of applying the Laplace mechanism in the local
     versus centralised model?  \only<article>{ Let us continue the
       average example.  Here let us assume $x_i \in [0, B]$ for all
@@ -1440,8 +1292,168 @@
       Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under this mechanism. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data.
     }
     
-  \end{example}
+  \end{exampleblock}
 \end{frame}
+
+\section{Interactive data access.}
+\only<article>{
+  In a lot of applications, we cannot pre-define the computation that we want to perform. After we have collected the data, we need to be perform an adaptive data analysis.  This requires performing a sequence of computations on the data, where the result of one computation determines what computation we will do next.
+
+  We can think of this as performing queries to the database. You may
+  be familiar with database access languages such as SQL, where you
+  ask a question such as ``what is the sum of the attribute
+  \texttt{age} in table \texttt{students}?''and obtain the exact sum
+  back. It is possible to answer such queries through a differentially
+  private mechanism. However, the more queries you answer, the more
+  you reveal about the original data. In addition, since an adversary
+  may be cleverly adjusting the queries to more efficiently discover a
+  secret, we need the concept of adaptive composition.
+}
+\begin{frame}
+  \only<presentation>{
+    \frametitle{Databases}
+    \begin{example}[Typical relational database in a tax office]
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{l|l|l|l|l|l|l}
+          ID & Name &  Salary & Deposits & Age & Postcode & Profession\\
+          \hline
+          1959060783 & Li Pu & 150,000 & 1e6 & 60 & 1001 & Politician\\
+          1946061408 & Sara Lee & 300,000 & -1e9 & 72 & 1001 & Rentier\\
+          2100010101 & A. B. Student & 10,000 & 100,000 & 40 & 1001 & Time Traveller
+        \end{tabular}
+      \end{table}
+    \end{example}
+    \only<1>{
+      \begin{block}{Database access}
+        \begin{itemize}
+        \item When owning the database: Direct look-up.
+        \item When accessing a server etc: Query model.
+        \end{itemize}
+      \end{block}
+    }
+  }
+  \only<2>{
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \node[rectangle] at (0,0) (python) {Python program};
+        \node[rectangle] at (8,0) (database) {Database System};
+        \draw[thickarrow, bend right]   (python) to node[black]{Query} (database) ;
+        \draw[thickarrow, bend right]   (database) to node[black]{response} (python) ;
+      \end{tikzpicture}
+      \label{fig:database-access}
+      \caption{Database access model}
+    \end{figure}
+  }
+  
+\end{frame}
+
+\only<presentation>{
+  \begin{frame}
+    \frametitle{SQL: A language for database access}
+    \begin{block}{Creating and filling tables}
+      \begin{itemize}
+      \item \texttt{CREATE TABLE table-name (column1, column2)}
+        \only<article>{Create a new table}
+      \item \texttt{INSERT INTO table-name VALUES ('value1', 'value2')}
+        \only<article>{Add specific values into a table}
+      \item \texttt{INSERT INTO table-name VALUES (?, ?), variable}
+        \only<article>{Fill in values from a variable}
+      \end{itemize}
+    \end{block}
+
+    \begin{example}{Database creation}
+      \url{src/privacy/database-creation.py}
+      \\
+      \url{src/privacy/database-access.py}
+    \end{example}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Queries in SQL}
+    \begin{block}{The \texttt{SELECT} statement}
+      \begin{itemize}
+      \item \texttt{SELECT column1, column2 FROM table;}
+        \only<article>{This selects only some columns from the table}
+      \item \texttt{SELECT * FROM table;}
+        \only<article>{This selects all the columns from the table}
+      \end{itemize}
+    \end{block}
+
+    \begin{block}{Selecting rows}
+      \texttt{SELECT * FROM table WHERE column = value;}
+    \end{block}
+
+    \begin{exampleblock}{Arithmetic queries}
+      \only<article>{Here are some example SQL statements}
+      \begin{itemize}
+      \item  \texttt{SELECT COUNT(column) FROM table WHERE condition;}
+        \only<article>{This allows you to count the number of rows matching \texttt{condition}}
+      \item  \texttt{SELECT AVG(column) FROM table WHERE condition;}
+        \only<article>{This lets you to count the number of rows matching \texttt{condition}}
+      \item  \texttt{SELECT SUM(column) FROM table WHERE condition;}
+        \only<article>{This is used to sum up the values in a column.}
+      \end{itemize}
+    \end{exampleblock}
+
+  \end{frame}
+}
+
+\only<presentation>{
+  \begin{frame}
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \node[rectangle] at (0,0) (python) {Python program};
+        \node[rectangle] at (8,0) (database) {Database System};
+        \draw[thickarrow, bend right]   (python) to node[black]{Query $q$} (database) ;
+        \draw[thickarrow, bend right]   (database) to node[black]{Private response $a$} (python) ;
+      \end{tikzpicture}
+      \label{fig:database-access}
+      \caption{Private database access model}
+    \end{figure}
+    \begin{block}{Response policy}
+      \index{policy!database response}
+      The  policy defines a distribution over responses $a$ given the data $x$ and the query $q$.
+      \[
+        \pol(a \mid x, q)
+      \]
+    \end{block}
+  \end{frame}
+}
+
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Differentially private queries}
+    \only<article>{There is no actual \texttt{DP-SELECT} statement, but we can imagine it.}
+    \begin{block}{The \texttt{DP-SELECT} statement}
+      \begin{itemize}
+      \item \texttt{DP-SELECT $\epsilon$ column1, column2 FROM table;}
+        \only<article>{This selects only some columns from the table}
+      \item \texttt{DP-SELECT $\epsilon$ * FROM table;}
+        \only<article>{This selects all the columns from the table}
+      \end{itemize}
+    \end{block}
+
+    \begin{block}{Selecting rows}
+      \texttt{DP-SELECT $\epsilon$  * FROM table WHERE column = value;}
+    \end{block}
+
+    \begin{exampleblock}{Arithmetic queries}
+      \only<article>{Here are some example SQL statements}
+      \begin{itemize}
+      \item  \texttt{DP-SELECT $\epsilon$ COUNT(column) FROM table WHERE condition;}
+        \only<article>{This allows you to count the number of rows matching \texttt{condition}}
+      \item  \texttt{DP-SELECT $\epsilon$ AVG(column) FROM table WHERE condition;}
+        \only<article>{This lets you to count the number of rows matching \texttt{condition}}
+      \item  \texttt{DP-SELECT $\epsilon$ SUM(column) FROM table WHERE condition;}
+        \only<article>{This is used to sum up the values in a column.}
+      \end{itemize}
+    \end{exampleblock}
+
+  \end{frame}
+}
+
 
 \subsection{Utility of queries}
 
@@ -1654,6 +1666,24 @@ In practice, \ldots
     any constant, and differential privacy is not satisfied with
     respect to insertions and deletions.
   \end{proof}
+  
+  \begin{exercise}
+    Define a variant of the binary randomised response mechanism that
+    satisfies differential privacy with respect to the insertion and
+    deletion neighbourhood. More precisely, it should hold that for
+    any dataset pair $\bx = (x_1, \ldots, x_n)$, and
+    $\bx' = (x_1, \ldots, x_n)$, $\bx = (x_1, \ldots, x_n, x_{n+1})$,
+    the mechanism satisfies
+    \[
+      \pol(A | \bx) \leq e^\epsilno \pol(A | \bx'),
+      \qquad \forall A \subset \CA.
+    \]
+  \end{exercise}
+  \begin{proof}
+    First of all, for the mechanism to satisfy DP, it must be the case that an output size must have a non-zero probability: If with an $n$-size input we can only generate $\leq n$-size outputs, then we cannot generate a $n+1$-size output. However, we can do so with an input of size $n+1$. 
+  \end{proof}
+
+  
 }
 %%% Local Variables:
 %%% mode: latex
