@@ -1051,7 +1051,11 @@
     have to trust? What are the privacy risks in either case?
   \end{groupactivity}
 \end{frame}
+
+
+\subsection{Properties of differential privacy.}
 \begin{frame}
+
   \only<article>{
     \begin{remark}
       Any differentially private algorithm must be stochastic.
@@ -1070,15 +1074,25 @@
 
 \begin{frame}
 
-  \only<article>{Depending on the DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can bound the total privacy loss.
 
-    \begin{definition}[$T$-fold adaptive composition]
-      In this privacy model, an adversary is allowed to compose $T$ queries. The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
+  
+  \only<article>{Depending on the DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can bound the total privacy loss.}
+  \only<presentation>{
+    \begin{block}{Properties of $\epsilon$-DP algorithms}
+      \begin{itemize}
+      \item Composition: If $\pol_1, \pol_2$ are $\epsilon_1, \epsilon_2$-DP respectively, their composition is $(\epsilon_1 + \epsilon_2)$-DP.
+      \item Post-processing: Any transformation of the output of an $\epsilon$-DP algorithm does not induce further privacy loss.
+      \end{itemize}
+    \end{block}
+  }
+    \begin{definition}[$T$-fold composition]
+      In this privacy model, we compose a mechanism out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$. This composition is fixed ahead of time.
+      %The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
     \end{definition}
     \begin{theorem}
-      For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold adaptive composition.
+      For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold composition. More generally, if each mechanism is $\epsilon_i$-DP, the composed mechanism is $\sum_{i=1}^T \epsilon_i$-DP.
     \end{theorem}
-  }
+
   \begin{theorem}[Post-processing]
     Let mechanism $\pi(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
   \end{theorem}
@@ -1088,13 +1102,16 @@
       If we answer $T$ queries with an $\epsilon$-DP mechanism, then our cumulative privacy loss is $\epsilon T$.
     \end{alertblock}
   }
+  \only<article>{The composition theorem is a very useful tool, as it allows us to create bnew mechanisms that are composed of simpler parts. As a first example, we can look at how we can use it to create a reandomised response algoritihm when the respondents provide multiple attributes.}
 
-  \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
-  \begin{block}{Randomised response for multiple attributes.}
+    \begin{exampleblock}{Randomised response for multiple attributes.}
+      \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
+      
     For $n$ users and $k$ attributes, if the release of each attribute $i$ is $\epsilon$-DP then 
     the data release is $k \epsilon$-DP. Thus to get $\epsilon$-DP overall,  we need $\epsilon / k$-DP per attribute.
-  \end{block}
+    
   \only<article>{The result follows immediately from the composition theorem. We can see each attribute release as the result of an individual query. More generally, if each attribute $i$ is released with an $\epsilon_i$-DP mechanism, the overall mechanism is $\sum_i \epsilon_i$-DP.}
+  \end{exampleblock}
 
 \end{frame}
 
