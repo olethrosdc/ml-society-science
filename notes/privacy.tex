@@ -205,6 +205,7 @@
   \only<article>{Data is collected for many reasons. Any typical service you might want to use will require a minimal amount of data. For example, a dating service will at a minimum require your age and location, as shown in the example below.}
   \begin{example}[Typical relational database in a dating website.]
     \begin{table}[H]
+      \centering
       \begin{tabular}{l|l|l|l|l|l|l}
         Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
         \hline
@@ -220,57 +221,50 @@
   \end{example}
   \only<article>{When you submit your data to a service, you expect it to be used responsibly. For the dating service, you expect it to use the information to find good matches, based on your preferences and location. Whenever somebody uses the service, they obtain some information about you, at least indirectly. For example, if they make a query for similar singles in their neighbourhood, and they see your profile, then they have learned that you live nearby.
 
-    If we wish to publish a database, frequently we need to protect identities of people involved. The simplest method for doing that is simply erasing directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data.
+    If we wish to publish a database, frequently we need to protect the identities of the people involved. A simple idea is to erase directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data, when combined with the published dataset.
   }
   
   \only<2>{The simple act of hiding or using random identifiers is called anonymisation.}
-  \only<article>{However this is generally insufficient as other identifying information may be used to re-identify individuals in the data.}
+  \only<article>{However this is generally insufficient as other identifying information may be used to re-identify individuals in the data.   In particular, even if somebody is unable to infer the information of any individual from the published, anonymised, dataset, they may be able to do so via some side-information. All that is needed is another dataset with some columns in common with the dataset they want to target.}
 \end{frame}
 
 
-
-\only<article>{
-  In particular, even if somebody is unable to infer the information of any individual from the published, anonymised, dataset, they may be able to do so via some side-information. All that is needed is another dataset with some columns in common with the dataset they want to target.
-
-
-  }
-  
-  \begin{frame}
-    \frametitle{Record linkage}
-    \begin{figure}
+\begin{frame}
+  \frametitle{Record linkage}
+  \begin{figure}
+    \centering
+    \begin{subfigure}{0.65\textwidth}
+      \centering \def\firstcircle{(0,0) circle (7em)}
+      \def\secondcircle{(3,0) circle (7em)}
+      
+      \begin{tikzpicture}
+        \uncover<1,3>{ \draw \firstcircle node[text width=7em]
+          {Ethnicity\newline Date\newline Diagnosis \newline Procedure
+            \newline Medication \newline Charge }; } \uncover<3>{
+          \begin{scope}
+            \clip \firstcircle; \fill[red] \secondcircle;
+          \end{scope}
+        } \uncover<2,3>{\draw \secondcircle node [text width=2em,
+          align=right] {Name \newline Address \newline Registration
+            \newline Party \newline Lastvote}; } \node [text width=4em]
+        (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
+        \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
+          {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
+          (QI); }
+      \end{tikzpicture}
+      \caption{Voter registration}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
       \centering
-      \begin{columns}
-        \begin{subfigure}{0.7\textwidth}
-          \centering \def\firstcircle{(0,0) circle (7em)}
-          \def\secondcircle{(3,0) circle (7em)}
-          
-          \begin{tikzpicture}
-            \uncover<1,3>{ \draw \firstcircle node[text width=7em]
-              {Ethnicity\newline Date\newline Diagnosis \newline Procedure
-                \newline Medication \newline Charge }; } \uncover<3>{
-              \begin{scope}
-                \clip \firstcircle; \fill[red] \secondcircle;
-              \end{scope}
-            } \uncover<2,3>{\draw \secondcircle node [text width=2em,
-              align=right] {Name \newline Address \newline Registration
-                \newline Party \newline Lastvote}; } \node [text width=4em]
-            (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
-            \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
-              {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
-              (QI); }
-          \end{tikzpicture}
-        \end{subfigure}
-        \begin{subfigure}{0.3\textwidth}
-          \centering
-          \includegraphics[height=0.8\fheight]{../figures/Bill_Weld}
-          \newline
-          Bill Weld, R-MA
-        \end{subfigure}
+      \includegraphics[height=0.8\fheight]{../figures/Bill_Weld}
+      %% Copyright: CC BY 2.0 
+      \caption{Bill Weld}
+    \end{subfigure}
 
-      \caption{Linkage attack on a anonymised patient information database.}
-    \end{figure}
-    \only<article>{
-      As an example, in the 1990s a the governor of Massachussets,
+    \caption{Linkage attack on a anonymised patient information database.}
+  \end{figure}
+  \only<article>{
+    As an example, in the 1990s a the governor of Massachussets,
     decided to publish anonymised information about the health records
     of individual state employs. They were careful to hide all
     obviously identifying information such as their name, and thus
@@ -320,15 +314,22 @@
 
 
 \section{Algorithmic privacy.}
-\only<article>{ The above discussion should help emphasise that what a
-  given dataset contains cannot be characterised as private or
-  non-private. We should actually start from the observation that any
-  data contributed by an individual can be considered private, because
-  it could be combined with other datasets to obtain sensitive
-  personal information.
+\only<article>{ The above discussion should help emphasise that
+  \emph{what a given dataset contains} cannot be characterised as
+  private or non-private. We should actually start from the
+  observation that \emph{any data contributed by an individual} should
+  be considered private, because it could be combined with other
+  datasets to obtain sensitive personal information.
 
-  For that reason, we wish to ensure that 
-  
+  For that reason, we wish to ensure that, whenever individuals
+  contribute data for processing, the result of the processing cannot
+  be used to reveal whatever information they had contributed. Thus,
+  the idea of privacy only applies on \emph{algorithms} that are used
+  on personal data. Generally speaking, we wish for algorithms to both
+  be useful and have good privacy properties. Unfortunately, as we
+  shall see in the sequel, there is a distinct trade-off between
+  privacy and utility. However, let us specify more precisely what we
+  mean by an algorithm.
 }
 \begin{frame}
   \frametitle{What is an algorithm?}
@@ -1086,13 +1087,13 @@
       \end{itemize}
     \end{block}
   }
-    \begin{definition}[$T$-fold composition]
-      In this privacy model, we compose a mechanism out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$. This composition is fixed ahead of time.
-      %The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
-    \end{definition}
-    \begin{theorem}
-      For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold composition. More generally, if each mechanism is $\epsilon_i$-DP, the composed mechanism is $\sum_{i=1}^T \epsilon_i$-DP.
-    \end{theorem}
+  \begin{definition}[$T$-fold composition]
+    In this privacy model, we compose a mechanism out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$. This composition is fixed ahead of time.
+    % The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
+  \end{definition}
+  \begin{theorem}
+    For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold composition. More generally, if each mechanism is $\epsilon_i$-DP, the composed mechanism is $\sum_{i=1}^T \epsilon_i$-DP.
+  \end{theorem}
 
   \begin{theorem}[Post-processing]
     Let mechanism $\pi(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
@@ -1105,13 +1106,13 @@
   }
   \only<article>{The composition theorem is a very useful tool, as it allows us to create bnew mechanisms that are composed of simpler parts. As a first example, we can look at how we can use it to create a reandomised response algoritihm when the respondents provide multiple attributes.}
 
-    \begin{exampleblock}{Randomised response for multiple attributes.}
-      \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
-      
+  \begin{exampleblock}{Randomised response for multiple attributes.}
+    \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
+    
     For $n$ users and $k$ attributes, if the release of each attribute $i$ is $\epsilon$-DP then 
     the data release is $k \epsilon$-DP. Thus to get $\epsilon$-DP overall,  we need $\epsilon / k$-DP per attribute.
     
-  \only<article>{The result follows immediately from the composition theorem. We can see each attribute release as the result of an individual query. More generally, if each attribute $i$ is released with an $\epsilon_i$-DP mechanism, the overall mechanism is $\sum_i \epsilon_i$-DP.}
+    \only<article>{The result follows immediately from the composition theorem. We can see each attribute release as the result of an individual query. More generally, if each attribute $i$ is released with an $\epsilon_i$-DP mechanism, the overall mechanism is $\sum_i \epsilon_i$-DP.}
   \end{exampleblock}
 
 \end{frame}
