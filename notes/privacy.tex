@@ -103,7 +103,7 @@
   \begin{figure}
     \centering
     \includegraphics[height=\fheight]{../figures/smbc-the-problem}
-    % Copyright: SMBC
+    % Copyright: SMBC comics
   \end{figure}
 \end{frame}
 \begin{frame}
@@ -240,7 +240,7 @@
     \begin{figure}
       \centering
       \begin{columns}
-        \begin{column}{0.7\textwidth}
+        \begin{subfigure}{0.7\textwidth}
           \centering \def\firstcircle{(0,0) circle (7em)}
           \def\secondcircle{(3,0) circle (7em)}
           
@@ -259,13 +259,14 @@
               {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
               (QI); }
           \end{tikzpicture}
-        \end{column}
-        \begin{column}{0.3\textwidth}
-          \includegraphics[height=\fheight]{../figures/Bill_Weld}
-          \\
+        \end{subfigure}
+        \begin{subfigure}{0.3\textwidth}
+          \centering
+          \includegraphics[height=0.8\fheight]{../figures/Bill_Weld}
+          \newline
           Bill Weld, R-MA
-        \end{column}
-      \end{columns}
+        \end{subfigure}
+
       \caption{Linkage attack on a anonymised patient information database.}
     \end{figure}
     \only<article>{
@@ -308,14 +309,14 @@
 %   \end{example}
 % \end{frame}
 
-\only<article>{
-  Clearly, anonymisation is not enough. So, is there a way to
-  formally guarantee privacy? In the next section we will go over
-  the solution of McSweeny, which is sadly insufficient to protect
-  privacy in general. Later, we will introduce the notion of
-  differential privacy, which protects individuals against
-  statistical disclosure in an information-theoretic manner.
-}
+\only<article>{ Clearly, anonymisation is not enough. So, is there a
+  way to formally guarantee privacy? In the next section we will go
+  over the solution of McSweeny, which provides us with an algorithmic
+  definition of anonymity. While this provides some degree of
+  protection against certain linkage attacks, it is sadly insufficient
+  to protect privacy in general. Later, we will introduce the notion
+  of differential privacy, which protects individuals against
+  statistical disclosure in an information-theoretic manner.  }
 
 
 \section{Algorithmic privacy.}
