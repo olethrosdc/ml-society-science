@@ -314,7 +314,7 @@
 
 \section{Algorithmic privacy.}
 \only<article>{ The above discussion should help emphasise that
-  \emph{what a given dataset contains} cannot be characterised as
+  \emph{a dataset} cannot be characterised as
   private or non-private. We should actually start from the
   observation that \emph{any data contributed by an individual} should
   be considered private, because it could be combined with other
@@ -886,10 +886,22 @@
   \end{proof}
 
   \begin{groupactivity}{Moving to a new neighbourhood}
-    Do you need to change something in the randomised-response
-    mechanism for it to be differentially private with respect to the
-    insertion-neighbourhood definition? If so, how?
+    Is the randomised-response mechanism for it to be differentially
+    private with respect to the insertion-neighbourhood definition? If
+    not, is it possible to modify it in order to satisfy that privacy
+    definition?  \emph{Hint: The mechanism must be able to hide the
+      participation of a single individual in the database.}
   \end{groupactivity}
+  % Given this hint, the solution is obvious: The mechanism must
+  % contain a non-identifying information aggregator. Let us take an
+  % example, where individual responses are {0,1}. We can also add X,
+  % as 'declined to respond'. Then the analyst will (by default) know
+  % who has participated. Note that
+  % $ln |p(a | x) / p(a|x')| < \epsilon$
+  % requires that values of 0,1,X have non-zero probability for
+  % everybody.  This is tricky, as typically the number of X will
+  % depend on how many people do not participate, and the size of a
+  % will be equal to the number of potential responders.
 
   \only<article>{Finally, it may be convenient to the look at
     neighbourhoods in terms of a distance between daasets. Let
