@@ -175,10 +175,10 @@ The purpose of this course is to familiarise students with societal and scientif
    | 21.10 | Exponential mechanism  | Shuffle privacy            |
    |       | Privacy amplification  | Federated learning         |
    |-------+------------------------+----------------------------|
-   | 28.10 | Group fairness         |                            |
+   | 28.10 | Group fairness         | Pro-Publica paper          |
    |       | Equalised odds         |                            |
    |-------+------------------------+----------------------------|
-   |  4.11 | Balance                |                            |
+   |  4.11 | Balance                | Chouldochova paper         |
    |       | Calibration            |                            |
    |-------+------------------------+----------------------------|
    | 11.11 | Meritocracy            | top-k                      |
