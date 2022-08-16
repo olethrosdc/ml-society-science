@@ -197,15 +197,15 @@ The purpose of this course is to familiarise students with societal and scientif
    |-------+------------------------+----------------------------|
 
 *** Papers
-1. Big Data's Disparate Impact
-2. Netflix Paper
-3. Staircase mechanism
-4. Renyi DP / Optimal DP
-5. Shuffle Privacy / Federated learning
-6. Egalitarian fairness
-7. Trade-offs in scores
-8. Top-k
-9. Fairness through awareness
+1. [[https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2477899][Big Data's Disparate Impact]]. Barocas and Selbst, 2016.
+2. [[https://www.cs.utexas.edu/~shmat/shmat_oak08netflix.pdf][Robust De-anonymization of Large Sparse Datasets.]] Narayanan and Shmatikov.
+3. [[https://pramodv.ece.illinois.edu/pubs/GKOV.pdf][The staircase mechanism in differential privacy]].  Geng et al. 2015.
+4. [[https://arxiv.org/abs/1702.07476][Renyi Differential Privacy]], Mironov, 2017.
+5. [[https://eprint.iacr.org/2019/245.pdf][Distributed Differential Privacy via Shuffling]]. Cheu et al, 2019.
+6. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments.
+7. Inherent Trade-Offs in the Fair Determination of Risk Scores.
+8. Meritocratic Fairness for Cross-Population Selection
+9. Fairness through awareness.
 10. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
 11. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
 12. Genomic privacy and limits of individual detection in a pool
