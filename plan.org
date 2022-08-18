@@ -203,14 +203,15 @@ The purpose of this course is to familiarise students with societal and scientif
 4. [[https://pramodv.ece.illinois.edu/pubs/GKOV.pdf][The staircase mechanism in differential privacy]].  Geng et al. 2015.
 5. [[https://arxiv.org/abs/1702.07476][Renyi Differential Privacy]], Mironov, 2017.
 6. [[https://eprint.iacr.org/2019/245.pdf][Distributed Differential Privacy via Shuffling]]. Cheu et al, 2019.
-7. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments.
-8. Inherent Trade-Offs in the Fair Determination of Risk Scores.
-9. Meritocratic Fairness for Cross-Population Selection
-10. Fairness through awareness.
-11. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
-12. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
-13. Genomic privacy and limits of individual detection in a pool
-14. Privacy Preserving GWAS Data Sharing
+7. [[https://publications.ics.forth.gr/_publications/SECRYPT_2022_59_CR.pdf][Federated Naive Bayes under Differential Privacy.]] Marchioro et al.
+8. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments.
+9. Inherent Trade-Offs in the Fair Determination of Risk Scores.
+10. Meritocratic Fairness for Cross-Population Selection
+11. Fairness through awareness.
+12. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
+13. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
+14. Genomic privacy and limits of individual detection in a pool
+15. Privacy Preserving GWAS Data Sharing
 
 
 ** 2021
