@@ -799,11 +799,11 @@
   \end{definition}
   \only<article>{ If $x,x'$ are 1-neighbours under the second
     definition, then they are 2-neighbours under the first
-    definition. Let's create a new dataset $\hat{x}$ missing the
-    data of person $i$. Then $x N \hat{x}$ and $\hat{x} N x'$,
-    since we can change the data of one person by removing the
-    original data $x_i$ and then re-inserting the altered data
-    $x'_i$. This is illustrated in the example below.}
+    definition. To see this, create a new dataset $\hat{x}$ from $x$,
+    without the data of person $i$. Then $x N \hat{x}$ and
+    $\hat{x} N x'$, since we can change the data of one person by
+    removing the original data $x_i$ and then re-inserting the altered
+    data $x'_i$. This is illustrated in the example below.}
 \end{frame}
 
 
@@ -811,7 +811,7 @@
 \begin{frame}
   \begin{exampleblock}{Neihgbourhood example}
     \only<article>{
-      In this example, we have three datasets, $x, x'$ and $x''$. In the second dataset, $x'$, the highlighted row in $x'$ is missing. In the third dataset, $x''$, another row with the same name is added, but the height and weight are changed.
+      In this example, we have three datasets, $x, x'$ and $hat{x}$. In the second dataset, $\hat{x}$, the highlighted row in $x$ is missing. In the third dataset, $x'$, another row with the same name is added, but the height and weight are changed.
     }
     \begin{table}[H]
       \centering
@@ -827,7 +827,7 @@
       \caption{Data $x$}
     \end{table}
     \only<article>{
-      In fact, $x'$ is obtained through a deletion from $x$. Of course, the operation can be reversed: $x$ can be obtained from an addition to $x'$.
+      In fact, $\hat{x}$ is obtained through a deletion from $x$. Of course, the operation can be reversed: $x$ can be obtained from an addition to $\hat{x}$.
     }
     \only<1>{
       \begin{table}[H]
@@ -840,10 +840,10 @@
           01/01 & A. B. Student & 170 & 70 \\
           05/08 & Li Yang & 175 & 72 
         \end{tabular}
-        \caption{$x'$, 1-Neighbour of $x'$.}
+        \caption{$\hat{x}$, 1-Neighbour of $x$.}
       \end{table}
     }
-    \only<article>{We can now instead add another row to $x'$, which will be similar to the row we had removed. This will have the effect of altering the original data in $x$.}
+    \only<article>{We can now instead add another row to $\hat{x}$, which will be similar to the row we had removed. This will have the effect of altering the original data in $x$.}
     \only<2>{
       \begin{table}[H]
         \centering
@@ -856,9 +856,9 @@
           01/01 & A. B. Student & 170 & 70 \\
           05/08 & Li Yang & 175 & 72 
         \end{tabular}
-        \caption{$x''$, 2-Neighbour of $x'$.}
+        \caption{$x'$, 2-Neighbour of $x$.}
       \end{table}
-      \only<article>{Since $x,x''$ only differ in the contents of a single row, they are edit-neighbours.}
+      \only<article>{Since $x,x'$ only differ in the contents of a single row, they are edit-neighbours.}
     }
   \end{exampleblock}
 \end{frame}
