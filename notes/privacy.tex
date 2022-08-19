@@ -1191,25 +1191,24 @@
 \label{sec:laplace-mechanism}
 \begin{frame}
   \only<article>{
-    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise, so that the output of the algorithm is simply 
+    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive Laplace noise. We can write this formally with the following equation:
     \[
       a = f(x) + \omega, \qquad \omega \sim \Laplace.
     \]
     The amount of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have.
   }
   \begin{definition}[The Laplace mechanism]
-    For any function $f : \CX \to \Reals$, 
+    For any function $f : \CX \to \Reals$, the output $a$ of the mechanism is sampled from a Laplace distribution with mean $f(x)$ and scaling parameter $\lambda$, i.e.
     \begin{equation}
       \label{eq:laplace-mechanism}
-      \pol(a \mid x) = \Laplace(f(x), \lambda),
+      \pol(a \mid x) = \Laplace(f(x), \lambda).
     \end{equation}
-    where the Laplace density is defined as
+    The probability density function of the Laplace distribution with mean $\mu$ and scaling $\lambda$ is given by:
     \[
       p(\omega \mid \mu, \lambda) = \frac{1}{2 \lambda} \exp\left(-\frac{|\omega - \mu|}{\lambda}\right).
     \]
     and has mean $\mu$ and variance $2 \lambda^2$.
   \end{definition}
-  \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
 \end{frame}
 
 \begin{frame}
@@ -1230,7 +1229,10 @@
 
     \textbf{The centralised model.}
     \only<article>{In this case, $\pol(a \mid x)$ is obtained by averaging first and adding noise later.}
-    Return $a = n^{-1} \sum_{i=1}^n x_i + \omega$, where $\omega \sim \Laplace(\lambda')$.
+    \begin{itemize}
+    \item Calcualte $y = n^{-1} \sum_{i=1}^n x_i$.
+    \item Return $a = y + \omega$, where $\omega \sim \Laplace(\lambda')$.
+    \end{itemize}
     \only<article>{We must tune $\lambda, \lambda'$ appropriately in to obtain the needed $\epsilon$-DP guarantee.}
   \end{exampleblock}
 
