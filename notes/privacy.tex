@@ -1524,7 +1524,7 @@
     \item There is a common utility function
       $\util : \CX, \CA, \CQ \to \Reals$.
     \end{itemize}
-    We wish to maximisation $\util$ with our answers, but are constrained by the fact that we also want to preserve privacy.
+    We wish to give the most useful answer, by return $a$ that maximises $\util$, i.e. $a = \argmax_{a'} \util(x, a', q)$, but are constrained by the fact that we also want to preserve privacy.
   \end{block}
   \only<article>{The utility $\util(x,a,q)$  describes how appropriate each response $a$ given by the system for a query $r$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
 
