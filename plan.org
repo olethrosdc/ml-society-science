@@ -155,6 +155,7 @@ The purpose of this course is to familiarise students with societal and scientif
 * Schedule
 ** 2022
 
+<<<<<<< HEAD
    |-------+-----------------------+-----------+-----------------------------------|
    |  Date | Lecture               | Exercise  | Paper                             |
    |-------+-----------------------+-----------+-----------------------------------|
@@ -199,21 +200,65 @@ The purpose of this course is to familiarise students with societal and scientif
    |-------+-----------------------+-----------+-----------------------------------|
    | 20.12 |                       | Project3  |                                   |
    |-------+-----------------------+-----------+-----------------------------------|
+=======
+
+   |-------+------------------------+----------------------------|
+   |  23.9 | Algorithms             |                            |
+   |       | Privacy                |                            |
+   |       | Fairness               |                            |
+   |       | Reproducibility        |                            |
+   |-------+------------------------+----------------------------|
+   |  30.9 | Privacy and anonymity  | Netflix paper              |
+   |       | k-anonymity            |                            |
+   |-------+------------------------+----------------------------|
+   |  7.10 | Differential Privacy   | Staircase mechanism        |
+   |       | Randomised response    |                            |
+   |       | Laplace Mechanism      |                            |
+   |-------+------------------------+----------------------------|
+   | 14.10 | Approximate  Mechanism | Renyi DP                   |
+   |       | Gaussian Mechanism     |                            |
+   |-------+------------------------+----------------------------|
+   | 21.10 | Exponential mechanism  | Shuffle privacy            |
+   |       | Privacy amplification  | Federated learning         |
+   |-------+------------------------+----------------------------|
+   | 28.10 | Group fairness         | Pro-Publica paper          |
+   |       | Equalised odds         |                            |
+   |-------+------------------------+----------------------------|
+   |  4.11 | Balance                | Chouldochova paper         |
+   |       | Calibration            |                            |
+   |-------+------------------------+----------------------------|
+   | 11.11 | Meritocracy            | top-k                      |
+   |       |                        |                            |
+   |-------+------------------------+----------------------------|
+   | 18.11 | Smoothness             | Fairness through Awareness |
+   |-------+------------------------+----------------------------|
+   | 25.11 | Reproducibility        | GWA                        |
+   |       | Train/Test             |                            |
+   |-------+------------------------+----------------------------|
+   |  2.12 | GWAS                   |                            |
+   |-------+------------------------+----------------------------|
+   |  9.12 |                        |                            |
+   |-------+------------------------+----------------------------|
+   | 16.12 |                        |                            |
+   |-------+------------------------+----------------------------|
+>>>>>>> b2158ea904f7c60e0ec79f6db80bc8aa8877622a
 
 *** Papers
 1. [[https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2477899][Big Data's Disparate Impact]]. Barocas and Selbst, 2016.
 2. [[https://www.cs.utexas.edu/~shmat/shmat_oak08netflix.pdf][Robust De-anonymization of Large Sparse Datasets.]] Narayanan and Shmatikov.
-3. [[https://pramodv.ece.illinois.edu/pubs/GKOV.pdf][The staircase mechanism in differential privacy]].  Geng et al. 2015.
-4. [[https://arxiv.org/abs/1702.07476][Renyi Differential Privacy]], Mironov, 2017.
-5. [[https://eprint.iacr.org/2019/245.pdf][Distributed Differential Privacy via Shuffling]]. Cheu et al, 2019.
-6. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments.
-7. Inherent Trade-Offs in the Fair Determination of Risk Scores.
-8. Meritocratic Fairness for Cross-Population Selection
-9. Fairness through awareness.
-10. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
-11. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
-12. Genomic privacy and limits of individual detection in a pool
-13. Privacy Preserving GWAS Data Sharing
+3. Approximate DP: See also https://github.com/frankmcsherry/blog/blob/master/posts/2017-02-08.md
+4. [[https://pramodv.ece.illinois.edu/pubs/GKOV.pdf][The staircase mechanism in differential privacy]].  Geng et al. 2015.
+5. [[https://arxiv.org/abs/1702.07476][Renyi Differential Privacy]], Mironov, 2017.
+6. [[https://eprint.iacr.org/2019/245.pdf][Distributed Differential Privacy via Shuffling]]. Cheu et al, 2019.
+7. [[https://publications.ics.forth.gr/_publications/SECRYPT_2022_59_CR.pdf][Federated Naive Bayes under Differential Privacy.]] Marchioro et al.
+8. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments.
+9. Inherent Trade-Offs in the Fair Determination of Risk Scores.
+10. Meritocratic Fairness for Cross-Population Selection
+11. Fairness through awareness.
+12. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
+13. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
+14. Genomic privacy and limits of individual detection in a pool
+15. Privacy Preserving GWAS Data Sharing
 
 
 ** 2021

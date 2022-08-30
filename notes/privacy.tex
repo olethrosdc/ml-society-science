@@ -799,11 +799,11 @@
   \end{definition}
   \only<article>{ If $x,x'$ are 1-neighbours under the second
     definition, then they are 2-neighbours under the first
-    definition. Let's create a new dataset $\hat{x}$ missing the
-    data of person $i$. Then $x N \hat{x}$ and $\hat{x} N x'$,
-    since we can change the data of one person by removing the
-    original data $x_i$ and then re-inserting the altered data
-    $x'_i$. This is illustrated in the example below.}
+    definition. To see this, create a new dataset $\hat{x}$ from $x$,
+    without the data of person $i$. Then $x N \hat{x}$ and
+    $\hat{x} N x'$, since we can change the data of one person by
+    removing the original data $x_i$ and then re-inserting the altered
+    data $x'_i$. This is illustrated in the example below.}
 \end{frame}
 
 
@@ -811,7 +811,7 @@
 \begin{frame}
   \begin{exampleblock}{Neihgbourhood example}
     \only<article>{
-      In this example, we have three datasets, $x, x'$ and $x''$. In the second dataset, $x'$, the highlighted row in $x'$ is missing. In the third dataset, $x''$, another row with the same name is added, but the height and weight are changed.
+      In this example, we have three datasets, $x, x'$ and $hat{x}$. In the second dataset, $\hat{x}$, the highlighted row in $x$ is missing. In the third dataset, $x'$, another row with the same name is added, but the height and weight are changed.
     }
     \begin{table}[H]
       \centering
@@ -827,7 +827,7 @@
       \caption{Data $x$}
     \end{table}
     \only<article>{
-      In fact, $x'$ is obtained through a deletion from $x$. Of course, the operation can be reversed: $x$ can be obtained from an addition to $x'$.
+      In fact, $\hat{x}$ is obtained through a deletion from $x$. Of course, the operation can be reversed: $x$ can be obtained from an addition to $\hat{x}$.
     }
     \only<1>{
       \begin{table}[H]
@@ -840,10 +840,10 @@
           01/01 & A. B. Student & 170 & 70 \\
           05/08 & Li Yang & 175 & 72 
         \end{tabular}
-        \caption{$x'$, 1-Neighbour of $x'$.}
+        \caption{$\hat{x}$, 1-Neighbour of $x$.}
       \end{table}
     }
-    \only<article>{We can now instead add another row to $x'$, which will be similar to the row we had removed. This will have the effect of altering the original data in $x$.}
+    \only<article>{We can now instead add another row to $\hat{x}$, which will be similar to the row we had removed. This will have the effect of altering the original data in $x$.}
     \only<2>{
       \begin{table}[H]
         \centering
@@ -856,9 +856,9 @@
           01/01 & A. B. Student & 170 & 70 \\
           05/08 & Li Yang & 175 & 72 
         \end{tabular}
-        \caption{$x''$, 2-Neighbour of $x'$.}
+        \caption{$x'$, 2-Neighbour of $x$.}
       \end{table}
-      \only<article>{Since $x,x''$ only differ in the contents of a single row, they are edit-neighbours.}
+      \only<article>{Since $x,x'$ only differ in the contents of a single row, they are edit-neighbours.}
     }
   \end{exampleblock}
 \end{frame}
@@ -1191,25 +1191,24 @@
 \label{sec:laplace-mechanism}
 \begin{frame}
   \only<article>{
-    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise, so that the output of the algorithm is simply 
+    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive Laplace noise. We can write this formally with the following equation:
     \[
       a = f(x) + \omega, \qquad \omega \sim \Laplace.
     \]
     The amount of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have.
   }
   \begin{definition}[The Laplace mechanism]
-    For any function $f : \CX \to \Reals$, 
+    For any function $f : \CX \to \Reals$, the output $a$ of the mechanism is sampled from a Laplace distribution with mean $f(x)$ and scaling parameter $\lambda$, i.e.
     \begin{equation}
       \label{eq:laplace-mechanism}
-      \pol(a \mid x) = \Laplace(f(x), \lambda),
+      \pol(a \mid x) = \Laplace(f(x), \lambda).
     \end{equation}
-    where the Laplace density is defined as
+    The probability density function of the Laplace distribution with mean $\mu$ and scaling $\lambda$ is given by:
     \[
       p(\omega \mid \mu, \lambda) = \frac{1}{2 \lambda} \exp\left(-\frac{|\omega - \mu|}{\lambda}\right).
     \]
     and has mean $\mu$ and variance $2 \lambda^2$.
   \end{definition}
-  \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
 \end{frame}
 
 \begin{frame}
@@ -1230,7 +1229,10 @@
 
     \textbf{The centralised model.}
     \only<article>{In this case, $\pol(a \mid x)$ is obtained by averaging first and adding noise later.}
-    Return $a = n^{-1} \sum_{i=1}^n x_i + \omega$, where $\omega \sim \Laplace(\lambda')$.
+    \begin{itemize}
+    \item Calcualte $y = n^{-1} \sum_{i=1}^n x_i$.
+    \item Return $a = y + \omega$, where $\omega \sim \Laplace(\lambda')$.
+    \end{itemize}
     \only<article>{We must tune $\lambda, \lambda'$ appropriately in to obtain the needed $\epsilon$-DP guarantee.}
   \end{exampleblock}
 
@@ -1522,7 +1524,7 @@
     \item There is a common utility function
       $\util : \CX, \CA, \CQ \to \Reals$.
     \end{itemize}
-    We wish to maximisation $\util$ with our answers, but are constrained by the fact that we also want to preserve privacy.
+    We wish to give the most useful answer, by return $a$ that maximises $\util$, i.e. $a = \argmax_{a'} \util(x, a', q)$, but are constrained by the fact that we also want to preserve privacy.
   \end{block}
   \only<article>{The utility $\util(x,a,q)$  describes how appropriate each response $a$ given by the system for a query $r$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
 
@@ -1555,19 +1557,44 @@
 
 \section{Advanced topics.}
 
+\only<article>{
+  In this section, we give a brief overview of some more advanced topics on privacy. The interested reader is urged to look into the given references.
+}
 \subsection{Relaxations of differential privacy.}
 \only<article>{
-  In practice, satisfying differential privacy results in nearly
-}
+  In practice, satisfying differential privacy results in mechanisms with low utility. It is possible to relax the definition of differential privacy to add an additive term, as shown below.
+
 
 \begin{definition}{Approximate differential privacy.}
+  \label{def:epsilon-delta-dp}
+  A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
+  is endowed with a neighbourhood relation $N$, is said to be
+  $(\epsilon,\delta)$ differentially private if
+  \begin{equation}
+    \label{eq:epsilon-delta-dp}
+    \pol(A \mid x) \leq \pol(A \mid x') \epsilon + \delta, \qquad \forall x N x', \quad A \subset \CA.
+  \end{equation}
 \end{definition}
+One simple interpretation of this definition is that the mechanism is
+$(\epsilon, 0)$-DP with probability $1 - \delta$. Conversely, this
+implies that with a very small probability $\delta$, the complete
+dataset might be revealed. For that reason, the parameter $\delta$
+must be as small as possible.
 
-\begin{theorem}{Advanced composition.}
-\end{theorem}
+Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. This is similar to the Laplace mechanism, but scales noise to the $\ell_2$ sensitivity of the function.
+\begin{exampleblock}{The Gaussian mechanism}
+  Given a function $f : \CX \to \Reals^k$, the Gaussian mechanism with parameter $\sigma$ outputs
+  $a \sim \Normal(f(x), \sigma)$.
 
-\begin{definition}{R\'enyi differential privacy.}
-\end{definition}
+  Let $\ell_2$ sensitivity of $f$ be $\Delta_2(f) = \max\cset{\|f(x) - f(y)\|_2}{x N y}$. If we set $\sigma \geq 2\ln(1.25 / \delta) \Delta_2(f) / \epsilon$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
+\end{exampleblock}
+
+\begin{theoryblock}{Renyi differential privacy.}
+  The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) = \sup_A |\ln P(A)/Q(A)|$. While it is possible to use the KL divergence instead, this does not lead to very good properties---in particular, the resulting compositional properties are not so nice. 
+\end{theoryblock}
+
+}
+
 
 
 \subsection{Reproducibility}
@@ -1755,6 +1782,16 @@
     First of all, for the mechanism to satisfy DP, it must be the case that an output size must have a non-zero probability: If with an $n$-size input we can only generate $\leq n$-size outputs, then we cannot generate a $n+1$-size output. However, we can do so with an input of size $n+1$. 
   \end{proof}
 
+  \begin{exercise}
+    Consider a relaxation of differential privacy to KL divergences, that is. That is, a mechanism is $\epsilon$-KL-private if
+    \[
+      \int_\CA \ln \frac{d\pol(a | x)}{d\pol(a | x')} d\pol(a | x) \leq \epsilon.
+    \]
+    Prove a non-interactive composition theorem for this mechanism.
+  \end{exercise}
+  \begin{proof}
+    If performing two queries, we can show that 
+  \end{proof}
   
 }
 %%% Local Variables:
