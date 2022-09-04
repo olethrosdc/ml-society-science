@@ -1533,6 +1533,10 @@
   \frametitle{The Exponential Mechanism.}
   \only<article>{
     Here we assume that we can answer queries $q$, whereby each possible answer $a$ to the query has a different utility to the DM: $\util(q, a, x)$.
+    The idea is that the best answer to the query should have the highest utility. The further away from the correct answer the response is, the lower the utility should be. This allows us to quantify how much we value correct answers to a query.
+
+    As an example, if the optimal resposne to a query is given by a real-valued function $f(q, x)$, then one possible utility function is $\util(q,a,x) = - [f(q,x) - a]^2$. This results in the correct response having a utility of zero, and responses whose value is further away will have negative values.
+    
     Let $\sensitivity{\util(q)} \defn \sup_{x N x'} |\util(q, a, x) -\util(q, a, x)|$ denote the sensitivity of a query. Then the following mechanism is $\epsilon$-differentially private.
   }
   \begin{definition}[The Exponential mechanism]
