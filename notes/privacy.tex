@@ -1530,22 +1530,33 @@
 
 \end{frame}
 \begin{frame}
-  \frametitle{The Exponential Mechanism.}
-  \only<article>{
-    Here we assume that we can answer queries $q$, whereby each possible answer $a$ to the query has a different utility to the DM: $\util(q, a, x)$.
-    The idea is that the best answer to the query should have the highest utility. The further away from the correct answer the response is, the lower the utility should be. This allows us to quantify how much we value correct answers to a query.
+  \frametitle{The Exponential Mechanism.}  \only<article>{ Here we
+    assume that we can answer queries $q$, whereby each possible
+    answer $a$ to the query has a different utility to the DM:
+    $\util(q, a, x)$.  The idea is that the best answer to the query
+    should have the highest utility. The further away from the correct
+    answer the response is, the lower the utility should be. This
+    allows us to quantify how much we value correct answers to a
+    query.
 
-    As an example, if the optimal resposne to a query is given by a real-valued function $f(q, x)$, then one possible utility function is $\util(q,a,x) = - [f(q,x) - a]^2$. This results in the correct response having a utility of zero, and responses whose value is further away will have negative values.
+    As an example, if the optimal resposne to a query is given by a
+    real-valued function $f(q, x)$, then one possible utility function
+    is $\util(q,a,x) = - [f(q,x) - a]^2$. This results in the correct
+    response having a utility of zero, and responses whose value is
+    further away will have negative values.
+
+    The exponential mechanism allows us to answer queries in a ``soft'' manner, by using this utility function. It assigns lower probability to answers with lower utility, hence the better responses have a higher likelihood of being selected.
     
-    Let $\sensitivity{\util(q)} \defn \sup_{x N x'} |\util(q, a, x) -\util(q, a, x)|$ denote the sensitivity of a query. Then the following mechanism is $\epsilon$-differentially private.
   }
   \begin{definition}[The Exponential mechanism]
     For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy
     \index{policy!exponential mechanism}
     \begin{equation}
       \label{eq:exponential-mechanism}
-      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}}
+      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}},
     \end{equation}
+        where $\sensitivity{\util(q)} \defn \max_a \sup_{x N x'} |\util(q,
+    a, x) -\util(q, a, x)|$ denotes the sensitivity of a query. 
   \end{definition}
   \only<presentation>{
     What happens when $\epsilon \to \infty$? What about when $\epsilon \to 0$?
@@ -1555,6 +1566,14 @@
 
     Although the exponential mechanism can be used to describe most known DP mechanisms, its best use is in settings where there is a natural utility function.
   }
+
+  \begin{theorem}
+Then
+    exponential mechanism is $\epsilon$-differentially private.
+  \end{theorem}
+
+
+  
 \end{frame}
 
 
