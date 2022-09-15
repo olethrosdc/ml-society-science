@@ -803,11 +803,11 @@
   \end{definition}
   \only<article>{ If $x,x'$ are 1-neighbours under the second
     definition, then they are 2-neighbours under the first
-    definition. Let's create a new dataset $\hat{x}$ missing the
-    data of person $i$. Then $x N \hat{x}$ and $\hat{x} N x'$,
-    since we can change the data of one person by removing the
-    original data $x_i$ and then re-inserting the altered data
-    $x'_i$. This is illustrated in the example below.}
+    definition. To see this, create a new dataset $\hat{x}$ from $x$,
+    without the data of person $i$. Then $x N \hat{x}$ and
+    $\hat{x} N x'$, since we can change the data of one person by
+    removing the original data $x_i$ and then re-inserting the altered
+    data $x'_i$. This is illustrated in the example below.}
 \end{frame}
 
 
@@ -815,7 +815,7 @@
 \begin{frame}
   \begin{exampleblock}{Neihgbourhood example}
     \only<article>{
-      In this example, we have three datasets, $x, x'$ and $x''$. In the second dataset, $x'$, the highlighted row in $x'$ is missing. In the third dataset, $x''$, another row with the same name is added, but the height and weight are changed.
+      In this example, we have three datasets, $x, x'$ and $hat{x}$. In the second dataset, $\hat{x}$, the highlighted row in $x$ is missing. In the third dataset, $x'$, another row with the same name is added, but the height and weight are changed.
     }
     \begin{table}[H]
       \centering
@@ -831,7 +831,7 @@
       \caption{Data $x$}
     \end{table}
     \only<article>{
-      In fact, $x'$ is obtained through a deletion from $x$. Of course, the operation can be reversed: $x$ can be obtained from an addition to $x'$.
+      In fact, $\hat{x}$ is obtained through a deletion from $x$. Of course, the operation can be reversed: $x$ can be obtained from an addition to $\hat{x}$.
     }
     \only<1>{
       \begin{table}[H]
@@ -844,10 +844,10 @@
           01/01 & A. B. Student & 170 & 70 \\
           05/08 & Li Yang & 175 & 72 
         \end{tabular}
-        \caption{$x'$, 1-Neighbour of $x'$.}
+        \caption{$\hat{x}$, 1-Neighbour of $x$.}
       \end{table}
     }
-    \only<article>{We can now instead add another row to $x'$, which will be similar to the row we had removed. This will have the effect of altering the original data in $x$.}
+    \only<article>{We can now instead add another row to $\hat{x}$, which will be similar to the row we had removed. This will have the effect of altering the original data in $x$.}
     \only<2>{
       \begin{table}[H]
         \centering
@@ -860,9 +860,9 @@
           01/01 & A. B. Student & 170 & 70 \\
           05/08 & Li Yang & 175 & 72 
         \end{tabular}
-        \caption{$x''$, 2-Neighbour of $x'$.}
+        \caption{$x'$, 2-Neighbour of $x$.}
       \end{table}
-      \only<article>{Since $x,x''$ only differ in the contents of a single row, they are edit-neighbours.}
+      \only<article>{Since $x,x'$ only differ in the contents of a single row, they are edit-neighbours.}
     }
   \end{exampleblock}
 \end{frame}
@@ -1197,25 +1197,24 @@
 \label{sec:laplace-mechanism}
 \begin{frame}
   \only<article>{
-    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive noise, so that the output of the algorithm is simply 
+    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive Laplace noise. We can write this formally with the following equation:
     \[
       a = f(x) + \omega, \qquad \omega \sim \Laplace.
     \]
     The amount of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have.
   }
   \begin{definition}[The Laplace mechanism]
-    For any function $f : \CX \to \Reals$, 
+    For any function $f : \CX \to \Reals$, the output $a$ of the mechanism is sampled from a Laplace distribution with mean $f(x)$ and scaling parameter $\lambda$, i.e.
     \begin{equation}
       \label{eq:laplace-mechanism}
-      \pol(a \mid x) = \Laplace(f(x), \lambda),
+      \pol(a \mid x) = \Laplace(f(x), \lambda).
     \end{equation}
-    where the Laplace density is defined as
+    The probability density function of the Laplace distribution with mean $\mu$ and scaling $\lambda$ is given by:
     \[
       p(\omega \mid \mu, \lambda) = \frac{1}{2 \lambda} \exp\left(-\frac{|\omega - \mu|}{\lambda}\right).
     \]
     and has mean $\mu$ and variance $2 \lambda^2$.
   \end{definition}
-  \only<article>{Here, $\Laplace(\mu, \lambda)$ is the density $f(x) = \frac{\lambda}{2} \exp(-\lambda |x - \mu|)$}.
 \end{frame}
 
 \begin{frame}
@@ -1236,7 +1235,10 @@
 
     \textbf{The centralised model.}
     \only<article>{In this case, $\pol(a \mid x)$ is obtained by averaging first and adding noise later.}
-    Return $a = n^{-1} \sum_{i=1}^n x_i + \omega$, where $\omega \sim \Laplace(\lambda')$.
+    \begin{itemize}
+    \item Calcualte $y = n^{-1} \sum_{i=1}^n x_i$.
+    \item Return $a = y + \omega$, where $\omega \sim \Laplace(\lambda')$.
+    \end{itemize}
     \only<article>{We must tune $\lambda, \lambda'$ appropriately in to obtain the needed $\epsilon$-DP guarantee.}
   \end{exampleblock}
 
@@ -1528,24 +1530,39 @@
     \item There is a common utility function
       $\util : \CX, \CA, \CQ \to \Reals$.
     \end{itemize}
-    We wish to maximisation $\util$ with our answers, but are constrained by the fact that we also want to preserve privacy.
+    We wish to give the most useful answer, by return $a$ that maximises $\util$, i.e. $a = \argmax_{a'} \util(x, a', q)$, but are constrained by the fact that we also want to preserve privacy.
   \end{block}
   \only<article>{The utility $\util(x,a,q)$  describes how appropriate each response $a$ given by the system for a query $r$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
 
 \end{frame}
 \begin{frame}
-  \frametitle{The Exponential Mechanism.}
-  \only<article>{
-    Here we assume that we can answer queries $q$, whereby each possible answer $a$ to the query has a different utility to the DM: $\util(q, a, x)$.
-    Let $\sensitivity{\util(q)} \defn \sup_{x N x'} |\util(q, a, x) -\util(q, a, x)|$ denote the sensitivity of a query. Then the following mechanism is $\epsilon$-differentially private.
+  \frametitle{The Exponential Mechanism.}  \only<article>{ Here we
+    assume that we can answer queries $q$, whereby each possible
+    answer $a$ to the query has a different utility to the DM:
+    $\util(q, a, x)$.  The idea is that the best answer to the query
+    should have the highest utility. The further away from the correct
+    answer the response is, the lower the utility should be. This
+    allows us to quantify how much we value correct answers to a
+    query.
+
+    As an example, if the optimal resposne to a query is given by a
+    real-valued function $f(q, x)$, then one possible utility function
+    is $\util(q,a,x) = - [f(q,x) - a]^2$. This results in the correct
+    response having a utility of zero, and responses whose value is
+    further away will have negative values.
+
+    The exponential mechanism allows us to answer queries in a ``soft'' manner, by using this utility function. It assigns lower probability to answers with lower utility, hence the better responses have a higher likelihood of being selected.
+    
   }
   \begin{definition}[The Exponential mechanism]
     For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy
     \index{policy!exponential mechanism}
     \begin{equation}
       \label{eq:exponential-mechanism}
-      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}}
+      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}},
     \end{equation}
+        where $\sensitivity{\util(q)} \defn \max_a \sup_{x N x'} |\util(q,
+    a, x) -\util(q, a, x)|$ denotes the sensitivity of a query. 
   \end{definition}
   \only<presentation>{
     What happens when $\epsilon \to \infty$? What about when $\epsilon \to 0$?
@@ -1555,6 +1572,14 @@
 
     Although the exponential mechanism can be used to describe most known DP mechanisms, its best use is in settings where there is a natural utility function.
   }
+
+  \begin{theorem}
+Then
+    exponential mechanism is $\epsilon$-differentially private.
+  \end{theorem}
+
+
+  
 \end{frame}
 
 
