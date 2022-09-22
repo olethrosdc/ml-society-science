@@ -150,6 +150,9 @@ Algorithms from Artificial Intelligence are becoming ever more complicated and a
 
 The purpose of this course is to familiarise students with societal and scientific effects due to the use of artificial intelligence at scale. It will equip  students with all the requisite knowledge to apply state-of-the-art machine learning tools to a problem, while recognising potential pit-falls. The focus of the course is not on explaining a large set of models. It uses three basic types of models for illustration: k nearest-neighbour, neural networks and probabilistic graphical models, with an emphasis on the latter for interpretability and the first for lab work. It is instead on the issues of reproducibility, data colletion and experiment design, privacy, fairness and safety when applying machine learning algorithms. For that reason, we will cover technical topics not typically covered in an AI course: false discovery rates, differential privacy, fairness, causality and risk. Some familiarity with machine learning concepts and artificial intelligence is expected, but not necessary.
  
+* External resources:
+
+- [[https://programming-dp.com/][Programming differential privacy]] - A book about DP, for programmers. Near and Abuah, 2021.
 * Schedule
 ** 2022
 
@@ -197,22 +200,24 @@ The purpose of this course is to familiarise students with societal and scientif
    |-------+-----------------------+-------------+-----------------------------------|
 
 *** Papers
-1. [[https://www.cs.utexas.edu/~shmat/shmat_oak08netflix.pdf][Robust De-anonymization of Large Sparse Datasets.]] Narayanan and Shmatikov.
-2. Approximate DP: See also https://github.com/frankmcsherry/blog/blob/master/posts/2017-02-08.md
-3. [[https://pramodv.ece.illinois.edu/pubs/GKOV.pdf][The staircase mechanism in differential privacy]].  Geng et al. 2015.
-4. [[https://arxiv.org/abs/1702.07476][Renyi Differential Privacy]], Mironov, 2017.
-5. [[https://eprint.iacr.org/2019/245.pdf][Distributed Differential Privacy via Shuffling]]. Cheu et al, 2019.
-6. [[https://publications.ics.forth.gr/_publications/SECRYPT_2022_59_CR.pdf][Federated Naive Bayes under Differential Privacy.]] Marchioro et al.
-7. [[https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2477899][Big Data's Disparate Impact]]. Barocas and Selbst, 2016.
-8. Fair prediction with disparate impact: A study of bias in recidivism prediction instruments.
-9. Inherent Trade-Offs in the Fair Determination of Risk Scores.
-10. Meritocratic Fairness for Cross-Population Selection.
-11. Fairness through awareness.
-12. Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays.
-13. Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data.
-14. Genomic privacy and limits of individual detection in a pool
-15. Privacy Preserving GWAS Data Sharing
-16. [[https://arxiv.org/pdf/1909.03577.pdf][A New Analysis of Differential Privacy’s Generalization Guarantees]] 
+1. [[https://www.jstor.org/stable/2283137][Randomised Response]]: A Survey Technique for Eliminating Evasive Answer Bias, Warner, 1965.
+2. [[https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1450006][Broken Promises of Privacy: Responding to the Surprising Failure of Anonymization]], Ohm, 2009.
+3. [[https://www.cs.utexas.edu/~shmat/shmat_oak08netflix.pdf][Robust De-anonymization of Large Sparse Datasets.]] Narayanan and Shmatikov.
+4. [[https://link.springer.com/content/pdf/10.1007/11681878_14.pdf][Calibrating noise to sensitivity in private data analysis]]. Dwork et al. 2006. (Approximate DP: See also https://github.com/frankmcsherry/blog/blob/master/posts/2017-02-08.md )
+5. [[https://www.iacr.org/cryptodb/data/paper.php?pubkey=2319][Our Data, Ourselves: Privacy Via Distributed Noise Generation]], Dwork et al. 2006.
+5. [[https://pramodv.ece.illinois.edu/pubs/GKOV.pdf][The staircase mechanism in differential privacy]].  Geng et al. 2015.
+6. [[https://arxiv.org/abs/1702.07476][Renyi Differential Privacy]], Mironov, 2017.
+7. [[https://eprint.iacr.org/2019/245.pdf][Distributed Differential Privacy via Shuffling]]. Cheu et al, 2019.
+8. [[https://publications.ics.forth.gr/_publications/SECRYPT_2022_59_CR.pdf][Federated Naive Bayes under Differential Privacy.]] Marchioro et al.
+9. [[https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2477899][Big Data's Disparate Impact]]. Barocas and Selbst, 2016.
+10. [[https://www.andrew.cmu.edu/user/achoulde/files/disparate_impact.pdf][Fair prediction with disparate impact: A study of bias in recidivism prediction instruments]], Chouldechova, 2017.
+11. [[https://arxiv.org/pdf/1609.05807][Inherent Trade-Offs in the Fair Determination of Risk Scores]], Kleinberg et al. 2016.
+12. [[http://proceedings.mlr.press/v70/kearns17a/kearns17a.pdf][Meritocratic Fairness for Cross-Population Selection]], Kearns et al. 2017.
+13. [[https://arxiv.org/pdf/1104.3913.pdf][Fairness through awareness]], Dwork et al. 2011.
+14. [[https://journals.plos.org/plosgenetics/article/file?id=10.1371/journal.pgen.1000167&type=printable][Resolving Individuals Contributing Trace Amounts of DNA to Highly Complex Mixtures Using High-Density SNP Genotyping Microarrays]], Homer et al. 2008.
+15. [[https://journals.plos.org/plosgenetics/article/file?id=10.1371/journal.pgen.1000668&type=printable][Needles in the Haystack: Identifying Individuals Present in Pooled Genomic Data]], Braun et al. 2009.
+16. [[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4623434/pdf/nihms640674.pdf][Privacy Preserving GWAS Data Sharing]]. Uhlerop et al. 2013.
+17. [[https://arxiv.org/pdf/1909.03577.pdf][A New Analysis of Differential Privacy’s Generalization Guarantees]], Jung et al. 2019.
 
 ** 2021
 
@@ -793,4 +798,5 @@ Taking action 1, we end up in state 2 w.p 0.2 and state 1 w.p. 0.8.
 So $\E[\sum_{t=1}^2 r_t \mid a_1 = 1] = 1 \times 0.8 - 1 \times 0.2 = 0.6$
 
 So it is better to take action 1 in state 0. 
+
 
