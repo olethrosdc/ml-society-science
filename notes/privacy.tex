@@ -1202,13 +1202,14 @@
 \label{sec:laplace-mechanism}
 \begin{frame}
   \only<article>{
-    Many times we already have a function $f : \CX \to \Reals$ we want to calculate on data, and we would like to make the function preserve privacy. One solution, that can also satisfy differential privacy, is to add onise to the function's output.  additive noise. We start by first calculating the value of
-    the function for the data we have, $f(x)$, and then we addd some
-    random noise $\omega$. Hence our response is random.
+    Many times we already have a function $f : \CX \to \Reals$ we want to calculate on data, and we would like to make the function preserve privacy. This clearly falls within the \emph{central privacy} model: The analyst has access to the data and function, and wishes for the algorithm generating the final output to be private.
+    One solution, that can  satisfy differential privacy, is to add noise to the function's output.  additive noise. We start by first calculating the value of
+    the function for the data we have, $f(x)$, and then we add some
+    random noise $\omega$, hence our calculation is random:
     \[
       a = f(x) + \omega.
     \]
-    The amount and typoe of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have. One of the simplest noise-adding mechanisms is to add zero-mean Laplace noise. Then we write $\omega \sim \Laplace(\lambda)$.\footnote{When unspecified, the mean parameter is assumed to be zero.} The mechanism is defined below.
+    The amount and type of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have. One of the simplest noise-adding mechanisms is to add zero-mean Laplace noise. Then we write $\omega \sim \Laplace(\lambda)$.\footnote{When unspecified, the mean parameter is assumed to be zero.} The mechanism is defined below.
   }
   \begin{definition}[The Laplace mechanism]
     For any function $f : \CX \to \Reals$, the output $a$ of the mechanism is sampled from a Laplace distribution with mean $f(x)$ and scaling parameter $\lambda$, i.e.
@@ -1552,7 +1553,7 @@
     allows us to quantify how much we value correct answers to a
     query.
 
-    As an example, if the optimal resposne to a query is given by a
+    As an example, if the optimal response to a query is given by a
     real-valued function $f(q, x)$, then one possible utility function
     is $\util(q,a,x) = - [f(q,x) - a]^2$. This results in the correct
     response having a utility of zero, and responses whose value is
@@ -1562,14 +1563,14 @@
     
   }
   \begin{definition}[The Exponential mechanism]
-    For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy
+    For any utility function $\util : \CQ \times \CA \times \CX \to \Reals$, define the policy, which implicitly depends on $\util$ and $\epsilon$, as:
     \index{policy!exponential mechanism}
     \begin{equation}
       \label{eq:exponential-mechanism}
-      \pol(a \mid x) \defn \frac{e^{\epsilon \util(q, a, x) / \sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / \sensitivity{\util(q)}}},
+      \pol(a \mid x, q) \defn \frac{e^{\epsilon \util(q, a, x) / 2\sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}},
     \end{equation}
-        where $\sensitivity{\util(q)} \defn \max_a \sup_{x N x'} |\util(q,
-    a, x) -\util(q, a, x)|$ denotes the sensitivity of a query. 
+    where $\sensitivity{\util(q)} \defn \max_a \sup_{x N x'} |\util(q,
+    a, x) -\util(q, a, x')|$ denotes the sensitivity of a query. 
   \end{definition}
   \only<presentation>{
     What happens when $\epsilon \to \infty$? What about when $\epsilon \to 0$?
@@ -1581,12 +1582,46 @@
   }
 
   \begin{theorem}
-Then
-    exponential mechanism is $\epsilon$-differentially private.
+    The exponential mechanism is $\epsilon$-differentially private.
   \end{theorem}
-
-
-  
+  \only<article>{
+    \begin{proof}
+      We only need to look at the ratio between two different distributions of answers to queries. Then we have:
+      \begin{align*}
+       \frac{\pol(a \mid x, q)}{\pol(a \mid x', q)}
+         &=
+         \frac{e^{\epsilon \util(q, a, x) / 2\sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / 2 \sensitivity{\util(q)}}}
+         \times          
+         \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / \sensitivity{\util(q)}}}         {e^{\epsilon \util(q, a, x') / 2\sensitivity{ \util(q)}}}
+         \\
+         &=
+         e^{\epsilon \util(q, a, x) / 2 \sensitivity{ \util(q)}
+         - \epsilon \util(q, a, x') / 2\sensitivity{ \util(q)}}
+         \times          
+         \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
+         {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+         \\
+         &=e^{\epsilon [\util(q, a, x) - \util(q, a, x')] / 2\sensitivity{ \util(q)}}
+         \times          
+         \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
+           {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+        \\
+         &\leq
+           e^{\epsilon/2}
+         \times          
+         \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
+           {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+        \\
+         &\leq
+           e^{\epsilon/2}
+         \times          
+         \frac{\sum_{a'} e^{\epsilon [(\util(q, a', x) + \sensitivity{\util(q)}) / 2\sensitivity{\util(q)}}}
+           {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+           \leq
+           e^{\epsilon}
+      \end{align*}
+    \end{proof}
+  }
 \end{frame}
 
 
