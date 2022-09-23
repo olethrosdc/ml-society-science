@@ -8,7 +8,7 @@
 
   While we certainly \emph{can} securely store and transmit data using
   cryptography, the problems we will discuss in this chapter are
-  \emph{not} solveable solely through cryptography. We are interested
+  \emph{not} solvable solely through cryptography. We are interested
   in scenarios where we must make a public decision or release some
   summary statistics that depend on private data, in such a way as to
   minimise harm to the individuals contributing their data.
@@ -275,7 +275,7 @@
     This allowed a PhD student, McSweeney, to perform the following
     linkage attack. She order a floppy disk containing database of
     voting records in the state. This contained names and addresses,
-    as well as the postcode, birthdate and sex of every voter. In that
+    as well as the postcode, birth date and sex of every voter. In that
     way, she was able to cross-reference this data, and so obtain the
     identities of individuals in that database. The first record she
     obtained was that of the governor himself, Bill Weld. Later, she
@@ -1121,7 +1121,7 @@
       If we answer $T$ queries with an $\epsilon$-DP mechanism, then our cumulative privacy loss is $\epsilon T$.
     \end{alertblock}
   }
-  \only<article>{The composition theorem is a very useful tool, as it allows us to create bnew mechanisms that are composed of simpler parts. As a first example, we can look at how we can use it to create a reandomised response algoritihm when the respondents provide multiple attributes.}
+  \only<article>{The composition theorem is a very useful tool, as it allows us to create new mechanisms that are composed of simpler parts. As a first example, we can look at how we can use it to create a randomised response algorithm when the respondents provide multiple attributes.}
 
   \begin{exampleblock}{Randomised response for multiple attributes.}
     \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
@@ -1144,14 +1144,14 @@
     \]
     \only<article>{where $x_i$ indicates whether or not the $i$-th person takes drugs, or}
     \[
-      \bx' = (x_1, \ldots, x_j=1, \ldots, x_n).
+      \bx' = (x_1, \ldots, x'_j=1, \ldots, x_n).
     \]
     \only<article>{In other words, the adversary knows the data of all people apart from one, the $j$-th person. We can assume that the adversary has some prior belief}
     \[
       \bel(\bx) = 1 - \bel(\bx')
     \]
     \only<article>{for the two cases. Assume the adversary knows
-      the output $a$ of a mechanism $\pol$}
+      the output $a$ of a mechanism $\pol$.}
     \only<presentation>{
       \onslide<2->{
         \[
@@ -1183,7 +1183,12 @@
           \frac{\bel(\bx)}
           {\bel(\bx) +  e^\epsilon \bel(\bx')}.
       \end{align}
-      We can see that $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior. 
+      Note that $\pol(a \mid \bx) \leq e^\epsilon \pol(a \mid \bx')$ and conversely $\pol(a \mid \bx') \leq e^\epsilon \pol(a \mid \bx)$.
+      We can also then bound the quantity from above:
+      \[
+        \Pr^\pol_\bel(\bx \mid a) \leq  \frac{\bel(\bx)} {\bel(\bx) +  e^{-\epsilon} \bel(\bx')}.
+      \]
+      Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior. 
     \end{proof}
   }
 
