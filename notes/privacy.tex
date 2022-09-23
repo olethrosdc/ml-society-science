@@ -1188,7 +1188,7 @@
       \[
         \Pr^\pol_\bel(\bx \mid a) \leq  \frac{\bel(\bx)} {\bel(\bx) +  e^{-\epsilon} \bel(\bx')}.
       \]
-      Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior. 
+      Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior and the information loss $\epsilon$.
     \end{proof}
   }
 
@@ -1202,11 +1202,13 @@
 \label{sec:laplace-mechanism}
 \begin{frame}
   \only<article>{
-    A simple method to obtain a differentially private algorithm from a deterministic function $f : \CX \to \Reals$, is to use additive Laplace noise. We can write this formally with the following equation:
+    Many times we already have a function $f : \CX \to \Reals$ we want to calculate on data, and we would like to make the function preserve privacy. One solution, that can also satisfy differential privacy, is to add onise to the function's output.  additive noise. We start by first calculating the value of
+    the function for the data we have, $f(x)$, and then we addd some
+    random noise $\omega$. Hence our response is random.
     \[
-      a = f(x) + \omega, \qquad \omega \sim \Laplace.
+      a = f(x) + \omega.
     \]
-    The amount of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have.
+    The amount and typoe of noise added, together with the smoothness of the function $f$, determine the amount of privacy we have. One of the simplest noise-adding mechanisms is to add zero-mean Laplace noise. Then we write $\omega \sim \Laplace(\lambda)$.\footnote{When unspecified, the mean parameter is assumed to be zero.} The mechanism is defined below.
   }
   \begin{definition}[The Laplace mechanism]
     For any function $f : \CX \to \Reals$, the output $a$ of the mechanism is sampled from a Laplace distribution with mean $f(x)$ and scaling parameter $\lambda$, i.e.
@@ -1352,10 +1354,10 @@
       average example.  Here let us assume $x_i \in [0, B]$ for all
       $i$.
       \begin{block}{The Laplace mechanism in the local privacy model}
-        The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(B/\epsilon)^2$, so the total variance is $2M^2/\epsilon^2 n$.
+        The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(B/\epsilon)^2$, so the total variance is $2B^2/\epsilon^2 n$.
       \end{block}
       \begin{block}{The Laplace mechanism in the centralised privacy model}
-        The sensitivity of $f$ is $M / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $2(B / \epsilon n)^2$. 
+        The sensitivity of $f$ is $B / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $2(B / \epsilon n)^2$. 
       \end{block}
       Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under this mechanism. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data.
     }
