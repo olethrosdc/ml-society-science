@@ -22,10 +22,7 @@ def rp_binary(data: np.array, epsilon: np.float):
     n_features = data.shape[1]
 
     ## TODO: set p correctly depending on features
-    p = 1.0 / (1.0 + np.exp(epsilon)) # should be calculated based on epsilon
-    mask = np.random.choice(2, size=n_people, p=[1-p, p])
-    # fix this so it works for multiple features as well
-    private_data = mask^data
+    private_data = data.copy()
     return private_data
 
 
@@ -47,13 +44,9 @@ def rp_float(data: np.array, epsilon: np.float, bound: np.float):
     # Dummy implementation
     # Basic implementation
     n_people = data.shape[0]
-    n_features = 1#data.shape[1]
+    n_features = data.shape[1]
 
     private_data = data.copy()
-    for t in range(n_people):
-        #for i in range(n_features):
-        private_data[t] += np.random.laplace(scale=n_features * bound/epsilon)
-
     return private_data
 
 
