@@ -1,0 +1,47 @@
+\documentclass[a4paper]{article}
+\usepackage[notheorems]{beamerarticle}
+
+\input{../preamble}
+
+%\def\solution {1}
+
+
+\title{Anonymity assignment} 
+\author{Christos Dimitrakakis}
+\begin{document}
+\maketitle
+The purpose of this assignment is to learn how to create anonymised datasets.
+
+\begin{exercise}
+  Work in teams of 3-4 students.
+
+
+  First, select an arbitrary classification dataset from \url{https://archive.ics.uci.edu/ml/datasets.php?task=cla}. 
+
+  Then, develop an algorithm for $k$-anonymity. This requires you to
+  anonymise the data somehow, in the sense that every record should
+  have at least $k$ identical records in the database.
+
+  While in the original $k$-anonymity definition the data in the
+  original records was somehow masked, here you can simply replace the
+  values with something else instead of a mask. For example, if you
+  want to group together people with ages 60 to 70, you can replace
+  their ages with their average age. While it is not trivial to find
+  the right grouping so as to achieve $k$-anonymity, there are many
+  efficient approaches you can use. 
+
+  You can assume that the data is numerical, so you can use a numpy
+  array. If you already are familiar with pandas, it is also possible
+  to use pandas dataframes.
+
+  We will start this assignment in-class. This includes ideas about
+  how to do it. Please finish it at home before the next session, and
+  submit your code to ILIAS.
+  
+\end{exercise}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
