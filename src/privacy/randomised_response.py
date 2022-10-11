@@ -23,8 +23,8 @@ def rp_binary(data: np.array, epsilon: np.float):
 
     ## TODO: set p correctly depending on features
     ## Let p be the probability with which you change somebody's answer for a feature.
-    ## initially, just set p = 1/2 - epsilon
-    p = 1/2 - epsilon
+    ## So, p = 1 / (1 + exp(epsilon)), i.e. the sigmoid of (-epsilon), just set p = 1/2 - epsilon
+    p = 1/(1 + np.exp(epsilon))
     private_data = data.copy()
     flip_bits = np.random.choice(2, p=[1 -p, p], size=[n_people, n_features])
     private_data = private_data ^ flip_bits                                    
