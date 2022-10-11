@@ -31,7 +31,7 @@ for t in range(1):
     central = np.zeros(n_iter)
     local = np.zeros(n_iter)
     for i in range(n_iter):
-        central[i] = np.mean(data) + np.random.laplace(scale = max_salary/(n_people*epsilon[t]))
+        central[i] = np.mean(data) + np.random.laplace(scale = 1))
     for i in range(n_iter):
         local[i] = np.mean(randomised_response.rp_float(data, epsilon[t], max_salary))
     plt.hist(central, alpha=0.5, bins=100)
