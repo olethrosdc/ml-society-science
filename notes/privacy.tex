@@ -1533,8 +1533,8 @@
   \begin{block}{Interactive queries}
     \begin{itemize}
     \item System has data $x$.
-    \item User asks query $q$.
-    \item System responds with $a$.
+    \item At time $t$, user asks query $q_t = q$.
+    \item System responds with $a_t = a$.
     \item There is a common utility function
       $\util : \CX, \CA, \CQ \to \Reals$.
     \end{itemize}
@@ -1625,7 +1625,29 @@
 \end{frame}
 
 
-
+\begin{theoryblock}{Interactive differential privacy.}
+  So far we only defined differential privacy in terms of a fixed
+  mechanism. However, in general the mechanism must respond to
+  sequential queries $q_1, \ldots, q_t$, with answers
+  $a_1, \ldots, a_t$. The answer can depend arbitrarily on the
+  sequence of responses and queries. So, privacy must hold no matter
+  what the previous sequence of questions and answers.
+  This gives rise to the following definition.
+  
+  \begin{definition}[Interactive DP]
+    An algorithm $\pol$ satisfies interactive $\epsilon$ differential privacy with respect to $N$ if
+    \begin{equation}
+      \label{eq:interactive-dp}
+      \ln
+      \frac{\pol(a_t | x, q_1, \ldots, q_t, a_1, \ldots, a_t)}
+      {\pol(a_t | x', q_1, \ldots, q_t, a_1, \ldots, a_t)}
+      \leq \epsilon,
+      \qquad
+      \forall x N x'.
+    \end{equation}
+  \end{definition}
+    
+\end{theoryblock}
 \section{Advanced topics.}
 
 \only<article>{
