@@ -1635,19 +1635,25 @@
   This gives rise to the following definition.
   
   \begin{definition}[Interactive DP]
-    An algorithm $\pol$ satisfies interactive $\epsilon$ differential privacy with respect to $N$ if
+    An algorithm $\pol$ satisfies interactive $\{\epsilon_1, \ldots, \epsilon_t\}$ differential privacy with respect to $N$ if
     \begin{equation}
       \label{eq:interactive-dp}
       \ln
-      \frac{\pol(a_t | x, q_1, \ldots, q_t, a_1, \ldots, a_t)}
-      {\pol(a_t | x', q_1, \ldots, q_t, a_1, \ldots, a_t)}
-      \leq \epsilon,
+      \frac{\pol(a_t | x, q_1, \ldots, q_t, a_1, \ldots, a_{t-1})}
+      {\pol(a_t | x', q_1, \ldots, q_t, a_1, \ldots, a_{t-1})}
+      \leq \epsilon_t,
       \qquad
       \forall x N x'.
     \end{equation}
   \end{definition}
-    
+  Since the queries are not defined in advance, this means that $q_t$ may also depend on all the previous answers $a_1, \ldots, a_{t-1}$.
 \end{theoryblock}
+Answering queries independently in the interactive setting is
+sufficient for achieving differential privacy $\epsilon_t$ at each
+step $t$. The total privacy loss is at most $\sum_{i=1}^t
+\epsilon_i$. However, it is possible to bound the privacy loss more
+tightly with advanced composition theorems.
+
 \section{Advanced topics.}
 
 \only<article>{
@@ -1679,8 +1685,10 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
   Given a function $f : \CX \to \Reals^k$, the Gaussian mechanism with parameter $\sigma$ outputs
   $a \sim \Normal(f(x), \sigma)$.
 
-  Let $\ell_2$ sensitivity of $f$ be $\Delta_2(f) = \max\cset{\|f(x) - f(y)\|_2}{x N y}$. If we set $\sigma \geq 2\ln(1.25 / \delta) \Delta_2(f) / \epsilon$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
+  Let $\ell_2$ sensitivity of $f$ be $\Delta_2(f) = \max\cset{\|f(x) - f(y)\|_2}{x N y}$.
+  If we set $\sigma \geq 2\ln(1.25 / \delta) \frac{\Delta_2(f)}{\epsilon}$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
 \end{exampleblock}
+
 
 \begin{theoryblock}{Renyi differential privacy.}
   The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) = \sup_A |\ln P(A)/Q(A)|$. While it is possible to use the KL divergence instead, this does not lead to very good properties---in particular, the resulting compositional properties are not so nice. 
@@ -1776,17 +1784,18 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
 
 \begin{frame}
   \frametitle{Available privacy toolboxes}
-  \begin{block}{$k$-anonymity}
-    \begin{itemize}
-    \item \url{https://github.com/qiyuangong/Mondrian} Mondrian k-anonymity
-    \end{itemize}
-  \end{block}
   \begin{block}{Differential privacy}
     \begin{itemize}
+    \item Open DP \url<https://opendp.org/>
     \item \url{https://github.com/bmcmenamin/thresholdOut-explorations}{Threshold out}
     \item \url{https://github.com/steven7woo/Accuracy-First-Differential-Privacy}{Accuracy-constrained DP}
     \item \url{https://github.com/menisadi/pydp}{Various DP algorithms}
     \item \url{https://github.com/haiphanNJIT/PrivateDeepLearning} Deep learning and DP
+    \end{itemize}
+  \end{block}
+  \begin{block}{$k$-anonymity}
+    \begin{itemize}
+    \item \url{https://github.com/qiyuangong/Mondrian} Mondrian k-anonymity
     \end{itemize}
   \end{block}
 \end{frame}
