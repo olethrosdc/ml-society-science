@@ -1885,16 +1885,41 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
   \end{proof}
 
   \begin{exercise}
+    Prove that the exponential mechanism is uniform when $\epsilon \to 0$ and deterministically returns the maximising action when $\epsilon \to \infty$.
+  \end{exercise}
+
+  \begin{exercise}
+    Prove that the exponential mechanism, when we used to calculate a noisy version of the function $q(x)$ with $q : \CX \to \Reals$ and utility $U(a,q,x) = -|q(x) - a|^p$, results in the Laplace mechanism for $p=1$ and the Gaussian mechanism for $p = 2$.
+  \end{exercise}
+  
+  \begin{exercise}
     Consider a relaxation of differential privacy to KL divergences, that is. That is, a mechanism is $\epsilon$-KL-private if
     \[
-      \int_\CA \ln \frac{d\pol(a | x)}{d\pol(a | x')} d\pol(a | x) \leq \epsilon.
+      \sum_{a} \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) \leq \epsilon
     \]
     Prove a non-interactive composition theorem for this mechanism.
   \end{exercise}
   \begin{proof}
-    If performing two queries, we can show that 
+    For simplicity, we compose the same mechanism twice over a finite alphabet. Then $\pol(a, a' | x) = \pol(a | x) \pol(a'|x)$ because the mechanism is not interactive. 
+    \begin{align*}
+      \sum_{a,a'} \ln \frac{\pol(a, a' | x)}{\pol(a, a' | x')} \pol(a, a' | x)
+      &=
+        \sum_{a,a'} \ln \frac{\pol(a | x) \pol(a' | x)}{\pol(a | x') \pol(a' | x')} \pol(a | x) \pol( a' | x)
+      \\
+      &=
+        \sum_{a,a'} \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) \pol( a' | x) + \ln \frac{\pol(a' | x)}{\pol(a' | x')} \pol(a | x) \pol( a' | x)
+      \\
+      &=
+        \sum_{a'} \pol(a'|x) \sum_a \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) + \sum_{a} \pol(a | x) \sum_{a'} \ln \frac{\pol(a' | x)}{\pol(a' | x')}  \pol( a' | x)
+      \\
+      &\leq
+        \sum_{a'} \pol(a'|x) \epsilon + \sum_{a} \pol(a | x) \epsilon
+        = 2\epsilon.
+    \end{align*}
+    
   \end{proof}
-  
+
+
 }
 %%% Local Variables:
 %%% mode: latex
