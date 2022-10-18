@@ -53,8 +53,13 @@ def rp_float(data: np.array, epsilon: np.float, bound: np.array):
     # Basic implementation
     n_people = data.shape[0]
     n_features = data.shape[1]
-
     private_data = data.copy()
+    epsilon_i = epsilon / n_features # we lose epsilon_i for each feature, so total privacy loss is epsilon.
+    sensitivity = bound
+    for t in range(n_people):
+        for i in range(n_features):
+            private_data[t,i] += np.random.laplace(0, sensitivity[i] / epsilon_i)
+            
     return private_data
 
 
