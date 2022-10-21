@@ -14,8 +14,8 @@ def rp_binary(data: np.array, epsilon: np.float):
 
     Returns:
         private_data: data modified with randomised response.
+        p: the flipping probability
     '''
-
 
     # Basic implementation
     n_people = data.shape[0]
@@ -27,11 +27,11 @@ def rp_binary(data: np.array, epsilon: np.float):
     ## However, we want to take into account multiple features. If we want a total privacy loss of epsilon.
     ## That means a privacy loss of epsilon / n_features for each one of the features
     p = 1/(1 + np.exp(epsilon / n_features))
-    print("Using a p of ", p)
+    #print("Using a p of ", p)
     private_data = data.copy()
     flip_bits = np.random.choice(2, p=[1 -p, p], size=[n_people, n_features])
     private_data = private_data ^ flip_bits                                    
-    return private_data
+    return private_data, p
 
 
 def rp_float(data: np.array, epsilon: np.float, bound: np.array):

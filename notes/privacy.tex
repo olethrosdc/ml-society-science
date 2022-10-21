@@ -1540,7 +1540,7 @@
     \end{itemize}
     We wish to give the most useful answer, by return $a$ that maximises $\util$, i.e. $a = \argmax_{a'} \util(x, a', q)$, but are constrained by the fact that we also want to preserve privacy.
   \end{block}
-  \only<article>{The utility $\util(x,a,q)$  describes how appropriate each response $a$ given by the system for a query $r$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
+  \only<article>{The utility $\util(x,a,q)$  describes how appropriate each answer $a$ given by the system for a query $q$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
 
 \end{frame}
 \begin{frame}
@@ -1576,7 +1576,7 @@
     What happens when $\epsilon \to \infty$? What about when $\epsilon \to 0$?
   }
   \only<article>{
-    Clearly, when $\epsilon \to 0$, this mechanism is uniformly random. When $\epsilon \to \infty$ the action maximising $\util(q,a,x)$ is always chosen.
+    Clearly, when $\epsilon \to 0$, this mechanism is uniformly random. When $\epsilon \to \infty$ the action maximising $\util(q,a,x)$ is always chosen (See 
 
     Although the exponential mechanism can be used to describe most known DP mechanisms, its best use is in settings where there is a natural utility function.
   }
@@ -1850,6 +1850,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
   \section{Exercises}
   \begin{exercise}
     Show that the randomised response mechanism, as originally defined, is not differentially private with respect to the addition/deletion neighbourhood.
+    \label{exer:rp-neighbourhood}
   \end{exercise}
   \begin{proof}
     Let $\bx_1, \bx_2, \bx_3$ be three datasets with
@@ -1879,17 +1880,33 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
       \pol(A | \bx) \leq e^\epsilon \pol(A | \bx'),
       \qquad \forall A \subset \CA.
     \]
+    \label{exer:new-rp-neighbourhood}
   \end{exercise}
   \begin{proof}
     First of all, for the mechanism to satisfy DP, it must be the case that an output size must have a non-zero probability: If with an $n$-size input we can only generate $\leq n$-size outputs, then we cannot generate a $n+1$-size output. However, we can do so with an input of size $n+1$. 
   \end{proof}
 
   \begin{exercise}
+    The mean estimator $\hat{\theta}$ for the randomised response mechanism with flipping probability $p$, where the true data generation process is Bernoulli with parameter $\theta$, is defined as
+    \[
+      \hat{\theta}(a) = \frac{\bar{a} - p}{1 - 2p},
+    \]
+    where $\bar{a} = \frac{1}{T} \sum_{t=1}^T a_t$ is the mean of the observed answers. Prove that this estimator is unbiased, i.e. that
+    \[
+      \E[\hat{\theta}] = \theta,
+    \]
+    where the expectation is taken over the unobserved data randomness and the randomness of the mechanism.
+    \label{exer:rp-unbiased-estimator}
+  \end{exercise}
+  
+  \begin{exercise}
     Prove that the exponential mechanism is uniform when $\epsilon \to 0$ and deterministically returns the maximising action when $\epsilon \to \infty$.
+    \label{exer:exp-randomness}
   \end{exercise}
 
   \begin{exercise}
     Prove that the exponential mechanism, when we used to calculate a noisy version of the function $q(x)$ with $q : \CX \to \Reals$ and utility $U(a,q,x) = -|q(x) - a|^p$, results in the Laplace mechanism for $p=1$ and the Gaussian mechanism for $p = 2$.
+    \label{exer:exp-laplace-gauss}
   \end{exercise}
   
   \begin{exercise}
@@ -1898,6 +1915,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
       \sum_{a} \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) \leq \epsilon
     \]
     Prove a non-interactive composition theorem for this mechanism.
+    \label{exer:kl-dp}
   \end{exercise}
   \begin{proof}
     For simplicity, we compose the same mechanism twice over a finite alphabet. Then $\pol(a, a' | x) = \pol(a | x) \pol(a'|x)$ because the mechanism is not interactive. 
