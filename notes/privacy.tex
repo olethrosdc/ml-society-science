@@ -1900,7 +1900,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     \label{exer:new-rp-neighbourhood}
   \end{exercise}
   \begin{proof}
-    First of all, for the mechanism to satisfy DP, it must be the case
+    First of all, for the mechanism to satisfy $\epsilon$-DP, it must be the case
     that an output size must have a non-zero probability: If with an
     $n$-size input we can only generate $\leq n$-size outputs, then we
     cannot generate a $n+1$-size output. Consequently, the randomised
@@ -1908,6 +1908,17 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     when we know the maximum possible value of $n$. This is normally
     the case when we are surveying a population whose size is assumed
     to be common knowledge.
+
+    In particular, consider a mechanism which samples person $i$ with
+    probability $q$ so that $s_i = 1$ if a person is selected. If a
+    person is selected, then $a_i$ is drawn from a standard randomised
+    response mechanism (which flips $x_i$ with probability $p$),
+    otherwise $a_i = \perp$.  Then, we can factorise the probability
+    of a specific output as follows:
+    \[
+      \pol(a_i = k | x_i = k) =  \pol(a_i = k | s_i = 1, x_i = k) 
+    \]
+    %Note that subset selection of this form is very similar to DP in bandits.
   \end{proof}
 
   \begin{exercise}
@@ -1932,13 +1943,13 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     Prove that the exponential mechanism, when we used to calculate a noisy version of the function $q(x)$ with $q : \CX \to \Reals$ and utility $U(a,q,x) = -|q(x) - a|^p$, results in the Laplace mechanism for $p=1$ and the Gaussian mechanism for $p = 2$.
     \label{exer:exp-laplace-gauss}
   \end{exercise}
-  
+
   \begin{exercise}
-    Consider a relaxation of differential privacy to KL divergences, that is. That is, a mechanism is $\epsilon$-KL-private if
+    Consider the following relaxation of differential privacy to KL divergences. A mechanism is $\epsilon$-KL-private if
     \[
       \sum_{a} \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) \leq \epsilon
     \]
-    Prove a non-interactive composition theorem for this mechanism.
+    Prove that two-folded composition of such a mechanism is $2\epsilon$-KL-private.
     \label{exer:kl-dp}
   \end{exercise}
   \begin{proof}
