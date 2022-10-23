@@ -1900,7 +1900,14 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     \label{exer:new-rp-neighbourhood}
   \end{exercise}
   \begin{proof}
-    First of all, for the mechanism to satisfy DP, it must be the case that an output size must have a non-zero probability: If with an $n$-size input we can only generate $\leq n$-size outputs, then we cannot generate a $n+1$-size output. However, we can do so with an input of size $n+1$. 
+    First of all, for the mechanism to satisfy DP, it must be the case
+    that an output size must have a non-zero probability: If with an
+    $n$-size input we can only generate $\leq n$-size outputs, then we
+    cannot generate a $n+1$-size output. Consequently, the randomised
+    response mechanism defined for $N$-neighbourhoods makes sense only
+    when we know the maximum possible value of $n$. This is normally
+    the case when we are surveying a population whose size is assumed
+    to be common knowledge.
   \end{proof}
 
   \begin{exercise}
