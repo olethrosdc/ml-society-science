@@ -14,8 +14,8 @@ def rp_binary(data: np.array, epsilon: np.float):
 
     Returns:
         private_data: data modified with randomised response.
+        p: the flipping probability
     '''
-
 
     # Basic implementation
     n_people = data.shape[0]
@@ -23,12 +23,18 @@ def rp_binary(data: np.array, epsilon: np.float):
 
     ## TODO: set p correctly depending on features
     ## Let p be the probability with which you change somebody's answer for a feature.
-    ## initially, just set p = 1/2 - epsilon
+    ## So, p = 1 / (1 + exp(epsilon)), i.e. the sigmoid of (-epsilon), just set p = 1/2 - epsilon
+    ## However, we want to take into account multiple features. If we want a total privacy loss of epsilon.
+    ## That means a privacy loss of epsilon / n_features for each one of the features
+    p = 1/(1 + np.exp(epsilon / n_features))
+    #print("Using a p of ", p)
     private_data = data.copy()
-    return private_data
+    flip_bits = np.random.choice(2, p=[1 -p, p], size=[n_people, n_features])
+    private_data = private_data ^ flip_bits                                    
+    return private_data, p
 
 
-def rp_float(data: np.array, epsilon: np.float, bound: np.float):
+def rp_float(data: np.array, epsilon: np.float, bound: np.array):
     '''
     Random-Response mechanism for local DP on floating data.
 
@@ -47,12 +53,14 @@ def rp_float(data: np.array, epsilon: np.float, bound: np.float):
     # Basic implementation
     n_people = data.shape[0]
     n_features = data.shape[1]
-
     private_data = data.copy()
+    epsilon_i = epsilon / n_features # we lose epsilon_i for each feature, so total privacy loss is epsilon.
+    sensitivity = bound
+    for t in range(n_people):
+        for i in range(n_features):
+            private_data[t,i] += np.random.laplace(0, sensitivity[i] / epsilon_i)
+            
     return private_data
-
-
-
 
 
 

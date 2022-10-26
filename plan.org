@@ -528,7 +528,7 @@ We may then consider all features $i$ with $\ell(\mu_i) < \ell(\mu)$ to be redun
 
 ** Conditional probability and Bayesian inference
 
-A prosecutor claims that the defendant is guilty because they have found DNA matching them on the scene of the crime. He claims that DNA testing has a false positive rate of one in a million ($10^{-6$}$). While this is indeed evidence for the prosecution, it does not mean that the probability that the defendant is innocent is $10^{-6}$. What other information would you need to calculate the probability of the defendant being guilty given the evidence, and how would you incorporate it?
+A prosecutor claims that the defendant is guilty because they have found DNA matching them on the scene of the crime. He claims that DNA testing has a false positive rate of one in a million ($10^{-6}$). While this is indeed evidence for the prosecution, it does not mean that the probability that the defendant is innocent is $10^{-6}$. What other information would you need to calculate the probability of the defendant being guilty given the evidence, and how would you incorporate it?
 
 *** Possible answer
 	CLOCK: [2019-11-20 ons 14:20]--[2019-11-20 ons 14:40] =>  0:20
@@ -584,16 +584,24 @@ Note that if we mapped these to a utility function, i.e. $U(a) = a_1 + a_2$, we 
 
 ** Differential privacy
 
-Consider a system where we obtain data $x_1, \ldots, x_n$ from individuals, where $x_t \in X$ corresponds to data from a single individual. Consider a mechanism that, from this data, publishes an output $a_1, \ldots, a_n$ by partitioning $X$ in two sets, $A, B$ so that $a_t = 1$ if $x_t \in A$ and $0$ otherwise.
-Is the mechanism $\pi(a | x)$ $\epsilon$-differentially private? If so, with what value of $\epsilon$?
+Consider a system where we obtain data $x_1, \ldots, x_n$ from
+individuals, where $x_t \in X$ corresponds to data from a single
+individual. Consider a mechanism that, from this data, publishes an
+output $a_1, \ldots, a_n$ by partitioning $X$ in two sets, $A, B$ so
+that $a_t = 1$ if $x_t \in A$ and $0$ otherwise.  Is the mechanism
+$\pi(a | x)$ $\epsilon$-differentially private? If so, with what value
+of $\epsilon$?
 
 *** Possible answer
 	CLOCK: [2019-11-20 ons 15:04]--[2019-11-20 ons 15:13] =>  0:09
 
 In general, DP algorithms must be stochastic, so that this algorithm cannot satisfy DP at all.
 
-In more detail, differential privacy requires that $\pi(a \mid x) \leq \pi(a \mid x') e^\epsilon$ for some $\epsilon$ for any neighbouring $x, x'$.
-Consider a dataset where the $t$-th person has $x_t \in A$. Then $a_t = 1$. Consider a neighbouring dataset where $x'_t \nin A$. Then $a_t = 0$ w.p. 1, so $a_t = 1$ has probability $0$. 
+In more detail, differential privacy requires that $\pi(a \mid x) \leq
+\pi(a \mid x') e^\epsilon$ for some $\epsilon$ for any neighbouring
+$x, x'$.  Consider a dataset where the $t$-th person has $x_t \in
+A$. Then $a_t = 1$. Consider a neighbouring dataset where $x'_t \nin
+A$. Then $a_t = 0$ w.p. 1, so $a_t = 1$ has probability $0$.
 
 \[
 \pi(a \mid x) = \prod_i \pi(a_i \mid x_i)  
