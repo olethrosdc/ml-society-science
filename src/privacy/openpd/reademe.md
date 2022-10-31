@@ -2,22 +2,23 @@
 
 In this tutorial we will present some usefully python library for differential privacy.
 
-differential privacy library on python.
+Differential privacy library on python.
 
 - opendp
   - website: https://opendp.org/
   - docs: https://docs.opendp.org/en/stable/index.html
   - python api docs: https://docs.opendp.org/en/stable/api/python/index.html
-  - original examples:
+  - notebook tutorials:
       1. opendp examples - https://github.com/opendp/opendp/tree/main/docs/source/examples
-      2. smartnoise samples - https://github.com/opendp/smartnoise-samples
+      2. opendp-smartnoise samples - https://github.com/opendp/smartnoise-samples
+
 - diffprivlib
   - website: https://diffprivlib.readthedocs.io/en/latest/
   - github: https://github.com/IBM/differential-privacy-library
+  - notebook tutorials: https://github.com/IBM/differential-privacy-library/tree/main/notebooks
 
 
 ### 1. install libraries
-
 
 https://docs.opendp.org/en/stable/user/getting-started.html
 
@@ -70,10 +71,3 @@ to install libraries on [noto epfl](https://noto.epfl.ch/hub/login?next=%2Fhub%2
 
     # create jupyter kernel 
     my_kernels_create opendpd_env "opendp_env"
-
-### 2. Tutorial
-1. calculate mean using laplacian mechanism
-   * "1. opendp - average - laplacian noise.ipynb"
-2. calculate count -  histrogram.
-    *
-3. openpd - ml
