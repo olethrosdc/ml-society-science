@@ -910,7 +910,7 @@
 
   
   \only<article>{Finally, it may be convenient to the look at
-    neighbourhoods in terms of a distance between daasets. Let
+    neighbourhoods in terms of a distance between datasets. Let
     $\Naturals^{|\CX|}$ be the set of all possible dataset histograms,
     i.e. counts of different possible rows in each dataset. Then the
     distance between two datasets is simply the total difference in
@@ -923,12 +923,27 @@
       \end{align}
       where $N_j(\bx)$ is the number of elements in $\bx$ equal to $j$.
     \end{definition}
-    In this definition, if $\bx'$ has one less element than $\bx$,
-    then there is some $j$ for which $N_j(\bx) = N_j(\bx) +
-    1$. Consequently, $\|\bx - \bx'\|_1 = 1$.  On the other hand, if
-    some elements $x_i = j$ but $x'_i = k$, then
-    $N_j(\bx) = N_j(\bx) + 1$ and  $N_k(\bx) = N_k(\bx) - 1$. Consequently
-    $\|\bx - \bx'\|_1 = 2$.  
+    Let us see how the Hamming distance relates to the two
+    neighbourhoods we defined. In particular, $\|\bx - \bx'\|_1 = 1$
+    if and only if $\bx N \bx'$. 
+
+    Taking the first definition, if $\bx'$
+    has one row less than $\bx$, but is otherwise identical, then
+    there is exactly one value $j$ for which
+    $N_j(\bx) = N_j(\bx') + 1$, with $N_j(\bx) = N_j(\bx')$ otherwise.
+    Consequently, $\|\bx - \bx'\|_1 = 1$.
+    
+    On the other hand, for the second neighbourhood definition, things
+    are slightly different. There, we assume that $x_i \neq x'_i$ for
+    one $i$. Without loss of generality, let us say that $x_i = j$ and
+    $x'_i = k$, with $j \neq k$. Then $N_j(\bx) = N_j(\bx') + 1$ and
+    $N_k(\bx') = N_k(\bx) + 1$. Consequently $\|\bx - \bx'\|_1 = 2$.
+
+    The reverse direction follows by contradiction: if the Hamming
+    distance is one, then the two databases must differ in at least
+    one element. If they differ in more, then their distance has to be
+    larger than one.
+
   }
 \end{frame}
 
@@ -960,7 +975,7 @@
     \only<article>{Given a function $f : \CX \to \CY$, and a set of
       individual data $\bx = (x_i)_{i=1}^n$, use a differentially
       private algorithm $\pol(\ba | \bx)$ to generate $\ba \in
-      \CX$. Then outptut $f(\ba)$.}
+      \CX$. Then output $f(\ba)$.}
   \end{block}
 
   \only<article>{ The advantage of the local model is that the
@@ -1095,7 +1110,7 @@
 
 
   
-  \only<article>{Depending on the DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can bound the total privacy loss.}
+  \only<article>{Depending on the DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can reduce the total privacy loss, but those are outside the scope of this chapter.}
   \only<presentation>{
     \begin{block}{Properties of $\epsilon$-DP algorithms}
       \begin{itemize}
@@ -1201,11 +1216,16 @@
 \section{The Laplace mechanism}
 \label{sec:laplace-mechanism}
 \begin{frame}
-  \only<article>{
-    Many times we already have a function $f : \CX \to \Reals$ we want to calculate on data, and we would like to make the function preserve privacy. This clearly falls within the \emph{central privacy} model: The analyst has access to the data and function, and wishes for the algorithm generating the final output to be private.
-    One solution, that can  satisfy differential privacy, is to add noise to the function's output.  additive noise. We start by first calculating the value of
-    the function for the data we have, $f(x)$, and then we add some
-    random noise $\omega$, hence our calculation is random:
+  \only<article>{ Many times we already have a function
+    $f : \CX \to \Reals$ we want to calculate on data, and we would
+    like to make the function preserve privacy. This clearly falls
+    within the \emph{central privacy} model: The analyst has access to
+    the data and function, and wishes for the algorithm generating the
+    final output to be private.  One solution, that can satisfy
+    differential privacy, is to add noise to the function's output. We
+    start by first calculating the value of the function for the data
+    we have, $f(x)$, and then we add some random noise $\omega$, hence
+    our calculation is random:
     \[
       a = f(x) + \omega.
     \]
@@ -1540,7 +1560,7 @@
     \end{itemize}
     We wish to give the most useful answer, by return $a$ that maximises $\util$, i.e. $a = \argmax_{a'} \util(x, a', q)$, but are constrained by the fact that we also want to preserve privacy.
   \end{block}
-  \only<article>{The utility $\util(x,a,q)$  describes how appropriate each response $a$ given by the system for a query $r$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
+  \only<article>{The utility $\util(x,a,q)$  describes how appropriate each answer $a$ given by the system for a query $q$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
 
 \end{frame}
 \begin{frame}
@@ -1576,9 +1596,8 @@
     What happens when $\epsilon \to \infty$? What about when $\epsilon \to 0$?
   }
   \only<article>{
-    Clearly, when $\epsilon \to 0$, this mechanism is uniformly random. When $\epsilon \to \infty$ the action maximising $\util(q,a,x)$ is always chosen.
-
-    Although the exponential mechanism can be used to describe most known DP mechanisms, its best use is in settings where there is a natural utility function.
+    Clearly, when $\epsilon \to 0$, this mechanism is uniformly random. When $\epsilon \to \infty$ the action maximising $\util(q,a,x)$ is always chosen (see Exercise~\ref{exer:exp-randomness}).
+    Although the exponential mechanism can be used to describe some known DP mechanisms (see Exercise~\ref{exer:exp-laplace-gauss}), its best use is in settings where there is a natural utility function.
   }
 
   \begin{theorem}
@@ -1661,9 +1680,7 @@ tightly with advanced composition theorems.
 }
 \subsection{Relaxations of differential privacy.}
 \only<article>{
-  In practice, satisfying differential privacy results in mechanisms with low utility. It is possible to relax the definition of differential privacy to add an additive term, as shown below.
-
-
+  In practice, satisfying differential privacy with a small $\epsilon$ results in mechanisms with low utility. It is possible to relax the definition of differential privacy to include an additive term, as shown below, which greatly improves the privacy-utility trade-off we can achieve.
 \begin{definition}{Approximate differential privacy.}
   \label{def:epsilon-delta-dp}
   A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
@@ -1685,20 +1702,20 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
   Given a function $f : \CX \to \Reals^k$, the Gaussian mechanism with parameter $\sigma$ outputs
   $a \sim \Normal(f(x), \sigma)$.
 
-  Let $\ell_2$ sensitivity of $f$ be $\Delta_2(f) = \max\cset{\|f(x) - f(y)\|_2}{x N y}$.
-  If we set $\sigma \geq 2\ln(1.25 / \delta) \frac{\Delta_2(f)}{\epsilon}$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
+  Let $\ell_2$ sensitivity of $f$ be
+  \[
+    \sensitivity{f}_2 = \max\cset{\|f(x) - f(y)\|_2}{x N y}.
+  \]
+  For $\sigma \geq 2\ln(1.25 / \delta) \frac{\Delta_2(f)}{\epsilon}$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
 \end{exampleblock}
 
 
 \begin{theoryblock}{Renyi differential privacy.}
-  The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) = \sup_A |\ln P(A)/Q(A)|$. While it is possible to use the KL divergence instead, this does not lead to very good properties---in particular, the resulting compositional properties are not so nice. 
+  The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as the KL divergence, as long as this becomes unbounded for distributions with unequal support. 
 \end{theoryblock}
-
 }
 
-
-
-\subsection{Reproducibility}
+\subsubsection{Reproducibility}
 \only<article>{
   Training and testing, overfitting on the test set.
 }
@@ -1850,6 +1867,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
   \section{Exercises}
   \begin{exercise}
     Show that the randomised response mechanism, as originally defined, is not differentially private with respect to the addition/deletion neighbourhood.
+    \label{exer:rp-neighbourhood}
   \end{exercise}
   \begin{proof}
     Let $\bx_1, \bx_2, \bx_3$ be three datasets with
@@ -1879,25 +1897,60 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
       \pol(A | \bx) \leq e^\epsilon \pol(A | \bx'),
       \qquad \forall A \subset \CA.
     \]
+    \label{exer:new-rp-neighbourhood}
   \end{exercise}
   \begin{proof}
-    First of all, for the mechanism to satisfy DP, it must be the case that an output size must have a non-zero probability: If with an $n$-size input we can only generate $\leq n$-size outputs, then we cannot generate a $n+1$-size output. However, we can do so with an input of size $n+1$. 
+    First of all, for the mechanism to satisfy $\epsilon$-DP, it must be the case
+    that an output size must have a non-zero probability: If with an
+    $n$-size input we can only generate $\leq n$-size outputs, then we
+    cannot generate a $n+1$-size output. Consequently, the randomised
+    response mechanism defined for $N$-neighbourhoods makes sense only
+    when we know the maximum possible value of $n$. This is normally
+    the case when we are surveying a population whose size is assumed
+    to be common knowledge.
+
+    In particular, consider a mechanism which samples person $i$ with
+    probability $q$ so that $s_i = 1$ if a person is selected. If a
+    person is selected, then $a_i$ is drawn from a standard randomised
+    response mechanism (which flips $x_i$ with probability $p$),
+    otherwise $a_i = \perp$.  Then, we can factorise the probability
+    of a specific output as follows:
+    \[
+      \pol(a_i = k | x_i = k) =  \pol(a_i = k | s_i = 1, x_i = k) 
+    \]
+    %Note that subset selection of this form is very similar to DP in bandits.
   \end{proof}
 
   \begin{exercise}
+    The mean estimator $\hat{\theta}$ for the randomised response mechanism with flipping probability $p$, where the true data generation process is Bernoulli with parameter $\theta$, is defined as
+    \[
+      \hat{\theta}(a) = \frac{\bar{a} - p}{1 - 2p},
+    \]
+    where $\bar{a} = \frac{1}{T} \sum_{t=1}^T a_t$ is the mean of the observed answers. Prove that this estimator is unbiased, i.e. that
+    \[
+      \E[\hat{\theta}] = \theta,
+    \]
+    where the expectation is taken over the unobserved data randomness and the randomness of the mechanism.
+    \label{exer:rp-unbiased-estimator}
+  \end{exercise}
+  
+  \begin{exercise}
     Prove that the exponential mechanism is uniform when $\epsilon \to 0$ and deterministically returns the maximising action when $\epsilon \to \infty$.
+    \label{exer:exp-randomness}
   \end{exercise}
 
   \begin{exercise}
     Prove that the exponential mechanism, when we used to calculate a noisy version of the function $q(x)$ with $q : \CX \to \Reals$ and utility $U(a,q,x) = -|q(x) - a|^p$, results in the Laplace mechanism for $p=1$ and the Gaussian mechanism for $p = 2$.
+    \label{exer:exp-laplace-gauss}
   \end{exercise}
-  
+
   \begin{exercise}
-    Consider a relaxation of differential privacy to KL divergences, that is. That is, a mechanism is $\epsilon$-KL-private if
+    Consider the following relaxation of differential privacy to KL divergences. A mechanism is $\epsilon$-KL-private if
     \[
       \sum_{a} \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) \leq \epsilon
     \]
-    Prove a non-interactive composition theorem for this mechanism.
+    Prove that two-folded composition of such a mechanism is $2\epsilon$-KL-private.
+    \label{exer:kl-dp}
   \end{exercise}
   \begin{proof}
     For simplicity, we compose the same mechanism twice over a finite alphabet. Then $\pol(a, a' | x) = \pol(a | x) \pol(a'|x)$ because the mechanism is not interactive. 

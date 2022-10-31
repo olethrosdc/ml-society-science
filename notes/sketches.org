@@ -1,0 +1,30 @@
+* MLE estimation for randomised response
+
+We have data $x \in \{0,1\}^T$, output $a$.
+The marginal likelihood is
+
+\begin{align}
+	\Pr^\pi_\theta(a)
+	& = \sum_x P_\theta(x) \pi(a | x)
+\end{align}
+
+Let $m = \|a\|_1$ and wlog say that the first m $a_t$ are 1 and the
+rest zero.  We can now consider two independent Binomial distributions
+for each interval, with outcomes k and n respectively. The number of
+disagreements will be $m-k$ in the first interval, i.e. equal to the
+number of zeros.  For the second interval, it will be n, the number of
+ones. So we can rewrite the probability as:
+\begin{align}
+	\Pr^\pi_\theta(a)
+	& = \sum_{k,n}
+	P_\theta(\|x_1^m\|_1 = k)
+	P_\theta(\|x_{m+1}^T\|_1 = n)
+	\pi(\|a_1^m - x_1^m\|_1 = m - k)
+	\pi(\|a_{m+1}^T - x_{m+1}^T\|_1 =  n)
+	\\
+	& = \sum_{k,n}
+	B(k | m, \theta)
+	B(n | T - m, \theta)
+	B(m - k | m, p)
+	B(n | T - m, p).
+\end{align}
