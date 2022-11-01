@@ -31,20 +31,23 @@ https://docs.opendp.org/en/stable/user/getting-started.html
     # activate the enviroment
     source path_to_lib/bin/activate opendp_env
     
+    # upgrade pip 
+    pip3 install --upgrade pip
+
     # install basic libraries
-    pip install pandas numpy seaborn matplotlib sklearn 
+    pip3 install pandas numpy seaborn matplotlib sklearn 
 
     # install opendp
-    pip install opendp
+    pip3 install opendp
 
     # install smartnoise
-    pip install opendp-smartnoise
+    pip3 install opendp-smartnoise
 
     # install diffprivlib
-    pip install diffprivlib
+    pip3 install diffprivlib
 
     # install jupyter
-    pip install jupyter
+    pip3 install jupyter
 
     # create jupyter kernel 
     python3 -m ipykernel install --user --name opendp_env --display-name "opendp_env"
@@ -56,9 +59,12 @@ to install libraries on [noto epfl](https://noto.epfl.ch/hub/login?next=%2Fhub%2
     
     # activate the enviroment
     my_venvs_activate opendp_env
-    
+
+    # upgrade pip
+    pip3 install --upgrade pip
+
     # install basic libraries
-    pip install pandas numpy seaborn matplotlib sklearn 
+    pip3 install pandas numpy seaborn matplotlib sklearn 
 
     # install opendp
     pip install opendp
@@ -71,3 +77,6 @@ to install libraries on [noto epfl](https://noto.epfl.ch/hub/login?next=%2Fhub%2
 
     # create jupyter kernel 
     my_kernels_create opendpd_env "opendp_env"
+    
+    # deactivate enviroment
+    my_venvs_deactivate
