@@ -1,12 +1,31 @@
 \chapter{Fairness}
 \label{ch:fairness}
-\only<article>{
-  When machine learning algorithms are applied at scale, it can be difficult to imagine what their effects might be. Ir this part of the course, we consider notions of fairness as seen through the prism of conditional independence and meritocracy. The first notion requires that we look deeper into directed graphical models.
+\only<article>{ When machine learning algorithms are applied at scale,
+  it can be difficult to imagine what their effects might be. In this
+  part of the book, we consider notions of fairness as seen through
+  the prism of conditional independence and meritocracy. The first
+  notion requires that we look deeper into directed graphical models.
 }
-\section{Fairness in machine learning}
 
 \section{Concepts of fairness}
 
+
+\only<article>{ Fairness is a concept that has received much attenion
+  recently in large-scale algorithms. However, the very concept of
+  fairness is not well-defined and encompasses many different
+  ideas. Some of those relate to fair treatment of individuals:
+  \emph{Meritocracy} is the idea that people should receive rewards
+  according to their merit. \emph{Equal treatment} is the related
+  notion that similar people should be treated similarly under similar
+  circumstances. Some concepts are related more to the treatment of
+  different groups: \emph{Proportional representation} is the idea
+  that proportions of different groups in society should be reflected
+  in every facet of society. Finally \emph{non-discrimination}
+  captures the notion of not treating people differently depending on
+  sensitive characteristics.
+}
+
+\only<presentation>{
 \begin{frame}
   \frametitle{Fairness}
   What is it?
@@ -17,11 +36,10 @@
   \item<5-> \alert{Non-discrimination}.
   \end{itemize}
 \end{frame}
-
+}
 
 \begin{frame}
   \frametitle{Meritocracy}
-  
   \uncover<2->{
     \begin{example}[College admissions]
       \begin{itemize}

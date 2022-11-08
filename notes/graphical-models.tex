@@ -1,4 +1,4 @@
-\section{Graphical models}
+\chapter{Graphical models}
 \only<article>{
   Graphical models are a very useful tool for modelling the relationship between multiple variables. The simplest such models, probabilistic graphical models (otherwise known as Bayesian networks) involve directed acyclic graphs between random variables. There are two other types of probabilistic models, factor graph and undirected graphical models, which are equivalent to each other, though not to directed models.}
 \begin{frame}
@@ -246,7 +246,7 @@
 
 \end{frame}
 
-\subsection{Inference and prediction in graphical models}
+\section{Inference and prediction in graphical models}
 \begin{frame}
 \frametitle{Inference and prediction in graphical models}
  \begin{figure}[H]
@@ -356,7 +356,7 @@
 \end{frame}
 
 
-\subsection{Testing conditional independence}
+\section{Testing conditional independence}
 \begin{frame}
   \frametitle{Measuring independence}
   \only<article>{The simplest way to measure independence is by looking at whether or not the distribution of the possibly dependent variable changes when we change the value of the other variables. }
@@ -493,7 +493,7 @@
 
 
 
-\subsection{Hierarchical Bayesian models}
+\section{Hierarchical Bayesian models}
 \begin{frame}
 \only<article>{Given some data $D$, the Bayesian approach would involve specifying a hierarchical prior\index{hierarchical Bayesian model} $\bel$ so that $\hyperparam(\model_1) = 1 - \hyperparam(\model_0)$ specifies a probability on the two model structures, while for the $i$-th model we define a prior $\bel_i(\param)$ over $\Param_i$, so that we obtain the following hierarchical model
   }
