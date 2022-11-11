@@ -11,19 +11,19 @@
 
 
 \only<article>{ Fairness is a concept that has received much attenion
-  recently in large-scale algorithms. However, the very concept of
-  fairness is not well-defined and encompasses many different
-  ideas. Some of those relate to fair treatment of individuals:
-  \emph{Meritocracy} is the idea that people should receive rewards
-  according to their merit. \emph{Equal treatment} is the related
-  notion that similar people should be treated similarly under similar
-  circumstances. Some concepts are related more to the treatment of
-  different groups: \emph{Proportional representation} is the idea
-  that proportions of different groups in society should be reflected
-  in every facet of society. Finally \emph{non-discrimination}
-  captures the notion of not treating people differently depending on
-  sensitive characteristics.
-}
+  recently when applied to large-scale algorithmic decision
+  making. However, the very concept of fairness is not well-defined
+  and encompasses many different ideas. Some of those relate to fair
+  treatment of individuals: \emph{Meritocracy} is the idea that people
+  should receive rewards according to their merit. \emph{Equal
+    treatment} is the related notion that similar people should be
+  treated similarly under similar circumstances. Some concepts are
+  related more to the treatment of different groups:
+  \emph{Proportional representation} is the idea that proportions of
+  different groups in society should be reflected in every facet of
+  society. Finally \emph{non-discrimination} captures the notion of
+  not treating people differently depending on sensitive
+  characteristics.  }
 
 \only<presentation>{
 \begin{frame}
@@ -40,28 +40,55 @@
 
 \begin{frame}
   \frametitle{Meritocracy}
+  \only<article>{
+
+    Meritocracy embodies the principle that merit should be
+    rewarded. A common example are admissions to univerisities. Some
+    type of summary, typically a grade obtained from high school, is
+    used to represent the underlying merit of individuals.
+  }
   \uncover<2->{
     \begin{example}[College admissions]
+      \only<article>{ In this example, we have two students. In terms
+        of grades, student $B$ is clearly better. If we can only
+        accept one of them, and given no other information, it seems
+        like the natural choice is student $B$.  }
       \begin{itemize}
       \item Student $A$ has a grade 4/5 from Gota Highschool.
       \item Student $B$ has a grade 5/5 from Vasa Highschool.
       \end{itemize}
     \end{example}
   }
+  \only<article>{Grades, by themselves, are typically insufficient informatin. It might be that grades from some highschools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now consider the information.}
   \uncover<3->{
     \begin{example}[Additional information]
+      \only<article>{
+        In particular, let us suppose that we have statistics on how well students from different high school do, depending on their high school grade.
+      }
       \begin{itemize}
       \item 70\% of admitted Gota graduates with 4+ get their degree.
       \item 50\% of admitted Vasa graduates with 5 get their degree.
       \end{itemize}
+      \only<article>{
+        All other thing being iequal, it is now more likely that student $A$ will graduate. So perhaps we should take in $A$ and not $B$.
+      }
     \end{example}
   }
+
+  \only<article>{
+    I must emphasize that these are only statistics, and not necessarily predictive of the students' ability.
+  }
   \uncover<4->{We still don't know how a \alert{specific} student will do!}
+  \only<article>{
+    Ideally, we would like to admit the students that we expect to do well, given the information that we have. However, this information is typically not enough for us to make reliable predictions. There are many possible ways to solve this conundrum, each one of which might be unfair in some sense.
+  }
   \begin{block}<4->{Solutions}
+    \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
     \begin{itemize}
-    \item<5-> Admit \alert{everybody}?
-    \item<6-> Admit \alert{randomly}?
-    \item<7-> Use \alert{prediction} of individual academic performance?
+    \item<5-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
+    \item<6-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a soht.}
+    \item<7-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
+    \item<8-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics.}
     \end{itemize}
   \end{block}
   
