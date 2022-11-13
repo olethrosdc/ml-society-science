@@ -1,13 +1,27 @@
-\chapter{Fairness}
+\chapter{Fairness.}
 \label{ch:fairness}
 \only<article>{ When machine learning algorithms are applied at scale,
   it can be difficult to imagine what their effects might be. In this
   part of the book, we consider notions of fairness as seen through
   the prism of conditional independence and meritocracy. The first
   notion requires that we look deeper into directed graphical models.
+  
+  The problem of fairness in machine learning and
+  artificial intelligence has only recently been widely
+  recognised. When any algorithm is implemented at scale, no matter
+  the original objective and whether it is satisfied, it has
+  significant societal effects. In particular, even when considering
+  the narrow objective of the algorithm, even if it improves it
+  overall, it may increase inequality.
+  
+  In this course we will look at two aspects of fairness. The first
+  has to do with disadvantaged populations that form distinct social
+  classes due to a shared income stratum, race or gender. The second
+  has to do with meritocratic notions of fairness.  
+    
 }
 
-\section{Concepts of fairness}
+\section{Some examples.}
 
 
 \only<article>{ Fairness is a concept that has received much attenion
@@ -82,7 +96,20 @@
   \only<article>{
     Ideally, we would like to admit the students that we expect to do well, given the information that we have. However, this information is typically not enough for us to make reliable predictions. There are many possible ways to solve this conundrum, each one of which might be unfair in some sense.
   }
-  \begin{block}<4->{Solutions}
+
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Group fairness and proportionality}
+  \only<presentation>{
+    \includegraphics[width=\textwidth]{../figures/genomics-diversity}
+    \url{https://qz.com/1367177/}
+  }
+\end{frame}
+
+\begin{frame}  
+  \begin{block}{Solutions}
     \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
     \begin{itemize}
     \item<5-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
@@ -93,13 +120,6 @@
   \end{block}
   
 \end{frame}
-
-\begin{frame}
-  \frametitle{Proportional representation}
-  \includegraphics[width=\textwidth]{../figures/genomics-diversity}
-  \url{https://qz.com/1367177/}
-\end{frame}
-
 
 
 \begin{frame}
@@ -116,11 +136,6 @@
   \end{columns}
 \end{frame}
 
-\only<article>{
-  The problem of fairness in machine learning and artificial intelligence has only recently been widely recognised. When any algorithm is implemented at scale, no matter the original objective and whether it is satisfied, it has significant societal effects. In particular, even when considering the narrow objective of the algorithm, even if it improves it overall, it may increase inequality.
-
-  In this course we will look at two aspects of fairness. The first has to do with disadvantaged populations that form distinct social classes due to a shared income stratum, race or gender. The second has to do with meritocratic notions of fairness.
-}
 
 
 \begin{frame}

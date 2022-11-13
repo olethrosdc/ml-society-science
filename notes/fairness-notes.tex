@@ -1,0 +1,47 @@
+%% This is a shortened version of the notes
+\documentclass[a4paper,twoside]{book}
+\usepackage{geometry}
+\usepackage[notheorems]{beamerarticle}
+
+\makeindex
+
+\mode<presentation>{
+  % \useinnertheme{rectangles}
+  %\useoutertheme{infolines}
+  % \usecolortheme{crane}
+  % \usecolortheme{rose}
+}
+\input{../preamble}
+
+\begin{document}
+
+
+
+\title{Fairness}
+\subtitle{and graphical models}
+\author[C. Dimitrakakis]{Christos Dimitrakakis}
+
+
+\maketitle
+
+
+\include{fairness}
+
+\printindex
+
+\appendix
+
+\include{graphical-models}
+
+
+
+\bibliographystyle{plainnat}
+\bibliography{../bibliography}
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: "book"
+%%% End:
