@@ -266,12 +266,13 @@
 \end{frame}  
 
 \begin{frame}
-  \frametitle{Demographic parity and equality of opportunity.}  \only<article>{Let us take a look
-    at how many individuals are given different
-    scores. Figure~\ref{fig:risk-bias} shows the proportions of
-    individuals obtaining different risk scores as a function of their
-    ethnic group. While the general population, and Caucasians in
-    particular, have a distribution sharply concentrated in low
+  \frametitle{Demographic parity and equality of opportunity.}
+
+  \only<article>{Let us take a look at how many individuals are given
+    different scores. Figure~\ref{fig:risk-bias} shows the proportions
+    of individuals obtaining different risk scores as a function of
+    their ethnic group. While the general population, and Caucasians
+    in particular, have a distribution sharply concentrated in low
     scores, Black defendants obtain much higher risk scores: they are
     almost as likely to be ranked a 10 as the are to be scored a 1. }
   \begin{figure}[H]
@@ -292,13 +293,22 @@
       \label{eq:equality-opportunity}
       \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
     \end{equation}
-    In other words, the action is independent of the group.
-
-    \emph{Demographic parity} instead relates to outcomes.
+    In other words, the action (risk score, in this case) is
+    independent of the group.  As we see in
+    Figure~\ref{fig:risk-bias}, these distributions are quite
+    different.  The curve for ``General'' corresponds to
+    $\Pr_\param^\pol(a_t )$, while the other two curves correspond to
+    $\Pr_\param^\pol(a_t | z_t)$ for $z_t$ being Caucausian and
+    African-American respectively.
+    
+    \emph{Demographic parity} instead relates to outcomes. If this
+    condition is satisfied, then the probability distribution of
+    outcomes is independent of group membership.
         \begin{equation}
       \label{eq:eqality-outcomes}
       \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
     \end{equation}
+
   }
 \end{frame}
 
