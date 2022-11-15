@@ -17,8 +17,12 @@
   In this course we will look at two aspects of fairness. The first
   has to do with disadvantaged populations that form distinct social
   classes due to a shared income stratum, race or gender. The second
-  has to do with meritocratic notions of fairness.  
-  
+  has to do with meritocratic notions of fairness.
+
+  This chapter requires some knowledge of decision theory (See
+  Chapter~\ref{ch:decision-problems}) to understand the principles of
+  expected utility maximisation and graphical models (See
+  Chapter~\ref{ch:graphical-models}) to understand the idea of conditional independence.
 }
 
 \section{Some examples.}
@@ -167,6 +171,33 @@
 }
 
 
+\section{Group fairness.}
+\only<article>{ Let us now take a look at concepts of fairness related
+  to \emph{group membership}. This includes concepts such as equal
+  treatment, equality of opportunity and generally lack of
+  discrimination.  The general idea is that we would like for members
+  of society to follow trajectories through life that do not strongly
+  depend on their membership in sensitive groups. For example, gender
+  should not play a role in academic achievement. Ethnic heritage
+  should have no influence on annual income. Unfortunately, the
+  underlying societal dynamics create situations where group
+  membership becomes important.
+
+  In this section, and throughout this chapter, we will imagine that
+  an individual is interacting with a system, which makes decisions
+  about the individual, such as whether or not to give them a
+  loan. These result in a certain outcome , such as the individual
+  using the borrowed money to invest in a business and then having a
+  particular annual income. Crucially, these outcomes can be
+  correlated with group membership, because of societal dynamics. The
+  system designer should make sure that not only the system does what
+  it intends, such as giving loans to people that are expected to
+  repay them, but also that it does not create inequalities between
+  different groups. As we will see later, depending on our fairness
+  definition, and on the societal dynamics, this is not always easy.
+  
+}
+
 \begin{frame}
   \frametitle{Bail decisions}
 
@@ -246,7 +277,7 @@
     both the government and the defendant, so the judge prefers not to
     deny bail too often.  On the other hand, if the defendant is
     granted bail, there is a chance they will re-offend $(y_t =
-    1)$. Consequently, we can define the following utility function
+    1)$. Consequently, we can define the following utility function\footnote{See Chapter~\ref{ch:decision-problems}}
     for the judge, that roughly reflects those preferences:
     \begin{equation}
       U(a, y) = a - y.
@@ -383,12 +414,18 @@
   \end{frame}
 
 }
-\only<article>{
-  How can we explain this discrepancy? We can show that in fact, each one of these different measures of bias in our decision rules can be seen as a notion of conditional independence. 
-}
-\only<presentation>{
-  \input{graphical-models}
-}
+
+\only<article>{ How can we explain this discrepancy? We can show that
+  in fact, each one of these different measures of bias in our
+  decision rules can be seen as a notion of conditional
+  independence. Had $z_t$ been an independent variable, i.e. so that
+  $P_\param(x,z) = P_\param(x) P_\param(z)$ and
+  $P_\param(y | x,a,z) = P_\param(y | x,a)$, then it would have no
+  role. Unfrounately, though, it does influence the distributions of
+  the other variables.  }
+
+
+\only<presentation>{ \input{graphical-models} }
 
 
 
