@@ -73,7 +73,7 @@
       \end{itemize}
     \end{example}
   }
-  \only<article>{Grades, by themselves, are typically insufficient informatin. It might be that grades from some highschools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now consider the information.}
+  \only<article>{Grades, by themselves, are typically insufficient information. It might be that grades from some highschools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now consider the information.}
   \uncover<3->{
     \begin{example}[Additional information]
       \only<article>{
@@ -84,26 +84,31 @@
       \item 50\% of admitted Vasa graduates with 5 get their degree.
       \end{itemize}
       \only<article>{
-        All other thing being iequal, it is now more likely that student $A$ will graduate. So perhaps we should take in $A$ and not $B$.
+        All other thing being equal, it is now more likely that student $A$ will graduate. So perhaps we should take in $A$ and not $B$.
       }
     \end{example}
   }
 
-  \only<article>{
-    I must emphasize that these are only statistics, and not necessarily predictive of the students' ability.
-  }
-  \uncover<4->{We still don't know how a \alert{specific} student will do!}
-  \only<article>{
-    Ideally, we would like to admit the students that we expect to do well, given the information that we have. However, this information is typically not enough for us to make reliable predictions. There are many possible ways to solve this conundrum, each one of which might be unfair in some sense.
-  }
+  \uncover<4->{We still don't know how a \alert{specific} student will
+    do!}
 
+  \only<article>{ I must emphasize that these are only
+    statistics, and not necessarily predictive of the students'
+    ability.  Ideally, we would like to admit the students that we
+    expect to do well, given the information that we have. However,
+    this information is typically not enough for us to make reliable
+    predictions.  In addition, we might want to also make sure that
+    everybody has a chance to obtain a good education. In order to
+    achieve this, we might want to promote ethnic or gender equality
+    through university admissions.  Unfortunately, there is no ideal
+    solution and we must always balance the benefit of individual
+    students with that of specific societal groups as well as society
+    as a whole.
+  }
+        
 
 \end{frame}
 
-\only<article>{ Needless to say, there are many problems related to
-  group fairness with respect to gender and ethnicity in particular.
-  However,
-}
 
 \only<presentation>{
   \begin{frame}
@@ -143,15 +148,41 @@
 \end{frame}
 
 
+\only<article>{
+  \begin{example}[Hiring decisions.]
+    As a further example, consider gender balance in hiring decisions.
+    Typically, received applications are screened, so that some
+    applicants undergo through an interview process. At the end, some
+    of the interviewed applicants will be hired. There are two
+    decision points here, with most people being cut off at the first
+    point: the screening. To automate this process, Amazon worked on
+    resume-screen program.~\footnote{\url{https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G}}
+    However, this was scrapped after it was discovered that it
+    predominantly favoured men. The reason is not entirely clear, but
+    it was probably due to the fact that they trained the system on
+    their own screening decisions, and given that the tech industry
+    predominantly hires men in the first place, women were likely
+    rejected in the screening phase. 
+  \end{example}
+}
+
 
 \begin{frame}
   \frametitle{Bail decisions}
-  \only<article>{ For our example regarding disadvantaged populations,
-    consider the example of bail decisions in the US court
+
+  \only<article>{ For a more detailed
+    example, let us consider bail decisions in the US court
     system. When a defendant is charged, the judge has the option to
     either place them in jail pending trial, or set them free, under
     the condition that the defendant pays some amount of 'bail'. The
     amount of bail (if any) is set to deter flight or a relapse.
+
+    This process sometimes includes the use of a software tool called
+    \texttt{COMPAS}, which gives risk scores for the possibility of
+    flight, recidivism or violent behaviour. These scores are taken
+    into account by judges when making decisions.  In some cases, it
+    appears as though automating this procedure might lead to better
+    outcomes. But is that generally true?
   }
 
   \only<presentation>{
@@ -191,20 +222,9 @@
     \end{columns}
   }
   
-  \only<article>{
-    \begin{figure}
-      \centering
-      \includegraphics[width=0.5\textwidth]{../figures/judge-fairness}
-      \caption{In some cases, it appears as though automating this procedure might lead to better outcomes. But is that generally true?}
-      \label{fig:judge-fairness}
-    \end{figure}
-  }
-
-\end{frame}
 
 \begin{frame}
-  \frametitle{Whites get lower scores than blacks\footnote{Pro-publica, 2016}}
-  \only<article>{In a different study, it was shown that a commonly used software tool for determining 'risk scores' in the US was biased towards white defendants, who seemed to be always getting lower scores than blacks.}
+  \only<article>{Let us take the scoring of individuals.}
   \begin{figure}[H]
     \begin{columns}
       \begin{column}{0.5\textwidth}
