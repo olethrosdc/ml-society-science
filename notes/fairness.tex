@@ -18,7 +18,7 @@
   has to do with disadvantaged populations that form distinct social
   classes due to a shared income stratum, race or gender. The second
   has to do with meritocratic notions of fairness.  
-    
+  
 }
 
 \section{Some examples.}
@@ -40,16 +40,16 @@
   characteristics.  }
 
 \only<presentation>{
-\begin{frame}
-  \frametitle{Fairness}
-  What is it?
-  \begin{itemize}
-  \item<2-> \alert{Meritocracy}.
-  \item<3-> Proportionality and representation.
-  \item<4-> Equal treatment.
-  \item<5-> \alert{Non-discrimination}.
-  \end{itemize}
-\end{frame}
+  \begin{frame}
+    \frametitle{Fairness}
+    What is it?
+    \begin{itemize}
+    \item<2-> \alert{Meritocracy}.
+    \item<3-> Proportionality and representation.
+    \item<4-> Equal treatment.
+    \item<5-> \alert{Non-discrimination}.
+    \end{itemize}
+  \end{frame}
 }
 
 \begin{frame}
@@ -105,7 +105,7 @@
     students with that of specific societal groups as well as society
     as a whole.
   }
-        
+  
 
 \end{frame}
 
@@ -126,11 +126,11 @@
   \end{frame}
 
 
-\begin{frame}
-  \frametitle{Group fairness and proportionality}
+  \begin{frame}
+    \frametitle{Group fairness and proportionality}
     \includegraphics[width=\textwidth]{../figures/genomics-diversity}
     \url{https://qz.com/1367177/}
-\end{frame}
+  \end{frame}
 
 }
 
@@ -185,6 +185,7 @@
     outcomes. But is that generally true?
   }
 
+
   \only<presentation>{
     \begin{columns}
       \begin{column}{0.5\textwidth}
@@ -221,26 +222,94 @@
       \end{column}
     \end{columns}
   }
-  
+
+  \only<article>{In this setting, a defendant $t$ appears before a
+    judge with observable features $x_t \in \CX$, and a sensitive group
+    variable $z_t \in \CZ$. The judge employs a specific policy $\pol$ to
+    select a decision $a_t \in \CA$, with
+    \begin{equation}
+      \pol(a_t \mid x_t, z_t)
+    \end{equation}
+    denoting the probability of action $a_t$ given the individual's features, as well as the sensitive variable. We can assume that the policy is fixed ahead of time, and thereafter decisions are made according to the policy.
+    After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution with parameter $\theta$:
+    \begin{equation}
+      P_\theta(y_t \mid x_t, z_t, a_t), 
+    \end{equation}
+    denoting the probability of $y_t$ given the individual's features
+    and the action taken.
+
+    The choice of policy has to reflect the preferences of the
+    decision maker (in this case the judge). In our example, let us
+    consider a simple set of actions $\CA = \{0, 1\}$, where a
+    defendant is granted $(a_t = 1)$ or denied $(a_t = 0)$ bail.  If a
+    defendant is not given bail, they must remain in jail. This costs
+    both the government and the defendant, so the judge prefers not to
+    deny bail too often.  On the other hand, if the defendant is
+    granted bail, there is a chance they will re-offend $(y_t =
+    1)$. Consequently, we can define the following utility function
+    for the judge, that roughly reflects those preferences:
+    \begin{equation}
+      U(a, y) = a - y.
+    \end{equation}
+    While this weighs the judge's two main concerns equally, we can also imagine different formulations: e.g. if the judge thinks it is much more important to keep people out of jail than to prevent re-offences until trial, they might select a function such as : $U(a, y) = 10a - y$.
+    Now, given the parameter $\theta$ of the unknown distribution, the judge can find a decision rule $\pol$ maximising utility in expectation
+    \begin{equation}
+      \label{eq:expected-utility-judge}
+      \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
+    \end{equation}
+    If we are estimating the decision rule from some training set, we can simply solve the following maximisation problem:
+    \[
+      \max_\pol \sum_{t} \sum_a \pol(a | x_t, z_t) U(a,y_t).
+    \]
+    However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem.
+  }
+\end{frame}  
 
 \begin{frame}
-  \only<article>{Let us take the scoring of individuals.}
+  \frametitle{Demographic parity and equality of opportunity.}  \only<article>{Let us take a look
+    at how many individuals are given different
+    scores. Figure~\ref{fig:risk-bias} shows the proportions of
+    individuals obtaining different risk scores as a function of their
+    ethnic group. While the general population, and Caucasians in
+    particular, have a distribution sharply concentrated in low
+    scores, Black defendants obtain much higher risk scores: they are
+    almost as likely to be ranked a 10 as the are to be scored a 1. }
   \begin{figure}[H]
     \begin{columns}
       \begin{column}{0.5\textwidth}
         \centering
         \includegraphics[width=\columnwidth]{../figures/Scores-by-race}      
-        White
       \end{column}
     \end{columns}
     \label{fig:risk-bias}
     \caption{Apparent bias in risk scores towards black versus white defendants.}
   \end{figure}
+  \only<article>{ Typically, we would like to demographic parity
+    across groups, either with respect to the decisions, or with
+    respect to the outcomes.  Decision parity is called \emph{equality
+      of opportunity} and satisfies the following condition
+    \begin{equation}
+      \label{eq:equality-opportunity}
+      \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
+    \end{equation}
+    In other words, the action is independent of the group.
+
+    \emph{Demographic parity} instead relates to outcomes.
+        \begin{equation}
+      \label{eq:eqality-outcomes}
+      \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
+    \end{equation}
+  }
 \end{frame}
 
 \begin{frame}
-  \frametitle{But scores equally accurately predict recidivism\footnote{Washington Post, 2016}}
-  \only<article>{On the other hand, the scores generated by the software seemed to be very predictive on whether or not defendants would re-offend, independently of their race.}
+  \only<article>{On the
+    other hand, the scores generated by the software seemed to be very
+    predictive on whether or not defendants would re-offend,
+    independently of their race. Figure~\ref{fig:imrs} shows that, if
+    an individual obtains a high score then they are very likely to
+    re-offend, and conversely, they are unlikely to re-offend when
+    they have a low score. }
   \begin{figure}[H]
     \centering
     \includegraphics[width=\columnwidth]{../figures/calibration-compas}
@@ -248,16 +317,19 @@
     \label{fig:imrs}
   \end{figure}
 \end{frame}
+
 \begin{frame}
-  \frametitle{But non-offending blacks get higher scores}
-  \only<article>{On the third hand, we see that the system seemed to give higher risk scores to non-offending blacks. So, is there a way to fix that or not?}
+  \only<article>{While the system's predictions seem to be calibrated against the chance of recidivism, this does not mean that race plays no role. Figure~\ref{fig:imrs-risk} breaks down the population in people that re-offended and those that did. For each sub-population, we then plot the proportion of people receiving different scores by race. While people generally have a small probability of obtaining a high risk score, we see that Black defendants obtain much higher scores.}
+  
   \begin{figure}[H]
     \centering
     \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=0.95\textwidth]{../figures/balance-recidivism-compas}
+      \includegraphics[width=0.95\textwidth]{../figures/balance-non-recidivism-compas}
+      \caption{No recidivism}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
       \includegraphics[width=0.95\textwidth]{../figures/balance-recidivism-compas}
+      \caption{Recidivism}
     \end{subfigure}
     \caption{Score breakdown based on recidivism rates.}
     \label{fig:imrs-risk}
@@ -280,8 +352,9 @@
   How can we explain this discrepancy? We can show that in fact, each one of these different measures of bias in our decision rules can be seen as a notion of conditional independence. 
 }
 \only<presentation>{
-\input{graphical-models}
+  \input{graphical-models}
 }
+
 
 
 
