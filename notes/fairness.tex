@@ -17,8 +17,12 @@
   In this course we will look at two aspects of fairness. The first
   has to do with disadvantaged populations that form distinct social
   classes due to a shared income stratum, race or gender. The second
-  has to do with meritocratic notions of fairness.  
-    
+  has to do with meritocratic notions of fairness.
+
+  This chapter requires some knowledge of decision theory (See
+  Chapter~\ref{ch:decision-problems}) to understand the principles of
+  expected utility maximisation and graphical models (See
+  Chapter~\ref{ch:graphical-models}) to understand the idea of conditional independence.
 }
 
 \section{Some examples.}
@@ -40,16 +44,16 @@
   characteristics.  }
 
 \only<presentation>{
-\begin{frame}
-  \frametitle{Fairness}
-  What is it?
-  \begin{itemize}
-  \item<2-> \alert{Meritocracy}.
-  \item<3-> Proportionality and representation.
-  \item<4-> Equal treatment.
-  \item<5-> \alert{Non-discrimination}.
-  \end{itemize}
-\end{frame}
+  \begin{frame}
+    \frametitle{Fairness}
+    What is it?
+    \begin{itemize}
+    \item<2-> \alert{Meritocracy}.
+    \item<3-> Proportionality and representation.
+    \item<4-> Equal treatment.
+    \item<5-> \alert{Non-discrimination}.
+    \end{itemize}
+  \end{frame}
 }
 
 \begin{frame}
@@ -73,7 +77,7 @@
       \end{itemize}
     \end{example}
   }
-  \only<article>{Grades, by themselves, are typically insufficient informatin. It might be that grades from some highschools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now consider the information.}
+  \only<article>{Grades, by themselves, are typically insufficient information. It might be that grades from some highschools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now consider the information.}
   \uncover<3->{
     \begin{example}[Additional information]
       \only<article>{
@@ -84,26 +88,31 @@
       \item 50\% of admitted Vasa graduates with 5 get their degree.
       \end{itemize}
       \only<article>{
-        All other thing being iequal, it is now more likely that student $A$ will graduate. So perhaps we should take in $A$ and not $B$.
+        All other thing being equal, it is now more likely that student $A$ will graduate. So perhaps we should take in $A$ and not $B$.
       }
     \end{example}
   }
 
-  \only<article>{
-    I must emphasize that these are only statistics, and not necessarily predictive of the students' ability.
-  }
-  \uncover<4->{We still don't know how a \alert{specific} student will do!}
-  \only<article>{
-    Ideally, we would like to admit the students that we expect to do well, given the information that we have. However, this information is typically not enough for us to make reliable predictions. There are many possible ways to solve this conundrum, each one of which might be unfair in some sense.
-  }
+  \uncover<4->{We still don't know how a \alert{specific} student will
+    do!}
 
+  \only<article>{ I must emphasize that these are only
+    statistics, and not necessarily predictive of the students'
+    ability.  Ideally, we would like to admit the students that we
+    expect to do well, given the information that we have. However,
+    this information is typically not enough for us to make reliable
+    predictions.  In addition, we might want to also make sure that
+    everybody has a chance to obtain a good education. In order to
+    achieve this, we might want to promote ethnic or gender equality
+    through university admissions.  Unfortunately, there is no ideal
+    solution and we must always balance the benefit of individual
+    students with that of specific societal groups as well as society
+    as a whole.
+  }
+  
 
 \end{frame}
 
-\only<article>{ Needless to say, there are many problems related to
-  group fairness with respect to gender and ethnicity in particular.
-  However,
-}
 
 \only<presentation>{
   \begin{frame}
@@ -121,11 +130,11 @@
   \end{frame}
 
 
-\begin{frame}
-  \frametitle{Group fairness and proportionality}
+  \begin{frame}
+    \frametitle{Group fairness and proportionality}
     \includegraphics[width=\textwidth]{../figures/genomics-diversity}
     \url{https://qz.com/1367177/}
-\end{frame}
+  \end{frame}
 
 }
 
@@ -143,16 +152,70 @@
 \end{frame}
 
 
+\only<article>{
+  \begin{example}[Hiring decisions.]
+    As a further example, consider gender balance in hiring decisions.
+    Typically, received applications are screened, so that some
+    applicants undergo through an interview process. At the end, some
+    of the interviewed applicants will be hired. There are two
+    decision points here, with most people being cut off at the first
+    point: the screening. To automate this process, Amazon worked on
+    resume-screen program.~\footnote{\url{https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G}}
+    However, this was scrapped after it was discovered that it
+    predominantly favoured men. The reason is not entirely clear, but
+    it was probably due to the fact that they trained the system on
+    their own screening decisions, and given that the tech industry
+    predominantly hires men in the first place, women were likely
+    rejected in the screening phase. 
+  \end{example}
+}
+
+
+\section{Group fairness.}
+\only<article>{ Let us now take a look at concepts of fairness related
+  to \emph{group membership}. This includes concepts such as equal
+  treatment, equality of opportunity and generally lack of
+  discrimination.  The general idea is that we would like for members
+  of society to follow trajectories through life that do not strongly
+  depend on their membership in sensitive groups. For example, gender
+  should not play a role in academic achievement. Ethnic heritage
+  should have no influence on annual income. Unfortunately, the
+  underlying societal dynamics create situations where group
+  membership becomes important.
+
+  In this section, and throughout this chapter, we will imagine that
+  an individual is interacting with a system, which makes decisions
+  about the individual, such as whether or not to give them a
+  loan. These result in a certain outcome , such as the individual
+  using the borrowed money to invest in a business and then having a
+  particular annual income. Crucially, these outcomes can be
+  correlated with group membership, because of societal dynamics. The
+  system designer should make sure that not only the system does what
+  it intends, such as giving loans to people that are expected to
+  repay them, but also that it does not create inequalities between
+  different groups. As we will see later, depending on our fairness
+  definition, and on the societal dynamics, this is not always easy.
+  
+}
 
 \begin{frame}
   \frametitle{Bail decisions}
-  \only<article>{ For our example regarding disadvantaged populations,
-    consider the example of bail decisions in the US court
+
+  \only<article>{ For a more detailed
+    example, let us consider bail decisions in the US court
     system. When a defendant is charged, the judge has the option to
     either place them in jail pending trial, or set them free, under
     the condition that the defendant pays some amount of 'bail'. The
     amount of bail (if any) is set to deter flight or a relapse.
+
+    This process sometimes includes the use of a software tool called
+    \texttt{COMPAS}, which gives risk scores for the possibility of
+    flight, recidivism or violent behaviour. These scores are taken
+    into account by judges when making decisions.  In some cases, it
+    appears as though automating this procedure might lead to better
+    outcomes. But is that generally true?
   }
+
 
   \only<presentation>{
     \begin{columns}
@@ -190,58 +253,153 @@
       \end{column}
     \end{columns}
   }
-  
-  \only<article>{
-    \begin{figure}
-      \centering
-      \includegraphics[width=0.5\textwidth]{../figures/judge-fairness}
-      \caption{In some cases, it appears as though automating this procedure might lead to better outcomes. But is that generally true?}
-      \label{fig:judge-fairness}
-    \end{figure}
-  }
 
-\end{frame}
+  \only<article>{In this setting, a defendant $t$ appears before a
+    judge with observable features $x_t \in \CX$, and a sensitive group
+    variable $z_t \in \CZ$. The judge employs a specific policy $\pol$ to
+    select a decision $a_t \in \CA$, with
+    \begin{equation}
+      \pol(a_t \mid x_t, z_t)
+    \end{equation}
+    denoting the probability of action $a_t$ given the individual's features, as well as the sensitive variable. We can assume that the policy is fixed ahead of time, and thereafter decisions are made according to the policy.
+    After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution with parameter $\theta$:
+    \begin{equation}
+      P_\theta(y_t \mid x_t, z_t, a_t), 
+    \end{equation}
+    denoting the probability of $y_t$ given the individual's features
+    and the action taken.
+
+    The choice of policy has to reflect the preferences of the
+    decision maker (in this case the judge). In our example, let us
+    consider a simple set of actions $\CA = \{0, 1\}$, where a
+    defendant is granted $(a_t = 1)$ or denied $(a_t = 0)$ bail.  If a
+    defendant is not given bail, they must remain in jail. This costs
+    both the government and the defendant, so the judge prefers not to
+    deny bail too often.  On the other hand, if the defendant is
+    granted bail, there is a chance they will re-offend $(y_t =
+    1)$. Consequently, we can define the following utility function\footnote{See Chapter~\ref{ch:decision-problems}}
+    for the judge, that roughly reflects those preferences:
+    \begin{equation}
+      U(a, y) = a - y.
+    \end{equation}
+    While this weighs the judge's two main concerns equally, we can also imagine different formulations: e.g. if the judge thinks it is much more important to keep people out of jail than to prevent re-offences until trial, they might select a function such as : $U(a, y) = 10a - y$.
+    Now, given the parameter $\theta$ of the unknown distribution, the judge can find a decision rule $\pol$ maximising utility in expectation
+    \begin{equation}
+      \label{eq:expected-utility-judge}
+      \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
+    \end{equation}
+    If we are estimating the decision rule from some training set, we can simply solve the following maximisation problem:
+    \[
+      \max_\pol \sum_{t} \sum_a \pol(a | x_t, z_t) U(a,y_t).
+    \]
+    However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem.
+  }
+\end{frame}  
 
 \begin{frame}
-  \frametitle{Whites get lower scores than blacks\footnote{Pro-publica, 2016}}
-  \only<article>{In a different study, it was shown that a commonly used software tool for determining 'risk scores' in the US was biased towards white defendants, who seemed to be always getting lower scores than blacks.}
+  \frametitle{Demographic parity and equality of opportunity.}
+
+  \only<article>{Let us take a look at how many individuals are given
+    different scores. Figure~\ref{fig:risk-bias} shows the proportions
+    of individuals obtaining different risk scores as a function of
+    their ethnic group. While the general population, and Caucasians
+    in particular, have a distribution sharply concentrated in low
+    scores, Black defendants obtain much higher risk scores: they are
+    almost as likely to be ranked a 10 as the are to be scored a 1. }
   \begin{figure}[H]
     \begin{columns}
       \begin{column}{0.5\textwidth}
         \centering
         \includegraphics[width=\columnwidth]{../figures/Scores-by-race}      
-        White
       \end{column}
     \end{columns}
     \label{fig:risk-bias}
     \caption{Apparent bias in risk scores towards black versus white defendants.}
   \end{figure}
+  \only<article>{ Typically, we would like to demographic parity
+    across groups, either with respect to the decisions, or with
+    respect to the outcomes.  Decision parity is called \emph{equality
+      of opportunity} and satisfies the following condition
+    \begin{equation}
+      \label{eq:equality-opportunity}
+      \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
+    \end{equation}
+    In other words, the action (risk score, in this case) is
+    independent of the group.  As we see in
+    Figure~\ref{fig:risk-bias}, these distributions are quite
+    different.  The curve for ``General'' corresponds to
+    $\Pr_\param^\pol(a_t )$, while the other two curves correspond to
+    $\Pr_\param^\pol(a_t | z_t)$ for $z_t$ being Caucausian and
+    African-American respectively.
+    
+    \emph{Demographic parity} instead relates to outcomes. If this
+    condition is satisfied, then the probability distribution of
+    outcomes is independent of group membership.
+        \begin{equation}
+      \label{eq:eqality-outcomes}
+      \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
+    \end{equation}
+
+  }
 \end{frame}
 
 \begin{frame}
-  \frametitle{But scores equally accurately predict recidivism\footnote{Washington Post, 2016}}
-  \only<article>{On the other hand, the scores generated by the software seemed to be very predictive on whether or not defendants would re-offend, independently of their race.}
+  \frametitle{Calibration.}
+  
+  \only<article>{On the
+    other hand, the scores generated by the software seemed to be very
+    predictive on whether or not defendants would re-offend,
+    independently of their race. Figure~\ref{fig:imrs} shows that, if
+    an individual obtains a high score then they are very likely to
+    re-offend, and conversely, they are unlikely to re-offend when
+    they have a low score. }
   \begin{figure}[H]
     \centering
     \includegraphics[width=\columnwidth]{../figures/calibration-compas}
     \caption{Recidivism rates by risk score.}
     \label{fig:imrs}
   \end{figure}
+  This concept can be quantified in terms of the conditional distribution of outcomes given the score:
+  \begin{equation}
+    \Pr_\param^\pol(y_t | a_t, z_t) =       \Pr_\param^\pol(y_t | a_t).
+    \label{eq:calibration}
+  \end{equation}
+  This means that $y_t$ is conditionally independent of $z_t$ given
+  the score $a_t$. So, in some sense, the score is sufficient for us
+  to predict the outcome, and knowing the race does not help us
+  predict any better.  
 \end{frame}
+
 \begin{frame}
-  \frametitle{But non-offending blacks get higher scores}
-  \only<article>{On the third hand, we see that the system seemed to give higher risk scores to non-offending blacks. So, is there a way to fix that or not?}
+  \frametitle{Balance}
+  \only<article>{While the system's predictions seem to be calibrated against the chance of recidivism, this does not mean that race plays no role. Figure~\ref{fig:imrs-risk} breaks down the population in people that re-offended and those that did. For each sub-population, we then plot the proportion of people receiving different scores by race. While people generally have a small probability of obtaining a high risk score, we see that Black defendants obtain much higher scores.}
+  
   \begin{figure}[H]
     \centering
     \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=0.95\textwidth]{../figures/balance-recidivism-compas}
+      \includegraphics[width=0.95\textwidth]{../figures/balance-non-recidivism-compas}
+      \caption{No recidivism}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
       \includegraphics[width=0.95\textwidth]{../figures/balance-recidivism-compas}
+      \caption{Recidivism}
     \end{subfigure}
     \caption{Score breakdown based on recidivism rates.}
     \label{fig:imrs-risk}
   \end{figure}
+  \only<article>{
+    Balance can also be interpreted as a probabilistic condition, of the following form:
+    \begin{equation}
+      \Pr_\param^\pol(a_t | y_t, z_t) =       \Pr_\param^\pol(a_t | y_t).
+      \label{eq:balance}
+    \end{equation}
+    Here we have that $a_t$ is conditionally independent of $z_t$
+    given the outcome $y_t$. So, if we partition the population
+    according to their outcome, we should find that given the outcome,
+    the distribution of scores is the same no matter what their
+    race. However, this is not what the example shows: there is a
+    strong dependence on race.  }
+  
 \end{frame}
 
 \only<presentation>{
@@ -256,12 +414,19 @@
   \end{frame}
 
 }
-\only<article>{
-  How can we explain this discrepancy? We can show that in fact, each one of these different measures of bias in our decision rules can be seen as a notion of conditional independence. 
-}
-\only<presentation>{
-\input{graphical-models}
-}
+
+\only<article>{ How can we explain this discrepancy? We can show that
+  in fact, each one of these different measures of bias in our
+  decision rules can be seen as a notion of conditional
+  independence. Had $z_t$ been an independent variable, i.e. so that
+  $P_\param(x,z) = P_\param(x) P_\param(z)$ and
+  $P_\param(y | x,a,z) = P_\param(y | x,a)$, then it would have no
+  role. Unfrounately, though, it does influence the distributions of
+  the other variables.  }
+
+
+\only<presentation>{ \input{graphical-models} }
+
 
 
 
