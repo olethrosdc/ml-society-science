@@ -1,4 +1,5 @@
 \chapter{Graphical models}
+\label{ch:graphical-models}
 \only<article>{
   Graphical models are a very useful tool for modelling the relationship between multiple variables. The simplest such models, probabilistic graphical models (otherwise known as Bayesian networks) involve directed acyclic graphs between random variables. There are two other types of probabilistic models, factor graph and undirected graphical models, which are equivalent to each other, though not to directed models.}
 \begin{frame}
@@ -69,7 +70,7 @@
     \caption{Graphical model for the factorisation $\Pr(x_3 \mid x_2) \Pr(x_2 \mid x_1) \Pr(x_1)$.}
   \end{figure}
   \begin{block}{Conditional independence}
-    We say $x_i$ is conditionally independent of $\bx_B$ given $\bx_D$ and write $x_i \mid \bx_D \indep \bx_B$ iff
+    We say $x_i$ is conditionally independent of $\bx_B$ given $\bx_D$ and write $x_i \indep \bx_B \mid \bx_D $ iff
     \[
     \Pr(x_i, \bx_B \mid \bx_D)
     =
@@ -362,7 +363,7 @@
   \only<article>{The simplest way to measure independence is by looking at whether or not the distribution of the possibly dependent variable changes when we change the value of the other variables. }
 
   \begin{theorem}
-    If $x_i \mid \bx_D \indep \bx_B$ then
+    If $x_i \indep \bx_B  \mid \bx_D$ then
     \[
     \Pr(x_i \mid \bx_B, \bx_D)
     =

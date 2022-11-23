@@ -17,14 +17,18 @@
   In this course we will look at two aspects of fairness. The first
   has to do with disadvantaged populations that form distinct social
   classes due to a shared income stratum, race or gender. The second
-  has to do with meritocratic notions of fairness.  
-  
+  has to do with meritocratic notions of fairness.
+
+  This chapter requires some knowledge of decision theory (See
+  Chapter~\ref{ch:decision-problems}) to understand the principles of
+  expected utility maximisation and graphical models (See
+  Chapter~\ref{ch:graphical-models}) to understand the idea of conditional independence.
 }
 
-\section{Some examples.}
+\section{Introduction.}
 
 
-\only<article>{ Fairness is a concept that has received much attenion
+\only<article>{ Fairness is a concept that has received much attention
   recently when applied to large-scale algorithmic decision
   making. However, the very concept of fairness is not well-defined
   and encompasses many different ideas. Some of those relate to fair
@@ -57,7 +61,7 @@
   \only<article>{
 
     Meritocracy embodies the principle that merit should be
-    rewarded. A common example are admissions to univerisities. Some
+    rewarded. A common example are admissions to universities. Some
     type of summary, typically a grade obtained from high school, is
     used to represent the underlying merit of individuals.
   }
@@ -73,7 +77,7 @@
       \end{itemize}
     \end{example}
   }
-  \only<article>{Grades, by themselves, are typically insufficient information. It might be that grades from some highschools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now consider the information.}
+  \only<article>{Grades, by themselves, are typically insufficient information. It might be that grades from some high-schools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now consider the information.}
   \uncover<3->{
     \begin{example}[Additional information]
       \only<article>{
@@ -92,7 +96,7 @@
   \uncover<4->{We still don't know how a \alert{specific} student will
     do!}
 
-  \only<article>{ I must emphasize that these are only
+  \only<article>{ I must emphasise that these are only
     statistics, and not necessarily predictive of the students'
     ability.  Ideally, we would like to admit the students that we
     expect to do well, given the information that we have. However,
@@ -139,7 +143,7 @@
     \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
     \begin{itemize}
     \item<5-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
-    \item<6-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a soht.}
+    \item<6-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot.}
     \item<7-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
     \item<8-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics.}
     \end{itemize}
@@ -166,6 +170,33 @@
   \end{example}
 }
 
+
+b\section{Group fairness.}
+\only<article>{ Let us now take a look at concepts of fairness related
+  to \emph{group membership}. This includes concepts such as equal
+  treatment, equality of opportunity and generally lack of
+  discrimination.  The general idea is that we would like for members
+  of society to follow trajectories through life that do not strongly
+  depend on their membership in sensitive groups. For example, gender
+  should not play a role in academic achievement. Ethnic heritage
+  should have no influence on annual income. Unfortunately, the
+  underlying societal dynamics create situations where group
+  membership becomes important.
+
+  In this section, and throughout this chapter, we will imagine that
+  an individual is interacting with a system, which makes decisions
+  about the individual, such as whether or not to give them a
+  loan. These result in a certain outcome , such as the individual
+  using the borrowed money to invest in a business and then having a
+  particular annual income. Crucially, these outcomes can be
+  correlated with group membership, because of societal dynamics. The
+  system designer should make sure that not only the system does what
+  it intends, such as giving loans to people that are expected to
+  repay them, but also that it does not create inequalities between
+  different groups. As we will see later, depending on our fairness
+  definition, and on the societal dynamics, this is not always easy.
+  
+}
 
 \begin{frame}
   \frametitle{Bail decisions}
@@ -246,7 +277,7 @@
     both the government and the defendant, so the judge prefers not to
     deny bail too often.  On the other hand, if the defendant is
     granted bail, there is a chance they will re-offend $(y_t =
-    1)$. Consequently, we can define the following utility function
+    1)$. Consequently, we can define the following utility function\footnote{See Chapter~\ref{ch:decision-problems}}
     for the judge, that roughly reflects those preferences:
     \begin{equation}
       U(a, y) = a - y.
@@ -266,12 +297,13 @@
 \end{frame}  
 
 \begin{frame}
-  \frametitle{Demographic parity and equality of opportunity.}  \only<article>{Let us take a look
-    at how many individuals are given different
-    scores. Figure~\ref{fig:risk-bias} shows the proportions of
-    individuals obtaining different risk scores as a function of their
-    ethnic group. While the general population, and Caucasians in
-    particular, have a distribution sharply concentrated in low
+  \frametitle{Demographic parity and equality of opportunity.}
+
+  \only<article>{Let us take a look at how many individuals are given
+    different scores. Figure~\ref{fig:risk-bias} shows the proportions
+    of individuals obtaining different risk scores as a function of
+    their ethnic group. While the general population, and Caucasians
+    in particular, have a distribution sharply concentrated in low
     scores, Black defendants obtain much higher risk scores: they are
     almost as likely to be ranked a 10 as the are to be scored a 1. }
   \begin{figure}[H]
@@ -292,17 +324,28 @@
       \label{eq:equality-opportunity}
       \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
     \end{equation}
-    In other words, the action is independent of the group.
-
-    \emph{Demographic parity} instead relates to outcomes.
+    In other words, the action (risk score, in this case) is
+    independent of the group.  As we see in
+    Figure~\ref{fig:risk-bias}, these distributions are quite
+    different.  The curve for ``General'' corresponds to
+    $\Pr_\param^\pol(a_t )$, while the other two curves correspond to
+    $\Pr_\param^\pol(a_t | z_t)$ for $z_t$ being Caucasian and
+    African-American respectively.
+    
+    \emph{Demographic parity} instead relates to outcomes. If this
+    condition is satisfied, then the probability distribution of
+    outcomes is independent of group membership.
         \begin{equation}
       \label{eq:eqality-outcomes}
       \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
     \end{equation}
+
   }
 \end{frame}
 
 \begin{frame}
+  \frametitle{Calibration.}
+  
   \only<article>{On the
     other hand, the scores generated by the software seemed to be very
     predictive on whether or not defendants would re-offend,
@@ -316,9 +359,19 @@
     \caption{Recidivism rates by risk score.}
     \label{fig:imrs}
   \end{figure}
+  This concept can be quantified in terms of the conditional distribution of outcomes given the score:
+  \begin{equation}
+    \Pr_\param^\pol(y_t | a_t, z_t) =       \Pr_\param^\pol(y_t | a_t).
+    \label{eq:calibration}
+  \end{equation}
+  This means that $y_t$ is conditionally independent of $z_t$ given
+  the score $a_t$. So, in some sense, the score is sufficient for us
+  to predict the outcome, and knowing the race does not help us
+  predict any better.  
 \end{frame}
 
 \begin{frame}
+  \frametitle{Balance}
   \only<article>{While the system's predictions seem to be calibrated against the chance of recidivism, this does not mean that race plays no role. Figure~\ref{fig:imrs-risk} breaks down the population in people that re-offended and those that did. For each sub-population, we then plot the proportion of people receiving different scores by race. While people generally have a small probability of obtaining a high risk score, we see that Black defendants obtain much higher scores.}
   
   \begin{figure}[H]
@@ -334,6 +387,19 @@
     \caption{Score breakdown based on recidivism rates.}
     \label{fig:imrs-risk}
   \end{figure}
+  \only<article>{
+    Balance can also be interpreted as a probabilistic condition, of the following form:
+    \begin{equation}
+      \Pr_\param^\pol(a_t | y_t, z_t) =       \Pr_\param^\pol(a_t | y_t).
+      \label{eq:balance}
+    \end{equation}
+    Here we have that $a_t$ is conditionally independent of $z_t$
+    given the outcome $y_t$. So, if we partition the population
+    according to their outcome, we should find that given the outcome,
+    the distribution of scores is the same no matter what their
+    race. However, this is not what the example shows: there is a
+    strong dependence on race.  }
+  
 \end{frame}
 
 \only<presentation>{
@@ -348,19 +414,120 @@
   \end{frame}
 
 }
+
+\only<article>{ How can we explain this discrepancy? We can show that
+  in fact, each one of these different measures of bias in our
+  decision rules can be seen as a notion of conditional
+  independence. Had $z_t$ been an independent variable, i.e. so that
+  $P_\param(x,z) = P_\param(x) P_\param(z)$ and
+  $P_\param(y | x,a,z) = P_\param(y | x,a)$, then it would have no
+  role. Unfortunately, though, it does influence the distributions of
+  the other variables.  }
+
+
+\begin{example}[Classification]
+  One setting where the above discussion applies directly are classification problems. There, the outcomes $y$ are simply labels. the decision space $\CA$ is to just predicting a label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write:
+  \[
+    \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
+  \]
+\end{example}
+
+\begin{example}[Regression]
+  We can also apply these ideas to regression problems. We are again
+  asked to simply predict a latent variable $y$. For concreteness,
+  assume $y \in \Reals$. Then, the decision space $\CA = \Reals$ as
+  well. A standard utility function is the negative squared prediction
+  error, so that $U(a, y) = - (a - y)^2$.
+
+  In this setting we can also relax our framework to work with
+  expectations instead of probabilities. For example, calibration and balance can be written as the conditions
+  \[
+    \E_\param^\pol(y_t | a_t, z_t) = \E_\param^\pol(y_t | a_t),
+    \qquad
+    \E_\param^\pol(a_t | y_t, z_t) = \E_\param^\pol(a_t | y_t),
+  \]
+  respectively.
+\end{example}
+
+\subsection{Measuring and affecting group fairness.}
+
 \only<article>{
-  How can we explain this discrepancy? We can show that in fact, each one of these different measures of bias in our decision rules can be seen as a notion of conditional independence. 
-}
-\only<presentation>{
-  \input{graphical-models}
+  The above discussion focused on the setting where we have a precise
+  model parameter $\param$ and policy $\pol$. However, we frequently do
+  not know at least one of those things. For example, when we only have
+  some observational data generated by some historical policy $\pol$,
+  need to estimate $\Pr_\theta^\pol$ somehow. Moreover, these conditions
+  will not be perfectly satisfied. How can we measure the deviation from
+  these conditions?
 }
 
 
+\paragraph{Empirical expected utility.}
+\only<article>{
+  Let us start with expect utility, and write it in full
+\[
+  \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y),
+\]
+The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility with
+}
+\[
+  \hat{E}_n(U) = \sum_{t=1}^n U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^\pol
+\]
+
+  
+\paragraph{Deviation from balance.}
+\only<article>{
+
+  How about measuring whether balance is satisfied?  Unfortunately
+  none of these fairness conditions will be satisfied in practice. So
+  what are we going to do? A simple idea is to simply look at how far
+  away the distribution is from independence. In particular, let us
+  look at the difference between those distributions
+  \[
+    \Pr_\param^\pol(a | y, z), \qquad  \Pr_\param^\pol(a | y).
+  \]
+  for all values of $y, z$. Let us first look at the total variation distance:
+  \[
+   \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
+    =
+    \sum_a \|\Pr_\param^\pol(a| y, z) -   \Pr_\param^\pol(a | y)\|_1.
+  \]
+  We can then sum over all possible values of $y, z$ to obtain a
+  single measure of how much we deviate from balance. To obtain an
+  empirical estimate, we can simply sum over all observations to
+  obtain the empirical models:
+  \[
+    \hat{P}_n(a | y, z) = \sum_t \frac{\ind{a_t = a \wedge y_t = y \wedge z_t = i}}{\ind{y_t = y \wedge z_t = i}}
+  \]
+  We can then plug those into our original measure:
+  \[
+   \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
+    \approx
+    \sum_a \|\hat{P}_n (a| y, z) -   \hat{P}_n(a| y)\|_1.
+  \]
+
+  However, we can
+  use something else as well, such as the KL divergence:
+  \[
+    D(\Pr_\param^\pol(a | y, z)  \|   \Pr_\param^\pol(a | y))
+    =
+    \sum_a \ln \frac{\Pr_\param^\pol(a | y, z)}{\Pr_\param^\pol(a | y)} \Pr_\param^\pol(a | y, z)
+  \]
+
+  
+}
+
+
+\section{Individual fairness}
+
+\only<article>{
+  Until now, we were looking at the 
+}
 
 
 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
-%%% TeX-master: "notes"
+%%% TeX-master: "book"
 %%% End:
