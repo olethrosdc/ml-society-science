@@ -335,7 +335,7 @@ b\section{Group fairness.}
     \emph{Demographic parity} instead relates to outcomes. If this
     condition is satisfied, then the probability distribution of
     outcomes is independent of group membership.
-        \begin{equation}
+    \begin{equation}
       \label{eq:eqality-outcomes}
       \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
     \end{equation}
@@ -449,7 +449,7 @@ b\section{Group fairness.}
   respectively.
 \end{example}
 
-\subsection{Measuring and affecting group fairness.}
+\subsection{Measuring group fairness.}
 
 \only<article>{
   The above discussion focused on the setting where we have a precise
@@ -465,16 +465,16 @@ b\section{Group fairness.}
 \paragraph{Empirical expected utility.}
 \only<article>{
   Let us start with expect utility, and write it in full
-\[
-  \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y),
-\]
-The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility with
+  \[
+    \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y),
+  \]
+  The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility with
 }
 \[
   \hat{E}_n(U) = \sum_{t=1}^n U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^\pol
 \]
 
-  
+
 \paragraph{Deviation from balance.}
 \only<article>{
 
@@ -488,7 +488,7 @@ The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can ap
   \]
   for all values of $y, z$. Let us first look at the total variation distance:
   \[
-   \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
+    \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
     =
     \sum_a \|\Pr_\param^\pol(a| y, z) -   \Pr_\param^\pol(a | y)\|_1.
   \]
@@ -501,7 +501,7 @@ The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can ap
   \]
   We can then plug those into our original measure:
   \[
-   \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
+    \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
     \approx
     \sum_a \|\hat{P}_n (a| y, z) -   \hat{P}_n(a| y)\|_1.
   \]
@@ -516,18 +516,108 @@ The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can ap
 
   
 }
+\subsection{Trading off  utility and fairness.}
+\label{sec:trad-util-fairn}
+\only<article>{ We have now selected a notion of utility and of
+  fairness. We have also seen how to measure utility and fairness in
+  practice. How can we choose a policy $\pol$ that optimises for both? The
+  general idea is to formalise the problem in terms of a constrained
+  or unconstrained optimisation. }
+\begin{frame}
+  \frametitle{Formalisation of the problem}
 
+  \only<article>{ Let us use
+    $F(\pol, \param)$ for the measure of deviation from fairness and
+    $U(\pol, \param)$ for utility.
+
+    We can deal with the problem in two ways. The first is to formulate a combined objective that mixes the utility and fairness objectives. Then we can formalise the problem as an unconstrained optimisation. The second is to optimise one objective and place constrains on the other. For example, we can place a limit on how much unfairness we are willing to tolerate and maximise utility. Or, we can place a limit on how far away we want to be from the solution that optimises for utility only, and optimises for fairness. Which method to use is application-dependent, but also has some computational impact.
+  }
+
+  \begin{block}{Unconstrained optimisation.}
+    \only<article>{The simnplest idea is to treat the utility and fairness symetrically. Then we can simply optimise for their mixture.}
+    Let $\lambda \in [0,1]$:
+    \[
+      \max_\pol (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param)
+    \]
+  \end{block}
+  \only<article>{
+    In this setting, we have an unconstrained optimisation problem. These are typically easier to solve, and we can use simple gradient methods. In particular, note that the gradient with respect to the policy of the unconstrained objective is
+    \[
+      \nabla_\pol [(1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param)]
+      =
+      (1 - \lambda) \nabla_\pol U(\pol, \param) - \lambda \nabla_\pol F(\pol, \param).
+    \]
+    Consqeuently, we only need to minimise the sum of these gradients.
+  }
+  
+  \begin{block}{Constrained fairness.}
+    \only<article>{In this setting, we have an upper bound $\epsilon$ on the amount of fairness deviation we can allow.}
+    Let $\epsilon \geq 0$:
+    \begin{align*}
+      \max_\pol U(\pol, \param)\\
+      \textrm{s.t.} F(\pol, \param) \leq \epsilon.
+    \end{align*}
+  \end{block}
+
+  \begin{block}{Constrained utility.}
+    \only<article>{In this setting, we want to limit the amount of sub-optimality $\epsilon$ we have relative to the optimal policy that ignores fairness.}
+    Let $\epsilon \geq 0$:
+    \begin{align*}
+      \in_\pol F(\pol, \param)\\
+      \textrm{s.t.} U(\pol, \param) \geq  \max_{\pol'} U(\pol', \param) - \epsilon
+    \end{align*}
+  \end{block}
+  
+\end{frame}
 
 \section{Individual fairness}
 
-\only<article>{
-  Until now, we were looking at the 
-}
+  \only<article>{
+    An altogether different type of fairness concept is individual fairness. This relates to the notion of meritocracy. This means that ``better'' people should have ``better'' outcomes. But what do we mean by better? This depends strongly on the context.
+  }
+
+  \begin{frame}\frametitle{Meritocracy.}
+    \begin{block}{Inherent worth.}
+      \begin{itemize}
+      \item $a$: Action taken by the decision maker. \only<article>{For example, $a$ could specify which applicants are admitted to university, with $a_i$ specifying the university to which an applicant is admitted.}
+      \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the individual.}
+      \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed.}
+      \item $u_i(a) \in \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a functino $u_i(a_i)$ instead.}
+      \end{itemize}
+      A decision $a$ is fair if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
+    \end{block}
+    \only<article>{The problem in this setting, is that it is not clear what an individual's worth is. It is also not clear what their utility is. In a sense, if $i$ and $j$ are both admitted to the same university, is it worth the same to them? }
+  \end{frame}
+
+  \begin{frame}\frametitle{Smoothness.}
+    \begin{block}{Treating similar individuals similarly.}
+      \begin{itemize}
+      \item $d(x_i,x_j)$: Distance between individuals $i,j$.
+      \item $D[\pol(a_i | x_i), \pol(a_j | x_j)]$: Distance between policy decisions.
+      \item Utility function $U(\pol)$.
+      \end{itemize}
+      Our goal is to find a decision rule $\pol$ maximising  $U(\pol)$, 
+      so that it is Lipschitz-smooth with respect to $D, d$:
+      \[
+        D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j)
+      \]
+    \end{block}
+    \only<article>{When $D(P,Q) = \max_{a \in A} |\log [P(a)/Q(a)]|$ then $\pol$ satisfies differential privacy with $d(x,y) = \epsilon \|x - y\|_1$}.
+  \end{frame}
+
+  \begin{frame}\frametitle{Smoothness and parity.}
+    To define groups, we select $S, T \subset \CX$.
+    \begin{definition}{$\epsilon$-parity}
+      \[
+        \|\pol(a | x \in S) - \pol(a | x \in T)\|_1 \leq \epsilon.
+      \]
+    \end{definition}
+  \end{frame}
 
 
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-engine: xetex
-%%% TeX-master: "book"
-%%% End:
+  
+  %%% Local Variables:
+  %%% mode: latex
+  %%% TeX-engine: xetex
+  %%% TeX-master: "book"
+  %%% End:
