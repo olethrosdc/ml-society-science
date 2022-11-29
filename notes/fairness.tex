@@ -612,6 +612,15 @@ b\section{Group fairness.}
         \|\pol(a | x \in S) - \pol(a | x \in T)\|_1 \leq \epsilon.
       \]
     \end{definition}
+
+    \begin{definition}{Bias for some action $a$:}
+      \[
+        \max_\pol \pol(a | x \in S) - \pol(a | x \in T)
+        \qquad
+        \textrm{s.t. $\pol$ is Lipschitz}
+      \]
+    \end{definition}
+    \only<article>{The main problem here is that if we are required to be smooth, but one set has most of its members in one subset.}
   \end{frame}
 
 
