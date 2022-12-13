@@ -330,25 +330,51 @@
   privacy and utility. However, let us specify more precisely what we
   mean by an algorithm.
 }
-\begin{frame}
+\begin{frame}  
   \frametitle{What is an algorithm?}
-  \only<article>{Any functional process is an algorithm. We typically
-    identify inputs with observations or features $\CX$, and outputs
-    with actions $\CA$ by the algorithm: i.e. we view the algorithm as
-    taking actions that have an observable effect on its external
-    environment. We generally consider \emph{stochastic} algorithms.}
+
+  \only<article>{Any functional process is an algorithm. The
+    information given to an algorithm for processing is called an
+    \emph{input} to the algorithm. The result of the process is called
+    the algorithm's \emph{output}.  In this book, identify inputs with
+    observations or features $\CX$, and outputs with actions $\CA$ by
+    the algorithm: i.e. we view the algorithm as taking actions that
+    have an observable effect on its external environment.  Algorithms
+    are usually deterministic: given the same input, they produce the
+    same output. However, it is also useful to consider
+    \emph{stochastic} algorithms, whose output randomly changes, even
+    when the input is the same.
+    
+  }
+  
   \begin{definition}[Stochastic algorithm $\pi$]
     A stochastic algorithm $\pi$ with input domain $\CX$ and output
     domain $\CA$ is a mapping $\pi : \CX \to \Simplex(\CA)$ from
-    observations $\CX$ to distributions over outputs
+    observations $\CX$ to \emph{distributions} over outputs
     $\Simplex(\CA$). When $\CA$ is finite, we will write
     $\pol(a \mid x)$ to denote the conditional probability that the
     algorithm outputs $a$ given input $x$.
   \end{definition}
   \only<article>{
+
+    So, one way of seeing a stochastic algorithm is as a
+    \emph{collection} of probability distributions $\pol(a \mid x)$
+    over $\CA$, one for each value of $x$. This is exactly equivalent
+    to the definition of a deterministic algorithm $f : \CX \to \CA$,
+    which would be a simple function. This would define one specific
+    value in $\CA$ (instead of a distribution) for each value of $x$.
+
+    The above definition is fine when the output domain $\CA$ is
+    finite. Then outputs $a \in \CA$ cannot have infinitesimally small
+    probabilities. However, in many problems $\CA$ is a Euclidean
+    subset, e.g. the interval $[0,1]$. In that case, we have two
+    choices: either treat $\pol$ as a probability density, or as a
+    probability measure. The latter is more general, and applies no
+    matter what $\CA$ is. Formally, we can write this as follows.
+    
     \begin{theoryblock}{The general case.}
-      It is best to think of $\pol(\cdot | x)$ as a probability
-      measure over $\CA$. Then we write
+      It is best to think of $\pol(\cdot | x)$ as a different probability
+      measure over $\CA$ for every possible value of $x$. Then we write
       \[
         \pol(A \mid x) \defn \Pr_\pol(a \in A \mid x), \qquad A \subset \CA,
       \]
@@ -356,7 +382,14 @@
       some set $A \subset \CA$ given input $x$. This allows us to treat
       the case when $\CA$ is continuous or discrete with the same notation.
     \end{theoryblock}
-    
+
+    How can we actually obtain a stochastic algorithm? The usual
+    method is to define an algorithm as usual, but with a source of
+    randomness as part of its inputs, fancifully called \emph{random
+      coins}. By using those random coins as part of the calculations,
+    we obtain a random result, even if every step of the algorithm is
+    deerministic.
+
     \begin{exampleblock}{Algorithmic randomness.}
       We can construct a random algorithm through access to a random
       coin $\omega$ taking values in $\Omega$. We can then define the
@@ -375,12 +408,35 @@
 
 \begin{frame}
   \frametitle{What is private?}
+
+  \only<article>{
+  The overall framework we will use in this book is that everything
+  pertaining to an individual is by definition private. While in
+  reality there might be some attributes that individuals might want
+  to remain secret and some which are not considered important, it is
+  generally impossible to predict potential harm from the disclosure
+  of any individual information.  Thus, this chapter takes an
+  expansive view of privacy: any information about an individual,
+  which includes even the very fact that they might be part of a
+  database is considered private.
+
+  We assume that there is a \emph{private input}, which is processed
+  by an \emph{algorithm}, which then generates a \emph{public output}.
+  So, our main focus is how the algorithm generates the output,
+  because the algorithm defines how the output and the input are
+  linked. Our goal is to obtain algorithms that can be generally
+  applied and that can have good privacy-preserving properties.
+  }
 \end{frame}
 
 
 
-\section{$k$-anonymity}
+\section{Simple anonymisation and $k$-anonymity}
 \label{sec:k-anonymity}
+\only<article>{ One of the basic ideas for protecting individual
+  information is to simply remove identifying information. However,
+  this is easier said than done, as potentially any information can be
+  used identify an individual in a dataset. Indeed, simply removing the names of people from a database is a very weak method, as there almost always exist enough information in the database to re-identify individuals. However, a slightly stronger, though not perfect, method for preventing re-identification is given by the framework of $k$-anonymity. }
 \begin{frame}
   \frametitle{$k$-anonymity}
   \begin{figure}[H]
@@ -398,12 +454,13 @@
     \end{subfigure}
   \end{figure}
   \only<article>{The concept of $k$-anonymity was introduced
-    by~\citet{samarati1998protecting} and provides good guarantees
+    by~\citet{samarati1998protecting} and provides some guarantees
     against inferring personal information from a single
     database. This requires the analyst to first determine the
-    variables of interest, and then determine which variables could be
-    potentially used to identify somebody in the database.}
-  \alert{It's the analyst's job to define quasi-identifiers.}
+    variables of interest (which should not be modified), and then
+    determine which variables are \emph{quasi-identifiers}, i.e. they
+    could be potentially used to identify somebody in the database.}
+  \alert{It's the analyst's job to define quasi-identifiers.} However, in general all variables should be considered quasi-identifiers.
   \begin{definition}[$k$-anonymity]
     A database provides $k$-anonymity if for every person in the
     database is indistinguishable from $k-1$ persons with respect to
@@ -411,8 +468,15 @@
   \end{definition}
   \only<article>{This hope is that, if the database satisfies
     $k$-anonymity it can be safely released, without revealing any
-    private information directly. Let us now walk through an extended
-    example.}
+    private information directly. As you can see, the definition of
+    $k$-anonymity relates to the algorithm \emph{output}, and not the
+    algorithm itself. Because of this, it is not possible to give
+    formal guarantees that hold generally for a $k$-anonymous
+    database, as the result of the process does not tell us anything
+    about how much information it conveys about the original input.
+
+    But first, let us walk through an extended example to explain the
+    concept.}
 \end{frame}
 
 \begin{frame}
@@ -515,9 +579,9 @@
   is. For some particularly sensitive datasets, we may want for the
   adversary to be unable to tell whether or not your data was part of
   the base. Differential privacy offers protection against adversaries
-  with unlimited side-information or computational power. Informally,
+  with unlimited side-information or computational power. Intuitively,
   an algorithmic computation is differentially-private if an adversary
-  cannot distinguish two ``neighbouring'' database based on the result
+  cannot distinguish two ``neighbouring'' databases based on the result
   of the computation. Informally, two databases are neighbours when
   they are identical apart from the data of one person. A
   differentially private algorithm, because of its randomness, makes
@@ -559,9 +623,10 @@
     $x_i$, and the complete dataset is $x = (x_1, x_2)$. The algorithm
     $\pol$ defines a distribution over the set of possible outputs
     $a \in \CA$, with $\pol(a | x)$ being the probability that the
-    algorithm outputs $a$ if the data is $x$.  If the algorith was
+    algorithm outputs $a$ if the data is $x$.  If the algorithm was
     deterministic, then it might be possible for an adversary to
-    invert the computation and obtain $x$ from $a$.  But even if that
+    invert the computation and obtain $x$ from $a$. 
+    But even if that
     is not possible, maybe they can learn \emph{something} about the
     data from the output. In the section below, we will formalise this
     notion. }
@@ -754,16 +819,19 @@
   \only<article>{Typically, algorithms are applied to
     datasets $x = (x_1, \ldots, x_n)$ composed of the data of $n$
     individuals. Thus, all privacy guarantees relate to the data
-    contributed by these individuals.
+    contributed by these individuals.}
+\end{frame}
 
-    \begin{block}{Neighbourhoods}
-      Differential privacy guarantees that
-      it is hard to distinguish neighbouring datasets. Hence, the
-      definition of neighbourhood we use reflects what we want to
-      protect. It makes sense to define neighbourhoods in terms of
-      changes in one individual's data, because then an adversary cannot
-      learn about the values of any particular individual.
-    \end{block}
+\begin{frame}
+  \frametitle{Neighbourhoods}
+
+  \only<article>{
+    Differential privacy guarantees that
+    it is hard to distinguish neighbouring datasets. Hence, the
+    definition of neighbourhood we use reflects what we want to
+    protect. It makes sense to define neighbourhoods in terms of
+    changes in one individual's data, because then an adversary cannot
+    learn about the values of any particular individual.
     
     In this book we will use two definitions of neighbourhoods. The
     first is constructed so that the adversary cannot distinguish
@@ -772,7 +840,7 @@
     from the output of the algorithm.
 
   }
-  \begin{definition}[Addition/deletion neighbourhood]
+  \begin{definition}[Participation neighbourhood]
     If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
     \[
       x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1}, \ldots, x_n),
@@ -782,14 +850,23 @@
     for some $i$,  i.e. if one dataset is
     missing an element.
   \end{definition}
-  \only<article>{
-    This is an important concept if the participation in the dataset is itself sensitive. For example, if somebody is enlisted in study for experimental treatment of a rare disease, then the mere fact that they are part of the study is strong evidence that they have the disease.
+  \only<article>{ Under this neighbourhood relation, two datasets are
+    neighbours if one contains the data of one individual, and the
+    other does not, but they are otherwise the same. Then, if the
+    algorithm is differentially private with respect to this
+    neighbourhood, it is hard to tell if any single person's data has
+    been used in the calculation.  This is an important concept if the
+    participation in the dataset is itself sensitive. For example, if
+    somebody is enlisted in study for experimental treatment of a rare
+    disease, then the mere fact that they are part of the study is
+    strong evidence that they have the disease.
     
-    The second definition is slightly weaker. It determines
-    whether or not we can distinguish between different
-    \emph{values} of individual data. If not, then they cannot
-    infer whether the data submitted by the individual has a
-    particular value.}
+    The second definition is slightly weaker. Here, two datasets are
+    neighbours if they are identical, apart from the data of one
+    individual, which is changed. It determines whether or not we can
+    distinguish between different \emph{values} of individual data. If
+    not, then they cannot infer whether the data submitted by the
+    individual has a particular value.}
   \begin{definition}[Edit neighbourhood]
     We say that two datasets $x, x'$ are neighbours, and write $x N_e x'$ if
     \[
@@ -916,52 +993,54 @@
     distance between two datasets is simply the total difference in
     counts:
     \begin{definition}[Hamming distance between datasets]
+      Consider two datasets, $\bx, \bx'$ with $n$ and $n'$ elements
+      respectively. Then, we define their Hamming distance as:
       \begin{align}
         \|\bx - \bx'\|_1
         &= \sum_j |\sum_{i=1}^n \ind{x_i =j} - \sum_{i=1}^{n'} \ind{x_i =j}|
-          = \sum_j |N_j(\bx) - N_j(\bx')|,
+          = \sum_{j \in \CX}|n_j(\bx) - n_j(\bx')|,
       \end{align}
-      where $N_j(\bx)$ is the number of elements in $\bx$ equal to $j$.
+      where $n_j(\bx)$ is the number of elements in $\bx$ equal to $j$.
     \end{definition}
     Let us see how the Hamming distance relates to the two
     neighbourhoods we defined. In particular, $\|\bx - \bx'\|_1 = 1$
-    if and only if $\bx N \bx'$. 
-
-    Taking the first definition, if $\bx'$
+    if and only if $\bx N \bx'$.  To see this, notice that if $\bx'$
     has one row less than $\bx$, but is otherwise identical, then
     there is exactly one value $j$ for which
-    $N_j(\bx) = N_j(\bx') + 1$, with $N_j(\bx) = N_j(\bx')$ otherwise.
-    Consequently, $\|\bx - \bx'\|_1 = 1$.
+    $n_j(\bx) = n_j(\bx') + 1$, with $n_j(\bx) = n_j(\bx')$ otherwise.
+    Consequently, $\|\bx - \bx'\|_1 = 1$. The reverse direction
+    follows by contradiction: if the Hamming distance is one, then the
+    two databases must differ in at least one element. If they differ
+    in more, then their distance has to be larger than one.
     
     On the other hand, for the second neighbourhood definition, things
     are slightly different. There, we assume that $x_i \neq x'_i$ for
     one $i$. Without loss of generality, let us say that $x_i = j$ and
-    $x'_i = k$, with $j \neq k$. Then $N_j(\bx) = N_j(\bx') + 1$ and
-    $N_k(\bx') = N_k(\bx) + 1$. Consequently $\|\bx - \bx'\|_1 = 2$.
-
-    The reverse direction follows by contradiction: if the Hamming
-    distance is one, then the two databases must differ in at least
-    one element. If they differ in more, then their distance has to be
-    larger than one.
-
+    $x'_i = k$, with $j \neq k$. Then $n_j(\bx) = n_j(\bx') + 1$ and
+    $n_k(\bx') = n_k(\bx) + 1$. Consequently $\|\bx - \bx'\|_1 = 2$.
   }
 \end{frame}
 
 
 \section{The local and central privacy models}
 \label{sec:local-central-dp}
-\only<article>{ So far, we have only seen the concept of
-  differential privacy applied as a method to generate a privatised
-  version of a dataset. In general, however, we want to perform some
-  specific calculations on the data. Is it possible to compute
-  things privately in the first place? Let us assume that you have
-  defined a function $f : \CX \to \CY$, which you wish to compute on
-  arbitrary data $x \in \CX$. If you wish to preserve privacy,
-  however, you need the computation to satisfy some formal guarantee
-  like differential privacy. The simplest way to do this is by
-  simply generating a dataset $a$ with a DP algorithm and then
-  processing the data with the function we have already
-  specified. This corresponds to the local privacy model.}
+\only<article>{ So far, we have only seen the concept of differential
+  privacy applied as a method to generate a privatised version of a
+  dataset. This can then be used to perform arbitrary
+  computations. Typically, however, we want to perform some specific
+  calculations on the data. Is it possible to compute things privately
+  using the original data, but so that the result of the computation
+  does not leak any information? Clearly this should depend somehow on
+  the computation you wish to perform.
+
+  For concreteness, let us assume that you have defined a function
+  $f : \CX \to \CY$, which you wish to compute on arbitrary data
+  $x \in \CX$. If you wish to preserve privacy, however, you need the
+  computation to satisfy some formal guarantee like differential
+  privacy. The simplest way to do this is by simply generating a
+  dataset $a$ with a DP algorithm and then processing the data with
+  the function we have already specified. This corresponds to the
+  local privacy model.}
 
 
 \begin{frame}
@@ -1871,6 +1950,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     Show that the randomised response mechanism, as originally defined, is not differentially private with respect to the addition/deletion neighbourhood.
     \label{exer:rp-neighbourhood}
   \end{exercise}
+\ifdefined \solution
   \begin{proof}
     Let $\bx_1, \bx_2, \bx_3$ be three datasets with
     $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.  First of all, an
@@ -1887,7 +1967,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     any constant, and differential privacy is not satisfied with
     respect to insertions and deletions.
   \end{proof}
-  
+\fi
   \begin{exercise}
     Define a variant of the binary randomised response mechanism that
     satisfies differential privacy with respect to the insertion and
@@ -1901,6 +1981,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     \]
     \label{exer:new-rp-neighbourhood}
   \end{exercise}
+\ifdefined \solution
   \begin{proof}
     First of all, for the mechanism to satisfy $\epsilon$-DP, it must be the case
     that an output size must have a non-zero probability: If with an
@@ -1922,7 +2003,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     \]
     %Note that subset selection of this form is very similar to DP in bandits.
   \end{proof}
-
+\fi
   \begin{exercise}
     The mean estimator $\hat{\theta}$ for the randomised response mechanism with flipping probability $p$, where the true data generation process is Bernoulli with parameter $\theta$, is defined as
     \[
@@ -1954,6 +2035,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     Prove that two-folded composition of such a mechanism is $2\epsilon$-KL-private.
     \label{exer:kl-dp}
   \end{exercise}
+\iffalse
   \begin{proof}
     For simplicity, we compose the same mechanism twice over a finite alphabet. Then $\pol(a, a' | x) = \pol(a | x) \pol(a'|x)$ because the mechanism is not interactive. 
     \begin{align*}
@@ -1973,7 +2055,7 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     \end{align*}
     
   \end{proof}
-
+\fi
 
 }
 %%% Local Variables:
