@@ -303,17 +303,22 @@ b\section{Group fairness.}
       \label{eq:expected-utility-judge}
       \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
     \end{equation}
-    In practice, of course, $\param$ is not known but we have some training data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$ and  we have to resort to one of the following solutions. Firstly, estimating some $\hat{\param}$ from the data and replacing that in the expectation. Secondly, calculating a posterior distribution $\beta(\param | D)$ and maximising $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. Thirdly, maximising an unbiased estimate of expected utility.
+    In practice, of course, $\param$ is not known but we have some training data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, collected with some historical policy $\pol_0$, and  we have to resort to one of the following solutions. Firstly, estimating some $\hat{\param}$ from the data and replacing that in the expectation. Secondly, calculating a posterior distribution $\beta(\param | D)$ and maximising $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. Thirdly, maximising an unbiased estimate of expected utility.
     \begin{align*}
-      \E(U)
+      \E^\pol_\param(U)
       &=
         \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y) \\
       &\approx
-        \frac{1}{T} \sum_{t} \sum_a \pol(a | x_t, z_t) \sum_y P_\theta(y | a, x_t, z_t) U(a,y).
+        \frac{1}{T} \sum_{t} \sum_a \pol(a | x_t, z_t) \sum_y P_\theta(y | a, x_t, z_t) U(a,y)
+        \approx
+        \frac{1}{T} \sum_{t} \frac{\pol(a_t | x_t, z_t)}{\pol_0(a_t | x_t, z_t)} U(a_t,y_t).
     \end{align*}
-    Of course, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol$.
-    
-    However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem.
+    The first approximation simply replaces the feature distribution with its empirical approximation.
+    The second approximation is a bit more delicate, and is explained in more detail in Section~\ref{sec:monte-carlo}.
+    This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. For that reason, we must use importance sampling in order to estimate the utility of any policy $\pol$. Unfortunately, the policy $\pol_0$ is also unknown and must be estimated from the data. So, we are left with deciding between modelling $P_\param(y | a, x, z)$ or $\pol_0(a | x, z)$.
+
+    However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem. 
+
   }
 \end{frame}  
 
@@ -593,61 +598,66 @@ b\section{Group fairness.}
 
 \section{Individual fairness}
 
-  \only<article>{
-    An altogether different type of fairness concept is individual fairness. This relates to the notion of meritocracy. This means that ``better'' people should have ``better'' outcomes. But what do we mean by better? This depends strongly on the context.
-  }
+\only<article>{
+  An altogether different type of fairness concept is individual fairness. This relates to the notion of meritocracy. This means that ``better'' people should have ``better'' outcomes. But what do we mean by better? This depends strongly on the context.
+}
 
-  \begin{frame}\frametitle{Meritocracy.}
-    \begin{block}{Inherent worth.}
-      \begin{itemize}
-      \item $a$: Action taken by the decision maker. \only<article>{For example, $a$ could specify which applicants are admitted to university, with $a_i$ specifying the university to which an applicant is admitted.}
-      \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the individual.}
-      \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed.}
-      \item $u_i(a) \in \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a functino $u_i(a_i)$ instead.}
-      \end{itemize}
-      A decision $a$ is fair if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
-    \end{block}
-    \only<article>{The problem in this setting, is that it is not clear what an individual's worth is. It is also not clear what their utility is. In a sense, if $i$ and $j$ are both admitted to the same university, is it worth the same to them? }
-  \end{frame}
+\begin{frame}\frametitle{Meritocracy.}
+  \begin{block}{Inherent worth.}
+    \begin{itemize}
+    \item $a$: Action taken by the decision maker. \only<article>{For example, $a$ could specify which applicants are admitted to university, with $a_i$ specifying the university to which an applicant is admitted.}
+    \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the individual.}
+    \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed.}
+    \item $u_i(a) \in \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a functino $u_i(a_i)$ instead.}
+    \end{itemize}
+    A decision $a$ is fair if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
+  \end{block}
+  \only<article>{The problem in this setting, is that it is not clear what an individual's worth is. It is also not clear what their utility is. In a sense, if $i$ and $j$ are both admitted to the same university, is it worth the same to them? }
+\end{frame}
 
-  \begin{frame}\frametitle{Smoothness.}
-    \begin{block}{Treating similar individuals similarly.}
-      \begin{itemize}
-      \item $d(x_i,x_j)$: Distance between individuals $i,j$.
-      \item $D[\pol(a_i | x_i), \pol(a_j | x_j)]$: Distance between policy decisions.
-      \item Utility function $U(\pol)$.
-      \end{itemize}
-      Our goal is to find a decision rule $\pol$ maximising  $U(\pol)$, 
-      so that it is Lipschitz-smooth with respect to $D, d$:
-      \[
-        D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j)
-      \]
-    \end{block}
-    \only<article>{When $D(P,Q) = \max_{a \in A} |\log [P(a)/Q(a)]|$ then $\pol$ satisfies differential privacy with $d(x,y) = \epsilon \|x - y\|_1$}.
-  \end{frame}
+\begin{frame}\frametitle{Smoothness.}
+  \begin{block}{Treating similar individuals similarly.}
+    \begin{itemize}
+    \item $d(x_i,x_j)$: Distance between individuals $i,j$.
+    \item $D[\pol(a_i | x_i), \pol(a_j | x_j)]$: Distance between policy decisions.
+    \item Utility function $U(\pol)$.
+    \end{itemize}
+    Our goal is to find a decision rule $\pol$ maximising  $U(\pol)$, 
+    so that it is Lipschitz-smooth with respect to $D, d$:
+    \[
+      D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j)
+    \]
+  \end{block}
+  \only<article>{When $D(P,Q) = \max_{a \in A} |\log [P(a)/Q(a)]|$ then $\pol$ satisfies differential privacy with $d(x,y) = \epsilon \|x - y\|_1$}.
+\end{frame}
 
-  \begin{frame}\frametitle{Smoothness and parity.}
-    To define groups, we select $S, T \subset \CX$.
-    \begin{definition}{$\epsilon$-parity}
-      \[
-        \|\pol(a | x \in S) - \pol(a | x \in T)\|_1 \leq \epsilon.
-      \]
-    \end{definition}
+\begin{frame}\frametitle{Smoothness and parity.}
+  To define groups, we select $S, T \subset \CX$.
+  \begin{definition}{$\epsilon$-parity}
+    \[
+      \|\pol(a | x \in S) - \pol(a | x \in T)\|_1 \leq \epsilon.
+    \]
+  \end{definition}
 
-    \begin{definition}{Bias for some action $a$:}
-      \[
-        \max_\pol \pol(a | x \in S) - \pol(a | x \in T)
-        \qquad
-        \textrm{s.t. $\pol$ is Lipschitz}
-      \]
-    \end{definition}
-    \only<article>{The main problem here is that if we are required to be smooth, but one set has most of its members in one subset.}
-  \end{frame}
+  \begin{definition}{Bias for some action $a$:}
+    \[
+      \max_\pol \pol(a | x \in S) - \pol(a | x \in T)
+      \qquad
+      \textrm{s.t. $\pol$ is Lipschitz}
+    \]
+  \end{definition}
+  \only<article>{The main problem here is that if we are required to be smooth, but one set has most of its members in one subset.}
+\end{frame}
 
 
-  
-  %%% Local Variables:
-  %%% mode: latex
-  %%% TeX-engine: xetex
-  %%% TeX-master: "book"
-  %%% End:
+\section{Exercises}
+
+\begin{exercise}
+  Consider the following problem, where $z$ is Bernoulli(1/2) and $x \Reals^2$ is a normally distributed variable with mean $(0,z)$ and identity covariance matrix. There are two actions and outcomes, with the outcome being $y_t = 1$ with probability $1/(1 + e^{x_a})$.
+  [Add more details]
+\end{exercise}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: "book"
+%%% End:
