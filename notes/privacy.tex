@@ -1782,7 +1782,7 @@ probability of the incorrect decision region for each possible
 dataset.
 
 \begin{theorem}
-  If the $\pol$ is $(\epsilon, \delta)$-differentially private then
+  If the mechanism $\pol$ is $(\epsilon, \delta)$-differentially private then
   the false positive rate (FPR) and false negative rate (FNR) of the
   adversary are linked as follows:
   \begin{align*}
@@ -1796,7 +1796,7 @@ dataset.
   negative rate.
   \end{theorem}
   \begin{proof}
-    The proof is by direct substitution
+    The proof is by direct substitution and the definition of $(\epsilon, \delta)$-differential privacy:
     \begin{align*}
       p_{\textrm{TP}} = \pol(A_1 | \bx') \leq \pol(A_1 | \bx) e^\epsilon  + \delta = p_{\textrm{FP}} e^\epsilon  + \delta.
     \end{align*}
