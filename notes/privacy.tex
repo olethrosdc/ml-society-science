@@ -1763,13 +1763,49 @@ of the two databases. It then generates $a_t \sim \pol(a \mid \bx_t)$,
 and shows it to the adversary. The adversary must now decide if
 $\bx_t = \bx$ or $\bx_t = \bx'$.
 
+Necessarily, the adversary must use a decision rule of the form
+$f : \CA \to \{0,1\}$ so as to decide for hypothesis 0 $(\bx_t = \bx)$
+and hypothesis 1, $(\bx_t = \bx')$. That means that they must
+partition $\CA$ in two subsets, $\CA_0, \CA_1$ so that whenever
+$a_t \in \CA_0$ they decide for $\bx$ and whenever $a_t \in \CA_1$
+they decide for $\bx'$. This allows us to write the probability of a true and a false positive as
+\[
+  p_{\textrm{TP}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FP}} = \pol(A_1 \mid \bx),
+\]
+and the probability of a true and false negative as
+\[
+  p_{\textrm{TN}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FN}} = \pol(A_0 \mid \bx').
+\]
+The probability with which the mechanism selects either dataset does
+not factor into these quantities, are these are simply the conditional
+probability of the incorrect decision region for each possible
+dataset.
+
 \begin{theorem}
   If the $\pol$ is $(\epsilon, \delta)$-differentially private then
   the false positive rate (FPR) and false negative rate (FNR) of the
   adversary are linked as follows:
-  
-\end{theorem}
-
+  \begin{align*}
+    p_{\textrm{TP}}\leq p_{\textrm{FP} e^\epsilon  + \delta,
+  \end{align*}
+  i.e. the true positive rate cannot be much higher than the false positive rate. and conversely:
+  \begin{align*}
+    p_{\textrm{TN}}\leq p_{\textrm{FN} e^\epsilon  + \delta,
+  \end{align*}
+  i.e. the true negative rate cnanot be much higher than the false
+  negative rate.
+  \end{theorem}
+  \begin{proof}
+    The proof is by direct substitution
+    \begin{align*}
+      p_{\textrm{TP}} = \pol(A_1 | \bx') \leq \pol(A_1 | \bx) e^\epsilon  + \delta = p_{\textrm{FP} e^\epsilon  + \delta.
+    \end{align*}
+    Similarly
+    \begin{align*}
+      p_{\textrm{TN}} = \pol(A_0 | \bx) \leq \pol(A_0 | \bx') e^\epsilon  + \delta
+      = p_{\textrm{FN} e^\epsilon  + \delta.
+    \end{align*}
+  \end{proof}
 \section{Advanced topics.}
 
 \only<article>{
