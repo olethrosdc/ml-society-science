@@ -1231,16 +1231,16 @@
 
 \begin{frame}
   
-  \begin{exerciseblock}{Adversary knowledge}
-    \only<article>{Assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
+  \begin{exerciseblock}{Differential privacy from a Bayesian viewpoint.}
+    \only<article>{Bayesian inference offers a simple way to explain the meaning of differential privaacy. Intuitively, using the Bayesian formalism, we can show that, no matter what prior knowledge the adversary has, they cannot infer a lot from the private release. We are specifically interested in adversary knowledge about the dataset, before and after the mechanism's release. In particular, assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
     \[
       \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
     \]
-    \only<article>{where $x_i$ indicates whether or not the $i$-th person takes drugs, or}
+    \only<article>{where $x_i$ is the data of person $i$, or the alternative dataset:}
     \[
       \bx' = (x_1, \ldots, x'_j=1, \ldots, x_n).
     \]
-    \only<article>{In other words, the adversary knows the data of all people apart from one, the $j$-th person. We can assume that the adversary has some prior belief}
+    \only<article>{In other words, the adversary knows the data of all people apart from one, the $j$-th person. They only need to dinstiguish one possible value from another. Without loss of generality, we can model the adversary as having some arbitrary prior belief}
     \[
       \bel(\bx) = 1 - \bel(\bx')
     \]
@@ -1258,7 +1258,6 @@
       }
     }
     What can we say about the posterior distribution of the adversary $\bel(\bx \mid a, \pol)$ after having seen the output, if $\pol$ is $\epsilon$-DP? How does it depend on $\epsilon$?
-  \end{exerciseblock}    
   
   \only<article>{
     \begin{proof}[Solution]
@@ -1285,7 +1284,9 @@
       Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior and the information loss $\epsilon$.
     \end{proof}
   }
+  \end{exerciseblock}    
 
+  
 \end{frame}
 
 
@@ -1754,7 +1755,20 @@ tightly with advanced composition theorems.
 
 \subsection{Differential privacy as a hypothesis testing game.}
 
-In the event of a differential privacy
+Another way of viewing differential privacy is as a simple game. In
+this game, the adversary interacts with an honest mechanism. At time
+$t$, the adversary chooses two arbitrary neighbouring databases
+$\bx, \bx'$. The mechanism randomly chooses between $\bx_t$ to be one
+of the two databases. It then generates $a_t \sim \pol(a \mid \bx_t)$,
+and shows it to the adversary. The adversary must now decide if
+$\bx_t = \bx$ or $\bx_t = \bx'$.
+
+\begin{theorem}
+  If the $\pol$ is $(\epsilon, \delta)$-differentially private then
+  the false positive rate (FPR) and false negative rate (FNR) of the
+  adversary are linked as follows:
+  
+\end{theorem}
 
 \section{Advanced topics.}
 
