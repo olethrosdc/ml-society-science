@@ -1755,24 +1755,28 @@ tightly with advanced composition theorems.
 
 \subsection{Differential privacy as a hypothesis testing game.}
 
-Another way of viewing differential privacy is as a simple game. In
-this game, the adversary interacts with an honest mechanism. At time
+Another way of viewing differential privacy is as a simple game
+between an adversary interacting with an honest data analyst. At time
 $t$, the adversary chooses two arbitrary neighbouring databases
-$\bx, \bx'$. The mechanism randomly chooses between $\bx_t$ to be one
-of the two databases. It then generates $a_t \sim \pol(a \mid \bx_t)$,
+$\bx, \bx'$. The analyst randomly chooses between $\bx_t$ to be one of
+the two databases. It then generates $a_t \sim \pol(a \mid \bx_t)$,
 and shows it to the adversary. The adversary must now decide if
-$\bx_t = \bx$ or $\bx_t = \bx'$.
+$\bx_t = \bx$ or $\bx_t = \bx'$, i.e. which dataset was used by the
+analyst. More precisely, the adversary must choose between hypothesis
+0 $(\bx_t = \bx)$ and hypothesis 1, $(\bx_t = \bx')$.
 
-Necessarily, the adversary must use a decision rule of the form
-$f : \CA \to \{0,1\}$ so as to decide for hypothesis 0 $(\bx_t = \bx)$
-and hypothesis 1, $(\bx_t = \bx')$. That means that they must
-partition $\CA$ in two subsets, $\CA_0, \CA_1$ so that whenever
-$a_t \in \CA_0$ they decide for $\bx$ and whenever $a_t \in \CA_1$
-they decide for $\bx'$. This allows us to write the probability of a true and a false positive as
+Since the adversary can only base their decision on $a_t$, they must
+use a decision rule of the form $f : \CA \to \{0,1\}$ so as to decide
+between the two hypotheses.  That means that they must partition $\CA$
+in two subsets, $A_0, A_1$ so that whenever $a_t \in A_0$ they
+decide for $\bx$ and whenever $a_t \in A_1$ they decide for
+$\bx'$. Because we know the that the probability of the 
+response given the dataset depends only on the mechanism $\pol$, we
+can write the probability of a true and a false positive as:
 \[
-  p_{\textrm{TP}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FP}} = \pol(A_1 \mid \bx),
+  p_{\textrm{TP}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FP}} = \pol(A_1 \mid \bx).
 \]
-and the probability of a true and false negative as
+This is simply because the adversary answers correctly whenever $a_t \in A_0$, and incorrectly otherwise. Similarly, the probability of a true and false negative as
 \[
   p_{\textrm{TN}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FN}} = \pol(A_0 \mid \bx').
 \]
