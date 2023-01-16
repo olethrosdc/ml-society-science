@@ -1,9 +1,36 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-\only<article>{
-  What this this book about?
-}
+\section{Preface.}
+This book aims to give a concise introduction to the theory of privacy, fairness and reproducibility in machine learning. However, as my goal has been to keep the text short, 
+
+Even though the book is not addressed to a technical audience, every concept is necessarily connected to precise technical definition. This includes the bare minimum amount of theoretical development for a thorough understanding of the main concepts. Throughout the book, we use Bayesian decision theory and graphical models to offer a unifying perspective on those issues.
+
+
+Throughout the book, we will use the following blocks of text for particular types of material.
+\begin{exampleblock}{An example.}
+Such blocks contain illustrations and examples. 
+\end{exampleblock}
+
+\begin{alertblock}{An important note.}
+Important caveats or properties of algorithms will be given in such blocks.
+\end{alertblock}
+
+\begin{theoryblock}{Theoretical note.}
+Discussions of a more theoretical nature, or notes that require some additional thinking will be placed in such blocks.
+\end{theoryblock}
+
+\begin{exerciseblock}{Exercise.}
+  These exercises are meant to be done individually, either while reading the text, or in class.
+\end{exerciseblock}
+
+\begin{groupactivity}{Group activity.}
+  These activities are meant to be done in class.
+\end{groupactivity}
+
+The first chapter offers an introduction to the field of machine learning in general and to fairness, privacy and reproducibility in particular. Chapter~\ref{ch:privacy} discusses privacy. Chapter~\ref{ch:fairness} talks about fairness.
+
+
 \section{Introduction to machine learning}
 \only<presentation>{
   \begin{frame}
@@ -551,36 +578,35 @@
 
 \subsection{Book overview}
 
-\begin{frame}
-  \frametitle{Machine learning in practice}
-  \begin{block}{Avoiding pitfalls}
-    \begin{itemize}
-    \item Choosing hypotheses.
-    \item Correctly interpreting conclusions.
-    \item Using a good testing methodology.
-    \end{itemize}
-  \end{block}
-  \begin{block}{Machine learning in society}
-    \begin{itemize}
-    \item<alert@2> Privacy \uncover<2->{--- Credit risk.}
-    \item<alert@3> Fairness \uncover<3->{--- Job market.}
-    \item<alert@4> Safety \uncover<4->{--- Medicine.}
-    \end{itemize}
-  \end{block}
-\end{frame}
 
-\only<article>{
-  One of the things we want to do in this course is teach you to
-  avoid common pitfalls.
 
-  Now I want to get into a different track. So far everything has
-  been about pure research, but now machine learning is pervasive:
-  Our phones, cars, watches, bathrooms, kettles are connected to the
-  internet and send a continuous stream of data to companies. In
-  addition, many companies and government actors use machine
-  learning algorithms to make or support decisions. This creates a
-  number of problems in privacy, fairness and safety.
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Machine learning in practice}
+    \begin{block}{Avoiding pitfalls}
+      \begin{itemize}
+      \item Choosing hypotheses.
+      \item Correctly interpreting conclusions.
+      \item Using a good testing methodology.
+      \end{itemize}
+    \end{block}
+    \begin{block}{Machine learning in society}
+      \begin{itemize}
+      \item<alert@2> Privacy \uncover<2->{--- Credit risk.}
+      \item<alert@3> Fairness \uncover<3->{--- Job market.}
+      \item<alert@4> Safety \uncover<4->{--- Medicine.}
+      \end{itemize}
+    \end{block}
+  \end{frame}
 }
+
+\only<article>{ While in the past machine learning was mainly a field
+  of research, with only some applications, but now machine learning
+  is pervasive: Our phones, cars, watches, doorbells, kettles are
+  connected to the internet and send a continuous stream of data to
+  companies. In addition, many companies and government actors use
+  machine learning algorithms to make or support decisions. This
+  creates a number of problems in privacy, fairness and safety.  }
 
 
 \begin{frame}
@@ -664,5 +690,5 @@
 
 %%% Local Variables: 
 %%% mode: latex
-%%% TeX-master: "notes.tex"
+%%% TeX-master: "book.tex"
 %%% End: 
