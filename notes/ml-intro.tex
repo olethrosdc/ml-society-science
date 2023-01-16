@@ -1,34 +1,6 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-\section{Preface.}
-This book aims to give a concise introduction to the theory of privacy, fairness and reproducibility in machine learning. However, as my goal has been to keep the text short, 
-
-Even though the book is not addressed to a technical audience, every concept is necessarily connected to precise technical definition. This includes the bare minimum amount of theoretical development for a thorough understanding of the main concepts. Throughout the book, we use Bayesian decision theory and graphical models to offer a unifying perspective on those issues.
-
-
-Throughout the book, we will use the following blocks of text for particular types of material.
-\begin{exampleblock}{An example.}
-Such blocks contain illustrations and examples. 
-\end{exampleblock}
-
-\begin{alertblock}{An important note.}
-Important caveats or properties of algorithms will be given in such blocks.
-\end{alertblock}
-
-\begin{theoryblock}{Theoretical note.}
-Discussions of a more theoretical nature, or notes that require some additional thinking will be placed in such blocks.
-\end{theoryblock}
-
-\begin{exerciseblock}{Exercise.}
-  These exercises are meant to be done individually, either while reading the text, or in class.
-\end{exerciseblock}
-
-\begin{groupactivity}{Group activity.}
-  These activities are meant to be done in class.
-\end{groupactivity}
-
-The first chapter offers an introduction to the field of machine learning in general and to fairness, privacy and reproducibility in particular. Chapter~\ref{ch:privacy} discusses privacy. Chapter~\ref{ch:fairness} talks about fairness.
 
 
 \section{Introduction to machine learning}
@@ -173,7 +145,7 @@ The first chapter offers an introduction to the field of machine learning in gen
   disadvantaged and (c) safety: you don't want your car to crash.
 }
 
-\subsection{Data analysis,  learning and planning}
+\section{Data analysis,  learning and planning}
 
 \only<article>{
   To make the above more concrete, let's have a look at a number of problems in machine learning. These involve learning from and analysing data, including inferring decision rules, and constructing complex plans using the evidence gleaned from the data. Machine learning problems are commonly separated in three different types: supervised, unsupervised and reinforcement learning. Typical supervised learning problems include classification and regression, while unsupervised problems include compression, clustering and topic modelling. Reinforcement learning, on the other hand, is concerned with artificially intelligent agents more generally, with examples including game playing and adaptive control. Their main differences are two. Firstly, the \emph{type} of feedback we have about learning performance. Secondly, and perhaps more importantly, whether or not the problem involves \emph{active data collection}. In this course, we will try and take a global view of these problems in the context of decision theory.
@@ -395,8 +367,7 @@ The first chapter offers an introduction to the field of machine learning in gen
   against the hypothesis. Here the arrows show dependencies
   between these variables. So what do we mean by "hypothesis" in this case?
 }
-
-\subsection{Bayesian inference.}
+\subsection{Inference.}
 \only<presentation>{
 \begin{frame}
   \frametitle{Tycho Brahe's minute eye measurements}
@@ -576,7 +547,7 @@ The first chapter offers an introduction to the field of machine learning in gen
   These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot, called Eve, that recently (re)-discovered a malaria drug.
 }
 
-\subsection{Book overview}
+\section{Book overview}
 
 
 
@@ -625,6 +596,7 @@ The first chapter offers an introduction to the field of machine learning in gen
   \only<article>{We will encounter many specific inference, prediction and decision making tasks during this course.}
 \end{frame}
 
+\only<presentation>{
 \begin{frame}
   \frametitle{Course structure}
   \begin{block}{Module structure}
@@ -643,6 +615,7 @@ The first chapter offers an introduction to the field of machine learning in gen
     \end{itemize}
   \end{block}
 \end{frame}
+}
 
 \begin{frame}
   \frametitle{Technical topics}
