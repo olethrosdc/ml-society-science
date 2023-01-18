@@ -572,61 +572,61 @@ b\section{Group fairness.}
 
 \section{Individual fairness}
 
-  \only<article>{
-    An altogether different type of fairness concept is individual fairness. This relates to the notion of meritocracy. This means that ``better'' people should have ``better'' outcomes. But what do we mean by better? This depends strongly on the context.
-  }
+\only<article>{
+  An altogether different type of fairness concept is individual fairness. This relates to the notion of meritocracy. This means that ``better'' people should have ``better'' outcomes. But what do we mean by better? This depends strongly on the context.
+}
 
-  \begin{frame}\frametitle{Meritocracy.}
-    \begin{block}{Inherent worth.}
-      \begin{itemize}
-      \item $a$: Action taken by the decision maker. \only<article>{For example, $a$ could specify which applicants are admitted to university, with $a_i$ specifying the university to which an applicant is admitted.}
-      \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the individual.}
-      \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed.}
-      \item $u_i(a) \in \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a functino $u_i(a_i)$ instead.}
-      \end{itemize}
-      A decision $a$ is fair if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
-    \end{block}
-    \only<article>{The problem in this setting, is that it is not clear what an individual's worth is. It is also not clear what their utility is. In a sense, if $i$ and $j$ are both admitted to the same university, is it worth the same to them? }
-  \end{frame}
+\begin{frame}\frametitle{Meritocracy.}
+  \begin{block}{Inherent worth.}
+    \begin{itemize}
+    \item $a$: Action taken by the decision maker. \only<article>{For example, $a$ could specify which applicants are admitted to university, with $a_i$ specifying the university to which an applicant is admitted.}
+    \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the individual.}
+    \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed.}
+    \item $u_i(a) \in \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a functino $u_i(a_i)$ instead.}
+    \end{itemize}
+    A decision $a$ is fair if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
+  \end{block}
+  \only<article>{The problem in this setting, is that it is not clear what an individual's worth is. It is also not clear what their utility is. In a sense, if $i$ and $j$ are both admitted to the same university, is it worth the same to them? }
+\end{frame}
 
-  \begin{frame}\frametitle{Smoothness.}
-    \begin{block}{Treating similar individuals similarly.}
-      \begin{itemize}
-      \item $d(x_i,x_j)$: Distance between individuals $i,j$.
-      \item $D[\pol(a_i | x_i), \pol(a_j | x_j)]$: Distance between policy decisions.
-      \item Utility function $U(\pol)$.
-      \end{itemize}
-      Our goal is to find a decision rule $\pol$ maximising  $U(\pol)$, 
-      so that it is Lipschitz-smooth with respect to $D, d$:
-      \[
-        D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j)
-      \]
-    \end{block}
-    \only<article>{When $D(P,Q) = \max_{a \in A} |\log [P(a)/Q(a)]|$ then $\pol$ satisfies differential privacy with $d(x,y) = \epsilon \|x - y\|_1$}.
-  \end{frame}
+\begin{frame}\frametitle{Smoothness.}
+  \begin{block}{Treating similar individuals similarly.}
+    \begin{itemize}
+    \item $d(x_i,x_j)$: Distance between individuals $i,j$.
+    \item $D[\pol(a_i | x_i), \pol(a_j | x_j)]$: Distance between policy decisions.
+    \item Utility function $U(\pol)$.
+    \end{itemize}
+    Our goal is to find a decision rule $\pol$ maximising  $U(\pol)$, 
+    so that it is Lipschitz-smooth with respect to $D, d$:
+    \[
+      D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j)
+    \]
+  \end{block}
+  \only<article>{When $D(P,Q) = \max_{a \in A} |\log [P(a)/Q(a)]|$ then $\pol$ satisfies differential privacy with $d(x,y) = \epsilon \|x - y\|_1$}.
+\end{frame}
 
-  \begin{frame}\frametitle{Smoothness and parity.}
-    To define groups, we select $S, T \subset \CX$.
-    \begin{definition}{$\epsilon$-parity}
-      \[
-        \|\pol(a | x \in S) - \pol(a | x \in T)\|_1 \leq \epsilon.
-      \]
-    \end{definition}
+\begin{frame}\frametitle{Smoothness and parity.}
+  To define groups, we select $S, T \subset \CX$.
+  \begin{definition}{$\epsilon$-parity}
+    \[
+      \|\pol(a | x \in S) - \pol(a | x \in T)\|_1 \leq \epsilon.
+    \]
+  \end{definition}
 
-    \begin{definition}{Bias for some action $a$:}
-      \[
-        \max_\pol \pol(a | x \in S) - \pol(a | x \in T)
-        \qquad
-        \textrm{s.t. $\pol$ is Lipschitz}
-      \]
-    \end{definition}
-    \only<article>{The main problem here is that if we are required to be smooth, but one set has most of its members in one subset.}
-  \end{frame}
+  \begin{definition}{Bias for some action $a$:}
+    \[
+      \max_\pol \pol(a | x \in S) - \pol(a | x \in T)
+      \qquad
+      \textrm{s.t. $\pol$ is Lipschitz}
+    \]
+  \end{definition}
+  \only<article>{The main problem here is that if we are required to be smooth, but one set has most of its members in one subset.}
+\end{frame}
 
 
-  
-  %%% Local Variables:
-  %%% mode: latex
-  %%% TeX-engine: xetex
-  %%% TeX-master: "book"
-  %%% End:
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: "book"
+%%% End:
