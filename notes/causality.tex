@@ -167,9 +167,6 @@
       \node[RV, hidden] at (-1,1) (p) {$\param$};
       \node[RV] at (0,0) (x) {$x_t$};
       \node[RV] at (1,1) (y) {$y_t$};
-      \only<1,2>{
-        \node[select] at (2,0) (a) {$a_t$};
-      }
       \only<3->{
         \node[RV] at (2,0) (a) {$a_t$};
       }
@@ -391,7 +388,7 @@
   }
 
   \begin{block}{Instrumental variables and confounders}
-    \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, on the basis of which we make our decisions. This is called an \emph{instrumental variable.} \index{instrument@see{variable!instrumental}}\index{variable!instrumental}. More formally, $z_t$ is an instrumental variable with respect to $y_t$ since the latent variables on which $y_t$ depends satisfy $x_t, \param \indep \pol$ and the outcome variable is independent of the policy given the action and the two latent variables: $y \indep pol \mid a_t, x_t, \param$.
+    \only<article>{If the sufficient covariate $x_t$ is not observed, we may still have another variable available, $z_t$, on the basis of which we make our decisions. This is called an \emph{instrumental variable.} \index{instrument@see{variable!instrumental}}\index{variable!instrumental}. More formally, $z_t$ is an instrumental variable with respect to $y_t$ since the latent variables on which $y_t$ depends satisfy $x_t, \param \indep \pol$ and the outcome variable is independent of the policy given the action and the two latent variables: $y \indep \pol \mid a_t, x_t, \param$.
       
       In this case $z_t$ and $x_t$ are dependent, but the effect of the treatment depends on $x_t$ directly. As $x_t$ is a latent covariate, it can be called a \emph{confounder.} \index{confounder}}
     \begin{figure}[H]
@@ -458,7 +455,11 @@
     Except $\pol_0$, policies $\pol \in \Pol$ represent different interventions specifying a distribution $\pol(a_t \mid x_t)$.
     \begin{itemize}
     \item Direct interventions. \only<article>{The simplest scenario is when we are able to choose a $\pol$ for which we know $\pol(a_t \mid x_t)$. This counts as a direct intervention, as we can specify any distribution of actions allowed in $\Pol$. If $\Pol$ includes all conditional distributions, we can select an arbitrary action for every individual. This assumption is plausible for algorithmic decision making such as recommendation systems, but implausible when the actions are taken by another agent, such as a human.}
-    \item Indirect interventions and non-compliance. \only<article>{In this scenario we assume that, while we are free to choose policies from $\Pol$, we do not know what distribution $\pol(a_t \mid x_t)$ each policy specifies. In algorithmic decision making, this occurs whenever $\pol$ represents hyperparameters and algorithms for which we have insufficient information. Then policies must be evaluated through some type of black-box (e.g. A/B) testing. When the actions are taken by (human) agents, the policy implies making a recommendation, which may not be followed by the agent. If we denote the recommendation by $v_t$, then we can write $\pol(a_t \mid x_t) = \sum_{z_t} \pol(a_t \mid z_t, x_t) \pol(z_t \mid x_t)$. In this scenario we can freely specify $\pol(z_t \mid x_t)$, but $\pol(a_t \mid z_t, x_t)$ must be estimated. For that reason, it is usually simpler to simply marginalise out $a_t$. But perhaps the simplest approach is to consider non-compliance as a confounder $x_t$, and $z_t$ as an instrumental variable. }
+    \item Indirect interventions and non-compliance. \only<article>{In this scenario we assume that, while we are free to choose policies from $\Pol$, we do not know what distribution $\pol(a_t \mid x_t)$ each policy specifies. In algorithmic decision making, this occurs whenever $\pol$ represents hyperparameters and algorithms for which we have insufficient information. Then policies must be evaluated through some type of black-box (e.g. A/B) testing. When the actions are taken by (human) agents, the policy implies making a recommendation, which may not be followed by the agent. If we denote the recommendation by $v_t$, then we can decompose the actual distribution of actions as follows
+        \[
+          \pol(a_t \mid x_t) = \sum_{z_t} \pol(a_t \mid z_t, x_t) \pol(z_t \mid x_t).
+        \]
+        In this scenario we can freely specify the recommendation policy $\pol(v_t \mid x_t)$, but the response to our recommendations $\pol(a_t \mid v_t, x_t)$ must be estimated. For that reason, it is usually simpler to simply marginalise out $a_t$. Another approach is to consider non-compliance as a confounder $x_t$, and our recommendation $v_t$ as an instrumental variable. }
     \end{itemize}
   \end{block}
 \end{frame}
@@ -572,6 +573,8 @@
   where $\Pol$ is the set of allowed policies. 
 \end{frame}
 
+\subsection{Monte-Carlo estimation}
+\label{sec:monte-carlo}
 \begin{frame}
   \frametitle{Monte-Carlo estimation}
   \only<article>{The simplest method to estimate the value of an alternative policy is to use Monte-Carlo estimation and importance sampling. However, this estimate can have a very high variance if the alternative policy is very different from the original policy.}
@@ -618,13 +621,14 @@
           \frac{\pol(a_t \mid x_t)}{\pol_0(a_t \mid x_t)},
         & a_t \mid x_t \sim & \pol_0, \quad U_t \mid x_t, a_t \sim P_\param(U_t \mid x_t, a_t)
       \end{align*}
+      where the last step involves a single sample of $a_t, U_t$.
     }
   \end{block}
 \end{frame}
 
 \begin{frame}
   \frametitle{Bayesian estimation}
-  \only<article>{Unforunately this method has high variance.}
+  \only<article>{Unfortunately this method has high variance.}
   If we $\pol_0$ is given, we can calculate the utility of any policy to whatever degree of accuracy we wish. \only<article>{We begin with a prior $\bel$ on $\Param$ and obtain the following, assuming the policy $\pol_0$ is stationary.}
   \begin{align*}
     \bel(\param \mid D, \pol_0) &\propto \prod_t \Pr^{\pol_0}_\param(x_t, y_t, a_t)\\

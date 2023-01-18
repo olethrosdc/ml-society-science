@@ -264,35 +264,61 @@ b\section{Group fairness.}
     denoting the probability of action $a_t$ given the individual's features, as well as the sensitive variable. We can assume that the policy is fixed ahead of time, and thereafter decisions are made according to the policy.
     After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution with parameter $\theta$:
     \begin{equation}
-      P_\theta(y_t \mid x_t, z_t, a_t), 
+      P_\theta(y_t \mid x_t, z_t), \qquad      P_\theta(y_t \mid x_t, z_t, a_t), 
     \end{equation}
     denoting the probability of $y_t$ given the individual's features
-    and the action taken.
+    and the action taken. Here, there are two possibilities. Either
+    the outcome $y_t$ depends only on the observed features, or the
+    action as well. The correct formulation depends on the meaning of
+    the action.
 
-    The choice of policy has to reflect the preferences of the
-    decision maker (in this case the judge). In our example, let us
-    consider a simple set of actions $\CA = \{0, 1\}$, where a
-    defendant is granted $(a_t = 1)$ or denied $(a_t = 0)$ bail.  If a
-    defendant is not given bail, they must remain in jail. This costs
-    both the government and the defendant, so the judge prefers not to
-    deny bail too often.  On the other hand, if the defendant is
-    granted bail, there is a chance they will re-offend $(y_t =
-    1)$. Consequently, we can define the following utility function\footnote{See Chapter~\ref{ch:decision-problems}}
-    for the judge, that roughly reflects those preferences:
+    \paragraph{Actions that affect the outcome.}
+    Lt us first consider a simple set of actions $\CA = \{0, 1\}$,
+    where a defendant is granted $(a_t = 1)$ or denied $(a_t = 0)$
+    bail.  If a defendant is not given bail, they must remain in jail,
+    and will always be at the trial $(y_t = 0)$. This costs both the
+    government and the defendant, so the judge prefers not to deny
+    bail too often.  On the other hand, if the defendant is granted
+    bail, there is a chance they will re-offend, or will fail to
+    attend trial $(y_t = 1)$. Consequently, we can define the
+    following utility function\footnote{See
+      Chapter~\ref{ch:decision-problems}} for the judge, that roughly
+    reflects those preferences:
     \begin{equation}
       U(a, y) = a - y.
     \end{equation}
     While this weighs the judge's two main concerns equally, we can also imagine different formulations: e.g. if the judge thinks it is much more important to keep people out of jail than to prevent re-offences until trial, they might select a function such as : $U(a, y) = 10a - y$.
-    Now, given the parameter $\theta$ of the unknown distribution, the judge can find a decision rule $\pol$ maximising utility in expectation
+
+
+    \paragraph{Actions that do not affect the outcome.} In this
+    scenario, the only way for the actions to not affect the outcome
+    is if everybody is released, with the judge's action only being a
+    confidential note on the case file. Then their action cannot
+    affect the outcome, since it is only revealed to the judge. The
+    utility function can be based on the accuracy of predictions, so
+    we can simply set it to $U(a,y) = a - y$.
+    
+    \paragraph{The optimisation problem.} Now, given the parameter $\param$ of the unknown distribution, the judge can find a decision rule $\pol$ maximising utility in expectation
     \begin{equation}
       \label{eq:expected-utility-judge}
       \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
     \end{equation}
-    If we are estimating the decision rule from some training set, we can simply solve the following maximisation problem:
-    \[
-      \max_\pol \sum_{t} \sum_a \pol(a | x_t, z_t) U(a,y_t).
-    \]
-    However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem.
+    In practice, of course, $\param$ is not known but we have some training data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, collected with some historical policy $\pol_0$, and  we have to resort to one of the following solutions. Firstly, estimating some $\hat{\param}$ from the data and replacing that in the expectation. Secondly, calculating a posterior distribution $\beta(\param | D)$ and maximising $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. Thirdly, maximising an unbiased estimate of expected utility.
+    \begin{align*}
+      \E^\pol_\param(U)
+      &=
+        \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y) \\
+      &\approx
+        \frac{1}{T} \sum_{t} \sum_a \pol(a | x_t, z_t) \sum_y P_\theta(y | a, x_t, z_t) U(a,y)
+        \approx
+        \frac{1}{T} \sum_{t} \frac{\pol(a_t | x_t, z_t)}{\pol_0(a_t | x_t, z_t)} U(a_t,y_t).
+    \end{align*}
+    The first approximation simply replaces the feature distribution with its empirical approximation.
+    The second approximation is a bit more delicate, and is explained in more detail in Section~\ref{sec:monte-carlo}.
+    This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. For that reason, we must use importance sampling in order to estimate the utility of any policy $\pol$. Unfortunately, the policy $\pol_0$ is also unknown and must be estimated from the data. So, we are left with deciding between modelling $P_\param(y | a, x, z)$ or $\pol_0(a | x, z)$.
+
+    However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem. 
+
   }
 \end{frame}  
 
@@ -624,6 +650,12 @@ b\section{Group fairness.}
 \end{frame}
 
 
+\section{Exercises}
+
+\begin{exercise}
+  Consider the following problem, where $z$ is Bernoulli(1/2) and $x \Reals^2$ is a normally distributed variable with mean $(0,z)$ and identity covariance matrix. There are two actions and outcomes, with the outcome being $y_t = 1$ with probability $1/(1 + e^{x_a})$.
+  [Add more details]
+\end{exercise}
 
 %%% Local Variables:
 %%% mode: latex

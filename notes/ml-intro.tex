@@ -1,9 +1,8 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-\only<article>{
-  What this this book about?
-}
+
+
 \section{Introduction to machine learning}
 \only<presentation>{
   \begin{frame}
@@ -146,7 +145,7 @@
   disadvantaged and (c) safety: you don't want your car to crash.
 }
 
-\subsection{Data analysis,  learning and planning}
+\section{Data analysis,  learning and planning}
 
 \only<article>{
   To make the above more concrete, let's have a look at a number of problems in machine learning. These involve learning from and analysing data, including inferring decision rules, and constructing complex plans using the evidence gleaned from the data. Machine learning problems are commonly separated in three different types: supervised, unsupervised and reinforcement learning. Typical supervised learning problems include classification and regression, while unsupervised problems include compression, clustering and topic modelling. Reinforcement learning, on the other hand, is concerned with artificially intelligent agents more generally, with examples including game playing and adaptive control. Their main differences are two. Firstly, the \emph{type} of feedback we have about learning performance. Secondly, and perhaps more importantly, whether or not the problem involves \emph{active data collection}. In this course, we will try and take a global view of these problems in the context of decision theory.
@@ -368,8 +367,7 @@
   against the hypothesis. Here the arrows show dependencies
   between these variables. So what do we mean by "hypothesis" in this case?
 }
-
-\subsection{Bayesian inference.}
+\subsection{Inference.}
 \only<presentation>{
 \begin{frame}
   \frametitle{Tycho Brahe's minute eye measurements}
@@ -549,38 +547,37 @@
   These kinds of techniques, coming from the reinforcement learning literature have been successfully used at the university of Manchester to create a robot, called Eve, that recently (re)-discovered a malaria drug.
 }
 
-\subsection{Book overview}
+\section{Book overview}
 
-\begin{frame}
-  \frametitle{Machine learning in practice}
-  \begin{block}{Avoiding pitfalls}
-    \begin{itemize}
-    \item Choosing hypotheses.
-    \item Correctly interpreting conclusions.
-    \item Using a good testing methodology.
-    \end{itemize}
-  \end{block}
-  \begin{block}{Machine learning in society}
-    \begin{itemize}
-    \item<alert@2> Privacy \uncover<2->{--- Credit risk.}
-    \item<alert@3> Fairness \uncover<3->{--- Job market.}
-    \item<alert@4> Safety \uncover<4->{--- Medicine.}
-    \end{itemize}
-  \end{block}
-\end{frame}
 
-\only<article>{
-  One of the things we want to do in this course is teach you to
-  avoid common pitfalls.
 
-  Now I want to get into a different track. So far everything has
-  been about pure research, but now machine learning is pervasive:
-  Our phones, cars, watches, bathrooms, kettles are connected to the
-  internet and send a continuous stream of data to companies. In
-  addition, many companies and government actors use machine
-  learning algorithms to make or support decisions. This creates a
-  number of problems in privacy, fairness and safety.
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Machine learning in practice}
+    \begin{block}{Avoiding pitfalls}
+      \begin{itemize}
+      \item Choosing hypotheses.
+      \item Correctly interpreting conclusions.
+      \item Using a good testing methodology.
+      \end{itemize}
+    \end{block}
+    \begin{block}{Machine learning in society}
+      \begin{itemize}
+      \item<alert@2> Privacy \uncover<2->{--- Credit risk.}
+      \item<alert@3> Fairness \uncover<3->{--- Job market.}
+      \item<alert@4> Safety \uncover<4->{--- Medicine.}
+      \end{itemize}
+    \end{block}
+  \end{frame}
 }
+
+\only<article>{ While in the past machine learning was mainly a field
+  of research, with only some applications, but now machine learning
+  is pervasive: Our phones, cars, watches, doorbells, kettles are
+  connected to the internet and send a continuous stream of data to
+  companies. In addition, many companies and government actors use
+  machine learning algorithms to make or support decisions. This
+  creates a number of problems in privacy, fairness and safety.  }
 
 
 \begin{frame}
@@ -599,6 +596,7 @@
   \only<article>{We will encounter many specific inference, prediction and decision making tasks during this course.}
 \end{frame}
 
+\only<presentation>{
 \begin{frame}
   \frametitle{Course structure}
   \begin{block}{Module structure}
@@ -617,6 +615,7 @@
     \end{itemize}
   \end{block}
 \end{frame}
+}
 
 \begin{frame}
   \frametitle{Technical topics}
@@ -664,5 +663,5 @@
 
 %%% Local Variables: 
 %%% mode: latex
-%%% TeX-master: "notes.tex"
+%%% TeX-master: "book.tex"
 %%% End: 
