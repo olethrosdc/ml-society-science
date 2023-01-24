@@ -584,15 +584,12 @@
   \frametitle{The view from statistics}
   \only<article>{While in machine learning people generally discuss mainly supervised, unsupervised or reinforcement learning, these are actually three rather broad, but still limited categories of problems. There are many other problems, such as semi-supervised learning, active learning, imitation/apprenticeship learning, inverse reinforcement learning, preference elicitation, adaptive control, and possibly many others to come. The statistical view is that there basically three types of problems:}
 
-  \begin{block}{Inference}\index{inference|textbf}
+  \paragraph{Inference.}\index{inference|textbf}
     Given what we know, what can we say about how the world works, the current state of the world or events in the past?
-  \end{block}
-  \begin{block}{Prediction.}\index{prediction|textbf}
+  \paragraph{Prediction.}\index{prediction|textbf}
     Can we predict specific evens in the future? \only<article>{This frequently is done through some type of inference.}
-  \end{block}
-  \begin{block}{Decision making.}\index{prediction|textbf}
+  \paragraph{Decision making.}\index{prediction|textbf}
     Given what we know, and what we want to achieve, what is the best decision we can make? \only<article>{This typically requires some ability to predict the effect of our actions.}
-  \end{block}
   \only<article>{We will encounter many specific inference, prediction and decision making tasks during this course.}
 \end{frame}
 
@@ -630,9 +627,9 @@
 
   \begin{block}{Algorithms and models}
     \begin{itemize}
-    \item Bayesian inference and graphical models.
-    \item Stochastic optimisation and neural networks.
-    \item Backwards induction and Markov decision processes.
+    \item Bayesian inference and decision theory. \only<article>{We will cover the basic ideas of probabilistic graphical models and decision diagrams more generally. These allow us to formalise statistical inference and decision problems, as well as conditional dependence relationships between variables. It is also a way for us to represent model architectures, as well as some fairness notions.}
+    \item Differential privacy. \only<article>{This book focuses on an information-theoretic notion of privacy, differential privacy. This quantifies the amount of information leakage about any one person due to the public release of aggregate statistics.}
+    \item Stochastic optimisation and neural networks. \only<article>{Optimisation is at the core of modern machine learning techniques. We will cover the basic of stochastic gradient descent. We will also examine neural networks from both a probabilistic and optimisation perspective.}
     \end{itemize}
   \end{block}
 \end{frame}
@@ -650,9 +647,8 @@
 
   \begin{block}{Resources}
     \begin{itemize}
-    \item Online QA platform: \url{https://piazza.com/class/jufgabrw4d57nh}
     \item Course code and notes:  \url{https://github.com/olethrosdc/ml-society-science}
-    \item Book \url{https://github.com/olethrosdc/ml-society-science/notes.pdf}
+    \item Book: \url{https://github.com/olethrosdc/ml-society-science/book.pdf}
     \end{itemize}
   \end{block}
 \end{frame}

@@ -20,9 +20,9 @@
   has to do with meritocratic notions of fairness.
 
   This chapter requires some knowledge of decision theory (See
-  Chapter~\ref{ch:decision-problems}) to understand the principles of
+  Appendix~\ref{ch:decision-problems}) to understand the principles of
   expected utility maximisation and graphical models (See
-  Chapter~\ref{ch:graphical-models}) to understand the idea of conditional independence.
+  Appendix~\ref{ch:graphical-models}) to understand the idea of conditional independence.
 }
 
 \section{Introduction.}
@@ -138,17 +138,16 @@
 
 }
 
-\begin{frame}  
-  \begin{block}{Solutions}
-    \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
+\begin{frame}
+  \frametitle{Solutions}
+  \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
     \begin{itemize}
     \item<5-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
     \item<6-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot.}
     \item<7-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
     \item<8-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics.}
     \end{itemize}
-  \end{block}
-  
+    
 \end{frame}
 
 
@@ -171,7 +170,7 @@
 }
 
 
-b\section{Group fairness.}
+\section{Group fairness.}
 \only<article>{ Let us now take a look at concepts of fairness related
   to \emph{group membership}. This includes concepts such as equal
   treatment, equality of opportunity and generally lack of
@@ -282,7 +281,7 @@ b\section{Group fairness.}
     bail, there is a chance they will re-offend, or will fail to
     attend trial $(y_t = 1)$. Consequently, we can define the
     following utility function\footnote{See
-      Chapter~\ref{ch:decision-problems}} for the judge, that roughly
+      Appendix~\ref{ch:decision-problems}} for the judge, that roughly
     reflects those preferences:
     \begin{equation}
       U(a, y) = a - y.
@@ -303,7 +302,7 @@ b\section{Group fairness.}
       \label{eq:expected-utility-judge}
       \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
     \end{equation}
-    In practice, of course, $\param$ is not known but we have some training data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, collected with some historical policy $\pol_0$, and  we have to resort to one of the following solutions. Firstly, estimating some $\hat{\param}$ from the data and replacing that in the expectation. Secondly, calculating a posterior distribution $\beta(\param | D)$ and maximising $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. Thirdly, maximising an unbiased estimate of expected utility.
+    In practice, of course, $\param$ is not known but we have some training data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, collected with some historical policy $\pol_0$, and  we have to resort to one of the following solutions. Firstly, estimating some $\hat{\param}$ from the data and replacing that in the expectation. Secondly, calculating a posterior distribution $\beta(\param | D)$ and maximising $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. Thirdly, maximising an unbiased estimate of expected utility, as shown below:
     \begin{align*}
       \E^\pol_\param(U)
       &=
@@ -314,7 +313,7 @@ b\section{Group fairness.}
         \frac{1}{T} \sum_{t} \frac{\pol(a_t | x_t, z_t)}{\pol_0(a_t | x_t, z_t)} U(a_t,y_t).
     \end{align*}
     The first approximation simply replaces the feature distribution with its empirical approximation.
-    The second approximation is a bit more delicate, and is explained in more detail in Section~\ref{sec:monte-carlo}.
+    The second approximation is a bit more delicate, and is a type of importance sampling,\index{importance sampling} as explained in more detail in Section~\ref{sec:monte-carlo}.
     This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. For that reason, we must use importance sampling in order to estimate the utility of any policy $\pol$. Unfortunately, the policy $\pol_0$ is also unknown and must be estimated from the data. So, we are left with deciding between modelling $P_\param(y | a, x, z)$ or $\pol_0(a | x, z)$.
 
     However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem. 
@@ -490,16 +489,16 @@ b\section{Group fairness.}
 
 \paragraph{Empirical expected utility.}
 \only<article>{
-  Let us start with expect utility, and write it in full
+  Let us start with expect utility, and write it in full:
   \[
-    \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y),
+    \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y).
   \]
   The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility with
 }
 \[
-  \hat{E}_n(U) = \sum_{t=1}^n U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^\pol
+  \hat{E}_n(U) = \sum_{t=1}^n U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^\pol.
 \]
-
+Thus, estimating the expected utility of a particular policy is always possible, as long as we can sample actions and outcomes from $\Pr_\param^\pol$. Of course, this requires having some specific model for sampling outcomes for any given action, as the policy in historical data might have taken different actions from the ones we are taking.
 
 \paragraph{Deviation from balance.}
 \only<article>{

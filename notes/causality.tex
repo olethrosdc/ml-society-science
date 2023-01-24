@@ -157,85 +157,6 @@
     This means we can define prior distributions $\bel, \bel', \bel''$ in these three parameter spaces that give exactly the same results, e.g. by modelling each parameter as an independent Beta distribution. So, clearly simply looking at a simple graphical model does not let us answer this question.}
 \end{frame}
 
-\subsection{Decision diagrams}
-\only<article>{
-  However, graphical models \alert{can} be extended  to model causal relations. In particular, we can use \emph{decision diagrams}\footnote{Otherwise called influence diagrams}, which include not only random variables, but also \emph{decision} variables, denoted with squares, as well as utility variables, denoted via diamonds. In the following examples, we assume there are some underlying distributions specified by parameters $\param$, which we include in the diagrams for clarity. Even though it may seem intuitively sensible to suppose it, the arrow directions in the diagrams \emph{do not} indicate direct causes. The only important thing for determining whether some variable influences another is whether or not there is independence between the corresponding decision and random variables.}
-\begin{frame}
-  \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-      \node[RV, hidden] at (-1,1) (p) {$\param$};
-      \node[RV] at (0,0) (x) {$x_t$};
-      \node[RV] at (1,1) (y) {$y_t$};
-      \only<3->{
-        \node[RV] at (2,0) (a) {$a_t$};
-      }
-      \draw[->] (x)--(y);
-      \draw[->] (x)--(a);
-      \draw[->] (a)--(y);
-      \draw[->] (p) to (x);
-      \draw[->] (p)--(y);
-      \onslide<3->{
-        \node[select] at (4,0) (pol) {$\pol$};
-        \draw[->] (pol)--(a);
-      }
-      \onslide<2->{
-        \node[utility] at (3,1) (u) {$\util$};
-        \draw[->] (a)--(u);
-        \draw[->] (y)--(u);
-      }
-    \end{tikzpicture}
-    \caption{A typical decision diagram where $x_t$: individual information, $y_t$: individual result, $a_t$: action, $\pol$: policy}
-    \label{fig:decision-diagram}
-    \index{policy!intervention}
-  \end{figure}
-  \only<3>{
-    \begin{example}[Taking an aspirin]
-      \only<article>{The diagram in Figure~\ref{fig:decision-diagram} does not completely specify the decision problem. For aspirin taking, we can define the following variables:}
-      \begin{itemize}
-      \item Individual $t$
-      \item Individual information $x_t$
-      \item $a_t  = 1$ if $t$ takes an aspirin, and $0$ otherwise.
-      \item $y_t = 1$ if the headache is cured in 30 minutes, $0$ otherwise.
-      \item $\pol$: intervention policy.\index{policy!intervention}
-      \end{itemize}
-    \end{example}
-  }
-  \only<4>{
-    \begin{example}[A recommendation system]
-      \only<article>{Consider the example of a recommendation system, where we have data of the form $(x_t, a_t, y_t)$. The performance of the recommendation system depends not only on the parameter $\param$, but also on the chosen policy $\pol$. }
-      \begin{itemize}
-      \item $x_t$: User information (random variable)
-      \item $a_t$: System action (random variable)
-      \item $y_t$: Click (random varaible)
-      \item $\pol$: recommendation policy (decision variable).\index{policy!recommendation}
-      \end{itemize}
-    \end{example}
-  }
-  \only<article>{In both cases, there are some questions we can ask using the underlying model. The dependency structure is not enough to know \emph{a priori} whether we can obtain meaningful answers. This depends on the specific assumptions we make about the model.}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Conditional distributions and decision variables.}
-  \only<article>{We begin with a parenthesis on conditional distributions. We normally define the conditional distribution of $A$ given $B$ under a probability measure $P$ as:}
-  \[
-  P(A \mid B) \defn \frac{P(A \cap B)}{P(B)}.
-  \]
-  \only<article>{However, decision variables are outside the scope of this probability measure, and yet we need to define conditional distributions using them. }
-  \begin{block}{The conditional distribution of decisions}
-    \only<article>{If $\pol \in \Pol$ is a decision variable, we represent the conditional distribution of any random variable $a$ given $\pol$ simply as a collection of probability measures $\cset{\pol(a)}{\pol \in \Pol}$, one for each possible value $\pol$. The following notations will be equivalent:}
-    \[
-    \pol(a) \equiv \Pr^\pol(a) \equiv \Pr(a \mid \pol).
-    \]
-    \only<article>{The reader should note that the standard definition of a conditional distribution also $P(A \mid B)$ creates a collection of distributions on $A$, with elements $P_B(A)$. However, it also specifies a rule for doing so from the complete distribution $P$. 
-
-      If the random variables $a$ also depends on some probability law $P_\param$, then it will be convenient to use the notation
-    }
-    \[
-    \Pr_\param^\pol(a) \equiv \Pr(a \mid \param, \pol).
-    \]
-  \end{block}
-\end{frame}
 \subsection{Common structural assumptions}
 \only<article>{
   In order to be clear about what constitutes an observation by the experimenter and what is a decision, we must clearly separate random variables from decision variables. The individual actions may be random variables, but they will depend on decisions taken. As we will see later, this is useful for modelling interventions.}
@@ -578,7 +499,8 @@
 \begin{frame}
   \frametitle{Monte-Carlo estimation}
   \only<article>{The simplest method to estimate the value of an alternative policy is to use Monte-Carlo estimation and importance sampling. However, this estimate can have a very high variance if the alternative policy is very different from the original policy.}
-  \begin{block}{Importance sampling\footnote{Also known as Propensity Scoring}}
+  \begin{block}{Importance sampling}
+    \index{importance sampling}
     We can obtain an unbiased estimate of the utility in a model-free manner through importance sampling:
     \only<presentation>{
       \begin{align*}
