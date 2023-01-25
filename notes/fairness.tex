@@ -551,12 +551,21 @@ Thus, estimating the expected utility of a particular policy is always possible,
 \begin{frame}
   \frametitle{Formalisation of the problem}
 
-  \only<article>{ Let us use
-    $F(\pol, \param)$ for the measure of deviation from fairness and
-    $U(\pol, \param)$ for utility.
+  \only<article>{ Let us use $F(\pol, \param)$ for the measure of
+    deviation from fairness and $U(\pol, \param)$ for utility. Since
+    these two objectives might be conflicting, we need a way to select
+    a policy that trades off one with the other.
 
-    We can deal with the problem in two ways. The first is to formulate a combined objective that mixes the utility and fairness objectives. Then we can formalise the problem as an unconstrained optimisation. The second is to optimise one objective and place constrains on the other. For example, we can place a limit on how much unfairness we are willing to tolerate and maximise utility. Or, we can place a limit on how far away we want to be from the solution that optimises for utility only, and optimises for fairness. Which method to use is application-dependent, but also has some computational impact.
-  }
+    We can deal with the problem in two ways. The first is to
+    formulate a combined objective that mixes the utility and fairness
+    objectives. Then we can formalise the problem as an unconstrained
+    optimisation. The second is to optimise one objective and place
+    constrains on the other. For example, we can place a limit on how
+    much unfairness we are willing to tolerate and maximise
+    utility. Or, we can place a limit on how far away we want to be
+    from the solution that optimises for utility only, and optimises
+    for fairness. Which method to use is application-dependent, but
+    also has some computational impact.  }
 
   \begin{block}{Unconstrained optimisation.}
     \only<article>{The simnplest idea is to treat the utility and fairness symetrically. Then we can simply optimise for their mixture.}
@@ -572,33 +581,85 @@ Thus, estimating the expected utility of a particular policy is always possible,
       =
       (1 - \lambda) \nabla_\pol U(\pol, \param) - \lambda \nabla_\pol F(\pol, \param).
     \]
-    Consqeuently, we only need to minimise the sum of these gradients.
-  }
+    Consqeuently, we only need to move in the direction of the sum of
+    these gradients.  The only problem with this formulation is that
+    setting the $\lambda$ parameter is not very intuitive, in
+    particular if one of the two quantities is more sensitive to the
+    policy than the other.  }
+
   
+
+  \only<article>{Let us now look at two different ways of modelling the problem as constrained optimisation. This might be useful if we need to have guarantees on fairness or utility. In the first formulation, we maximise utility and constrain the fairness deviation. In the second, we minimise the fairness deviation and constrain the utility.}
   \begin{block}{Constrained fairness.}
     \only<article>{In this setting, we have an upper bound $\epsilon$ on the amount of fairness deviation we can allow.}
     Let $\epsilon \geq 0$:
     \begin{align*}
-      \max_\pol U(\pol, \param)\\
+      \max_{\pol \in \Pol} U(\pol, \param)\\
       \textrm{s.t.} F(\pol, \param) \leq \epsilon.
     \end{align*}
   \end{block}
 
+  \only<article>{Since the best we can do for fairness deviation is to have $F(\pol, \param) = 0$, it makes sense to upper bound it by an amount $\epsilon$. Let us now look at the converse problem, maximising fairness, while making sure that the utility is not much worse than the best we can get. }
   \begin{block}{Constrained utility.}
     \only<article>{In this setting, we want to limit the amount of sub-optimality $\epsilon$ we have relative to the optimal policy that ignores fairness.}
     Let $\epsilon \geq 0$:
     \begin{align*}
-      \in_\pol F(\pol, \param)\\
-      \textrm{s.t.} U(\pol, \param) \geq  \max_{\pol'} U(\pol', \param) - \epsilon
+      \max_{\pol \in \Pol} F(\pol, \param)\\
+      \textrm{s.t.} U(\pol, \param) \geq  \max_{\pol' \in \Pol} U(\pol', \param) - \epsilon
     \end{align*}
   \end{block}
-  
+  \only<article>{Here it's important to measure the loss in performance relative to the utility-maximising policy. To understand this, consider the case where $U : \Pol, \Param \to [0,1]$. Then we could have chosen the constrained $U(\pol, \param) \geq 1 - \epsilon$, i.e. that our policy is at least $\epsilon$-close to the highest possible utility. However, it might be impossible to find a policy with this value: indeed, it could be that $\max_{\pol'} U(\pol', \param) < 1 - \epsilon$, in which case we would never find a policy satisfying the constraint. For that reason, we specify the constraint in terms of the performance difference relative to the highest \emph{attenable} utility.}
 \end{frame}
+
+\only<article>{
+\subsection{Dealing with unknown parameters $\param$.}
+
+The above discussion assumed that we know what the underlying
+parameter $\theta$ is. However, in practice this is never the case: We
+only have some observational data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, which
+indirectly gives us information about $\theta$. There are three
+methods for dealing with this problem. Using a point estimate of the
+parameter, using a Bayes-optimal policy, or finding a policy that
+guarantees utility and fairness with high probability. All approaches require some parametric model family for $\cset{[P_\param(y | a, x, z), P_\param(x, z)]}{\param \in \Param}$. For simplicity, let us consider the unconstrained optimisation of
+\[
+  V(\pol, \param) \defn (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param).
+\]
+
+\paragraph{Use an estimated $\hat{\param}$.} Here, for example, we could perform maximum-likelihood inference to find an estimate for $\param$:
+\[
+  \hat{\param} \defn \argmax_{\param \in \Param} \prod_{t=1}^T P_\param(y_t | a_t, x_t, z_t) P_\param(x_t, z_t).
+\]
+We then need to solve the following optimisation problem, replacing the unknown value of the parameter with its estimate:
+\[
+  \max_{\pol \in \Pol} V(\pol, \hat{\param}).
+\]
+However, this approach completely ignores the uncertainty about $\param$. In practice, this makes a rather large difference, especially in some group fairness settings, where increased uncertainty makes the optimal policy quite different.
+
+\paragraph{Bayesian decision theory.} The Bayesian solution is simple. Starting with a prior distribution $\bel$ on $\Param$, calculate the posterior $\bel(\param \mid D)$ using the data $D$. We now need to solve the optimisation problem
+\[
+  \max_{\pol \in \Pol} \int_\Param V(\pol, \param) \dd \bel(\param \mid D).
+\]
+The introduction of an integral does not make things much harder than in the case where $\param$ is known. In fact, if we are using gradient descent to find the optimal policy, we only need to change the algorithm to \emph{stochastic} gradient descent, where the randomness comes from the fact that we sample parameters from the posterior distribution. This is because we can write the gradient as follows:
+\[
+  \nabla_\param \int_\Param V(\pol, \param) \dd \bel(\param \mid D)
+  =
+  \int_\Param \nabla_\param V(\pol, \param) \dd \bel(\param \mid D)
+  \approx
+  \frac{1}{n} \sum_{i=1}^n \nabla_\param V(\pol, \param^{(i)}), \qquad \param^{(i)} \sim \bel(\param \mid D).
+\]
+In the last step, we are approximating the integral with $n$ samples from the posterior, and taking the gradient separately for each one. This solution was implemented in \cite{dimitrakakis2017:subjective-fairness} and contrasted with a maximum likelihood approach.
+
+\paragraph{High probability bounds.} It is also worth mentioning that it is typically possible to construct some confidence set $\hat{\Param}$ so that $\Pr(\param \notin \hat{\Param}) \leq \delta$. This means that high probability, we the true parameter lies in $\hat{\Param}$. Then we can instead solve the optimisation problem:
+\[
+  \max_{\pol \in \Pol} \min_{\param \in \hat{\Param}} V(\pol, \param),
+\]
+which takes a \emph{pessimistic} view of the uncertainty. That is, for every possible choice of policy, it finds the best-case parameter among the plausible ones. This is not necessary: we could simply choose another parameter in $\hat{\Param}$, but with this methodology, we are quite sure that the actual value of the policy is not going to be worse. The only downside is that the maximin optimisation problem may not be easily solveable. It is also interesting to consider the $\max_{\pol \in \Pol} \max_{\param \in \hat{\Param}} V(\pol, \param)$ optimisation problem instead, which gives an \emph{optimistic} solution. This can turn out to be advantageous when we will actively collect data using our policy.
+}
 
 \section{Individual fairness}
 
 \only<article>{
-  An altogether different type of fairness concept is individual fairness. This relates to the notion of meritocracy. This means that ``better'' people should have ``better'' outcomes. But what do we mean by better? This depends strongly on the context.
+  An altogether different type of fairness concept is individual fairness. This relates to the notion of meritocracy. This means that ``better'' people should have ``better'' outcomes. But what do we mean by better? This depends strongly on the context. It can also relate to whether similar people should be treated similarly. In some cases, those two concepts can be closely related.
 }
 
 \begin{frame}\frametitle{Meritocracy.}
