@@ -691,7 +691,31 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
   university programmes, and then they are placed depending on their
   own preferences, as well as their grades. Thus, the problem faced by
   the decision maker is not a simple classification, but rather a
-  matching problem. }
+  matching problem.
+
+  \begin{block}{Main variables.}
+    \only<article>{To define fairness with respect to a decision maker, we need to specify what is observed by the decision maker, and what the decision maker performs.}
+    \begin{itemize}
+    \item $a \in \CA$: Action taken by the decision maker. \only<article>{For
+        example, $a$ could specify which applicants are admitted to
+        university, with $a_i$ specifying the university to which 
+        applicant $i$ is admitted.}
+    \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the $i$-th individual. In the university setting this would correspond to their grades and other personal information.}
+    \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed. Instead, we observe only their}
+    \item $u_i : \CA \to \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a function $u_i(a_i)$ instead.}
+    \item $\pol$: The decision maker's policy for making decisions.
+      \only<article>{This is typically defined as $\pol(a | x)$, the probability of a decision given the features of the population.}
+    \end{itemize}
+  \end{block}
+  
+  \only<article>{
+    \paragraph{Policy structure.}
+    In some settings, the policy makes decisions for each individual separately. Then we can define their policy $\pol(a_i | x_i)$ in terms of individual decisions $a_i$ and observations $x_i$. This also means that the decision about any one individual does not depend on either the features of or the decisions for other individuals:
+    \[
+      \pol(a | x) = \prod_i \pol(a_i | x_i) 
+    \]
+  }
+}
 
 \subsection{Meritocracy.}
 \begin{frame}\frametitle{Meritocracy.}
@@ -716,21 +740,21 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
     specific, invariant, inereht worth. They also have a clear
     preference over the decision maker's actions.
   }
-  \begin{block}{Meritocratic fairness given individual worth and preferences.}
-    \begin{itemize}
-    \item $a \in \CA$: Action taken by the decision maker. \only<article>{For
-        example, $a$ could specify which applicants are admitted to
-        university, with $a_i$ specifying the university to which 
-        applicant $i$ is admitted.}
-    \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the $i$-th individual. In the university setting this would correspond to their grades and other personal information.}
-    \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed. Instead, we observe only their}
-    \item $u_i : \CA \to \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a function $u_i(a_i)$ instead.}
-    \end{itemize}
-    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
-  \end{block}
+
 \end{frame}
+
 \begin{frame}
-  \frametitle{Observed $w, u$}
+  \frametitle{Meritocracy for given utilities and worths.}
+  \only<article>{
+    Let us first consider decisions applied to the whole population.
+  }
+  \begin{definition}
+    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
+  \end{definition}
+    
+  
+
+
 \end{frame}
 \begin{frame}\frametitle{Smoothness.}
   \begin{block}{Treating similar individuals similarly.}
