@@ -712,8 +712,9 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
     \paragraph{Policy structure.}
     In some settings, the policy makes decisions for each individual separately. Then we can define their policy $\pol(a_i | x_i)$ in terms of individual decisions $a_i$ and observations $x_i$. This also means that the decision about any one individual does not depend on either the features of or the decisions for other individuals:
     \[
-      \pol(a | x) = \prod_i \pol(a_i | x_i) 
+      \pol(a | x) = \prod_i \pol(a_i | x_i). 
     \]
+    However, in many cases, such as in university admissions, we make our decisions about everybody at the same time. Then the above independence condition does not hold, and the decision maker's choice depends on everybody's observations.
   }
 }
 
