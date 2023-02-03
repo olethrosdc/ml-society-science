@@ -659,7 +659,7 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
 \section{Individual fairness}
 
 \only<article>{ An altogether different type of fairness concept is
-  individual fairness. This is linked the notion of meritocracy, i.e.
+  individual fairness. This is linked to the notion of meritocracy, i.e.
   that ``better'' people should have ``better'' outcomes. But what do
   we mean by better? This depends strongly on the context: people that
   are better than others in one respect might be worse in another,
@@ -707,24 +707,31 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
     simplest assumption is that for any pair of possible rewards
     (e.g. university placements), everybody prefers one of them to the
     other. However, we do not expect everybody to have the same
-    preferences. Indeed, in university placements, 
+    preferences. Indeed, in university placements, each student
+    typically submits and ordered list of preferences and they are
+    matched to programs according to their preferences and their
+    grades.
 
+    In the definition below, we assume that every individual has a
+    specific, invariant, inereht worth. They also have a clear
+    preference over the decision maker's actions.
   }
-  \begin{block}{Inherent worth.}
+  \begin{block}{Meritocratic fairness given individual worth and preferences.}
     \begin{itemize}
-    \item $a$: Action taken by the decision maker. \only<article>{For
+    \item $a \in \CA$: Action taken by the decision maker. \only<article>{For
         example, $a$ could specify which applicants are admitted to
-        university, with $a_i$ specifying the university to which an
-        applicant is admitted.}
-    \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the individual.}
-    \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed.}
-    \item $u_i(a) \in \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a functino $u_i(a_i)$ instead.}
+        university, with $a_i$ specifying the university to which 
+        applicant $i$ is admitted.}
+    \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the $i$-th individual. In the university setting this would correspond to their grades and other personal information.}
+    \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed. Instead, we observe only their}
+    \item $u_i : \CA \to \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a function $u_i(a_i)$ instead.}
     \end{itemize}
-    A decision $a$ is fair if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
+    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
   \end{block}
-  \only<article>{The problem in this setting, is that it is not clear what an individual's worth is. It is also not clear what their utility is. In a sense, if $i$ and $j$ are both admitted to the same university, is it worth the same to them? }
 \end{frame}
-
+\begin{frame}
+  \frametitle{Observed $w, u$}
+\end{frame}
 \begin{frame}\frametitle{Smoothness.}
   \begin{block}{Treating similar individuals similarly.}
     \begin{itemize}
