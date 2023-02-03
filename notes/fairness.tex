@@ -659,16 +659,57 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
 \section{Individual fairness}
 
 \only<article>{ An altogether different type of fairness concept is
-  individual fairness. This relates to the notion of meritocracy. This
-  means that ``better'' people should have ``better'' outcomes. But
-  what do we mean by better? This depends strongly on the context. It
-  can also relate to whether similar people should be treated
-  similarly. In some cases, those two concepts can be closely related.
-}
+  individual fairness. This is linked the notion of meritocracy, i.e.
+  that ``better'' people should have ``better'' outcomes. But what do
+  we mean by better? This depends strongly on the context: people that
+  are better than others in one respect might be worse in another,
+  i.e. student A might be better in Math than student B, but worse in
+  History, and student A might prefer the Math department to the
+  History department and vice-versa.  In addition, what is better for
+  a person is a direct result of that person's preference.  An
+  alternative concept for individual fairness is treating similar
+  people similarly. Then the question is, what do we mean by similar?
+  Again, in some contexts different features of individuals might be
+  more important as a way to measure similarity: when considering
+  university applicants, their grades are probably more important to
+  determine which student should be accepted to a degree program,
+  rather than their eye colour.
 
+  A lot of the variables we might be interested in are not
+  observed. For example, we might want to know the true potential and
+  skill of a student in Math. However, the only thing we have is their
+  exam or high-school grades, which are mere proxys for their true
+  skills. While one of the easiest ways to deal with meritocracy is to
+  define worth precisely respect to those observed variables, it is a
+  good idea to use inferred measures of worth if possible. However,
+  this requires building some type of model.
+
+  Finally, even though we are making decisions about individuals,
+  frequently these are made about multiple individuals at once. This
+  is is the case in university placements, for example, where
+  thousands of students submit their preferences for different
+  university programmes, and then they are placed depending on their
+  own preferences, as well as their grades. Thus, the problem faced by
+  the decision maker is not a simple classification, but rather a
+  matching problem. }
+
+\subsection{Meritocracy.}
 \begin{frame}\frametitle{Meritocracy.}
   \only<article>{Let us first discuss the concept of meritocracy as it
-    relates to an individual's inherent worth. The assumption here is that individuals can be ranked in terms of their worth, so that individuals with more worth are deserving of higher rewards. Of course, this idea is only easy to work with when we know the worth of each individual, as well as how much each one values possible rewards. Let us now formalise this setting.}
+    relates to an individual's inherent worth. The assumption here is
+    that individuals can be ranked in terms of their worth, so that
+    individuals with more worth are deserving of higher rewards. Of
+    course, this idea is only easy to work with when we know the worth
+    of each individual, as well as how much each one values possible
+    rewards.
+
+    In addition, we have to have a notion of the worth of rewards. The
+    simplest assumption is that for any pair of possible rewards
+    (e.g. university placements), everybody prefers one of them to the
+    other. However, we do not expect everybody to have the same
+    preferences. Indeed, in university placements, 
+
+  }
   \begin{block}{Inherent worth.}
     \begin{itemize}
     \item $a$: Action taken by the decision maker. \only<article>{For
