@@ -141,13 +141,13 @@
 \begin{frame}
   \frametitle{Solutions}
   \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
-    \begin{itemize}
-    \item<5-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
-    \item<6-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot.}
-    \item<7-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
-    \item<8-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics.}
-    \end{itemize}
-    
+  \begin{itemize}
+  \item<5-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
+  \item<6-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot.}
+  \item<7-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
+  \item<8-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics.}
+  \end{itemize}
+  
 \end{frame}
 
 
@@ -612,48 +612,48 @@ Thus, estimating the expected utility of a particular policy is always possible,
 \end{frame}
 
 \only<article>{
-\subsection{Dealing with unknown parameters $\param$.}
+  \subsection{Dealing with unknown parameters $\param$.}
 
-The above discussion assumed that we know what the underlying
-parameter $\theta$ is. However, in practice this is never the case: We
-only have some observational data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, which
-indirectly gives us information about $\theta$. There are three
-methods for dealing with this problem. Using a point estimate of the
-parameter, using a Bayes-optimal policy, or finding a policy that
-guarantees utility and fairness with high probability. All approaches require some parametric model family for $\cset{[P_\param(y | a, x, z), P_\param(x, z)]}{\param \in \Param}$. For simplicity, let us consider the unconstrained optimisation of
-\[
-  V(\pol, \param) \defn (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param).
-\]
+  The above discussion assumed that we know what the underlying
+  parameter $\theta$ is. However, in practice this is never the case: We
+  only have some observational data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, which
+  indirectly gives us information about $\theta$. There are three
+  methods for dealing with this problem. Using a point estimate of the
+  parameter, using a Bayes-optimal policy, or finding a policy that
+  guarantees utility and fairness with high probability. All approaches require some parametric model family for $\cset{[P_\param(y | a, x, z), P_\param(x, z)]}{\param \in \Param}$. For simplicity, let us consider the unconstrained optimisation of
+  \[
+    V(\pol, \param) \defn (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param).
+  \]
 
-\paragraph{Use an estimated $\hat{\param}$.} Here, for example, we could perform maximum-likelihood inference to find an estimate for $\param$:
-\[
-  \hat{\param} \defn \argmax_{\param \in \Param} \prod_{t=1}^T P_\param(y_t | a_t, x_t, z_t) P_\param(x_t, z_t).
-\]
-We then need to solve the following optimisation problem, replacing the unknown value of the parameter with its estimate:
-\[
-  \max_{\pol \in \Pol} V(\pol, \hat{\param}).
-\]
-However, this approach completely ignores the uncertainty about $\param$. In practice, this makes a rather large difference, especially in some group fairness settings, where increased uncertainty makes the optimal policy quite different.
+  \paragraph{Use an estimated $\hat{\param}$.} Here, for example, we could perform maximum-likelihood inference to find an estimate for $\param$:
+  \[
+    \hat{\param} \defn \argmax_{\param \in \Param} \prod_{t=1}^T P_\param(y_t | a_t, x_t, z_t) P_\param(x_t, z_t).
+  \]
+  We then need to solve the following optimisation problem, replacing the unknown value of the parameter with its estimate:
+  \[
+    \max_{\pol \in \Pol} V(\pol, \hat{\param}).
+  \]
+  However, this approach completely ignores the uncertainty about $\param$. In practice, this makes a rather large difference, especially in some group fairness settings, where increased uncertainty makes the optimal policy quite different.
 
-\paragraph{Bayesian decision theory.} The Bayesian solution is simple. Starting with a prior distribution $\bel$ on $\Param$, calculate the posterior $\bel(\param \mid D)$ using the data $D$. We now need to solve the optimisation problem
-\[
-  \max_{\pol \in \Pol} \int_\Param V(\pol, \param) \dd \bel(\param \mid D).
-\]
-The introduction of an integral does not make things much harder than in the case where $\param$ is known. In fact, if we are using gradient descent to find the optimal policy, we only need to change the algorithm to \emph{stochastic} gradient descent, where the randomness comes from the fact that we sample parameters from the posterior distribution. This is because we can write the gradient as follows:
-\[
-  \nabla_\param \int_\Param V(\pol, \param) \dd \bel(\param \mid D)
-  =
-  \int_\Param \nabla_\param V(\pol, \param) \dd \bel(\param \mid D)
-  \approx
-  \frac{1}{n} \sum_{i=1}^n \nabla_\param V(\pol, \param^{(i)}), \qquad \param^{(i)} \sim \bel(\param \mid D).
-\]
-In the last step, we are approximating the integral with $n$ samples from the posterior, and taking the gradient separately for each one. This solution was implemented in \cite{dimitrakakis2017:subjective-fairness} and contrasted with a maximum likelihood approach.
+  \paragraph{Bayesian decision theory.} The Bayesian solution is simple. Starting with a prior distribution $\bel$ on $\Param$, calculate the posterior $\bel(\param \mid D)$ using the data $D$. We now need to solve the optimisation problem
+  \[
+    \max_{\pol \in \Pol} \int_\Param V(\pol, \param) \dd \bel(\param \mid D).
+  \]
+  The introduction of an integral does not make things much harder than in the case where $\param$ is known. In fact, if we are using gradient descent to find the optimal policy, we only need to change the algorithm to \emph{stochastic} gradient descent, where the randomness comes from the fact that we sample parameters from the posterior distribution. This is because we can write the gradient as follows:
+  \[
+    \nabla_\param \int_\Param V(\pol, \param) \dd \bel(\param \mid D)
+    =
+    \int_\Param \nabla_\param V(\pol, \param) \dd \bel(\param \mid D)
+    \approx
+    \frac{1}{n} \sum_{i=1}^n \nabla_\param V(\pol, \param^{(i)}), \qquad \param^{(i)} \sim \bel(\param \mid D).
+  \]
+  In the last step, we are approximating the integral with $n$ samples from the posterior, and taking the gradient separately for each one. This solution was implemented in \cite{dimitrakakis2017:subjective-fairness} and contrasted with a maximum likelihood approach.
 
-\paragraph{High probability bounds.} It is also worth mentioning that it is typically possible to construct some confidence set $\hat{\Param}$ so that $\Pr(\param \notin \hat{\Param}) \leq \delta$. This means that high probability, we the true parameter lies in $\hat{\Param}$. Then we can instead solve the optimisation problem:
-\[
-  \max_{\pol \in \Pol} \min_{\param \in \hat{\Param}} V(\pol, \param),
-\]
-which takes a \emph{pessimistic} view of the uncertainty. That is, for every possible choice of policy, it finds the best-case parameter among the plausible ones. This is not necessary: we could simply choose another parameter in $\hat{\Param}$, but with this methodology, we are quite sure that the actual value of the policy is not going to be worse. The only downside is that the maximin optimisation problem may not be easily solveable. It is also interesting to consider the $\max_{\pol \in \Pol} \max_{\param \in \hat{\Param}} V(\pol, \param)$ optimisation problem instead, which gives an \emph{optimistic} solution. This can turn out to be advantageous when we will actively collect data using our policy.
+  \paragraph{High probability bounds.} It is also worth mentioning that it is typically possible to construct some confidence set $\hat{\Param}$ so that $\Pr(\param \notin \hat{\Param}) \leq \delta$. This means that high probability, we the true parameter lies in $\hat{\Param}$. Then we can instead solve the optimisation problem:
+  \[
+    \max_{\pol \in \Pol} \min_{\param \in \hat{\Param}} V(\pol, \param),
+  \]
+  which takes a \emph{pessimistic} view of the uncertainty. That is, for every possible choice of policy, it finds the best-case parameter among the plausible ones. This is not necessary: we could simply choose another parameter in $\hat{\Param}$, but with this methodology, we are quite sure that the actual value of the policy is not going to be worse. The only downside is that the maximin optimisation problem may not be easily solveable. It is also interesting to consider the $\max_{\pol \in \Pol} \max_{\param \in \hat{\Param}} V(\pol, \param)$ optimisation problem instead, which gives an \emph{optimistic} solution. This can turn out to be advantageous when we will actively collect data using our policy.
 }
 
 \section{Individual fairness}
@@ -692,57 +692,52 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
   own preferences, as well as their grades. Thus, the problem faced by
   the decision maker is not a simple classification, but rather a
   matching problem.
-
-  \begin{block}{Main variables.}
-    \only<article>{To define fairness with respect to a decision maker, we need to specify what is observed by the decision maker, and what the decision maker performs.}
-    \begin{itemize}
-    \item $a \in \CA$: Action taken by the decision maker. \only<article>{For
-        example, $a$ could specify which applicants are admitted to
-        university, with $a_i$ specifying the university to which 
-        applicant $i$ is admitted.}
-    \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the $i$-th individual. In the university setting this would correspond to their grades and other personal information.}
-    \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, i.e. their expected grade. However, this quantity is not directly observed. Instead, we observe only their}
-    \item $u_i : \CA \to \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a function $u_i(a_i)$ instead.}
-    \item $\pol$: The decision maker's policy for making decisions.
-      \only<article>{This is typically defined as $\pol(a | x)$, the probability of a decision given the features of the population.}
-    \end{itemize}
-  \end{block}
-  
-  \only<article>{
-    \paragraph{Policy structure.}
-    In some settings, the policy makes decisions for each individual separately. Then we can define their policy $\pol(a_i | x_i)$ in terms of individual decisions $a_i$ and observations $x_i$. This also means that the decision about any one individual does not depend on either the features of or the decisions for other individuals:
-    \[
-      \pol(a | x) = \prod_i \pol(a_i | x_i). 
-    \]
-    However, in many cases, such as in university admissions, we make our decisions about everybody at the same time. Then the above independence condition does not hold, and the decision maker's choice depends on everybody's observations.
-  }
 }
 
-\subsection{Meritocracy.}
-\begin{frame}\frametitle{Meritocracy.}
-  \only<article>{Let us first discuss the concept of meritocracy as it
-    relates to an individual's inherent worth. The assumption here is
-    that individuals can be ranked in terms of their worth, so that
-    individuals with more worth are deserving of higher rewards. Of
-    course, this idea is only easy to work with when we know the worth
-    of each individual, as well as how much each one values possible
-    rewards.
-
-    In addition, we have to have a notion of the worth of rewards. The
-    simplest assumption is that for any pair of possible rewards
-    (e.g. university placements), everybody prefers one of them to the
-    other. However, we do not expect everybody to have the same
-    preferences. Indeed, in university placements, each student
-    typically submits and ordered list of preferences and they are
-    matched to programs according to their preferences and their
-    grades.
-
-    In the definition below, we assume that every individual has a
-    specific, invariant, inereht worth. They also have a clear
-    preference over the decision maker's actions.
-  }
-
+\begin{block}{Main variables.}
+  \only<article>{To define fairness with respect to a decision maker, we need to specify what is observed by the decision maker, and what the decision maker performs.}
+  \begin{itemize}
+  \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the $i$-th individual. In the university setting this would correspond to their grades and other personal information.}
+  \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, e.g. their expected grade. However, this quantity is not directly observed.}
+  \item $u_i : \CA \to \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a function $u_i(a_i)$ instead.}
+  \item $a \in \CA$: Action taken by the decision maker. \only<article>{For
+      example, $a$ could specify which applicants are admitted to
+      university, with $a_i$ specifying the university to which 
+      applicant $i$ is admitted.}
+  \item $\pol$: The decision maker's policy for making decisions.
+    \only<article>{This is defined as $\pol(a | x)$, the probability of a decision given the features of the population. In some settings, the policy makes decisions for each individual separately. Then we can define their policy $\pol(a_i | x_i)$ in terms of individual decisions $a_i$ and observations $x_i$. This also means that the decision about any one individual does not depend on either the features of or the decisions for other individuals:
+      \[
+        \pol(a | x) = \prod_i \pol(a_i | x_i). 
+      \]
+      However, in many cases, such as in university admissions, we make our decisions about everybody at the same time. Then the above independence condition does not hold, and the decision maker's choice depends on everybody's observations.}
+  \end{itemize}
+\end{block}
 \end{frame}
+
+\subsection{Meritocracy.}
+
+\only<article>{Let us first discuss the concept of meritocracy as it
+  relates to an individual's inherent worth. The assumption here is
+  that individuals can be ranked in terms of their worth, so that
+  individuals with more worth are deserving of higher rewards. Of
+  course, this idea is only easy to work with when we know the worth
+  of each individual, as well as how much each one values possible
+  rewards.
+
+  In addition, we have to have a notion of the worth of rewards. The
+  simplest assumption is that for any pair of possible rewards
+  (e.g. university placements), everybody prefers one of them to the
+  other. However, we do not expect everybody to have the same
+  preferences. Indeed, in university placements, each student
+  typically submits and ordered list of preferences and they are
+  matched to programs according to their preferences and their
+  grades.
+
+  In the definition below, we assume that every individual has a
+  specific, invariant, inereht worth. They also have a clear
+  preference over the decision maker's actions.
+}
+
 
 \begin{frame}
   \frametitle{Meritocracy for given utilities and worths.}
@@ -752,11 +747,8 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
   \begin{definition}
     A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
   \end{definition}
-    
-  
-
-
 \end{frame}
+
 \begin{frame}\frametitle{Smoothness.}
   \begin{block}{Treating similar individuals similarly.}
     \begin{itemize}
@@ -792,12 +784,15 @@ which takes a \emph{pessimistic} view of the uncertainty. That is, for every pos
 \end{frame}
 
 
+
 \section{Exercises}
 
-\begin{exercise}
-  Consider the following problem, where $z$ is Bernoulli(1/2) and $x \Reals^2$ is a normally distributed variable with mean $(0,z)$ and identity covariance matrix. There are two actions and outcomes, with the outcome being $y_t = 1$ with probability $1/(1 + e^{x_a})$.
-  [Add more details]
-\end{exercise}
+\only<article>{
+  \begin{exercise}
+    Consider the following problem, where $z$ is Bernoulli(1/2) and $x \Reals^2$ is a normally distributed variable with mean $(0,z)$ and identity covariance matrix. There are two actions and outcomes, with the outcome being $y_t = 1$ with probability $1/(1 + e^{x_a})$.
+    [Add more details]
+  \end{exercise}
+}
 
 %%% Local Variables:
 %%% mode: latex
