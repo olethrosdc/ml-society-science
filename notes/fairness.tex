@@ -694,24 +694,25 @@ Thus, estimating the expected utility of a particular policy is always possible,
   matching problem.
 }
 
-\begin{block}{Main variables.}
-  \only<article>{To define fairness with respect to a decision maker, we need to specify what is observed by the decision maker, and what the decision maker performs.}
-  \begin{itemize}
-  \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the $i$-th individual. In the university setting this would correspond to their grades and other personal information.}
-  \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, e.g. their expected grade. However, this quantity is not directly observed.}
-  \item $u_i : \CA \to \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a function $u_i(a_i)$ instead.}
-  \item $a \in \CA$: Action taken by the decision maker. \only<article>{For
-      example, $a$ could specify which applicants are admitted to
-      university, with $a_i$ specifying the university to which 
-      applicant $i$ is admitted.}
-  \item $\pol$: The decision maker's policy for making decisions.
-    \only<article>{This is defined as $\pol(a | x)$, the probability of a decision given the features of the population. In some settings, the policy makes decisions for each individual separately. Then we can define their policy $\pol(a_i | x_i)$ in terms of individual decisions $a_i$ and observations $x_i$. This also means that the decision about any one individual does not depend on either the features of or the decisions for other individuals:
-      \[
-        \pol(a | x) = \prod_i \pol(a_i | x_i). 
-      \]
-      However, in many cases, such as in university admissions, we make our decisions about everybody at the same time. Then the above independence condition does not hold, and the decision maker's choice depends on everybody's observations.}
-  \end{itemize}
-\end{block}
+\begin{frame}
+  \begin{block}{Main variables for individual fairness.}
+    \only<article>{To define fairness with respect to a decision maker, we need to specify what is observed by the decision maker, and what the decision maker performs.}
+    \begin{itemize}
+    \item $x_i \in \Reals^d$: Individual features. \only<article>{That's what we observe about the $i$-th individual. In the university setting this would correspond to their grades and other personal information.}
+    \item $w_i \in \Reals$: Individual worth. \only<article>{This can be taken to mean how well the individual is expected to perform in university, e.g. their expected grade. However, this quantity is not directly observed.}
+    \item $u_i : \CA \to \Reals$: Individual utility. \only<article>{This is how much the individual gains by the decision. For simplicity, we can imagine that $i$ is only impacted by the decision regarding them, rather than anybody else, so we can just define a function $u_i(a_i)$ instead.}
+    \item $a \in \CA$: Action taken by the decision maker. \only<article>{For
+        example, $a$ could specify which applicants are admitted to
+        university, with $a_i$ specifying the university to which 
+        applicant $i$ is admitted.}
+    \item $\pol$: The decision maker's policy for making decisions.
+      \only<article>{This is defined as $\pol(a | x)$, the probability of a decision given the features of the population. In some settings, the policy makes decisions for each individual separately. Then we can define their policy $\pol(a_i | x_i)$ in terms of individual decisions $a_i$ and observations $x_i$. This also means that the decision about any one individual does not depend on either the features of or the decisions for other individuals:
+        \[
+          \pol(a | x) = \prod_i \pol(a_i | x_i). 
+        \]
+        However, in many cases, such as in university admissions, we make our decisions about everybody at the same time. Then the above independence condition does not hold, and the decision maker's choice depends on everybody's observations.}
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \subsection{Meritocracy.}
@@ -742,11 +743,37 @@ Thus, estimating the expected utility of a particular policy is always possible,
 \begin{frame}
   \frametitle{Meritocracy for given utilities and worths.}
   \only<article>{
-    Let us first consider decisions applied to the whole population.
+    The following definition is applicable for any type of decision making, no matter if the decision maker's choices are separate for each individual or not.
   }
   \begin{definition}
-    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$ it holds that: if $w_i > w_j$ then $u_i(a) > u_j(a)$.
+    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$ it holds that: $u_i(a) > u_j(a) \Rightarrow w_i > w_j$.
   \end{definition}
+  
+  \begin{example}{Matching problems.}
+    In classical matching problems, such as university admissions,
+    each individual $i \in \{1, \ldots, n\}$ have an individual
+    evaluation $w_i$, calculated according to some uniform criteria,
+    calculated from individual features $x_i$, such as test results,
+    age, etc. Each individual $i$ also generates a preference score
+    $u_i$ so that they prefer university $k$ to university $l$ if
+    $u_i(k) \geq u_i(l)$.\footnote{In practice, it is sufficient to
+      give a ranking of universities rather than numerical scores. In
+      addition, universities may have inhomogeneous preferences, but
+      in this example they simply prefer students with the highest
+      score.}  The matching algorithm $\pol$ creates an allocation
+    $a=(a_1, \ldots, a_n)$ so that $a_i$ is the university to which
+    candidate $i$ is matched. The algorithm $\pol$ satisfies a
+    \emph{stable matching} condition: this means for a candidate $i$
+    to be preferred for a position at a university $k$ to a candidate
+    $j$, either (a) $i$ must prefer $k$ more than $j$ (i.e.
+    $u_i(k) > u_j(k)$ or (b) candidate $i$ must be preferred by the
+    university to $k$ (i.e. $w_i > w_j$). Consequently, it is
+    impossible for both $w_j < w_i$ and $u_j(k) < u_i(k)$ to hold and
+    student $j$ to be allocated to university $k$. To guarantee our
+    fairness conditition, we must use a stable matching algorithm that
+    in addition prioritises the preferences of students.
+  \end{example}
+
 \end{frame}
 
 \begin{frame}\frametitle{Smoothness.}
