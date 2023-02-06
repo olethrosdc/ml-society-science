@@ -748,6 +748,21 @@ Thus, estimating the expected utility of a particular policy is always possible,
   \begin{definition}
     A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$ it holds that: $u_i(a) > u_j(a) \Rightarrow w_i > w_j$.
   \end{definition}
+
+  \begin{definition}
+    A \textbf{policy} $\pol$ is \textbf{fair} if, for all $i,j$ it holds that: $u_i(a) > u_j(a) \Rightarrow w_i > w_j$.
+  \end{definition}
+  
+  \begin{example}{Scoring-based binary decisions.}
+    Let us consider problems where the decision maker has a binary
+    choice, e.g. to accept or reject a loan application. In
+    particular, the decision rule may be restricted so that the
+    decision has to depend only on a \emph{score}, e.g. the credit
+    score. Let $w_i$ be the score of the $i$-th individual. Typically,
+    the decision $a_i$ about an individual $i$ does not depend on the
+    decision about any other individual. Hence, the decision rule can be factorised as
+    $\pol(a | w) = \prod_i \pol(a_i | w_i)$. 
+  \end{example}
   
   \begin{example}{Matching problems.}
     In classical matching problems, such as university admissions,
