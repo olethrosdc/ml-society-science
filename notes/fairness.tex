@@ -742,26 +742,31 @@ Thus, estimating the expected utility of a particular policy is always possible,
 
 \begin{frame}
   \frametitle{Meritocracy for given utilities and worths.}
-  \only<article>{
-    The following definition is applicable for any type of decision making, no matter if the decision maker's choices are separate for each individual or not.
-  }
+  \only<article>{ The following definitions are applicable for any
+    type of decision making over individuals. An important point is
+    that there is a distinction between decisions being fair and
+    policies being fair. Requiring that individual decisions satisfy a
+    fairness constraint is much stricter than a similar requirement
+    for policis. }
   \begin{definition}
-    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$ it holds that: $u_i(a) > u_j(a) \Rightarrow w_i > w_j$.
+    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$, we have $w_i > w_j \Rightarrow u_i(a) > u_j(a)$.
   \end{definition}
-
+  \only<article>{In this setting, a person only 
   \begin{definition}
-    A \textbf{policy} $\pol$ is \textbf{fair} if, for all $i,j$ it holds that: $u_i(a) > u_j(a) \Rightarrow w_i > w_j$.
+    A \textbf{policy} $\pol$ is \textbf{fair} if, for all $i,j$ it holds that: $\E_\pol [u_i | w] > \E[u_j | w] \Rightarrow w_i > w_j$.
   \end{definition}
   
   \begin{example}{Scoring-based binary decisions.}
-    Let us consider problems where the decision maker has a binary
-    choice, e.g. to accept or reject a loan application. In
-    particular, the decision rule may be restricted so that the
-    decision has to depend only on a \emph{score}, e.g. the credit
-    score. Let $w_i$ be the score of the $i$-th individual. Typically,
-    the decision $a_i$ about an individual $i$ does not depend on the
-    decision about any other individual. Hence, the decision rule can be factorised as
-    $\pol(a | w) = \prod_i \pol(a_i | w_i)$. 
+    \only<article>{ Let us consider problems where the decision maker
+      has a binary choice, e.g. to accept or reject a loan
+      application. In particular, the decision rule may be restricted
+      so that the decision has to depend only on a \emph{score},
+      e.g. the credit score. Let $w_i$ be the score of the $i$-th
+      individual. Typically, the decision $a_i$ about an individual
+      $i$ does not depend on the decision about any other
+      individual. Hence, the decision rule can be factorised as
+      $\pol(a | w) = \prod_i \pol(a_i | w_i)$.
+    }
   \end{example}
   
   \begin{example}{Matching problems.}
