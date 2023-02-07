@@ -624,8 +624,9 @@ Thus, estimating the expected utility of a particular policy is always possible,
   \[
     V(\pol, \param) \defn (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param).
   \]
-
-  \paragraph{Use an estimated $\hat{\param}$.} Here, for example, we could perform maximum-likelihood inference to find an estimate for $\param$:
+  Maximising $V(\pol, \param)$ directly is not possible since $\param$ is not known. However, we can formulate the following concrete methods for solving it.
+  
+  \paragraph{Use an estimated $\hat{\param}$.} The idea here is to replace the unknown $\param$ with an estimated value $\hat{\param}$. Here, for example, we could perform maximum-likelihood inference to find an estimate for $\param$:
   \[
     \hat{\param} \defn \argmax_{\param \in \Param} \prod_{t=1}^T P_\param(y_t | a_t, x_t, z_t) P_\param(x_t, z_t).
   \]
@@ -635,11 +636,11 @@ Thus, estimating the expected utility of a particular policy is always possible,
   \]
   However, this approach completely ignores the uncertainty about $\param$. In practice, this makes a rather large difference, especially in some group fairness settings, where increased uncertainty makes the optimal policy quite different.
 
-  \paragraph{Bayesian decision theory.} The Bayesian solution is simple. Starting with a prior distribution $\bel$ on $\Param$, calculate the posterior $\bel(\param \mid D)$ using the data $D$. We now need to solve the optimisation problem
+  \paragraph{Bayesian decision theory.} The Bayesian solution is simple. Starting with a prior distribution $\bel$ on $\Param$, calculate the posterior $\bel(\param \mid D)$ using the data $D$. We now need to solve the following optimisation problem, which integrates over all possible values of the unknown parameter, weighted by their probability:
   \[
     \max_{\pol \in \Pol} \int_\Param V(\pol, \param) \dd \bel(\param \mid D).
   \]
-  The introduction of an integral does not make things much harder than in the case where $\param$ is known. In fact, if we are using gradient descent to find the optimal policy, we only need to change the algorithm to \emph{stochastic} gradient descent, where the randomness comes from the fact that we sample parameters from the posterior distribution. This is because we can write the gradient as follows:
+  For a given policy space $\Pol$ the introduction of an integral does not make things much harder than in the case where $\param$ is known. In fact, if we are using gradient descent to find the optimal policy, we only need to change the algorithm to \emph{stochastic} gradient descent, where the randomness comes from the fact that we sample parameters from the posterior distribution. This is because we can write the gradient as follows:
   \[
     \nabla_\param \int_\Param V(\pol, \param) \dd \bel(\param \mid D)
     =
@@ -749,9 +750,17 @@ Thus, estimating the expected utility of a particular policy is always possible,
     fairness constraint is much stricter than a similar requirement
     for policis. }
   \begin{definition}
-    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$, we have $w_i > w_j \Rightarrow u_i(a) > u_j(a)$.
+    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$, we have $w_i > w_j \Rightarrow u_i(a) \geq u_j(a)$.
   \end{definition}
-  \only<article>{In this setting, a person only 
+  \only<article>{In the above definition, a person with a higher worth than another is guaranteed to obtain at least as good an outcome as another person of lower worth. If we think about a single decision affecting multiple individuals, then such a fairness property is hard to satisfy: in some cases there may not exist any such fair decision.}
+  \begin{example}
+    \begin{tabular}{c||c|c|c}
+      $w$ &  &  $a = 0 $ & $a = 1$\\
+      1  & $u_1$ & 0 & 1\\
+      0  & $u_2$ & 1 & 0
+    \end{tabular}
+  \end{example}
+  
   \begin{definition}
     A \textbf{policy} $\pol$ is \textbf{fair} if, for all $i,j$ it holds that: $\E_\pol [u_i | w] > \E[u_j | w] \Rightarrow w_i > w_j$.
   \end{definition}
