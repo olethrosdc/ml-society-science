@@ -114,9 +114,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 counts = df.groupby(['race']).decile_score.value_counts()
 X = 1 + np.arange(10)
-plt.bar(X, counts['Caucasian'][0:10] / sum(counts['Caucasian'][0:10]), width=0.3)
-plt.bar(X+0.3, all_counts[0:10] / sum(all_counts[0:10]), width=0.3)
-plt.bar(X+0.6, counts['African-American'][0:10] / sum(counts['African-American'][0:10]), width=0.3)
+plt.plot(counts['Caucasian'][0:10] / sum(counts['Caucasian'][0:10]), '-')
+plt.plot(all_counts[0:10] / sum(all_counts[0:10]), '--')
+plt.plot(X+0.6, counts['African-American'][0:10] / sum(counts['African-American'][0:10]), ':')
 plt.legend(["Caucasian",  "General", "African-American"])
 plt.xlabel("Score")
 plt.savefig("Scores-by-race.pdf")
@@ -140,7 +140,10 @@ GG = df[["is_violent_recid", "decile_score"]]
 # In[20]:
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+# horizontal axis: score A
+# vertical axis: outcome probability Y
+# group by Z
+# P(Y | A, Z)
 AA_recidivism = np.zeros(10)
 CC_recidivism = np.zeros(10)
 GG_recidivism = np.zeros(10)
@@ -150,10 +153,10 @@ for score in range(10):
     CC_recidivism[score] = np.mean(CC[CC["decile_score"]==score]["is_violent_recid"])
     GG_recidivism[score] = np.mean(GG[GG["decile_score"]==score]["is_violent_recid"])
     
-
-plt.plot(CC_recidivism)
-plt.plot(GG_recidivism)
-plt.plot(AA_recidivism)
+plt.clf()
+plt.plot(CC_recidivism, '-')
+plt.plot(GG_recidivism, '--')
+plt.plot(AA_recidivism, ':')
 plt.legend(["Caucasian",  "General", "African-American"])
 plt.xlabel("Score")
 plt.ylabel("Recidivism")
@@ -161,13 +164,24 @@ plt.savefig("calibration-compas.pdf")
 
 
 # In[21]:
-
-
+# horizontal axis: score A
+# vertical axis: outcome probability Y
+# group by Z
+# P(A | Y, Z)
 xcounts = df.groupby(['race', 'is_violent_recid']).decile_score.value_counts()
 total_counts = df.groupby(['is_violent_recid']).decile_score.value_counts()
-plt.bar(X, xcounts[('Caucasian',0)][0:10]/ sum(xcounts[('Caucasian',0)][0:10]), width=0.3)
-plt.bar(X+0.3, total_counts[0][0:10]/ sum(total_counts[0][0:10]), width=0.3)
-plt.bar(X+0.6, xcounts[('African-American',0)][0:10]/ sum(xcounts[('African-American',0)][0:10]), width=0.3)
+
+
+
+AA_b, _ = np.histogram(AA[AA["is_violent_recid"]==0]["decile_score"], bins=np.arange(1,11), density=True)
+CC_b, _ = np.histogram(CC[CC["is_violent_recid"]==0]["decile_score"], bins=np.arange(1,11), density=True)
+GG_b, _ = np.histogram(GG[GG["is_violent_recid"]==0]["decile_score"], bins=np.arange(1,11), density=True)
+
+print(AA_b)
+plt.clf()
+plt.plot(CC_b, '-')
+plt.plot(GG_b, '--')
+plt.plot(AA_b, ':')
 plt.legend(["Caucasian",  "General", "African-American"])
 plt.xlabel("Score")
 plt.savefig("balance-non-recidivism-compas.pdf")
@@ -175,11 +189,15 @@ plt.savefig("balance-non-recidivism-compas.pdf")
 
 # In[22]:
 
+AA_b, _ = np.histogram(AA[AA["is_violent_recid"]==1]["decile_score"], bins=np.arange(1,11), density=True)
+CC_b, _ = np.histogram(CC[CC["is_violent_recid"]==1]["decile_score"], bins=np.arange(1,11), density=True)
+GG_b, _ = np.histogram(GG[GG["is_violent_recid"]==1]["decile_score"], bins=np.arange(1,11), density=True)
 
-xcounts = df.groupby(['race', 'is_violent_recid']).decile_score.value_counts()
-plt.bar(X, xcounts[('Caucasian',1)][0:10]/ sum(xcounts[('Caucasian',1)][0:10]), width=0.3)
-plt.bar(X+0.3, total_counts[1][0:10]/ sum(total_counts[1][0:10]), width=0.3)
-plt.bar(X+0.6, xcounts[('African-American',1)][0:10]/ sum(xcounts[('African-American',1)][0:10]), width=0.3)
+print(AA_b)
+plt.clf()
+plt.plot(CC_b, '-')
+plt.plot(GG_b, '--')
+plt.plot(AA_b, ':')
 plt.legend(["Caucasian",  "General", "African-American"])
 plt.xlabel("Score")
 plt.savefig("balance-recidivism-compas.pdf")
