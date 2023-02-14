@@ -452,6 +452,11 @@
   \[
     \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
   \]
+  For binary classification problems in particular, we may be only
+  interested in slightly narrower concepts, such as equal false
+  negative---$\Pr(a_t = 0 | y_t = 1, z_t = z)$---or false
+  positive---$\Pr(a_t = 1 | y_t = 0, z_t = z$---rates between groups
+  $z$.
 \end{example}
 
 \begin{example}[Regression]
@@ -462,13 +467,17 @@
   error, so that $U(a, y) = - (a - y)^2$.
 
   In this setting we can also relax our framework to work with
-  expectations instead of probabilities. For example, calibration and balance can be written as the conditions
+  expectations instead of probabilities. For example, calibration and balance can be written as the conditions:
   \[
     \E_\param^\pol(y_t | a_t, z_t) = \E_\param^\pol(y_t | a_t),
     \qquad
     \E_\param^\pol(a_t | y_t, z_t) = \E_\param^\pol(a_t | y_t),
   \]
-  respectively.
+  respectively. This is a useful definition in particular when our
+  action is the assignment of a numerical score, as in the COMPAS
+  recidivism example. However, this definition is weaker, as the
+  expectations of two random variables can be equal when their
+  distributions are different.
 \end{example}
 
 \subsection{Measuring group fairness.}
@@ -776,33 +785,62 @@ Thus, estimating the expected utility of a particular policy is always possible,
   \end{example}
   
   \begin{example}{Matching problems.}
-    In classical matching problems, such as university admissions,
-    each individual $i \in \{1, \ldots, n\}$ have an individual
-    evaluation $w_i$, calculated according to some uniform criteria,
-    calculated from individual features $x_i$, such as test results,
-    age, etc. Each individual $i$ also generates a preference score
-    $u_i$ so that they prefer university $k$ to university $l$ if
-    $u_i(k) \geq u_i(l)$.\footnote{In practice, it is sufficient to
-      give a ranking of universities rather than numerical scores. In
-      addition, universities may have inhomogeneous preferences, but
-      in this example they simply prefer students with the highest
-      score.}  The matching algorithm $\pol$ creates an allocation
-    $a=(a_1, \ldots, a_n)$ so that $a_i$ is the university to which
-    candidate $i$ is matched. The algorithm $\pol$ satisfies a
-    \emph{stable matching} condition: this means for a candidate $i$
-    to be preferred for a position at a university $k$ to a candidate
-    $j$, either (a) $i$ must prefer $k$ more than $j$ (i.e.
-    $u_i(k) > u_j(k)$ or (b) candidate $i$ must be preferred by the
-    university to $k$ (i.e. $w_i > w_j$). Consequently, it is
-    impossible for both $w_j < w_i$ and $u_j(k) < u_i(k)$ to hold and
-    student $j$ to be allocated to university $k$. To guarantee our
-    fairness conditition, we must use a stable matching algorithm that
-    in addition prioritises the preferences of students.
+    \only<article>{ In classical matching problems, such as university
+      admissions, each individual $i \in \{1, \ldots, n\}$ have an
+      individual evaluation $w_i$, calculated according to some
+      uniform criteria, calculated from individual features $x_i$,
+      such as test results, age, etc. Each individual $i$ also
+      generates a preference score $u_i$ so that they prefer
+      university $k$ to university $l$ if
+      $u_i(k) \geq u_i(l)$.\footnote{In practice, it is sufficient to
+        give a ranking of universities rather than numerical
+        scores. In addition, universities may have inhomogeneous
+        preferences, but in this example they simply prefer students
+        with the highest score.}  The matching algorithm $\pol$
+      creates an allocation $a=(a_1, \ldots, a_n)$ so that $a_i$ is
+      the university to which candidate $i$ is matched. The algorithm
+      $\pol$ satisfies a \emph{stable matching} condition: this means
+      for a candidate $i$ to be preferred for a position at a
+      university $k$ to a candidate $j$, either (a) $i$ must prefer
+      $k$ more than $j$ (i.e.  $u_i(k) > u_j(k)$) or (b) candidate $i$
+      must be preferred by the university to $k$ (i.e. $w_i >
+      w_j$). Consequently, it is impossible for both $w_j < w_i$ and
+      $u_j(k) < u_i(k)$ to hold and student $j$ to be allocated to
+      university $k$.
+
+      In the following, there are three
+      individuals $(1,2,3)$ three universities $(x,y,z)$, with the
+      preferences:}
+    \begin{itemize}
+    \item $u_1(x) > u_1(y) > u_1(z)$,
+    \item $u_2(z) > u_2(y) > u_2(x)$
+    \item $u_3(z) > u_3(x) > u_3(y)$ 
+    \end{itemize}
+    and $w_1 > w_2 > w_3$. A stable matching is then
+    $a_1 = x, a_2 = z, a_3 = y$.
+
+    \only<article>{ For the sake of the argument, assume
+      $u_1(x) = u_2(z) = u_3(z)$, so as to make the utilities
+      comparable. Then for this allocation $u_1 = u_2 > u_3$.
+    }
+    
   \end{example}
 
+  
+  \only<article>{In practice, we do not have direct access to an
+    individual's worth. However, we may have a model that estimates
+    worth based on their individual features. To be as general as
+    possible, we can assume a probabilistic model
+    $P_\param(w_i | x_i)$ that assigns a distribution over worths
+    $w_i$ for individuals with features $x_i$. Then we our decisions
+    can be fair in expectation.}
 \end{frame}
 
-\begin{frame}\frametitle{Smoothness.}
+\subsection{Fairness as smoothness.}
+\only<article>{
+  Inj practie
+}
+\begin{frame}
   \begin{block}{Treating similar individuals similarly.}
     \begin{itemize}
     \item $d(x_i,x_j)$: Distance between individuals $i,j$.
@@ -836,7 +874,9 @@ Thus, estimating the expected utility of a particular policy is always possible,
   \only<article>{The main problem here is that if we are required to be smooth, but one set has most of its members in one subset.}
 \end{frame}
 
+\subsection{Fair ranking.}
 
+\subsection{Fair cohort selection.}
 
 \section{Exercises}
 
