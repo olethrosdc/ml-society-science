@@ -832,18 +832,58 @@ Thus, estimating the expected utility of a particular policy is always possible,
     worth based on their individual features. To be as general as
     possible, we can assume a probabilistic model
     $P_\param(w_i | x_i)$ that assigns a distribution over worths
-    $w_i$ for individuals with features $x_i$. Then we our decisions
-    can be fair in expectation.}
+    $w_i$ for individuals with features $x_i$. Then we want our
+    decisions to be fair in expectation.}
 \end{frame}
 
 \subsection{Fairness as smoothness.}
-\only<article>{
-  Inj practie
+\only<article>{ Another principle for individual fairness is
+  \emph{treating similar people similarly}. For example, consider a a
+  company hiring for multiple positions. While there maybe a few
+  outstanding candidates who are all hired, a relative of the CEO, who
+  is a mediocre candidate, is also hired. The relative stands out because he is treated differently to other similar candidates.
+
+  To formalise this principle, we need to first assume that each
+  candidates $i$ is describe by some features $x_i \in \CX$, and that
+  a metric $d : \CX \times \CX \to \Reals_+$ is defined on $\CX$, so
+  that similar individuals will have a smaller distance.
+
+  We also need to define what we mean by similar treatment. For
+  simplicity, we will first consider the case where the DM is making
+  decisions about each individual separately. Hence, they take
+  decision $a_i \in \CA$ for individual $i$ with probability
+  $\pol(a_i | x_i)$. Then we need to define some distance or
+  divergence $D([\pol(a_i | x_i) | \pol(a_j | x_j)]$ between the
+  decision distributions for two different individuals.
+
+    
+  Finally, we also need to define what the decision maker wants to
+  achieve. This can be captured through a utility function $U$,
+  measuring the quality of DM's policy. In the simplest scenario, we
+  can assume that the DM has a simple payoff function
+  $\rho : \CX \times \CA \to \Reals$, representing their expected payoff
+  $\rho(x,a)$ for each possible observe feature and action taken. Then
+  the utility of any policy $\pol$ for a population $x_1, \ldots, x_T$
+  of individuals can be defined in terms of the sum of individaul payoffs:
+  \[
+    U(\pol) = \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
+  \]
+  To impose a smoothness constraint on the policy, we require it to be Lipschitz-smooth with respect to the metric on the observed features. Together with the objective of maximising utility, we can define the following constrained maximisation problem:
+  \begin{block}{Treating similar individuals similarly.}
+    For a given utility $U$, metric $d$ on $\CX$ and divergence $D$:
+    \begin{gather}
+      \max_\pol  U(\pol) 
+      \\
+      \st  D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j).
+    \end{gather}
+  \end{block}
+  Of course, in some cases the utility might not be known perfectly, and we can use a Bayesian approach. It is also possible that we have not settled on an appropriate metric $d$ with respect to the features. Finally, the policy may not have the independence property, so the above Lipschitz condition may not be properly defined. We will go through all of these later. 
 }
+\only<presentation>{
 \begin{frame}
   \begin{block}{Treating similar individuals similarly.}
     \begin{itemize}
-    \item $d(x_i,x_j)$: Distance between individuals $i,j$.
+    \item $d(x_i,x_j)$: Distance between individuals $i,j$. 
     \item $D[\pol(a_i | x_i), \pol(a_j | x_j)]$: Distance between policy decisions.
     \item Utility function $U(\pol)$.
     \end{itemize}
@@ -854,6 +894,11 @@ Thus, estimating the expected utility of a particular policy is always possible,
     \]
   \end{block}
   \only<article>{When $D(P,Q) = \max_{a \in A} |\log [P(a)/Q(a)]|$ then $\pol$ satisfies differential privacy with $d(x,y) = \epsilon \|x - y\|_1$}.
+\end{frame}
+}
+
+\begin{frame}{Connection to meritocracy.}
+x
 \end{frame}
 
 \begin{frame}\frametitle{Smoothness and parity.}
