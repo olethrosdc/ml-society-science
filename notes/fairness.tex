@@ -898,7 +898,17 @@ Thus, estimating the expected utility of a particular policy is always possible,
 }
 
 \begin{frame}{Connection to meritocracy.}
-x
+  Consider a decision maker that is choosing applicants to hire
+  $(a = 1)$. For any two applicants with respective features
+  $x_i, x_j$, we need to assume that they both prefer being hired to
+  not being hired. On the other hand, the DM prefers to hire
+  applicants that result in higher utility. In particular, hiring
+  applicant $x$ results in utility $u(x)$. Let us now define the
+  utility of a policy, when applied to a single applicant as
+  \[
+    \E^\pi (U | x) = \pi(a = 1| x) u(x).
+  \]
+
 \end{frame}
 
 \begin{frame}\frametitle{Smoothness and parity.}
