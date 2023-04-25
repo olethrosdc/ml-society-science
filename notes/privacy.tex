@@ -1752,6 +1752,48 @@ sufficient for achieving differential privacy $\epsilon_t$ at each
 step $t$. The total privacy loss is at most $\sum_{i=1}^t
 \epsilon_i$. However, it is possible to bound the privacy loss more
 tightly with advanced composition theorems.
+\section{Advanced topics.}
+
+
+\only<article>{
+  In this section, we give a brief overview of some more advanced topics on privacy. The interested reader is urged to look into the given references.
+}
+\subsection{Relaxations of differential privacy.}
+\only<article>{
+  In practice, satisfying differential privacy with a small $\epsilon$ results in mechanisms with low utility. It is possible to relax the definition of differential privacy to include an additive term, as shown below, which greatly improves the privacy-utility trade-off we can achieve.
+  \begin{definition}{Approximate differential privacy.}
+    \label{def:epsilon-delta-dp}
+    A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
+    is endowed with a neighbourhood relation $N$, is said to be
+    $(\epsilon,\delta)$ differentially private if
+    \begin{equation}
+      \label{eq:epsilon-delta-dp}
+      \pol(A \mid x) \leq \pol(A \mid x') \epsilon + \delta, \qquad \forall x N x', \quad A \subset \CA.
+    \end{equation}
+  \end{definition}
+  One simple interpretation of this definition is that the mechanism is
+  $(\epsilon, 0)$-DP with probability $1 - \delta$. Conversely, this
+  implies that with a very small probability $\delta$, the complete
+  dataset might be revealed. For that reason, the parameter $\delta$
+  must be as small as possible.
+
+  Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. This is similar to the Laplace mechanism, but scales noise to the $\ell_2$ sensitivity of the function.
+  \begin{exampleblock}{The Gaussian mechanism}
+    Given a function $f : \CX \to \Reals^k$, the Gaussian mechanism with parameter $\sigma$ outputs
+    $a \sim \Normal(f(x), \sigma)$.
+
+    Let $\ell_2$ sensitivity of $f$ be
+    \[
+      \sensitivity{f}_2 = \max\cset{\|f(x) - f(y)\|_2}{x N y}.
+    \]
+    For $\sigma \geq 2\ln(1.25 / \delta) \frac{\Delta_2(f)}{\epsilon}$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
+  \end{exampleblock}
+
+
+  \begin{theoryblock}{Renyi differential privacy.}
+    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as the KL divergence, as long as this becomes unbounded for distributions with unequal support. 
+  \end{theoryblock}
+}
 
 \subsection{Differential privacy as a hypothesis testing game.}
 
@@ -1815,51 +1857,11 @@ dataset.
 
 \only<article>{As it turns out, privacy in terms of hypothesis testing is a somewhat more general concept than differential privacy. In fact, we could define a mechanism with an arbitrary false negative and positive testing profile. \cdcomment{Stub}}
 
-\section{Advanced topics.}
 
+
+\subsection{Reproducibility}
 \only<article>{
-  In this section, we give a brief overview of some more advanced topics on privacy. The interested reader is urged to look into the given references.
-}
-\subsection{Relaxations of differential privacy.}
-\only<article>{
-  In practice, satisfying differential privacy with a small $\epsilon$ results in mechanisms with low utility. It is possible to relax the definition of differential privacy to include an additive term, as shown below, which greatly improves the privacy-utility trade-off we can achieve.
-  \begin{definition}{Approximate differential privacy.}
-    \label{def:epsilon-delta-dp}
-    A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
-    is endowed with a neighbourhood relation $N$, is said to be
-    $(\epsilon,\delta)$ differentially private if
-    \begin{equation}
-      \label{eq:epsilon-delta-dp}
-      \pol(A \mid x) \leq \pol(A \mid x') \epsilon + \delta, \qquad \forall x N x', \quad A \subset \CA.
-    \end{equation}
-  \end{definition}
-  One simple interpretation of this definition is that the mechanism is
-  $(\epsilon, 0)$-DP with probability $1 - \delta$. Conversely, this
-  implies that with a very small probability $\delta$, the complete
-  dataset might be revealed. For that reason, the parameter $\delta$
-  must be as small as possible.
-
-  Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. This is similar to the Laplace mechanism, but scales noise to the $\ell_2$ sensitivity of the function.
-  \begin{exampleblock}{The Gaussian mechanism}
-    Given a function $f : \CX \to \Reals^k$, the Gaussian mechanism with parameter $\sigma$ outputs
-    $a \sim \Normal(f(x), \sigma)$.
-
-    Let $\ell_2$ sensitivity of $f$ be
-    \[
-      \sensitivity{f}_2 = \max\cset{\|f(x) - f(y)\|_2}{x N y}.
-    \]
-    For $\sigma \geq 2\ln(1.25 / \delta) \frac{\Delta_2(f)}{\epsilon}$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
-  \end{exampleblock}
-
-
-  \begin{theoryblock}{Renyi differential privacy.}
-    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as the KL divergence, as long as this becomes unbounded for distributions with unequal support. 
-  \end{theoryblock}
-}
-
-\subsubsection{Reproducibility}
-\only<article>{
-  Training and testing, overfitting on the test set.
+  Training and testing, overfitting on the test set. \cdcomment{stub}
 }
 
 \begin{frame}
