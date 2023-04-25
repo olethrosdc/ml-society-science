@@ -410,22 +410,22 @@
   \frametitle{What is private?}
 
   \only<article>{
-  The overall framework we will use in this book is that everything
-  pertaining to an individual is by definition private. While in
-  reality there might be some attributes that individuals might want
-  to remain secret and some which are not considered important, it is
-  generally impossible to predict potential harm from the disclosure
-  of any individual information.  Thus, this chapter takes an
-  expansive view of privacy: any information about an individual,
-  which includes even the very fact that they might be part of a
-  database is considered private.
+    The overall framework we will use in this book is that everything
+    pertaining to an individual is by definition private. While in
+    reality there might be some attributes that individuals might want
+    to remain secret and some which are not considered important, it is
+    generally impossible to predict potential harm from the disclosure
+    of any individual information.  Thus, this chapter takes an
+    expansive view of privacy: any information about an individual,
+    which includes even the very fact that they might be part of a
+    database is considered private.
 
-  We assume that there is a \emph{private input}, which is processed
-  by an \emph{algorithm}, which then generates a \emph{public output}.
-  So, our main focus is how the algorithm generates the output,
-  because the algorithm defines how the output and the input are
-  linked. Our goal is to obtain algorithms that can be generally
-  applied and that can have good privacy-preserving properties.
+    We assume that there is a \emph{private input}, which is processed
+    by an \emph{algorithm}, which then generates a \emph{public output}.
+    So, our main focus is how the algorithm generates the output,
+    because the algorithm defines how the output and the input are
+    linked. Our goal is to obtain algorithms that can be generally
+    applied and that can have good privacy-preserving properties.
   }
 \end{frame}
 
@@ -1258,32 +1258,32 @@
       }
     }
     What can we say about the posterior distribution of the adversary $\bel(\bx \mid a, \pol)$ after having seen the output, if $\pol$ is $\epsilon$-DP? How does it depend on $\epsilon$?
-  
-  \only<article>{
-    \begin{proof}[Solution]
-      We can write the adversary posterior as follows.
-      \begin{align}
-        \Pr^\pol_\bel(\bx \mid a)
-        &=
-          \frac{\pol(a  \mid \bx) \bel(\bx)}
-          {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx') \bel(\bx')}
-        \\
-        &\geq
-          \frac{\pol(a  \mid \bx) \bel(\bx)}
-          {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx) e^\epsilon \bel(\bx')} \tag{from DP definition}
-        \\
-        &=
-          \frac{\bel(\bx)}
-          {\bel(\bx) +  e^\epsilon \bel(\bx')}.
-      \end{align}
-      Note that $\pol(a \mid \bx) \leq e^\epsilon \pol(a \mid \bx')$ and conversely $\pol(a \mid \bx') \leq e^\epsilon \pol(a \mid \bx)$.
-      We can also then bound the quantity from above:
-      \[
-        \Pr^\pol_\bel(\bx \mid a) \leq  \frac{\bel(\bx)} {\bel(\bx) +  e^{-\epsilon} \bel(\bx')}.
-      \]
-      Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior and the information loss $\epsilon$.
-    \end{proof}
-  }
+    
+    \only<article>{
+      \begin{proof}[Solution]
+        We can write the adversary posterior as follows.
+        \begin{align}
+          \Pr^\pol_\bel(\bx \mid a)
+          &=
+            \frac{\pol(a  \mid \bx) \bel(\bx)}
+            {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx') \bel(\bx')}
+          \\
+          &\geq
+            \frac{\pol(a  \mid \bx) \bel(\bx)}
+            {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx) e^\epsilon \bel(\bx')} \tag{from DP definition}
+          \\
+          &=
+            \frac{\bel(\bx)}
+            {\bel(\bx) +  e^\epsilon \bel(\bx')}.
+        \end{align}
+        Note that $\pol(a \mid \bx) \leq e^\epsilon \pol(a \mid \bx')$ and conversely $\pol(a \mid \bx') \leq e^\epsilon \pol(a \mid \bx)$.
+        We can also then bound the quantity from above:
+        \[
+          \Pr^\pol_\bel(\bx \mid a) \leq  \frac{\bel(\bx)} {\bel(\bx) +  e^{-\epsilon} \bel(\bx')}.
+        \]
+        Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior and the information loss $\epsilon$.
+      \end{proof}
+    }
   \end{exerciseblock}    
 
   
@@ -1687,37 +1687,37 @@
     \begin{proof}
       We only need to look at the ratio between two different distributions of answers to queries. Then we have:
       \begin{align*}
-       \frac{\pol(a \mid x, q)}{\pol(a \mid x', q)}
-         &=
-         \frac{e^{\epsilon \util(q, a, x) / 2\sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / 2 \sensitivity{\util(q)}}}
-         \times          
-         \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / \sensitivity{\util(q)}}}         {e^{\epsilon \util(q, a, x') / 2\sensitivity{ \util(q)}}}
-         \\
-         &=
-         e^{\epsilon \util(q, a, x) / 2 \sensitivity{ \util(q)}
-         - \epsilon \util(q, a, x') / 2\sensitivity{ \util(q)}}
-         \times          
-         \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
-         {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
-         \\
-         &=e^{\epsilon [\util(q, a, x) - \util(q, a, x')] / 2\sensitivity{ \util(q)}}
-         \times          
-         \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
-           {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+        \frac{\pol(a \mid x, q)}{\pol(a \mid x', q)}
+        &=
+          \frac{e^{\epsilon \util(q, a, x) / 2\sensitivity{ \util(q)}}}{\sum_{a'} e^{\epsilon \util(q, a', x) / 2 \sensitivity{\util(q)}}}
+          \times          
+          \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / \sensitivity{\util(q)}}}         {e^{\epsilon \util(q, a, x') / 2\sensitivity{ \util(q)}}}
         \\
-         &\leq
-           e^{\epsilon/2}
-         \times          
-         \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
-           {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+        &=
+          e^{\epsilon \util(q, a, x) / 2 \sensitivity{ \util(q)}
+          - \epsilon \util(q, a, x') / 2\sensitivity{ \util(q)}}
+          \times          
+          \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
+          {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
         \\
-         &\leq
-           e^{\epsilon/2}
-         \times          
-         \frac{\sum_{a'} e^{\epsilon [(\util(q, a', x) + \sensitivity{\util(q)}) / 2\sensitivity{\util(q)}}}
-           {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
-           \leq
-           e^{\epsilon}
+        &=e^{\epsilon [\util(q, a, x) - \util(q, a, x')] / 2\sensitivity{ \util(q)}}
+          \times          
+          \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
+          {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+        \\
+        &\leq
+          e^{\epsilon/2}
+          \times          
+          \frac{\sum_{a'} e^{\epsilon \util(q, a', x') / 2\sensitivity{\util(q)}}}
+          {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+        \\
+        &\leq
+          e^{\epsilon/2}
+          \times          
+          \frac{\sum_{a'} e^{\epsilon [(\util(q, a', x) + \sensitivity{\util(q)}) / 2\sensitivity{\util(q)}}}
+          {\sum_{a'} e^{\epsilon \util(q, a', x) / 2\sensitivity{\util(q)}}}
+          \leq
+          e^{\epsilon}
       \end{align*}
     \end{proof}
   }
@@ -1776,7 +1776,9 @@ can write the probability of a true and a false positive as:
 \[
   p_{\textrm{TP}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FP}} = \pol(A_1 \mid \bx).
 \]
-This is simply because the adversary answers correctly whenever $a_t \in A_0$, and incorrectly otherwise. Similarly, the probability of a true and false negative as
+This is simply because the adversary answers correctly whenever
+$a_t \in A_0$, and incorrectly otherwise. Similarly, the probability
+of a true and false negative as
 \[
   p_{\textrm{TN}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FN}} = \pol(A_0 \mid \bx').
 \]
@@ -1798,18 +1800,20 @@ dataset.
   \end{align*}
   i.e. the true negative rate cnanot be much higher than the false
   negative rate.
-  \end{theorem}
-  \begin{proof}
-    The proof is by direct substitution and the definition of $(\epsilon, \delta)$-differential privacy:
-    \begin{align*}
-      p_{\textrm{TP}} = \pol(A_1 | \bx') \leq \pol(A_1 | \bx) e^\epsilon  + \delta = p_{\textrm{FP}} e^\epsilon  + \delta.
-    \end{align*}
-    Similarly
-    \begin{align*}
-      p_{\textrm{TN}} = \pol(A_0 | \bx) \leq \pol(A_0 | \bx') e^\epsilon  + \delta
-      = p_{\textrm{FN}} e^\epsilon  + \delta.
-    \end{align*}
-  \end{proof}
+\end{theorem}
+\begin{proof}
+  The proof is by direct substitution and the definition of $(\epsilon, \delta)$-differential privacy:
+  \begin{align*}
+    p_{\textrm{TP}} = \pol(A_1 | \bx') \leq \pol(A_1 | \bx) e^\epsilon  + \delta = p_{\textrm{FP}} e^\epsilon  + \delta.
+  \end{align*}
+  Similarly
+  \begin{align*}
+    p_{\textrm{TN}} = \pol(A_0 | \bx) \leq \pol(A_0 | \bx') e^\epsilon  + \delta
+    = p_{\textrm{FN}} e^\epsilon  + \delta.
+  \end{align*}
+\end{proof}
+
+\only<article>{As it turns out, privacy in terms of hypothesis testing is a somewhat more general concept than differential privacy. In fact, we could define a mechanism with an arbitrary false negative and positive testing profile. \cdcomment{Stub}}
 
 \section{Advanced topics.}
 
@@ -1819,38 +1823,38 @@ dataset.
 \subsection{Relaxations of differential privacy.}
 \only<article>{
   In practice, satisfying differential privacy with a small $\epsilon$ results in mechanisms with low utility. It is possible to relax the definition of differential privacy to include an additive term, as shown below, which greatly improves the privacy-utility trade-off we can achieve.
-\begin{definition}{Approximate differential privacy.}
-  \label{def:epsilon-delta-dp}
-  A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
-  is endowed with a neighbourhood relation $N$, is said to be
-  $(\epsilon,\delta)$ differentially private if
-  \begin{equation}
-    \label{eq:epsilon-delta-dp}
-    \pol(A \mid x) \leq \pol(A \mid x') \epsilon + \delta, \qquad \forall x N x', \quad A \subset \CA.
-  \end{equation}
-\end{definition}
-One simple interpretation of this definition is that the mechanism is
-$(\epsilon, 0)$-DP with probability $1 - \delta$. Conversely, this
-implies that with a very small probability $\delta$, the complete
-dataset might be revealed. For that reason, the parameter $\delta$
-must be as small as possible.
+  \begin{definition}{Approximate differential privacy.}
+    \label{def:epsilon-delta-dp}
+    A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
+    is endowed with a neighbourhood relation $N$, is said to be
+    $(\epsilon,\delta)$ differentially private if
+    \begin{equation}
+      \label{eq:epsilon-delta-dp}
+      \pol(A \mid x) \leq \pol(A \mid x') \epsilon + \delta, \qquad \forall x N x', \quad A \subset \CA.
+    \end{equation}
+  \end{definition}
+  One simple interpretation of this definition is that the mechanism is
+  $(\epsilon, 0)$-DP with probability $1 - \delta$. Conversely, this
+  implies that with a very small probability $\delta$, the complete
+  dataset might be revealed. For that reason, the parameter $\delta$
+  must be as small as possible.
 
-Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. This is similar to the Laplace mechanism, but scales noise to the $\ell_2$ sensitivity of the function.
-\begin{exampleblock}{The Gaussian mechanism}
-  Given a function $f : \CX \to \Reals^k$, the Gaussian mechanism with parameter $\sigma$ outputs
-  $a \sim \Normal(f(x), \sigma)$.
+  Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. This is similar to the Laplace mechanism, but scales noise to the $\ell_2$ sensitivity of the function.
+  \begin{exampleblock}{The Gaussian mechanism}
+    Given a function $f : \CX \to \Reals^k$, the Gaussian mechanism with parameter $\sigma$ outputs
+    $a \sim \Normal(f(x), \sigma)$.
 
-  Let $\ell_2$ sensitivity of $f$ be
-  \[
-    \sensitivity{f}_2 = \max\cset{\|f(x) - f(y)\|_2}{x N y}.
-  \]
-  For $\sigma \geq 2\ln(1.25 / \delta) \frac{\Delta_2(f)}{\epsilon}$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
-\end{exampleblock}
+    Let $\ell_2$ sensitivity of $f$ be
+    \[
+      \sensitivity{f}_2 = \max\cset{\|f(x) - f(y)\|_2}{x N y}.
+    \]
+    For $\sigma \geq 2\ln(1.25 / \delta) \frac{\Delta_2(f)}{\epsilon}$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
+  \end{exampleblock}
 
 
-\begin{theoryblock}{Renyi differential privacy.}
-  The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as the KL divergence, as long as this becomes unbounded for distributions with unequal support. 
-\end{theoryblock}
+  \begin{theoryblock}{Renyi differential privacy.}
+    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as the KL divergence, as long as this becomes unbounded for distributions with unequal support. 
+  \end{theoryblock}
 }
 
 \subsubsection{Reproducibility}
@@ -2007,24 +2011,24 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     Show that the randomised response mechanism, as originally defined, is not differentially private with respect to the addition/deletion neighbourhood.
     \label{exer:rp-neighbourhood}
   \end{exercise}
-\ifdefined \solution
-  \begin{proof}
-    Let $\bx_1, \bx_2, \bx_3$ be three datasets with
-    $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.  First of all, an
-    algorithm that is $\epsilon$-DP with respect to the $N$, is
-    $2\epsilon$-DP with respect to $N_e$.  This follows from the fact
-    that
-    $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq
-    e^{2\epsilon} \pol( a | \bx_3)$.  What about the converse?
-    Consider the case where $\bx_1$ has $n$ entries and $\bx_2$ has
-    $n+1$ entries. Let $A_n$ be the set of all responses with $n$
-    entries. Then clearly $\pi(A_n | \bx_1) = 1$ and
-    $\pi(A_{n} | \bx_2) = 0$. Consequently
-    $|\ln\frac{\pi(A_n | \bx_1)}{\pi(A_{n} | \bx_2)}|$ is not bounded by
-    any constant, and differential privacy is not satisfied with
-    respect to insertions and deletions.
-  \end{proof}
-\fi
+  \ifdefined \solution
+    \begin{proof}
+      Let $\bx_1, \bx_2, \bx_3$ be three datasets with
+      $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.  First of all, an
+      algorithm that is $\epsilon$-DP with respect to the $N$, is
+      $2\epsilon$-DP with respect to $N_e$.  This follows from the fact
+      that
+      $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq
+      e^{2\epsilon} \pol( a | \bx_3)$.  What about the converse?
+      Consider the case where $\bx_1$ has $n$ entries and $\bx_2$ has
+      $n+1$ entries. Let $A_n$ be the set of all responses with $n$
+      entries. Then clearly $\pi(A_n | \bx_1) = 1$ and
+      $\pi(A_{n} | \bx_2) = 0$. Consequently
+      $|\ln\frac{\pi(A_n | \bx_1)}{\pi(A_{n} | \bx_2)}|$ is not bounded by
+      any constant, and differential privacy is not satisfied with
+      respect to insertions and deletions.
+    \end{proof}
+  \fi
   \begin{exercise}
     Define a variant of the binary randomised response mechanism that
     satisfies differential privacy with respect to the insertion and
@@ -2038,29 +2042,29 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     \]
     \label{exer:new-rp-neighbourhood}
   \end{exercise}
-\ifdefined \solution
-  \begin{proof}
-    First of all, for the mechanism to satisfy $\epsilon$-DP, it must be the case
-    that an output size must have a non-zero probability: If with an
-    $n$-size input we can only generate $\leq n$-size outputs, then we
-    cannot generate a $n+1$-size output. Consequently, the randomised
-    response mechanism defined for $N$-neighbourhoods makes sense only
-    when we know the maximum possible value of $n$. This is normally
-    the case when we are surveying a population whose size is assumed
-    to be common knowledge.
+  \ifdefined \solution
+    \begin{proof}
+      First of all, for the mechanism to satisfy $\epsilon$-DP, it must be the case
+      that an output size must have a non-zero probability: If with an
+      $n$-size input we can only generate $\leq n$-size outputs, then we
+      cannot generate a $n+1$-size output. Consequently, the randomised
+      response mechanism defined for $N$-neighbourhoods makes sense only
+      when we know the maximum possible value of $n$. This is normally
+      the case when we are surveying a population whose size is assumed
+      to be common knowledge.
 
-    In particular, consider a mechanism which samples person $i$ with
-    probability $q$ so that $s_i = 1$ if a person is selected. If a
-    person is selected, then $a_i$ is drawn from a standard randomised
-    response mechanism (which flips $x_i$ with probability $p$),
-    otherwise $a_i = \perp$.  Then, we can factorise the probability
-    of a specific output as follows:
-    \[
-      \pol(a_i = k | x_i = k) =  \pol(a_i = k | s_i = 1, x_i = k) 
-    \]
-    %Note that subset selection of this form is very similar to DP in bandits.
-  \end{proof}
-\fi
+      In particular, consider a mechanism which samples person $i$ with
+      probability $q$ so that $s_i = 1$ if a person is selected. If a
+      person is selected, then $a_i$ is drawn from a standard randomised
+      response mechanism (which flips $x_i$ with probability $p$),
+      otherwise $a_i = \perp$.  Then, we can factorise the probability
+      of a specific output as follows:
+      \[
+        \pol(a_i = k | x_i = k) =  \pol(a_i = k | s_i = 1, x_i = k) 
+      \]
+      % Note that subset selection of this form is very similar to DP in bandits.
+    \end{proof}
+  \fi
   \begin{exercise}
     The mean estimator $\hat{\theta}$ for the randomised response mechanism with flipping probability $p$, where the true data generation process is Bernoulli with parameter $\theta$, is defined as
     \[
@@ -2092,27 +2096,27 @@ Approximate differential privacy is satisfied by the \emph{Gaussian} mechanism. 
     Prove that two-folded composition of such a mechanism is $2\epsilon$-KL-private.
     \label{exer:kl-dp}
   \end{exercise}
-\iffalse
-  \begin{proof}
-    For simplicity, we compose the same mechanism twice over a finite alphabet. Then $\pol(a, a' | x) = \pol(a | x) \pol(a'|x)$ because the mechanism is not interactive. 
-    \begin{align*}
-      \sum_{a,a'} \ln \frac{\pol(a, a' | x)}{\pol(a, a' | x')} \pol(a, a' | x)
-      &=
-        \sum_{a,a'} \ln \frac{\pol(a | x) \pol(a' | x)}{\pol(a | x') \pol(a' | x')} \pol(a | x) \pol( a' | x)
-      \\
-      &=
-        \sum_{a,a'} \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) \pol( a' | x) + \ln \frac{\pol(a' | x)}{\pol(a' | x')} \pol(a | x) \pol( a' | x)
-      \\
-      &=
-        \sum_{a'} \pol(a'|x) \sum_a \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) + \sum_{a} \pol(a | x) \sum_{a'} \ln \frac{\pol(a' | x)}{\pol(a' | x')}  \pol( a' | x)
-      \\
-      &\leq
-        \sum_{a'} \pol(a'|x) \epsilon + \sum_{a} \pol(a | x) \epsilon
-        = 2\epsilon.
-    \end{align*}
-    
-  \end{proof}
-\fi
+  \iffalse
+    \begin{proof}
+      For simplicity, we compose the same mechanism twice over a finite alphabet. Then $\pol(a, a' | x) = \pol(a | x) \pol(a'|x)$ because the mechanism is not interactive. 
+      \begin{align*}
+        \sum_{a,a'} \ln \frac{\pol(a, a' | x)}{\pol(a, a' | x')} \pol(a, a' | x)
+        &=
+          \sum_{a,a'} \ln \frac{\pol(a | x) \pol(a' | x)}{\pol(a | x') \pol(a' | x')} \pol(a | x) \pol( a' | x)
+        \\
+        &=
+          \sum_{a,a'} \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) \pol( a' | x) + \ln \frac{\pol(a' | x)}{\pol(a' | x')} \pol(a | x) \pol( a' | x)
+        \\
+        &=
+          \sum_{a'} \pol(a'|x) \sum_a \ln \frac{\pol(a | x)}{\pol(a | x')} \pol(a | x) + \sum_{a} \pol(a | x) \sum_{a'} \ln \frac{\pol(a' | x)}{\pol(a' | x')}  \pol( a' | x)
+        \\
+        &\leq
+          \sum_{a'} \pol(a'|x) \epsilon + \sum_{a} \pol(a | x) \epsilon
+          = 2\epsilon.
+      \end{align*}
+      
+    \end{proof}
+  \fi
 
 }
 %%% Local Variables:
