@@ -26,7 +26,7 @@
 \newlength\fheight
 \newlength\fwidth
 \only<presentation>{
-\setlength\fheight{\columnheight}
+\setlength\fheight{\textheight}
 \setlength\fwidth{\columnwidth}
 }
 \only<article>{
@@ -37,7 +37,7 @@
 \def\newblock{} % To avoid a compilation error about a function \newblock undefined
 \usepackage{hyperref}
 
-\newcommand[1]{\cdcomment}{\texttt{\color{red}[CD: #1]}}
+\newcommand \cdcomment[1] {\texttt{\color{red}[CD: #1]}}
   
 \setbeamertemplate{theorems}[numbered] 
 \mode<presentation>{
@@ -552,3 +552,8 @@ y expr=2*\thisrow{#5}
 \definecolor{dark-green}{rgb}{0,0.5,0}
 
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

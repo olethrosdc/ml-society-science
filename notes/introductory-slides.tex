@@ -1,0 +1,365 @@
+\documentclass{beamer}
+\input{../preamble}
+
+\definecolor{mycolor1}{rgb}{0.00000,0,1}%
+\definecolor{mycolor2}{rgb}{1,0,0}%
+\setlength{\fwidth}{0.75\textwidth}
+
+\title{Fairness and privacy in machine learning}
+\author[C. Dimitrakakis]{Christos Dimitrakakis}
+\institute{Universit\'e de Neuch\^atel}
+\begin{document}
+
+\usebackgroundtemplate{
+  \tikz[overlay,remember picture] \node[opacity=0.3, at=(current page.center)] {\includegraphics{../figures/IoT.png}};
+}
+\begin{frame}
+  \titlepage
+\end{frame}
+\usebackgroundtemplate{}
+
+
+
+
+\section{Introduction to machine learning}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
+
+
+\only<article>{
+  % What are the central problems in machine learning?
+  Problems in machine learning are similar to problems in science.
+  Scientists must plan experiments intelligently and collect data.
+  The must be able to use the data to verify a different hypothesis.
+  More generally, they must be able to make decisions under
+  uncertainty (Without uncertainty, there would be no need to gather more data).
+  Similar problems appear in more mundane tasks, like learning to drive a car.
+}
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Scientific applications}
+    \centering
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{../figures/climate.jpg}\\
+        \includegraphics[width=\columnwidth]{../figures/networks-2.jpg}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \includegraphics[width=\columnwidth]{../figures/dark_matter.jpg}
+        \\
+        \includegraphics[width=\columnwidth]{../figures/protein.jpg}
+      \end{column}
+    \end{columns}
+    \only<2>{
+      \begin{tikzpicture}[remember picture,overlay]
+        \draw[fill=black,opacity=0.75] 
+        (current page.north east) rectangle (current page.south west);
+        \node at (current page.center) {
+          {\Huge \alert{Interpretability, Reproducibility}}
+        };
+      \end{tikzpicture}}
+  \end{frame}
+}
+
+\only<article>{
+  For that reason, science is a very natural application area for
+  machine learning.  We can model the effects of climate change and
+  how to mitigate it; discover structure in social networks; map
+  the existence of dark matter in the universe by intelligently
+  shifting through weak gravitational lens data, and not only study
+  the mechanisms of protein folding, but discover methods to
+  synthesize new drugs.
+
+  We must be careful, however. In many cases we need to be able to
+  interpret what our model tells us. We also must make sure that
+  the any results we obtain are reproducible.
+}
+
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Pervasive ``intelligent'' systems}
+    \begin{columns}
+      \begin{column}{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/echo-home.jpg}
+        \\
+        Home assistants
+
+        \vspace{\fill}
+
+        \bigskip
+
+        \includegraphics[width=\textwidth]{../figures/tesla.jpg}
+        \\
+        Autonomous vehicles
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        \centering 
+        \includegraphics[width=\textwidth]{../figures/web-ads.png}
+        \\
+        Web advertising
+
+        \vspace{\fill}
+
+        \bigskip
+
+        \includegraphics[width=\textwidth]{../figures/uber-here-maps.jpg}
+        \\
+        Ridesharing
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        \centering 
+        \\
+        \includegraphics[width=\textwidth,clip = true, trim=0 0 0 42.5cm]{../figures/lending.pdf}
+        \\
+        Lending
+
+        \vspace{\fill}
+
+        \bigskip
+
+        \includegraphics[width=\textwidth]{../figures/algorithms-public.jpg}
+        \\
+        Public policy
+      \end{column}
+    \end{columns}
+    \only<2>{
+      \begin{tikzpicture}[remember picture,overlay]
+        \draw[fill=black,opacity=0.75] 
+        (current page.north east) rectangle (current page.south west);
+        \node at (current page.center) {
+          {\Huge \alert{Privacy, Fairness, Safety}}
+        };
+      \end{tikzpicture}}
+  \end{frame}
+}
+
+\only<article>{
+  While machine learning models in science are typically carefully
+  handcrafted by scientists and experts in machine learning and
+  statistics, this is not typically the case in everyday
+  applications. Nevertheless, well-known or home-grown machine
+  learning models are being deployed across the application
+  spectrum. This involve home assistants that try and get you want,
+  web advertising, which tries to find new things for you to want,
+  lending, which tries to optimally lend you money so that you buy
+  what you didn't need before. We also have autonomous vehicles,
+  which take you were you want to go, and ridesharing services,
+  which do the same thing, but use humans instead. Finally, there
+  are many applications in public policy, such as crime prevention,
+  justice, and disease control which use machine learning.  In all
+  those cases, we have to worry about a great many things that are
+  outside the scope of the machine learning problems itself. These
+  are (a) privacy: you don't want your data used in ways that you have
+  not consented to (b) fairness: you don't want minorities to be
+  disadvantaged and (c) safety: you don't want your car to crash.
+}
+
+
+\begin{frame}
+  \frametitle{The view from statistics}
+  
+  \begin{block}{Inference}
+  Given what we know, what can we say about how the world works, the current state of the world or events in the past?
+\end{block}
+\begin{block}{Prediction}
+  Can we predict specific events in the future?
+\end{block}
+\begin{block}{Decision making}
+  Given what we know, and what we want to achieve, what is the best decision we can make?
+\end{block}
+\end{frame}
+
+  
+\only<presentation>{
+  \begin{frame}
+    \begin{block}{Reasons for data collection}
+      \begin{itemize}
+      \item To publish it.
+      \item To publish specific statistics.
+      \item To make decisions through arbitrary computations.
+      \end{itemize}
+    \end{block}
+  \end{frame}
+}
+
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[height=\fheight]{../figures/smbc-the-problem}
+    % Copyright: SMBC comics
+  \end{figure}
+\end{frame}
+\begin{frame}
+    \begin{block}{An issue of trust}
+      \begin{itemize}
+      \item Who to trust and how much.
+      \item What you want out of the service.
+      \end{itemize}
+    \end{block}
+    \begin{block}{Data use}
+      \begin{itemize}
+      \item Publication of ``anonymised'' data.
+      \item Public data analysis.
+      \end{itemize}
+    \end{block}
+  \begin{alertblock}{Cryptography is not enough.}
+    \only<presentation>{
+      Cryptography provides:
+      \begin{itemize}
+      \item Secure communication and computation.
+      \item Authentication and verification.
+      \end{itemize}
+      Public outputs are by definition \alert{not} protected.
+    }
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Record linkage}
+  \begin{figure}
+    \begin{subfigure}{0.65\textwidth}
+      \centering \def\firstcircle{(0,0) circle (7em)}
+      \def\secondcircle{(3,0) circle (7em)}
+      
+      \begin{tikzpicture}
+        \uncover<1,3>{ \draw \firstcircle node[text width=7em]
+          {Ethnicity\newline Date\newline Diagnosis \newline Procedure
+            \newline Medication \newline Charge }; } \uncover<3>{
+          \begin{scope}
+            \clip \firstcircle; \fill[red] \secondcircle;
+          \end{scope}
+        } \uncover<2,3>{\draw \secondcircle node [text width=2em,
+          align=right] {Name \newline Address \newline Registration
+            \newline Party \newline Lastvote}; } \node [text width=4em]
+        (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
+        \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
+          {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
+          (QI); }
+      \end{tikzpicture}
+      \caption{Voter registration}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \includegraphics[height=0.5\fheight]{../figures/Bill_Weld}
+      %% Copyright: CC BY 2.0 
+      \caption{Bill Weld}
+    \end{subfigure}
+  \end{figure}
+  \only<article>{
+    As an example, in the 1990s a the governor of Massachussets,
+    decided to publish anonymised information about the health records
+    of individual state employs. They were careful to hide all
+    obviously identifying information such as their name, and thus
+    claimed that there are no potential privacy violations. However,
+    they left in some information that they thought would be useful
+    for researchers: the postcode, the birthdate, and the sex of each
+    individual.
+    
+    This allowed a PhD student, McSweeney, to perform the following
+    linkage attack. She order a floppy disk containing database of
+    voting records in the state. This contained names and addresses,
+    as well as the postcode, birth date and sex of every voter. In that
+    way, she was able to cross-reference this data, and so obtain the
+    identities of individuals in that database. The first record she
+    obtained was that of the governor himself, Bill Weld. Later, she
+    estimated that approximately 87\% of Americans are uniquely
+    identifiable through those three attributes.
+  }
+\end{frame}
+
+
+
+\section{Fairness}
+  \begin{frame}
+    \frametitle{Hiring decisions}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \includegraphics[width=0.7\fwidth]{../figures/cmu-headcount}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \includegraphics[width=0.9\columnwidth]{../figures/amazon-hiring}
+        \\
+        \includegraphics[width=0.9\columnwidth]{../figures/recruitement-automation}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+
+  \begin{frame}
+    \frametitle{Group fairness and proportionality}
+    \includegraphics[width=\textwidth]{../figures/genomics-diversity}
+    \url{https://qz.com/1367177/}
+  \end{frame}
+
+
+\section{Practical information}
+
+
+\begin{frame}
+  \frametitle{Course structure}
+  \begin{block}{Module structure}
+    \begin{itemize}
+    \item \alert{Activity}-based, hands-on.
+    \item Mini-lectures with short exercises in each class.
+    \item Technical tutorials and labs in alternate week.
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Modules}
+    Mini projects.
+    \begin{itemize}
+    \item Simple decision problems: Credit risk.
+    \item Sequential problems: Medical diagnostics and treatment.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Technical topics}
+  \begin{block}{Algorithms and models}
+    \begin{itemize}
+    \item Bayesian inference and decision theory.
+    \item Differential privacy.
+    \item Fairness, conditional independence and smoothness.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Resources}
+    \begin{itemize}
+    \item Course code and notes:  \url{https://github.com/olethrosdc/ml-society-science}
+    \item Book: \url{https://github.com/olethrosdc/ml-society-science/book.pdf}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+
+
+
+
+
+
+% \section{Privacy}
+% \againframe{privacy:linkage}
+
+% \bibliographystyle{plain}
+\bibliographystyle{apalike}
+
+\bibliography{../../bib/mine,../../bib/misc}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

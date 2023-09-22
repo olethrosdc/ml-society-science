@@ -38,7 +38,7 @@ voter = [('1996-03-28', '1123', 'John Doe'),
 c.executemany('INSERT INTO registration VALUES (?,?,?)', voter)
 
 ## Join operation: SELECT [databases to show] FROM [DB1] JOIN [DB2] ON [condition]
-c.execute('SELECT drugs.*, registration.* FROM drugs JOIN registration ON drugs.birth==registration.birth AND drugs.zip==registration.zip')
+
 
 print(c.fetchall())
 
