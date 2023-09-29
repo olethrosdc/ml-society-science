@@ -1,0 +1,45 @@
+\documentclass[a4paper]{article}
+\usepackage[notheorems]{beamerarticle}
+
+\input{../preamble}
+
+%\def\solution {1}1
+
+
+\title{Randomised response} 
+\author{Christos Dimitrakakis}
+\begin{document}
+\maketitle
+The purpose of this assignment is to learn how to create randomised response datasets.
+
+\begin{exercise}
+  Work in teams of 3-4 students.
+
+  First, develop an algorithm that takes binary data as input, and creates a
+  randomised response output. More specifically, the inputs are
+  \begin{itemize}
+  \item $\epsilon$, the privacy loss
+  \item $D$, a matrix of $n$ columns (features) and $T$ rows (data points).
+  \end{itemize}
+
+  Your algorithm will be tested with a small dataset consisting of two features only, $x$ and $y$
+  For that, you should estimate the following probabilities:
+  \begin{align}
+    P(x = 1), & P(y=1)\\
+    P(y = 1 | x = 0), & P(y = 1 | x =1)
+  \end{align}
+
+  In the end, plot how your estimate of these probabilities changes as
+  \begin{itemize}
+  \item $\epsilon$ increases from $0$ to $10$ in increments of $0.1$
+  \item $T$ increases from 1 to 1000.
+  \end{itemize}
+
+  The basics on how to do that will be introduced in the course.
+\end{exercise}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
