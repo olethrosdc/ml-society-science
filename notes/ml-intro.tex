@@ -19,11 +19,14 @@
   % What are the central problems in machine learning?
   Problems in machine learning are similar to problems in science.
   Scientists must plan experiments intelligently and collect data.
-  The must be able to use the data to verify a different hypothesis.
-  More generally, they must be able to make decisions under
-  uncertainty (Without uncertainty, there would be no need to gather more data).
-  Similar problems appear in more mundane tasks, like learning to drive a car.
-}
+  The must be able to use the data to verify or falsify different
+  hypotheses.  More generally, they must be able to make decisions
+  under uncertainty (Without uncertainty, there would be no need to
+  gather more data).  Similar problems appear in more mundane tasks,
+  like learning to drive a car.  There are always two aspects to the
+  problem: first, narrowing down the set of plausible hypotheses from
+  the data, and actively experimenting in such a way as to learn as
+  quickly as possible.  }
 \only<presentation>{
   \begin{frame}
     \frametitle{Scientific applications}
@@ -124,31 +127,33 @@
   \end{frame}
 }
 
-\only<article>{
-  While machine learning models in science are typically carefully
-  handcrafted by scientists and experts in machine learning and
-  statistics, this is not typically the case in everyday
+\only<article>{ While machine learning models in science are typically
+  carefully handcrafted by scientists and experts in machine learning
+  and statistics, this is not typically the case in everyday
   applications. Nevertheless, well-known or home-grown machine
   learning models are being deployed across the application
-  spectrum. This involve home assistants that try and get you want,
-  web advertising, which tries to find new things for you to want,
+  spectrum. This involve home assistants that try and get you want;
+  web advertising, which tries to find new things for you to want;
   lending, which tries to optimally lend you money so that you buy
-  what you didn't need before. We also have autonomous vehicles,
-  which take you were you want to go, and ridesharing services,
-  which do the same thing, but use humans instead. Finally, there
-  are many applications in public policy, such as crime prevention,
+  what you didn't need before. We also have autonomous vehicles, which
+  decide how to take you were you want to go, and ridesharing
+  services, which do the same thing. The latter also decide where
+  which client their drivers should pick up next. Finally, there are
+  many applications in public policy that including some type of
+  automated decision making, partially based on machine learning and
+  artificial intelligence research. These include crime prevention,
   justice, and disease control which use machine learning.  In all
   those cases, we have to worry about a great many things that are
-  outside the scope of the machine learning problems itself. These
-  are (a) privacy: you don't want your data used in ways that you have
-  not consented to (b) fairness: you don't want minorities to be
-  disadvantaged and (c) safety: you don't want your car to crash.
-}
+  outside the scope of the machine learning problems itself. These are
+  (a) privacy: you don't want your data used in ways that you have not
+  consented to, especially if this may cause harm (b) fairness: you
+  don't want minorities to be disadvantaged, or to enable nepotism and
+  (c) safety: you don't want your car to crash.  }
 
 \section{Data analysis,  learning and planning}
 
 \only<article>{
-  To make the above more concrete, let's have a look at a number of problems in machine learning. These involve learning from and analysing data, including inferring decision rules, and constructing complex plans using the evidence gleaned from the data. Machine learning problems are commonly separated in three different types: supervised, unsupervised and reinforcement learning. Typical supervised learning problems include classification and regression, while unsupervised problems include compression, clustering and topic modelling. Reinforcement learning, on the other hand, is concerned with artificially intelligent agents more generally, with examples including game playing and adaptive control. Their main differences are two. Firstly, the \emph{type} of feedback we have about learning performance. Secondly, and perhaps more importantly, whether or not the problem involves \emph{active data collection}. In this course, we will try and take a global view of these problems in the context of decision theory.
+  To make the above more concrete, let's have a look at a number of problems in machine learning. These involve learning from and analysing data, including inferring decision rules, and constructing complex plans using the evidence gleaned from the data. Machine learning problems are commonly separated into three different types: supervised, unsupervised and reinforcement learning. Typical supervised learning problems include classification and regression, while unsupervised problems include compression, clustering and topic modelling. Reinforcement learning, on the other hand, is concerned with artificially intelligent agents more generally, with examples including game playing and adaptive control. There are a few basic differences between those learning problems. Firstly, the \emph{measure} of performance, and the \emph{type} of feedback we have about learning performance. In supervised learning, there is both a clear objective, and a very simple feedback mechanism for every decision you make. In unsupervised problems, the objective is sometimes not easy to formalise, however once this is done there is no need for a feedback mechanism. In reinforcement learning problems, the performance metric is simple to understand, but measuring performance is not easy, as the feedback we have is delayed and indirect. A final aspect is whether or not the problem involves \emph{active data collection}. While this is always necessary in reinforcement learning problems, standard supervised and unsupervised learning involve either a fixed dataset or a constant stream of data, which is not influenced by the algorithm. In this course, we will try and take a global view of these problems in the context of decision theory.
 }
 
 \only<presentation>{
