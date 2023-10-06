@@ -16,7 +16,9 @@ def laplace_mechanism(data: np.array, epsilon: np.float, function: callable, sen
         value: the value of f with Laplace noise added
     '''
     # Dummy implementation. You must also add the appropriate amount of noise .
-    return function(data) + np.random.laplace(scale = sensitivity / epsilon)
+    return function(data) + np.random.laplace()
+
+
 
 
 
