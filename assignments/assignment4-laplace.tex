@@ -1,0 +1,47 @@
+\documentclass[a4paper]{article}
+\usepackage[notheorems]{beamerarticle}
+
+\input{../preamble}
+
+%\def\solution {1}1
+
+
+\title{Laplace mechanism} 
+\author{Christos Dimitrakakis}
+\begin{document}
+\maketitle
+The purpose of this assignment is to get familiar with the Laplace and Exponential mechanisms
+
+\begin{exercise}[The Laplace mechanism for histograms]
+  Calculating a histogram requires counting the number of individuals in each bin. If we think naively about it, then each count is one question, so we can use the composition theorem of differential privacy: If there are $k$ bins, and we count the items in each bin with an $\epsilon$-DP algorithm, then the total privacy loss is $k\epsilon$.
+
+  While we cannot do better in general, e.g. because some bins might be overlapping, in reality histograms do not have overlapping bins. So, let us define histograms formally:
+
+  A histogram is a function $f : \CX \to \Naturals^k$ where, for any dataset $x \in \CX$, the number of items in the $i$-th bin is $f_i(x)$. To define the sensitivity of $f$, we need some notion of distance in $\Naturals^k$. For this we define
+  \[
+    \|f(x) - f(x')\| = \sum_{i=1}^k |f_i(x) - f_i(x')|.
+  \]
+  Calculate the sensitivity of the histogram function $f$.
+\end{exercise}
+
+
+\begin{exercise}[The Exponential mechanism as Laplace]
+  Consider the problem of calculating a function $f: \CX \to \Reals$ and returning a noisy output $a \in \CA = \Reals$,
+  with some utility function  $U : \CX \times \CA \to \Reals$.
+  When using the exponential mechanism in a real output space, its probability density is:
+  \[
+    \pi(a|x) = \frac{\exp\{\epsilon U(a,x) /2L \}}{\int_{-\infty}^\infty \exp\{\epsilon U(a',x) /2L \} da'},
+  \]
+  where $L$ is the sensitivity of $U$.
+  Show that the utility function $U(a,x) = -|a - f(x)|$, the exponential mechanism is identical to the Laplace mechanism.
+
+\end{exercise}
+
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
