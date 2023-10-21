@@ -788,7 +788,7 @@ Thus, estimating the expected utility of a particular policy is always possible,
 
 
   \begin{example}{Ranking and top-$k$ cohort selection.}
-    \only<article>{In this setting, we assume we have a set of $n$
+    In this setting, we assume we have a set of $n$
       individuals, with the $i$-th individual receiving an evaluation
       $w_i$. We need to choose individuals from the set so that
       $a_i = 1$ if we select an individual, and $0$ otherwise. We can
@@ -800,7 +800,7 @@ Thus, estimating the expected utility of a particular policy is always possible,
   \end{example}
 
 
-  This, however, creates a problem. What if the $k$-th individual has value $w_k$, but there exist more individuals of equal value, so that e.g. $w_{k+1} = w$? Due to our constraint on only selecting $k$ individuals from the set, we now have a problem: if we select $k$ and not $k+1$, we are treating the individuals differently, even though their characteristics are exactly the same. The simplest way to fix that is to choose between $k$ or $k+1$ with probability $1/2$ each. 
+  This, however, creates a problem. What if the $k$-th individual has value $w_k$, but there exist more individuals of equal value, so that e.g. $w_{k+1} = w$? Due to our constraint on only selecting $k$ individuals from the set, we now have a problem: if we select $k$ and not $k+1$, we are treating the individuals differently, even though their characteristics are exactly the same. The simplest way to fix that is to choose between $k$ or $k+1$ with probability $1/2$ each. The same problem occurs when we want to match multiple individuals to one of many possible allocations, as is done in university entrance. The obvious solution there is also randomisation. Even though some people find randomisation fundamentally unfair, it is the only method offering equitable treatment (though not equitable outcomes) for indistinguishable individuals.
   
   \begin{example}{Matching problems.}
     \only<article>{ In classical matching problems, such as university
@@ -851,7 +851,10 @@ Thus, estimating the expected utility of a particular policy is always possible,
     possible, we can assume a probabilistic model
     $P_\param(w_i | x_i)$ that assigns a distribution over worths
     $w_i$ for individuals with features $x_i$. Then we want our
-    decisions to be fair in expectation.}
+    decisions to be fair in expectation. This expectation is taken with respect to both the randomness due to our modelling, and the potential randomness due to our decision rule.
+
+     What if two students had almost, but not exactly the same grades, and one was assigned a place, while the other not. Is that fair? Is it perhaps fairer to randomise to some extent, so that, while the best students are guaranteed a place, the ones further down the ranking might still have a chance? After all grades are not the absolute truth: they are but a noisy, biased measurement of an individual's academic capacity. In the section below, we will discuss how decision rules can be made smoother more generally, and not just through randomising over identical individuals.
+  }
 \end{frame}
 
 \subsection{Fairness as smoothness.}
