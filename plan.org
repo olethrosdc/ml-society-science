@@ -169,11 +169,12 @@ The purpose of this course is to familiarise students with societal and scientif
    |       | Exponential Mechanism |                     |                            |
    |       |                       |                     |                            |
    |-------+-----------------------+---------------------+----------------------------|
-   | 13.10 | Approximate DP        |                     | Renyi DP                   |
+   | 13.10 | Exponential Mechanism |                     | Renyi DP                   |
+   |       | Approximate DP        |                     |                            |
    |       | Gaussian Mechanism    |                     |                            |
    |-------+-----------------------+---------------------+----------------------------|
-   | 20.10 |                       |                     | Shuffle privacy            |
-   |       | Privacy amplification |                     | Federated learning         |
+   | 20.10 | Privacy Amplification |                     | Shuffle privacy            |
+   |       |                       |                     | Federated learning         |
    |-------+-----------------------+---------------------+----------------------------|
    | 03.11 | Group fairness        |                     | Kleinberg paper            |
    |       | Equalised odds        |                     |                            |
