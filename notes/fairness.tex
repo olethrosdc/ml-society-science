@@ -95,20 +95,18 @@
 
   \uncover<4->{We still don't know how a \alert{specific} student will
     do!}
-
-  \only<article>{ I must emphasise that these are only
-    statistics, and not necessarily predictive of the students'
-    ability.  Ideally, we would like to admit the students that we
-    expect to do well, given the information that we have. However,
-    this information is typically not enough for us to make reliable
+  \only<article>{ Since these are only statistics, they not
+    necessarily predictive of an individual student's ability.
+    Ideally, we would like to admit the students that we expect to do
+    well, given the information that we have. However, this
+    information is typically not enough for us to make reliable
     predictions.  In addition, we might want to also make sure that
     everybody has a chance to obtain a good education. In order to
     achieve this, we might want to promote ethnic or gender equality
     through university admissions.  Unfortunately, there is no ideal
     solution and we must always balance the benefit of individual
     students with that of specific societal groups as well as society
-    as a whole.
-  }
+    as a whole.  }
   
 
 \end{frame}
@@ -159,7 +157,7 @@
     of the interviewed applicants will be hired. There are two
     decision points here, with most people being cut off at the first
     point: the screening. To automate this process, Amazon worked on
-    resume-screen program.~\footnote{\url{https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G}}
+    a resume-screening program.~\footnote{\url{https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G}}
     However, this was scrapped after it was discovered that it
     predominantly favoured men. The reason is not entirely clear, but
     it was probably due to the fact that they trained the system on
@@ -758,10 +756,11 @@ Thus, estimating the expected utility of a particular policy is always possible,
   \begin{definition}
     A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$, we have $w_i > w_j \Rightarrow u_i(a) \geq u_j(a)$.
   \end{definition}
-  \only<article>{In the above definition, a person with a higher worth than another is guaranteed to obtain at least as good an outcome as another person of lower worth. If we think about a single decision affecting multiple individuals, then such a fairness property is hard to satisfy: in some cases there may not exist any such fair decision.}
+  \only<article>{In the above definition, a person with a higher worth than another is guaranteed to obtain at least as good an outcome as another person of lower worth. If we think about a single decision affecting multiple individuals, then such a fairness property is hard to satisfy: in some cases there may not exist any such fair decision, as shown in the example below.}
   \begin{example}
     \begin{tabular}{c||c|c|c}
       $w$ &  &  $a = 0 $ & $a = 1$\\
+      \hline
       1  & $u_1$ & 0 & 1\\
       0  & $u_2$ & 1 & 0
     \end{tabular}
@@ -771,18 +770,37 @@ Thus, estimating the expected utility of a particular policy is always possible,
     A \textbf{policy} $\pol$ is \textbf{fair} if, for all $i,j$ it holds that: $\E_\pol [u_i | w] > \E[u_j | w] \Rightarrow w_i > w_j$.
   \end{definition}
   
-  \begin{example}{Scoring-based binary decisions.}
-    \only<article>{ Let us consider problems where the decision maker
-      has a binary choice, e.g. to accept or reject a loan
-      application. In particular, the decision rule may be restricted
-      so that the decision has to depend only on a \emph{score},
-      e.g. the credit score. Let $w_i$ be the score of the $i$-th
-      individual. Typically, the decision $a_i$ about an individual
-      $i$ does not depend on the decision about any other
-      individual. Hence, the decision rule can be factorised as
-      $\pol(a | w) = \prod_i \pol(a_i | w_i)$.
-    }
+  \only<article>{ Let us consider problems where the decision maker
+    has a binary choice, e.g. to accept or reject a loan
+    application. In particular, the decision rule may be restricted so
+    that the decision has to depend only on a \emph{score}, e.g. the
+    credit score. Let $w_i$ be the score of the $i$-th
+    individual. Typically, the decision $a_i$ about an individual $i$
+    does not depend on the decision about any other individual. Hence,
+    the decision rule can be factorised as
+    $\pol(a | w) = \prod_i \pol(a_i | w_i)$. This is typically the
+    case when individuals appear sequentially, and we must make a
+    decision for each one of them in turn, as long as the decision
+    rule $\pol$ remains fixed.
+    
+    However, in some cases $\pol$ itself depends on a population of individuals. This is the case in cohort selection, when we need to select some individuals from a set.
+  }
+
+
+  \begin{example}{Ranking and top-$k$ cohort selection.}
+    In this setting, we assume we have a set of $n$
+      individuals, with the $i$-th individual receiving an evaluation
+      $w_i$. We need to choose individuals from the set so that
+      $a_i = 1$ if we select an individual, and $0$ otherwise. We can
+      assume that all individuals prefer being selected.  The
+      selection algorithm $\pol$ creates an allocation
+      $a=(a_1, \ldots, a_n)$. A simple way to perform the allocation
+      to first rank the individuals so that $w_{i} > w_{i+1}$. We then
+      can assign $a_i=1$ for all $i \leq k$.
   \end{example}
+
+
+  This, however, creates a problem. What if the $k$-th individual has value $w_k$, but there exist more individuals of equal value, so that e.g. $w_{k+1} = w$? Due to our constraint on only selecting $k$ individuals from the set, we now have a problem: if we select $k$ and not $k+1$, we are treating the individuals differently, even though their characteristics are exactly the same. The simplest way to fix that is to choose between $k$ or $k+1$ with probability $1/2$ each. The same problem occurs when we want to match multiple individuals to one of many possible allocations, as is done in university entrance. The obvious solution there is also randomisation. Even though some people find randomisation fundamentally unfair, it is the only method offering equitable treatment (though not equitable outcomes) for indistinguishable individuals.
   
   \begin{example}{Matching problems.}
     \only<article>{ In classical matching problems, such as university
@@ -833,7 +851,10 @@ Thus, estimating the expected utility of a particular policy is always possible,
     possible, we can assume a probabilistic model
     $P_\param(w_i | x_i)$ that assigns a distribution over worths
     $w_i$ for individuals with features $x_i$. Then we want our
-    decisions to be fair in expectation.}
+    decisions to be fair in expectation. This expectation is taken with respect to both the randomness due to our modelling, and the potential randomness due to our decision rule.
+
+     What if two students had almost, but not exactly the same grades, and one was assigned a place, while the other not. Is that fair? Is it perhaps fairer to randomise to some extent, so that, while the best students are guaranteed a place, the ones further down the ranking might still have a chance? After all grades are not the absolute truth: they are but a noisy, biased measurement of an individual's academic capacity. In the section below, we will discuss how decision rules can be made smoother more generally, and not just through randomising over identical individuals.
+  }
 \end{frame}
 
 \subsection{Fairness as smoothness.}
@@ -854,7 +875,7 @@ Thus, estimating the expected utility of a particular policy is always possible,
   decisions about each individual separately. Hence, they take
   decision $a_i \in \CA$ for individual $i$ with probability
   $\pol(a_i | x_i)$. Then we need to define some distance or
-  divergence $D([\pol(a_i | x_i) | \pol(a_j | x_j)]$ between the
+  divergence $D[\pol(a_i | x_i) | \pol(a_j | x_j)]$ between the
   decision distributions for two different individuals.
 
     

@@ -1384,24 +1384,28 @@
   \frametitle{DP properties of the Laplace mechanism}
   \only<article>{To use the Laplace mechanism in the centralised setting, we must relate it to a specific function $f$ that we wish to compute. In particular, the mecnahism works by adding noise to the output of the function $f$ in a carefully calibrated manner so that we achieve exactly $\epsilon$-differential privacy. }
   \begin{definition}[Sensitivity]
-    The sensitivity of a function $f$ is
+    The sensitivity of a function $f : \CX \to \Reals^n$ is
     \[
-      \sensitivity{f} \defn \sup_{x N x'} |f(x) - f(x')|
+      \sensitivity{f} \defn \sup_{x N x'} \|f(x) - f(x')\|_1
     \]
     \only<article>{
       If we define a metric $d$, so that $d(x, x') = 1$ for $x N x'$, then:
       \[
-        |f(x) - f(x')| \leq \sensitivity{f} d(x, x'),
+        \|f(x) - f(x')\|_1 \leq \sensitivity{f} d(x, x'),
       \]
       i.e. $f$ is $\sensitivity{f}$-Lipschitz with respect to $d$.
     }
   \end{definition}
+  \only<article>{
+    In the above, we have defined sensitivity with respect to the $L_1$ norm. While alternative definitions are possible, this is the one that is the most convenient with respect to protecting individual privacy. This is because it captures the total change in all the components $f_i$ of the function $f$. Below are two examples. In the first one, the function is simply clamping the input onto the interval $[0,B]$. Hence its sensitivity is at most $B$.
+    }
   \begin{example}
     If $f: \CX \to [0, B]$, e.g. $\CX = \Reals$ and $f(x) = \min\{B, \max\{0, x\}\}$, then
     \onslide<2->{
       $\sensitivity{f} = B$.
     }
   \end{example}
+  \only<article>{The section example simply takes the average of a number of points, bounded in the interval $[0,B]$. This makes its sensitivity bounded inversely proportionally to the number of points.}
   \onslide<3->{
     \begin{example}
       If $f: [0,B]^n \to [0,B]$ is
@@ -1422,7 +1426,11 @@
       \end{proof}
     }
   }
+  \begin{alertblock}{Sensitivity versus local sensitivity.}
+    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': xNx'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function.
+  \end{alertblock}
 \end{frame}
+
 \begin{frame}
   \begin{theorem}
     The Laplace mechanism on a function $f$ with sensitivity $\sensitivity{f}$, ran with $\Laplace(\lambda)$ is $\sensitivity{f} / \lambda$-DP. Consequently, if the Laplace mechanism is ran with $\lambda = \sensitivity{f} / \epsilon$, then it is $\epsilon$-DP. 
@@ -1437,6 +1445,7 @@
         = e^{\sensitivity{f} / \lambda}
     \end{align*}
     \only<article>{
+      We first write the proof for a real-valued function $f$. 
       The first step follows from the definition of the Laplace mechanism. The inequality follows from the fact that for  $x N x'$, we have $|f(x) - f(x')| \leq \sensitivity{f}$. In particular, 
       \begin{enumerate}[(a)]
       \item If $f(x') - a \geq 0$ then
@@ -1448,7 +1457,7 @@
         \]
         as $-f(x') \leq \sensitivity{f} - f(x)$.
       \end{enumerate}
-      Replacing into the exponential gives us the required inequality. The final result is obtained with elementary algebra.
+      Replacing into the exponential gives us the required inequality. The final result is obtained with elementary algebra. For the general case, note that $\exp(\|z\|_1) = \prod_i \exp(|z_i|)$.
     }
   \end{proof}
 
@@ -1793,8 +1802,8 @@ tightly with advanced composition theorems.
   \end{exampleblock}
 
 
-  \begin{theoryblock}{Renyi differential privacy.}
-    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as the KL divergence, as long as this becomes unbounded for distributions with unequal support. 
+  \begin{theoryblock}{Variants of differential privacy.}
+    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as a Renyi divergence, as long as it becomes unbounded for distributions with unequal support.  This has led to a proliferation of DP variants including approximate-DP, Renyi-DP and $z$-DP.
   \end{theoryblock}
 }
 

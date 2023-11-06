@@ -39,9 +39,9 @@ for t in range(n_epsilons):
     for i in range(n_iter):
         # calculate sensitivy, and set scale (lambda) according to that and epsilon
         # scale should be L/epsilon
-        central[i] = np.mean(data) + np.random.laplace(0, sensitivity / epsilon[t]) # fix the scale to the right value
+        central[i] = np.mean(data)
     for i in range(n_iter):
-        local[i] = np.mean(randomised_response.rp_float(data, epsilon[t], max_salary * np.ones(1)))
+        local[i] = np.mean(randomised_response.rp_float(data, epsilon[t], 1)
     print(central)
     print(local)
     print(sensitivity)
