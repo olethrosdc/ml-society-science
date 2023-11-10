@@ -1,5 +1,7 @@
-\chapter{Causality}
-\label{ch:causality}
+\only<article>{
+  \chapter{Causality}
+  \label{ch:causality}
+}
 
 \section{Introduction}
 \only<presentation>{
@@ -14,7 +16,10 @@
 
 \begin{frame}
   \frametitle{Headaches and aspirins}
-  \only<article>{Causal questions do not just deal with statistical relationships. The meaning of these questions is slightly different depending on whether we are talking about the population at large, or a specific individual. For populations, the main question is whether or not our actions have a causal effect. In observational data, we also need to consider the \emph{direction of causation}.}
+  \only<article>{
+    In statistics, we are interested in how variables relate to each other. In a classification or problems, we might ask whether different features are predictive of the class label or dependent variable. What we are actually doing is simply estimating conditional or joint distributions, and using them to infer relations between variables.
+
+    Causal questions do not just deal with statistical relationships. We actually want to know \emph{what causes what}, i.e. the direction of causation. This is not a simple question to state! The meaning of the questions can be   different depending on whether we are talking about the population at large, or a specific individual. For populations, the main question is whether or not our actions have a causal effect: what will change if we adjust our behaviour?  In observational data, causal effects are harder to determine, especially if we do not know how decisions were made. However, simple extensions of statistical modelling allow us to perform causal inference.  Finally, there is the question of \emph{counterfactuals}, e.g. if I changed something the past, what would have happened? Counterfactual questions are impossible to answer without strong assumptions about the data-generating process, especially since they pertain to effects on individuals rather than populations.}
   \begin{example}[Population effects]
     \begin{figure}[H]
       \centering
@@ -45,15 +50,22 @@
         \caption{Response sensitivity}
         \label{fig:dose-sensitivity}
       \end{subfigure}
-      \caption{Investigating the response of the population to various doses of the drug.}
+      \caption{Investigating the response of the population to various doses of the drug.
+        \only<article>{
+          This is a simple method to evaluate whether the drug has a causal effect. Higher doses result in a higher cure-rate, as well as higher rate of side-effects. However, there can also be individual variability that affects the response. The right-hand graph shows that low-sensitivity people are not affected at any drug dosage, while moderate-sensitivity people require double the dose of high-sensitivity people to achieve the same effect.
+        }
+      }
     \end{figure}
     \only<article>{
-      We can ask ourselves two different questions about the effect of population effect aspirin on headaches.
+      As an example, we can ask ourselves two different questions about the effect of population effect aspirin on headaches.
     }
     \begin{itemize}
     \item Is aspirin an effective cure for headaches?
     \item Does having a headache lead to aspirin-taking?
     \end{itemize}
+    \only<article>{
+      Both questions relate to a causal effect on the population. That is, generally speaking, if you were to take an aspirin you would have a higher chance of getting rid of your headache than not taking an aspirin.
+    }
   \end{example}
   \only<article>{To examine the effect of aspirin on the population, we can look at the dose-response curve in Figure~\ref{fig:dose-response}. We first have to define what it means to be 'cured'. We also need to define possible side-effects. We can then measure how increased doses of aspirin lead to different outcomes. If the experiment has been properly conducted, this dose-response curve suggests that aspirin does have an effect in curing headaches, though it also has some side-effects. However, not all individuals are the same. Let us assume each person has a different \emph{sensitivity} to aspirin, so that some individuals responds better to treatment, especially at high doses, and some do not respond very much at all, as shown in Figure~\ref{fig:dose-sensitivity}}
 
@@ -83,16 +95,22 @@
 
 \begin{frame}
   \frametitle{Overview}
+  \only<article>{This chapter will discuss how we can infer causal models from data, as well as effects on individuals. We will adapt a decision-theoretic view, which will allow us to design possible interventions for improving an observed historical policy.}
+  
   \begin{block}{Inferring causal models}
     We can distinguish different \alert{models} from observational or experimental data.
+    \only<article>{A causal model is different from a statistical model in that it includes interventions, or policies. These have no distribution \emph{per se}, but are selected in an arbitrary manner. The causal question is whether a change in policy affects some variables, and to what extent.}
   \end{block}
 
   \begin{block}{Inferring individual effects}
-    The effect of possible intervention on an individual is not generally determinable. We usually require strong assumptions.
+    The effect of possible intervention on an individual is not generally determinable. We usually require strong assumptions. \only<article>{This is because even a causal model only gives us a probability distribution over variables for a given intervention. The question that we have to answer about individuals concerns mainly counterfactuals: what would have happened if I had made a different choice? It is impossible to have counterfactual information. Hence, we must construct structural causal models that carefully separate noise into different components, which then affect different variables. }
   \end{block}
   
   \begin{block}{Decision-theoretic view}
     There are many competing approaches to causality. We will remain within the decision-theoretic framework, which allows us to crisply define both our knowledge and assumptions.
+    \only<article>{
+      This means that we will only need to use the standard definitions of a policy for making decisions using some observations, as well the concept of utility for measuring the quality of different decisions and observable outcomes. This approach is quite flexible and it subsumes most, but not all, other approaches to causality. Its advantage is that we can only need standard concepts of conditional independence and graphical models, and can make use of standard probabilistic inference algorithms.
+      }
   \end{block}
 \end{frame}
 
@@ -900,5 +918,5 @@
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
-%%% TeX-master: "notes"
+%%% TeX-master: "book"
 %%% End:
