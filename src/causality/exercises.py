@@ -1,11 +1,16 @@
 ## -*- Mode: python -*-
 ## Exercises for the lab
 
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-## Exercise 15,16 policy. The basic policy only returns a random action
+#### Policies ####
+##
+## We are looking at two policies. 
+
+## Exercise 8,9 policy. The basic policy only returns a random action
 ## (action 1 with probability pi)
 class BasicPolicy:
     def __init__(self, pi):
@@ -15,7 +20,7 @@ class BasicPolicy:
     def get_n_actions(self):
         return 2
 
-## Exercise 17 policy. The Markov policy has a different action
+## Exercise 10,11 policy. The Markov policy has a different action
 ## probability for each possible x.  It maintains a vector pi so that
 ## it takes action 1 with probability pi[x] when it observes x.
 class MarkovPolicy:
@@ -28,7 +33,7 @@ class MarkovPolicy:
     def get_n_actions(self):
         return 2
 
-## Exercise 15 model.  The basic model simply gives a response with mean
+## Exercise 8 model.  The basic model simply gives a response with mean
 ## equal to the action and has gaussian noise So, it models a -> y
 class BasicModel:
     def __init__(self, mean):
@@ -37,7 +42,7 @@ class BasicModel:
     def get_response(self, action):
         return np.random.normal(action + self.mean, 1)
 
-## Exercise 16 model. In this setting, each action has a different
+## Exercise 9 model. In this setting, each action has a different
 ## mean.  The model is a -> y
 class StandardModel:
     ## Now the mean is a vector
@@ -57,7 +62,7 @@ class StandardModel:
             hat_U += y
         return hat_U/n_samples
 
-## Exercise 17 model. In this setting, the response depends on both
+## Exercise 11 model. In this setting, the response depends on both
 ## the action and the covariate x (which is a sufficient statistic)
 class CovariateModel:
     ## Now the mean is a 2x2 matrix
