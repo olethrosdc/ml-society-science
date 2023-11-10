@@ -218,13 +218,8 @@
   \frametitle{The Bayesian Null-Hypothesis test}
   \index{Null-Hypothesis test!Bayesian}
   \begin{example}
+    \only<article>{In this example, we construct a null-hypothesis test in the Bayesian framework. This requires that we select the observation and action space and utility function. First, we consider only two models. In the first $\model_0$, we assume that coin tosses are fair. The alternative hypothesis $\model_1$ is that coin tosses are from some Bernoulli distribution with an unknown parameter $\theta$.}
     \begin{enumerate}
-    \item Set $\util(a_i, \model_j) = \ind{i =
-        j}$.
-      \only<article>{This choice makes sense if we care equally about
-        either type of error.}
-    \item Set $\bel(\model_i) = 1/2$. \only<article>{Here we place an
-        equal probability in both models.}
     \item $\model_0$: $\Bernoulli(1/2)$. \only<article>{This is the
         same as the null hypothesis test.}
     \item $\model_1$: $\Bernoulli(\theta)$,
@@ -232,8 +227,19 @@
         extension of the simple hypothesis test, with an alternative
         hypothesis that says ``the data comes from an arbitrary
         Bernoulli model''.}
+    \item Actions $a_0, a_1$ indicating whether we accept $\model_0$ or $\model_1$ respectively.
+    \item Set $\util(a_i, \model_j) = \ind{i =
+        j}$.
+      \only<article>{This choice makes sense if we care equally about
+        either type of error.}
+    \item Set $\bel(\model_i) = 1/2$. \only<article>{Here we place an
+        equal probability in both models.}
     \item Calculate $\bel(\model \mid x)$.
-    \item Choose $a_i$, where $i = \argmax_{j} \bel(\model_j \mid x)$.
+    \item Choose action $a_i$, where $i = \argmax_{j} \E[\util | a = a_j]$.
+      \only<article>{
+        In this case, $\argmax_j \bel(\model_j \mid x) = \argmax_{j} \E[\util | a = a_j]$
+        because $\E[\util | a = a_j] = \sum_i \bel(\model_i \mid x) \util(\model_i, a_j)$
+      }
     \end{enumerate}
     \label{ex:bayesian-compound-hypothesis-test}
   \end{example}
