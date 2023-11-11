@@ -226,12 +226,14 @@
         \label{fig:non-cause-dist}
       \end{figure}
       In this example, we see tht $y_t$ is independent of the policy
-      $\pol$.  However, $y_t$ is not independent of the action taken, as the action depends on $y_t$ directly. The correlation between $y, a$ is shown in Figure~\ref{fig:a-y-correlation:non-cause}.
+      $\pol$. This is obvious from Figure~\ref{fig:non-cause-dist}, which shows the distribution of $y$ for two different values of the policy variable. However, $y_t$ is not independent of the action taken,
+      as the action depends on $y_t$ directly. The correlation between
+      $y, a$ is shown in Figure~\ref{fig:a-y-correlation:non-cause}. It is also obvious that these variables are correlated. This is to be expected, as knowing the value of $y$ gives us information about the value of $a$ and vice-versa. However, we cannot say that $a$ causes $y$, or that $y$ causes $a$. 
     \end{example}
   }
   
-  \begin{block}{No confounding}
-    \only<article>{Confounding is a term that indicates the existence of latent variables that create dependencies between $y_t, \pol, a_t$. We are sure that there is no confounding whenever $y_t \indep \pol \mid a_t$, as captured by the diagram in Figure~\ref{fig:no-confounding}. In this case $\pol$ is a direct cause for $y_t$ through $a_t$.}
+  \begin{block}{Direct cause.}
+    \only<article>{Here $\poL$ is a direct cause for $y_t$. There is also \emph{no confounding}, as there are no latent variables that create additional dependencies between $y_t, \pol, a_t$. This is captured by the conditional independence  $y_t \indep \pol \mid a_t$,}
     \begin{figure}[H]
       \centering
       \begin{tikzpicture}
@@ -251,8 +253,9 @@
   \end{block}
 
   \only<article>{
+    Confounding is a term that indicates the existence of latent variables that create dependencies between $y_t, \pol, a_t$. We are sure that there is no confounding whenever as captured by the diagram in Figure~\ref{fig:no-confounding}, as there are no latent variables in this diagram beyond the unknown parameter. In this case $\pol$ is a direct cause for $y_t$ through $a_t$.
     \begin{example}
-      Consider the model
+            Consider the model
       \begin{align*}
         a_t &\sim \Normal(\pol,1)\\
         y_t \mid a_t, \pol &\sim \Normal(a_t, 1)
@@ -261,9 +264,9 @@
         \centering
         \includegraphics[width=0.5\textwidth]{../src/causality/direct-cause}
         \caption{$\Pr^\pol(y_t)$ for $\pol \in \{-1, 1\}$ when $\pol$ is a direct cause for $y_t$}
-        \label{fig:non-cause-dist}
+        \label{fig:direct-cause-dist}
       \end{figure}
-      \only<article>{We can see how the distribution of $y_t$ changes when $\pol$ changes in Figure~\ref{fig:non-cause-dist}. In this case there is also a correlation between $a_t, y_t$ as seen in Figure~\ref{fig:a-y-correlation}.}
+      \only<article>{We can see how the distribution of $y_t$ changes when $\pol$ changes in Figure~\ref{fig:direct-cause-dist}. In this case there is also a correlation between $a_t, y_t$ as seen in Figure~\ref{fig:a-y-correlation}.}
     \end{example}
   }
 
