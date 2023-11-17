@@ -493,7 +493,7 @@
 
 \paragraph{Empirical expected utility.}
 \only<article>{
-  Let us start with expect utility, and write it in full:
+  Let us start with expected utility, and write it in full:
   \[
     \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y).
   \]
@@ -922,25 +922,27 @@ Thus, estimating the expected utility of a particular policy is always possible,
 \begin{frame}{Connection to meritocracy.}
   Consider a decision maker that is choosing applicants to hire
   $(a = 1)$. For any two applicants with respective features
-  $x_i, x_j$, we need to assume that they both prefer being hired to
+  $x_i, x_j$, we need to assume that they both prefer being hired to 
   not being hired. On the other hand, the DM prefers to hire
   applicants that result in higher utility. In particular, hiring
   applicant $x$ results in utility $u(x)$. Let us now define the
-  utility of a policy, when applied to a single applicant as
+  utility of a policy, when applied to a single applicant, as
   \[
     \E^\pi (U | x) = \pi(a = 1| x) u(x).
   \]
-
+  Trivially, our policy should be such that we tend to hire people with higher utility to us.
+  If the utility function is $L$-Lipschitz, then $|u(x) - u(x')| \leq L d(x,x')$. Now consider the case where $x'$ can get an unfair advantage through nepotism. However, if our policy is smooth, it requires $\pi(a = 1 | x) \geq \pi(a = 1 | x') - d(x,x') \geq \pi(a = 1 | x') - |u(x) - u(x')|/L$. In addition, since our policy must be a maximising policy, if  $u(x) > u(x')$, then $\pi(a = 1 | x) \geq \pi(a=1 | x')$.
 \end{frame}
 
 \begin{frame}\frametitle{Smoothness and parity.}
-  To define groups, we select $S, T \subset \CX$.
+  Can group fairness be satisfied in this setting?
+  To define groups, we select $S, T \subset \CX$. We can say a policy satisfies approximate parity between the groups if:
   \begin{definition}{$\epsilon$-parity}
     \[
       \|\pol(a | x \in S) - \pol(a | x \in T)\|_1 \leq \epsilon.
     \]
   \end{definition}
-
+  We can also similarly define the worst-case bias for some action:
   \begin{definition}{Bias for some action $a$:}
     \[
       \max_\pol \pol(a | x \in S) - \pol(a | x \in T)
