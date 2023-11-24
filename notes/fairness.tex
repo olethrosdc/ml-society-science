@@ -884,22 +884,36 @@ Thus, estimating the expected utility of a particular policy is always possible,
   measuring the quality of DM's policy. In the simplest scenario, we
   can assume that the DM has a simple payoff function
   $\rho : \CX \times \CA \to \Reals$, representing their expected payoff
-  $\rho(x,a)$ for each possible observe feature and action taken. Then
-  the utility of any policy $\pol$ for a population $x_1, \ldots, x_T$
-  of individuals can be defined in terms of the sum of individaul payoffs:
+  $\rho(x,a)$ for each possible observe feature and action taken.
+
+  In the case where the policy is making separate decisions for each
+  individual, there are two possible problems. The first problem is to make individual decisions
+  for a finite given population $\CX = \{x_1, \ldots, x_T\}$. This allows us to define the utility
+  in terms of the sum of individual payoffs:
   \[
-    U(\pol) = \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
+    U(\pol) \defn \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
+\]
+The second problem is to define a policy that will be applied in a
+\emph{potential} population. This means that we do not have to make a
+decision now, but we will have to fix a policy that will be applied
+later to individuals drawn independently\footnote{This is only a mild assumption on the setting where decisions are made independently for each individual.} from some distribution
+$P$. Then the utility of any policy $\pol$ over some distribution $P$
+can be written as:
+  \[
+    U(\pol) \defn \int_{\CX} dP(x) \left[\sum_{a \in \CA} \rho(x, a) \pol(a_t = a | x)\right].
   \]
+  For simplicity, we can assume that $P$ is known, but it could also have been estimated from data. Similarly, $\rho$ may be an arbitrary evaluation function, or it could be somehow estimated. For example, if we have a model of rewards $r \in \Reals$ for different action and observation combinations $p(r | x, a)$, then we can set the payoff function to be our expected reward $\rho(x, a) \defn \E[r | x,a] = \int_{-\infty}^\infty r p(r | x,a) dr$ for taking action $a$ for individual $x$.
+  
   To impose a smoothness constraint on the policy, we require it to be Lipschitz-smooth with respect to the metric on the observed features. Together with the objective of maximising utility, we can define the following constrained maximisation problem:
   \begin{block}{Treating similar individuals similarly.}
     For a given utility $U$, metric $d$ on $\CX$ and divergence $D$:
-    \begin{gather}
-      \max_\pol  U(\pol) 
-      \\
-      \st  D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j).
-    \end{gather}
+    \begin{equation}
+      \max_\pol  U(\pol), \qquad
+      \st  D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j). 
+      \label{eq:lipschitz-fairness}
+    \end{equation}
   \end{block}
-  Of course, in some cases the utility might not be known perfectly, and we can use a Bayesian approach. It is also possible that we have not settled on an appropriate metric $d$ with respect to the features. Finally, the policy may not have the independence property, so the above Lipschitz condition may not be properly defined. We will go through all of these later. 
+  Of course, in some cases the utility might not be known perfectly, and we can use a Bayesian approach. It is also possible that we have not settled on an appropriate metric $d$ with respect to the features. Finally, the policy may not have the independence property, so the above Lipschitz condition may not be properly defined. There are also differences in the available solutions for the optimisation problem when we are dealing with a fixed population versus a distribution over populations.  We will go through all of these later. 
 }
 \only<presentation>{
 \begin{frame}
@@ -934,6 +948,46 @@ Thus, estimating the expected utility of a particular policy is always possible,
   If the utility function is $L$-Lipschitz, then $|u(x) - u(x')| \leq L d(x,x')$. Now consider the case where $x'$ can get an unfair advantage through nepotism. However, if our policy is smooth, it requires $\pi(a = 1 | x) \geq \pi(a = 1 | x') - d(x,x') \geq \pi(a = 1 | x') - |u(x) - u(x')|/L$. In addition, since our policy must be a maximising policy, if  $u(x) > u(x')$, then $\pi(a = 1 | x) \geq \pi(a=1 | x')$.
 \end{frame}
 
+\subsection{Individual decisions for a fixed population.}
+\only<article>{
+  Let us start with the simplest case, by defining the optimisation problem \eqref{eq:lipschitz-fairness} when we are asked to provide a policy for a finite population $\CX$. Then we need only consider the policy and constraint for all the people in $\CX$. More specifically, for the $i$-th person with data $x_i$ in the dataset $\CX$, the probability of taking action $a$ is $\pol(a \mid x_i)$. How should we parametrise the policy?
+
+  Let us look at the case of a finite number of actions. Then, the simplest method is to simply define a parameter vector $\vparam_t \in \Simplex^{|\CA|}$ for the $t$-th individual, so that
+  $\param_{t,a} \defn \pol(a \mid x_t)$. This leads to the optimisation problem
+  \[
+    \max_{\vparam} \sum_{t=1}^T  \sum_{a \in \CA} \rho(x_t, a) \param_{t,a},
+    \qquad \st \sum_{a \in \CA} \param_{t,a} = 1, \param_{t,a} \geq 0 \forall t, a.
+  \]
+  Here both the objective and the constraints are linear with respect to the parameters, hence the overall problem is a \emph{linear program}.
+
+  Let us look at the smoothness constraints now. If we limit ourselves only to the observed population, there is a finite number of constraints: $D[\pol(a \mid x_i)\|\pol(a \mid x_j)]$ for $i, j \in [T]$. The simplest choice for $D$ is total variation between two distributions:
+  \[
+    D_{TV}(P\|Q) \defn \max_{A \subset \Omega} |P(A) - Q(A)| = \frac{1}{2} \|P - Q\|_1 = \frac{1}{2} \sum_{\omega \in \Omega} |P(\omega) - Q(\omega)|.
+  \]
+  This results in the following set of constraints for our problem:
+  \[
+    \sum_{a \in \CA} |\param_{i,a} - \param_{i,j}| \leq d(x_i, x_j).
+  \]
+  Since $d(x_i, x_j)$ does not depend on the parameters, the problem remains linear.
+
+  On the other hand, if we want to parametrise differently, e.g. by calculating the probabilities of different actions through a softmax distribution, then the problem becomes non-linear. This is something we must do anyway, in the case where the population is not fixed and so we will describe it in the next section.
+}
+\subsection{Unknown population policies.}
+If we need to fix a policy before seeing the population, then we must use a parametrised policy that can give us a probability distribution over $a$ for any possible $\bx \in \Reals^n$.
+A simple parametrisation is a linear-softmax network,\footnote{We cannot use a linear network, because then $\pol(a \mid \bx) = \vparam_a^\top x$, and the probabilities of different actions cannot sum to one.}
+with $\vparam_a \in \Reals^n$ for all actions $a$, given by:
+\[
+  \pol(a \mid \bx) = \frac{e^{\vparam_a^\top x}}{\sum_{a' \in \CA} e^{\vparam_{a'}^\top \bx}}.
+\]
+This is not really difficult to work with, but we have a potential problem when considering the smoothness constraints. If we let $d(\bx, \bx') = \|bx - \bx'\|$ then the Lipschitz condition is in fact a condition on the gradient:
+\[
+  \nabla_\bx \pol(a \mid \bx) \leq 1.
+\]
+
+
+
+In particular, we can no longer make it so 
+\subsection{Group fairness properties of smooth policies.}
 \begin{frame}\frametitle{Smoothness and parity.}
   Can group fairness be satisfied in this setting?
   To define groups, we select $S, T \subset \CX$. We can say a policy satisfies approximate parity between the groups if:
