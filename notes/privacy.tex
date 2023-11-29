@@ -1770,7 +1770,7 @@ tightly with advanced composition theorems.
 \only<article>{
   In this section, we give a brief overview of some more advanced topics on privacy. The interested reader is urged to look into the given references.
 }
-\subsection{Relaxations of differential privacy.}
+\subsection{Variants of differential privacy.}
 \only<article>{
   In practice, satisfying differential privacy with a small $\epsilon$ results in mechanisms with low utility. It is possible to relax the definition of differential privacy to include an additive term, as shown below, which greatly improves the privacy-utility trade-off we can achieve.
   \begin{definition}{Approximate differential privacy.}
@@ -1802,8 +1802,18 @@ tightly with advanced composition theorems.
   \end{exampleblock}
 
 
-  \begin{theoryblock}{Variants of differential privacy.}
-    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, the distance used for $\epsilon$-DP is $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as a Renyi divergence, as long as it becomes unbounded for distributions with unequal support.  This has led to a proliferation of DP variants including approximate-DP, Renyi-DP and $z$-DP.
+  \begin{theoryblock}{Generalising differential privacy.}
+    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, we can view $\epsilon$-DP as a special case of a number of different $f$-divergences, defined as
+    \[
+      D_f(P\|Q) \defn \E_Q[f(dP/dQ)].
+    \]
+    There are two special types of $f$-divergences. The first is when $f(t) = \frac{1}{a}$. $E_\lambda$ 
+    Let us first look at a $f$-divergences
+    \[
+      D_\lambda(P \| Q) \defn \sup_A [P(A) - \lambda Q(A)] = \int_\Omega [\frac{d P}{d Q} (\omega) - \lambda]_+ dQ(\omega),
+    \]
+    which for finite $\Omega$ is just $\sum_{\omega \in \Omega} [P(A) - \alpha Q(A)]_+$.
+    $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as a Renyi divergence, as long as it becomes unbounded for distributions with unequal support.  This has led to a proliferation of DP variants including approximate-DP, Renyi-DP and $z$-DP. 
   \end{theoryblock}
 }
 
@@ -1869,7 +1879,10 @@ dataset.
 
 \only<article>{As it turns out, privacy in terms of hypothesis testing is a somewhat more general concept than differential privacy. In fact, we could define a mechanism with an arbitrary false negative and positive testing profile. \cdcomment{Stub}}
 
+\subsection{Subsampling}
+\only<article>{
 
+}
 
 \subsection{Reproducibility}
 \only<article>{
