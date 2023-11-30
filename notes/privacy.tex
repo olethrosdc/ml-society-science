@@ -1807,13 +1807,20 @@ tightly with advanced composition theorems.
     \[
       D_f(P\|Q) \defn \E_Q[f(dP/dQ)].
     \]
-    There are two special types of $f$-divergences. The first is when $f(t) = \frac{1}{a}$. $E_\lambda$ 
-    Let us first look at a $f$-divergences
+    It is easy to see that the KL-divergence is obtained by $f(t) = t \ln t$ and the total variation by $f(t) = \frac{1}{2}|t - 1|$. 
+    In particular, $(\epsilon, \delta)$ differential privacy is a type of
+    $f$-divergence called an $\alpha$-divergences, where 
     \[
-      D_\lambda(P \| Q) \defn \sup_A [P(A) - \lambda Q(A)] = \int_\Omega [\frac{d P}{d Q} (\omega) - \lambda]_+ dQ(\omega),
+      \chi^\alpha(P \| Q) \defn \sup_A [P(A) - \alpha Q(A)] = \int_\Omega [\frac{d P}{d Q} (\omega) - \alpha]_+ dQ(\omega),
     \]
     which for finite $\Omega$ is just $\sum_{\omega \in \Omega} [P(A) - \alpha Q(A)]_+$.
-    $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. We can use any other divergence between distributions, such as a Renyi divergence, as long as it becomes unbounded for distributions with unequal support.  This has led to a proliferation of DP variants including approximate-DP, Renyi-DP and $z$-DP. 
+    $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. Then a mechanism $\pol$ is $(\epsilon, \delta)$-DP iff
+    \[
+      \chi^{e^\epsilon}(\pol(\cdot \mid x) \| \pol(\cdot \mid x') \leq \delta.
+    \]
+
+
+    We can use any other divergence between distributions, such as a Renyi divergence, as long as it becomes unbounded for distributions with unequal support.  This has led to a proliferation of DP variants including approximate-DP, Renyi-DP and $z$-DP. 
   \end{theoryblock}
 }
 
@@ -1878,6 +1885,8 @@ dataset.
 \end{proof}
 
 \only<article>{As it turns out, privacy in terms of hypothesis testing is a somewhat more general concept than differential privacy. In fact, we could define a mechanism with an arbitrary false negative and positive testing profile. \cdcomment{Stub}}
+
+\subsection{Detailed characterisation of privacy regimes.}
 
 \subsection{Subsampling}
 \only<article>{
