@@ -973,7 +973,7 @@ can be written as:
   On the other hand, if we want to parametrise differently, e.g. by calculating the probabilities of different actions through a softmax distribution, then the problem becomes non-linear. This is something we must do anyway, in the case where the population is not fixed and so we will describe it in the next section.
 }
 \subsection{Unknown population policies.}
-If we need to fix a policy before seeing the population, then we must use a parametrised policy that can give us a probability distribution over $a$ for any possible $\bx \in \Reals^n$.
+If we need to fix a policy before seeing the population, then we must use a parametrised policy that can give us a probability distribution over $a$ for any possible $\bx \in \CX$ where $\CX$ is a compact subset of $\Reals^n$.
 A simple parametrisation is a linear-softmax network,\footnote{We cannot use a linear network, because then $\pol(a \mid \bx) = \vparam_a^\top x$, and the probabilities of different actions cannot sum to one.}
 with $\vparam_a \in \Reals^n$ for all actions $a$, given by:
 \[
@@ -981,7 +981,7 @@ with $\vparam_a \in \Reals^n$ for all actions $a$, given by:
 \]
 This is not really difficult to work with, but we have a potential problem when considering the smoothness constraints. If we let $d(\bx, \bx') = \|bx - \bx'\|$ then the Lipschitz condition is in fact a condition on the gradient:
 \[
-  \nabla_\bx \pol(a \mid \bx) \leq 1.
+  \nabla_\bx \pol(a \mid \bx) \leq 1, \qquad \forall \bx \in \CX
 \]
 
 
