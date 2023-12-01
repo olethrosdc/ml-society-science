@@ -801,7 +801,7 @@
     \begin{definition}
       \label{def:epsilon-dp}
       A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
-      is endowed with a neighbourhood relation $N$, is said to be
+      is endowed with a neighbourhood relation $\neigh$, is said to be
       $\epsilon$-differentially private if
       \begin{equation}
         \label{eq:epsilon-dp}
@@ -1776,7 +1776,7 @@ tightly with advanced composition theorems.
   \begin{definition}{Approximate differential privacy.}
     \label{def:epsilon-delta-dp}
     A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
-    is endowed with a neighbourhood relation $N$, is said to be
+    is endowed with a neighbourhood relation $\neigh$, is said to be
     $(\epsilon,\delta)$ differentially private if
     \begin{equation}
       \label{eq:epsilon-delta-dp}
@@ -1801,27 +1801,41 @@ tightly with advanced composition theorems.
     For $\sigma \geq 2\ln(1.25 / \delta) \frac{\Delta_2(f)}{\epsilon}$, then the Gaussian mechanism is $(\epsilon, \delta)$-differentially private.
   \end{exampleblock}
 
-
   \begin{theoryblock}{Generalising differential privacy.}
-    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs. In particular, we can view $\epsilon$-DP as a special case of a number of different $f$-divergences, defined as
+    The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs.
+    Let us define $\pol_{\bx}(A)$ to be the probability measure $\pol(A \mid \bx)$ induced by a mechanism $\pol$ conditioned on $\bx$. 
+    Then, $\pol$ is $\epsilon$-DP in terms of the infinity divergence:
     \[
-      D_f(P\|Q) \defn \E_Q[f(dP/dQ)].
+      D_\infty(\pol_{\bx} \| \pol_{\bx'}) \leq \epsilon, \qquad \forall \bx \neigh \bx',
     \]
-    It is easy to see that the KL-divergence is obtained by $f(t) = t \ln t$ and the total variation by $f(t) = \frac{1}{2}|t - 1|$. 
-    In particular, $(\epsilon, \delta)$ differential privacy is a type of
-    $f$-divergence called an $\alpha$-divergences, where 
+    where the infinity divergence is defined as:
     \[
-      \chi^\alpha(P \| Q) \defn \sup_A [P(A) - \alpha Q(A)] = \int_\Omega [\frac{d P}{d Q} (\omega) - \alpha]_+ dQ(\omega),
+      D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|.
+    \]
+
+    In order to obtain the same definition for $(\epsilon, \delta)$-DP, we need to consider the more general class of $f$-divergences, defined as:
+    \begin{equation}
+      \label{eq:f-divergence}
+      D_f(P\|Q) \defn \E_Q[f(dP/dQ)].
+    \end{equation}
+    It is easy to see that the KL-divergence is obtained by
+    $f(t) = t \ln t$ and the total variation by
+    $f(t) = \frac{1}{2}|t - 1|$.  In particular, $(\epsilon, \delta)$
+    differential privacy can be defined in terms of a type of
+    $f$-divergence called a hockey-stick-divergence
+    $\hock{\alpha}{P}{Q}$, where
+    \[
+      \hock{\alpha}{P}{Q} \defn \sup_A [P(A) - \alpha Q(A)] = \int_\Omega [\frac{d P}{d Q} (\omega) - \alpha]_+ dQ(\omega),
     \]
     which for finite $\Omega$ is just $\sum_{\omega \in \Omega} [P(A) - \alpha Q(A)]_+$.
-    $D_\infty(P \| Q) \defn \sup_A |\ln P(A)/Q(A)|$. Then a mechanism $\pol$ is $(\epsilon, \delta)$-DP iff
-    \[
-      \chi^{e^\epsilon}(\pol(\cdot \mid x) \| \pol(\cdot \mid x') \leq \delta.
-    \]
-
-
-    We can use any other divergence between distributions, such as a Renyi divergence, as long as it becomes unbounded for distributions with unequal support.  This has led to a proliferation of DP variants including approximate-DP, Renyi-DP and $z$-DP. 
+Then a mechanism $\pol$ is $(\epsilon, \delta)$-DP iff
+    \begin{equation}
+      \hock{e^\epsilon}{\pol_\bx}{\pol_{\bx'}}\leq \delta.
+      \label{eq:divergence-DP}
+    \end{equation}
+    We can use any other divergence between distributions, such as a Renyi divergence, as long as it becomes unbounded for distributions with unequal support.  This has led to a proliferation of DP variants including approximate-DP, Renyi-DP and $z$-DP. In the sequel, we will use these definitions to more finely characterise the privacy guarantees of different mechanims.
   \end{theoryblock}
+
 }
 
 \subsection{Differential privacy as a hypothesis testing game.}
@@ -1884,12 +1898,47 @@ dataset.
   \end{align*}
 \end{proof}
 
-\only<article>{As it turns out, privacy in terms of hypothesis testing is a somewhat more general concept than differential privacy. In fact, we could define a mechanism with an arbitrary false negative and positive testing profile. \cdcomment{Stub}}
+\only<article>{As it turns out, privacy in terms of hypothesis testing is a somewhat more general concept than differential privacy. In fact, we could define a mechanism with a complete false negative and positive testing \emph{profile}, or equivalently an $(\epsilon, \delta)$-profile. The concept is similar to the idea of a ROC curve, and we detail this in the next section.}
 
-\subsection{Detailed characterisation of privacy regimes.}
-
+\subsection{Privacy profile.}
+\only<article>{
+  Simply saying that an algorithm is $(\epsilon, \delta)$-DP does not characterise it very precisely. In fact, any given algorithm could satisfy privacy for a number of different values of $\epsilon, \delta$. What we need is a curve characterising the achievable value of $\delta_\pol(\epsilon)$ for a given mechanism $\pol$ and specific privacy parameter $\delta$. In order to create such a function, we will use our definition of privacy in terms of divergences given in \eqref{eq:divergence-DP}.
+  \begin{definition}[Privacy profile]
+    The privacy profile of $\pol$ is
+    \begin{equation}
+      \delta_{\pol}(\epsilon) = \sup_{\bx \neigh \bx'} \hock{e^\epsilon}{\pol_\bx}{\pol_{\bx'}}
+    \end{equation}
+    In other words, $\pol$ is $(\epsilon, \delta_{\pol}(\epsilon))$-DP.
+  \end{definition}
+  This definition perfectly characterises the approximate privacy level achievable for an algorithm for any given $\epsilon$. It is useful to look at the randomised response mechanism as a motivating example. 
+  \begin{example}
+  As an example, consider the randomised response mechanism $\pol$ on $\{0,1\}$ which w.p. $p \geq 1/2$ outputs $x$, otherwise $1 - x$. The privacy profile of $\pol$ is given by
+  \begin{align}
+    \delta_\pol(\epsilon) = [p - e^\epsilon(1 - p)]_+ ~.
+    \label{eq:privacy-profile-rr}
+  \end{align}
+  Since $x$ only takes two values, we only need to write the divergence for those:
+  \begin{align*}
+    \hock{e^\epsilon}{\pol_1}{\pol_0}
+    &=
+      [\pol_1(1) - e^\epsilon \pol_0(1)]_+ + [\pol_1(0) - e^\epsilon \pol_0(0)]_+
+    =
+      [p - e^\epsilon (1 - p)]_+ + [(1 - p) - e^\epsilon p]_+.
+  \end{align*}
+  Since $p \geq 1/2$, $(1 -p) \leq p$, and the result follows.
+  \end{example}
+}
 \subsection{Subsampling}
 \only<article>{
+  Let us consider sampling $y$ from a dataset $x$. One of the simplest methods for doing so is the Poisson subsampling. Here, $y$ includes an element $x_i$ with probability $\gamma$ so that $\mu_x(y) \defn \mu(y | x) = \gamma^{|y|}(1 - \gamma)^{|x| - |y|}$. Now, let us consider a mechanism $\pol_y(z) \defn \pol(z | y)$ with privacy profile $\delta_{\pol}(\epsilon)$. Then the combined mechanism $\pol'$ has a privacy profile $\delta_{\pol'}$ satisfying
+  \[
+    \delta_{\pol'}(\epsilon') \leq \gamma \delta_{\pol}(\epsilon),
+    \qquad
+    \epsilon' = \ln[1 + \gamma(e^\epsilon -1)].
+  \]
+
+  First of all, we already know that $\hock{e^{\epsilon}}{\pol_{x}}{\pol_{x'}} \leq \delta$ is equivalent to $(\epsilon, \delta)$-DP.
+  
 
 }
 
