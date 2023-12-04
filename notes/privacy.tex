@@ -1945,20 +1945,42 @@ dataset.
   We can see form Figure~\ref{fig:delta-rr} that the mechanism satisfies $(\epsilon, \delta)$-DP in a different way depending on the choice of $p$. For Smaller values of $p$, the amount of privacy is higher. This means both that the value of $\epsilon$ for which $\delta = 0$ is smaller, and that the curve is lower than all the other curves with a higher $p$. 
   \end{example}
 }
-\subsection{Subsampling}
+\subsection{Privacy amplification}
 \only<article>{
-  Let us consider sampling $y$ from a dataset $x$. One of the simplest methods for doing so is the Poisson subsampling. Here, $y$ includes an element $x_i$ with probability $\gamma$ so that $\mu_x(y) \defn \mu(y | x) = \gamma^{|y|}(1 - \gamma)^{|x| - |y|}$. Now, let us consider a mechanism $\pol_y(z) \defn \pol(z | y)$ with privacy profile $\delta_{\pol}(\epsilon)$. Then the combined mechanism $\pol'$ has a privacy profile $\delta_{\pol'}$ satisfying
+  
+}
+\only<article>{
+\paragraph{Subsampling.}  Let us consider sampling $y$ from a dataset $x$. One of the simplest methods for doing so is the Poisson subsampling. Here, $y$ includes an element $x_i$ with probability $\gamma$ so that $\mu_x(y) \defn \mu(y | x) = \gamma^{|y|}(1 - \gamma)^{|x| - |y|}$. Now, let us consider a mechanism $\pol_y(z) \defn \pol(z | y)$ with privacy profile $\delta_{\pol}(\epsilon)$. Then the combined mechanism $\pol'$ has a privacy profile $\delta_{\pol'}$ satisfying:
   \[
     \delta_{\pol'}(\epsilon') \leq \gamma \delta_{\pol}(\epsilon),
     \qquad
-    \epsilon' = \ln[1 + \gamma(e^\epsilon -1)].
+    \epsilon' = \ln[1 + \gamma(e^\epsilon -1)],
   \]
-
-  First of all, we already know that $\hock{e^{\epsilon}}{\pol_{x}}{\pol_{x'}} \leq \delta$ is equivalent to $(\epsilon, \delta)$-DP.
-  
-
+  as is proven by~\citet{balle2020privacy}.
+  [Privacy Amplification by Subsampling in Time Domain]
 }
 
+\paragraph{Shuffling.}
+\only<article>{
+  Shuffling\cite{erlingsson2019amplification} can be seen as a privacy model somewhere in between the central model (where data is given to a trusted curator, and the local model, where each user randomises their data. Using shuffling, we can amplify privacy in the following way. If we use $n$ copies of a local $\epsilon$-DP mechanism, each with $\epsilon = O(\ln(n / ln(1/\delta)))$ then the total privacy loss is $\epsilon' = O(\min\{e, 1\} e^\epsilon / \sqrt{\ln(1/\delta)/n})$.
+  The Privacy Blanket of the Shuffle Model
+}
+\paragraph{Random check-ins.}
+\only<article>{
+  Privacy Amplification via Random Check-Ins
+}
+
+\paragraph{Iteration.}
+\only<article>{
+  Most modern machine learning algorithms are iterative: they have parameters that are adjusted through multiple iterations over the data. Stochastic gradient descent is a classic example, where each iteration is over a random subsample of the data. Using results from subsampling to bound the privacy loss in each iteration, we can then use composition to bound the total privacy loss of the algorithm. In this analysis, we essentially assume that the output of the algorithm can be observed at every step.
+
+  [Cite: Privacy Amplification by Iteration] show that (1-Lipschitz) contraction mappings with Gaussian noise works. In fact if $x_{t+1} = f(x_t) + \omega_t$, then for any two starting points $x_0, x_0'$: $\renyi{\alpha}{x_T}{x'_T} \leq ..>$
+  [Privacy Amplification by Mixing and Diffusion Mechanisms]
+}
+\paragraph{Post-processing}
+\only<article>{
+
+}
 \subsection{Reproducibility}
 \only<article>{
   Training and testing, overfitting on the test set. \cdcomment{stub}
