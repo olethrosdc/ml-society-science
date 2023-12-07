@@ -643,7 +643,7 @@ In general, DP algorithms must be stochastic, so that this algorithm cannot sati
 In more detail, differential privacy requires that $\pi(a \mid x) \leq
 \pi(a \mid x') e^\epsilon$ for some $\epsilon$ for any neighbouring
 $x, x'$.  Consider a dataset where the $t$-th person has $x_t \in
-A$. Then $a_t = 1$. Consider a neighbouring dataset where $x'_t \nin
+A$. Then $a_t = 1$. Consider a neighbouring dataset where $x'_t \notin
 A$. Then $a_t = 0$ w.p. 1, so $a_t = 1$ has probability $0$.
 
 \[
@@ -829,6 +829,7 @@ r_t = \begin{cases}
 0 & s_t = 0\\
 1 & s_t = 1\\
 -1 & s_t = 2
+\end{cases}
 \]
 
 Since $T=2$, the MDP ends after we take the first action,observe Ss_2$ and obtain $r_2$. Our goal is to maximise
