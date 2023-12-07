@@ -38,7 +38,7 @@
 
      \only<article>{Here followup research may involve using exactly the same methods. In AI research would mean for example testing whether an algorithm is really performing as well as it is claimed, by testing it in new problems. This can involve a re-implementation. In more general scientific research, it might be the case that the methodology proposed by an original study is flawed, and so a better method should be used to draw better conclusions. Or it might simply be that more data is needed.}
   \end{block}
-
+ 
   When publishing results about a \alert{new method}, computational reproducibility is essential for scientific reproducibility.
 \end{frame}
 
@@ -164,6 +164,7 @@
 \begin{frame}
   \frametitle{Holdout sets}
   \only<article>{To summarise, holdout sets are used in order to be able to evaluate the performance of specific algorithms, or hyparameter selection.}
+ \only<presentation>{
   \begin{itemize}
   \item Original data $\Data$, e.g. $\Data = (x_1, \ldots, x_T)$.
   \item Training data $\Training \subset \Data$, e.g. $\Training = x_1, \ldots, x_n$, $n < T$.
@@ -172,6 +173,7 @@
   \item Get algorithm output $\pol = \alg(\Training, \hyperparam)$.
   \item Calculate quality of output $U(\pol, \Holdout)$
   \end{itemize}
+  }
   \only<article>{
     We start with some original data $\Data$, e.g. $\Data = (x_1, \ldots, x_T)$. We then split this into a training data set $\Training \subset \Data$, e.g. $\Training = x_1, \ldots, x_n$, $n < T$ and holdout dataset $\Holdout = D \setminus \Training$. This is used to measure the quality of selected algorithms $\alg$ and hyperparameters $\hyperparam$. We run an algorithm/hyperparameter combination on the training data and obtain a result $\pol = \alg(\Training, \hyperparam)$.    \footnote{As typically algorithms are maximising the quality metric on the training data, 
     \[
@@ -326,7 +328,10 @@ Finally, bagging also allows us to generate probabilistic predictions from deter
 \begin{frame}
   \frametitle{Cross-validation}
   \only<article>{While we typically use a single training, hold-out and test set, it might be useful to do this multiple times in order to obtain more robust performance estimates. In the simplest case, cross-validation can be used to obtain multiple training and hold-out sets from a single dataset. This works by simply partitioning the data in $k$ \emph{folds} and then using one of the folds as a holdout and the remaining $k - 1$ as training data. This is repeated $k$ times. When $k$ is the same size as the original training data, then the method is called \emph{leave-one-out cross-validation.}}
-\begin{block}{$k$-fold Cross-Validation}
+  \begin{block}{$k$-fold Cross-Validation}
+    \begin{algorithm}
+      \STATE x
+    \end{algorithm}
     \begin{enumerate}
     \item \textbf{Input} Training data $\Training$, number of folds $k$, algorithm $\alg$, measurement function $\util$
     \item Create the partition $\Data^{(1)} \ldots, \Data^{(k)}$ so that $\bigcup_{i=1}^k \Data^{(k)} = \Data$.

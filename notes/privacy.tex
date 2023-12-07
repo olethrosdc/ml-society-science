@@ -2243,7 +2243,20 @@ dataset.
       
     \end{proof}
   \fi
+  \begin{exercise}
+    Why is the relaxation of differential privacy to KL divergences not useful? In what way is standard differential privacy stronger?
+    \emph{Hint: Reason about what an adversary can learn about the data from the output of the mechanism.}
+    \label{exer:kl-dp}
+  \end{exercise}
+  \iffalse
+    \begin{proof}
+      While both KL-DP and DP can be defined divergences between distributions, there is one difference. DP is defined over the maximum of all events. Consequently, it gives us a guarantee on the amount of information given no matter what the mechanism generates. KL-DP on the other hand, only gives a bound on the \emph{expected} information gain of an adversary.
+    \end{proof}
+  \fi
 
+  
+  
+  
 }
 %%% Local Variables:
 %%% mode: latex
