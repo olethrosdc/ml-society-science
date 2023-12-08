@@ -151,6 +151,10 @@ The purpose of this course is to familiarise students with societal and scientif
 * External resources:
 
 - [[https://programming-dp.com/][Programming differential privacy]] - A book about DP, for programmers. Near and Abuah, 2021.
+- [[https://github.com/IBM/differential-privacy-library][IBM's DP library]] - Very much like sklearn
+- [[https://github.com/tensorflow/privacy][Tensorflow privacy]] - Tensorflow with DP!
+- [[opendp.org][opendp.org]] - more resources and low-level code
+  
 * Schedule
 ** 2023
    |-------+-----------------------+---------------------+----------------------------|
