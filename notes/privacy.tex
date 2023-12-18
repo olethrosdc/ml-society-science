@@ -1736,11 +1736,12 @@
   }
 \end{frame}
 
-While the exponential mechanism is quite abstract, it is very flexible. Many problems in machine learning and database queries can be answered, in principle, using it. 
+While the exponential mechanism is quite abstract, it is very flexible. Many problems in machine learning and database querying can be made differentially private through the use of the exponential mechanism. This has to be done by specifying appropriate values for the utility function for every possible query and answer combination. In the database setting, queries are simple statistical facts and the utility is a function of how far the answer is from the true answer. In the machine learning setting, we can consider two different types of queries: those where the intention is to create a machine learning model from data, and those where we only need to query a machine learning model.
+
 \begin{exampleblock}{Answering database queries with the exponential mechanism.}
-  
+  The simplest typical database queries involve counting and summation over a subset of database rows. As an example, let us say we wish to count the number of rows where a certain condition is true, e.g. the number of individuals that are (a) male  and (b) have an income of more than 100,000. For any such counting query, the sensitivity is 1. However, the sensitivity of the utility function is another matter. Let $f(x,q)$ be the correct answer for the query. If we set $U(a,x,q) = |f(x,q) - a|$, then we are playing 
 \end{exampleblock}
-\begin{exampleblock}{The exponential mechanism for learning}
+\begin{exampleblock}{The exponential mechanism for machine learning models.}
   
 \end{exampleblock}
 
@@ -1755,15 +1756,15 @@ While the exponential mechanism is quite abstract, it is very flexible. Many pro
   This gives rise to the following definition.
   
   \begin{definition}[Interactive DP]
-    An algorithm $\pol$ satisfies interactive $\{\epsilon_1, \ldots, \epsilon_t\}$ differential privacy with respect to $N$ if
+    An algorithm $\pol$ satisfies interactive $\{\epsilon_1, \ldots, \epsilon_t\}$ differential privacy with respect to $\neigh$ if
     \begin{equation}
       \label{eq:interactive-dp}
       \ln
-      \frac{\pol(a_t | x, q_1, \ldots, q_t, a_1, \ldots, a_{t-1})}
-      {\pol(a_t | x', q_1, \ldots, q_t, a_1, \ldots, a_{t-1})}
+      \frac{\pol(a_t \mid x, q_1, \ldots, q_t, a_1, \ldots, a_{t-1})}
+      {\pol(a_t \mid x', q_1, \ldots, q_t, a_1, \ldots, a_{t-1})}
       \leq \epsilon_t,
       \qquad
-      \forall x N x'.
+      \forall x \neigh x'.
     \end{equation}
   \end{definition}
   Since the queries are not defined in advance, this means that $q_t$ may also depend on all the previous answers $a_1, \ldots, a_{t-1}$.
