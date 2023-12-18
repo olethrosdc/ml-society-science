@@ -1235,7 +1235,7 @@
 \begin{frame}
   
   \begin{exerciseblock}{Differential privacy from a Bayesian viewpoint.}
-    \only<article>{Bayesian inference offers a simple way to explain the meaning of differential privaacy. Intuitively, using the Bayesian formalism, we can show that, no matter what prior knowledge the adversary has, they cannot infer a lot from the private release. We are specifically interested in adversary knowledge about the dataset, before and after the mechanism's release. In particular, assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
+     \only<article>{Bayesian inference offers a simple way to explain the meaning of differential privaacy. Intuitively, using the Bayesian formalism, we can show that, no matter what prior knowledge the adversary has, they cannot infer a lot from the private release. We are specifically interested in adversary knowledge about the dataset, before and after the mechanism's release. In particular, assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
     \[
       \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
     \]
@@ -1466,13 +1466,14 @@
     versus centralised model?  \only<article>{ Let us continue the
       average example.  Here let us assume $x_i \in [0, B]$ for all
       $i$.
-      \begin{block}{The Laplace mechanism in the local privacy model}
+      
+      \emph{The Laplace mechanism in the local privacy model.}
         The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(B/\epsilon)^2$, so the total variance is $2B^2/\epsilon^2 n$.
-      \end{block}
-      \begin{block}{The Laplace mechanism in the centralised privacy model}
+
+      \emph{The Laplace mechanism in the centralised privacy model}
         The sensitivity of $f$ is $B / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $2(B / \epsilon n)^2$. 
-      \end{block}
-      Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under this mechanism. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data.
+
+      Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under local privacy. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data, or if the users do not trust the data curator.
     }
     
   \end{exampleblock}
@@ -1643,23 +1644,23 @@
 \begin{frame}
   \only<article>{Rather than saying that we wish to calculate a private version of some specific function $f$, sometimes it is more useful to consider the problem from the perspective of the utility of different answers to queries. More precisely, imagine the interaction between a database system and a user:}
   \begin{block}{Interactive queries}
+    \only<article>{In this setting, we do not know \emph{a priori} what we want to compute on the data. We want to be able to reply to arbitrary queries, from a potentially adversarial party, in a useful manner. The interaction involves the following elements.}
     \begin{itemize}
-    \item System has data $x$.
-    \item At time $t$, user asks query $q_t = q$.
-    \item System responds with $a_t = a$.
+    \item The system has data $x \in \CX$.
+    \item At time $t$, an adversary asks a query $q_t \in \CQ$.
+    \item The system answers with $a_t \in \CA$.
     \item There is a common utility function
       $\util : \CX, \CA, \CQ \to \Reals$.
     \end{itemize}
-    We wish to give the most useful answer, by return $a$ that maximises $\util$, i.e. $a = \argmax_{a'} \util(x, a', q)$, but are constrained by the fact that we also want to preserve privacy.
+    We wish to give the most useful answer, by returning $a$ that maximises $\util$, i.e. $a = \argmax_{a'} \util(x, a', q)$, but are constrained by the fact that we also want to preserve privacy. To do that we will use a differentially private mechanism to answer.
   \end{block}
-  \only<article>{The utility $\util(x,a,q)$  describes how appropriate each answer $a$ given by the system for a query $q$ is given the data $x$. It can be seen as how useful the response is~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the motivation does not matter the action should maximise it, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
+  \only<article>{The utility $\util(x,a,q)$  describes how appropriate each answer $a$ given by the system for a query $q$ is given the data $x$. It can be seen as how useful the response is.~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the answer should maximise utility, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
 
 \end{frame}
 \begin{frame}
   \frametitle{The Exponential Mechanism.}  \only<article>{ Here we
     assume that we can answer queries $q$, whereby each possible
-    answer $a$ to the query has a different utility to the DM:
-    $\util(q, a, x)$.  The idea is that the best answer to the query
+    answer $a$ to the query has a different utility $\util(q, a, x)$.  The idea is that the best answer to the query
     should have the highest utility. The further away from the correct
     answer the response is, the lower the utility should be. This
     allows us to quantify how much we value correct answers to a
@@ -1734,6 +1735,14 @@
     \end{proof}
   }
 \end{frame}
+
+While the exponential mechanism is quite abstract, it is very flexible. Many problems in machine learning and database queries can be answered, in principle, using it. 
+\begin{exampleblock}{Answering database queries with the exponential mechanism.}
+  
+\end{exampleblock}
+\begin{exampleblock}{The exponential mechanism for learning}
+  
+\end{exampleblock}
 
 
 \begin{theoryblock}{Interactive differential privacy.}
