@@ -1937,22 +1937,30 @@ dataset.
     =
       [p - e^\epsilon (1 - p)]_+ + [(1 - p) - e^\epsilon p]_+.
   \end{align*}
-  Since $p \geq 1/2$, $(1 -p) \leq p$, and the result follows. As we know already, the mechanism is $\epsilon$-DP with $\epsilon = \ln[p/(1-p)]$, i.e. $\delta = 0$. As we see by the above function, however, we the mechanism satisfies $(\epsilon, \delta)$-DP for a number of different parameters. This is visualised in the function below.
+  Since $p \geq 1/2$, $(1 -p) \leq p$, and the result follows. As we know already, the mechanism is $\epsilon$-DP with $\epsilon = \ln[p/(1-p)]$, i.e. $\delta = 0$. As we see by the above function, however, we the mechanism satisfies $(\epsilon, \delta)$-DP for a number of different parameters. This is visualised in the function shown in Figure~\ref{fig:delta-rr}.
   \begin{figure}[h]
     \centering
-    \begin{tikzpicture}[scale=3,domain=0:2.5]
-      \draw[step=0.1,line width=0.1pt,color=gray] (0,0) grid (2.5,1.1);
-      \draw[step=1,very thin,color=cyan] (0,0) grid (2.5,1.1);
-      \draw[->] (0,0) -- (2.5,0) node[right] {$\epsilon$};
-      \draw[->] (0,0) -- (0,1.1) node[above] {$\delta_\pol(\epsilon)$};
-      \draw[color=red]    plot (\x, {max(0,0.6 - exp(\x) *0.4)}) node[above] {$p=0.6$};
-      \draw[color=magenta]    plot (\x, {max(0,0.8 - exp(\x) *0.2)}) node[right] {$p=0.8$};
-      \draw[color=blue]    plot (\x, {max(0,0.9 - exp(\x) *0.1)}) node[below] {$p=0.9$};
-    \end{tikzpicture}
+    \begin{tikzpicture}
+      \begin{axis}[domain=0:2.5,
+        xlabel=$\epsilon$,
+        ylabel=$\delta$]
+        % \draw[step=0.1, line width=0.1pt,color=gray] (0,0) grid (2.5,1.1);
+        % \draw[step=1,very thin,color=cyan] (0,0) grid (2.5,1.1);
+        % \draw[->] (0,0) -- (2.5,0) node[right] {$\epsilon$};
+        % \draw[->] (0,0) -- (0,1.1) node[above] {$\delta_\pol(\epsilon)$};
+        \addplot[samples=100,color=red] {max(0,0.6 - exp(x) *0.4)};
+        \addlegendentry{$p=0.4$}
+        \addplot[samples=100,color=magenta] {max(0,0.8 - exp(x) *0.2)}; % p=0.8
+        \addlegendentry{$p=0.8$}
+        \addplot[samples=100,color=blue]  {max(0,0.9 - exp(x) *0.1)};
+        \addlegendentry{$p=0.9$}
+      % \addplot[domain=0:2.5,samples=100]{x^2};
+      \end{axis}
+  \end{tikzpicture}
     \caption{Illustration of the dependence between $\epsilon, \delta$ for binary randomised response and various values of $p$. we see that every curve hits the $\delta = 0$ line for some value of $\epsilon$. This is the value for which we derived that the mechanism is $\epsilon$-DP. However, the mechanism is also $(\epsilon, \delta_\pi(\epsilon)$-DP for every point on the curve.}
     \label{fig:delta-rr}
   \end{figure}
-  We can see form Figure~\ref{fig:delta-rr} that the mechanism satisfies $(\epsilon, \delta)$-DP in a different way depending on the choice of $p$. For Smaller values of $p$, the amount of privacy is higher. This means both that the value of $\epsilon$ for which $\delta = 0$ is smaller, and that the curve is lower than all the other curves with a higher $p$. 
+   Here, the mechanism satisfies $(\epsilon, \delta)$-DP in a different way depending on the choice of $p$. For Smaller values of $p$, the amount of privacy is higher. This means both that the value of $\epsilon$ for which $\delta = 0$ is smaller, and that the curve is lower than all the other curves with a higher $p$. 
   \end{example}
 }
 \subsection{Privacy amplification}
