@@ -896,8 +896,8 @@ What is the optimal policy for achieving that?
 *** Possible answer
 	CLOCK: [2019-11-20 ons 16:05]--[2019-11-20 ons 16:09] =>  0:04
 
-We always start in state 1.
-Taking action 0, we end up in state 1 again, with reward 0.
+We always start in state 0.
+Taking action 0, we end up in state 0 again, with reward 0.
 So $\E[\sum_{t=1}^2 r_t \mid a_1 = 0] = 0 + 0$.
 
 Taking action 1, we end up in state 2 w.p 0.2 and state 1 w.p. 0.8.

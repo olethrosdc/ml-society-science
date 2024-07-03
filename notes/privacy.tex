@@ -1744,7 +1744,11 @@ While the exponential mechanism is quite abstract, it is very flexible. Many pro
 \begin{exampleblock}{The exponential mechanism for machine learning models.}
   The most common scenario involving privacy in machine learning is  when we want to fit a model to privacy-protected training data. This means that the machine learning \emph{algorithm} itself has to be differentially private. As an example, consider the problem of estimating a classification model $P_\param(y | x)$ parametrised by $\param \in \Params$. The learning algorithm should define a probability distribution $\pol(\param \mid x)$ over parameters that is differentially private. This means $\param$ will not leak information about the training data. A natural way to achieve differential privacy in that setting is to use the exponential mechanism, where the utility $U$ is the classifier's performance on a hold-out data set.
 
-  The other possible scenario is protecting the data of people that interact with the model. Assume a given model $P_\param$, and a person $t$ with features $x_t$ giving their data to their model, and receiving some response $a_t$ back. If it is only this person interacting with the model, then there is little need for privacy protection. However, we might have a setting where $T$ people are submitting the data, and the system calculates a response that is visible to all. In that case, privacy would become an issue. In that case, if $P_\param(y_t | x_t)$ defines some a distribution over outcomes, and we make a joint decision $a$ with utility $U(a, x) = \sum_t \sum_y u(a, y) P_\param(y_t = y \mid x_t)$, it is natural to use the exponential mechanism.
+  The other possible scenario is protecting the data of people that interact with the model. Assume a given model $P_\param$, and a person $t$ with features $x_t$ giving their data to their model, and receiving some response $a_t$ back. If it is only this person interacting with the model, then there is little need for privacy protection. However, we might have a setting where $T$ people are submitting the data, and the system calculates a response that is visible to all. In that case, privacy would become an issue. In that case, if $P_\param(y_t | x_t)$ defines some a distribution over outcomes, and we make a joint decision $a$ with utility
+  \[
+    U(a, \param, x) = \sum_t \sum_y u(a, y) P_\param(y_t = y \mid x_t),
+  \]
+  it is natural to use the exponential mechanism.
 \end{exampleblock}
 
 
@@ -1910,7 +1914,7 @@ dataset.
   \end{align*}
 \end{proof}
 
-\only<article>{As it turns out, privacy in terms of hypothesis testing is a somewhat more general concept than differential privacy. In fact, we could define a mechanism with a complete false negative and positive testing \emph{profile}, or equivalently an $(\epsilon, \delta)$-profile. The concept is similar to the idea of a ROC curve, and we detail this in the next section.}
+\only<article>{As it turns out, privacy in terms of hypothesis testing is a somewhat more general concept than differential privacy. In fact, we could define a mechanism with a complete false negative and positive testing \emph{profile}, or equivalently an $(\epsilon, \delta)$-profile. The concept is similar to the idea of a ROC curve, as we detail in the next section.}
 
 \subsection{Privacy profile.}
 \only<article>{
@@ -1962,12 +1966,12 @@ dataset.
     \caption{Illustration of the dependence between $\epsilon, \delta$ for binary randomised response and various values of $p$. we see that every curve hits the $\delta = 0$ line for some value of $\epsilon$. This is the value for which we derived that the mechanism is $\epsilon$-DP. However, the mechanism is also $(\epsilon, \delta_\pi(\epsilon)$-DP for every point on the curve.}
     \label{fig:delta-rr}
   \end{figure}
-   Here, the mechanism satisfies $(\epsilon, \delta)$-DP in a different way depending on the choice of $p$. For Smaller values of $p$, the amount of privacy is higher. This means both that the value of $\epsilon$ for which $\delta = 0$ is smaller, and that the curve is lower than all the other curves with a higher $p$. 
+   Here, the mechanism satisfies $(\epsilon, \delta)$-DP in a different way depending on the choice of $p$. For smaller values of $p$, the amount of privacy is higher. This means both that the value of $\epsilon$ for which $\delta = 0$ is smaller, and that the curve is lower than all the other curves with a higher $p$. This graph has a superficial similarity to ROC curves. However, there is a fundamental difference: a ROC curve is constructed by showing the performance of a system (e.g. type I and type II errors) over a range of parameter values (e.g. thresholds). However, these curves show that a single value of the parameter (in this case $p$) satisfies differential privacy for a \emph{range} of $(\epsilon, \delta)$ values.
   \end{example}
 }
 \subsection{Privacy amplification}
 \only<article>{
-  
+  Intuitively, the way we collect data in the first place can lead to better privacy guarantees. If for example we perform a study on a sample of one thousand individuals in the city, we should have better privacy guarantees if the city population is ten million, compared to when it is only one million. The randomisation inherent in the data sampling procedure amplifies the differential privacy guarantees we have. 
 }
 \only<article>{
 \paragraph{Subsampling.}  Let us consider sampling $y$ from a dataset $x$. One of the simplest methods for doing so is the Poisson subsampling. Here, $y$ includes an element $x_i$ with probability $\gamma$ so that $\mu_x(y) \defn \mu(y | x) = \gamma^{|y|}(1 - \gamma)^{|x| - |y|}$. Now, let us consider a mechanism $\pol_y(z) \defn \pol(z | y)$ with privacy profile $\delta_{\pol}(\epsilon)$. Then the combined mechanism $\pol'$ has a privacy profile $\delta_{\pol'}$ satisfying:
@@ -1977,13 +1981,13 @@ dataset.
     \epsilon' = \ln[1 + \gamma(e^\epsilon -1)],
   \]
   as is proven by~\citet{balle2020privacy}.
-  [Privacy Amplification by Subsampling in Time Domain]
+  [See also: Privacy Amplification by Subsampling in Time Domain]
 }
 
 \paragraph{Shuffling.}
 \only<article>{
   Shuffling\cite{erlingsson2019amplification} can be seen as a privacy model somewhere in between the central model (where data is given to a trusted curator, and the local model, where each user randomises their data. Using shuffling, we can amplify privacy in the following way. If we use $n$ copies of a local $\epsilon$-DP mechanism, each with $\epsilon = O(\ln(n / ln(1/\delta)))$ then the total privacy loss is $\epsilon' = O(\min\{e, 1\} e^\epsilon / \sqrt{\ln(1/\delta)/n})$.
-  The Privacy Blanket of the Shuffle Model
+  [The Privacy Blanket of the Shuffle Model]
 }
 \paragraph{Random check-ins.}
 \only<article>{
