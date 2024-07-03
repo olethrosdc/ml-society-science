@@ -156,6 +156,56 @@ The purpose of this course is to familiarise students with societal and scientif
 - [[opendp.org][opendp.org]] - more resources and low-level code
   
 * Schedule
+** 2024
+
+|--------+----------------------------------------------------------------|
+| 20 Sep | L1. Reproducibility, kNN                                       |
+| 27 Sep | L1. Python, scikitlearn, classification, holdouts, overfitting |
+| 4 Oct  | L2. Scikitlearn: Bootstrapping, XV, project introduction       |
+|--------+----------------------------------------------------------------|
+| 11 Oct | L2. Classification, Decision Problems                          |
+| 18 Oct | L3. Decisions, inference, optimisation.                        |
+| 25 Oct |                                                                |
+|--------+----------------------------------------------------------------|
+| 9 Sep  | L4. Bayesian inference tutorial                                |
+| 10 Sep | A4. Project Lab                                                |
+|--------+----------------------------------------------------------------|
+| 16 Sep | L5. Databases, anonymity, privacy                              |
+| 17 Sep | A5. DB tutorial/distributed computing                          |
+| 23 Sep | L6. Differential privacy                                       |
+| 24 Sep | A6. Project DP tutorial: Laplace mechanism                     |
+| 25 Sep | Project 1 *Deadline 1*                                         |
+|--------+----------------------------------------------------------------|
+| 30 Sep | L7. Fairness and graphical models                              |
+| 1 Oct  | A7. Production ML: SageMaker/Pipelines                         |
+| 7 Oct  | L8. Estimating conditional independence                        |
+| 8 Oct  | A8. Project: fairness                                          |
+| 9 Oct  | Project 1 *Deadline 2*                                         |
+|--------+----------------------------------------------------------------|
+| 14 Oct | L9. Recommendation systems [can be skipped?]                   |
+| 15 Oct | A9. Restful APIs                                               |
+| 21 Oct | L10. Latent variables and importance sampling                  |
+| 22 Oct | A10. An example latent variable model?                         |
+| 23 Oct | Project 1 *Final Deadline*                                     |
+|--------+----------------------------------------------------------------|
+| 28 Oct | L11. Causality                                                 |
+| 29 Oct | A11. Causality lab                                             |
+| 4 Nov  | L12. Interventions and Counterfactuals                         |
+| 5 Nov  | A12. Interventions lab                                         |
+| 6 Nov  | Project 2 *Deadline 1*                                         |
+|--------+----------------------------------------------------------------|
+| 11 Nov | L13. Bandit problems                                           |
+| 12 Nov | A13. Bandit optimisationm lab                                  |
+| 18 Nov | L14. Experiment design                                         |
+| 19 Nov | A14. Experiment design lab                                     |
+| 20 Nov | Project 2 *Deadline 2*                                         |
+|--------+----------------------------------------------------------------|
+| 23 Nov | *Exam*                                                         |
+|--------+----------------------------------------------------------------|
+| 6 Dec  | Project 2 *Final Deadline*                                     |
+|--------+----------------------------------------------------------------|
+
+
 ** 2023
    |-------+-----------------------+---------------------+----------------------------|
    |  Date | Lecture               | Exercise            | Extra Reading              |
