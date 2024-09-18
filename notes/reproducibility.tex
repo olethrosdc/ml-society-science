@@ -329,9 +329,6 @@ Finally, bagging also allows us to generate probabilistic predictions from deter
   \frametitle{Cross-validation}
   \only<article>{While we typically use a single training, hold-out and test set, it might be useful to do this multiple times in order to obtain more robust performance estimates. In the simplest case, cross-validation can be used to obtain multiple training and hold-out sets from a single dataset. This works by simply partitioning the data in $k$ \emph{folds} and then using one of the folds as a holdout and the remaining $k - 1$ as training data. This is repeated $k$ times. When $k$ is the same size as the original training data, then the method is called \emph{leave-one-out cross-validation.}}
   \begin{block}{$k$-fold Cross-Validation}
-    \begin{algorithm}
-      \STATE x
-    \end{algorithm}
     \begin{enumerate}
     \item \textbf{Input} Training data $\Training$, number of folds $k$, algorithm $\alg$, measurement function $\util$
     \item Create the partition $\Data^{(1)} \ldots, \Data^{(k)}$ so that $\bigcup_{i=1}^k \Data^{(k)} = \Data$.
