@@ -19,14 +19,14 @@
   % What are the central problems in machine learning?
   Problems in machine learning are similar to problems in science.
   Scientists must plan experiments intelligently and collect data.
-  The must be able to use the data to verify or falsify different
-  hypotheses.  More generally, they must be able to make decisions
-  under uncertainty (Without uncertainty, there would be no need to
-  gather more data).  Similar problems appear in more mundane tasks,
-  like learning to drive a car.  There are always two aspects to the
-  problem: first, narrowing down the set of plausible hypotheses from
-  the data, and actively experimenting in such a way as to learn as
-  quickly as possible.  }
+  They must be able to use the data to verify or falsify different
+  hypotheses.  More generally, they have to make decisions under
+  uncertainty: without uncertainty, there would be no need to gather
+  more data.  Similar problems appear in more mundane tasks, like
+  learning to drive a car.  No matter what the problem is, it
+  invariable involves two aspects: first, narrowing down the set of
+  plausible hypotheses from the data, and actively experimenting in
+  such a way as to learn as quickly as possible.  }
 \only<presentation>{
   \begin{frame}
     \frametitle{Scientific applications}
@@ -54,19 +54,26 @@
   \end{frame}
 }
 
-\only<article>{
-  For that reason, science is a very natural application area for
-  machine learning.  We can model the effects of climate change and
-  how to mitigate it; discover structure in social networks; map
-  the existence of dark matter in the universe by intelligently
-  shifting through weak gravitational lens data, and not only study
-  the mechanisms of protein folding, but discover methods to
-  synthesize new drugs.
+\only<article>{ For that reason, science is a very natural application
+  area for machine learning.  We can model the effects of climate
+  change and how to mitigate it; discover structure in social
+  networks; infer the correct use of language by processing very large
+  amounts of text; map the existence of dark matter in the universe by
+  intelligently shifting through weak gravitational lens data; and not
+  only study the mechanisms of protein folding, but discover methods
+  to synthesize new drugs.
 
   We must be careful, however. In many cases we need to be able to
-  interpret what our model tells us. We also must make sure that
-  the any results we obtain are reproducible.
-}
+  interpret what our model tells us. Is a large language model really
+  something more than just a complicated model of what people write?
+  Should a neural network that tells us with certainty that the object
+  in front of the vehicle is a plastic bag be trusted, even if it was
+  telling us, with just as much certainty, that it was a bicycle one
+  second ago?  We also must make sure that the any results we obtain
+  are reproducible. Can somebody else recreate our analysis and our
+  results from a detailed technical description, or are we just seeing
+  a mirage by effectively staring at the data so long through our
+  models that we begin to see patterns where none exist?}
 
 \only<presentation>{
   \begin{frame}
@@ -147,8 +154,10 @@
   outside the scope of the machine learning problems itself. These are
   (a) privacy: you don't want your data used in ways that you have not
   consented to, especially if this may cause harm (b) fairness: you
-  don't want minorities to be disadvantaged, or to enable nepotism and
-  (c) safety: you don't want your car to crash.  }
+  don't want minorities to be disadvantaged, or to enable nepotism (c)
+  safety: you don't want your car to crash. (d) sustainability: for
+  large scale applications of machine learning, what are the direct
+  and indirect environmental effects at scale? }
 
 \section{Data analysis,  learning and planning}
 
