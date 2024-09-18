@@ -162,7 +162,9 @@
 \section{Data analysis,  learning and planning}
 
 \only<article>{
-  To make the above more concrete, let's have a look at a number of problems in machine learning. These involve learning from and analysing data, including inferring decision rules, and constructing complex plans using the evidence gleaned from the data. Machine learning problems are commonly separated into three different types: supervised, unsupervised and reinforcement learning. Typical supervised learning problems include classification and regression, while unsupervised problems include compression, clustering and topic modelling. Reinforcement learning, on the other hand, is concerned with artificially intelligent agents more generally, with examples including game playing and adaptive control. There are a few basic differences between those learning problems. Firstly, the \emph{measure} of performance, and the \emph{type} of feedback we have about learning performance. In supervised learning, there is both a clear objective, and a very simple feedback mechanism for every decision you make. In unsupervised problems, the objective is sometimes not easy to formalise, however once this is done there is no need for a feedback mechanism. In reinforcement learning problems, the performance metric is simple to understand, but measuring performance is not easy, as the feedback we have is delayed and indirect. A final aspect is whether or not the problem involves \emph{active data collection}. While this is always necessary in reinforcement learning problems, standard supervised and unsupervised learning involve either a fixed dataset or a constant stream of data, which is not influenced by the algorithm. In this course, we will try and take a global view of these problems in the context of decision theory.
+  To make the above more concrete, let us look at some problems in machine learning. These involve learning from and analysing data, including inferring decision rules, and constructing complex plans using the evidence gleaned from the data. In typical machine learning applications, you are sometimes simply handed a set of data, and asked to perform some analysis on it. This can involve trying to find relationships between some variables in the data, and include classical \emph{supervised} learning problems such as classification and regression. It might involve learning something general about the data distribution, which requires solving a typical \emph{unsupervised} learning problem such as compression, clustering, or topic modelling. Sometimes, however, we need to deploy machine learning to an agent that will be interacting autonomously with the environment. Doing this properly requires us to solve the \emph{reinforcement} learning problem, with examples including game playing and adaptive control.
+
+  There are a few basic differences between those learning problems. Firstly, the \emph{measure} of performance, and the \emph{type} of feedback we have about learning performance. In supervised learning, there is both a clear objective, and a very simple feedback mechanism for every decision you make. In unsupervised problems, the objective is sometimes not easy to formalise, however once this is done there is no need for a feedback mechanism. In reinforcement learning problems, the performance metric is simple to understand, but measuring performance is not easy, as the feedback we have is delayed and indirect. A final aspect is whether or not the problem involves \emph{active data collection}. While this is always necessary in reinforcement learning problems, standard supervised and unsupervised learning involve either a fixed dataset or a constant stream of data, which is not influenced by the algorithm. In this course, we will try and take a global view of these problems in the context of decision theory.
 }
 
 \only<presentation>{
@@ -189,24 +191,25 @@
 
 
 e\only<article>{ Learning from data, in the broadest sense, means
-  inferring the complete data distribution. More specifically, though
-  it is the problem of inferring relationships between different
-  variables in the data. When we are only interested in one type of
-  relationship, such as between the past stockmarket data and
-  tomorrow's prices, or between raw image data and a label that says
-  whether or not the image is that of the user's face, it is a
-  supervised learning problem. This can be cast as trying to find a
-  function mapping some aspects of the data, called features, to some
-  other aspect, called a label. Typical applications are speech
-  recognition, facial authentication, weather prediction,
-  etc. Sometimes, however, obtaining such data labels is laborious.
+  inferring the distributions from which the data has been
+  generated. More though it is the problem of inferring relationships
+  between different variables in the data. When we are only interested
+  in one type of relationship, such as between the past stockmarket
+  data and tomorrow's prices, or between raw image data and a label
+  that says whether or not the image is that of the user's face, it is
+  a supervised learning problem. This can be cast as trying to find a
+  function mapping some aspects of the data, called features (or input
+  variables), to some other aspect, called a label (or target, or
+  output variable). Typical applications are speech recognition,
+  facial authentication, weather prediction, etc. Sometimes, however,
+  obtaining all relevant variables is hard. As an example, it is easy to scrape text from millions of web-pages, but describing the topics 
 
   In other cases, you really only want to discover some structure in
   the data: what is the data distribution? is it clustered? Is there a
   strong correlation between different variables?  This is generally
   called unsupervised learning. An example application is topic
   modelling, where you let the algorithm discover topics from a corpus of
-  text.
+  text. 
   
   Generally speaking, learning from data is simply the act of reducing your hypothesis space on the basis of data. This is no different to how the scientific process uses data to disprove hypotheses. The only difference is that machine learning uses precisely defined algorithms to do so, while the scientific process is carried out by humans.
 }
@@ -494,21 +497,20 @@ e\only<article>{ Learning from data, in the broadest sense, means
 }
 
 
-\only<article>{
-  It is quite easy to draw the wrong conclusions from applying
-  machine learning / statistics to your data. For example, it was
-  fashionable to perform fMRI studies in humans to see whether some
-  neurons have a particular functional role. There were even
+\only<article>{ It is quite easy to draw the wrong conclusions from
+  applying machine learning / statistics to your data. For example, it
+  was fashionable to perform fMRI studies in humans to see whether
+  some neurons have a particular functional role. There were even
   articles saying that "we found the neurons encoding for Angelina
   Jolie". So some scientists tried to replicate those results. They
   took a dead salmon, and put it an fMRI scanner. They checked its
   brain activity when it was shown images of happy or sad
   people. Perhaps surprisingly, they found an area of the brain that
-  was correlated with the pictures - so it seemed, as though the
-  dead salmon could distinguish photos of happy people from sad
+  was correlated with the pictures - so it seemed, as though the dead
+  salmon could distinguish photos of happy people from sad
   ones. However, this was all due to a misapplication of
-  statistics. In this course, we will try and teach you to avoid
-  such mistakes.
+  statistics. Hopefully this book will help you to avoid making such
+  mistakes.
 
 }
 
