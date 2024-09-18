@@ -1963,7 +1963,7 @@ dataset.
       % \addplot[domain=0:2.5,samples=100]{x^2};
       \end{axis}
   \end{tikzpicture}
-    \caption{Illustration of the dependence between $\epsilon, \delta$ for binary randomised response and various values of $p$. we see that every curve hits the $\delta = 0$ line for some value of $\epsilon$. This is the value for which we derived that the mechanism is $\epsilon$-DP. However, the mechanism is also $(\epsilon, \delta_\pi(\epsilon)$-DP for every point on the curve.}
+    \caption{Illustration of the dependence between $\epsilon, \delta$ for binary randomised response and various values of $p$. we see that every curve hits the $\delta = 0$ line for some value of $\epsilon$. This is the value for which we derived that the mechanism is $\epsilon$-DP. However, the mechanism is also $(\epsilon, \delta_\pi(\epsilon))$-DP for every point on the curve.}
     \label{fig:delta-rr}
   \end{figure}
    Here, the mechanism satisfies $(\epsilon, \delta)$-DP in a different way depending on the choice of $p$. For smaller values of $p$, the amount of privacy is higher. This means both that the value of $\epsilon$ for which $\delta = 0$ is smaller, and that the curve is lower than all the other curves with a higher $p$. This graph has a superficial similarity to ROC curves. However, there is a fundamental difference: a ROC curve is constructed by showing the performance of a system (e.g. type I and type II errors) over a range of parameter values (e.g. thresholds). However, these curves show that a single value of the parameter (in this case $p$) satisfies differential privacy for a \emph{range} of $(\epsilon, \delta)$ values.
@@ -1971,23 +1971,23 @@ dataset.
 }
 \subsection{Privacy amplification}
 \only<article>{
-  Intuitively, the way we collect data in the first place can lead to better privacy guarantees. If for example we perform a study on a sample of one thousand individuals in the city, we should have better privacy guarantees if the city population is ten million, compared to when it is only one million. The randomisation inherent in the data sampling procedure amplifies the differential privacy guarantees we have. 
+  Intuitively, the way we collect data in the first place can lead to better privacy guarantees. If for example we perform a study on a sample of one thousand individuals in the city, we should have better privacy guarantees if the city population is ten million, compared to when it is only one million. The randomisation inherent in the data sampling procedure amplifies the differential privacy guarantees we have. The simplest results that we can obtain in this setting involve uniform sampling for a fixed population, i.e. subsampling:
 }
 \only<article>{
-\paragraph{Subsampling.}  Let us consider sampling $y$ from a dataset $x$. One of the simplest methods for doing so is the Poisson subsampling. Here, $y$ includes an element $x_i$ with probability $\gamma$ so that $\mu_x(y) \defn \mu(y | x) = \gamma^{|y|}(1 - \gamma)^{|x| - |y|}$. Now, let us consider a mechanism $\pol_y(z) \defn \pol(z | y)$ with privacy profile $\delta_{\pol}(\epsilon)$. Then the combined mechanism $\pol'$ has a privacy profile $\delta_{\pol'}$ satisfying:
+  \paragraph{Subsampling.}  Let us consider obtaining a sample $y$ from a dataset $x$. One of the simplest methods for doing so is Poisson subsampling. Here, $y$ includes an element $x_i$ with probability $\gamma$ so that the probability of obtaining $y$ from $x$ is $\mu_x(y) \defn \mu(y | x) = \gamma^{|y|}(1 - \gamma)^{|x| - |y|}$. By itself, subsampling does not give us any guarantees, but we can combine it with a mechanism $\pol_y(z) \defn \pol(z | y)$ with privacy profile $\delta_{\pol}(\epsilon)$. Then the combined mechanism $\pol'$ obtained by first subsampling with $\mu$ and then applying $\pol$, has a privacy profile $\delta_{\pol'}$ satisfying:
   \[
     \delta_{\pol'}(\epsilon') \leq \gamma \delta_{\pol}(\epsilon),
     \qquad
     \epsilon' = \ln[1 + \gamma(e^\epsilon -1)],
   \]
-  as is proven by~\citet{balle2020privacy}.
-  [See also: Privacy Amplification by Subsampling in Time Domain]
+  as is proven by~\citet{balle2020privacy}. Thus, for small values of $\epsilon$, subsampling amplifies privacy by a factor of $\gamma$ for both privacy parameters. 
+  %[See also: Privacy Amplification by Subsampling in Time Domain]
 }
 
 \paragraph{Shuffling.}
 \only<article>{
-  Shuffling\cite{erlingsson2019amplification} can be seen as a privacy model somewhere in between the central model (where data is given to a trusted curator, and the local model, where each user randomises their data. Using shuffling, we can amplify privacy in the following way. If we use $n$ copies of a local $\epsilon$-DP mechanism, each with $\epsilon = O(\ln(n / ln(1/\delta)))$ then the total privacy loss is $\epsilon' = O(\min\{e, 1\} e^\epsilon / \sqrt{\ln(1/\delta)/n})$.
-  [The Privacy Blanket of the Shuffle Model]
+  Shuffling\cite{erlingsson2019amplification,feldman2022hiding} can be seen as a privacy model somewhere in between the central model, where data is given to a trusted curator, and the local model, where each user randomises their data. Using shuffling, we can amplify privacy in the following way. If we use $n$ copies of a local $\epsilon$-DP mechanism, each with $\epsilon = O(\ln(n / ln(1/\delta)))$ then the total privacy loss is $\epsilon' = O(\min\{e, 1\} e^\epsilon / \sqrt{\ln(1/\delta)/n})$.
+[Hiding among the clones] gives a bond of $(1 - e^{-\epsilon_0}) \sqrt{e^{\epsilon_0} \ln(1/\delta) / T}$.
 }
 \paragraph{Random check-ins.}
 \only<article>{
