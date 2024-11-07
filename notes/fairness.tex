@@ -1,4 +1,4 @@
-\chapter{Fairness.}
+%\chapter{Fairness.}
 \label{ch:fairness}
 \only<article>{ When machine learning algorithms are applied at scale,
   it can be difficult to imagine what their effects might be. In this
@@ -270,7 +270,7 @@
     the action.
 
     \paragraph{Actions that affect the outcome.}
-    Lt us first consider a simple set of actions $\CA = \{0, 1\}$,
+    Let us first consider a simple set of actions $\CA = \{0, 1\}$,
     where a defendant is granted $(a_t = 1)$ or denied $(a_t = 0)$
     bail.  If a defendant is not given bail, they must remain in jail,
     and will always be at the trial $(y_t = 0)$. This costs both the
@@ -444,9 +444,14 @@
   role. Unfortunately, though, it does influence the distributions of
   the other variables.  }
 
+\begin{frame}
 
-\begin{example}[Classification]
-  One setting where the above discussion applies directly are classification problems. There, the outcomes $y$ are simply labels. the decision space $\CA$ is to just predicting a label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write:
+  \begin{example}[Classification]
+    \only<presentation>{
+      - $y$: labels, $a$: label prediction, $U(a, y) = \ind{a = y}$.
+      }
+    \only{article}{
+  One setting where the above discussion applies directly are classification problems. There, the outcomes $y$ are simply labels. the decision space $\CA$ is to just predicting a label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write:}
   \[
     \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
   \]
@@ -477,7 +482,7 @@
   expectations of two random variables can be equal when their
   distributions are different.
 \end{example}
-
+\end{frame}
 \subsection{Measuring group fairness.}
 
 \only<article>{
