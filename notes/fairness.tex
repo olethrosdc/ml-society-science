@@ -1,4 +1,4 @@
-%\chapter{Fairness.}
+% \chapter{Fairness.}
 \label{ch:fairness}
 \only<article>{ When machine learning algorithms are applied at scale,
   it can be difficult to imagine what their effects might be. In this
@@ -140,10 +140,10 @@
   \frametitle{Solutions}
   \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
   \begin{itemize}
-  \item<5-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
-  \item<6-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot.}
-  \item<7-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
-  \item<8-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics.}
+  \item<1-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
+  \item<2-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot.}
+  \item<3-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
+  \item<4-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics.}
   \end{itemize}
   
 \end{frame}
@@ -333,17 +333,18 @@
     \centering
     \includegraphics[width=\fwidth]{../figures/Scores-by-race}      
     \label{fig:risk-bias}
-    \caption{Apparent
-      <bias in risk scores towards black versus white defendants.}
+    \caption{Apparent bias in risk scores towards black versus white defendants.}
   \end{figure}
   \only<article>{ Typically, we would like to demographic parity
     across groups, either with respect to the decisions, or with
     respect to the outcomes.  Decision parity is called \emph{equality
       of opportunity} and satisfies the following condition
-    \begin{equation}
-      \label{eq:equality-opportunity}
-      \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
-    \end{equation}
+  }
+  \begin{equation}
+    \label{eq:equality-opportunity}
+    \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
+  \end{equation}
+  \only<article>{
     In other words, the action (risk score, in this case) is
     independent of the group.  As we see in
     Figure~\ref{fig:risk-bias}, these distributions are quite
@@ -379,15 +380,18 @@
     \caption{Recidivism rates by risk score.}
     \label{fig:imrs}
   \end{figure}
-  This concept can be quantified in terms of the conditional distribution of outcomes given the score:
+  \only<article>{
+    This concept can be quantified in terms of the conditional distribution of outcomes given the score:}
   \begin{equation}
     \Pr_\param^\pol(y_t | a_t, z_t) =       \Pr_\param^\pol(y_t | a_t).
     \label{eq:calibration}
   \end{equation}
-  This means that $y_t$ is conditionally independent of $z_t$ given
-  the score $a_t$. So, in some sense, the score is sufficient for us
-  to predict the outcome, and knowing the race does not help us
-  predict any better.  
+  \only<article>{
+    This means that $y_t$ is conditionally independent of $z_t$ given
+    the score $a_t$. So, in some sense, the score is sufficient for us
+    to predict the outcome, and knowing the race does not help us
+    predict any better.
+  }
 \end{frame}
 
 \begin{frame}
@@ -409,10 +413,12 @@
   \end{figure}
   \only<article>{
     Balance can also be interpreted as a probabilistic condition, of the following form:
-    \begin{equation}
-      \Pr_\param^\pol(a_t | y_t, z_t) =       \Pr_\param^\pol(a_t | y_t).
-      \label{eq:balance}
-    \end{equation}
+  }
+  \begin{equation}
+    \Pr_\param^\pol(a_t | y_t, z_t) =       \Pr_\param^\pol(a_t | y_t).
+    \label{eq:balance}
+  \end{equation}
+  \only<article>{
     Here we have that $a_t$ is conditionally independent of $z_t$
     given the outcome $y_t$. So, if we partition the population
     according to their outcome, we should find that given the outcome,
@@ -427,12 +433,40 @@
   \begin{frame}
     \frametitle{Graphical models and independence}
     \begin{itemize}
-    \item Why is it not possible to be fair in all respects?
-    \item Different notions of \alert{conditional independence}.
-    \item Can only be satisfied rarely simultaneously.
+    \item<1-> Why is it not possible to be fair in all respects?
+    \item<2-> Different notions of \alert{conditional independence}.
+    \item<3-> Can only be satisfied rarely simultaneously.
+    \end{itemize}
+    \pause
+    \begin{center}
+      \begin{tikzpicture}
+        \node<5->[RV, hidden] at (-1,1) (p) {$\param$};
+        \node<6->[select] at (4,0) (pol) {$\pol$};
+        \node<7->[RV] at (0,0) (x) {$x_t$};
+        \node<8->[RV] at (2,0) (a) {$a_t$};
+        \node<9->[RV] at (1,1) (y) {$y_t$};
+        \node<10->[utility] at (3,1) (u) {$\util$};
+        \draw<8->[->] (x)--(a);
+        \draw<9->[->] (x)--(y);
+        \draw<9->[->] (a)--(y);
+        \draw<7->[->] (p) to (x);
+        \draw<9->[->] (p)--(y);
+        \draw<8->[->] (pol)--(a);
+        \draw<10->[->] (a)--(u);
+        \draw<10->[->] (y)--(u);
+      \end{tikzpicture}
+    \end{center}
+    \begin{itemize}
+    \item<5-> $\param$: environment parameters (\alert{latent} variable)
+    \item<6-> $\pol$: policy of the decision maker (\alert{decision} variable)
+    \item<7-> $x_t$: observation
+    \item<8-> $a_t$: action taken
+    \item<9-> $y_t$: outcome
+    \item<10-> $\util$: \alert{utility}
     \end{itemize}
   \end{frame}
 
+  
 }
 
 \only<article>{ How can we explain this discrepancy? We can show that
@@ -448,40 +482,56 @@
 
   \begin{example}[Classification]
     \only<presentation>{
-      - $y$: labels, $a$: label prediction, $U(a, y) = \ind{a = y}$.
-      }
-    \only{article}{
-  One setting where the above discussion applies directly are classification problems. There, the outcomes $y$ are simply labels. the decision space $\CA$ is to just predicting a label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write:}
-  \[
-    \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
-  \]
-  For binary classification problems in particular, we may be only
-  interested in slightly narrower concepts, such as equal false
-  negative---$\Pr(a_t = 0 | y_t = 1, z_t = z)$---or false
-  positive---$\Pr(a_t = 1 | y_t = 0, z_t = z$---rates between groups
-  $z$.
-\end{example}
+      \begin{itemize}
+      \item $y$: labels
+      \item $a$: label prediction
+      \item $U(a, y) = \ind{a = y}$.
+      \item Here the outcome is independent of the action:
+      \end{itemize}
+    }
+    \only<article>{
+      One setting where the above discussion applies directly are classification problems. There, the outcomes $y$ are simply labels. the decision space $\CA$ is to just predicting a label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write
+    }
+    \[
+      \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
+    \]
 
-\begin{example}[Regression]
-  We can also apply these ideas to regression problems. We are again
-  asked to simply predict a latent variable $y$. For concreteness,
-  assume $y \in \Reals$. Then, the decision space $\CA = \Reals$ as
-  well. A standard utility function is the negative squared prediction
-  error, so that $U(a, y) = - (a - y)^2$.
+    \only<article>{
+      For binary classification problems in particular, we may be only
+      interested in slightly narrower concepts, such as equal false
+      negative---$\Pr(a_t = 0 | y_t = 1, z_t = z)$---or false
+      positive---$\Pr(a_t = 1 | y_t = 0, z_t = z)$---rates between groups
+      $z$.
+    }
+  \end{example}
+\end{frame}
+\begin{frame}
 
-  In this setting we can also relax our framework to work with
-  expectations instead of probabilities. For example, calibration and balance can be written as the conditions:
-  \[
-    \E_\param^\pol(y_t | a_t, z_t) = \E_\param^\pol(y_t | a_t),
-    \qquad
-    \E_\param^\pol(a_t | y_t, z_t) = \E_\param^\pol(a_t | y_t),
-  \]
-  respectively. This is a useful definition in particular when our
-  action is the assignment of a numerical score, as in the COMPAS
-  recidivism example. However, this definition is weaker, as the
-  expectations of two random variables can be equal when their
-  distributions are different.
-\end{example}
+  \begin{example}[Regression]
+    \only<article>{
+      We can also apply these ideas to regression problems. We are again
+      asked to simply predict a latent variable $y$. For concreteness,
+      assume $y \in \Reals$. Then, the decision space $\CA = \Reals$ as
+      well. A standard utility function is the negative squared prediction
+      error, so that $U(a, y) = - (a - y)^2$.
+    }
+    
+    In this setting we can also relax our framework to work with
+    expectations instead of probabilities. For example, calibration and balance can be written as the conditions:
+    \[
+      \E_\param^\pol(y_t | a_t, z_t) = \E_\param^\pol(y_t | a_t),
+      \qquad
+      \E_\param^\pol(a_t | y_t, z_t) = \E_\param^\pol(a_t | y_t),
+    \]
+    respectively.
+    \only<article>{
+      This is a useful definition in particular when our
+      action is the assignment of a numerical score, as in the COMPAS
+      recidivism example. However, this definition is weaker, as the
+      expectations of two random variables can be equal when their
+      distributions are different.
+    }
+  \end{example}
 \end{frame}
 \subsection{Measuring group fairness.}
 
@@ -495,28 +545,51 @@
   these conditions?
 }
 
-
-\paragraph{Empirical expected utility.}
-\only<article>{
-  Let us start with expected utility, and write it in full:
-  \[
-    \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y).
-  \]
-  The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility with
+\only<presentation>{
+  \begin{frame}
+    \centering
+    {\Huge Measuring and optimising fairness and utility.}
+  \end{frame}
 }
-\[
-  \hat{E}_n(U) = \sum_{t=1}^n U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^\pol.
-\]
-Thus, estimating the expected utility of a particular policy is always possible, as long as we can sample actions and outcomes from $\Pr_\param^\pol$. Of course, this requires having some specific model for sampling outcomes for any given action, as the policy in historical data might have taken different actions from the ones we are taking.
+\begin{frame}
+  \frametitle{Expected utility.}
+    Let us write out expected utility, with $\Pr_\param^\pol(\cdot) \equiv \Pr(\cdot \mid \param, \pol)$
+    \[
+      \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y).
+    \]
+    The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility of the \alert{historical policy} with
+  \[
+    \widehat{E}_n(U) = \sum_{t=1}^n U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^\pol.
+  \]
+  \only<article>{
+    Thus, estimating the expected utility of a particular policy is only possible, if we can sample actions and outcomes from $\Pr_\param^\pol$. Of course, this requires having some specific model for sampling outcomes for any given action, as the policy in historical data might have taken different actions from the ones we are taking.
+  }
+  
+  \only<presentation>{
+    \begin{block}{Model specification}
+      For simplicity, assume $z = x_{1}$, i.e. one of the features.  Then
+      \[
+        \Pr_\param^\pol(y,a,x,z)
+        =
+        \underbrace{\Pr_\param(y \mid a, x)}_{\textrm{outcome distribution}}
+        \underbrace{\pol(a \mid x)}_{\textrm{policy}}
+        \underbrace{\Pr_\param(x)}_{\textrm{feature distribution}}
+      \]
+    \end{block}
+    Using the model, we can estimate the expected utility of any policy.
+  }
+\end{frame}
 
-\paragraph{Deviation from balance.}
-\only<article>{
+\begin{frame}
+  \frametitle{Deviation from balance.}
+  \only<article>{
+    How about measuring whether balance is satisfied?  Unfortunately
+    none of these fairness conditions will be satisfied in practice. So
+    what are we going to do? A simple idea is to simply look at how far
+    away the distribution is from independence. In particular, let us
+    look at the difference between those distributions
+  }
 
-  How about measuring whether balance is satisfied?  Unfortunately
-  none of these fairness conditions will be satisfied in practice. So
-  what are we going to do? A simple idea is to simply look at how far
-  away the distribution is from independence. In particular, let us
-  look at the difference between those distributions
   \[
     \Pr_\param^\pol(a | y, z), \qquad  \Pr_\param^\pol(a | y).
   \]
@@ -526,30 +599,32 @@ Thus, estimating the expected utility of a particular policy is always possible,
     =
     \sum_a \|\Pr_\param^\pol(a| y, z) -   \Pr_\param^\pol(a | y)\|_1.
   \]
-  We can then sum over all possible values of $y, z$ to obtain a
-  single measure of how much we deviate from balance. To obtain an
-  empirical estimate, we can simply sum over all observations to
-  obtain the empirical models:
+  \only<article>{
+    We can then sum over all possible values of $y, z$ to obtain a
+    single measure of how much we deviate from balance. To obtain an
+    empirical estimate, we can simply sum over all observations to
+    obtain the empirical models:
+  }
   \[
     \hat{P}_n(a | y, z) = \sum_t \frac{\ind{a_t = a \wedge y_t = y \wedge z_t = i}}{\ind{y_t = y \wedge z_t = i}}
   \]
+
   We can then plug those into our original measure:
   \[
     \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
     \approx
     \sum_a \|\hat{P}_n (a| y, z) -   \hat{P}_n(a| y)\|_1.
   \]
-
-  However, we can
-  use something else as well, such as the KL divergence:
-  \[
-    D(\Pr_\param^\pol(a | y, z)  \|   \Pr_\param^\pol(a | y))
-    =
-    \sum_a \ln \frac{\Pr_\param^\pol(a | y, z)}{\Pr_\param^\pol(a | y)} \Pr_\param^\pol(a | y, z)
-  \]
-
-  
-}
+  \only<article>{  
+    However, we can
+    use something else as well, such as the KL divergence:
+    \[
+      D(\Pr_\param^\pol(a | y, z)  \|   \Pr_\param^\pol(a | y))
+      =
+      \sum_a \ln \frac{\Pr_\param^\pol(a | y, z)}{\Pr_\param^\pol(a | y)} \Pr_\param^\pol(a | y, z)
+    \]
+  }
+\end{frame}
 \subsection{Trading off  utility and fairness.}
 \label{sec:trad-util-fairn}
 \only<article>{ We have now selected a notion of utility and of
@@ -667,7 +742,12 @@ Thus, estimating the expected utility of a particular policy is always possible,
 }
 
 \section{Individual fairness}
-
+\only<presentation>{
+  \begin{frame}
+    \centering
+    {\Huge Individual fairness}
+  \end{frame}
+}
 \only<article>{ An altogether different type of fairness concept is
   individual fairness. This is linked to the notion of meritocracy, i.e.
   that ``better'' people should have ``better'' outcomes. But what do
@@ -770,7 +850,8 @@ Thus, estimating the expected utility of a particular policy is always possible,
       0  & $u_2$ & 1 & 0
     \end{tabular}
   \end{example}
-  
+\end{frame}
+\begin{frame}
   \begin{definition}
     A \textbf{policy} $\pol$ is \textbf{fair} if, for all $i,j$ it holds that: $\E_\pol [u_i | w] > \E[u_j | w] \Rightarrow w_i > w_j$.
   \end{definition}
@@ -792,8 +873,9 @@ Thus, estimating the expected utility of a particular policy is always possible,
   }
 
 
-  \begin{example}{Ranking and top-$k$ cohort selection.}
-    In this setting, we assume we have a set of $n$
+  \begin{example}[Ranking and top-$k$ cohort selection.]
+    \only<article>{
+      In this setting, we assume we have a set of $n$
       individuals, with the $i$-th individual receiving an evaluation
       $w_i$. We need to choose individuals from the set so that
       $a_i = 1$ if we select an individual, and $0$ otherwise. We can
@@ -802,11 +884,23 @@ Thus, estimating the expected utility of a particular policy is always possible,
       $a=(a_1, \ldots, a_n)$. A simple way to perform the allocation
       to first rank the individuals so that $w_{i} > w_{i+1}$. We then
       can assign $a_i=1$ for all $i \leq k$.
+    }
+    \only<presentation>{
+      \begin{itemize}
+        \item $n$ individuals
+        \item $i$-th individual receiving an evaluation
+          $w_i$.
+        \item $a_i = 1$ if we select an individual, and $0$ otherwise.
+        \item Ranked selection algorithm $\pol$: first rank the individuals so that $w_{i} > w_{i+1}$. We then     can assign $a_i=1$ for all $i \leq k$.
+        \end{itemize}
+    }
   \end{example}
-
-
+\end{frame}
+\only<article>{
   This, however, creates a problem. What if the $k$-th individual has value $w_k$, but there exist more individuals of equal value, so that e.g. $w_{k+1} = w$? Due to our constraint on only selecting $k$ individuals from the set, we now have a problem: if we select $k$ and not $k+1$, we are treating the individuals differently, even though their characteristics are exactly the same. The simplest way to fix that is to choose between $k$ or $k+1$ with probability $1/2$ each. The same problem occurs when we want to match multiple individuals to one of many possible allocations, as is done in university entrance. The obvious solution there is also randomisation. Even though some people find randomisation fundamentally unfair, it is the only method offering equitable treatment (though not equitable outcomes) for indistinguishable individuals.
-  
+}
+
+\begin{frame}
   \begin{example}{Matching problems.}
     \only<article>{ In classical matching problems, such as university
       admissions, each individual $i \in \{1, \ldots, n\}$ have an
@@ -848,19 +942,19 @@ Thus, estimating the expected utility of a particular policy is always possible,
     }
     
   \end{example}
-
-  
-  \only<article>{In practice, we do not have direct access to an
-    individual's worth. However, we may have a model that estimates
-    worth based on their individual features. To be as general as
-    possible, we can assume a probabilistic model
-    $P_\param(w_i | x_i)$ that assigns a distribution over worths
-    $w_i$ for individuals with features $x_i$. Then we want our
-    decisions to be fair in expectation. This expectation is taken with respect to both the randomness due to our modelling, and the potential randomness due to our decision rule.
-
-     What if two students had almost, but not exactly the same grades, and one was assigned a place, while the other not. Is that fair? Is it perhaps fairer to randomise to some extent, so that, while the best students are guaranteed a place, the ones further down the ranking might still have a chance? After all grades are not the absolute truth: they are but a noisy, biased measurement of an individual's academic capacity. In the section below, we will discuss how decision rules can be made smoother more generally, and not just through randomising over identical individuals.
-  }
 \end{frame}
+
+\only<article>{In practice, we do not have direct access to an
+  individual's worth. However, we may have a model that estimates
+  worth based on their individual features. To be as general as
+  possible, we can assume a probabilistic model
+  $P_\param(w_i | x_i)$ that assigns a distribution over worths
+  $w_i$ for individuals with features $x_i$. Then we want our
+  decisions to be fair in expectation. This expectation is taken with respect to both the randomness due to our modelling, and the potential randomness due to our decision rule.
+
+  What if two students had almost, but not exactly the same grades, and one was assigned a place, while the other not. Is that fair? Is it perhaps fairer to randomise to some extent, so that, while the best students are guaranteed a place, the ones further down the ranking might still have a chance? After all grades are not the absolute truth: they are but a noisy, biased measurement of an individual's academic capacity. In the section below, we will discuss how decision rules can be made smoother more generally, and not just through randomising over identical individuals.
+}
+
 
 \subsection{Fairness as smoothness.}
 \only<article>{ Another principle for individual fairness is
@@ -883,7 +977,7 @@ Thus, estimating the expected utility of a particular policy is always possible,
   divergence $D[\pol(a_i | x_i) | \pol(a_j | x_j)]$ between the
   decision distributions for two different individuals.
 
-    
+  
   Finally, we also need to define what the decision maker wants to
   achieve. This can be captured through a utility function $U$,
   measuring the quality of DM's policy. In the simplest scenario, we
@@ -897,13 +991,13 @@ Thus, estimating the expected utility of a particular policy is always possible,
   in terms of the sum of individual payoffs:
   \[
     U(\pol) \defn \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
-\]
-The second problem is to define a policy that will be applied in a
-\emph{potential} population. This means that we do not have to make a
-decision now, but we will have to fix a policy that will be applied
-later to individuals drawn independently\footnote{This is only a mild assumption on the setting where decisions are made independently for each individual.} from some distribution
-$P$. Then the utility of any policy $\pol$ over some distribution $P$
-can be written as:
+  \]
+  The second problem is to define a policy that will be applied in a
+  \emph{potential} population. This means that we do not have to make a
+  decision now, but we will have to fix a policy that will be applied
+  later to individuals drawn independently\footnote{This is only a mild assumption on the setting where decisions are made independently for each individual.} from some distribution
+  $P$. Then the utility of any policy $\pol$ over some distribution $P$
+  can be written as:
   \[
     U(\pol) \defn \int_{\CX} dP(x) \left[\sum_{a \in \CA} \rho(x, a) \pol(a_t = a | x)\right].
   \]
@@ -921,21 +1015,21 @@ can be written as:
   Of course, in some cases the utility might not be known perfectly, and we can use a Bayesian approach. It is also possible that we have not settled on an appropriate metric $d$ with respect to the features. Finally, the policy may not have the independence property, so the above Lipschitz condition may not be properly defined. There are also differences in the available solutions for the optimisation problem when we are dealing with a fixed population versus a distribution over populations.  We will go through all of these later. 
 }
 \only<presentation>{
-\begin{frame}
-  \begin{block}{Treating similar individuals similarly.}
-    \begin{itemize}
-    \item $d(x_i,x_j)$: Distance between individuals $i,j$. 
-    \item $D[\pol(a_i | x_i), \pol(a_j | x_j)]$: Distance between policy decisions.
-    \item Utility function $U(\pol)$.
-    \end{itemize}
-    Our goal is to find a decision rule $\pol$ maximising  $U(\pol)$, 
-    so that it is Lipschitz-smooth with respect to $D, d$:
-    \[
-      D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j)
-    \]
-  \end{block}
-  \only<article>{When $D(P,Q) = \max_{a \in A} |\log [P(a)/Q(a)]|$ then $\pol$ satisfies differential privacy with $d(x,y) = \epsilon \|x - y\|_1$}.
-\end{frame}
+  \begin{frame}
+    \begin{block}{Treating similar individuals similarly.}
+      \begin{itemize}
+      \item $d(x_i,x_j)$: Distance between individuals $i,j$. 
+      \item $D[\pol(a_i | x_i), \pol(a_j | x_j)]$: Distance between policy decisions.
+      \item Utility function $U(\pol)$.
+      \end{itemize}
+      Our goal is to find a decision rule $\pol$ maximising  $U(\pol)$, 
+      so that it is Lipschitz-smooth with respect to $D, d$:
+      \[
+        D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j)
+      \]
+    \end{block}
+    \only<article>{When $D(P,Q) = \max_{a \in A} |\log [P(a)/Q(a)]|$ then $\pol$ satisfies differential privacy with $d(x,y) = \epsilon \|x - y\|_1$}.
+  \end{frame}
 }
 
 \begin{frame}{Connection to meritocracy.}
