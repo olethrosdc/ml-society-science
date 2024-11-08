@@ -1,4 +1,6 @@
-% \chapter{Fairness.}
+\only<article>{
+  \chapter{Fairness.}
+}
 \label{ch:fairness}
 \only<article>{ When machine learning algorithms are applied at scale,
   it can be difficult to imagine what their effects might be. In this
@@ -183,7 +185,7 @@
   In this section, and throughout this chapter, we will imagine that
   an individual is interacting with a system, which makes decisions
   about the individual, such as whether or not to give them a
-  loan. These result in a certain outcome , such as the individual
+  loan. These result in a certain outcome, such as the individual
   using the borrowed money to invest in a business and then having a
   particular annual income. Crucially, these outcomes can be
   correlated with group membership, because of societal dynamics. The
@@ -191,19 +193,20 @@
   it intends, such as giving loans to people that are expected to
   repay them, but also that it does not create inequalities between
   different groups. As we will see later, depending on our fairness
-  definition, and on the societal dynamics, this is not always easy.
+  definition, and on the societal dynamics, this is almost never easy.
   
 }
 
 \begin{frame}
   \frametitle{Bail decisions}
 
-  \only<article>{ For a more detailed
-    example, let us consider bail decisions in the US court
-    system. When a defendant is charged, the judge has the option to
-    either place them in jail pending trial, or set them free, under
-    the condition that the defendant pays some amount of 'bail'. The
-    amount of bail (if any) is set to deter flight or a relapse.
+  \only<article>{ For a more detailed example, let us consider bail
+    decisions in the US court system. When a defendant is charged, the
+    judge has the option to either place them in jail pending trial,
+    or set them free, under the condition that the defendant pays some
+    amount of 'bail', or guarantee. The amount of bail (if any) is set to deter
+    flight or a relapse, and is returned to the defendant after the
+    trial.
 
     This process sometimes includes the use of a software tool called
     \texttt{COMPAS}, which gives risk scores for the possibility of
@@ -465,8 +468,6 @@
     \item<10-> $\util$: \alert{utility}
     \end{itemize}
   \end{frame}
-
-  
 }
 
 \only<article>{ How can we explain this discrepancy? We can show that
@@ -553,11 +554,11 @@
 }
 \begin{frame}
   \frametitle{Expected utility.}
-    Let us write out expected utility, with $\Pr_\param^\pol(\cdot) \equiv \Pr(\cdot \mid \param, \pol)$
-    \[
-      \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y).
-    \]
-    The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility of the \alert{historical policy} with
+  Let us write out expected utility, with $\Pr_\param^\pol(\cdot) \equiv \Pr(\cdot \mid \param, \pol)$
+  \[
+    \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y).
+  \]
+  The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility of the \alert{historical policy} with
   \[
     \widehat{E}_n(U) = \sum_{t=1}^n U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^\pol.
   \]
@@ -597,7 +598,7 @@
   \[
     \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
     =
-    \sum_a \|\Pr_\param^\pol(a| y, z) -   \Pr_\param^\pol(a | y)\|_1.
+    \sum_a |\Pr_\param^\pol(a| y, z) -   \Pr_\param^\pol(a | y)|_1.
   \]
   \only<article>{
     We can then sum over all possible values of $y, z$ to obtain a
@@ -608,12 +609,11 @@
   \[
     \hat{P}_n(a | y, z) = \sum_t \frac{\ind{a_t = a \wedge y_t = y \wedge z_t = i}}{\ind{y_t = y \wedge z_t = i}}
   \]
-
   We can then plug those into our original measure:
   \[
     \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
     \approx
-    \sum_a \|\hat{P}_n (a| y, z) -   \hat{P}_n(a| y)\|_1.
+    \sum_a |\hat{P}_n (a| y, z) -   \hat{P}_n(a| y)|.
   \]
   \only<article>{  
     However, we can
@@ -675,8 +675,7 @@
 
   \only<article>{Let us now look at two different ways of modelling the problem as constrained optimisation. This might be useful if we need to have guarantees on fairness or utility. In the first formulation, we maximise utility and constrain the fairness deviation. In the second, we minimise the fairness deviation and constrain the utility.}
   \begin{block}{Constrained fairness.}
-    \only<article>{In this setting, we have an upper bound $\epsilon$ on the amount of fairness deviation we can allow.}
-    Let $\epsilon \geq 0$:
+    \only<article>{In this setting, we have an upper bound $\epsilon$ on the amount of fairness deviation we can allow.     Let $\epsilon \geq 0$:}
     \begin{align*}
       \max_{\pol \in \Pol} U(\pol, \param)\\
       \textrm{s.t.} F(\pol, \param) \leq \epsilon.
@@ -887,12 +886,12 @@
     }
     \only<presentation>{
       \begin{itemize}
-        \item $n$ individuals
-        \item $i$-th individual receiving an evaluation
-          $w_i$.
-        \item $a_i = 1$ if we select an individual, and $0$ otherwise.
-        \item Ranked selection algorithm $\pol$: first rank the individuals so that $w_{i} > w_{i+1}$. We then     can assign $a_i=1$ for all $i \leq k$.
-        \end{itemize}
+      \item $n$ individuals
+      \item $i$-th individual receiving an evaluation
+        $w_i$.
+      \item $a_i = 1$ if we select an individual, and $0$ otherwise.
+      \item Ranked selection algorithm $\pol$: first rank the individuals so that $w_{i} > w_{i+1}$. We then     can assign $a_i=1$ for all $i \leq k$.
+      \end{itemize}
     }
   \end{example}
 \end{frame}
