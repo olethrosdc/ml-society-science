@@ -65,7 +65,7 @@
 
   We must be careful, however. In many cases we need to be able to
   interpret what our model tells us. Is a large language model really
-  something more than just a complicated model of what people write?
+  something more than just a complicated predictor of what people write?
   Should a neural network that tells us with certainty that the object
   in front of the vehicle is a plastic bag be trusted, even if it was
   telling us, with just as much certainty, that it was a bicycle one
@@ -153,18 +153,23 @@
   those cases, we have to worry about a great many things that are
   outside the scope of the machine learning problems itself. These are
   (a) privacy: you don't want your data used in ways that you have not
-  consented to, especially if this may cause harm (b) fairness: you
-  don't want minorities to be disadvantaged, or to enable nepotism (c)
-  safety: you don't want your car to crash. (d) sustainability: for
-  large scale applications of machine learning, what are the direct
-  and indirect environmental effects at scale? }
+  consented to. This includes not only directly sharing personal data
+  with third parties, but also using it in any way that might later
+  cause harm. (b) fairness: we need to maintain an equal playing
+  field. This includes protecting societal subgroups, such as ethnic
+  minorities and promoting meritocracy.  (c) safety: systems employing
+  machine learning should perform robustly with an extremely small
+  failure rate, especially when used at scale. For the same reason,
+  they should also be fortified against malicious actors. (d)
+  sustainability: for large scale applications of machine learning,
+  there are both direct and indirect environmental effects at scale. }
 
 \section{Data analysis,  learning and planning}
 
 \only<article>{
-  To make the above more concrete, let us look at some problems in machine learning. These involve learning from and analysing data, including inferring decision rules, and constructing complex plans using the evidence gleaned from the data. In typical machine learning applications, you are sometimes simply handed a set of data, and asked to perform some analysis on it. This can involve trying to find relationships between some variables in the data, and include classical \emph{supervised} learning problems such as classification and regression. It might involve learning something general about the data distribution, which requires solving a typical \emph{unsupervised} learning problem such as compression, clustering, or topic modelling. Sometimes, however, we need to deploy machine learning to an agent that will be interacting autonomously with the environment. Doing this properly requires us to solve the \emph{reinforcement} learning problem, with examples including game playing and adaptive control.
+  To make the above more concrete, let us look at some problems in machine learning. These involve learning from and analysing data, including optimising decision rules, and constructing complex plans using the evidence gleaned from the data. In typical machine learning applications, you are sometimes simply handed a set of data, and asked to perform some analysis on it. This can involve trying to find relationships between some variables in the data, and include classical \emph{supervised} learning problems such as classification and regression. It might involve learning something general about the data distribution, which requires solving a typical \emph{unsupervised} learning problem such as compression, clustering, or topic modelling. Sometimes, however, we need to deploy machine learning to an agent that will be interacting autonomously with the environment. Doing this properly requires us to solve the \emph{reinforcement} learning problem, with examples including game playing and adaptive control.
 
-  There are a few basic differences between those learning problems. Firstly, the \emph{measure} of performance, and the \emph{type} of feedback we have about learning performance. In supervised learning, there is both a clear objective, and a very simple feedback mechanism for every decision you make. In unsupervised problems, the objective is sometimes not easy to formalise, however once this is done there is no need for a feedback mechanism. In reinforcement learning problems, the performance metric is simple to understand, but measuring performance is not easy, as the feedback we have is delayed and indirect. A final aspect is whether or not the problem involves \emph{active data collection}. While this is always necessary in reinforcement learning problems, standard supervised and unsupervised learning involve either a fixed dataset or a constant stream of data, which is not influenced by the algorithm. In this course, we will try and take a global view of these problems in the context of decision theory.
+  There are a few basic differences between those learning problems. Firstly, the \emph{measure} of performance, and the \emph{type} of feedback we have about learning performance. In supervised learning, there is both a clear objective, and a very simple feedback mechanism for every decision you make. In unsupervised problems, the objective is sometimes not easy to formalise, however once this is done there is no need for a feedback mechanism. In reinforcement learning problems, the performance metric is simple to understand, but measuring performance is not easy, as the feedback we have is delayed and indirect. A final aspect is whether or not the problem involves \emph{active data collection}. While this is always necessary in reinforcement learning problems, standard supervised and unsupervised learning involve either a fixed dataset or a constant stream of data, which is not influenced by the algorithm. In this book, we will try and take a global view of these problems in the context of decision theory.
 }
 
 \only<presentation>{
@@ -181,7 +186,7 @@
 
       {\large An unsupervised learning problem: topic modelling}
     }
-    \only<2>{\includegraphics[width=0.8\textwidth]{../figures/Face-Recognition}
+    \only<2>{\includegraphics[width=0.8\textwidth]{../figures/object-recognition}
       \\
 
       {\large A supervised learning problem: object recognition}
@@ -190,7 +195,7 @@
 \end{frame}
 
 
-e\only<article>{ Learning from data, in the broadest sense, means
+\only<article>{ Learning from data, in the broadest sense, means
   inferring the distributions from which the data has been
   generated. More though it is the problem of inferring relationships
   between different variables in the data. When we are only interested
