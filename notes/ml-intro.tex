@@ -207,7 +207,9 @@
   variables), to some other aspect, called a label (or target, or
   output variable). Typical applications are speech recognition,
   facial authentication, weather prediction, etc. Sometimes, however,
-  obtaining all relevant variables is hard. As an example, it is easy to scrape text from millions of web-pages, but describing the topics 
+  obtaining all relevant variables is hard. As an example, it is easy
+  to scrape text from millions of web-pages, but having a human
+  summarise the topics each page deals with is much harder.
 
   In other cases, you really only want to discover some structure in
   the data: what is the data distribution? is it clustered? Is there a
@@ -241,33 +243,34 @@
   mistakes. Consider the proverbial rat in the maze. At some
   intervals, the experimenter places some cheese in there, and the
   rat must do a series of actions to obtain it, such as navigating
-  the maze and pulling some levers. It doesn't know how to get to
+  the maze and pulling some levers. It doesn't know how to get 
   the cheese easily, but it slowly learns the layout of the maze
   through observation, and in the end, through trial-and-error it
-  is able to get to the cheese very efficiently.
+  is able obtain the cheese very efficiently.
 
-  We can formalise this as a reinforcement learning problem, where
-  the rat takes a series of actions; at each step it also obtains a
+  We can formalise this as a reinforcement learning problem, where the
+  rat takes a series of actions; at each step it also obtains a
   reward, let's say equal to 0 when it has no cheese, and 1 when it
   eats cheese. Then we can declare that the rat's utility is the sum
-  of all rewards over time, i.e. the total amount of cheese it can
-  eat before it dies. The rat needs to explore the environment in order to be able to
-  get to the cheese. 
+  of all rewards over time, i.e. the total amount of cheese it can eat
+  before it dies. The rat needs to explore the environment in order to
+  be able to learn how to obtain as much cheese as possible.
 
-  An example in robotics is trying to teach a
-  robot to flip pancakes. One easy thing we can try is to show the robot
-  how to do it, and then let it just copy the demonstrated
-  movement. However, this doesn't work! The robot needs to explore
-  variations of the movement, until it manages to successfully flip
-  pancakes. Again, we can formulate this as a reinforcement learning
-  problem, with a reward that is high whenever the pancake's position is
-  flipped, and on the pan; and low everywhere else. Then the robot can
-  learn to perform this behaviour through trial and error. It's
-  important to note that in this example, merely demonstration is not
-  enough. Neither is reinforcement learning enough. The same thing is
-  true for the recent success of AlphaGo in beating a master human:
-  apart from planning, they used both demonstration data and self-play,
-  so that it could learn through trial and error.  }
+  An example in robotics is trying to teach a robot to flip
+  pancakes. One easy thing we can try is to show the robot how to do
+  it, and then let it just copy the demonstrated movement. However,
+  this doesn't work! The robot needs to explore variations of the
+  movement, until it manages to successfully flip pancakes. Again, we
+  can formulate this as a reinforcement learning problem, with a
+  reward that is high whenever the pancake's position is flipped, and
+  on the pan; and low everywhere else. Then the robot can learn to
+  perform this behaviour through trial and error. It's important to
+  note that in this example, merely demonstration is not enough. And
+  while reinforcement learning alone can work, expert demonstrations
+  reduce the need for expensive experimentation. The original AlphaGo
+  also sued a combination of human demonstrations and self-play to
+  beat expert humans at Go. However, subsequent versions could learn
+  to play successfully purely through trial and error.  }
 
 \begin{frame}
   \frametitle{Can machines make complex plans?}
