@@ -1,7 +1,7 @@
 * Proof-read
 ** Chapter 1
 :LOGBOOK:
-CLOCK: [2024-11-09 Sat 16:45]--[2024-11-09 Sat 21:43] =>  4:58
+CLOCK: [2024-11-09 Sat 16:45]--[2024-11-09 Sat 17:43] =>  0:58
 :END:
 
 ** Chapter 2
