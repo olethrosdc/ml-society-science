@@ -3,23 +3,28 @@
 }
 \label{ch:fairness}
 \only<article>{ When machine learning algorithms are applied at scale,
-  it can be difficult to imagine what their effects might be. In this
-  part of the book, we consider notions of fairness as seen through
-  the prism of conditional independence and meritocracy. The first
-  notion requires that we look deeper into directed graphical models.
+  it can be difficult to imagine what their effects in society might
+  be. In this part of the book, we consider notions of group and
+  individual fairness, through the prism of conditional independence
+  and meritocracy respectively.
   
-  The problem of fairness in machine learning and
-  artificial intelligence has only recently been widely
-  recognised. When any algorithm is implemented at scale, no matter
-  the original objective and whether it is satisfied, it has
-  significant societal effects. In particular, even when considering
-  the narrow objective of the algorithm, even if it improves it
-  overall, it may increase inequality.
-  
-  In this course we will look at two aspects of fairness. The first
+  The problem of fairness in machine learning and artificial
+  intelligence has been widely recognised in the last decade. When any
+  algorithm is implemented at scale, no matter what the original
+  objective is, or whether it is satisfied, it has significant
+  societal effects. In particular, when using an algorithmic solution
+  to satisfy a narrow objective, it might have the side-effect of
+  increasing inequality.
+    
+  In this chapter, we will look at two aspects of fairness. The first
   has to do with disadvantaged populations that form distinct social
   classes due to a shared income stratum, race or gender. The second
-  has to do with meritocratic notions of fairness.
+  has to do with individual notions of fairness. This involve the
+  principle of equal treatment and of meritocracy. Unlike privacy,
+  there is no universally applicable concept of fairness. However, it
+  is important to understand what fairness ideals we can strive
+  towards in order to at least to be able to measure how close to
+  achieving them our systems are.
 
   This chapter requires some knowledge of decision theory (See
   Appendix~\ref{ch:decision-problems}) to understand the principles of
@@ -30,9 +35,7 @@
 \section{Introduction.}
 
 
-\only<article>{ Fairness is a concept that has received much attention
-  recently when applied to large-scale algorithmic decision
-  making. However, the very concept of fairness is not well-defined
+\only<article>{ The very concept of fairness is not well-defined
   and encompasses many different ideas. Some of those relate to fair
   treatment of individuals: \emph{Meritocracy} is the idea that people
   should receive rewards according to their merit. \emph{Equal
@@ -41,9 +44,9 @@
   related more to the treatment of different groups:
   \emph{Proportional representation} is the idea that proportions of
   different groups in society should be reflected in every facet of
-  society. Finally \emph{non-discrimination} captures the notion of
+  society. On the other hand, \emph{non-discrimination} captures the notion of
   not treating people differently depending on sensitive
-  characteristics.  }
+  characteristics. This encompasses both the concept of \emph{equality of opportunity} and \emph{equality of outcome}.}
 
 \only<presentation>{
   \begin{frame}
@@ -65,7 +68,7 @@
     Meritocracy embodies the principle that merit should be
     rewarded. A common example are admissions to universities. Some
     type of summary, typically a grade obtained from high school, is
-    used to represent the underlying merit of individuals.
+    used to represent the underlying merit of individuals. Since universities prefer students with higher grades, this is an instance of a meritocratic system, as long as the grades are an accurate reflection of academic merit.
   }
   \uncover<2->{
     \begin{example}[College admissions]
@@ -79,25 +82,27 @@
       \end{itemize}
     \end{example}
   }
-  \only<article>{Grades, by themselves, are typically insufficient information. It might be that grades from some high-schools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now consider the information.}
+  \only<article>{Grades, by themselves, are typically insufficient information. It might be that grades from some high-schools are inflated and do not represent the quality of individuals accurately. So, let us suppose we now have the following information about how well students from each high school perform.}
   \uncover<3->{
     \begin{example}[Additional information]
       \only<article>{
         In particular, let us suppose that we have statistics on how well students from different high school do, depending on their high school grade.
       }
       \begin{itemize}
-      \item 70\% of admitted Gota graduates with 4+ get their degree.
-      \item 50\% of admitted Vasa graduates with 5 get their degree.
+      \item 70\% of admitted Gota graduates with 4/5 get their degree.
+      \item 50\% of admitted Vasa graduates with 5/5 get their degree.
       \end{itemize}
       \only<article>{
-        All other thing being equal, it is now more likely that student $A$ will graduate. So perhaps we should take in $A$ and not $B$.
+        All other thing being equal, it is now more likely that student $A$ will graduate. So perhaps $A$ should be preferred to $B$, even though their grades are lower.
       }
     \end{example}
   }
 
   \uncover<4->{We still don't know how a \alert{specific} student will
-    do!}
-  \only<article>{ Since these are only statistics, they not
+    do!}  \only<article>{ In particular, student B may very well
+    protest that the only information specifically relating to them is
+    their own grade. How previous Vasa graduates performed might be
+    irrelevant. Indeed, since these are only statistics, they not
     necessarily predictive of an individual student's ability.
     Ideally, we would like to admit the students that we expect to do
     well, given the information that we have. However, this
@@ -142,10 +147,10 @@
   \frametitle{Solutions}
   \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
   \begin{itemize}
-  \item<1-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the qualified students, as it drains resources that could have been used for them.}
-  \item<2-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot.}
+  \item<1-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the \emph{qualified} students, as it drains resources that could have been used for them. This inefficiency is also unfair to the teaching staff, and eventually the taxpayer.}
+  \item<2-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot. This corresponds to a type of equality of opportunity.}
   \item<3-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
-  \item<4-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics.}
+  \item<4-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics and engineering. Another factor is wealth: prosperous families can afford specialised training for their children that allows them to have higher grades. This inequality could be partially corrected by allocating university places to students with underpriviliged backgrounds.}
   \end{itemize}
   
 \end{frame}
@@ -158,14 +163,16 @@
     applicants undergo through an interview process. At the end, some
     of the interviewed applicants will be hired. There are two
     decision points here, with most people being cut off at the first
-    point: the screening. To automate this process, Amazon worked on
-    a resume-screening program.~\footnote{\url{https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G}}
+    point: the screening. To automate this process, Amazon worked on a
+    resume-screening program.~\footnote{\url{https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G}}
     However, this was scrapped after it was discovered that it
     predominantly favoured men. The reason is not entirely clear, but
     it was probably due to the fact that they trained the system on
     their own screening decisions, and given that the tech industry
-    predominantly hires men in the first place, women were likely
-    rejected in the screening phase. 
+    predominantly hires men in the first place, women were more likely
+    to be rejected in the screening phase. The bias in the original
+    training data was picked up by the machine learning model, and
+    then replicated.
   \end{example}
 }
 
@@ -607,7 +614,9 @@
     obtain the empirical models:
   }
   \[
-    \hat{P}_n(a | y, z) = \sum_t \frac{\ind{a_t = a \wedge y_t = y \wedge z_t = i}}{\ind{y_t = y \wedge z_t = i}}
+    \hat{P}_n(a | y, z) = \sum_t \frac{\ind{a_t = a \wedge y_t = y \wedge z_t = z}}{\ind{y_t = y \wedge z_t = z}},
+    \qquad
+    \hat{P}_n(a | y) = \sum_t \frac{\ind{a_t = a \wedge y_t = y}}{\ind{y_t = y}},
   \]
   We can then plug those into our original measure:
   \[
@@ -1031,19 +1040,77 @@
   \end{frame}
 }
 
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Lipschitz functions}
+    \begin{example}
+      A real-valued function $f : \Reals^n \to \Reals$ is Lipschitz iff
+      \[
+        |f(x) - f(x')| \leq \|x - x'\|, \qquad \forall x, x' \in \Reals^n
+      \]
+    \end{example}
+    It is sufficient for  $\left|\frac{d}{dx} f(x)\right| < 1$
+    for the function to be Lipschitz. One example is $\sin(x)$, whose derivative is $\cos(x)$.
+    \begin{definition}[Lipschitz function]
+      A function $f: X \to Y$ is $(d, D)$-Lipshitz, where $d, D$ are (semi)-metrics on $X, Y$, iff
+      \[
+        D[f(x), f(x')] \leq d(x, x').
+      \]
+    \end{definition}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Distances for distributions}
+    If $P, Q$ are distributions on $\Omega$, we define
+    \begin{definition}[Total variation]
+      \[
+        D_{TV}(P, Q) \defn \max_{A \subset \Omega} |P(A) - Q(A)|= \frac{1}{2} \|P - Q\|_1 = \frac{1}{2} \sum_\omega |P(\omega) - Q(\omega)|
+      \]
+    \end{definition}
+    \begin{definition}[KL-divergence]
+      Otherwise known as the relative entropy:
+      \[
+        D_{KL}(P, Q) \defn \sum_{\omega} P(\omega) \ln \frac{P(\omega)}{Q(\omega)}
+      \]
+    \end{definition}
+  \end{frame}
+      
+}
+
 \begin{frame}{Connection to meritocracy.}
-  Consider a decision maker that is choosing applicants to hire
-  $(a = 1)$. For any two applicants with respective features
-  $x_i, x_j$, we need to assume that they both prefer being hired to 
-  not being hired. On the other hand, the DM prefers to hire
-  applicants that result in higher utility. In particular, hiring
-  applicant $x$ results in utility $u(x)$. Let us now define the
-  utility of a policy, when applied to a single applicant, as
-  \[
-    \E^\pi (U | x) = \pi(a = 1| x) u(x).
-  \]
-  Trivially, our policy should be such that we tend to hire people with higher utility to us.
-  If the utility function is $L$-Lipschitz, then $|u(x) - u(x')| \leq L d(x,x')$. Now consider the case where $x'$ can get an unfair advantage through nepotism. However, if our policy is smooth, it requires $\pi(a = 1 | x) \geq \pi(a = 1 | x') - d(x,x') \geq \pi(a = 1 | x') - |u(x) - u(x')|/L$. In addition, since our policy must be a maximising policy, if  $u(x) > u(x')$, then $\pi(a = 1 | x) \geq \pi(a=1 | x')$.
+  \only<presentation>{
+    \begin{itemize}
+    \item Individual features: $x$
+    \item Policy $\pol(a \mid x)$.
+    \item Individual decisions: $a = 1$
+    \end{itemize}
+  }
+  \only<article>{
+    Consider a decision maker that is choosing applicants to hire
+    $(a = 1)$. For any two applicants with respective features
+    $x_i, x_j$, we need to assume that they both prefer being hired to 
+    not being hired. On the other hand, the DM prefers to hire
+    applicants that result in higher utility. In particular, hiring
+    applicant $x$ results in utility $u(x)$. Let us now define the
+    utility of a policy, when applied to a single applicant, as
+    }
+    \[
+      \E^\pi (u | x) = \pi(a = 1| x) u(x).
+    \]
+    \only<article>{
+    Trivially, our policy should be such that we tend to hire people with higher utility to us.
+    If the utility function is $L$-Lipschitz, then $|u(x) - u(x')| \leq L d(x,x')$. Now consider the case where $x'$ can get an unfair advantage through nepotism. However, if our policy is smooth, it requires $\pi(a = 1 | x) \geq \pi(a = 1 | x') - d(x,x') \geq \pi(a = 1 | x') - |u(x) - u(x')|/L$. In addition, since our policy must be a maximising policy, if  $u(x) > u(x')$, then $\pi(a = 1 | x) \geq \pi(a=1 | x')$.
+  }
+  \only<presentation>{
+    \begin{itemize}
+    \item Lipschitz utility function: $|u(x) - u(x')| \leq L d(x,x')$
+    \item Policy smoothness:
+      \[
+        \pi(a = 1 | x) \geq \pi(a = 1 | x') - d(x,x') \geq \pi(a = 1 | x') - |u(x) - u(x')|/L
+      \]
+    \item Since $\pi$ is maximising,  $u(x) > u(x') \Rightarrow \pi(a = 1 | x) \geq \pi(a=1 | x')$.
+    \end{itemize}
+  }
 \end{frame}
 
 \subsection{Individual decisions for a fixed population.}
@@ -1071,6 +1138,7 @@
   On the other hand, if we want to parametrise differently, e.g. by calculating the probabilities of different actions through a softmax distribution, then the problem becomes non-linear. This is something we must do anyway, in the case where the population is not fixed and so we will describe it in the next section.
 }
 \subsection{Unknown population policies.}
+\only<article>{
 If we need to fix a policy before seeing the population, then we must use a parametrised policy that can give us a probability distribution over $a$ for any possible $\bx \in \CX$ where $\CX$ is a compact subset of $\Reals^n$.
 A simple parametrisation is a linear-softmax network,\footnote{We cannot use a linear network, because then $\pol(a \mid \bx) = \vparam_a^\top x$, and the probabilities of different actions cannot sum to one.}
 with $\vparam_a \in \Reals^n$ for all actions $a$, given by:
@@ -1079,12 +1147,11 @@ with $\vparam_a \in \Reals^n$ for all actions $a$, given by:
 \]
 This is not really difficult to work with, but we have a potential problem when considering the smoothness constraints. If we let $d(\bx, \bx') = \|bx - \bx'\|$ then the Lipschitz condition is in fact a condition on the gradient:
 \[
-  \nabla_\bx \pol(a \mid \bx) \leq 1, \qquad \forall \bx \in \CX
+  \nabla_\bx \pol(a \mid \bx) \leq 1, \qquad \forall \bx \in \CX.
 \]
+}
 
 
-
-In particular, we can no longer make it so 
 \subsection{Group fairness properties of smooth policies.}
 \begin{frame}\frametitle{Smoothness and parity.}
   Can group fairness be satisfied in this setting?
