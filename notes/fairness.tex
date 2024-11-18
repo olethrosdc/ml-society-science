@@ -323,12 +323,12 @@
     cannot influence the outcome. This will happen if somebody is
     asked to review a case for which a decision has already been made.
     
-    \paragraph{The optimisation problem.} Now, given the parameter $\param$ of the unknown distribution, the judge can find a decision rule $\pol$ maximising utility in expectation:
+    \paragraph{The optimisation problem.} For simplicity, let us assume we know the parameter $\param$ of the unknown distribution. Then we can find a decision rule $\pol$ maximising utility in expectation:
     \begin{equation} 
       \label{eq:expected-utility-judge}
       \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
     \end{equation}
-    If $P_\theta(y | a, x, z) =P_\theta(y | x, z)$ and $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
+    For the case of bail decisions, if $P_\theta(y | a, x, z) =P_\theta(y | x, z)$ and $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
 
     \begin{theoryblock}{Implicit decision rules.}
       If the decision rule $\pol$ is unrestricted, then there is no
@@ -351,12 +351,11 @@
         \approx
         \frac{1}{T} \sum_{t} \frac{\pol(a_t | x_t, z_t)}{\pol_0(a_t | x_t, z_t)} U(a_t,y_t).
     \end{align*}
-    The first approximation simply replaces the feature distribution with its empirical approximation.
+    The first approximation in the above equation replaces the feature distribution with its empirical approximation. Maximising this still requires a model $P_\theta(y | a, x_t, z_t)$.
     The second approximation is a bit more delicate, and is a type of importance sampling,\index{importance sampling} as explained in more detail in Section~\ref{sec:monte-carlo}.
-    This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. For that reason, we must use importance sampling in order to estimate the utility of any policy $\pol$. Unfortunately, the policy $\pol_0$ is also unknown and must be estimated from the data. So, we are left with deciding between modelling $P_\param(y | a, x, z)$ or $\pol_0(a | x, z)$.
+    This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. For that reason, we must use importance sampling in order to estimate the utility of any policy $\pol$. Unfortunately, the policy $\pol_0$ may also be unknown and must be estimated from the data. So, we are left with deciding between modelling $P_\param(y | a, x, z)$ or $\pol_0(a | x, z)$.
 
-    However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem. 
-
+    The above problems appear even without taking fairness into account. We also need to add explicit fairness constraints to our optimisation problem. Finally, we may also need to take into account the fact that any previous historical policy may have violated some notion of fairness. We begin by taking a look at some simple group fairness notions and how we can take them into account in our optimisation procedure.
   }
 \end{frame}  
 
