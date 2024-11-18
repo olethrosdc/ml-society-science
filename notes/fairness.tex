@@ -183,7 +183,7 @@
   treatment, equality of opportunity and generally lack of
   discrimination.  The general idea is that we would like for members
   of society to follow trajectories through life that do not strongly
-  depend on their membership in sensitive groups. For example, gender
+  depend on their membership in groups at birth. For example, gender
   should not play a role in academic achievement. Ethnic heritage
   should have no influence on annual income. Unfortunately, the
   underlying societal dynamics create situations where group
@@ -191,16 +191,19 @@
 
   In this section, and throughout this chapter, we will imagine that
   an individual is interacting with a system, which makes decisions
-  about the individual, such as whether or not to give them a
-  loan. These result in a certain outcome, such as the individual
-  using the borrowed money to invest in a business and then having a
-  particular annual income. Crucially, these outcomes can be
-  correlated with group membership, because of societal dynamics. The
-  system designer should make sure that not only the system does what
-  it intends, such as giving loans to people that are expected to
-  repay them, but also that it does not create inequalities between
-  different groups. As we will see later, depending on our fairness
-  definition, and on the societal dynamics, this is almost never easy.
+  about the individual, such as whether or not to give them a loan,
+  admit them to university, or employ them in an enterprise. These
+  result in a certain outcome, such as the individual using the
+  borrowed money to invest in a business and then having a particular
+  annual income; earning a medical degree and becoming a successful
+  surgeon; or simply earning enough to provide for their
+  family. Crucially, these outcomes can be correlated with group
+  membership, because of societal dynamics. The system designer should
+  make sure that not only the system does what it intends, such as
+  giving loans to people that are expected to repay them, but also
+  that it does not create inequalities between different groups. As we
+  will see later, depending on our fairness definition, and on the
+  societal dynamics, this is almost never easy.
   
 }
 
@@ -277,39 +280,67 @@
     and the action taken. Here, there are two possibilities. Either
     the outcome $y_t$ depends only on the observed features, or the
     action as well. The correct formulation depends on the meaning of
-    the action.
+    the action. Generally speaking, if the action is merely a
+    \emph{prediction}, then it does not affect the outcome, as it has
+    no direct effects at all. Other types of actions, such as deciding
+    whether or not to grant bail, do affect the outcome. Let us go
+    through this in some more detail.
 
     \paragraph{Actions that affect the outcome.}
-    Let us first consider a simple set of actions $\CA = \{0, 1\}$,
-    where a defendant is granted $(a_t = 1)$ or denied $(a_t = 0)$
-    bail.  If a defendant is not given bail, they must remain in jail,
-    and will always be at the trial $(y_t = 0)$. This costs both the
-    government and the defendant, so the judge prefers not to deny
-    bail too often.  On the other hand, if the defendant is granted
-    bail, there is a chance they will re-offend, or will fail to
-    attend trial $(y_t = 1)$. Consequently, we can define the
-    following utility function\footnote{See
-      Appendix~\ref{ch:decision-problems}} for the judge, that roughly
-    reflects those preferences:
+    Let us start with the bail example. We can first consider a simple
+    set of actions $\CA = \{0, 1\}$, where a defendant is granted
+    $(a_t = 1)$ or denied $(a_t = 0)$ bail.  If a defendant is not
+    given bail, they must remain in jail, and will always be at the
+    trial $(y_t = 0)$. This costs both the government and the
+    defendant, so the judge prefers not to deny bail too often.  On
+    the other hand, if the defendant is granted bail, there is a
+    chance they will re-offend, or will fail to attend trial
+    $(y_t = 1)$. Consequently, we can define the following utility
+    function\footnote{See Appendix~\ref{ch:decision-problems}} for the
+    judge, that roughly reflects those preferences:
     \begin{equation}
       U(a, y) = a - y.
     \end{equation}
     While this weighs the judge's two main concerns equally, we can also imagine different formulations: e.g. if the judge thinks it is much more important to keep people out of jail than to prevent re-offences until trial, they might select a function such as : $U(a, y) = 10a - y$.
 
+    Let us continue with \emph{loan applications.} If the outcome we are
+    interested in is the net worth of the individual after five years,
+    it is clear that the loan decision will have some effect. However,
+    it does not \emph{directly} determine the worth of the individual:
+    it is up to them to properly invest the loan, if it is given, or
+    to find the optimal course of action if the loan is denied.
 
-    \paragraph{Actions that do not affect the outcome.} In this
+    \paragraph{Actions that do not affect the outcome.} In the bail
     scenario, the only way for the actions to not affect the outcome
     is if everybody is released, with the judge's action only being a
     confidential note on the case file. Then their action cannot
     affect the outcome, since it is only revealed to the judge. The
     utility function can be based on the accuracy of predictions, so
     we can simply set it to $U(a,y) = a - y$.
+
+    The same thing holds for loan applications. If the action is
+    merely a prediction, which is not used in the process, then it
+    cannot influence the outcome. This will happen if somebody is
+    asked to review a case for which a decision has already been made.
     
-    \paragraph{The optimisation problem.} Now, given the parameter $\param$ of the unknown distribution, the judge can find a decision rule $\pol$ maximising utility in expectation
-    \begin{equation}
+    \paragraph{The optimisation problem.} Now, given the parameter $\param$ of the unknown distribution, the judge can find a decision rule $\pol$ maximising utility in expectation:
+    \begin{equation} 
       \label{eq:expected-utility-judge}
       \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
     \end{equation}
+    If $P_\theta(y | a, x, z) =P_\theta(y | x, z)$ and $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
+
+    \begin{theoryblock}{Implicit decision rules.}
+      If the decision rule $\pol$ is unrestricted, then there is no
+      need to explicitly optimise for it in this setting. It can be defined implicitly, by always picking the action maximising:
+      \[
+        \E[U \mid a, z] = \sum_y P_\theta(y | a, x, z) U(a,y).
+      \]
+      However, sometimes $\pol$ is restricted, e.g. to the class of logistic regression models. In addition, if we are also optimising for fairness, then we no longer can define the decision rule implicitly, but we must perform the explicit optimisation over $\pi$.
+\end{theoryblock}
+
+
+    
     In practice, of course, $\param$ is not known but we have some training data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, collected with some historical policy $\pol_0$, and  we have to resort to one of the following solutions. Firstly, estimating some $\hat{\param}$ from the data and replacing that in the expectation. Secondly, calculating a posterior distribution $\beta(\param | D)$ and maximising $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. Thirdly, maximising an unbiased estimate of expected utility, as shown below:
     \begin{align*}
       \E^\pol_\param(U)
