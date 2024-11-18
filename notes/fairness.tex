@@ -585,7 +585,7 @@
 \end{frame}
 \only<article>{
   \begin{theoryblock}{Conditional independence of $y, a$ given $z$.}
-    There is another possibility, which we have not mentioned: What if $y, a$ are conditionally independent given $z$? Can we use that as a fairness criterion? If you spend a few minutes of thought, you will find that this condition should always when $y$ is not directly depend on $a$. In particular, consider the following graphical model where a person's features depend on their group membership. 
+    There is another possibility, which we have not mentioned: What if $y, a$ are conditionally independent given $z$? Can we use that as a fairness criterion? If you spend a few minutes of thought, you will find that this condition should always when $y$ is not directly depend on $a$. In particular, consider the following graphical model where a person's features depend on their group membership. If there is no direct connection between $y, a$, then they are already conditionally independent given the group.
     \begin{tikzpicture}
       \node[RV] at (0,0) (z) {$z$};
       \node[RV] at (1,0) (x) {$x$};
