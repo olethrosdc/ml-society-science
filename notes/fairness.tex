@@ -323,12 +323,12 @@
     cannot influence the outcome. This will happen if somebody is
     asked to review a case for which a decision has already been made.
     
-    \paragraph{The optimisation problem.} Now, given the parameter $\param$ of the unknown distribution, the judge can find a decision rule $\pol$ maximising utility in expectation:
+    \paragraph{The optimisation problem.} For simplicity, let us assume we know the parameter $\param$ of the unknown distribution. Then we can find a decision rule $\pol$ maximising utility in expectation:
     \begin{equation} 
       \label{eq:expected-utility-judge}
       \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
     \end{equation}
-    If $P_\theta(y | a, x, z) =P_\theta(y | x, z)$ and $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
+    For the case of bail decisions, if $P_\theta(y | a, x, z) =P_\theta(y | x, z)$ and $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
 
     \begin{theoryblock}{Implicit decision rules.}
       If the decision rule $\pol$ is unrestricted, then there is no
@@ -351,12 +351,11 @@
         \approx
         \frac{1}{T} \sum_{t} \frac{\pol(a_t | x_t, z_t)}{\pol_0(a_t | x_t, z_t)} U(a_t,y_t).
     \end{align*}
-    The first approximation simply replaces the feature distribution with its empirical approximation.
+    The first approximation in the above equation replaces the feature distribution with its empirical approximation. Maximising this still requires a model $P_\theta(y | a, x_t, z_t)$.
     The second approximation is a bit more delicate, and is a type of importance sampling,\index{importance sampling} as explained in more detail in Section~\ref{sec:monte-carlo}.
-    This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. For that reason, we must use importance sampling in order to estimate the utility of any policy $\pol$. Unfortunately, the policy $\pol_0$ is also unknown and must be estimated from the data. So, we are left with deciding between modelling $P_\param(y | a, x, z)$ or $\pol_0(a | x, z)$.
+    This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. For that reason, we must use importance sampling in order to estimate the utility of any policy $\pol$. Unfortunately, the policy $\pol_0$ may also be unknown and must be estimated from the data. So, we are left with deciding between modelling $P_\param(y | a, x, z)$ or $\pol_0(a | x, z)$.
 
-    However, doing so may have unintended effects, as treatment of different groups may be unequal. For that reason, we may have to add explicit fairness constraints to our optimisation problem. 
-
+    The above problems appear even without taking fairness into account. We also need to add explicit fairness constraints to our optimisation problem. Finally, we may also need to take into account the fact that any previous historical policy may have violated some notion of fairness. We begin with defining some simple group fairness notions and later see how we can take them into account in our optimisation procedure.
   }
 \end{frame}  
 
@@ -364,57 +363,69 @@
   \frametitle{Demographic parity and equality of opportunity.}
 
   \only<article>{Let us take a look at how many individuals are given
-    different scores. Figure~\ref{fig:risk-bias} shows the proportions
+    different scores in the COMPAS program. Figure~\ref{fig:risk-bias} shows the proportions
     of individuals obtaining different risk scores as a function of
     their ethnic group. While the general population, and Caucasians
     in particular, have a distribution sharply concentrated in low
     scores, Black defendants obtain much higher risk scores: they are
-    almost as likely to be ranked a 10 as the are to be scored a 1. }
+    half as likely to have a score of 1 as Caucasian and twice as likely to have a score of 10. }
   \begin{figure}[H]
     \centering
     \includegraphics[width=\fwidth]{../figures/Scores-by-race}      
     \label{fig:risk-bias}
     \caption{Apparent bias in risk scores towards black versus white defendants.}
   \end{figure}
-  \only<article>{ Typically, we would like to demographic parity
-    across groups, either with respect to the decisions, or with
+  \only<article>{ We can formalise the requirement for everybody to be
+    equally, either with respect to the decisions, or with
     respect to the outcomes.  Decision parity is called \emph{equality
-      of opportunity} and satisfies the following condition
-  }
+      of opportunity} and satisfies the following condition: }
   \begin{equation}
     \label{eq:equality-opportunity}
     \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
   \end{equation}
-  \only<article>{
-    In other words, the action (risk score, in this case) is
-    independent of the group.  As we see in
-    Figure~\ref{fig:risk-bias}, these distributions are quite
-    different.  The curve for ``General'' corresponds to
+  \only<article>{ Consequently, the action (risk score, in this case)
+    is independent of the group.  In other words, the distribution of
+    actions should be the same no matter what the group is. As we see
+    in Figure~\ref{fig:risk-bias}, these distributions are quite
+    different for the COMPAS example.  The curve for ``General'' corresponds to
     $\Pr_\param^\pol(a_t )$, while the other two curves correspond to
     $\Pr_\param^\pol(a_t | z_t)$ for $z_t$ being Caucasian and
     African-American respectively.
     
     \emph{Demographic parity} instead relates to outcomes. If this
     condition is satisfied, then the probability distribution of
-    outcomes is independent of group membership.
+    outcomes is independent of group membership:
     \begin{equation}
       \label{eq:eqality-outcomes}
       \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
     \end{equation}
-
+    As we can see in Table~\ref{tab:recidivism}, the recidivism rates are not the same across groups. Caucasian rates are nearly half those of African-Americans. While in this particular case, the judge's policy may not significantly affect the distribution, in other scenarios, such as loan decisions or university admissions they clearly do. 
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{r|r|r}
+        African-American& General & Caucasian\\
+        \hline
+        10.8\% & 8.7\% & 6.5\% 
+      \end{tabular}
+      \label{tab:recidivism}
+      \caption{Recidivism rates across ethnic groups.}
+    \end{table}
+    Given that Caucasians both have lower recidivism rates and lower scores than African-Americans, could this simply be because people with a higher chance of recidivism obtain higher scores? To explore this further, we need to look at some \emph{conditional} independence fairness notions. This measure how the actions and outcomes depend on each other when conditional on group membership.
   }
 \end{frame}
 
 \begin{frame}
   \frametitle{Calibration.}
   
-  \only<article>{On the
-    other hand, the scores generated by the software seemed to be very
-    predictive on whether or not defendants would re-offend,
-    independently of their race. Figure~\ref{fig:imrs} shows that, if
-    an individual obtains a high score then they are very likely to
-    re-offend, and conversely, they are unlikely to re-offend when
-    they have a low score. }
+  \only<article>{Let us first consider how well recidivism is
+    predicted by the score across different groups. Perhaps partially
+    explaining what we have seen before, the scores generated by the
+    software seemed to be very predictive on whether or not defendants
+    would re-offend, independently of their
+    race. Figure~\ref{fig:imrs} shows that, if an individual obtains a
+    high score then they are very likely to re-offend, and conversely,
+    they are unlikely to re-offend when they have a low score. This
+    dependence is similar for both groups.}
   \begin{figure}[H]
     \centering
     \includegraphics[width=\fwidth]{../figures/calibration-compas}
@@ -572,6 +583,20 @@
     }
   \end{example}
 \end{frame}
+\only<article>{
+  \begin{theoryblock}{Conditional independence of $y, a$ given $z$.}
+    There is another possibility, which we have not mentioned: What if $y, a$ are conditionally independent given $z$? Can we use that as a fairness criterion? If you spend a few minutes of thought, you will find that this condition should always when $y$ is not directly depend on $a$. In particular, consider the following graphical model where a person's features depend on their group membership. If there is no direct connection between $y, a$, then they are already conditionally independent given the group.
+    \begin{tikzpicture}
+      \node[RV] at (0,0) (z) {$z$};
+      \node[RV] at (1,0) (x) {$x$};
+      \node[RV] at (2,-1) (a) {$a$};
+      \node[RV] at (2,1) (y) {$y$};
+      \draw[->] (z) to (x);
+      \draw[->] (x) to (a);
+      \draw[->] (x) to (y);
+    \end{tikzpicture}
+  \end{theoryblock}
+}
 \subsection{Measuring group fairness.}
 
 \only<article>{
