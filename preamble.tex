@@ -9,7 +9,7 @@
 \usepackage{isomath}
 \usepackage{amsthm}
 \usepackage{dsfont}
-%%\usepackage{theorem}
+%% \usepackage{theorem}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
@@ -26,27 +26,27 @@
 \newlength\fheight
 \newlength\fwidth
 \only<presentation>{
-\setlength\fheight{\textheight}
-\setlength\fwidth{0.8\columnwidth}
+  \setlength\fheight{0.5\textheight}
+  \setlength\fwidth{0.6\columnwidth}
 }
 \only<article>{
-\setlength\fheight{0.25\textheight}
-\setlength\fwidth{0.45\textwidth}
+  \setlength\fheight{0.25\textheight}
+  \setlength\fwidth{0.45\textwidth}
 }
 \usepackage[sort&compress,comma,super]{natbib}
 \def\newblock{} % To avoid a compilation error about a function \newblock undefined
 \usepackage{hyperref}
 
 \newcommand \cdcomment[1] {\texttt{\color{red}[CD: #1]}}
-  
+
 \setbeamertemplate{theorems}[numbered] 
 \mode<presentation>{
-\theoremstyle{plain}
-\newtheorem{assumption}{Assumption}
-\theoremstyle{definition}
-\newtheorem{exercise}{Exercise}
-\theoremstyle{remark}
-\newtheorem{remark}{Remark}
+  \theoremstyle{plain}
+  \newtheorem{assumption}{Assumption}
+  \theoremstyle{definition}
+  \newtheorem{exercise}{Exercise}
+  \theoremstyle{remark}
+  \newtheorem{remark}{Remark}
 }
 
 \numberwithin{equation}{section} 
@@ -111,19 +111,21 @@
 
   
 }
-%\theoremstyle{plain} \newtheorem{conjecture}{Conjecture}[section]
-%\theoremstyle{plain} \newtheorem{theorem}{Theorem}[section]
-%\theoremstyle{plain} \newtheorem{proposition}{Proposition}[section]
-%\theoremstyle{plain} \newtheorem{lemma}{Lemma}[section]
-%\theoremstyle{plain} \newtheorem{corollary}{Corollary}[section]
 
 
-%\newenvironment{proof}[1][Proof]{\begin{trivlist}
-%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-%\newcommand{\qed}{\nobreak \ifvmode \relax \else
-%      \ifdim\lastskip<1.5em \hskip-\lastskip
-%      \hskip1.5em plus0em minus0.5em \fi \nobreak
-%      \vrule height0.5em width0.5em depth0.25em\fi}
+% \theoremstyle{plain} \newtheorem{conjecture}{Conjecture}[section]
+% \theoremstyle{plain} \newtheorem{theorem}{Theorem}[section]
+% \theoremstyle{plain} \newtheorem{proposition}{Proposition}[section]
+% \theoremstyle{plain} \newtheorem{lemma}{Lemma}[section]
+% \theoremstyle{plain} \newtheorem{corollary}{Corollary}[section]
+
+
+% \newenvironment{proof}[1][Proof]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+% \newcommand{\qed}{\nobreak \ifvmode \relax \else
+%   \ifdim\lastskip<1.5em \hskip-\lastskip
+%     \hskip1.5em plus0em minus0.5em \fi \nobreak
+%   \vrule height0.5em width0.5em depth0.25em\fi}
 
 \newcommand \indexmargin[1] {\marginpar{\emph{#1}}\index{#1}}
 \newcommand \marginref[2] {\marginpar{\emph{#1}}\emph{#1}\index{#2}}
@@ -211,7 +213,7 @@
 \newcommand \SL {\mathscr{L}}
 \newcommand \SP {\mathscr{P}}
 \newcommand \SR {\mathscr{R}}
-%%\newcommand \SS {\mathscr{S}}
+%% \newcommand \SS {\mathscr{S}}
 \newcommand \ST {\mathscr{T}}
 \newcommand \SU {\mathscr{U}}
 \newcommand \SV {\mathscr{V}}
@@ -222,12 +224,12 @@
 \newcommand \KL[2] {\mathbb{D}\left( #1 \| #2 \right)}
 
 
-%\newcommand \p {\partial}
+% \newcommand \p {\partial}
 
 \newcommand \then{\Rightarrow}
 \newcommand \defn {\mathrel{\triangleq}}
 \newcommand \st {\mathop{\rm s.t.}}
-%\newcommand \StateSet {{\CQ}}
+% \newcommand \StateSet {{\CQ}}
 
 
 %% Commands
@@ -243,11 +245,11 @@
 \newcommand \inftynorm[1]{\left\right\|#1\|_\infty}
 \newcommand \norm[1]{\left\|#1\right\|}
 
-%%\newcommand \defn {\triangleq}
-%%\newcommand \defn {\equiv}
-%%\newcommand \defn {\coloneq}
-%%\newcommand \defn {\stackrel{\text{\tiny def}}{=}}
-%%\newcommand \defn {\stackrel{\text{def}}{\hbox{\equalsfill}}}
+%% \newcommand \defn {\triangleq}
+%% \newcommand \defn {\equiv}
+%% \newcommand \defn {\coloneq}
+%% \newcommand \defn {\stackrel{\text{\tiny def}}{=}}
+%% \newcommand \defn {\stackrel{\text{def}}{\hbox{\equalsfill}}}
 
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
 
@@ -479,21 +481,21 @@
 \newcommand \abs[1] {\left|#1\right|}
 
 \newcommand{\errorband}[5][]{ % x column, y column, error column, optional argument for setting style of the area plot
-\pgfplotstableread[col sep=comma, skip first n=2]{#2}\datatable
-% Lower bound (invisible plot)
-\addplot [draw=none, stack plots=y, forget plot] table [
-x={#3},
-y expr=\thisrow{#4}-\thisrow{#5}
-] {\datatable};
+  \pgfplotstableread[col sep=comma, skip first n=2]{#2}\datatable
+  % Lower bound (invisible plot)
+  \addplot [draw=none, stack plots=y, forget plot] table [
+  x={#3},
+  y expr=\thisrow{#4}-\thisrow{#5}
+  ] {\datatable};
 
-% Stack twice the error, draw as area plot
-\addplot [draw=none, fill=gray!40, stack plots=y, area legend, #1] table [
-x={#3},
-y expr=2*\thisrow{#5}
-] {\datatable} \closedcycle;
+  % Stack twice the error, draw as area plot
+  \addplot [draw=none, fill=gray!40, stack plots=y, area legend, #1] table [
+  x={#3},
+  y expr=2*\thisrow{#5}
+  ] {\datatable} \closedcycle;
 
-% Reset stack using invisible plot
-\addplot [forget plot, stack plots=y,draw=none] table [x={#3}, y expr=-(\thisrow{#4}+\thisrow{#5})] {\datatable};
+  % Reset stack using invisible plot
+  \addplot [forget plot, stack plots=y,draw=none] table [x={#3}, y expr=-(\thisrow{#4}+\thisrow{#5})] {\datatable};
 }
 
 
@@ -506,17 +508,17 @@ y expr=2*\thisrow{#5}
 \def\mathrlap{\mathpalette\mathrlapinternal}
 \def\mathclap{\mathpalette\mathclapinternal}
 \def\mathllapinternal#1#2{%
-\llap{$\mathsurround=0pt#1{#2}$}}
+  \llap{$\mathsurround=0pt#1{#2}$}}
 \def\mathrlapinternal#1#2{%
-\rlap{$\mathsurround=0pt#1{#2}$}}
+  \rlap{$\mathsurround=0pt#1{#2}$}}
 \def\mathclapinternal#1#2{%
-\clap{$\mathsurround=0pt#1{#2}$}}
+  \clap{$\mathsurround=0pt#1{#2}$}}
 
 
 \usepackage{tikz}
 \usepackage{tikzsymbols}
-%\usetikzlibrary{external}
-%\tikzexternalize[prefix=tikz/]
+% \usetikzlibrary{external}
+% \tikzexternalize[prefix=tikz/]
 \usepackage{gnuplot-lua-tikz}
 
 
@@ -541,7 +543,7 @@ y expr=2*\thisrow{#5}
 
 \tikzstyle{known}=[rectangle,draw=green!50,fill=green!20,thick]
 \tikzstyle{queried}=[rectangle,draw=blue!50,fill=blue!20,thick]
-%\tikzstyle{transition}=[rectangle,draw=black!50,fill=black!20,thick]
+% \tikzstyle{transition}=[rectangle,draw=black!50,fill=black!20,thick]
 
 \tikzstyle{thickarrow}=[->, >=latex, line width=15pt, green!50]
 \tikzstyle{medarrow}=[->, >=latex,  line width=5pt]

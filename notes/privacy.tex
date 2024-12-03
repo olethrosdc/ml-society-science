@@ -57,7 +57,7 @@
   amount of information that can be revealed through the algorithm's
   output about any individual contributing data is bounded. In
   particular, we are interested in how much an adversary can learn
-  about any individual's input to the algorithm from the algorithm's
+1  about any individual's input to the algorithm from the algorithm's
   output.
 
   This does not preclude learning general facts about individuals from
@@ -680,16 +680,22 @@
       }
     }
     \only<2->{
-      \begin{groupactivity}{Algorithm for randomising responses about drug use}
+      \only<article>{
+        \begin{groupactivity}{Algorithm for randomising responses about drug use}
+        }
         \begin{enumerate}
         \item Flip a coin.
         \item If it comes heads, respond truthfully. 
         \item Otherwise, flip another coin and respond \texttt{yes} if it comes heads and \texttt{no} otherwise.
         \end{enumerate}
-      \end{groupactivity}
-      \begin{exerciseblock}{Calculating the true rate of responses.}
-        Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
-      \end{exerciseblock}
+        \only<article>{
+        \end{groupactivity}
+        }
+        \only<article>{
+          \begin{exerciseblock}{Calculating the true rate of responses.}
+            Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
+          \end{exerciseblock}
+        }
       
     }
   \end{exampleblock}
@@ -754,13 +760,21 @@
     amount of information gained by the adversary.
   }
   \begin{example}
-    For simplicity, consider only one individual, and let the
-    adversary have a prior $\bel(x = 0) = 1 - \bel(x = 1)$ over the
-    values of the true response of an individual. We use the
-    randomised response mechanism with parameter $p$ and the
-    adversary observes the randomised data $a = 1$ for that
-    individual, then what is $\Pr^\pol_\bel(x = 1 \mid a = 1)$, assuming the
-    adversary knows the mechanism?
+    \only<article>{
+      For simplicity, consider only one individual, and let the
+      adversary have a prior $\bel(x = 0) = 1 - \bel(x = 1)$ over the
+      values of the true response of an individual. We use the
+      randomised response mechanism with parameter $p$ and the
+      adversary observes the randomised data $a = 1$ for that
+      individual, then what is $\Pr^\pol_\bel(x = 1 \mid a = 1)$, assuming the
+      adversary knows the mechanism?}
+    \only<presentation>{
+      If the adversary has prior $\bel(x)$, with $\bel(0) = \theta$, and we use randomised-response with flipping probability $p$, what is
+      \[
+        \bel(x = 1 \mid a = 1 )
+      \]
+    }
+  
   \end{example}
   \begin{proof}
     Bayes's theorem states that\footnote{If there are too many symbols for you, you can write Bayes theorem simply with $P(x | a) = P(a | x) P(x) / P(a)$.}
@@ -797,7 +811,9 @@
     \includegraphics[width=0.2\textwidth]{../figures/smith}
   }
   \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from the result of a computation $\pol$ on the data. For reasons that will be made clear later, this computation has to be stochastic.}
-  \begin{theoryblock}{$\epsilon$-Differential Privacy}
+  \only<article>{
+    \begin{theoryblock}{$\epsilon$-Differential Privacy}
+      }
     \begin{definition}
       \label{def:epsilon-dp}
       A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
@@ -808,7 +824,9 @@
         \left|\ln \frac{\pol(A \mid x)}{\pol(A \mid x')}\right| \leq \epsilon , \qquad \forall x N x', \quad A \subset \CA.
       \end{equation}
     \end{definition}
-  \end{theoryblock}
+    \only<article>{
+    \end{theoryblock}
+  }
   \only<article>{ This form is related to standard notions of
     statistical distance such as the KL divergence
     $\sum_a \ln \frac{\pol(a \mid x)}{\pol(a \mid x')} \pol(a \mid
@@ -969,6 +987,7 @@
     \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
   \end{proof}
 
+  \only<article>{
   \begin{groupactivity}{Moving to a new neighbourhood}
     Is the randomised-response mechanism for it to be differentially
     private with respect to the insertion-neighbourhood definition? If
@@ -976,6 +995,7 @@
     definition?  \emph{Hint: The mechanism must be able to hide the
       participation of a single individual in the database.}
   \end{groupactivity}
+  }
   % Given this hint, the solution is obvious: The mechanism must
   % contain a non-identifying information aggregator. Let us take an
   % example, where individual responses are {0,1}. We can also add X,
@@ -1159,13 +1179,14 @@
     \label{fig:privacy-diagrams}
   \end{figure}
 
-
+\only<article>{
   \begin{groupactivity}{Trust models.}
     Google uses a local privacy model to collect data from Android
     phone users. How does this compare to Google gathering data in the
     clear and then performing private computations? Who do the users
     have to trust? What are the privacy risks in either case?
   \end{groupactivity}
+  }
 \end{frame}
 
 
@@ -1233,8 +1254,10 @@
 
 
 \begin{frame}
-  
-  \begin{exerciseblock}{Differential privacy from a Bayesian viewpoint.}
+
+  \only<article>{
+    \begin{exerciseblock}{Differential privacy from a Bayesian viewpoint.}
+    }
      \only<article>{Bayesian inference offers a simple way to explain the meaning of differential privaacy. Intuitively, using the Bayesian formalism, we can show that, no matter what prior knowledge the adversary has, they cannot infer a lot from the private release. We are specifically interested in adversary knowledge about the dataset, before and after the mechanism's release. In particular, assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
     \[
       \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
@@ -1287,8 +1310,9 @@
         Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior and the information loss $\epsilon$.
       \end{proof}
     }
+    \only<article>{
   \end{exerciseblock}    
-
+X}
   
 \end{frame}
 
@@ -1751,7 +1775,7 @@ While the exponential mechanism is quite abstract, it is very flexible. Many pro
   it is natural to use the exponential mechanism.
 \end{exampleblock}
 
-
+\only<article>{
 \begin{theoryblock}{Interactive differential privacy.}
   So far we only defined differential privacy in terms of a fixed
   mechanism. However, in general the mechanism must respond to
@@ -1780,6 +1804,7 @@ sufficient for achieving differential privacy $\epsilon_t$ at each
 step $t$. The total privacy loss is at most $\sum_{i=1}^t
 \epsilon_i$. However, it is possible to bound the privacy loss more
 tightly with advanced composition theorems.
+}
 \section{Advanced topics.}
 
 
