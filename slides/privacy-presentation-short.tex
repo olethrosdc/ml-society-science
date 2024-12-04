@@ -1,0 +1,660 @@
+\documentclass{beamer}
+
+
+\mode<presentation>{
+  % \useinnertheme{rectangles}
+  \useoutertheme{infolines}
+  % \usecolortheme{crane}
+  % \usecolortheme{rose}
+}
+\input{../preamble}
+
+
+
+\title{Privacy}
+\author[C. Dimitrakakis]{Christos Dimitrakakis}
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Introduction}
+\only<presentation>{
+  \begin{frame}
+    \tableofcontents[ 
+    currentsection, 
+    hideothersubsections, 
+    sectionstyle=show/shaded
+    ] 
+  \end{frame}
+}
+
+\begin{frame}
+  \centering
+  \includegraphics[height=\textheight]{../figures/smbc-the-problem}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Legal issues}
+
+  \alert{I am not a lawyer!} This is only my interpretation of the law.
+  
+  \begin{block}{GDPR}
+    \begin{itemize}
+    \item Requires \alert{anonymisation} of reasonable measures for privacy.
+    \item Requires explicit \alert{consent} for all data use, processing and transmission.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{EU AI Act}
+    Requires a number of principles:
+    \begin{itemize}
+    \item Inclusive growth, Sustainability and well-being, human centred-values.
+    \item Fairness, transparency, explainability.
+    \item Robustness, security, safety and accountability.
+    \end{itemize}
+  \end{block}
+  The challenge is \alert{formalising} those requirements so that they can be \alert{implemented}. Legalese $\to$ math $\to$ code ?
+\end{frame}
+
+
+
+
+\section{Statistical disclosure}
+
+\only<presentation>{
+  \begin{frame}
+    \begin{centering}
+      \emph{``Data is everywhere'', said the statistician, ``data, data!''.}
+    \end{centering}
+
+  \end{frame}
+}
+
+\begin{frame}
+  \begin{block}{Privacy in statistical disclosure.}
+    \only<article>{ Consider a researcher wishing to collect data for a  statistical analysis. As long as the analysis is eventually
+      published,\footnote{If somebody knows that the analysis is being
+        conducted, however, they could still learn something private from the fact that the analysis has /emph{not} been published.} this
+      creates two types of possible privacy violations.}
+    \begin{itemize}
+    \item Public analysis of sensitive data.
+    \item Publication of ``anonymised'' data.
+    \end{itemize}
+    \only<article>{ The first is direct exposure of sensitive data
+      through publication of the analysis, if for example the study is
+      about something such as drug use. The second is through
+      publication of ``anonymised'' versions of the dataset, for
+      example by removing names and addresses, which create
+      opportunities for linkage attacks.}
+  \end{block}
+  \begin{alertblock}{Not about cryptography}
+    \only<article>{
+      The problems we are considering can not be solved through cryptographic means. Cryptography provides:}
+    \begin{itemize}
+    \item Secure communication and computation.
+    \item Authentication and verification.
+    \end{itemize}
+    \only<article>{These are useful to establish secure channels with somebody that we trust. However, the issue that}
+  \end{alertblock}
+
+  \begin{block}{An issue of trust}
+    \only<article>{Fundamentally, privacy in statistics is an issue of trust. The analyst, whether it be a human statistician, or an automated service provided by a company, will use your data to make decisions. You must also decide:}
+    \begin{itemize}
+    \item Who to trust and how much.
+    \item With what data to trust them.
+    \item What you want out of the service.
+    \end{itemize}
+    \only<article>{These are difficult questions and are hard to quantify, hence in this course we are assuming that we have already decided how to answer them, and we simply want to find an appropriate methodology for achieving a good result.}
+  \end{block}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Anonymisation}
+  \only<article>{Data is collected for many reasons. Any typical service you might want to use will require a minimal amount of data. For example, a dating service will at a minimum require your age and location, as shown in the example below.}
+  \begin{example}[Typical relational database in a dating website.]
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 & \only<1>{Li Pu} & 190 & 80 & 60-70 & 1001 & Politician\\
+        06/14 & \only<1>{Sara Lee} & 185 & 110 & 70+ & 1001 & Rentier\\
+        01/01 & \only<1>{A. B. Student} & 170 & 70 & 40-60 & 6732 & Time Traveller
+      \end{tabular} 
+    \end{table}
+    \only<article>{ If somebody is a user in a dating website, you
+      expect them to give some minimal personal information to be
+      stored in the site's database. This might include their
+      birthday, location and profession, for example.} 
+  \end{example}
+  \only<article>{When you submit your data to a service, you expect it to be used responsibly. For the dating service, you expect it to use the information to find good matches, based on your preferences and location. Whenever somebody uses the service, they obtain some information about you, at least indirectly. For example, if they make a query for similar singles in their neighbourhood, and they see your profile, then they have learned that you live nearby.
+
+    If we wish to publish a database, frequently we need to protect the identities of the people involved. A simple idea is to erase directly identifying information. However, this does not really work most of the time, especially since attackers can have side-information that can reveal the identities of individuals in the original data, when combined with the published dataset.
+  }
+  
+  \only<2>{The simple act of hiding or using random identifiers is called anonymisation.}
+  \only<article>{However this is generally insufficient as other identifying information may be used to re-identify individuals in the data.   In particular, even if somebody is unable to infer the information of any individual from the published, anonymised, dataset, they may be able to do so via some side-information. All that is needed is another dataset with some columns in common with the dataset they want to target.}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Record linkage}
+  \begin{figure}
+    \begin{subfigure}{0.65\textwidth}
+      \centering \def\firstcircle{(0,0) circle (7em)}
+      \def\secondcircle{(3,0) circle (7em)}
+      
+      \begin{tikzpicture}
+        \uncover<1,3>{ \draw \firstcircle node[text width=7em]
+          {Ethnicity\newline Date\newline Diagnosis \newline Procedure
+            \newline Medication \newline Charge }; } \uncover<3>{
+          \begin{scope}
+            \clip \firstcircle; \fill[red] \secondcircle;
+          \end{scope}
+        } \uncover<2,3>{\draw \secondcircle node [text width=2em,
+          align=right] {Name \newline Address \newline Registration
+            \newline Party \newline Lastvote}; } \node [text width=4em]
+        (QI) at (1.5, 0) {Postcode \newline Birthdate \newline Sex};
+        \uncover<3>{ \node [text width=16em] (qi-text) at (1.5, -3)
+          {87\% of Americans identifiable}; \path[->]<1-> (qi-text) edge [bend left]
+          (QI); }
+      \end{tikzpicture}
+      \caption{Voter registration}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \includegraphics[height=0.8\fheight]{../figures/Bill_Weld}
+      %% Copyright: CC BY 2.0 
+      \caption{Bill Weld}
+    \end{subfigure}
+  \end{figure}
+\end{frame}
+
+
+% \begin{frame}
+%   \frametitle{Data linkage with SQL}
+%   The original database \verb|database| and adversary side information \verb|side-information| can be combined using the following simple SQL query:
+% \begin{verbatim}
+% SELECT * FROM database JOIN side-information ON [condition]
+% \end{verbatim}
+%   where \verb|condition| describes how to match the records.
+
+%   \begin{example}
+%     For the databases given above, we could use
+% \begin{verbatim}
+% SELECT * FROM tinder JOIN tax ON tinder.height = tax.height AND tinder.age = tax.age
+% \end{verbatim}
+%     to create a joint table.
+%   \end{example}
+% \end{frame}
+
+\only<article>{ Clearly, anonymisation is not enough. So, is there a
+  way to formally guarantee privacy? In the next section we will go
+  over the solution of McSweeny, which provides us with an algorithmic
+  definition of anonymity. While this provides some degree of
+  protection against certain linkage attacks, it is sadly insufficient
+  to protect privacy in general. Later, we will introduce the notion
+  of differential privacy, which protects individuals against
+  statistical disclosure in an information-theoretic manner.  }
+
+
+\section{Algorithmic privacy.}
+\only<article>{ The above discussion should help emphasise that
+  \emph{a dataset} cannot be characterised as
+  private or non-private. We should actually start from the
+  observation that \emph{any data contributed by an individual} should
+  be considered private, because it could be combined with other
+  datasets to obtain sensitive personal information.
+
+  For that reason, we wish to ensure that, whenever individuals
+  contribute data for processing, the result of the processing cannot
+  be used to reveal whatever information they had contributed. Thus,
+  the idea of privacy only applies on \emph{algorithms} that are used
+  on personal data. Generally speaking, we wish for algorithms to both
+  be useful and have good privacy properties. Unfortunately, as we
+  shall see in the sequel, there is a distinct trade-off between
+  privacy and utility. However, let us specify more precisely what we
+  mean by an algorithm.
+}
+
+
+
+\section{Simple anonymisation and $k$-anonymity}
+\label{sec:k-anonymity}
+\only<article>{ One of the basic ideas for protecting individual
+  information is to simply remove identifying information. However,
+  this is easier said than done, as potentially any information can be
+  used identify an individual in a dataset. Indeed, simply removing the names of people from a database is a very weak method, as there almost always exist enough information in the database to re-identify individuals. However, a slightly stronger, though not perfect, method for preventing re-identification is given by the framework of $k$-anonymity. }
+\begin{frame}
+  \frametitle{$k$-anonymity}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+      \centering
+      \includegraphics[width=0.9\fwidth]{../figures/samarati}
+      \caption{Samarati}
+    \end{subfigure}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}{0.45\textwidth}
+      \centering
+      \includegraphics[width=0.9\fwidth]{../figures/sweeney}
+      \caption{Sweeney}
+    \end{subfigure}
+  \end{figure}
+  \only<article>{The concept of $k$-anonymity was introduced
+    by~\citet{samarati1998protecting} and provides some guarantees
+    against inferring personal information from a single
+    database. This requires the analyst to first determine the
+    variables of interest (which should not be modified), and then
+    determine which variables are \emph{quasi-identifiers}, i.e. they
+    could be potentially used to identify somebody in the database.}
+  \alert{It's the analyst's job to define quasi-identifiers.} However, in general all variables should be considered quasi-identifiers.
+  \begin{definition}[$k$-anonymity]
+    A database provides $k$-anonymity if for every person in the
+    database is indistinguishable from $k-1$ persons with respect to
+    \emph{quasi-identifiers}.
+  \end{definition}
+  \only<article>{This hope is that, if the database satisfies
+    $k$-anonymity it can be safely released, without revealing any
+    private information directly. As you can see, the definition of
+    $k$-anonymity relates to the algorithm \emph{output}, and not the
+    algorithm itself. Because of this, it is not possible to give
+    formal guarantees that hold generally for a $k$-anonymous
+    database, as the result of the process does not tell us anything
+    about how much information it conveys about the original input.
+
+    But first, let us walk through an extended example to explain the
+    concept.}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$k$-anonymity example}
+  \only<article>{
+    In particular, let us say that the analyst simply wants to calculate some statistics about how different professions correlate with age, weight, height and where people live. Some areas of the country might produce more politicians, for example. And taller people may be more successful in politics. The initial data collected might look like the table below. It was obvious to the analyst, that even if he did remove all the names, somebody knowing where A. B. Student lived and saw the table would have little trouble recognising them.
+  }
+
+  \only<1>{
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 & Li Pu & 190 & 80 & 65 & 1001 & Politician\\
+        06/14 & Sara Lee & 185 & 110 & 67 & 1001 & Rentier\\
+        06/12 & Nikos Karavas & 180 & 82 & 72+ & 1243 & Politician\\
+        01/01 & A. B. Student & 170 & 70 & 52 & 6732 & Time Traveller\\
+        05/08 & Li Yang & 175 & 72 & 35 & 6910 & Politician
+      \end{tabular}
+      \caption{1-anonymity.}
+    \end{table}
+
+  }
+  \only<presentation>{
+    \only<2>{
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 &  & 190 & 80 & 60+ & 1001 & Politician\\
+        06/14 &  & 185 & 110 & 60+ & 1001 & Rentier\\
+        06/12 &  & 180 & 82 & 60+ & 1243 & Politician\\
+        01/01 &  & 170 & 70 & 40-60 & 6732 & Time Traveller\\
+        05/08 &  & 175 & 72 & 30-40 & 6910 & Politician
+      \end{tabular}
+      1-anonymity
+    }
+
+    \only<3>{
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Birthday & Name & Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        06/07 &  & 180-190 & 80+ & 60+ & 1* & Politician\\
+        06/14 &  & 180-190 & 80+ & 60+ & 1* & Rentier\\
+        06/12 &  & 180-190 & 80+ & 60+ & 1* & Politician\\
+        01/01 &  & 170-180 & 60-80 & 20-60 & 6* & Time Traveller\\
+        05/08 &  & 170-180 & 60-80 & 20-60 & 6* & Politician
+      \end{tabular}
+      1-anonymity
+    }
+  }
+
+  \only<article>{After thinking about it for a bit, the analyst decides to remove the birthday and name, and broadly categorise people according to their height in increments of 10cm, the weight in increments of 20cm, and keep just the first digit of the postcode. Now that looked much more reasonable. Still, somebody that knows that Li Yang and A. B. Student are in the table, as well as their postcodes, and they also know that Li Yang is a politician, can infer that A. B. Student is a Time Traveller.}
+  \only<4>{
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{l|l|l|l|l|l|l}
+        Height  & Weight & Age & Postcode & Profession\\
+        \hline
+        180-190 & 80+ & 60+ & 1* & Politician\\
+        180-190 & 80+ & 60+ & 1* & Rentier\\
+        180-190 & 80+ & 60+ & 1* & Politician\\
+        170-180 & 60-80 & 20-60 & 6* & Time Traveller\\
+        170-180 & 60-80 & 20-60 & 6* & Politician
+      \end{tabular}
+      \caption{2-anonymity: the database can be partitioned in sets of at least 2 records}
+    \end{table}
+  }
+
+  \pause
+  $k$-anonymity is a property of the \alert{output}, and so is not a privacy definition.
+  
+  \only<article>{However, with enough information, somebody may still
+    be able to infer something about the individuals. In the example
+    above, it remains true that if somebody knows that both
+    A. B. Student and Li Yang are in the database, as well as their
+    postcodes, as well as that Li Yang is a politician, they can infer
+    A. B. Student's profession.  Fortunately, there is a way to
+    protect individual information from adversaries with arbitrary
+    side-information. This is given by differential privacy.  }
+\end{frame}
+
+
+
+\section{Differential privacy}
+\label{sec:differential-privacy}
+
+\begin{frame}
+  \centering
+  {\Huge Differential Privacy}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=0.4\textwidth]
+      \node[label=left:$x$] at (0,0) (data) {\includegraphics[width=0.1\columnwidth]{../figures/medical}};
+
+      \node[label=$x_1$] at (-2,3)(patient1) {\includegraphics[width=0.05\columnwidth]{../figures/me-recent}};
+      \uncover<3->{
+        \node[label=$x_2$] at (2,3) (patient2) {\includegraphics[width=0.1\columnwidth]{../figures/judge}};
+      }
+      \uncover<4->{
+        \node[label=$a$] at (4,0)   (statistics) {\includegraphics[width=0.2\columnwidth]{../figures/coronary-disease}};
+      }
+      \uncover<2->{
+        \draw[->] (patient1) -- (data);
+      }
+      \uncover<3->{
+        \draw[->] (patient2) -- (data);
+      }
+      \uncover<4->{
+        \draw[->] (data) -- node[above]{$\pol$} (statistics);
+      }
+      \uncover<5->{
+        \draw[line width=5, red, ->] (statistics) -- (patient2);
+      }
+    \end{tikzpicture}
+    \caption{If two people contribute their data $x = (x_1, x_2)$ to a medical database, and an algorithm $\pol$ computes some public output $a$ from $x$, then it should be hard infer anything about the data from the public output.}
+    \label{fig:privacy-data}
+  \end{figure}
+  \only<article>{ Consider the example given in
+    Figure~\ref{fig:privacy-data}, where two people contribute their
+    data to a medical database. The $i$-th individual contributes data
+    $x_i$, and the complete dataset is $x = (x_1, x_2)$. The algorithm
+    $\pol$ defines a distribution over the set of possible outputs
+    $a \in \CA$, with $\pol(a | x)$ being the probability that the
+    algorithm outputs $a$ if the data is $x$.  If the algorithm was
+    deterministic, then it might be possible for an adversary to
+    invert the computation and obtain $x$ from $a$. 
+    But even if that
+    is not possible, maybe they can learn \emph{something} about the
+    data from the output. In the section below, we will formalise this
+    notion. }
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Privacy desiderata}
+  \only<article>{
+    Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation on the data and publishes the result through a randomised algorithm $\pol$, where for any output $a$, and any dataset $x$, $\pol(a | x)$ is the probability that the algorithm generates $a$.
+    The following properties are desirable from a general standpoint.
+
+    \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database.
+
+    \paragraph{Secrecy.} The data of individuals is not revealed. The release does not significantly increase the probability of inferring individual's information $x_i$.
+
+    \paragraph{Side-information.} Even if an adversary has arbitrary side-information, he cannot use that to amplify the amount of knowledge he would have obtained from the release.
+
+    \paragraph{Utility.} The released result has, with high probability, only a small error relative to a calculation that does not attempt to safeguard privacy.
+  }
+  \only<presentation>{
+    We wish to calculate something on some private data and publish a \alert{privacy-preserving}, but \alert{useful}, version of the result.
+    \begin{itemize}
+    \item Anonymity: Individual participation remains hidden.
+    \item Secrecy: Individual data $x_i$ is not revealed.
+    \item Side-information: Linkage attacks are not possible.
+    \item Utility: The calculation remains useful.
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}  
+  \frametitle{What do we mean by privacy?}
+
+
+  \begin{definition}[Stochastic algorithm $\pi$]
+    A stochastic algorithm $\pi$ with input domain $\CX$ and output
+    domain $\CA$ is a mapping from $\CX$ to \alert{distributions} over $\CA$.
+    We write
+    \[
+      \pol(a \mid x)
+    \]
+    to denote the probability that the algorithm outputs $a$ given
+    input $x$.
+  \end{definition}
+  \pause
+  \begin{block}{What is private?}
+    \begin{itemize}
+    \item Private input $x$
+    \item Processing algorithm $\pi(a | x)$
+    \item Public output $a$, randomly sampled from $\pi(a | x)$
+    \end{itemize}
+  \end{block}
+  \pause
+  Privacy is a property of the \alert{algorithm}, not of the input or the output!
+  The algorithm should always have the same privacy guarantee, no matter what the input data is! c.f. cryptography.
+\end{frame}
+
+
+\begin{frame}
+  \begin{exampleblock}{The prevalence of drugs in sport}
+    
+    \only<article>{
+      Let's say you need to perform a statistical analysis of the drug-use habits of athletes. Obviously, even if you promise the athlete not to reveal their information, you still might not convince them. Yet, you'd like them to be truthful. The trick is to allow them to randomly change their answers, so that you can't be \emph{sure} if they take drugs, no matter what they answer.
+    }
+
+    \only<presentation>{
+      \begin{itemize}
+      \item $n$ athletes
+      \item Ask whether they have doped in the past year.
+      \item Aim: calculate \% of doping.
+      \item How can we get truthful / accurate results?
+      \end{itemize}
+      \only<1>{
+        \alert{Write responses in class}
+      }
+    }
+    \only<2->{
+      \only<article>{
+        \begin{groupactivity}{Algorithm for randomising responses about drug use}
+        }
+        \begin{enumerate}
+        \item Cast a 10-sided die 
+        \item If it comes 2, \ldots, 9 respond truthfully. 
+        \item If it is 0 or 1, then cast it again, and respond \texttt{yes} if it lands on an \alert{even} number and \texttt{no} otherwise.
+        \end{enumerate}
+        \only<article>{
+        \end{groupactivity}
+      }
+      \only<article>{
+        \begin{exerciseblock}{Calculating the true rate of responses.}
+          Assume that the observed rate of positive responses in a sample is $p$, that everybody follows the protocol, and the coin is fair. Then, what is the true rate $q$ of drug use in the population?
+        \end{exerciseblock}
+      }
+      
+    }
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \only<article>{This algorithm is very specific: it assumes binary responses, and it uses a fair coin, which introduces a lot of noise.  Since the coin flips make the responses noisy, we may want to have some way of controlling it. In general, we want to consider an algorithm that takes data $x_1, \ldots, x_n$ from $n$ users transforms it randomly to $a_1, \ldots, a_n$ using the following mapping.}
+  \begin{block}{The binary randomised response mechanism}
+    \begin{definition}[Randomised response]
+      The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
+      \[
+        \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
+      \]
+      where $j \neq k$.
+    \end{definition}
+  \end{block}
+  \uncover<2->{Given the complete data $x$, the algorithm's output is $a = (a_1, \ldots, a_n)$.}
+  \uncover<3->{Since the algorithm independently calculates a new value for each data entry, the output probability is
+    \[
+      \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
+    \]
+  }
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Differential privacy.}
+  \only<presentation>{
+    \includegraphics[width=0.2\textwidth]{../figures/dwork} \hspace{1em}
+    \includegraphics[width=0.2\textwidth]{../figures/mcsherry} \hspace{1em}
+    \includegraphics[width=0.2\textwidth]{../figures/nissim} \hspace{1em}
+    \includegraphics[width=0.2\textwidth]{../figures/smith}
+  }
+  \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from the result of a computation $\pol$ on the data. For reasons that will be made clear later, this computation has to be stochastic.}
+  \begin{definition}
+    \label{def:epsilon-dp}
+    A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
+    is endowed with a neighbourhood relation $\neigh$, is said to be
+    $\epsilon$-differentially private if
+    \begin{equation}
+      \label{eq:epsilon-dp}
+      \left|\ln \frac{\pol(A \mid x)}{\pol(A \mid x')}\right| \leq \epsilon , \qquad \forall x \neigh x', \quad A \subset \CA.
+    \end{equation}
+  \end{definition}
+  \only<presentation>{
+    \begin{itemize}
+    \item<2-> If $x, x'$ are similar then the so is the algorithm output.
+    \item<3-> This makes it hard to distinguish $x, x'$ from the output!
+    \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}
+  \begin{exampleblock}{Neihgbourhood example}
+    \only<article>{
+      In this example, we have three datasets, $x, x'$ and $hat{x}$. In the second dataset, $\hat{x}$, the highlighted row in $x$ is missing. In the third dataset, $x'$, another row with the same name is added, but the height and weight are changed.
+    }
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{l|l|l|l}
+        Birthday & Name & Height  & Weight \\
+        \hline
+        06/07 & Li Pu & 190 & 80 \\
+        06/14 & Sara Lee & 185 & 110  \\
+        \alert<1>{06/12} & \alert<1>{John Smith} & \alert<1>{170} & \alert<1>{82} \\
+        01/01 & A. B. Student & 170 & 70 \\
+        05/08 & Li Yang & 175 & 72 
+      \end{tabular}
+      \caption{Data $x$}
+    \end{table}
+    \only<article>{
+      In fact, $\hat{x}$ is obtained through a deletion from $x$. Of course, the operation can be reversed: $x$ can be obtained from an addition to $\hat{x}$.
+    }
+    \only<1>{
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{l|l|l|l}
+          Birthday & Name & Height  & Weight \\
+          \hline
+          06/07 & Li Pu & 190 & 80 \\
+          06/14 & Sara Lee & 185 & 110  \\
+          01/01 & A. B. Student & 170 & 70 \\
+          05/08 & Li Yang & 175 & 72 
+        \end{tabular}
+        \caption{$\hat{x}$, 1-Neighbour of $x$.}
+      \end{table}
+    }
+    \only<article>{We can now instead add another row to $\hat{x}$, which will be similar to the row we had removed. This will have the effect of altering the original data in $x$.}
+    \only<2>{
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{l|l|l|l}
+          Birthday & Name & Height  & Weight \\
+          \hline
+          06/07 & Li Pu & 190 & 80 \\
+          06/14 & Sara Lee & 185 & 110  \\
+          06/12 & John Smith & \alert{180} & \alert{80} \\
+          01/01 & A. B. Student & 170 & 70 \\
+          05/08 & Li Yang & 175 & 72 
+        \end{tabular}
+        \caption{$x'$, 2-Neighbour of $x$.}
+      \end{table}
+      \only<article>{Since $x,x'$ only differ in the contents of a single row, they are edit-neighbours.}
+    }
+  \end{exampleblock}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Neighbourhoods}
+
+  \begin{definition}[Inclusion neighbourhood]
+    If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
+    \[
+      x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1}, \ldots, x_n),
+      \qquad
+      x' = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_n),
+    \]
+    for some $i$,  i.e. if one dataset is
+    missing an element.
+  \end{definition}
+  \pause
+  If we are private wrt this neighbourhood, then an adversary cannot tell \alert{if our data is included}
+  \pause
+  \begin{definition}[Edit neighbourhood]
+    We say that two datasets $x, x'$ are neighbours, and write $x N_e x'$ if
+    \[
+      x = (x_1, \ldots,  x_i, \ldots, x_n),
+      \qquad
+      x' = (x_1, \ldots, x'_i, \ldots,  x_n),
+      \qquad
+      x_i \neq x'_i.
+    \]
+    i.e. if one dataset has an altered element.
+  \end{definition}
+  \pause
+  If we are private wrt this neighbourhood, then an adversary cannot \alert{what our data is}
+  \only<article>{ If $x,x'$ are 1-neighbours under the second
+    definition, then they are 2-neighbours under the first
+    definition. To see this, create a new dataset $\hat{x}$ from $x$,
+    without the data of person $i$. Then $x N \hat{x}$ and
+    $\hat{x} N x'$, since we can change the data of one person by
+    removing the original data $x_i$ and then re-inserting the altered
+    data $x'_i$. This is illustrated in the example below.}
+\end{frame}
+
+
+
+
+
+\bibliographystyle{plainnat}
+\bibliography{../bibliography}
+
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
