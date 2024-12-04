@@ -273,7 +273,7 @@
     \caption{Linkage attack on a anonymised patient information database. A misguided attempt to release medical information as public data (left circle in figure (a)) by then-governor Bill Weld resulted in a simple linkage attack. This was done by accessing a party registration database (right circle in figure (b)) which contained three common fields with the medical database. }
   \end{figure}
   \only<article>{
-    As an example, in the 1990s a the governor of Massachussets,
+    As an example, in the 1990s, the governor of Massachussets,
     decided to publish anonymised information about the health records
     of individual state employs. They were careful to hide all
     obviously identifying information such as their name, and thus
@@ -283,11 +283,10 @@
     individual.
     
     This allowed a PhD student, McSweeney, to perform the following
-    linkage attack. She order a floppy disk containing database of
-    voting records in the state. This contained names and addresses,
-    as well as the postcode, birth date and sex of every voter. In that
-    way, she was able to cross-reference this data, and so obtain the
-    identities of individuals in that database. The first record she
+    linkage attack. She ordered a floppy disk with a database of
+    registered voters in the state. This contained names and addresses,
+    as well as the postcode, birth date and sex of every voter registration. Since these three fields were also present in the health data, she was able to cross-reference the two datasets, and so obtain the
+    identities of many individuals in that database. The first record she
     obtained was that of the governor himself, Bill Weld. Later, she
     estimated that approximately 87\% of Americans are uniquely
     identifiable through those three attributes.
@@ -314,12 +313,10 @@
 
 \only<article>{ Clearly, anonymisation is not enough. So, is there a
   way to formally guarantee privacy? In the next section we will go
-  over the solution of McSweeny, which provides us with an algorithmic
+  over the solution of McSweeny, which provides us with an data-oriented
   definition of anonymity. While this provides some degree of
   protection against certain linkage attacks, it is sadly insufficient
-  to protect privacy in general. Later, we will introduce the notion
-  of differential privacy, which protects individuals against
-  statistical disclosure in an information-theoretic manner.  }
+  to protect privacy in general, as this anonymity concept is applied to a dataset, not the process. Later, we will introduce the notion   of differential privacy, which protects individuals against statistical disclosure in an information-theoretic manner, giving guarantees about the complete data processing process, that is applicable for any dataset being processed.  }
 
 
 \section{Algorithmic privacy.}
@@ -334,24 +331,25 @@
   contribute data for processing, the result of the processing cannot
   be used to reveal whatever information they had contributed. Thus,
   the idea of privacy only applies on \emph{algorithms} that are used
-  on personal data. Generally speaking, we wish for algorithms to both
-  be useful and have good privacy properties. Unfortunately, as we
-  shall see in the sequel, there is a distinct trade-off between
-  privacy and utility. However, let us specify more precisely what we
-  mean by an algorithm.
-}
+  on personal data. This is similar to cryptography: it is e.g. the encryption algorithm that is secure. And if it is, it should be secure for all messages sent using it. It is not possible to say if a specific encrypted message is secure, unless you know how it was encrypted.
+  
+  Generally speaking, we wish for our privacy-preserving
+  data-processing algorithms to both be useful and have good privacy
+  properties. Unfortunately, as we shall see in the sequel, there is a
+  distinct trade-off between privacy and utility. However, let us
+  first specify more precisely what we mean by an algorithm.  }
 \begin{frame}  
   \frametitle{What is an algorithm?}
 
   \only<article>{Any functional process is an algorithm. The
     information given to an algorithm for processing is called an
     \emph{input} to the algorithm. The result of the process is called
-    the algorithm's \emph{output}.  In this book, identify inputs with
+    the algorithm's \emph{output}.  In this book, we identify inputs with
     observations or features $\CX$, and outputs with actions $\CA$ by
     the algorithm: i.e. we view the algorithm as taking actions that
-    have an observable effect on its external environment.  Algorithms
-    are usually deterministic: given the same input, they produce the
-    same output. However, it is also useful to consider
+    have an observable effect on its external environment.  Many common algorithms
+    are deterministic: given the same input, they produce the
+    same output. However, in privacy and security, it is necessary to consider
     \emph{stochastic} algorithms, whose output randomly changes, even
     when the input is the same.
     
@@ -369,14 +367,14 @@
 
     So, one way of seeing a stochastic algorithm is as a
     \emph{collection} of probability distributions $\pol(a \mid x)$
-    over $\CA$, one for each value of $x$. This is exactly equivalent
-    to the definition of a deterministic algorithm $f : \CX \to \CA$,
+    over $\CA$, one for each value of $x$. Let us contrast this 
+    to a deterministic algorithm $f : \CX \to \CA$,
     which would be a simple function. This would define one specific
     value in $\CA$ (instead of a distribution) for each value of $x$.
 
     The above definition is fine when the output domain $\CA$ is
     finite. Then outputs $a \in \CA$ cannot have infinitesimally small
-    probabilities. However, in many problems $\CA$ is a Euclidean
+    probabilities. However, in many problems $\CA$ is not finite, but a Euclidean
     subset, e.g. the interval $[0,1]$. In that case, we have two
     choices: either treat $\pol$ as a probability density, or as a
     probability measure. The latter is more general, and applies no
