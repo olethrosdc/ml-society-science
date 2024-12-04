@@ -57,30 +57,37 @@
   amount of information that can be revealed through the algorithm's
   output about any individual contributing data is bounded. In
   particular, we are interested in how much an adversary can learn
-1  about any individual's input to the algorithm from the algorithm's
+  about any individual's input to the algorithm from the algorithm's
   output.
 
-  This does not preclude learning general facts about individuals from
-  the output. For example, a study about the use of steroids in sports
-  may show that 90\% of sprinters with times under 10 seconds are
-  using steroids, while only 50\% of slower sprinters do so. Any
+  This does not preclude learning general facts about the population
+  from the output, from which you can then make inferences about
+  individuals. For example, a study about the use of steroids in
+  sports may show that 90\% of sprinters with times under 10 seconds
+  are using steroids, while only 50\% of slower sprinters do so. Any
   sprinter with a time under 10 seconds is thus suspected of using
   steroids by association. However, it does not matter if their data
-  has been used in the study. The publication of the result does not
-  impact their privacy, but the amount of harm it does to them does
-  not depend in their participation: the same statistical result would
-  have been obtained with or without them.
+  has been used in the study. The conclusion that steroids help
+  improve performance would be true no matter if they contributed to
+  the study data. The publication of the result does not impact their
+  privacy, because the amount of harm it does to them does not depend
+  in their participation: the same statistical result would have been
+  obtained with or without them.
   
   In this chapter, we will look at two formal concepts of privacy
   protection: $k$-anonymity and \emph{differential privacy}. The first
-  is a simple method for anonymising databases. However, it provides
-  only limited resistance to identification. The latter is a more
-  general concept, which provides full information-theoretic
-  protection to individuals. A major problem with any privacy
-  definition and method, however is correct interpretation of the
-  privacy concept used, and correct implementation of the algorithm
-  used.
-}
+  is a simple property of anonymised databases. However, it provides
+  only limited resistance to identification, and is a property of the
+  data, rather than the algorithm. Thus, from our point of view, it is
+  not a useful privacy concepts as it does not characterise the
+  privacy of a process. The latter is a more general concept, which
+  provides full information-theoretic protection to
+  individuals. However, it is conceptually not trivial to understand
+  and its application has only recently been simplified due to the
+  release of machine learning libraries that apply this privacy
+  concept. A major problem with any privacy definition and method,
+  however is correct interpretation of the privacy concept used, and
+  correct implementation of the algorithm used.  }
 
 
 
