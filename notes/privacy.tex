@@ -382,12 +382,12 @@
     
     \begin{theoryblock}{The general case.}
       It is best to think of $\pol(\cdot | x)$ as a different probability
-      measure over $\CA$ for every possible value of $x$. Then we write
+      measure over $\CA$ for every possible value of $x$. Then we write:
       \[
         \pol(A \mid x) \defn \Pr_\pol(a \in A \mid x), \qquad A \subset \CA,
       \]
       for the conditional probability that algorithm's output is in
-      some set $A \subset \CA$ given input $x$. This allows us to treat
+      some set $A \subset \CA$ given input $x$. \footnote{Formally, $A$ is not an arbitrary subset, but belongs to a $\sigma$-algebra of $\CA$, in order to avoid strange complications. However, we not need be concerned with this technicality in this book.} This allows us to treat
       the case when $\CA$ is continuous or discrete with the same notation.
     \end{theoryblock}
 
