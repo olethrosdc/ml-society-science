@@ -537,7 +537,7 @@
     }
   }
 
-  \only<article>{After thinking about it for a bit, the analyst decides to remove the birthday and name, and broadly categorise people according to their height in increments of 10cm, the weight in increments of 20cm, and keep just the first digit of the postcode. Now that looked much more reasonable. Still, somebody that knows that Li Yang and A. B. Student are in the table, as well as their postcodes, and they also know that Li Yang is a politician, can infer that A. B. Student is a Time Traveller.}
+  \only<article>{After thinking about it for a bit, the analyst decides to remove the birthday and name, and broadly categorise people according to their height in increments of 10cm, the weight in increments of 20cm, and keep just the first digit of the postcode. Now, that looks much more reasonable. }
   \only<4>{
     \begin{table}[H]
       \centering
@@ -583,18 +583,18 @@
   re-identification attacks when used with care, it says little about
   what to do when the adversary has a lot of knowledge. For example,
   if the adversary knows the data of everybody that has participated
-  in the database, it is trivial for them to infer what our own data
+  in the database apart from the $i$-th person, it is trivial for them to infer what the $i$-th person's data
   is. For some particularly sensitive datasets, we may want for the
-  adversary to be unable to tell whether or not your data was part of
-  the base. Differential privacy offers protection against adversaries
+  adversary to be unable to tell whether or not somebody's data was part of
+  the base at all! Differential privacy offers protection against adversaries
   with unlimited side-information or computational power. Intuitively,
   an algorithmic computation is differentially-private if an adversary
   cannot distinguish two ``neighbouring'' databases based on the result
   of the computation. Informally, two databases are neighbours when
-  they are identical apart from the data of one person. A
-  differentially private algorithm, because of its randomness, makes
+  they are identical apart from the data of one person. If an adversary cannot tell if an individual's data has been included in the database, this is equivalent to saying that he cannot distinguish between two databases $x, x'$ where $x$ includes the data of this one person and $x'$ does not. Differential privacy gives such a guarantee for \emph{any} pair of neighbouring databases.  
+  Differentially private algorithm must use randomness in order to make
   it impossible for somebody to tell from the algorithm's output
-  whether any specific individual's data was in the database. }
+  whether any specific individual's data was in the database with absolute certainty. The more random the algorithm, the harder it is for the adversary to correctly guess something about the data. However, this also makes the algorithm less useful.}
 
 \begin{frame}
   \begin{figure}[H]
@@ -631,14 +631,23 @@
     $x_i$, and the complete dataset is $x = (x_1, x_2)$. The algorithm
     $\pol$ defines a distribution over the set of possible outputs
     $a \in \CA$, with $\pol(a | x)$ being the probability that the
-    algorithm outputs $a$ if the data is $x$.  If the algorithm was
-    deterministic, then it might be possible for an adversary to
-    invert the computation and obtain $x$ from $a$. 
-    But even if that
-    is not possible, maybe they can learn \emph{something} about the
-    data from the output. In the section below, we will formalise this
-    notion. }
-  
+    algorithm outputs $a$ if the data is $x$.  If the algorithm is a
+    deterministic function then it might be
+    possible for an adversary to invert the computation and obtain $x$
+    from $a$.  But even if that is not possible, maybe they can learn
+    \emph{something} about the data from the output. In the section
+    below, we will formalise this notion.
+
+    \begin{example}
+      To better develop your intuition, assume that we have a deterministic algorithm
+      $f : \CX \to \CA$, and that there is a finite set $\CA$ of
+      possible outputs $a$. Then each database $x$ maps to one of
+      those possible outputs, and so we can partition the space $\CX$
+      of datasets into $\CX_1, \ldots, \CX_{|\CA|}$, with $\CX_a$
+      being the set of values of $x$ for which the $f(x) = a$. Then,
+      by observing $a$, you already know with certainty that
+      $x \in \CX_a$. Now assume that the adversary has some prior knowledge that $x \in S \subset \CX$. Combined with the output, his new knowledge is now that $x \in S \cap \CX_a$, so they can definitely narrow down the set of possible datasets. If we allow the adversary to compute other functions $f_1, \ldots, f_2$ on the data, they can eventually discover $x$.}
+  \end{example}
 \end{frame}
 
 \begin{frame}
@@ -748,9 +757,9 @@
     the outputs are integers is deferred until later.}
 \end{frame}
 
-\begin{exampleblock}{The original randomised response mechanism~\cite{werner:1965}}
+\begin{theoryblock}{The original randomised response mechanism~\cite{werner:1965}}
   As first proposed by~\citeauthor{werner:1965}, the mechanism distributes spinners to people. The spinner has a probability $p$ of landing on $A$ and $1 - p$ of landing on $B$. This can be easily arranged by having the corresponding areas to have the appropriate proportions. The interesting thing about this mechanism is that the responders must merely say whether or not the spinner landed on the group they identify with. They do \emph{not} have to reveal a group. This makes the mechanism feel like you are revealing less, even if it is just a special case of a general randomised response mechanism.
-\end{exampleblock}
+\end{theoryblock}
 
 \begin{frame}
   \frametitle{What can we learn from the output?}
@@ -815,7 +824,15 @@
     \includegraphics[width=0.2\textwidth]{../figures/nissim} \hspace{1em}
     \includegraphics[width=0.2\textwidth]{../figures/smith}
   }
-  \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. This is called differential privacy, and it can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from the result of a computation $\pol$ on the data. For reasons that will be made clear later, this computation has to be stochastic.}
+  
+  \only<article>{Now let us take a look at a way to characterise the  the inherent privacy properties of algorithms. We will focus on differential privacy, which can be seen as a bound on the information an adversary with arbitrary power or side-information could extract from the result of a computation $\pol$ on the data. As we already implied from previous examples, and from the Bayesian computation of randomised response, this computation has to be stochastic.}
+
+  \only<article>{First, let us say what we mean by a dataset, and how
+    it relates to individual. We assume that algorithms are applied to
+    datasets $x = (x_1, \ldots, x_n)$ composed of the data of $n$
+    individuals. Thus, all privacy guarantees relate to the data
+    $x_i$ contributed by individuals $x_i$. }
+  
   \only<article>{
     \begin{theoryblock}{$\epsilon$-Differential Privacy}
       }
@@ -823,31 +840,31 @@
       \label{def:epsilon-dp}
       A stochastic algorithm $\pol : \CX \to \Simplex(\CA)$, where $\CX$
       is endowed with a neighbourhood relation $\neigh$, is said to be
-      $\epsilon$-differentially private if
+      $\epsilon$-differentially private if, for all $A \subset \CA$,\footnote{To be more mathematically precise, we should have defined a $\sigma$-algebra $\Sigma$ on $\CA$, so that $A \in \Sigma$, e.g. the Borel sets of $\Sigma$. In the following we will be somewhat loose with our assumptions, so as not to lose the main thread of ideas.}
       \begin{equation}
         \label{eq:epsilon-dp}
-        \left|\ln \frac{\pol(A \mid x)}{\pol(A \mid x')}\right| \leq \epsilon , \qquad \forall x N x', \quad A \subset \CA.
+        \left|\ln \frac{\pol(A \mid x)}{\pol(A \mid x')}\right| \leq \epsilon , \qquad \forall x N x', \quad 
       \end{equation}
     \end{definition}
     \only<article>{
     \end{theoryblock}
   }
   \only<article>{
-    The notion of differential privacy was introduced by~\citet{dwork2006calibrating}, where the authors specifically related the ability of an adversary to distinguish dataset $x, x'$ to how similar the distributions of outputs would be in each case. 
+    The notion of differential privacy was introduced by~\citet{dwork2006calibrating}, where the authors specifically related the ability of an adversary to distinguish dataset $x, x'$ to how similar the distributions of outputs would be in each case.  It essentially says, that if $x, x'$ are similar then it will be hard to tell from the algorithm's output whether it was generated by $x$ or $x'$, because the output distribution will be almost the same. So, it will be difficult for an adversary to guess the data by seeing the output.
     I chose this form of the definition, because it is related to standard notions of
     statistical distance such as the KL divergence
     $\sum_a \ln \frac{\pol(a \mid x)}{\pol(a \mid x')} \pol(a \mid
-    x)$ and the total variation $\max_A |\pol(A \mid x) - \pol(A \mid x')|$.  However, the above inequality is more commonly written as
+    x)$ and the total variation $\max_A |\pol(A \mid x) - \pol(A \mid x')|$.
+
+    Sometimes, the above inequality is more conveniently rewritten as
     \[
       \pol(A \mid x) \leq e^\epsilon \pol(A \mid x'). 
     \]
     Frequently (and particularly when $\CA$ is finite) we can also use
-    $\pol(a \mid x)$ without any technical difficulties.  }
+    $\pol(a \mid x)$ without any technical difficulties. }
 
-  \only<article>{Typically, algorithms are applied to
-    datasets $x = (x_1, \ldots, x_n)$ composed of the data of $n$
-    individuals. Thus, all privacy guarantees relate to the data
-    contributed by these individuals.}
+  Now let us go a bit deeper onto the notion of neighbourhood for datasets. Changing the definition of neighbourhood results in a different meaning 
+or privacy. Fortunately, there are only two commonly definitions, and we will go through them in detail.
 \end{frame}
 
 \begin{frame}
@@ -868,8 +885,8 @@
     from the output of the algorithm.
 
   }
-  \begin{definition}[Participation neighbourhood]
-    If two datasets $x,x'$ are neighbours, then we write $xNx'$, and it holds that
+  \begin{definition}[Membership neighbourhood]
+    If two datasets $x,x'$ are neighbours, then we write $x \neigh x'$, and it holds that
     \[
       x = (x_1, \ldots, x_{i-1}, x_i, x_{i+1}, \ldots, x_n),
       \qquad
@@ -884,10 +901,11 @@
     algorithm is differentially private with respect to this
     neighbourhood, it is hard to tell if any single person's data has
     been used in the calculation.  This is an important concept if the
-    participation in the dataset is itself sensitive. For example, if
-    somebody is enlisted in study for experimental treatment of a rare
-    disease, then the mere fact that they are part of the study is
-    strong evidence that they have the disease.
+    membership in the dataset is itself sensitive, as we then want to
+    protect against membership attacks. For example, if somebody is
+    enlisted in study for experimental treatment of a rare disease,
+    then the mere fact that they are part of the study is strong
+    evidence that they have the disease.
     
     The second definition is slightly weaker. Here, two datasets are
     neighbours if they are identical, apart from the data of one
@@ -896,7 +914,7 @@
     not, then they cannot infer whether the data submitted by the
     individual has a particular value.}
   \begin{definition}[Edit neighbourhood]
-    We say that two datasets $x, x'$ are neighbours, and write $x N_e x'$ if
+    We say that two datasets $x, x'$ are neighbours, and write $x \neigh_e x'$ if
     \[
       x = (x_1, \ldots,  x_i, \ldots, x_n),
       \qquad
@@ -909,8 +927,8 @@
   \only<article>{ If $x,x'$ are 1-neighbours under the second
     definition, then they are 2-neighbours under the first
     definition. To see this, create a new dataset $\hat{x}$ from $x$,
-    without the data of person $i$. Then $x N \hat{x}$ and
-    $\hat{x} N x'$, since we can change the data of one person by
+    without the data of person $i$. Then $x \neigh \hat{x}$ and
+    $\hat{x} \neigh x'$, since we can change the data of one person by
     removing the original data $x_i$ and then re-inserting the altered
     data $x'_i$. This is illustrated in the example below.}
 \end{frame}
@@ -920,7 +938,7 @@
 \begin{frame}
   \begin{exampleblock}{Neihgbourhood example}
     \only<article>{
-      In this example, we have three datasets, $x, x'$ and $hat{x}$. In the second dataset, $\hat{x}$, the highlighted row in $x$ is missing. In the third dataset, $x'$, another row with the same name is added, but the height and weight are changed.
+      In this example, we have three datasets, $x, x'$ and $\hat{x}$. In the second dataset, $\hat{x}$, the highlighted row in $x$ is missing. In the third dataset, $x'$, another row with the same name is added, but the height and weight are changed.
     }
     \begin{table}[H]
       \centering
@@ -970,9 +988,11 @@
       \only<article>{Since $x,x'$ only differ in the contents of a single row, they are edit-neighbours.}
     }
   \end{exampleblock}
+
 \end{frame}
 
 \begin{frame}
+  \frametitle{The privacy of randomised response.}
   \only<article>{ As we hinted earlier, the randomised response
     mechanism satisfies $\epsilon$-DP.  The $\epsilon$ parameter is
     dependent on $p$, with higher values giving a smaller $\epsilon$,
@@ -980,7 +1000,7 @@
   \begin{remark}
     The randomised response mechanism with $p \leq 1/2$ is
     $(\ln \frac{1 - p}{p})$-DP with respect to the edit neighbourhood
-    $N_e$.
+    $\neigh_e$.
   \end{remark}
   \begin{proof}
     Consider $x = (x_1, \ldots, x_j,  \ldots, x_n)$, $x' = (x_1, \ldots, x'_j,  \ldots, x_n)$. Then
@@ -996,8 +1016,8 @@
 
   \only<article>{
   \begin{groupactivity}{Moving to a new neighbourhood}
-    Is the randomised-response mechanism for it to be differentially
-    private with respect to the insertion-neighbourhood definition? If
+    Is the randomised-response mechanism differentially
+    private with respect to the membership-neighbourhood definition? If
     not, is it possible to modify it in order to satisfy that privacy
     definition?  \emph{Hint: The mechanism must be able to hide the
       participation of a single individual in the database.}
@@ -1034,7 +1054,7 @@
     \end{definition}
     Let us see how the Hamming distance relates to the two
     neighbourhoods we defined. In particular, $\|\bx - \bx'\|_1 = 1$
-    if and only if $\bx N \bx'$.  To see this, notice that if $\bx'$
+    if and only if $\bx \neigh \bx'$.  To see this, notice that if $\bx'$
     has one row less than $\bx$, but is otherwise identical, then
     there is exactly one value $j$ for which
     $n_j(\bx) = n_j(\bx') + 1$, with $n_j(\bx) = n_j(\bx')$ otherwise.
@@ -1828,7 +1848,7 @@ tightly with advanced composition theorems.
     $(\epsilon,\delta)$ differentially private if
     \begin{equation}
       \label{eq:epsilon-delta-dp}
-      \pol(A \mid x) \leq \pol(A \mid x') \epsilon + \delta, \qquad \forall x N x', \quad A \subset \CA.
+      \pol(A \mid x) \leq \pol(A \mid x') \epsilon + \delta, \qquad \forall x \neigh x', \quad A \subset \CA.
     \end{equation}
   \end{definition}
   One simple interpretation of this definition is that the mechanism is
