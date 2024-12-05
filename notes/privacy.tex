@@ -832,10 +832,12 @@
     \only<article>{
     \end{theoryblock}
   }
-  \only<article>{ This form is related to standard notions of
+  \only<article>{
+    The notion of differential privacy was introduced by~\citet{dwork2006calibrating}, where the authors specifically related the ability of an adversary to distinguish dataset $x, x'$ to how similar the distributions of outputs would be in each case. 
+    I chose this form of the definition, because it is related to standard notions of
     statistical distance such as the KL divergence
     $\sum_a \ln \frac{\pol(a \mid x)}{\pol(a \mid x')} \pol(a \mid
-    x)$.  However, the above inequality can be equivalently rewritten as
+    x)$ and the total variation $\max_A |\pol(A \mid x) - \pol(A \mid x')|$.  However, the above inequality is more commonly written as
     \[
       \pol(A \mid x) \leq e^\epsilon \pol(A \mid x'). 
     \]
