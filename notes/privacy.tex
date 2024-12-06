@@ -639,15 +639,28 @@
     below, we will formalise this notion.
 
     \begin{example}
-      To better develop your intuition, assume that we have a deterministic algorithm
-      $f : \CX \to \CA$, and that there is a finite set $\CA$ of
-      possible outputs $a$. Then each database $x$ maps to one of
-      those possible outputs, and so we can partition the space $\CX$
-      of datasets into $\CX_1, \ldots, \CX_{|\CA|}$, with $\CX_a$
-      being the set of values of $x$ for which the $f(x) = a$. Then,
-      by observing $a$, you already know with certainty that
-      $x \in \CX_a$. Now assume that the adversary has some prior knowledge that $x \in S \subset \CX$. Combined with the output, his new knowledge is now that $x \in S \cap \CX_a$, so they can definitely narrow down the set of possible datasets. If we allow the adversary to compute other functions $f_1, \ldots, f_2$ on the data, they can eventually discover $x$.}
-  \end{example}
+      To better develop your intuition, assume that we have a
+      deterministic algorithm $f : \CX \to \CA$, and that there is a
+      finite set $\CA$ of possible outputs $a$. Then each database $x$
+      maps to one of those possible outputs, and so we can partition
+      the space $\CX$ of datasets into $\CX_1, \ldots, \CX_{|\CA|}$,
+      with $\CX_a$ being the set of values of $x$ for which the
+      $f(x) = a$. Then, by observing $a$, you already know with
+      certainty that $x \in \CX_a$. Now assume that the adversary has
+      some prior knowledge that $x \in S \subset \CX$. Combined with
+      the output, his new knowledge is now that $x \in S \cap \CX_a$,
+      so they can definitely narrow down the set of possible
+      datasets. If we allow the adversary to compute other functions
+      $f_1, \ldots, f_K$ on the data, they can eventually discover
+      $x$. This is because, at every step $k$, they compute a
+      different function $f_k$ with answer $a_k$, which further limits
+      the set of possible values of $x$ to
+      $S \cap \CX_{a_1} \cap \CX_{a_2} \cap \cdots \cap
+      \CX_{a_k}$. This set can eventually shrink to a single point if
+      the adversary is allowed to compute arbitrary functions on the
+      data.
+    \end{example}
+    }
 \end{frame}
 
 \begin{frame}
@@ -656,13 +669,13 @@
     Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation on the data and publishes the result through a randomised algorithm $\pol$, where for any output $a$, and any dataset $x$, $\pol(a | x)$ is the probability that the algorithm generates $a$.
     The following properties are desirable from a general standpoint.
 
-    \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database.
+    \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database. So, if you do participate in the database, this cannot be easily detected.
 
-    \paragraph{Secrecy.} The data of individuals is not revealed. The release does not significantly increase the probability of inferring individual's information $x_i$.
+    \paragraph{Secrecy.} The data of individuals is not revealed. The release does not significantly increase the probability of inferring individual's information $x_i$. So, if you do participate in the database, it is not an easier to retrieve personal information compared to not participating.
 
-    \paragraph{Side-information.} Even if an adversary has arbitrary side-information, he cannot use that to amplify the amount of knowledge he would have obtained from the release.
+    \paragraph{Side-information.} Even if an adversary has arbitrary side-information, he cannot use that to amplify the amount of knowledge he would have obtained from the release. In other words, your participation to the database can only slightly increase the adversary's knowledge about you, irrespective of what other information they have.
 
-    \paragraph{Utility.} The released result has, with high probability, only a small error relative to a calculation that does not attempt to safeguard privacy.
+    \paragraph{Utility.} The released result has, with high probability, only a small error relative to a calculation that does not attempt to safeguard privacy. Consequently, there is an incentive to participate in the computation as long as its results are useful to you.
   }
   \only<presentation>{
     We wish to calculate something on some private data and publish a \alert{privacy-preserving}, but \alert{useful}, version of the result.
@@ -675,6 +688,10 @@
   }
 \end{frame}
 
+\subsection{The randomised response mechanism}
+\only<article>{
+  In this section, we will explain one of the simplest possible privacy-preserving mechanisms. This is a mechanism where the data of the individuals are randomised \emph{before} they are sent to the analyst. Thus, the analyst does not know if the data they have from any one individual corresponds to the truth or not. This type of mechanism is called \emph{local}, because the privacy algorithm is applied locally at the user level. The user does not have to trust anybody. Indeed, the simplest variant of this algorithm is so simple that every participant can implement it using just a coin. We will illustrate this mechanism with an example, where we wish to measure the amount of illicit drug use in sport, but any other example where we want to calculate the expected value of a binary random variable will do.
+}
 \begin{frame}
   \begin{exampleblock}{The prevalence of drugs in sport}
     
@@ -730,11 +747,13 @@
       \end{proof}
     }
   }
-  \only<article>{The problem with this approach, of course, is that we are effectively throwing away half of our data sources. In particular, if we repeated the experiment with a coin that came heads at a rate $\epsilon$, then our error bounds would scale as $O(1/\sqrt{\epsilon n})$ for $n$ data points.}
+  \only<article>{The problem with this approach, of course, is that half of the people will just give a random response. Thus, we are effectively throwing away half of our data sources. In particular, if we repeated the experiment with a coin that came heads at a rate $\epsilon$, then our error bounds would scale as $O(1/\sqrt{\epsilon n})$ for $n$ data points.}
 \end{frame}
 
 \begin{frame}
-  \only<article>{This algorithm is very specific: it assumes binary responses, and it uses a fair coin, which introduces a lot of noise.  Since the coin flips make the responses noisy, we may want to have some way of controlling it. In general, we want to consider an algorithm that takes data $x_1, \ldots, x_n$ from $n$ users transforms it randomly to $a_1, \ldots, a_n$ using the following mapping.}
+  \only<article>{Another drawback of this algorithm is that it is very specific: it assumes binary responses, and it uses a fair coin, which introduces a lot of noise.  Since the coin flips make the responses noisy, we may want to have some way of controlling it. In fact, the above mechanism can be seen slightly differently. With probability $75\%$, the mechanism outputs the true value, i.e. $a_i = x_i$. With probability $25\%$, it outputs the opposite value, i.e. $a_i = 1 - x_i$. 
+
+    In general, we want to consider an algorithm that takes data $x_1, \ldots, x_n$ from $n$ users transforms it randomly to $a_1, \ldots, a_n$ using the following mapping, with a fixed probability of flipping the data of the $i$-th individual.}
   \begin{block}{The binary randomised response mechanism}
     \begin{definition}[Randomised response]
       The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
@@ -743,18 +762,24 @@
       \]
       where $j \neq k$.
     \end{definition}
-  \end{block}
   \uncover<2->{Given the complete data $x$, the algorithm's output is $a = (a_1, \ldots, a_n)$.}
   \uncover<3->{Since the algorithm independently calculates a new value for each data entry, the output probability is
     \[
       \pol(a \mid x) = \prod_i \pol(a_i \mid x_i)
     \]
-  } \only<article>{This mechanism satisfies the formal notion of
-    $\epsilon$-differential privacy, which will be given in
-    Definition~\ref{def:epsilon-dp}. In a more general setting, we may
-    have multiple possible responses. While the algorithm can be
-    trivially generalised to $n$-ary outputs, the special case of when
-    the outputs are integers is deferred until later.}
+  }
+  \end{block}
+
+
+  \only<article>{The randomised response mechanism satisfies the
+    formal notion of $\epsilon$-differential privacy, which will be
+    given later in Definition~\ref{def:epsilon-dp}. In a more general
+    setting, we may have multiple possible responses, each one
+    corresponding to a different feature of each individual. While the
+    algorithm can be generalised to $n$-ary outputs, the special case
+    of when the outputs are integers is deferred until later.
+
+  }
 \end{frame}
 
 \begin{theoryblock}{The original randomised response mechanism~\cite{werner:1965}}
@@ -764,20 +789,26 @@
 \begin{frame}
   \frametitle{What can we learn from the output?}
 
-  \only<article>{ In the Bayesian setting, we can think of the
-    adversary as having some prior belief $\bel(x_i)$, expressed as a
-    probability distribution over the secret value of each individual.
+  \only<article>{
+    Before we go into the formal privacy definition, it is instructive to see how much an adversary can learn from observing the output of the randomised response mechanism. For simplicity, we can think of the response of a single individual: the arguments easily carry over for the general case.
+    
+    In particular, let us consider the Bayesian setting: we can think
+    of the adversary as having some prior belief $\bel(x_i)$,
+    expressed as a probability distribution over the secret value of
+    each individual.
 
-    After the adversary observes the output, they can form
-    a posterior belief $\bel(x_i \mid a_i)$, representing the
-    information they collected. The following example quantifies the
-    amount of information gained by the adversary.
-  }
+    After the adversary observes the output $a_i$ corresponding to
+    individual $i$, and assuming they know the algorithm that
+    generated the output was the randomised response mechanism with
+    parameter $p$, they can form a posterior belief
+    $\bel(x_i \mid a_i)$, representing the information they
+    collected. The following example quantifies the amount of
+    information gained by the adversary.  }
   \begin{example}
     \only<article>{
       For simplicity, consider only one individual, and let the
       adversary have a prior $\bel(x = 0) = 1 - \bel(x = 1)$ over the
-      values of the true response of an individual. We use the
+      values of the true value of an individual. We use the
       randomised response mechanism with parameter $p$ and the
       adversary observes the randomised data $a = 1$ for that
       individual, then what is $\Pr^\pol_\bel(x = 1 \mid a = 1)$, assuming the
@@ -788,21 +819,27 @@
         \bel(x = 1 \mid a = 1 )
       \]
     }
-  
-  \end{example}
-  \begin{proof}
     Bayes's theorem states that\footnote{If there are too many symbols for you, you can write Bayes theorem simply with $P(x | a) = P(a | x) P(x) / P(a)$.}
     \[
       \Pr^\pol_\bel(x \mid a) = \pol(a \mid x) \bel(x) / \Pr^\pol_\bel(a),
     \]
     where
     \[
-      \Pr^\pol_\bel(a) = \sum_{x'} \pol(a \mid x') \bel(x').
+      \Pr^\pol_\bel(a) = \sum_{x'} \pol(a \mid x') \bel(x'),
     \]
-    Let $q = \bel(x = 1)$. Then we have:
+    is the marginal distribution over answers $a$ given the prior and the mechanism.
+    Define $q = \bel(x = 1)$ to save on notation. Then we can write the above as:
     \[
       \Pr^\pol_\bel(x = 1 \mid a = 1) = pq / [pq + (1-p)(1 - q)].
     \]
+    Let us plot this function
+    \begin{figure}
+    \begin{tikzpicture}[scale=4, domain=0:1]
+      \draw[color=blue]   plot (\x, {\x*0.1 / (\x*0.1 + (1 - \x)*0.9)});
+      \draw[color=magenta]   plot (\x, {\x*0.5 / (\x*0.5 + (1 - \x)*0.5)});
+      \draw[color=red]   plot (\x, {\x*0.9 / (\x*0.9 + (1 - \x)*0.1)});
+    \end{tikzpicture}
+    \end{figure}
     It is particularly interesting to consider the case where $q = 1/2$. Then
     \[
       \Pr^\pol_\bel(x = 1 \mid a = 1) = p,
@@ -812,7 +849,7 @@
       \bel(x = 1 \mid a = 1) = q = \bel(x=1).
     \]
     So, in this scenario we learn nothing from the algorithm's output.
-  \end{proof}
+  \end{example}
 \end{frame}
 
 
