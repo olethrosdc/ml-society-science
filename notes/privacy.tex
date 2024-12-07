@@ -830,15 +830,22 @@
     is the marginal distribution over answers $a$ given the prior and the mechanism.
     Define $q = \bel(x = 1)$ to save on notation. Then we can write the above as:
     \[
-      \Pr^\pol_\bel(x = 1 \mid a = 1) = pq / [pq + (1-p)(1 - q)].
+      \Pr^\pol_\bel(x = 1 \mid a = 1) =
+      \frac{\pol(a = 1 | x = 1) q}
+      {\pol(a = 1 | x = 1) q + \pol(a = 1 | x = 1) (1 - q)}
+      \frac{(1 - p) q}{(1 - p)q + p(1 - q)}.
     \]
-    Let us plot this function
-    \begin{figure}
-    \begin{tikzpicture}[scale=4, domain=0:1]
-      \draw[color=blue]   plot (\x, {\x*0.1 / (\x*0.1 + (1 - \x)*0.9)});
-      \draw[color=magenta]   plot (\x, {\x*0.5 / (\x*0.5 + (1 - \x)*0.5)});
-      \draw[color=red]   plot (\x, {\x*0.9 / (\x*0.9 + (1 - \x)*0.1)});
-    \end{tikzpicture}
+    Let us plot this function below.
+    \begin{figure}[h]
+      \centering
+      \begin{tikzpicture}[scale=8, domain=0:0.5]
+        \draw[->] (0,0)--(0.5,0) node[right]{$p$};
+        \draw[->] (0,0)--(0,1) node[right]{$\bel(x = 1 | a = 1)$};
+        \draw[color=blue]   plot (\x, {(1 - \x)*0.1 / ((1 - \x)*0.1 +  \x*0.9)});
+        \draw[color=red]   plot (\x, {(1 - \x)*0.9 / ((1 - \x)*0.9 +  \x*0.1)});
+        \draw[color=green]   plot (\x, {(1 - \x)*0.5 / ((1 - \x)*0.5 +  \x*0.5)});
+      \end{tikzpicture}
+      \caption{The posterior belief that the data of an individual is $x= 1$ if $a = 1$ has been observed, as we vary the flipping probability $p$. for three different values of the prior probability $q = \bel(x = 1)$. In all case, if the flipping probability is 0, then we are perfectly sure that $x=1$. As $p$ approaches $1/2$, our posterior approaches the prior, since for $p$ closer to $1/2$ the evidence is weaker.}
     \end{figure}
     It is particularly interesting to consider the case where $q = 1/2$. Then
     \[
