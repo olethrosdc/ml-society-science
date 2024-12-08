@@ -1421,7 +1421,10 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
 \end{frame}
 
 
-
+\only<article>{
+  Now that we have seen the rudiments of differential privacy, and how local and central differential privacy operate, it is time to introduce another mechanism, the Laplace mechanism. This mechanism can be applied at either the local level, to add noise to individual responses, or at the central level, to add noise to a function we wish to compute. In any case, the noise must be appropriately tuned to ensure the correct level of privacy.
+  
+  }
 
 
 \section{The Laplace mechanism}
@@ -1456,17 +1459,23 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \end{definition}
 \end{frame}
 
+  \only<article>{In the centralised privacy model, the non-private calculation directly outputs $y = f(x)$. We can approximate this with a DP calculation with distribution $\pol(a \mid x)$. The Laplace mechanism does so by first calculating $y = f(x)$ and then generating $\pol(a \mid y)$ so that $\E_\pol[a \mid x] = f(x)$.}
+
+
+  \only<article>{Let us now talk about how the Laplace mechanism that can be used both in the centralised and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$. In particular, we will go through an example where we apply Laplace noise to real-valued data.}
+
+
 \begin{frame}
   \begin{exampleblock}{The Laplace mechanism for averages}
-    \only<article>{Here we have $n$ individuals for which we wish to calculate the average salary.}
+    \only<article>{Here we have $n$ individuals for which we wish to calculate the average salary. The salary of each individual is a positive integer, but it we can consider them to be a real number for simplicity.}
     \begin{itemize}
-    \item The $i$-th person receives salary $x_i$
-    \item We wish to calculate the average salary in a private manner.
+    \item The $i$-th person receives salary $x_i$.
+    \item We wish to calculate the average salary $\sum_{i=1}^n x_i / n$ in a private manner. \only<article>{That is, we want the calculation to be differentially private.}
     \end{itemize}
-    \only<article>{We can do this in two ways. By using a DP mechanism on each individual salary and then calculating the average, or by first calculating the average and then applying a DP mechanism to the result. In particular, we can add try adding Laplace noise in both cases.}
+    \only<article>{We can do this in two ways. By using a DP mechanism on each individual salary and then calculating the average, or by first calculating the average and then applying a DP mechanism to the result. In particular, we can add try adding Laplace noise to either each person's salary (local model) or to the final average salary (central model).}
 
     \textbf{The local model.}
-    \only<article>{In this case, $\pol(a \mid x)$ is obtained by independent Laplace noise $\omega_i$ for each individual:}
+    \only<article>{In this case, $\pol(a \mid x)$ is obtained by independent Laplace noise $\omega_i$ for each individual. This gives us an intermediate calculation, $y_i$, which is then averaged to obtained the output.}
     \begin{itemize}
     \item Obtain $y_i = x_i + \omega_i$, where $\omega_i \sim \Laplace(\lambda)$.
     \item Return $a = n^{-1} \sum_{i=1}^n y_i$.
@@ -1478,7 +1487,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \item Calcualte $y = n^{-1} \sum_{i=1}^n x_i$.
     \item Return $a = y + \omega$, where $\omega \sim \Laplace(\lambda')$.
     \end{itemize}
-    \only<article>{We must tune $\lambda, \lambda'$ appropriately in to obtain the needed $\epsilon$-DP guarantee.}
+    \only<article>{We must tune $\lambda, \lambda'$ appropriately in to obtain the needed $\epsilon$-DP guarantee. This will be detailed in the next section.}
   \end{exampleblock}
 
 
@@ -1502,22 +1511,20 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \caption{Laplace mechanism}
   \end{figure}
   
-  \only<article>{In the centralised privacy model, the non-private calculation directly outputs $y = f(x)$. We can approximate this with a DP calculation with distribution $\pol(a \mid x)$. The Laplace mechanism does so by first calculating $y = f(x)$ and then generating $\pol(a \mid y)$ so that $\E_\pol[a \mid x] = f(x)$.}
 
-
-  \only<article>{Let us now talk about how the Laplace mechanism that can be used both in the centralised and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$.}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{DP properties of the Laplace mechanism}
-  \only<article>{To use the Laplace mechanism in the centralised setting, we must relate it to a specific function $f$ that we wish to compute. In particular, the mecnahism works by adding noise to the output of the function $f$ in a carefully calibrated manner so that we achieve exactly $\epsilon$-differential privacy. }
+  \only<article>{To use the Laplace mechanism, either in the local or in the centralised setting, we must relate it to a specific function $f$ that we wish to compute. In particular, the mecnahism works by adding noise to the output of the function $f$ in a carefully calibrated manner so that we achieve exactly $\epsilon$-differential privacy. This is because, if the function's output changes a lot when we change a datapoint, it is easier to detect the change unless we add proportionally more noise. Below we will make this setting more precise.}
   \begin{definition}[Sensitivity]
     The sensitivity of a function $f : \CX \to \Reals^n$ is
     \[
-      \sensitivity{f} \defn \sup_{x N x'} \|f(x) - f(x')\|_1
+      \sensitivity{f} \defn \sup_{x \neigh x'} \|f(x) - f(x')\|_1
     \]
     \only<article>{
-      If we define a metric $d$, so that $d(x, x') = 1$ for $x N x'$, then:
+      If we define a metric $d$, so that $d(x, x') = 1$ for $x \neigh x'$, and $d(x,x) = 0$ then:
       \[
         \|f(x) - f(x')\|_1 \leq \sensitivity{f} d(x, x'),
       \]
@@ -1525,15 +1532,20 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     }
   \end{definition}
   \only<article>{
-    In the above, we have defined sensitivity with respect to the $L_1$ norm. While alternative definitions are possible, this is the one that is the most convenient with respect to protecting individual privacy. This is because it captures the total change in all the components $f_i$ of the function $f$. Below are two examples. In the first one, the function is simply clamping the input onto the interval $[0,B]$. Hence its sensitivity is at most $B$.
+    In the above, we have defined sensitivity with respect to the $L_1$ norm. While alternative definitions are possible, this is the one that is the most convenient with respect to protecting individual privacy. This is because it captures the total change in all the components $f_i$ of the function $f$.
+
+    Below are two examples. In the first one, the function only has a single one-dimensional input, and it is simply clamping the input onto the interval $[0,B]$. Hence its sensitivity is at most $B$.
     }
   \begin{example}
     If $f: \CX \to [0, B]$, e.g. $\CX = \Reals$ and $f(x) = \min\{B, \max\{0, x\}\}$, then
     \onslide<2->{
       $\sensitivity{f} = B$.
     }
+    \only<article>{
+      To prove this, we only need the fact that $f$ has a bounded range. Then for any $x, x'$ we know that $f(x) \leq B$ and $f(x') \geq 0$. Hence $f(x) - f(x') \leq B$. By symmetry, $|f(x) - f(x')| \leq B$. Hence the sensitivity is $B$.
+    }
   \end{example}
-  \only<article>{The section example simply takes the average of a number of points, bounded in the interval $[0,B]$. This makes its sensitivity bounded inversely proportionally to the number of points.}
+  \only<article>{The next example simply takes the average of a number of points, each one bounded in the interval $[0,B]$. This makes its sensitivity bounded inversely proportionally to the number of points. This is because any single point can change the output of the function by at most $B/n$.}
   \onslide<3->{
     \begin{example}
       If $f: [0,B]^n \to [0,B]$ is
@@ -1545,17 +1557,32 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \end{example}
     \only<article>{
       \begin{proof}
-        Consider two neighbouring datasets $x, x'$ differing in example $j$. Then
+        The proof is simple, but instructive. We first give the proof
+        for the edit neighbourhood.  Consider two neighbouring
+        datasets $x, x'$ differing in example $j$. Then
         \[
           f(x) - f(x')
+          = \frac{1}{n}\sum_{i=1}^n f(x_i) - f(x'_i)
           = \frac{1}{n}\left[f(x_j) - f(x'_j)\right]
-          \leq \frac{1}{n}\left[B - 0\right]
+          \leq \frac{1}{n}\left[B - 0\right].
         \]
+        Now consider the case where $x'$ has one more data point than $x$. Then
+        \[
+          f(x) - f(x')
+          = \left[
+            \frac{1}{n} - \frac{1}{n+1}
+          \right] \sum_{i=1}^n f(x_i)
+          - \frac{1}{n+1} f(x_{n+1})
+          =  \frac{1}{n(n+1)}
+          \sum_{i=1}^n f(x_i)
+          - \frac{1}{n+1} f(x_{n+1}).
+        \]
+        Both terms are bounded by $B / (n+1)$. Conversely, if we consider the neighbour $x'$ where one point is missing, the term is $B/n$. 
       \end{proof}
     }
   }
   \begin{alertblock}{Sensitivity versus local sensitivity.}
-    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': xNx'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function.
+    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function.
   \end{alertblock}
 \end{frame}
 
