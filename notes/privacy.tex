@@ -1057,10 +1057,10 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
 
 \begin{frame}
   \frametitle{The privacy of randomised response.}
-  \only<article>{ As we hinted earlier, the randomised response
+  \only<article>{ As we hinted at earlier, the randomised response
     mechanism satisfies $\epsilon$-DP.  The $\epsilon$ parameter is
-    dependent on $p$, with higher values giving a smaller $\epsilon$,
-    and thus better privacy protection.}
+    dependent on $p$, with values closer to $1/2$ giving a smaller $\epsilon$,
+    and thus better privacy protection. This is because when $p = 1/2$, the responses are completely random, and when $p = 0$, the responses are always equal to the data. }
   \begin{remark}
     The randomised response mechanism with $p \leq 1/2$ is
     $(\ln \frac{1 - p}{p})$-DP with respect to the edit neighbourhood
@@ -1073,9 +1073,11 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \uncover<2->{&= \prod_i \pol(a_i \mid x_i)}
                      \uncover<3->{\\ &= \pol(a_j \mid x_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
                                        \uncover<4->{\\ &\leq \frac{1-p}{p} \pol(a_j \mid x'_j) \prod_{i \neq j} \pol(a_i \mid x_i) }
-                                                         \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}
+                                                         \uncover<5>{\\ &= \frac{1-p}{p} \pol(a \mid x')}.
     \end{align*}
-    \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio is $\max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
+    \only<article>{where the first equality comes from the independence of responses in the definition of $\pol(a \mid x)$. The second equality is simply a re-arrangement. For the inequality, note that    $\pol(a_j \mid x_j)$ has two possible values, depending on whether or not $a_j = k$ or $a_j \neq k$ when $x_j = k$. For the case $\pol(a_j \neq k \mid x_j = k) = p$, we have necessarily that $x'_j \neq k$, because $x_j \neq x'_j$, so $\pol(a_j \neq k \mid x'_j \neq k) = 1 - p$. Similarly, we have}
+    \only<4>{$\pol(a_j = k\mid x_j = k) = 1 - p$ so the ratio $\pol(a_j \mid x'_j) / \pol(a_j \mid x'_j) \leq \max\{(1-p)/p, p/(1 - p)\} \leq (1 - p)/p$ for $p \leq 1/2$.}
+    \only<article>{The last equality comes simply from the independence of responses in the definition of $\pol(a \mid x')$.}
   \end{proof}
 
   \only<article>{
@@ -1145,7 +1147,9 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   calculations on the data. Is it possible to compute things privately
   using the original data, but so that the result of the computation
   does not leak any information? Clearly this should depend somehow on
-  the computation you wish to perform.
+  the computation you wish to perform. And secondly, and most
+  importantly, can we obtain the same privacy guarantee but with
+  better utility?
 
   For concreteness, let us assume that you have defined a function
   $f : \CX \to \CY$, which you wish to compute on arbitrary data
@@ -1197,14 +1201,17 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       the output $a$, so that $\ba \approx f(\bx)$.}
   \end{block}
   \only<article>{ The main advantage of the centralised model is that
-    approximating $f$ with a differentially-private version can be much
-    more accurate than simply using the original function with noisy
-    data. However, obtaining such an approximation is not always easy.
+    approximating $f$ with a differentially-private version can be
+    much more accurate than simply using the original function with
+    noisy data. We have already seen this in the binary randomised
+    response mechanism, where the ratio of positive responses in the
+    noisy data is always at least $p$, even if the true positive ratio
+    is zero. However, obtaining a differentially private approximation
+    of an arbitrary function is not always easy.
 
     The dependency diagrams in Figures~\ref{fig:privacy-diagrams} shows
     how the output depends on the individual data, the non-private and
-    private algorithm. 
-
+    private algorithm. In the first case, everybody has access to $x, y, f$. In the second case, only the local mechanism has access to $x$, but $a, \pi, f, y$ are public. In the third case, the analyst has access to $x$, and $\pi_f, a$ are public.
   }
   
   \begin{figure}[H]
@@ -1227,9 +1234,9 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \begin{subfigure}{0.3\textwidth}
       \centering
       \begin{tikzpicture}
-        \node[RV] at (0,0) (x1) {$x_1$};
-        \node[RV] at (0,1) (x2) {$x_2$};
-        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[hidden, RV] at (0,0) (x1) {$x_1$};
+        \node[hidden, RV] at (0,1) (x2) {$x_2$};
+        \node[hidden, RV] at (0,2) (xn) {$x_n$};
         \node[RV] at (2,0) (a1) {$a_1$};
         \node[RV] at (2,1) (a2) {$a_2$};
         \node[RV] at (2,2) (an) {$a_n$};
@@ -1253,9 +1260,9 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \begin{subfigure}{0.3\textwidth}
       \centering
       \begin{tikzpicture}
-        \node[RV] at (0,0) (x1) {$x_1$};
-        \node[RV] at (0,1) (x2) {$x_2$};
-        \node[RV] at (0,2) (xn) {$x_n$};
+        \node[analyst, RV] at (0,0) (x1) {$x_1$};
+        \node[analyst, RV] at (0,1) (x2) {$x_2$};
+        \node[analyst, RV] at (0,2) (xn) {$x_n$};
         \node[RV] at (2,1) (a) {$a$};
         \node[select] at (1,-1) (pol) {$\pol_f$};
         \draw[->] (x1) -- (a);
@@ -1266,7 +1273,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \caption{Central privacy}
       \label{fig:central-privacy}
     \end{subfigure}
-    \caption{Non-privacy, local privacy, and centralised privacy models. In the first case, the value of $y$ depends directly on the function $f$ to be calculated, as well as the data $x$. In the local privacy model, noise is added to the individual data with a differentially private algorithm $\pol$, and the function is calculated on the output. In the central model, a stochastic version $\pol_f$ of the original function $f$ is calculated on the data.}
+    \caption{Non-privacy, local privacy, and centralised privacy models. In the first case, the value of $y$ depends directly on the function $f$ to be calculated, as well as the data $x$. In the local privacy model, noise is added to the individual data with a differentially private algorithm $\pol$, and the function is calculated on the output. In the central model, a stochastic version $\pol_f$ of the original function $f$ is calculated on the data. The variables that are only privately known, denoted with dashed lines. The variables that are only seen by the analyst, are denoted with dotted lines.}
     \label{fig:privacy-diagrams}
   \end{figure}
 
