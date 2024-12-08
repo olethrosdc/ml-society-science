@@ -1320,6 +1320,9 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \end{itemize}
     \end{block}
   }
+  \only<article>{
+    In general, we may wish to query a database multiple times. Each time we perform a query, and obtain an $\epsilon$-DP response, we lose up to $\epsilon$ privacy. This means that if we do this $T$ times, we lose up to $T \epsilon$ privacy. We can formalise this as follows.
+  }
   \begin{definition}[$T$-fold composition]
     In this privacy model, we compose a mechanism out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$. This composition is fixed ahead of time.
     % The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
@@ -1327,7 +1330,10 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \begin{theorem}
     For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold composition. More generally, if each mechanism is $\epsilon_i$-DP, the composed mechanism is $\sum_{i=1}^T \epsilon_i$-DP.
   \end{theorem}
-
+  \only<article>{On the other hand, if we perform multiple queries, but each query is applied to a completely different part of the data, then the privacy loss does not increase. This can apply to asking about a different subset of the records. This notion is formalised below.}
+  \begin{theorem}[Parallel composition]
+    If we apply a set of $\epsilon$-DP mechanisms $\pi_k$ to disjoint subsets of the data so that $pi_k$ is applied to $D_k$ with $D_j \cap D_k  = \emptyset$ for all $j \neq k$, then the parallel composition is $\epsilon$-DP.
+  \end{theorem}
   \begin{theorem}[Post-processing]
     Let mechanism $\pi(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
   \end{theorem}
@@ -1338,7 +1344,6 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \end{alertblock}
   }
   \only<article>{The composition theorem is a very useful tool, as it allows us to create new mechanisms that are composed of simpler parts. As a first example, we can look at how we can use it to create a randomised response algorithm when the respondents provide multiple attributes.}
-
   \begin{exampleblock}{Randomised response for multiple attributes.}
     \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
     
@@ -1347,6 +1352,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     
     \only<article>{The result follows immediately from the composition theorem. We can see each attribute release as the result of an individual query. More generally, if each attribute $i$ is released with an $\epsilon_i$-DP mechanism, the overall mechanism is $\sum_i \epsilon_i$-DP.}
   \end{exampleblock}
+
 
 \end{frame}
 
@@ -1409,8 +1415,8 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \end{proof}
     }
     \only<article>{
-  \end{exerciseblock}    
-X}
+    \end{exerciseblock}
+  }
   
 \end{frame}
 
