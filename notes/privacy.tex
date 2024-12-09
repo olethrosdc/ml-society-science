@@ -1915,12 +1915,14 @@ O  \]
 \only<article>{
 \begin{theoryblock}{Interactive differential privacy.}
   So far we only defined differential privacy in terms of a fixed
-  mechanism and a fixed sequence of queries. However, in general the mechanism must respond to
-  sequential queries $q_1, \ldots, q_t$, with answers
-  $a_1, \ldots, a_t$. The answer can depend arbitrarily on the
+  mechanism and a fixed sequence of queries. However, in general the
+  mechanism must respond to sequential queries $q_1, \ldots, q_t$,
+  with answers $a_1, \ldots, a_t$, where the query at time $t$ depends
+  on all the previous queries $q_1, \ldots, q_{t-1}$ and answers
+  $a_1, \ldots, a_{t-1}$. In addition, the answer can also depend arbitrarily on the
   sequence of responses and queries. So, privacy must hold no matter
-  what the previous sequence of questions and answers.
-  This gives rise to the following definition.
+  what the previous sequence of questions and answers has been.  This gives
+  rise to the following definition, where the answers are conditioned on the history of interactions and the data.
   
   \begin{definition}[Interactive DP]
     An algorithm $\pol$ satisfies interactive $\{\epsilon_1, \ldots, \epsilon_t\}$ differential privacy with respect to $\neigh$ if
