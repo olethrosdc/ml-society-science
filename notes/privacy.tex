@@ -1109,22 +1109,22 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     distance between two datasets is simply the total difference in
     counts:
     \begin{definition}[Hamming distance between datasets]
-      Consider two datasets, $\bx, \bx'$ with $n$ and $n'$ elements
+      Consider two datasets, $x, x'$ with $n$ and $n'$ elements
       respectively. Then, we define their Hamming distance as:
       \begin{align}
-        \|\bx - \bx'\|_1
+        \|x - x'\|_1
         &= \sum_j |\sum_{i=1}^n \ind{x_i =j} - \sum_{i=1}^{n'} \ind{x_i =j}|
-          = \sum_{j \in \CX}|n_j(\bx) - n_j(\bx')|,
+          = \sum_{j \in \CX}|n_j(x) - n_j(x')|,
       \end{align}
-      where $n_j(\bx)$ is the number of elements in $\bx$ equal to $j$.
+      where $n_j(x)$ is the number of elements in $x$ equal to $j$.
     \end{definition}
     Let us see how the Hamming distance relates to the two
-    neighbourhoods we defined. In particular, $\|\bx - \bx'\|_1 = 1$
-    if and only if $\bx \neigh \bx'$.  To see this, notice that if $\bx'$
-    has one row less than $\bx$, but is otherwise identical, then
+    neighbourhoods we defined. In particular, $\|x - x'\|_1 = 1$
+    if and only if $x \neigh x'$.  To see this, notice that if $x'$
+    has one row less than $x$, but is otherwise identical, then
     there is exactly one value $j$ for which
-    $n_j(\bx) = n_j(\bx') + 1$, with $n_j(\bx) = n_j(\bx')$ otherwise.
-    Consequently, $\|\bx - \bx'\|_1 = 1$. The reverse direction
+    $n_j(x) = n_j(x') + 1$, with $n_j(x) = n_j(x')$ otherwise.
+    Consequently, $\|x - x'\|_1 = 1$. The reverse direction
     follows by contradiction: if the Hamming distance is one, then the
     two databases must differ in at least one element. If they differ
     in more, then their distance has to be larger than one.
@@ -1132,8 +1132,8 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     On the other hand, for the second neighbourhood definition, things
     are slightly different. There, we assume that $x_i \neq x'_i$ for
     one $i$. Without loss of generality, let us say that $x_i = j$ and
-    $x'_i = k$, with $j \neq k$. Then $n_j(\bx) = n_j(\bx') + 1$ and
-    $n_k(\bx') = n_k(\bx) + 1$. Consequently $\|\bx - \bx'\|_1 = 2$.
+    $x'_i = k$, with $j \neq k$. Then $n_j(x) = n_j(x') + 1$ and
+    $n_k(x') = n_k(x) + 1$. Consequently $\|x - x'\|_1 = 2$.
   }
 \end{frame}
 
@@ -1170,12 +1170,16 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \end{itemize}
     }
     \only<article>{Given a function $f : \CX \to \CY$, and a set of
-      individual data $\bx = (x_i)_{i=1}^n$, use a differentially
-      private algorithm $\pol(\ba | \bx)$ to generate $\ba \in
+      individual data $x = (x_i)_{i=1}^n$, use a differentially
+      private algorithm $\pol : \CX \to \Simplex(\CX)$, defining the conditional distribution $\pol(\ba | x)$, to generate $\ba \in
       \CX$. Then output $f(\ba)$.}
   \end{block}
 
-  \only<article>{ The advantage of the local model is that the
+  \only<article>{ The composition of $f$ and $\pol$ is differentially
+    private, because $\pol$ is differentially private, and $f$ is
+    post-processing.
+    
+    The advantage of the local model is that the
     calculation $f$ does not need to be modified. The individuals do
     not have to trust anybody, as they can modify their data
     locally. However, they must take care that the DP calculation is
@@ -1192,15 +1196,16 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \begin{block}{The central privacy model.}
     \only<presentation>{
       \begin{itemize}
-      \item A \alert{trusted analyst} obtains $\bx$.
-      \item She designs a DP policy $\pol(\ba \mid \bx)$ so that $\ba \approx f(\bx)$.
+      \item A \alert{trusted analyst} obtains $x$.
+      \item She designs a DP policy $\pol(\ba \mid x)$ so that $\ba \approx f(x)$.
       \end{itemize}
     }
-    \only<article>{A trusted curator obtains the data $\bx$ of all
-      individuals and selects a DP policy $\pol(\ba \mid \bx)$ to generate
-      the output $a$, so that $\ba \approx f(\bx)$.}
+    \only<article>{Given a function $f : \CX \to \CY$, a trusted curator obtains the data $x$ of all individuals and selects a DP algorithm $\pol : \CX \to \Simplex(\CY)$, defining the conditional distribution  $\pol(\ba \mid x)$, to generate  the output $\ba$, so that $\ba \approx f(x)$.}
   \end{block}
-  \only<article>{ The main advantage of the centralised model is that
+  \only<article>{
+    In the above definition we do not say anything about how $\ba$ approximates $f(x)$. Ideally, we would like it to be unbiased, i.e. so that $\E_\pi[\ba \mid x] = f(x)$. The accuracy can for example be measured with respect to the variance of $\ba - f(x)$.
+
+    The main advantage of the centralised model is that
     approximating $f$ with a differentially-private version can be
     much more accurate than simply using the original function with
     noisy data. We have already seen this in the binary randomised
@@ -1345,7 +1350,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   }
   \only<article>{The composition theorem is a very useful tool, as it allows us to create new mechanisms that are composed of simpler parts. As a first example, we can look at how we can use it to create a randomised response algorithm when the respondents provide multiple attributes.}
   \begin{exampleblock}{Randomised response for multiple attributes.}
-    \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $\bx_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
+    \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $x_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
     
     For $n$ users and $k$ attributes, if the release of each attribute $i$ is $\epsilon$-DP then 
     the data release is $k \epsilon$-DP. Thus to get $\epsilon$-DP overall,  we need $\epsilon / k$-DP per attribute.
@@ -1362,56 +1367,56 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \only<article>{
     \begin{exerciseblock}{Differential privacy from a Bayesian viewpoint.}
     }
-     \only<article>{Bayesian inference offers a simple way to explain the meaning of differential privaacy. Intuitively, using the Bayesian formalism, we can show that, no matter what prior knowledge the adversary has, they cannot infer a lot from the private release. We are specifically interested in adversary knowledge about the dataset, before and after the mechanism's release. In particular, assume that the adversary knows that the data is either $\bx$ or $\bx'$. For concreteness, assume the data is either }
+     \only<article>{Bayesian inference offers a simple way to explain the meaning of differential privaacy. Intuitively, using the Bayesian formalism, we can show that, no matter what prior knowledge the adversary has, they cannot infer a lot from the private release. We are specifically interested in adversary knowledge about the dataset, before and after the mechanism's release. In particular, assume that the adversary knows that the data is either $x$ or $x'$. For concreteness, assume the data is either }
     \[
-      \bx = (x_1, \ldots, x_j = 0, \ldots,  x_n)
+      x = (x_1, \ldots, x_j = 0, \ldots,  x_n)
     \]
     \only<article>{where $x_i$ is the data of person $i$, or the alternative dataset:}
     \[
-      \bx' = (x_1, \ldots, x'_j=1, \ldots, x_n).
+      x' = (x_1, \ldots, x'_j=1, \ldots, x_n).
     \]
     \only<article>{In other words, the adversary knows the data of all people apart from one, the $j$-th person. They only need to dinstiguish one possible value from another. Without loss of generality, we can model the adversary as having some arbitrary prior belief}
     \[
-      \bel(\bx) = 1 - \bel(\bx')
+      \bel(x) = 1 - \bel(x')
     \]
     \only<article>{for the two cases. Assume the adversary knows
       the output $a$ of a mechanism $\pol$.}
     \only<presentation>{
       \onslide<2->{
         \[
-          a_t, \qquad \pol(a_t \mid \bx_t) \Rightarrow
+          a_t, \qquad \pol(a_t \mid x_t) \Rightarrow
           \begin{cases}
-            \pol(a_t \mid \bx_t = \bx)\\
-            \pol(a_t \mid \bx_t = \bx')
+            \pol(a_t \mid x_t = x)\\
+            \pol(a_t \mid x_t = x')
           \end{cases}
         \]
       }
     }
-    What can we say about the posterior distribution of the adversary $\bel(\bx \mid a, \pol)$ after having seen the output, if $\pol$ is $\epsilon$-DP? How does it depend on $\epsilon$?
+    What can we say about the posterior distribution of the adversary $\bel(x \mid a, \pol)$ after having seen the output, if $\pol$ is $\epsilon$-DP? How does it depend on $\epsilon$?
     
     \only<article>{
       \begin{proof}[Solution]
         We can write the adversary posterior as follows.
         \begin{align}
-          \Pr^\pol_\bel(\bx \mid a)
+          \Pr^\pol_\bel(x \mid a)
           &=
-            \frac{\pol(a  \mid \bx) \bel(\bx)}
-            {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx') \bel(\bx')}
+            \frac{\pol(a  \mid x) \bel(x)}
+            {\pol(a  \mid x) \bel(x) + \pol(a  \mid x') \bel(x')}
           \\
           &\geq
-            \frac{\pol(a  \mid \bx) \bel(\bx)}
-            {\pol(a  \mid \bx) \bel(\bx) + \pol(a  \mid \bx) e^\epsilon \bel(\bx')} \tag{from DP definition}
+            \frac{\pol(a  \mid x) \bel(x)}
+            {\pol(a  \mid x) \bel(x) + \pol(a  \mid x) e^\epsilon \bel(x')} \tag{from DP definition}
           \\
           &=
-            \frac{\bel(\bx)}
-            {\bel(\bx) +  e^\epsilon \bel(\bx')}.
+            \frac{\bel(x)}
+            {\bel(x) +  e^\epsilon \bel(x')}.
         \end{align}
-        Note that $\pol(a \mid \bx) \leq e^\epsilon \pol(a \mid \bx')$ and conversely $\pol(a \mid \bx') \leq e^\epsilon \pol(a \mid \bx)$.
+        Note that $\pol(a \mid x) \leq e^\epsilon \pol(a \mid x')$ and conversely $\pol(a \mid x') \leq e^\epsilon \pol(a \mid x)$.
         We can also then bound the quantity from above:
         \[
-          \Pr^\pol_\bel(\bx \mid a) \leq  \frac{\bel(\bx)} {\bel(\bx) +  e^{-\epsilon} \bel(\bx')}.
+          \Pr^\pol_\bel(x \mid a) \leq  \frac{\bel(x)} {\bel(x) +  e^{-\epsilon} \bel(x')}.
         \]
-        Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(\bx \mid a) = \beta(\bx)$, hence the information gained by the adversary is bounded by the prior and the information loss $\epsilon$.
+        Consequently, $\lim_{\epsilon \to 0} \Pr^\pol_\bel(x \mid a) = \beta(x)$, hence the information gained by the adversary is bounded by the prior and the information loss $\epsilon$.
       \end{proof}
     }
     \only<article>{
@@ -1976,10 +1981,10 @@ tightly with advanced composition theorems.
 
   \begin{theoryblock}{Generalising differential privacy.}
     The careful reader will have noticed that differential privacy is essentially a bound on the distributional distance of mechanism outputs for similar inputs.
-    Let us define $\pol_{\bx}(A)$ to be the probability measure $\pol(A \mid \bx)$ induced by a mechanism $\pol$ conditioned on $\bx$. 
+    Let us define $\pol_{x}(A)$ to be the probability measure $\pol(A \mid x)$ induced by a mechanism $\pol$ conditioned on $x$. 
     Then, $\pol$ is $\epsilon$-DP in terms of the infinity divergence:
     \[
-      D_\infty(\pol_{\bx} \| \pol_{\bx'}) \leq \epsilon, \qquad \forall \bx \neigh \bx',
+      D_\infty(\pol_{x} \| \pol_{x'}) \leq \epsilon, \qquad \forall x \neigh x',
     \]
     where the infinity divergence is defined as:
     \[
@@ -2003,7 +2008,7 @@ tightly with advanced composition theorems.
     which for finite $\Omega$ is just $\sum_{\omega \in \Omega} [P(A) - \alpha Q(A)]_+$.
 Then a mechanism $\pol$ is $(\epsilon, \delta)$-DP iff
     \begin{equation}
-      \hock{e^\epsilon}{\pol_\bx}{\pol_{\bx'}}\leq \delta.
+      \hock{e^\epsilon}{\pol_x}{\pol_{x'}}\leq \delta.
       \label{eq:divergence-DP}
     \end{equation}
     We can use any other divergence between distributions, such as a Renyi divergence, as long as it becomes unbounded for distributions with unequal support.  This has led to a proliferation of DP variants including approximate-DP, Renyi-DP and $z$-DP. In the sequel, we will use these definitions to more finely characterise the privacy guarantees of different mechanisms.
@@ -2016,29 +2021,29 @@ Then a mechanism $\pol$ is $(\epsilon, \delta)$-DP iff
 Another way of viewing differential privacy is as a simple game
 between an adversary interacting with an honest data analyst. At time
 $t$, the adversary chooses two arbitrary neighbouring databases
-$\bx, \bx'$. The analyst randomly chooses between $\bx_t$ to be one of
-the two databases. It then generates $a_t \sim \pol(a \mid \bx_t)$,
+$x, x'$. The analyst randomly chooses between $x_t$ to be one of
+the two databases. It then generates $a_t \sim \pol(a \mid x_t)$,
 and shows it to the adversary. The adversary must now decide if
-$\bx_t = \bx$ or $\bx_t = \bx'$, i.e. which dataset was used by the
+$x_t = x$ or $x_t = x'$, i.e. which dataset was used by the
 analyst. More precisely, the adversary must choose between hypothesis
-0 $(\bx_t = \bx)$ and hypothesis 1, $(\bx_t = \bx')$.
+0 $(x_t = x)$ and hypothesis 1, $(x_t = x')$.
 
 Since the adversary can only base their decision on $a_t$, they must
 use a decision rule of the form $f : \CA \to \{0,1\}$ so as to decide
 between the two hypotheses.  That means that they must partition $\CA$
 in two subsets, $A_0, A_1$ so that whenever $a_t \in A_0$ they
-decide for $\bx$ and whenever $a_t \in A_1$ they decide for
-$\bx'$. Because we know the that the probability of the 
+decide for $x$ and whenever $a_t \in A_1$ they decide for
+$x'$. Because we know the that the probability of the 
 response given the dataset depends only on the mechanism $\pol$, we
 can write the probability of a true and a false positive as:
 \[
-  p_{\textrm{TP}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FP}} = \pol(A_1 \mid \bx).
+  p_{\textrm{TP}} = \pol(A_0 \mid x), \qquad p_{\textrm{FP}} = \pol(A_1 \mid x).
 \]
 This is simply because the adversary answers correctly whenever
 $a_t \in A_0$, and incorrectly otherwise. Similarly, the probability
 of a true and false negative as
 \[
-  p_{\textrm{TN}} = \pol(A_0 \mid \bx), \qquad p_{\textrm{FN}} = \pol(A_0 \mid \bx').
+  p_{\textrm{TN}} = \pol(A_0 \mid x), \qquad p_{\textrm{FN}} = \pol(A_0 \mid x').
 \]
 The probability with which the mechanism selects either dataset does
 not factor into these quantities, are these are simply the conditional
@@ -2062,11 +2067,11 @@ dataset.
 \begin{proof}
   The proof is by direct substitution and the definition of $(\epsilon, \delta)$-differential privacy:
   \begin{align*}
-    p_{\textrm{TP}} = \pol(A_1 | \bx') \leq \pol(A_1 | \bx) e^\epsilon  + \delta = p_{\textrm{FP}} e^\epsilon  + \delta.
+    p_{\textrm{TP}} = \pol(A_1 | x') \leq \pol(A_1 | x) e^\epsilon  + \delta = p_{\textrm{FP}} e^\epsilon  + \delta.
   \end{align*}
   Similarly
   \begin{align*}
-    p_{\textrm{TN}} = \pol(A_0 | \bx) \leq \pol(A_0 | \bx') e^\epsilon  + \delta
+    p_{\textrm{TN}} = \pol(A_0 | x) \leq \pol(A_0 | x') e^\epsilon  + \delta
     = p_{\textrm{FN}} e^\epsilon  + \delta.
   \end{align*}
 \end{proof}
@@ -2079,7 +2084,7 @@ dataset.
   \begin{definition}[Privacy profile]
     The privacy profile of $\pol$ is
     \begin{equation}
-      \delta_{\pol}(\epsilon) = \sup_{\bx \neigh \bx'} \hock{e^\epsilon}{\pol_\bx}{\pol_{\bx'}}
+      \delta_{\pol}(\epsilon) = \sup_{x \neigh x'} \hock{e^\epsilon}{\pol_x}{\pol_{x'}}
     \end{equation}
     In other words, $\pol$ is $(\epsilon, \delta_{\pol}(\epsilon))$-DP.
   \end{definition}
@@ -2320,18 +2325,18 @@ dataset.
   \end{exercise}
   \ifdefined \solution
     \begin{proof}
-      Let $\bx_1, \bx_2, \bx_3$ be three datasets with
-      $\bx_1 N \bx_2 N \bx_3$ and $\bx_1 N_e \bx_3$.  First of all, an
+      Let $x_1, x_2, x_3$ be three datasets with
+      $x_1 N x_2 N x_3$ and $x_1 N_e x_3$.  First of all, an
       algorithm that is $\epsilon$-DP with respect to the $N$, is
       $2\epsilon$-DP with respect to $N_e$.  This follows from the fact
       that
-      $\pol(a | \bx_1) \leq e^\epsilon \pol( a | \bx_2) \leq
-      e^{2\epsilon} \pol( a | \bx_3)$.  What about the converse?
-      Consider the case where $\bx_1$ has $n$ entries and $\bx_2$ has
+      $\pol(a | x_1) \leq e^\epsilon \pol( a | x_2) \leq
+      e^{2\epsilon} \pol( a | x_3)$.  What about the converse?
+      Consider the case where $x_1$ has $n$ entries and $x_2$ has
       $n+1$ entries. Let $A_n$ be the set of all responses with $n$
-      entries. Then clearly $\pi(A_n | \bx_1) = 1$ and
-      $\pi(A_{n} | \bx_2) = 0$. Consequently
-      $|\ln\frac{\pi(A_n | \bx_1)}{\pi(A_{n} | \bx_2)}|$ is not bounded by
+      entries. Then clearly $\pi(A_n | x_1) = 1$ and
+      $\pi(A_{n} | x_2) = 0$. Consequently
+      $|\ln\frac{\pi(A_n | x_1)}{\pi(A_{n} | x_2)}|$ is not bounded by
       any constant, and differential privacy is not satisfied with
       respect to insertions and deletions.
     \end{proof}
@@ -2340,11 +2345,11 @@ dataset.
     Define a variant of the binary randomised response mechanism that
     satisfies differential privacy with respect to the insertion and
     deletion neighbourhood. More precisely, it should hold that for
-    any dataset pair $\bx = (x_1, \ldots, x_n)$, and
-    $\bx' = (x_1, \ldots, x_n)$, $\bx = (x_1, \ldots, x_n, x_{n+1})$,
+    any dataset pair $x = (x_1, \ldots, x_n)$, and
+    $x' = (x_1, \ldots, x_n)$, $x = (x_1, \ldots, x_n, x_{n+1})$,
     the mechanism satisfies
     \[
-      \pol(A | \bx) \leq e^\epsilon \pol(A | \bx'),
+      \pol(A | x) \leq e^\epsilon \pol(A | x'),
       \qquad \forall A \subset \CA.
     \]
     Use the assumption that there is a fixed population of size $N$ that we can sample from, i.e. that $n \leq N$.
@@ -2376,9 +2381,9 @@ dataset.
   \begin{exercise}
     The mean estimator $\hat{\theta}$ for the randomised response mechanism with flipping probability $p$, where the true data generation process is Bernoulli with parameter $\theta$, is defined as
     \[
-      \hat{\theta}(a) = \frac{\bar{a} - p}{1 - 2p},
+      \hat{\theta}(a) = \frac{ar{a} - p}{1 - 2p},
     \]
-    where $\bar{a} = \frac{1}{T} \sum_{t=1}^T a_t$ is the mean of the observed answers. Prove that this estimator is unbiased, i.e. that
+    where $ar{a} = \frac{1}{T} \sum_{t=1}^T a_t$ is the mean of the observed answers. Prove that this estimator is unbiased, i.e. that
     \[
       \E[\hat{\theta}] = \theta,
     \]
