@@ -1582,7 +1582,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     }
   }
   \begin{alertblock}{Sensitivity versus local sensitivity.}
-    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function.
+    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function. While local sensitivi
   \end{alertblock}
 \end{frame}
 
@@ -1601,7 +1601,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \end{align*}
     \only<article>{
       We first write the proof for a real-valued function $f$. 
-      The first step follows from the definition of the Laplace mechanism. The inequality follows from the fact that for  $x N x'$, we have $|f(x) - f(x')| \leq \sensitivity{f}$. In particular, 
+      The first step follows from the definition of the Laplace mechanism. The inequality follows from the fact that for  $x \neigh x'$, we have $|f(x) - f(x')| \leq \sensitivity{f}$. In particular, 
       \begin{enumerate}[(a)]
       \item If $f(x') - a \geq 0$ then
         \[|f(x') - a| = f(x') - a  \leq \sensitivity{f} + f(x) - a \leq L + |a - f(x)|,\]
@@ -1612,7 +1612,8 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
         \]
         as $-f(x') \leq \sensitivity{f} - f(x)$.
       \end{enumerate}
-      Replacing into the exponential gives us the required inequality. The final result is obtained with elementary algebra. For the general case, note that $\exp(\|z\|_1) = \prod_i \exp(|z_i|)$.
+      Replacing into the exponential gives us the required inequality. The final result is obtained with elementary algebra.
+      For the general case when $f(x) \in \Reals^m$, the same steps are performed. To deal with a multidimensional value of $f$, we use the fact that $\exp(\|z\|_1) = \prod_i \exp(|z_i|)$.
     }
   \end{proof}
 
@@ -2346,15 +2347,16 @@ dataset.
       \pol(A | \bx) \leq e^\epsilon \pol(A | \bx'),
       \qquad \forall A \subset \CA.
     \]
+    Use the assumption that there is a fixed population of size $N$ that we can sample from, i.e. that $n \leq N$.
     \label{exer:new-rp-neighbourhood}
   \end{exercise}
-  \ifdefined \solution
+  \iftrue
     \begin{proof}
       First of all, for the mechanism to satisfy $\epsilon$-DP, it must be the case
       that an output size must have a non-zero probability: If with an
       $n$-size input we can only generate $\leq n$-size outputs, then we
       cannot generate a $n+1$-size output. Consequently, the randomised
-      response mechanism defined for $N$-neighbourhoods makes sense only
+      response mechanism defined for $\neigh$-neighbourhoods makes sense only
       when we know the maximum possible value of $n$. This is normally
       the case when we are surveying a population whose size is assumed
       to be common knowledge.
