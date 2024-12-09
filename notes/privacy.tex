@@ -1905,17 +1905,17 @@ While the exponential mechanism is quite abstract, it is very flexible. Many pro
 \begin{exampleblock}{The exponential mechanism for machine learning models.}
   The most common scenario involving privacy in machine learning is  when we want to fit a model to privacy-protected training data. This means that the machine learning \emph{algorithm} itself has to be differentially private. As an example, consider the problem of estimating a classification model $P_\param(y | x)$ parametrised by $\param \in \Param$. The learning algorithm should define a probability distribution $\pol(\param \mid x)$ over parameters that is differentially private. This means $\param$ will not leak information about the training data. A natural way to achieve differential privacy in that setting is to use the exponential mechanism, where the utility $U$ is the classifier's performance on a hold-out data set.
 
-  The other possible scenario is protecting the data of people that interact with the model. Assume a given model $P_\param$, and a person $t$ with features $x_t$ giving their data to their model, and receiving some response $a_t$ back. If it is only this person interacting with the model, then there is little need for privacy protection. However, we might have a setting where $T$ people are submitting the data, and the system calculates a response that is visible to all. In that case, privacy would become an issue. In that case, if $P_\param(y_t | x_t)$ defines some a distribution over outcomes, and we make a joint decision $a$ with utility
+O  The other possible scenario is protecting the data of people that interact with the model. Assume a given model $P_\param$, and a person $t$ with features $x_t$ giving their data to their model, and receiving some response $a_t$ back. If it is only this person interacting with the model, then there is little need for privacy protection. However, we might have a setting where $T$ people are submitting the data, and the system calculates a response that is visible to all. In that case, privacy would become an issue. In that case, if $P_\param(y_t | x_t)$ defines some a distribution over outcomes, and we make a joint decision $a$ with utility
   \[
-    U(a, \param, x) = \sum_t \sum_y u(a, y) P_\param(y_t = y \mid x_t),
-  \]
+    U(a, \param, x) = \sum_{t=1}^T \sum_y u(a, y) P_\param(y_t = y \mid x_t),
+O  \]
   it is natural to use the exponential mechanism.
 \end{exampleblock}
 
 \only<article>{
 \begin{theoryblock}{Interactive differential privacy.}
   So far we only defined differential privacy in terms of a fixed
-  mechanism. However, in general the mechanism must respond to
+  mechanism and a fixed sequence of queries. However, in general the mechanism must respond to
   sequential queries $q_1, \ldots, q_t$, with answers
   $a_1, \ldots, a_t$. The answer can depend arbitrarily on the
   sequence of responses and queries. So, privacy must hold no matter
@@ -1935,12 +1935,15 @@ While the exponential mechanism is quite abstract, it is very flexible. Many pro
     \end{equation}
   \end{definition}
   Since the queries are not defined in advance, this means that $q_t$ may also depend on all the previous answers $a_1, \ldots, a_{t-1}$.
-\end{theoryblock}
+
 Answering queries independently in the interactive setting is
 sufficient for achieving differential privacy $\epsilon_t$ at each
 step $t$. The total privacy loss is at most $\sum_{i=1}^t
 \epsilon_i$. However, it is possible to bound the privacy loss more
 tightly with advanced composition theorems.
+
+  
+\end{theoryblock}
 }
 \section{Advanced topics.}
 
