@@ -1205,7 +1205,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \only<article>{
     In the above definition we do not say anything about how $\ba$ approximates $f(x)$. Ideally, we would like it to be unbiased, i.e. so that $\E_\pi[\ba \mid x] = f(x)$. The accuracy can for example be measured with respect to the variance of $\ba - f(x)$.
 
-    The main advantage of the centralised model is that
+    The main advantage of the central model is that
     approximating $f$ with a differentially-private version can be
     much more accurate than simply using the original function with
     noisy data. We have already seen this in the binary randomised
@@ -1278,7 +1278,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \caption{Central privacy}
       \label{fig:central-privacy}
     \end{subfigure}
-    \caption{Non-privacy, local privacy, and centralised privacy models. In the first case, the value of $y$ depends directly on the function $f$ to be calculated, as well as the data $x$. In the local privacy model, noise is added to the individual data with a differentially private algorithm $\pol$, and the function is calculated on the output. In the central model, a stochastic version $\pol_f$ of the original function $f$ is calculated on the data. The variables that are only privately known, denoted with dashed lines. The variables that are only seen by the analyst, are denoted with dotted lines.}
+    \caption{Non-privacy, local privacy, and central privacy models. In the first case, the value of $y$ depends directly on the function $f$ to be calculated, as well as the data $x$. In the local privacy model, noise is added to the individual data with a differentially private algorithm $\pol$, and the function is calculated on the output. In the central model, a stochastic version $\pol_f$ of the original function $f$ is calculated on the data. The variables that are only privately known, denoted with dashed lines. The variables that are only seen by the analyst, are denoted with dotted lines.}
     \label{fig:privacy-diagrams}
   \end{figure}
 
@@ -1367,6 +1367,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \only<article>{
     \begin{exerciseblock}{Differential privacy from a Bayesian viewpoint.}
     }
+    \begin{example}
      \only<article>{Bayesian inference offers a simple way to explain the meaning of differential privaacy. Intuitively, using the Bayesian formalism, we can show that, no matter what prior knowledge the adversary has, they cannot infer a lot from the private release. We are specifically interested in adversary knowledge about the dataset, before and after the mechanism's release. In particular, assume that the adversary knows that the data is either $x$ or $x'$. For concreteness, assume the data is either }
     \[
       x = (x_1, \ldots, x_j = 0, \ldots,  x_n)
@@ -1393,7 +1394,8 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       }
     }
     What can we say about the posterior distribution of the adversary $\bel(x \mid a, \pol)$ after having seen the output, if $\pol$ is $\epsilon$-DP? How does it depend on $\epsilon$?
-    
+    \label{ex:Bayesian-DP}
+    \end{example}
     \only<article>{
       \begin{proof}[Solution]
         We can write the adversary posterior as follows.
@@ -1464,10 +1466,10 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \end{definition}
 \end{frame}
 
-  \only<article>{In the centralised privacy model, the non-private calculation directly outputs $y = f(x)$. We can approximate this with a DP calculation with distribution $\pol(a \mid x)$. The Laplace mechanism does so by first calculating $y = f(x)$ and then generating $\pol(a \mid y)$ so that $\E_\pol[a \mid x] = f(x)$.}
+  \only<article>{In the central privacy model, the non-private calculation directly outputs $y = f(x)$. We can approximate this with a DP calculation with distribution $\pol(a \mid x)$. The Laplace mechanism does so by first calculating $y = f(x)$ and then generating $\pol(a \mid y)$ so that $\E_\pol[a \mid x] = f(x)$.}
 
 
-  \only<article>{Let us now talk about how the Laplace mechanism that can be used both in the centralised and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$. In particular, we will go through an example where we apply Laplace noise to real-valued data.}
+  \only<article>{Let us now talk about how the Laplace mechanism that can be used both in the central and local model when $\CX \subset \Reals^n$ and $\CY \subset \Reals$. In particular, we will go through an example where we apply Laplace noise to real-valued data.}
 
 
 \begin{frame}
@@ -1486,7 +1488,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \item Return $a = n^{-1} \sum_{i=1}^n y_i$.
     \end{itemize}
 
-    \textbf{The centralised model.}
+    \textbf{The central model.}
     \only<article>{In this case, $\pol(a \mid x)$ is obtained by averaging first and adding noise later.}
     \begin{itemize}
     \item Calcualte $y = n^{-1} \sum_{i=1}^n x_i$.
@@ -1522,7 +1524,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
 
 \begin{frame}
   \frametitle{DP properties of the Laplace mechanism}
-  \only<article>{To use the Laplace mechanism, either in the local or in the centralised setting, we must relate it to a specific function $f$ that we wish to compute. In particular, the mecnahism works by adding noise to the output of the function $f$ in a carefully calibrated manner so that we achieve exactly $\epsilon$-differential privacy. This is because, if the function's output changes a lot when we change a datapoint, it is easier to detect the change unless we add proportionally more noise. Below we will make this setting more precise.}
+  \only<article>{To use the Laplace mechanism, either in the local or in the central setting, we must relate it to a specific function $f$ that we wish to compute. In particular, the mecnahism works by adding noise to the output of the function $f$ in a carefully calibrated manner so that we achieve exactly $\epsilon$-differential privacy. This is because, if the function's output changes a lot when we change a datapoint, it is easier to detect the change unless we add proportionally more noise. Below we will make this setting more precise.}
   \begin{definition}[Sensitivity]
     The sensitivity of a function $f : \CX \to \Reals^n$ is
     \[
@@ -1587,7 +1589,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     }
   }
   \begin{alertblock}{Sensitivity versus local sensitivity.}
-    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function. While local sensitivi
+    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function. While local sensitivity is easier to calculate, we cannot directly use it to create differentially private algorithms. This is because calculation of local sensitivity depends on the data, and so we must use a differentially private mechanism to calculate it in the first place. For that reason~\citet{nissim2007smooth} proposed to instead calculate a smoothed value of the local sensitivity.
   \end{alertblock}
 \end{frame}
 
@@ -1624,14 +1626,14 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
 
   \begin{exampleblock}{DP properties of the average in the local and central model.}
     What is the effect of applying the Laplace mechanism in the local
-    versus centralised model?  \only<article>{ Let us continue the
+    versus central model?  \only<article>{ Let us continue the
       average example.  Here let us assume $x_i \in [0, B]$ for all
       $i$.
       
       \emph{The Laplace mechanism in the local privacy model.}
         The sensitivity of the individual data is $B$, so to obtain $\epsilon$-DP we need to use $\lambda = B / \epsilon$. The variance of each component is $2(B/\epsilon)^2$, so the total variance is $2B^2/\epsilon^2 n$.
 
-      \emph{The Laplace mechanism in the centralised privacy model}
+      \emph{The Laplace mechanism in the central privacy model}
         The sensitivity of $f$ is $B / n$, so we only need to use $\lambda = \frac{B}{n \epsilon}$. The variance of $a$ is $2(B / \epsilon n)^2$. 
 
       Thus the two models have a significant difference in the variance of the estimates obtained, for the same amount of privacy. While the central mechanism has variance $O(n^{-2})$, the local one is $O(n^{-1})$ and so our estimates will need much more data to be accurate under local privacy. In particular, we need square the amount of data in the local model as we need in the central model. Nevertheless, the local model may be the only possible route if we have no specific use for the data, or if the users do not trust the data curator.
@@ -2230,7 +2232,17 @@ dataset.
   \only<article>{So instead of reporting the holdout performance at all, you just see if you are much worse than the training performance, i.e. if you're overfitting. The fact that the mechanism is DP also makes it difficult to learn the holdout set. See the thresholdout link for more details.}
 \end{frame}
 
+
+
 \section{Discussion}
+Differential privacy was the first rigorous mathematical definition of privacy, with strong guarantees about protecting personal information. However, this all relies on each individual data record containing the data of a single individual, and us only protecting the privacy of individuals. If we want to protect a different \emph{kind} of secret, then our privacy definition must differ. For this reason, two generalisations of differential privacy have been proposed, Pufferfish~\citep{pufferfish} and Blowfish~\citep{blowfish}, where we define specific \emph{secrets} to protect.
+
+Another frontier for privacy is looking at different divergences other than the max-divergence for privacy. These include R\'{e}nyi differential privacy~\citep{renyi-dp} and zero-concentrated differential privacy (zCPD)~\citep{zc-dp}. These provide guarantees of $(\epsilon, \delta)$-DP for any value of $\delta$, with $\epsilon$ being a function of $\delta$.  Thus, they are closely linked to the the hypothesis-testing view of differential privacy and privacy profiles. The \emph{Gaussian mechanism} satisfies zCDP.
+
+Differential privacy is also linked to Bayesian inference. Firstly, differential privacy can be interpreted from a Bayesian point of view (see Example~\ref{ex:Bayesian-DP}). Secondly, we can analyse how posterior distributions change when a single datapoint changes. Under some mild conditions on the likelihood and prior, one can show that posteriors satisfy a differential privacy condition~\citep{bayesiandp}. This can then be leveraged to create a \emph{posterior sampling mechanism}. The idea of this is to simply take one or more samples from the posterior distribution. Each sample corresponds to a probabilistic models, which can then be used to answer queries. 
+
+Another question is how fast can we actually learn from 
+\only<presentation>{
 \begin{frame}
   \begin{block}{The definition of differential privacy}
     \begin{itemize}
@@ -2275,14 +2287,15 @@ dataset.
     \end{itemize}
   \end{block}
 \end{frame}
-
+}
+\only<presentation>{
 \begin{frame}
   \frametitle{Learning outcomes}
   \begin{block}{Understanding}
     \begin{itemize}
     \item Linkage attacks and $k$-anonymity.
     \item Inferring data from summary statistics.
-    \item The local versus centralised differential privacy model.
+    \item The local versus central differential privacy model.
     \item False discovery rates.
     \end{itemize}
   \end{block}
@@ -2305,6 +2318,7 @@ dataset.
   \end{block}
 
 \end{frame}
+}
 
 \begin{frame}
   \frametitle{Further reading}
