@@ -1499,10 +1499,10 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \begin{figure}
     \centering
     \begin{tikzpicture}
-      \node[RV] at (0,0) (x1) {$x_1$};
-      \node[RV] at (0,1) (x2) {$x_2$};
-      \node[RV] at (0,2) (xn) {$x_n$};
-      \node[RV] at (2,1) (y) {$y$};
+      \node[analyst, RV] at (0,0) (x1) {$x_1$};
+      \node[analyst, RV] at (0,1) (x2) {$x_2$};
+      \node[analyst, RV] at (0,2) (xn) {$x_n$};
+      \node[analyst, RV] at (2,1) (y) {$y$};
       \node[select] at (1,-1) (f) {$f$};
       \node[select] at (3,-1) (pol) {$\pol$};
       \node[RV] at (4,1) (a) {$a$};
@@ -1513,7 +1513,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \draw[->] (y) -- (a);
       \draw[->] (pol) -- (a);
     \end{tikzpicture}
-    \caption{Laplace mechanism}
+    \caption{Laplace mechanism. In this mechanism the analyst observes all data, $x$, generates a private calculation $y = f(x)$, and then generates a public output $a$ using a differentially private algorithm $\pol$.}
   \end{figure}
   
 
