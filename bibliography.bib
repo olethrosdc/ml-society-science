@@ -223,7 +223,60 @@
   publisher={JSTOR}
 }
 
+@article{pufferfish,
+author = {Kifer, Daniel and Machanavajjhala, Ashwin},
+title = {Pufferfish: A framework for mathematical privacy definitions},
+year = {2014},
+issue_date = {January 2014},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {39},
+number = {1},
+issn = {0362-5915},
+url = {https://doi.org/10.1145/2514689},
+doi = {10.1145/2514689},
+abstract = {In this article, we introduce a new and general privacy framework called Pufferfish. The Pufferfish framework can be used to create new privacy definitions that are customized to the needs of a given application. The goal of Pufferfish is to allow experts in an application domain, who frequently do not have expertise in privacy, to develop rigorous privacy definitions for their data sharing needs. In addition to this, the Pufferfish framework can also be used to study existing privacy definitions.We illustrate the benefits with several applications of this privacy framework: we use it to analyze differential privacy and formalize a connection to attackers who believe that the data records are independent; we use it to create a privacy definition called hedging privacy, which can be used to rule out attackers whose prior beliefs are inconsistent with the data; we use the framework to define and study the notion of composition in a broader context than before; we show how to apply the framework to protect unbounded continuous attributes and aggregate information; and we show how to use the framework to rigorously account for prior data releases.},
+journal = {ACM Transactions on Database Systems},
+month = jan,
+articleno = {3},
+numpages = {36},
+keywords = {differential privacy, Privacy}
+}
 
+@inproceedings{blowfish,
+author = {He, Xi and Machanavajjhala, Ashwin and Ding, Bolin},
+title = {Blowfish privacy: tuning privacy-utility trade-offs using policies},
+year = {2014},
+isbn = {9781450323765},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2588555.2588581},
+doi = {10.1145/2588555.2588581},
+abstract = {Privacy definitions provide ways for trading-off the privacy of individuals in a statistical database for the utility of downstream analysis of the data. In this paper, we present Blowfish, a class of privacy definitions inspired by the Pufferfish framework, that provides a rich interface for this trade-off. In particular, we allow data publishers to extend differential privacy using a  policy, which specifies (a) secrets, or information that must be kept secret, and (b) constraints that may be known about the data. While the secret specification allows increased utility by lessening protection for certain individual properties, the constraint specification provides added protection against an adversary who knows correlations in the data (arising from constraints). We formalize policies and present novel algorithms that can handle general specifications of sensitive information and certain count constraints. We show that there are reasonable policies under which our privacy mechanisms for k-means clustering, histograms and range queries introduce significantly lesser noise than their differentially private counterparts. We quantify the privacy-utility trade-offs for various policies analytically and empirically on real datasets.},
+booktitle = {Proceedings of the 2014 ACM SIGMOD International Conference on Management of Data},
+pages = {1447–1458},
+numpages = {12},
+keywords = {blowfish privacy, differential privacy, privacy},
+location = {Snowbird, Utah, USA},
+series = {SIGMOD '14}
+}
+
+@misc{renyi-dp,
+  author       = {Ilya Mironov},
+  title        = {Renyi Differential Privacy},
+  year         = {2017},
+  note    = {arXiv: 1702.07476}
+}
+
+@misc{zc-dp,
+      title={Concentrated Differential Privacy: Simplifications, Extensions, and Lower Bounds}, 
+      author={Mark Bun and Thomas Steinke},
+      year={2016},
+      eprint={1605.02065},
+      archivePrefix={arXiv},
+      primaryClass={cs.CR},
+      url={https://arxiv.org/abs/1605.02065}, 
+}
 @article{BlodgettO17,
   author    = {Su Lin Blodgett and
                Brendan O'Connor},
@@ -372,6 +425,16 @@ eprint = {https://doi.org/10.1080/2330443X.2017.1389620}
 	journal = {Journal of Machine Learning Research},
 	pages = {343–381},
 }
+
+
+@inproceedings{nissim2007smooth,
+  title={Smooth sensitivity and sampling in private data analysis},
+  author={Nissim, Kobbi and Raskhodnikova, Sofya and Smith, Adam},
+  booktitle={Proceedings of the thirty-ninth annual ACM symposium on Theory of computing},
+  pages={75--84},
+  year={2007}
+}
+
 
 @article{yang2020local,
 	title={Local Differential Privacy and Its Applications: A Comprehensive Survey},
