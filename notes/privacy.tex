@@ -1298,7 +1298,8 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
 
   \only<article>{
     Differential privacy has a number of interesting properties. Firstly, any differentially private algorithm must be stochastic, because deterministic algorithms will enable an adversary to distinguish between some pairs of datasets with absolute certainty. Secondly, if we combine multiple differentially private operations sequentially, i.e. by computing many functions on the same data, then the total privacy loss is the sum of privacy losses of each operation. Thirdly, if we compute multiple private operations on different subsets of the data, each subset suffers its own individual loss. Finally, we can use the output of the differentially private algorithm in any way we like, and this does not impact privacy. We will know give a more formal description of these properties.
-    
+
+\subsection{Randomness}  
     \begin{remark}
       Any differentially private algorithm must either be stochastic, or deterministic with a constant output.
     \end{remark}
@@ -1308,7 +1309,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     \begin{proof}
     More formally, note that the definition of differential privacy requires a bounded ratio of probabilities for any neighbouring datasets. Imagine our algorithm deterministically outputs $a$ for some input $x$ so that $\pol(a|x) = 1$, while for all other $a'$, $\pol(a' | x) = 0$. Let us say that for some $a'$ and a neighbouring $x'$, we have $\pol(a' | x') > 0$. By the DP definition, however $\pol(a' | x') \leq \pol(a' | x) e^{\epsilon} = 0$, which is a contradiction. Consequently, we have shown that if, for some $x$, there is $a'$ with zero probability under $\pol$, then it must have zero probability for all its neighbours. Consequently, the neighbours of its neighbours must also assign zero probability to it. Hence, the algorithm must have a constant output $a$.
 
-    Conversely, if the algorithm assigns a positive probability to some $a$, then all neighbours must assign a positive probability. By induction, all $x \in \CX$ must result in a positive probability. In other words, if $\pol(a | x) > 0$ for some $x,a$ then $\pol(a | x') > 0$ for all $x'$. If more than one $a$ have a positive probability, then the algorithm is necessarily stochastic, otherwise it is a constant deterministic function.
+    Conversely, if the algorithm assigns a positive probability to some $a$, then all neighbours must assign a positive probability. By induction, all $x \in \CX$ must result in a positive probability $a$. In other words, if $\pol(a | x) > 0$ for some $x,a$ then $\pol(a | x') > 0$ for all $x'$. If more than one $a$ have a positive probability, then the algorithm is necessarily stochastic, otherwise it is a constant deterministic function.
     \end{proof}
   }
 \end{frame}
@@ -1317,15 +1318,21 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   setting, Alice wants to communicate a message $x$ to Bob.  In a
   secret key cryptographic scheme, information theoretic security is
   achieved by making sure that the encrypted message $a$ comes from a
-  uniform distribution $\pol(a | x)$. This is achieved by uniformly
-  selecting a key and selecting an appropriate hash function }
+  uniform distribution $\pol(a | x)$. This is achieved by randomly
+  selecting a key $\omega$ and then combining it with $x$ to obtain $a$.}
 
 
 \begin{frame}
 
 
-  
-  \only<article>{Depending on the DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$. There exist mechanisms that do not respond to each query independently, which can reduce the total privacy loss, but those are outside the scope of this chapter.}
+\subsection{Composition}  
+\only<article>{
+  In practice, we do not actually intend to make one calculation from our data $x$. Even simple data visualisations are a form of calculation on the data. Training or hyperparameter tuning for a machine learning model also involves performing some calculation on the data in some way. Finally, if we wish to provide private access to our database so third parties can analyse the data, then every analysis performed is a separate calculation.
+
+  For the purposes of this chapter, we will call every calculation on the data a \emph{query.}
+  Depending on how exactly we employ our DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$.\footnote{There exist mechanisms that do not respond to each query independently, which can reduce the total privacy loss, but those are outside the scope of this chapter.}
+}
+
   \only<presentation>{
     \begin{block}{Properties of $\epsilon$-DP algorithms}
       \begin{itemize}
@@ -1341,10 +1348,27 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     In this privacy model, we compose a mechanism out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$. This composition is fixed ahead of time.
     % The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
   \end{definition}
+  \only<article>{As an example, consider calculating the sum of $x_{t,i}$ as well as the total number of records, using an $\epsilon$-DP mechanism.
+  }
   \begin{theorem}
-    For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $T \epsilon$-differential privacy under $T$-fold composition. More generally, if each mechanism is $\epsilon_i$-DP, the composed mechanism is $\sum_{i=1}^T \epsilon_i$-DP.
+    For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $n \epsilon$-differential privacy under $n$-fold composition. More generally, if we have $n$ mechanisms, and each mechanism is $\epsilon_i$-DP, with mechanism $\pol_i$ releasing $a_i \sim \pol_i(a_i \mid x)$, the composed mechanism, releasing $(a_1, \ldots, a_n)$ with probability $\pol(a_1, \ldots, a_n | x) = \prod_{i=1}^n \pol_i(a_i \mid x)$  is $\sum_{i=1}^n \epsilon_i$-DP.
   \end{theorem}
-  \only<article>{On the other hand, if we perform multiple queries, but each query is applied to a completely different part of the data, then the privacy loss does not increase. This can apply to asking about a different subset of the records. This notion is formalised below.}
+  \begin{proof}
+    We can give the proof for 2-fold composition. $n$-fold composition follows by induction.
+    \begin{align*}
+      \frac{\pol(a_1, a_2 | x)}{\pol(a_1, a_2 | x')}
+      &=
+        \frac{\pol(a_1 | x) \pol(a_2 | x)}{\pol(a_1 | x') \pol(a_2 | x')}\\
+      &\leq
+        \frac{\pol(a_1 | x') e^{\epsilon_1} \pol(a_2 | x') \epsilon(2)}{\pol(a_1 | x') \pol(a_2 | x')}\\
+      &\leq
+        e^{\epsilon_1 + \epsilon_2}.
+    \end{align*}
+  \end{proof}
+  \only<article>{
+    Continuing the counting and summation example, if we have a mechanism composed of one application of $\epsilon$-DP summation and one application of $\epsilon$-DP counting, then the total output is $2 \epsilon$-DP.
+
+    On the other hand, if we perform multiple queries, but each query is applied to a completely different part of the data, then the privacy loss does not increase. This can apply to asking about a different subset of the records. This notion is formalised below.}
   \begin{theorem}[Parallel composition]
     If we apply a set of $\epsilon$-DP mechanisms $\pi_k$ to disjoint subsets of the data so that $pi_k$ is applied to $D_k$ with $D_j \cap D_k  = \emptyset$ for all $j \neq k$, then the parallel composition is $\epsilon$-DP.
   \end{theorem}
@@ -2204,10 +2228,10 @@ dataset.
   Shuffling\cite{erlingsson2019amplification,feldman2022hiding} can be seen as a privacy model somewhere in between the central model, where data is given to a trusted curator, and the local model, where each user randomises their data. Using shuffling, we can amplify privacy in the following way. If we use $n$ copies of a local $\epsilon$-DP mechanism, each with $\epsilon = O(\ln(n / ln(1/\delta)))$ then the total privacy loss is $\epsilon' = O(\min\{e, 1\} e^\epsilon / \sqrt{\ln(1/\delta)/n})$.
 [Hiding among the clones] gives a bond of $(1 - e^{-\epsilon_0}) \sqrt{e^{\epsilon_0} \ln(1/\delta) / T}$.
 }
-\paragraph{Random check-ins.}
-\only<article>{
-  Privacy Amplification via Random Check-Ins
-}
+%\paragraph{Random check-ins.}
+%\only<article>{
+%  Privacy Amplification via Random Check-Ins
+%}
 
 \paragraph{Iteration.}
 \only<article>{
@@ -2218,7 +2242,7 @@ dataset.
 }
 \paragraph{Post-processing}
 \only<article>{
-
+The post-processing.
 }
 \subsection{Reproducibility}
 \only<article>{
