@@ -1522,9 +1522,11 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   
 \end{frame}
 
-\begin{frame}
-  \frametitle{DP properties of the Laplace mechanism}
+\subsection{Sensitivity and the Laplace mechanism}
   \only<article>{To use the Laplace mechanism, either in the local or in the central setting, we must relate it to a specific function $f$ that we wish to compute. In particular, the mecnahism works by adding noise to the output of the function $f$ in a carefully calibrated manner so that we achieve exactly $\epsilon$-differential privacy. This is because, if the function's output changes a lot when we change a datapoint, it is easier to detect the change unless we add proportionally more noise. Below we will make this setting more precise.}
+
+\begin{frame}
+%  \frametitle{DP properties of the Laplace mechanism}
   \begin{definition}[Sensitivity]
     The sensitivity of a function $f : \CX \to \Reals^n$ is
     \[
@@ -1588,9 +1590,6 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \end{proof}
     }
   }
-  \begin{alertblock}{Sensitivity versus local sensitivity.}
-    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function. While local sensitivity is easier to calculate, we cannot directly use it to create differentially private algorithms. This is because calculation of local sensitivity depends on the data, and so we must use a differentially private mechanism to calculate it in the first place. For that reason~\citet{nissim2007smooth} proposed to instead calculate a smoothed value of the local sensitivity.
-  \end{alertblock}
 \end{frame}
 
 \begin{frame}
@@ -1640,6 +1639,42 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     }
     
   \end{exampleblock}
+
+  Calculating an average value is a common enough computation. Other common queries are counting and sums. Indeed, instead of releasing the differentially-private version of the average, we can calculate the sum and the total number of entries in a differentially private way, and release that instead.
+
+  \begin{example}{Sensitivity of counting.}
+    Consider a counting function $f_S : \CX \to \Naturals$, defined by counting the number of elements in some set $S$:
+    \[
+      f_S(x) = \sum_{t=1}^T \ind{x_t \in S}.
+    \]
+    This could be, for example all records with age in a certain age. If the set $S$ is the universal set, then this reduces to counting the number of records.
+    The sensitivity of this query is 1, because if $x' = x \cup \{x_{T+1}\}$,
+    \[
+      f_S(x') - f_S(x) = \sum_{t=1}^{T+1} \ind{x_t \in S} -  \sum_{t=1}^T \ind{x_t \in S}
+      = \ind{x_{T+1} \in S}.
+    \]
+  \end{example}
+
+  \begin{example}{Sensitivity of sum.}
+    Consider a sum function $f_i : \CX \to \Naturals$, defined by summing the value of one data column
+    \[
+      f_i(x) = \sum_{t=1}^T x_{t,i}
+    \]
+    This could be, for example the total age of people in the data. If $x_{t,i} \in [0, B]$, the sensitivity of this query is obviously $B$.
+    \[
+      f_S(x') - f_S(x) = \sum_{t=1}^{T+1} x_{t,i}  -  \sum_{t=1}^T x_{t,i}
+      = x_{T+1, i}.
+    \]
+    Since the features are $B$-bounded, the result follows.
+  \end{example}
+
+  Combining the above two examples, we can replace releasing the average directly with first calculating the number of entries, adding Laplace noise with sensitivity $1$. We can then calculating the sum, adding Laplace noise with sensitivity $B$. We can then divide the two, and return the result. Intuitively, however, the Laplace noise in the denominator increases the variance of this estimate versus simply releasing the DP average.
+  
+  \begin{alertblock}{Sensitivity versus local sensitivity.}
+    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function. While local sensitivity is easier to calculate, we cannot directly use it to create differentially private algorithms. This is because calculation of local sensitivity depends on the data, and so we must use a differentially private mechanism to calculate it in the first place. For that reason~\citet{nissim2007smooth} proposed to instead calculate a smoothed value of the local sensitivity.
+  \end{alertblock}
+
+
 \end{frame}
 
 \section{Interactive data access.}
@@ -1820,8 +1855,10 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \only<article>{The utility $\util(x,a,q)$  describes how appropriate each answer $a$ given by the system for a query $q$ is given the data $x$. It can be seen as how useful the response is.~\footnote{This is essentially the utility to the user that asks the query, but it could be the utility to the person that answers. In either case, the answer should maximise utility, but is constrained by privacy.} It allows us to quantify exactly how much we would gain by replying correctly. The exponential mechanism, described below is a simple differentially private mechanism for responding to queries while trying to maximise utility for \alert{any possible} utility function.}
 
 \end{frame}
+\subsection{The exponential mechanism}
 \begin{frame}
-  \frametitle{The Exponential Mechanism.}  \only<article>{ Here we
+
+  \only<article>{ Here we
     assume that we can answer queries $q$, whereby each possible
     answer $a$ to the query has a different utility $\util(q, a, x)$.  The idea is that the best answer to the query
     should have the highest utility. The further away from the correct
