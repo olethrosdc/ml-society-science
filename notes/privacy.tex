@@ -43,7 +43,7 @@
   process of data collection, treatment and public release that can be
   characterised as private or non-private.  For that reason, we will
   emphasise an \emph{algorithmic} view of privacy: participants
-  entrusts their data to an algorithm, which produces a useful output
+  entrust their data to an algorithm, which produces a useful output
   in return. The algorithmic process is typically not fully automated,
   as it also depends on some human input: One example is a medical
   study examining different treatments for a disease. While humans
@@ -1293,15 +1293,24 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
 \end{frame}
 
 
-\subsection{Properties of differential privacy.}
+\section{Properties of differential privacy.}
 \begin{frame}
 
   \only<article>{
+    Differential privacy has a number of interesting properties. Firstly, any differentially private algorithm must be stochastic, because deterministic algorithms will enable an adversary to distinguish between some pairs of datasets with absolute certainty. Secondly, if we combine multiple differentially private operations sequentially, i.e. by computing many functions on the same data, then the total privacy loss is the sum of privacy losses of each operation. Thirdly, if we compute multiple private operations on different subsets of the data, each subset suffers its own individual loss. Finally, we can use the output of the differentially private algorithm in any way we like, and this does not impact privacy. We will know give a more formal description of these properties.
+    
     \begin{remark}
-      Any differentially private algorithm must be stochastic.
+      Any differentially private algorithm must either be stochastic, or deterministic with a constant output.
     \end{remark}
 
-    To prove that this is necessary, consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.}
+    Let us start with some intuition. Consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.
+
+    \begin{proof}
+    More formally, note that the definition of differential privacy requires a bounded ratio of probabilities for any neighbouring datasets. Imagine our algorithm deterministically outputs $a$ for some input $x$ so that $\pol(a|x) = 1$, while for all other $a'$, $\pol(a' | x) = 0$. Let us say that for some $a'$ and a neighbouring $x'$, we have $\pol(a' | x') > 0$. By the DP definition, however $\pol(a' | x') \leq \pol(a' | x) e^{\epsilon} = 0$, which is a contradiction. Consequently, we have shown that if, for some $x$, there is $a'$ with zero probability under $\pol$, then it must have zero probability for all its neighbours. Consequently, the neighbours of its neighbours must also assign zero probability to it. Hence, the algorithm must have a constant output $a$.
+
+    Conversely, if the algorithm assigns a positive probability to some $a$, then all neighbours must assign a positive probability. By induction, all $x \in \CX$ must result in a positive probability. In other words, if $\pol(a | x) > 0$ for some $x,a$ then $\pol(a | x') > 0$ for all $x'$. If more than one $a$ have a positive probability, then the algorithm is necessarily stochastic, otherwise it is a constant deterministic function.
+    \end{proof}
+  }
 \end{frame}
 
 \only<article>{ Randomness is also necessary in cryptography.  In that
