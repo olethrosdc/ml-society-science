@@ -82,6 +82,24 @@
   year = 		 {2019}
 }
 
+@INPROCEEDINGS {privacy-amplification-iteration,
+author = { Feldman, Vitaly and Mironov, Ilya and Talwar, Kunal and Thakurta, Abhradeep },
+booktitle = { 2018 IEEE 59th Annual Symposium on Foundations of Computer Science (FOCS) },
+title = {{ Privacy Amplification by Iteration }},
+year = {2018},
+volume = {},
+ISSN = {},
+pages = {521-532},
+abstract = { Many commonly used learning algorithms work by iteratively updating an intermediate solution using one or a few data points in each iteration. Analysis of differential privacy for such algorithms often involves ensuring privacy of each step and then reasoning about the cumulative privacy cost of the algorithm. This is enabled by composition theorems for differential privacy that allow releasing of all the intermediate results. In this work, we demonstrate that for contractive iterations, not releasing the intermediate results strongly amplifies the privacy guarantees. We describe several applications of this new analysis technique to solving convex optimization problems via noisy stochastic gradient descent. For example, we demonstrate that a relatively small number of non-private data points from the same distribution can be used to close the gap between private and non-private convex optimization. In addition, we demonstrate that we can achieve guarantees similar to those obtainable using the privacy-amplification-by-sampling technique in several natural settings where that technique cannot be applied. },
+keywords = {Privacy;Convex functions;Machine learning algorithms;Sociology;Statistics},
+doi = {10.1109/FOCS.2018.00056},
+url = {https://doi.ieeecomputersociety.org/10.1109/FOCS.2018.00056},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+month =Oct}
+
+
+
 @InProceedings{nips:kearns:1999,
   author       = {Michael Kearns and Satinder Singh},
   title	       = {Finite sample convergence rates for Q-learning and indirect algorithms},

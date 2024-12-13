@@ -1,9 +1,6 @@
 \only<article>{
 \chapter{Privacy}
 \label{ch:privacy}
-
-
-
   One interpretation of privacy is simply the ability to
   maintain a personal secret. Is it possible to maintain perfect
   secrecy? Can the thoughts in our head be perfectly safe, or can they
@@ -819,7 +816,7 @@
         \bel(x = 1 \mid a = 1 )
       \]
     }
-    Bayes's theorem states that\footnote{If there are too many symbols for you, you can write Bayes theorem simply with $P(x | a) = P(a | x) P(x) / P(a)$.}
+    Bayes's theorem states that\footnote{If there are too many symbols for you, you can write Bayes theorem simply with $P(x | a) = P(a | x) P(x) / P(a)$. However, throughout the book we use $\bel$ for subjective belief and $\pol$ for algorithms, while $\Pr_\bel^\pol$ denotes probabilities of events given a specific $\pol$ and $\bel$.}
     \[
       \Pr^\pol_\bel(x \mid a) = \pol(a \mid x) \bel(x) / \Pr^\pol_\bel(a),
     \]
@@ -921,10 +918,11 @@
   $\sum_a \ln \frac{\pol(a \mid x)}{\pol(a \mid x')} \pol(a \mid x)$
   and the total variation $\max_A |\pol(A \mid x) - \pol(A \mid
   x')|$. Indeed, it is possible to define privacy in terms of a bound
-  on these quantities, but those definitions are weaker.
+  on these quantities, as for example in
+  Exercise~\ref{exer:kl-dp}. However these definitions are weaker.
 
 
-  Now let us go a bit deeper onto the notion of neighbourhood for datasets. Changing the definition of neighbourhood results in a different meaning 
+  Now let us go a bit deeper into the notion of neighbourhood for datasets. Changing the definition of neighbourhood results in a different meaning 
 or privacy. Fortunately, there are only two commonly definitions, and we will go through them in detail.
 \end{frame}
 
@@ -939,11 +937,12 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     changes in one individual's data, because then an adversary cannot
     learn about the values of any particular individual.
     
-    In this book we will use two definitions of neighbourhoods. The
-    first is constructed so that the adversary cannot distinguish
-    whether or not any particular individual's information is in the
-    dataset. If not, then they cannot infer the individual's presence
-    from the output of the algorithm.
+    In this book we will use two definitions of neighbourhoods, which
+    are standard in the differential privacy literature. The first is
+    constructed so that the adversary cannot distinguish whether or
+    not any particular individual's information \emph{is in the dataset}. If
+    not, then they cannot infer the individual's presence from the
+    output of the algorithm.
 
   }
   \begin{definition}[Membership neighbourhood]
@@ -958,7 +957,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \end{definition}
   \only<article>{ Under this neighbourhood relation, two datasets are
     neighbours if one contains the data of one individual, and the
-    other does not, but they are otherwise the same. For an example, see Table~\ref{tab:data-x}Then, if the
+    other does not, but they are otherwise the same. For an example, see Table~\ref{tab:data-x}. Then, if the
     algorithm is differentially private with respect to this
     neighbourhood, it is hard to tell if any single person's data has
     been used in the calculation.  This is an important concept if the
@@ -1054,7 +1053,8 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
   \end{exampleblock}
 
 \end{frame}
-
+Since two datasets $x, x'$ that are neighbours in the edit neighbourhood are actually 2-neighbours in the membership neighbourhood, this means that the former definition is weaker. It seems like that the 
+In particular, it is easy to show that a guarantee of $\epsilon$-DP under the membership neighbourhood implies a $2 \epsilon$-DP guarantee under the edit neighbourhood.  The converse relationship does not hold. 
 \begin{frame}
   \frametitle{The privacy of randomised response.}
   \only<article>{ As we hinted at earlier, the randomised response
@@ -1171,13 +1171,13 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     }
     \only<article>{Given a function $f : \CX \to \CY$, and a set of
       individual data $x = (x_i)_{i=1}^n$, use a differentially
-      private algorithm $\pol : \CX \to \Simplex(\CX)$, defining the conditional distribution $\pol(\ba | x)$, to generate $\ba \in
-      \CX$. Then output $f(\ba)$.}
+      private algorithm $\pol : \CX \to \Simplex(\CX)$, defining the conditional distribution $\pol(a | x) = \prod_i \pol_i(a_i \mid x_i)$, to generate $a = (a_i)_{i=1}^n$ with $a_i \in
+      \CX$. Then output $f(a)$.}
   \end{block}
 
-  \only<article>{ The composition of $f$ and $\pol$ is differentially
-    private, because $\pol$ is differentially private, and $f$ is
-    post-processing.
+  \only<article>{ As we will show in the following chapter, the
+    composition of $f$ and $\pol$ is differentially private, because
+    $\pol$ is differentially private, and $f$ amounts to just post-processing the output $a$
     
     The advantage of the local model is that the
     calculation $f$ does not need to be modified. The individuals do
@@ -1190,7 +1190,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
     $a_i$. This means that individual data is only available to a
     local private mechanism. This model allows us to publish a
     complete dataset of private responses.  In the central privacy
-    model, the data $x$ is collected and the result $a$ is published
+    model, however, the data $x$ is collected and the result $a$ is published
     by a \alert{trusted curator.}}
   
   \begin{block}{The central privacy model.}
@@ -1200,7 +1200,7 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
       \item She designs a DP policy $\pol(\ba \mid x)$ so that $\ba \approx f(x)$.
       \end{itemize}
     }
-    \only<article>{Given a function $f : \CX \to \CY$, a trusted curator obtains the data $x$ of all individuals and selects a DP algorithm $\pol : \CX \to \Simplex(\CY)$, defining the conditional distribution  $\pol(\ba \mid x)$, to generate  the output $\ba$, so that $\ba \approx f(x)$.}
+    \only<article>{Given a function $f : \CX \to \CY$, a trusted curator obtains the data $x$ of all individuals and selects a DP algorithm $\pol : \CX \to \Simplex(\CY)$, defining the conditional distribution  $\pol(a \mid x)$, to generate  the output $a$, so that $a \approx f(x)$.}
   \end{block}
   \only<article>{
     In the above definition we do not say anything about how $\ba$ approximates $f(x)$. Ideally, we would like it to be unbiased, i.e. so that $\E_\pi[\ba \mid x] = f(x)$. The accuracy can for example be measured with respect to the variance of $\ba - f(x)$.
@@ -1370,18 +1370,46 @@ or privacy. Fortunately, there are only two commonly definitions, and we will go
 
     On the other hand, if we perform multiple queries, but each query is applied to a completely different part of the data, then the privacy loss does not increase. This can apply to asking about a different subset of the records. This notion is formalised below.}
   \begin{theorem}[Parallel composition]
-    If we apply a set of $\epsilon$-DP mechanisms $\pi_k$ to disjoint subsets of the data so that $pi_k$ is applied to $D_k$ with $D_j \cap D_k  = \emptyset$ for all $j \neq k$, then the parallel composition is $\epsilon$-DP.
+    If we apply a set of $\epsilon$-DP mechanisms $\pi_k$ to disjoint subsets of the data so that $\pi_k$ is applied to a subset $D_k$ so that $D_j \cap D_k  = \emptyset$ for all $j \neq k$, then we are performing a parallel composition. This composition is $\epsilon$-DP.
   \end{theorem}
+  \begin{proof}
+    Consider two neighbouring datasets $x, x'$, with $x'$ containing an additional record $x_{T+1}$.
+    Let $D_1, D_2$ be a partition of $x'$, with $x_{T+1} \in D_2$ and the corresponding partition of $x'$ being $D_1, D_2 \cap x$. Then
+    \[
+      \frac{\pol(a | x)}{\pol(a | x')}
+      =
+      \frac{\pol(a_1 | D_1) \pol(a_2 \mid D_2 \cap x)}{\pol(a_1 | D_1) \pol(a_2 \mid D_2)}
+      \leq
+      e^\epsilon.
+    \]
+  \end{proof}
   \begin{theorem}[Post-processing]
-    Let mechanism $\pi(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
+    Let mechanism $\pol(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
   \end{theorem}
-
+  \begin{proof}
+    To do this proof properly we need to use the measure-theoretic definition of conditional probabilities. Applying $f$ to $a$ results in a new random variable $y$ with $x$-conditional measure
+    \[
+      \pol_f(Y | x) \defn \pol\left(\cset{a}{f(a) \in Y} ~\middle|~ x \right),
+    \]
+    where we assume that $f$ is measurable with respect to $\pol( \cdot | x)$ for all $x$.
+    We need to show that this is differentially private. Let $A_Y \defn \cset{a}{f(a) \in Y}$ be the set of $a$ values that result in $f(a) \in Y$. Then we can simplify the above to
+    \[
+      \pol_f(Y | x) \defn \pol(A_Y | x).
+    \]
+    From this follows that
+    \[
+      \frac{\pol_f(Y | x)}{\pol_f(Y | x')}
+      = \frac{\pol(A_Y | x)}{\pol(A_Y | x')}
+      \leq e^\epsilon,
+    \]
+    as the DP property holds for all subsets of $\CA$.
+  \end{proof}
   \only<presentation>{
     \begin{alertblock}{Composition}
       If we answer $T$ queries with an $\epsilon$-DP mechanism, then our cumulative privacy loss is $\epsilon T$.
     \end{alertblock}
   }
-  \only<article>{The composition theorem is a very useful tool, as it allows us to create new mechanisms that are composed of simpler parts. As a first example, we can look at how we can use it to create a randomised response algorithm when the respondents provide multiple attributes.}
+  \only<article>{These theorem are very useful tools, as they allows us to create new mechanisms that are composed of simpler parts. As a first example, we can look at how we can use sequential copmosition, to create a randomised response algorithm when the respondents provide multiple attributes.}
   \begin{exampleblock}{Randomised response for multiple attributes.}
     \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $x_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
     
@@ -1977,11 +2005,11 @@ While the exponential mechanism is quite abstract, it is very flexible. Many pro
 \begin{exampleblock}{The exponential mechanism for machine learning models.}
   The most common scenario involving privacy in machine learning is  when we want to fit a model to privacy-protected training data. This means that the machine learning \emph{algorithm} itself has to be differentially private. As an example, consider the problem of estimating a classification model $P_\param(y | x)$ parametrised by $\param \in \Param$. The learning algorithm should define a probability distribution $\pol(\param \mid x)$ over parameters that is differentially private. This means $\param$ will not leak information about the training data. A natural way to achieve differential privacy in that setting is to use the exponential mechanism, where the utility $U$ is the classifier's performance on a hold-out data set.
 
-O  The other possible scenario is protecting the data of people that interact with the model. Assume a given model $P_\param$, and a person $t$ with features $x_t$ giving their data to their model, and receiving some response $a_t$ back. If it is only this person interacting with the model, then there is little need for privacy protection. However, we might have a setting where $T$ people are submitting the data, and the system calculates a response that is visible to all. In that case, privacy would become an issue. In that case, if $P_\param(y_t | x_t)$ defines some a distribution over outcomes, and we make a joint decision $a$ with utility
+The other possible scenario is protecting the data of people that interact with the model. Assume a given model $P_\param$, and a person $t$ with features $x_t$ giving their data to their model, and receiving some response $a_t$ back. If it is only this person interacting with the model, then there is little need for privacy protection. However, we might have a setting where $T$ people are submitting the data, and the system calculates a response that is visible to all. In that case, privacy would become an issue. In that case, if $P_\param(y_t | x_t)$ defines some a distribution over outcomes, and we make a joint decision $a$ with utility
   \[
     U(a, \param, x) = \sum_{t=1}^T \sum_y u(a, y) P_\param(y_t = y \mid x_t),
-O  \]
-  it is natural to use the exponential mechanism.
+  \]
+  it is natural to use the exponential mechanism to answer individual queries in a private manner.
 \end{exampleblock}
 
 \only<article>{
@@ -2237,13 +2265,10 @@ dataset.
 \only<article>{
   Most modern machine learning algorithms are iterative: they have parameters that are adjusted through multiple iterations over the data. Stochastic gradient descent is a classic example, where each iteration is over a random subsample of the data. Using results from subsampling to bound the privacy loss in each iteration, we can then use composition to bound the total privacy loss of the algorithm. In this analysis, we essentially assume that the output of the algorithm can be observed at every step.
 
-  [Cite: Privacy Amplification by Iteration] show that (1-Lipschitz) contraction mappings with Gaussian noise works. In fact if $x_{t+1} = f(x_t) + \omega_t$, then for any two starting points $x_0, x_0'$: $\renyi{\alpha}{x_T}{x'_T} \leq ..>$
-  [Privacy Amplification by Mixing and Diffusion Mechanisms]
+  \citet{privacy-amplification-iteration} show that (1-Lipschitz) contraction mappings with Gaussian noise works. In fact if $x_{t+1} = f(x_t) + \omega_t$, then for any two starting points $x_0, x_0'$: $\renyi{\alpha}{x_T}{x'_T} \leq ..>$
+  %[Privacy Amplification by Mixing and Diffusion Mechanisms]
 }
-\paragraph{Post-processing}
-\only<article>{
-The post-processing.
-}
+
 \subsection{Reproducibility}
 \only<article>{
   Training and testing, overfitting on the test set. \cdcomment{stub}
