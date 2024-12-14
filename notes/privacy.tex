@@ -1319,7 +1319,7 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
   secret key cryptographic scheme, information theoretic security is
   achieved by making sure that the encrypted message $a$ comes from a
   uniform distribution $\pol(a | x)$. This is achieved by randomly
-  selecting a key $\omega$ and then combining it with $x$ to obtain $a$.}
+  selecting a key $\omega$ and then combining it with $x$ to obtain $a$. Without randomness, the cypher eventually becomes predictable.}
 
 
 \begin{frame}
@@ -1348,26 +1348,27 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
     In this privacy model, we compose a mechanism out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$. This composition is fixed ahead of time.
     % The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
   \end{definition}
-  \only<article>{As an example, consider calculating the sum of $x_{t,i}$ as well as the total number of records, using an $\epsilon$-DP mechanism.
+  \only<article>{As an example, consider calculating $a_1$, the sum of $x_{t,i}$ as well as the total number of records $a_2$, using an $\epsilon$-DP mechanism $\pol_1, \pol_2$ in each case. The following theorem gives us the total privacy loss if we make $a_1, a_2$ public.
   }
   \begin{theorem}
     For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $n \epsilon$-differential privacy under $n$-fold composition. More generally, if we have $n$ mechanisms, and each mechanism is $\epsilon_i$-DP, with mechanism $\pol_i$ releasing $a_i \sim \pol_i(a_i \mid x)$, the composed mechanism, releasing $(a_1, \ldots, a_n)$ with probability $\pol(a_1, \ldots, a_n | x) = \prod_{i=1}^n \pol_i(a_i \mid x)$  is $\sum_{i=1}^n \epsilon_i$-DP.
   \end{theorem}
   \begin{proof}
-    We can give the proof for 2-fold composition. $n$-fold composition follows by induction.
+    We first give the proof for 2-fold composition.
     \begin{align*}
       \frac{\pol(a_1, a_2 | x)}{\pol(a_1, a_2 | x')}
       &=
-        \frac{\pol(a_1 | x) \pol(a_2 | x)}{\pol(a_1 | x') \pol(a_2 | x')}\\
-      &\leq
-        \frac{\pol(a_1 | x') e^{\epsilon_1} \pol(a_2 | x') \epsilon(2)}{\pol(a_1 | x') \pol(a_2 | x')}\\
-      &\leq
+        \frac{\pol(a_1 | x) \pol(a_2 | x)}{\pol(a_1 | x') \pol(a_2 | x')}
+      \leq
+        \frac{\pol(a_1 | x') e^{\epsilon_1} \pol(a_2 | x') e^{\epsilon_2}}{\pol(a_1 | x') \pol(a_2 | x')}
+      =
         e^{\epsilon_1 + \epsilon_2}.
     \end{align*}
-  \end{proof}
+    Since this holds for two mechanisms, $n$-fold composition follows by induction.
+   \end{proof}
   \only<article>{
-    Continuing the counting and summation example, if we have a mechanism composed of one application of $\epsilon$-DP summation and one application of $\epsilon$-DP counting, then the total output is $2 \epsilon$-DP.
-
+    Continuing the counting and summation example, if we have a mechanism composed of one application of $\epsilon$-DP summation and one application of $\epsilon$-DP counting, then the total output is $2 \epsilon$-DP. 
+    
     On the other hand, if we perform multiple queries, but each query is applied to a completely different part of the data, then the privacy loss does not increase. This can apply to asking about a different subset of the records. This notion is formalised below.}
   \begin{theorem}[Parallel composition]
     If we apply a set of $\epsilon$-DP mechanisms $\pi_k$ to disjoint subsets of the data so that $\pi_k$ is applied to a subset $D_k$ so that $D_j \cap D_k  = \emptyset$ for all $j \neq k$, then we are performing a parallel composition. This composition is $\epsilon$-DP.
@@ -1383,6 +1384,9 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
       e^\epsilon.
     \]
   \end{proof}
+  \only<article>{
+    Finally, going back to our example, let us say we wish to release the mean using the DP-calculated sum $a_1$ and count $a_2$, i.e. release $a_1 / a_2$. Does that lead to any more privacy loss? According to the post-processing theorem below, any transformation of the outputs of a DP mechanism does not result in any more privacy loss. This is inherently because post-processing \emph{does not involve access to the data}.
+  }
   \begin{theorem}[Post-processing]
     Let mechanism $\pol(a \mid x)$ be $\epsilon$-DP. Applying any transformation $f : A \to Y$ to the output of the mechanism to obtain $y = f(a)$, results in another $\epsilon$-DP mechanism.
   \end{theorem}
@@ -1403,13 +1407,16 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
       \leq e^\epsilon,
     \]
     as the DP property holds for all subsets of $\CA$.
+
+    It should be noted here that this theorem is essentially a version of the data-processing inequality.
   \end{proof}
   \only<presentation>{
     \begin{alertblock}{Composition}
       If we answer $T$ queries with an $\epsilon$-DP mechanism, then our cumulative privacy loss is $\epsilon T$.
     \end{alertblock}
   }
-  \only<article>{These theorem are very useful tools, as they allows us to create new mechanisms that are composed of simpler parts. As a first example, we can look at how we can use sequential copmosition, to create a randomised response algorithm when the respondents provide multiple attributes.}
+  \only<article>{
+    These theorem are very useful tools, as they allows us to create new mechanisms that are composed of simpler parts. As a first example, we can look at how we can use sequential copmosition, to create a randomised response algorithm when the respondents provide multiple attributes.}
   \begin{exampleblock}{Randomised response for multiple attributes.}
     \only<article>{Up to now we have been discussing the case where each individual only has one attribute. However, in general each individual $t$ contributes multiple data $x_{t.i}$, which can be considered as a row $x_t$ in a database. Then the mechanism can release each $a_{t,i}$ independently.}
     

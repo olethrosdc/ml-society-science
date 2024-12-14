@@ -311,137 +311,12 @@
 \end{frame}
 
 
-\only<article>{
-  \input{statistical-testing} % Missing
-}
-\section{Formalising classification problems}
-\only<article>{
-  One of the simplest decision problems is classification. At the simplest level, this is the problem of observing some data point $x_t \in \CX$ and making a decision about what class $\CY$ it belongs to. Typically, a fixed classifier is defined as a decision rule $\pi(a | x)$ making decisions $a \in \CA$, where the decision space includes the class labels, so that if we observe some point $x_t$ and choose $a_t = 1$, we essentially declare that $y_t = 1$.
-
-  Typically, we wish to have a classification policy that minimises classification error.
-}
-\begin{frame}
-  \frametitle{Deciding a class given a model}
-  \only<article>{In the simplest classification problem, we observe some features $x_t$ and want to make a guess $\decision_t$ about the true class label $y_t$. Assuming we have some probabilistic model $P_\model(y_t \mid x_t)$, we want to define a decision rule $\pol(\decision_t \mid x_t)$ that is optimal, in the sense that it maximises expected utility for $P_\model$.}
-  \begin{itemize}
-  \item Features $x_t \in \CX$.
-  \item Label $y_t \in \CY$.
-  \item Decisions $\decision_t \in \CA$.
-  \item Decision rule $\pol(\decision_t \mid x_t)$ assigns probabilities to actions.
-  \end{itemize}
-  
-  \begin{block}{Standard classification problem}
-    \only<article>{In the simplest case, the set of decisions we make are the same as the set of classes}
-    \[
-    \CA = \CY, \qquad
-    U(\decision, y) = \ind{\decision = y}
-    \]
-  \end{block}
-
-  \begin{exercise}
-    If we have a model $P_\model(y_t \mid x_t)$, and a suitable $U$, what is the optimal decision to make?
-  \end{exercise}
-  \only<presentation>{
-    \uncover<2->{
-      \[
-      \decision_t \in \argmax_{\decision \in \Decision} \sum_y P_\model(y_t = y \mid x_t) \util(\decision, y)
-      \]
-    }
-    \uncover<3>{
-      For standard classification,
-      \[
-      \decision_t \in \argmax_{\decision \in \Decision} P_\model(y_t = \decision \mid x_t)
-      \]
-    }
-  }
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{Deciding the class given a model family}
-  \begin{itemize}
-  \item Training data $\Training = \cset{(x_i, y_i)}{i=1, \ldots, \ndata}$
-  \item Models $\cset{P_\model}{\model \in \Model}$.
-  \item Prior $\bel$ on $\Model$.
-  \end{itemize}
-  \only<article>{Similarly to our example with the meteorological stations, we can define a posterior distribution over models.}
-  \begin{block}{Posterior over classification models}
-    \[
-    \bel(\model \mid \Training) = \frac{P_\model(y_1, \ldots, y_\ndata \mid
-      x_1, \ldots, x_\ndata) \bel(\model)} {\sum_{\model' \in \Model}
-      P_{\model'}(y_1, \ldots, y_\ndata \mid x_1, \ldots, x_\ndata)
-      \bel(\model')}
-    \]
-    \only<article>{
-      This posterior form can be seen as weighing each model according to how well they can predict the class labels. It is a correct form as long as, for every pair of models $\model, \model'$ we have that $P_\model(x_1, \ldots, x_\ndata) = P_{\model'}(x_1, \ldots, x_\ndata)$. This assumption can be easily satisfied without specifying a particular model for the $x$.}
-    \only<2>{
-      If not dealing with time-series data, we assume independence between $x_t$:
-      \[
-      P_\model(y_1, \ldots, y_\ndata \mid  x_1, \ldots, x_\ndata)
-      = \prod_{i=1}^T P_\model(y_i \mid x_i)
-      \]
-    }
-  \end{block}
-  \uncover<3->{
-    \begin{block}{The \alert{Bayes rule} for maximising $\E_\bel(\util \mid a, x_t, \Training)$}
-      The decision rule simply chooses the action:
-      \begin{align}
-        \decision_t &\in
-                      \argmax_{\decision \in \Decision}
-                      \sum_{y}  \alert<4>{\sum_{\model \in
-                      \Model}  P_\model(y_t = y \mid x_t) \bel(\model \mid
-                      \Training)} 
-                      \util(\decision, y)
-                      \only<5>{
-        \\ &=
-             \argmax_{\decision \in \Decision}
-             \sum_{y} \Pr_{\bel \mid \Training}(y_t = y \mid x_t) 
-             \util(\decision, y)
-             }
-      \end{align}
-    \end{block}
-  }
-  \uncover<4->{
-    We can rewrite this by calculating the posterior marginal marginal label probability
-    \[
-    \Pr_{\bel \mid \Training}(y_t \mid x_t) \defn
-    \Pr_{\bel}(y_t \mid x_t, \Training) = 
-    \sum_{\model \in \Model} P_\model(y_t \mid x_t) \bel(\model \mid \Training).
-    \]
-  }
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Approximating the model}
-  \begin{block}{Full Bayesian approach for infinite $\Model$}
-    Here $\bel$ can be a probability density function and 
-    \[
-    \bel(\model \mid \Training)  = P_\model(\Training)  \bel(\model)  / \Pr_\bel(\Training),
-    \qquad
-    \Pr_\bel(\Training) = \int_{\Model} P_\model(\Training)  \bel(\model)  \dd,
-    \]
-    can be hard to calculate.
-  \end{block}
-  \onslide<2->{
-    \begin{block}{Maximum a posteriori model}
-      \index{MAP inference}
-      \index{Maximum a posteriori|see MAP inference}
-      We only choose a single model through the following optimisation:
-      \[
-      \MAP(\bel, \Training) 
-      \only<2>{
-        = \argmax_{\model \in \Model} P_\model(\Training)  \bel(\model) 
-      }
-      \only<3>{
-        = \argmax_{\model \in \Model}
-        \overbrace{\ln P_\model(\Training)}^{\textrm{goodness of fit}}  + \underbrace{\ln \bel(\model)}_{\textrm{regulariser}}.
-      }
-      \]
-      \only<article>{You can think of the goodness of fit as how well the model fits the training data, while the regulariser term simply weighs models according to some criterion. Typically, lower weights are used for more complex models.}
-    \end{block}
-  }
-\end{frame}
+\input{bayes} % Bayesian inference
+\input{statistical-testing} % Missing
+\input{classification}
+\input{naive-bayes} % naive Bayes classifiers
+\input{knn}  % knn, reproducability and bootstrapping
+\input{ann} % linear models and stochastic gradient descent
 
 
 
@@ -474,10 +349,7 @@
   
 \end{frame}
 
-\input{bayes} % Bayesian inference
-\input{ann} % linear models and stochastic gradient descent
-\input{knn}  % knn, reproducability and bootstrapping
-\input{naive-bayes} % naive Bayes classifiers
+
 
 
 
