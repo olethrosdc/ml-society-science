@@ -1296,18 +1296,17 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
 \section{Properties of differential privacy.}
 \begin{frame}
 
+  
   \only<article>{
     Differential privacy has a number of interesting properties. Firstly, any differentially private algorithm must be stochastic, because deterministic algorithms will enable an adversary to distinguish between some pairs of datasets with absolute certainty. Secondly, if we combine multiple differentially private operations sequentially, i.e. by computing many functions on the same data, then the total privacy loss is the sum of privacy losses of each operation. Thirdly, if we compute multiple private operations on different subsets of the data, each subset suffers its own individual loss. Finally, we can use the output of the differentially private algorithm in any way we like, and this does not impact privacy. We will know give a more formal description of these properties.
 
 \subsection{Randomness}  
-    \begin{remark}
+    Let us start with some intuition. Consider the example of counting how many people take drugs in a competition. We can perform the counting via secret ballot, so that in the end we only know the total number of people that take and do not take drugs. However, side information can be very powerful here.  If an adversary does not know your drug status, and wishes to discover it, clearly the counts are not enough by themselves. However, if he knows how many people \emph{apart from you} take drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $\sum_{i \neq j} x_i$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information in this way. However, randomising the calculation ensures that the adversary can never be perfectly sure of what any individual's data is, no matter what side information he has. In fact, as we will show below, randomness is essential for differential privacy. If an algorithm is differentially private, then it either has to be stochastic, or it has to always return the same answer $a$, no matter what the data is.
+\begin{remark}
       Any differentially private algorithm must either be stochastic, or deterministic with a constant output.
     \end{remark}
-
-    Let us start with some intuition. Consider the example of counting how many people take drugs in a competition. If the adversary only doesn't know whether you in particular take drugs, but knows whether everybody else takes drugs, it's trivial to discover your own drug habits by looking at the total. This is because in this case, $f(x) = \sum_i x_i$ and the adversary knows $x_i$ for all $i \neq j$. Then, by observing $f(x)$, he can recover $x_j = f(x) - \sum_{i \neq j} x_i$. Consequently, it is not possible to protect against adversaries with arbitrary side information without stochasticity.
-
     \begin{proof}
-    More formally, note that the definition of differential privacy requires a bounded ratio of probabilities for any neighbouring datasets. Imagine our algorithm deterministically outputs $a$ for some input $x$ so that $\pol(a|x) = 1$, while for all other $a'$, $\pol(a' | x) = 0$. Let us say that for some $a'$ and a neighbouring $x'$, we have $\pol(a' | x') > 0$. By the DP definition, however $\pol(a' | x') \leq \pol(a' | x) e^{\epsilon} = 0$, which is a contradiction. Consequently, we have shown that if, for some $x$, there is $a'$ with zero probability under $\pol$, then it must have zero probability for all its neighbours. Consequently, the neighbours of its neighbours must also assign zero probability to it. Hence, the algorithm must have a constant output $a$.
+    The definition of differential privacy requires a bounded ratio of probabilities for any neighbouring datasets. Imagine our algorithm deterministically outputs $a$ for some input $x$ so that $\pol(a|x) = 1$, while for all other $a'$, $\pol(a' | x) = 0$. Let us say that for some $a'$ and a neighbouring $x'$, we have $\pol(a' | x') > 0$. By the DP definition, however $\pol(a' | x') \leq \pol(a' | x) e^{\epsilon} = 0$, which is a contradiction. Consequently, we have shown that if, for some $x$, there is $a'$ with zero probability under $\pol$, then it must have zero probability for all its neighbours. Consequently, the neighbours of its neighbours must also assign zero probability to it. Hence, the algorithm must have a constant output $a$.
 
     Conversely, if the algorithm assigns a positive probability to some $a$, then all neighbours must assign a positive probability. By induction, all $x \in \CX$ must result in a positive probability $a$. In other words, if $\pol(a | x) > 0$ for some $x,a$ then $\pol(a | x') > 0$ for all $x'$. If more than one $a$ have a positive probability, then the algorithm is necessarily stochastic, otherwise it is a constant deterministic function.
     \end{proof}
@@ -1319,7 +1318,7 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
   secret key cryptographic scheme, information theoretic security is
   achieved by making sure that the encrypted message $a$ comes from a
   uniform distribution $\pol(a | x)$. This is achieved by randomly
-  selecting a key $\omega$ and then combining it with $x$ to obtain $a$. Without randomness, the cypher eventually becomes predictable.}
+  selecting a key $\omega$ and then combining it with $x$ to obtain $a$. Without randomness, the cyphertext eventually becomes predictable. In practice, of course, we use high-quality pseudo-random number generators, with some additional random source for seeding them. }
 
 
 \begin{frame}
@@ -1327,10 +1326,11 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
 
 \subsection{Composition}  
 \only<article>{
-  In practice, we do not actually intend to make one calculation from our data $x$. Even simple data visualisations are a form of calculation on the data. Training or hyperparameter tuning for a machine learning model also involves performing some calculation on the data in some way. Finally, if we wish to provide private access to our database so third parties can analyse the data, then every analysis performed is a separate calculation.
+  In practice, we do not actually perform a single calculation from our data $x$. Even simple data visualisations are a form of calculation on the data, and every calculation might leak privacy. Training or hyperparameter tuning for a machine learning model also involves performing some calculation on the data in some way. Finally, if we wish to provide private access to our database so third parties can analyse the data, then every analysis performed is a separate calculation. How can we calculate the total privacy loss after a long sequence of data manipulations? 
 
   For the purposes of this chapter, we will call every calculation on the data a \emph{query.}
-  Depending on how exactly we employ our DP scheme, each query answered may leak privacy. In particular, if we always respond with an $\epsilon$-DP mechanism, after $T$ queries our privacy guarantee is $T \epsilon$.\footnote{There exist mechanisms that do not respond to each query independently, which can reduce the total privacy loss, but those are outside the scope of this chapter.}
+  Depending on how exactly we employ our DP scheme, each query answered may leak privacy.
+  We begin by the idea of sequential composition, whereby we perform a \emph{sequence} of queries $\pol_1, \pol_2, \ldots$ to the database. 
 }
 
   \only<presentation>{
@@ -1341,11 +1341,13 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
       \end{itemize}
     \end{block}
   }
-  \only<article>{
-    In general, we may wish to query a database multiple times. Each time we perform a query, and obtain an $\epsilon$-DP response, we lose up to $\epsilon$ privacy. This means that if we do this $T$ times, we lose up to $T \epsilon$ privacy. We can formalise this as follows.
-  }
+
   \begin{definition}[$T$-fold composition]
-    In this privacy model, we compose a mechanism out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$. This composition is fixed ahead of time.
+    In this privacy model, we compose a mechanism $\pol$ responding with $a = (a_1, \ldots, a_T)$ out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$, each mechanism $\pol_t$ responding with $a_t$, to create the composed mechanism
+    \[
+      \pol(a \mid x) = \prod_{t=1}^T \pol(a_t \mid x_t).
+    \]
+    This composition is fixed ahead of time.
     % The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
   \end{definition}
   \only<article>{As an example, consider calculating $a_1$, the sum of $x_{t,i}$ as well as the total number of records $a_2$, using an $\epsilon$-DP mechanism $\pol_1, \pol_2$ in each case. The following theorem gives us the total privacy loss if we make $a_1, a_2$ public.
