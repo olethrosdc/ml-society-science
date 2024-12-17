@@ -1342,10 +1342,10 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
     \end{block}
   }
 
-  \begin{definition}[$T$-fold composition]
-    In this privacy model, we compose a mechanism $\pol$ responding with $a = (a_1, \ldots, a_T)$ out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_T$, each mechanism $\pol_t$ responding with $a_t$, to create the composed mechanism:
+  \begin{definition}[$n$-fold composition]
+    In this privacy model, we compose a mechanism $\pol$ responding with $a = (a_1, \ldots, a_n)$ out of $T$ differential private mechanisms $\pol_1, \ldots, \pol_n$, each mechanism $\pol_i$ responding with $a_t$, to create the composed mechanism:
     \[
-      \pol(a \mid x) = \prod_{t=1}^T \pol_t(a_t \mid x).
+      \pol(a \mid x) = \prod_{i=1}^n \pol_i(a_i \mid x).
     \]
     This composition is fixed ahead of time, in the sense that $\poi_t$ is selected independently of what $a_1, \ldots, a_{t-1}$ have been.
     % The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
@@ -1356,7 +1356,7 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
     For any $\epsilon > 0$, the class of $\epsilon$-differentially private mechanism satisfy $n \epsilon$-differential privacy under $n$-fold composition. More generally, if we have $n$ mechanisms, and each mechanism is $\epsilon_i$-DP, with mechanism $\pol_i$ releasing $a_i \sim \pol_i(a_i \mid x)$, the composed mechanism, releasing $(a_1, \ldots, a_n)$ with probability $\pol(a_1, \ldots, a_n | x) = \prod_{i=1}^n \pol_i(a_i \mid x)$  is $\sum_{i=1}^n \epsilon_i$-DP.
   \end{theorem}
   \begin{proof}
-    We first give the proof for 2-fold composition.
+    We give the proof for 2-fold composition.
     \begin{align*}
       \frac{\pol(a_1, a_2 | x)}{\pol(a_1, a_2 | x')}
       &=
