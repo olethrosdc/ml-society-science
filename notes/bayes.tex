@@ -524,6 +524,43 @@ Here is a simple example to illustrate the idea of Bayesian inference. Imagine y
   \]
   However, the advantage of the Lebesgue integral notation is that it works the same no matter whether $\Param$ is discrete or continuous.
 }
+
+\subsection{Distributions and information theory}
+It is very useful to define a divergence between probability measures. For simplicity, we give those first in discrete outcomes, before the general case.
+\begin{equation}
+  D(P\|Q) \defn \sum_{\omega \in \Omega} P(\omega) \ln \frac{P(\omega)}{Q(\omega)}
+  \label{eq:kl-divergence}
+\end{equation}
+For the general case, where $P, Q$ are probability measures on $(\Omega, \Sigma)$, we can write this as $D(P\|Q) \defn \int_{\Omega} dP(\omega) \ln \frac{dP(\omega)}{dQ(\omega)}$.
+Another common divergence is the total variation,
+\begin{equation}
+  \|P - Q\|_{TV} = \frac{1}{2}\|P - Q\|_1 \frac{1}{2} \sum_{\omega \in \Omega} |P(\omega) - Q(\omega)|.
+\end{equation}
+For the general case, this is defined as
+\[
+  \|P - Q\|_{TV} = \sup_{A \in \Sigma} |P(A) - Q(A)|.
+\]
+Those divergences are related by \emindex{Pinsker's inequality}
+\begin{equation}
+  \label{eq:pinsker}
+  \|P - Q\|_{TV} \leq \sqrt{\frac{1}{2} D(P\|Q).
+\end{equation}
+
+Both of these are special cases of $f$-divergences, defined as:
+\begin{equation}
+  D_f(P\|Q) \defn \E_Q[f(dP/dQ)].
+  \label{eq:f-divergence}
+\end{equation}
+It is easy to see that the KL-divergence is obtained by
+$f(t) = t \ln t$ and the total variation by
+$f(t) = \frac{1}{2}|t - 1|$.
+
+Any divergence between distributions satisfies the information- processing inequality. In particular, if $P, Q$ are measures on $\Omega$, and we define a new random variable $f : \Omega \to X$ with corresponding probability measures $P_f, Q_f$ so that $P_f(A) = P(\cset{\omega \in \Omega}{f(\omega) \in A}$ then we have that
+\begin{equation}
+  \label{eq:inf-proc}
+  D(P_f\|Q_f) \leq D(P \| Q).
+\end{equation}
+
 \begin{frame}
   \frametitle{Learning outcomes}
   \begin{block}{Understanding}

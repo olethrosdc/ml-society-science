@@ -1371,7 +1371,7 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
   \only<article>{
     Continuing the counting and summation example, if we have a mechanism composed of one application of $\epsilon$-DP summation and one application of $\epsilon$-DP counting, then the total output is $2 \epsilon$-DP. 
     
-    On the other hand, if we perform multiple queries, but each query is applied to a completely different part of the data, then the privacy loss does not increase. This can apply to asking about a different subset of the records. This notion is formalised below.}
+    On the other hand, if we perform multiple queries, but each query is applied to a completely different part of the data, then we do not lose any more privacy. This can apply to asking about a different subset of the records. This notion is formalised below.}
   \begin{theorem}[Parallel composition]
     If we apply a set of $\epsilon$-DP mechanisms $\pi_k$ to disjoint subsets of the data so that $\pi_k$ is applied to a subset $D_k$ so that $D_j \cap D_k  = \emptyset$ for all $j \neq k$, then we are performing a parallel composition. This composition is $\epsilon$-DP.
   \end{theorem}
