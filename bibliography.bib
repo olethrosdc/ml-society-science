@@ -43,6 +43,38 @@
   publisher={World Scientific}
 }
 
+@inproceedings{foulds:bayesian-sampling:2016,
+author = {Foulds, James and Geumlek, Joseph and Welling, Max and Chaudhuri, Kamalika},
+title = {On the Theory and practice of privacy-preserving Bayesian data analysis},
+year = {2016},
+isbn = {9780996643115},
+publisher = {AUAI Press},
+address = {Arlington, Virginia, USA},
+abstract = {Bayesian inference has great promise for the privacy-preserving analysis of sensitive data, as posterior sampling automatically preserves differential privacy, an algorithmic notion of data privacy, under certain conditions (Dimitrakakis et al., 2014; Wang et al., 2015b). While this one posterior sample (OPS) approach elegantly provides privacy "for free," it is data inefficient in the sense of asymptotic relative efficiency (ARE). We show that a simple alternative based on the Laplace mechanism, the workhorse of differential privacy, is as asymptotically efficient as non-private posterior inference, under general assumptions. This technique also has practical advantages including efficient use of the privacy budget for MCMC. We demonstrate the practicality of our approach on a time-series analysis of sensitive military records from the Afghanistan and Iraq wars disclosed by the Wikileaks organization.},
+booktitle = {Proceedings of the Thirty-Second Conference on Uncertainty in Artificial Intelligence},
+pages = {192–201},
+numpages = {10},
+location = {Jersey City, New Jersey, USA},
+series = {UAI'16}
+}
+
+@InProceedings{pmlr-v37-wangg15,
+  title = 	 {Privacy for Free: Posterior Sampling and Stochastic Gradient Monte Carlo},
+  author = 	 {Wang, Yu-Xiang and Fienberg, Stephen and Smola, Alex},
+  booktitle = 	 {Proceedings of the 32nd International Conference on Machine Learning},
+  pages = 	 {2493--2502},
+  year = 	 {2015},
+  editor = 	 {Bach, Francis and Blei, David},
+  volume = 	 {37},
+  series = 	 {Proceedings of Machine Learning Research},
+  address = 	 {Lille, France},
+  month = 	 {07--09 Jul},
+  publisher =    {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/v37/wangg15.pdf},
+  url = 	 {https://proceedings.mlr.press/v37/wangg15.html},
+  abstract = 	 {We consider the problem of Bayesian learning on sensitive datasets and present two simple but somewhat surprising results that connect Bayesian learning to “differential privacy”, a cryptographic approach to protect individual-level privacy while permitting database-level utility. Specifically, we show that under standard assumptions, getting one sample from a posterior distribution is differentially private “for free”; and this sample as a statistical estimator is often consistent, near optimal, and computationally tractable. Similarly but separately, we show that a recent line of work that use stochastic gradient for Hybrid Monte Carlo (HMC) sampling also preserve differentially privacy with minor or no modifications of the algorithmic procedure at all, these observations lead to an “anytime” algorithm for Bayesian learning under privacy constraint. We demonstrate that it performs much better than the state-of-the-art differential private methods on synthetic and real datasets.}
+}
+
 @inproceedings{nissim:ao-md:2012,
 author = {Nissim, Kobbi and Smorodinsky, Rann and Tennenholtz, Moshe},
 title = {Approximately optimal mechanism design via differential privacy},

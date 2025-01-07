@@ -2339,11 +2339,42 @@ dataset.
 
 
 \section{Discussion}
-Differential privacy was the first rigorous mathematical definition of privacy, with strong guarantees about protecting personal information. However, this all relies on each individual data record containing the data of a single individual, and us only protecting the privacy of individuals. If we want to protect a different \emph{kind} of secret, then our privacy definition must differ. For this reason, two generalisations of differential privacy have been proposed, Pufferfish~\citep{pufferfish} and Blowfish~\citep{blowfish}, where we define specific \emph{secrets} to protect.
+The privacy attack in the Massachusetts database is detailed
+in~\citep{sweeney2002k}, while $k$-anonymity is described more
+thoroughly in in~\citep{samarati1998protecting}. This unfortunately
+does not provide a formal privacy guarantee.  Differential privacy was
+the first rigorous mathematical definition of privacy, with strong
+guarantees about protecting personal information.  Differential
+privacy, not actually given that name at the time, was introduced
+in~\citep{dwork2006calibrating}. A technical book on differential
+privacy by \citet{dwork2014algorithmic} covers all of the
+fundamentals.
+
+However, this definition of privacy relies on each individual data
+record containing the data of a single individual, and us only
+protecting the privacy of individuals.  If we want to protect a
+different \emph{kind} of secret, then our privacy definition must
+differ. For this reason, two generalisations of differential privacy
+have been proposed, Pufferfish~\citep{pufferfish} and
+Blowfish~\citep{blowfish}, where we define specific \emph{secrets} to
+protect.
 
 Another frontier for privacy is looking at different divergences other than the max-divergence for privacy. These include R\'{e}nyi differential privacy~\citep{renyi-dp} and zero-concentrated differential privacy (zCPD)~\citep{zc-dp}. These provide guarantees of $(\epsilon, \delta)$-DP for any value of $\delta$, with $\epsilon$ being a function of $\delta$.  Thus, they are closely linked to the the hypothesis-testing view of differential privacy and privacy profiles. The \emph{Gaussian mechanism} satisfies zCDP.
 
-Differential privacy is also linked to Bayesian inference. Firstly, differential privacy can be interpreted from a Bayesian point of view (see Example~\ref{ex:Bayesian-DP}). Secondly, we can analyse how posterior distributions change when a single datapoint changes. Under some mild conditions on the likelihood and prior, one can show that posteriors satisfy a differential privacy condition~\citep{bayesiandp}. This can then be leveraged to create a \emph{posterior sampling mechanism}. The idea of this is to simply take one or more samples from the posterior distribution. Each sample corresponds to a probabilistic models, which can then be used to answer queries. 
+Differential privacy is also linked to Bayesian inference. Firstly, differential privacy can be interpreted from a Bayesian point of view (see Example~\ref{ex:Bayesian-DP}). Secondly, we can analyse how posterior distributions change when a single datapoint changes. Under some mild conditions on the likelihood and prior, one can show that posteriors satisfy a differential privacy condition, as shown by \citet{bayesiandp}. This can then be leveraged to create a \emph{posterior sampling mechanism} that is differentially private. The idea of this is to simply take one or more samples from the posterior distribution. Each sample corresponds to a probabilistic models, which can then be used to answer queries.  Under similar conditions, \citet{pmlr-v37-wangg15} proved that approximate posterior sampling using MCMC can also satisfy differential privacy. \cite{foulds:bayesian-sampling:2016} took this idea in another direction, by making the sufficient statistics used in inference differentially private.
+
+Differential privacy can also be useful in game theory and mechanism design. In fact, the exponential mechanism was introduced by \citet{mcsherry2007mechanism}, with an application to approximately truthful mechanism design. This direction was further investigated by~\citet{kearns:md-privacy} and~\citet{nissim:ao-md:2012}.
+
+
+The effect of local differential privacy on statistical efficiency was
+first analysed by~\citet{duchi2013local}. Versions of local
+differential privacy have been used by tech companies to provide some
+modicum of privacy. Differential privacy has been used very rigorously 
+in the US 2020 census \cite{garfinkel2020randomness}.
+
+%Local differential privacy and applications \cite{yang2020local}
+
+
 
 Another question is how fast can we actually learn from 
 \only<presentation>{
@@ -2442,14 +2473,6 @@ Another question is how fast can we actually learn from
 }
 
 \only<article>{
-\subsection{Further reading}
-The privacy attack in the Massachusetts database is detailed in~\citep{sweeney2002k}, while $k$-anonymity is described more thoroughly in  in~\citep{samarati1998protecting}. Differential privacy, not actually given that name at the time, was introduced in~\citep{dwork2006calibrating}.
-The exponential mechanism was introduced by \citet{mcsherry2007mechanism}, with an application to approximately truthful mechanism design. This direction was further investigated by~\citet{kearns:md-privacy,nissim:ao-md:2012}.
-A technical book on differential privacy by \citet{dwork2014algorithmic} covers all of the fundamentals.
-Randomness, privacy, and the US 2020 census \cite{garfinkel2020randomness}.
-Bayesian inference and privacy \cite{bayesiandp}
-Local differential privacy and statistics \cite{duchi2013local}
-Local differential privacy and applications \cite{yang2020local}
 
 
 }
