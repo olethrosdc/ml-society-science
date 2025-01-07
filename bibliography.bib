@@ -32,6 +32,54 @@
   organization={SIAM}
 }
 
+@article{sweeney2002k,
+  title={k-anonymity: A model for protecting privacy},
+  author={Sweeney, Latanya},
+  journal={International journal of uncertainty, fuzziness and knowledge-based systems},
+  volume={10},
+  number={05},
+  pages={557--570},
+  year={2002},
+  publisher={World Scientific}
+}
+
+@inproceedings{nissim:ao-md:2012,
+author = {Nissim, Kobbi and Smorodinsky, Rann and Tennenholtz, Moshe},
+title = {Approximately optimal mechanism design via differential privacy},
+year = {2012},
+isbn = {9781450311151},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2090236.2090254},
+doi = {10.1145/2090236.2090254},
+abstract = {We study the implementation challenge in an abstract interdependent values model and an arbitrary objective function. We design a generic mechanism that allows for approximate optimal implementation of insensitive objective functions in ex-post Nash equilibrium. If, furthermore, values are private then the same mechanism is strategy proof. We cast our results onto two specific models: pricing and facility location. The mechanism we design is optimal up to an additive factor of the order of magnitude of one over the square root of the number of agents and involves no utility transfers.Underlying our mechanism is a lottery between two auxiliary mechanisms --- with high probability we actuate a mechanism that reduces players influence on the choice of the social alternative, while choosing the optimal outcome with high probability. This is where differential privacy is employed. With the complementary probability we actuate a mechanism that may be typically far from optimal but is incentive compatible. The joint mechanism inherits the desired properties from both.},
+booktitle = {Proceedings of the 3rd Innovations in Theoretical Computer Science Conference},
+pages = {203–213},
+numpages = {11},
+keywords = {differential privacy, facility location, mechanism design, monopolist pricing},
+location = {Cambridge, Massachusetts},
+series = {ITCS '12}
+}
+
+@inproceedings{kearns:md-privacy,
+author = {Kearns, Michael and Pai, Mallesh and Roth, Aaron and Ullman, Jonathan},
+title = {Mechanism design in large games: incentives and privacy},
+year = {2014},
+isbn = {9781450326988},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2554797.2554834},
+doi = {10.1145/2554797.2554834},
+abstract = {We study the problem of implementing equilibria of complete information games in settings of incomplete information, and address this problem using "recommender mechanisms." A recommender mechanism is one that does not have the power to enforce outcomes or to force participation, rather it only has the power to suggestion outcomes on the basis of voluntary participation. We show that despite these restrictions, recommender mechanisms can implement equilibria of complete information games in settings of incomplete information under the condition that the game is large---i.e. that there are a large number of players, and any player's action affects any other's payoff by at most a small amount.Our result follows from a novel application of differential privacy. We show that any algorithm that computes a correlated equilibrium of a complete information game while satisfying a variant of differential privacy---which we call joint differential privacy---can be used as a recommender mechanism while satisfying our desired incentive properties. Our main technical result is an algorithm for computing a correlated equilibrium of a large game while satisfying joint differential privacy.Although our recommender mechanisms are designed to satisfy game-theoretic properties, our solution ends up satisfying a strong privacy property as well. No group of players can learn "much" about the type of any player outside the group from the recommendations of the mechanism, even if these players collude in an arbitrary way. As such, our algorithm is able to implement equilibria of complete information games, without revealing information about the realized types.},
+booktitle = {Proceedings of the 5th Conference on Innovations in Theoretical Computer Science},
+pages = {403–410},
+numpages = {8},
+keywords = {differential privacy, equilibrium selection, game theory, mechanism design},
+location = {Princeton, New Jersey, USA},
+series = {ITCS '14}
+}
+
+  
 @TechReport{Kifer2020GuidelinesFI,
   title={Guidelines for Implementing and Auditing Differentially Private Systems},
   author={D. Kifer and Solomon Messing and A. Roth and Abhradeep Thakurta and Danfeng Zhang},

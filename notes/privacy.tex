@@ -2424,20 +2424,35 @@ Another question is how fast can we actually learn from
 \end{frame}
 }
 
-\begin{frame}
-  \frametitle{Further reading}
-  \begin{itemize}
-  \item $k$-anonymity \cite{samarati1998protecting}
-  \item Randomness, privacy, and the US 2020 census \cite{garfinkel2020randomness}
-  \item The paper introducing differential privacy \cite{dwork2006calibrating}
-  \item Differential privacy book \cite{dwork2014algorithmic}
-  \item Bayesian inference and privacy \cite{bayesiandp}
-  \item Local differential privacy and statistics \cite{duchi2013local}
-  \item Local differential privacy and applications \cite{yang2020local}
-  \item The exponential mechanism \cite{mcsherry2007mechanism}
+\only<presentation>{
+  \begin{frame}
+    \frametitle{Further reading}
+    \begin{itemize}
+    \item $k$-anonymity \cite{samarati1998protecting}
+    \item Randomness, privacy, and the US 2020 census \cite{garfinkel2020randomness}
+    \item The paper introducing differential privacy \cite{dwork2006calibrating}
+    \item Differential privacy book \cite{dwork2014algorithmic}
+    \item Bayesian inference and privacy \cite{bayesiandp}
+    \item Local differential privacy and statistics \cite{duchi2013local}
+    \item Local differential privacy and applications \cite{yang2020local}
+    \item The exponential mechanism \cite{mcsherry2007mechanism}
+      
+    \end{itemize}
+  \end{frame}
+}
 
-  \end{itemize}
-\end{frame}
+\only<article>{
+\subsection{Further reading}
+The privacy attack in the Massachusetts database is detailed in~\citep{sweeney2002k}, while $k$-anonymity is described more thoroughly in  in~\citep{samarati1998protecting}. Differential privacy, not actually given that name at the time, was introduced in~\citep{dwork2006calibrating}.
+The exponential mechanism was introduced by \citet{mcsherry2007mechanism}, with an application to approximately truthful mechanism design. This direction was further investigated by~\citet{kearns:md-privacy,nissim:ao-md:2012}.
+A technical book on differential privacy by \citet{dwork2014algorithmic} covers all of the fundamentals.
+Randomness, privacy, and the US 2020 census \cite{garfinkel2020randomness}.
+Bayesian inference and privacy \cite{bayesiandp}
+Local differential privacy and statistics \cite{duchi2013local}
+Local differential privacy and applications \cite{yang2020local}
+
+
+}
 
 
 \only<article>{
