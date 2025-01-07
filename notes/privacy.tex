@@ -830,6 +830,7 @@
       \Pr^\pol_\bel(x = 1 \mid a = 1) =
       \frac{\pol(a = 1 | x = 1) q}
       {\pol(a = 1 | x = 1) q + \pol(a = 1 | x = 1) (1 - q)}
+      =
       \frac{(1 - p) q}{(1 - p)q + p(1 - q)}.
     \]
     Let us plot this function in Figure~\ref{fig:randomised-response}. On the left side, $p = 0$, and so the outcome $a$ gives us perfect information about $x$. However, when $p \to 1/2$, the answers become completely random and so the posterior distribution approaches the prior, as the answer give us no information.
@@ -908,8 +909,7 @@
       \pol(A \mid x) \leq e^\epsilon \pol(A \mid x').
       \label{eq:epsilon-dp-alt}
     \end{equation}
-    It should be easy to see that both of those forms are equivalent. In addition, 
-    in practice (and particularly either when $\CA$ is finite, or when $\pol(a | x)$ is a density on $\CA$) we can also use
+    In practice---and particularly either when $\CA$ is finite, or when $\pol(a | x)$ is a density on $\CA$---we can also use
     $\pol(a \mid x)$ without any technical difficulties in our mathematical expressions.}
     
   We used the inequality~\eqref{eq:epsilon-dp} in the definition,
@@ -923,7 +923,7 @@
 
 
   Now let us go a bit deeper into the notion of neighbourhood for datasets. Changing the definition of neighbourhood results in a different meaning 
-or privacy. Fortunately, there are only two commonly definitions, and we will go through them in detail.
+or privacy. There are two common definitions, and we will go through them in detail.
 \end{frame}
 
 \begin{frame}
