@@ -2369,8 +2369,16 @@ Differential privacy can also be useful in game theory and mechanism design. In 
 The effect of local differential privacy on statistical efficiency was
 first analysed by~\citet{duchi2013local}. Versions of local
 differential privacy have been used by tech companies to provide some
-modicum of privacy. Differential privacy has been used very rigorously 
-in the US 2020 census \cite{garfinkel2020randomness}.
+modicum of privacy. Differential privacy has been used very rigorously
+in the US 2020 census \cite{garfinkel2020randomness}. This relied on a
+careful implementation of privacy so that statistics could be released
+at different levels of granularity while ensuring both
+self-consistency across federal, state and municipal levels and the
+privacy of individuals. Generally speaking, it is not entirely trivial
+to employ differential privacy in practice, but recently a number of
+publicly available libraries for differential privacy have been
+released. These include the \texttt{diffprivlib} python library by IBM
+and the \texttt{OpenDP} open source library.
 
 %Local differential privacy and applications \cite{yang2020local}
 
