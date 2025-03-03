@@ -536,7 +536,7 @@
 
   \only<article>{After thinking about it for a bit, the analyst decides to remove the birthday and name, and broadly categorise people according to their height in increments of 10cm, the weight in increments of 20cm, and keep just the first digit of the postcode. Now, that looks much more reasonable. }
   \only<4>{
-    \begin{table}[H]
+    \begin{table}[ht]
       \centering
       \begin{tabular}{l|l|l|l|l|l|l}
         Height  & Weight & Age & Postcode & Profession\\
@@ -753,7 +753,7 @@
     In general, we want to consider an algorithm that takes data $x_1, \ldots, x_n$ from $n$ users transforms it randomly to $a_1, \ldots, a_n$ using the following mapping, with a fixed probability of flipping the data of the $i$-th individual.}
   \begin{block}{The binary randomised response mechanism}
     \begin{definition}[Randomised response]
-      The $i$-th user, whose data is $x_i \in \{0,1\}$ , responds with $a_i \in \{0, 1\}$ with probability
+      The $i$-th user, whose data is $x_i \in \{0,1\}$, responds with $a_i \in \{0, 1\}$ with probability
       \[
         \pol(a_i = j \mid x_i = k) = p,  \qquad  \pol(a_i = k \mid x_i = k) = 1 - p,
       \]
@@ -1347,7 +1347,7 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
     \[
       \pol(a \mid x) = \prod_{i=1}^n \pol_i(a_i \mid x).
     \]
-    This composition is fixed ahead of time, in the sense that $\poi_t$ is selected independently of what $a_1, \ldots, a_{t-1}$ have been.
+    This composition is fixed ahead of time, in the sense that $\pol_t$ is selected independently of what $a_1, \ldots, a_{t-1}$ have been.
     % The composition is \alert{adaptive}, in the sense that the next query is allowed to depend on the previous queries and their results.
   \end{definition}
   \only<article>{As an example, consider calculating $a_1$, the sum of $x_{t,i}$ as well as the total number of records $a_2$, using an $\epsilon$-DP mechanism $\pol_1, \pol_2$ in each case. The following theorem gives us the total privacy loss if we make $a_1, a_2$ public.
@@ -2329,11 +2329,11 @@ dataset.
   \end{block}
   \begin{block}{Algorithm idea}
     \begin{algorithmic}
-      \State Run algorithm $\lambda$ on data $\Training$ and get e.g. classifier parameters $\theta$.
+      \State Run algorithm $\lambda$ on data $\Training$ and get e.g.\ classifier parameters $\theta$.
       \State Run a DP version of the function $f(\theta, \Holdout) = \ind{\util(\theta, \Training) \geq \tau \util(\theta, \Holdout)}$.
     \end{algorithmic}
   \end{block}
-  \only<article>{So instead of reporting the holdout performance at all, you just see if you are much worse than the training performance, i.e. if you're overfitting. The fact that the mechanism is DP also makes it difficult to learn the holdout set. See the thresholdout link for more details.}
+  \only<article>{So instead of reporting the holdout performance at all, you just see if you are much worse than the training performance, i.e.\ if you're overfitting. The fact that the mechanism is DP also makes it difficult to learn the holdout set. See the thresholdout link for more details.}
 \end{frame}
 
 
@@ -2489,10 +2489,9 @@ Another question is how fast can we actually learn from
 \only<article>{
   \section{Exercises}
   \begin{exercise}
-    Show that the randomised response mechanism, as originally defined, is not differentially private with respect to the addition/deletion neighbourhood.
-    \label{exer:rp-neighbourhood}
+    Show that the randomised response mechanism, as originally defined, is not differentially private with respect to the addition/deletion neighbourhood. \label{exer:rp-neighbourhood}
   \end{exercise}
-  \ifdefined \solution
+  \ifdefined\solution
     \begin{proof}
       Let $x_1, x_2, x_3$ be three datasets with
       $x_1 N x_2 N x_3$ and $x_1 N_e x_3$.  First of all, an
