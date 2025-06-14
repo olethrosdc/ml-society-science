@@ -836,14 +836,21 @@
     Let us plot this function in Figure~\ref{fig:randomised-response}. On the left side, $p = 0$, and so the outcome $a$ gives us perfect information about $x$. However, when $p \to 1/2$, the answers become completely random and so the posterior distribution approaches the prior, as the answer give us no information.
     \begin{figure}[h]
       \centering
-      \begin{tikzpicture}[scale=8, domain=0:0.5]
-        \draw[->] (0,0)--(0.5,0) node[right]{$p$};
-        \draw[->] (0,0)--(0,1) node[left]{$\Pr^\bel_\pol(x = 1 | a = 1)$};
-        \draw[color=blue]   plot (\x, {(1 - \x)*0.1 / ((1 - \x)*0.1 +  \x*0.9)});
-        \draw[color=red]   plot (\x, {(1 - \x)*0.9 / ((1 - \x)*0.9 +  \x*0.1)});
-        \draw[color=green]   plot (\x, {(1 - \x)*0.5 / ((1 - \x)*0.5 +  \x*0.5)});
-      \end{tikzpicture}
-      \caption{The posterior belief that the data of an individual is $x= 1$ if $a = 1$ has been observed, as we vary the flipping probability $p$. for three different values of the prior probability $q \in \{0.1, 0.5, 0.9\}$. In all cases, if the flipping probability is 0, then we are perfectly sure that $x=1$. As $p$ approaches $1/2$, our posterior approaches the prior, since for $p$ closer to $1/2$, the answers are more random, and hence the evidence is weaker.}
+      \begin{tikzpicture}[domain=0:0.5]
+        \begin{axis}[xlabel={$p$},
+          ylabel={$\Pr^\pol_\bel(x = 1\mid a= 1)$},
+          grid=both,
+          legend style={anchor=north west}
+          ]
+          \addplot[color=blue, dotted] (x, {(1 - x)*0.9 / ((1 - x)*0.9 +  x*0.1)});
+          \addlegendentry{$q=0.9$};
+          \addplot[color=green, solid] (x, {(1 - x)*0.5 / ((1 - x)*0.5 +  x*0.5)});
+          \addlegendentry{$q=0.5$};
+          \addplot[color=red, dashed](x, {(1 - x)*0.2 / ((1 - x)*0.2 +  x*0.8)});
+          \addlegendentry{$q=0.2$};
+      \end{axis}
+    \end{tikzpicture}
+      \caption{The posterior belief that the data of an individual is $x= 1$ if $a = 1$ has been observed, as we vary the flipping probability $p$. for three different values of the prior probability $q \in \{0.2, 0.5, 0.9\}$. In all cases, when the flipping probability is 0, we are perfectly sure that $x=1$. As $p$ approaches $1/2$, our posterior approaches the prior, since for $p$ closer to $1/2$, the answers are more random, and hence the evidence is weaker.}
       \label{fig:randomised-response}
     \end{figure}
     Analytically, the case where the prior is $q = 1/2$ is the simplest. Then: 
