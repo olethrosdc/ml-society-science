@@ -2232,16 +2232,17 @@ dataset.
     \begin{tikzpicture}
       \begin{axis}[domain=0:2.5,
         xlabel=$\epsilon$,
-        ylabel=$\delta$]
+        ylabel=$\delta$,
+        grid=both]
         % \draw[step=0.1, line width=0.1pt,color=gray] (0,0) grid (2.5,1.1);
         % \draw[step=1,very thin,color=cyan] (0,0) grid (2.5,1.1);
         % \draw[->] (0,0) -- (2.5,0) node[right] {$\epsilon$};
         % \draw[->] (0,0) -- (0,1.1) node[above] {$\delta_\pol(\epsilon)$};
         \addplot[samples=100,color=red] {max(0,0.6 - exp(x) *0.4)};
         \addlegendentry{$p=0.4$}
-        \addplot[samples=100,color=magenta] {max(0,0.8 - exp(x) *0.2)}; % p=0.8
+        \addplot[samples=100,color=magenta,dashed] {max(0,0.8 - exp(x) *0.2)}; % p=0.8
         \addlegendentry{$p=0.8$}
-        \addplot[samples=100,color=blue]  {max(0,0.9 - exp(x) *0.1)};
+        \addplot[samples=100,color=blue,dotted]  {max(0,0.9 - exp(x) *0.1)};
         \addlegendentry{$p=0.9$}
       % \addplot[domain=0:2.5,samples=100]{x^2};
       \end{axis}
@@ -2269,8 +2270,8 @@ dataset.
 
 \paragraph{Shuffling.}
 \only<article>{
-  Shuffling\cite{erlingsson2019amplification,feldman2022hiding} can be seen as a privacy model somewhere in between the central model, where data is given to a trusted curator, and the local model, where each user randomises their data. Using shuffling, we can amplify privacy in the following way. If we use $n$ copies of a local $\epsilon$-DP mechanism, each with $\epsilon = O(\ln(n / ln(1/\delta)))$ then the total privacy loss is $\epsilon' = O(\min\{e, 1\} e^\epsilon / \sqrt{\ln(1/\delta)/n})$.
-[Hiding among the clones] gives a bond of $(1 - e^{-\epsilon_0}) \sqrt{e^{\epsilon_0} \ln(1/\delta) / T}$.
+  If data is anonymised, then it can be shuffled~\citep{erlingsson2019amplification,feldman2022hiding}, so it is impossible to tell which data point came from which individual. This can be seen as a privacy model somewhere in between the central model, where data is given to a trusted curator, and the local model, where each user randomises their data. Using shuffling, we can amplify privacy in the following way. If we use $n$ copies of a local $\epsilon$-DP mechanism, each with $\epsilon = O(\ln(n / ln(1/\delta)))$ then the total privacy loss is $\epsilon' = O(\min\{e, 1\} e^\epsilon / \sqrt{\ln(1/\delta)/n})$.
+%[Hiding among the clones] gives a bond of $(1 - e^{-\epsilon_0}) \sqrt{e^{\epsilon_0} \ln(1/\delta) / T}$.
 }
 %\paragraph{Random check-ins.}
 %\only<article>{
@@ -2279,9 +2280,8 @@ dataset.
 
 \paragraph{Iteration.}
 \only<article>{
-  Most modern machine learning algorithms are iterative: they have parameters that are adjusted through multiple iterations over the data. Stochastic gradient descent is a classic example, where each iteration is over a random subsample of the data. Using results from subsampling to bound the privacy loss in each iteration, we can then use composition to bound the total privacy loss of the algorithm. In this analysis, we essentially assume that the output of the algorithm can be observed at every step.
-
-  \citet{privacy-amplification-iteration} show that (1-Lipschitz) contraction mappings with Gaussian noise works. In fact if $x_{t+1} = f(x_t) + \omega_t$, then for any two starting points $x_0, x_0'$: $\renyi{\alpha}{x_T}{x'_T} \leq ..>$
+  Most modern machine learning algorithms are iterative: they have parameters that are adjusted through multiple iterations over the data. Stochastic gradient descent is a classic example, where each iteration is over a random subsample of the data. Using results from subsampling to bound the privacy loss in each iteration, we can then use composition to bound the total privacy loss of the algorithm. In this analysis, we essentially assume that the output of the algorithm can be observed at every step.  \citet{privacy-amplification-iteration} show that (1-Lipschitz) contraction mappings with Gaussian noise have good differential privacy properties, as long as the intermediate results of the computation are not released. This allows them to show that the additional loss due to privacy for a population of $n$ individuals is bounded by $O(\epsilon^{-1} n^{-1/2})$.
+  %In fact if $x_{t+1} = f(x_t) + \omega_t$, then for any two starting points $x_0, x_0'$: $\renyi{\alpha}{x_T}{x'_T} \leq ..>$
   %[Privacy Amplification by Mixing and Diffusion Mechanisms]
 }
 
