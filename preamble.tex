@@ -23,6 +23,7 @@
 \usepackage{listings}
 \usepackage{pgfplots}
 \usepackage{fontawesome}
+\newfontfamily\futs{DejaVu Sans}
 \newlength\fheight
 \newlength\fwidth
 \only<presentation>{
@@ -91,10 +92,9 @@
   {\begin{mdframed}[frametitle={\faGears{} #1}]}
     {\end{mdframed}}
 
+  \renewenvironment{alertblock}[1]  {\begin{mdframed}[backgroundcolor=red!20,frametitle={{\futs\char"26A0\relax} #1}]}
+   {\end{mdframed}}
 
-  \renewenvironment{alertblock}[1]
-  {\begin{mdframed}[backgroundcolor=red!20,frametitle={{\fontencoding{U}\fontfamily{futs}\selectfont\char 66\relax} #1}]}
-    {\end{mdframed}}
 
 
   \newenvironment{theoryblock}[1]
