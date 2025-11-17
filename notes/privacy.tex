@@ -2316,17 +2316,44 @@ dataset.
   \end{figure}
   \only<article>{In the ideal data analysis, we start from some prior hypothesis, then obtain some data, which we split into training and holdout. We then examine the training data and obtain a posterior that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
 
-    However, this is not what happens in general. Analysts typically use the same holdout repeatedly, in order to improve the performance of their algorithms. This can be seen as indirectly using the holdout data to obtain information, and so it is possible that you can overfit on the holdout data, even if you never directly see it. As a simple example, consider evaluating a binary linear classifier on a holdout set.
+    However, this is not what happens in general. Analysts typically
+    use the same holdout repeatedly, in order to improve the
+    performance of their algorithms. This can be seen as indirectly
+    using the holdout data to obtain information, and so it is
+    possible that you can overfit on the holdout data, even if you
+    never directly see it. The example below shows that it is possible
+    to learn to perfectly classify every example in a holdout set.
 
+    \begin{example}
+      Consider evaluating a binary linear
+    classifier on a holdout see. By repeatedly count the number of
+    misclassified examples on the holdout set for different
+    classifying hyperplanes, we can obtain enough information to
+    perfectly classify every example.  As shown in
+    Fig~/ref{fig:learning-holdout}, on the left we are classifying 2
+    examples incorrectly. Shifting the hyperplane downwards, we now
+    make one mistake less. Consequently, there must be one positive
+    example in the area defined between the two hyperplanes. The more
+    queries we have, the more precise we can be about the location and
+    label of every example in the dataset.
+    
+    
     \begin{figure}[h]
       \centering
       \includegraphics{../figures/holdout.pdf}
       
-      \caption{Use of a linear classifier to reveal labels in the holdout set. On the right, we are making one mistake less than on the left. This means that there is a positive example in the area between the two hyperplanes.}
+      \caption{Using a linear classifier to reveal labels in the holdout set. On the right, we are making one mistake less than on the left. This means that there is a positive example in the area between the two hyperplanes.}
       \label{fig:learning-holdout}
     \end{figure}
-    We can solve this problem if we use differential privacy, so that
-    the analyst can only perform privacy-preserving queries on the holdout set.
+  }
+
+  
+  Of course, in reality we are not really trying to learn the holdout
+  set. Nevertheless, if we are optimising some hyperparameters using
+  holdout performance metrics, we might be overconfident about how
+  well we will perform in a fresh sample. We can solve this problem if
+  we use differential privacy, so that the analyst can only perform
+  privacy-preserving queries on the holdout set. 
 
   }
 \end{frame}
