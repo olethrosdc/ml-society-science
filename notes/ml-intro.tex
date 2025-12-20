@@ -600,23 +600,25 @@
   \end{frame}
 }
 
-\only<article>{ While in the past machine learning was mainly a field
-  of research, with only some applications, but now machine learning
-  is pervasive: Our phones, cars, watches, doorbells, kettles are
-  connected to the internet and send a continuous stream of data to
-  companies. In addition, many companies and government actors use
-  machine learning algorithms to make or support decisions. This
-  creates a number of problems in privacy, fairness and safety.  }
+\only<article>{In the past machine learning was mainly a field of
+  research, with only some applications. However, now machine learning
+  is pervasive: Our phones, cars, watches, doorbells and even kettles
+  and toasters are supposed to be ``smart'' and have become connected
+  to the internet, sending a continuous stream of data to companies
+  for unclear purposes. In addition, many companies and government
+  actors use machine learning algorithms explicitly to make or support
+  decisions, without necessarily performing an appropriate risk
+  assessment or capabilities analysis. This creates a number of
+  problems in privacy, fairness and safety.  }
 
 
 \begin{frame}
   \frametitle{The view from statistics}
-  \only<article>{While in machine learning people generally discuss mainly supervised, unsupervised or reinforcement learning, these are actually three rather broad, but still limited categories of problems. There are many other problems, such as semi-supervised learning, active learning, imitation/apprenticeship learning, inverse reinforcement learning, preference elicitation, adaptive control, and possibly many others to come. The statistical view is that there basically three types of problems:}
-
-  \paragraph{Inference.}\index{inference|textbf}
-    Given what we know, what can we say about how the world works, the current state of the world or events in the past?
+  \only<article>{While in machine learning people generally discuss mainly supervised, unsupervised or reinforcement learning, these are actually three rather broad, but still limited categories of problems. There are many other problems, such as semi-supervised learning, active learning, imitation/apprenticeship learning, inverse reinforcement learning, preference elicitation, adaptive control, and possibly many others to come. The statistical view is that there basically three types of problems. Prediction, inference and decision making.}
   \paragraph{Prediction.}\index{prediction|textbf}
-    Can we predict specific evens in the future? \only<article>{This frequently is done through some type of inference.}
+  Can we predict specific events in the future? \only<article>{This frequently is done through some type of inference.}
+  \paragraph{Inference.}\index{inference|textbf}
+    Given what we know, what can we say about how the world works, the current state of the world or events in the past? \only<article>{Learning how the world works implies learning some kind of \emph{model}, or \emph{law} that explains observations we have. A simple example is the law of gravitation. Inferring the \emph{state} of the world typically requires assuming some model, and examining from observations.}
   \paragraph{Decision making.}\index{prediction|textbf}
     Given what we know, and what we want to achieve, what is the best decision we can make? \only<article>{This typically requires some ability to predict the effect of our actions.}
   \only<article>{We will encounter many specific inference, prediction and decision making tasks during this course.}
