@@ -2287,9 +2287,9 @@ dataset.
 
 \subsection{Reproducibility}
 \only<article>{
-  Training and testing, overfitting on the test set. \cdcomment{stub}
-  \cite{smith2017information}
-  Ideally, when we analyse data, we perform each analysis on a new sample. In practice, however, we perform an adaptive analysis of the same data multiple times. This inevitably makes all such analyses biased in some sense. To remove this bias we need to use some form of randomisation that removes the dependencies between the analyses. In fact, differential privacy offers a conceptually simple tool to achieve this. 
+  %Training and testing, overfitting on the test set. \cdcomment{stub}
+  Ideally, when we analyse data, we perform each analysis on a new sample. In practice, however, we perform an adaptive analysis of the same data multiple times. This inevitably makes all such analyses biased in some sense. To remove this bias we need to use some form of randomisation that removes the dependencies between the analyses. In fact, differential privacy offers a conceptually simple tool to achieve this.\cite{smith2017information}
+
 }
 
 \begin{frame}
@@ -2316,7 +2316,18 @@ dataset.
   \end{figure}
   \only<article>{In the ideal data analysis, we start from some prior hypothesis, then obtain some data, which we split into training and holdout. We then examine the training data and obtain a posterior that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
 
-    However, this is not what happens in general. Analysts typically use the same holdout repeatedly, in order to improve the performance of their algorithms. This can be seen as indirectly using the holdout data to obtain a new posterior, and so it is possible that you can overfit on the holdout data, even if you never directly see it. It turns out we can solve this problem if we use differential privacy, so that the analyst only sees a differentially private version of queries.
+    However, this is not what happens in general. Analysts typically use the same holdout repeatedly, in order to improve the performance of their algorithms. This can be seen as indirectly using the holdout data to obtain information, and so it is possible that you can overfit on the holdout data, even if you never directly see it. As a simple example, consider evaluating a binary linear classifier on a holdout set.
+
+    \begin{figure}[h]
+      \centering
+      \includegraphics{../figures/holdout.pdf}
+      
+      \caption{Use of a linear classifier to reveal labels in the holdout set. On the right, we are making one mistake less than on the left. This means that there is a positive example in the area between the two hyperplanes.}
+      \label{fig:learning-holdout}
+    \end{figure}
+    We can solve this problem if we use differential privacy, so that
+    the analyst can only perform privacy-preserving queries on the holdout set.
+
   }
 \end{frame}
 
