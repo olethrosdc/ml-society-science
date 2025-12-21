@@ -583,15 +583,27 @@
   in the database apart from the $i$-th person, it is trivial for them to infer what the $i$-th person's data
   is. For some particularly sensitive datasets, we may want for the
   adversary to be unable to tell whether or not somebody's data was part of
-  the base at all! Differential privacy offers protection against adversaries
-  with unlimited side-information or computational power. Intuitively,
-  an algorithmic computation is differentially-private if an adversary
-  cannot distinguish two ``neighbouring'' databases based on the result
-  of the computation. Informally, two databases are neighbours when
-  they are identical apart from the data of one person. If an adversary cannot tell if an individual's data has been included in the database, this is equivalent to saying that he cannot distinguish between two databases $x, x'$ where $x$ includes the data of this one person and $x'$ does not. Differential privacy gives such a guarantee for \emph{any} pair of neighbouring databases.  
-  Differentially private algorithm must use randomness in order to make
-  it impossible for somebody to tell from the algorithm's output
-  whether any specific individual's data was in the database with absolute certainty. The more random the algorithm, the harder it is for the adversary to correctly guess something about the data. However, this also makes the algorithm less useful.}
+  the base at all. Differential privacy offers protection against adversaries
+  with unlimited side-information or computational power.
+
+  Intuitively, an algorithmic computation is differentially private if
+  an adversary cannot distinguish between any two ``neighbouring''
+  databases based on the result of the computation. This results in
+  the algorithm having similar outputs for similar inputs, where the
+  similarity of inputs is determined by the notion of neighbourhood.
+  In order to protect personal information, we say that two databases
+  are neighbours when they only differ in the data of one person. If
+  an adversary cannot tell whether an individual's data has been included
+  in the database, this is equivalent to saying that he cannot
+  distinguish between two databases $x, x'$ where $x$ includes the
+  data of this one person and $x'$ does not. Differential privacy
+  gives such a guarantee for \emph{any} pair of neighbouring
+  databases.  Differentially private algorithm must use randomness in
+  order to make it impossible for somebody to tell from the
+  algorithm's output whether any specific individual's data was in the
+  database with absolute certainty. The more random the algorithm, the
+  harder it is for the adversary to correctly guess something about
+  the data. However, this also makes the algorithm less useful. }
 
 \begin{frame}
   \begin{figure}[H]
@@ -634,7 +646,18 @@
     from $a$.  But even if that is not possible, maybe they can learn
     \emph{something} about the data from the output. In the section
     below, we will formalise this notion.
+  }
 
+
+  \begin{figure}[htb]
+    \begin{center}
+      \includegraphics{../figures/dp-spaces}
+    \end{center}
+    \label{fig:dp-spaces}
+    \caption{The space $\CX$ of datasets is partitioned depending on the output of the algorithm $f$ so that $\CX_{a}$ is the set of datasets $x$ for which $f(x) = a$. In this case, for the datasets $x, x', x''$, we see that $x, x''$ result in the output $a_5$ while $x'$ has the output $a_7$. So, if the adversary knows that the dataset is one of these, and observes $a_7$, then they will learn the dataset was $x'$.}
+  \end{figure}
+  
+  \only<article>{
     \begin{example}
       To better develop your intuition, assume that we have a
       deterministic algorithm $f : \CX \to \CA$, and that there is a
@@ -642,7 +665,7 @@
       maps to one of those possible outputs, and so we can partition
       the space $\CX$ of datasets into $\CX_1, \ldots, \CX_{|\CA|}$,
       with $\CX_a$ being the set of values of $x$ for which the
-      $f(x) = a$. Then, by observing $a$, you already know with
+      $f(x) = a$, as shown in Figure~\ref{fig:dp-spaces}. Then, by observing $a$, you already know with
       certainty that $x \in \CX_a$. Now assume that the adversary has
       some prior knowledge that $x \in S \subset \CX$. Combined with
       the output, his new knowledge is now that $x \in S \cap \CX_a$,
@@ -661,7 +684,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Privacy desiderata}
+  \frametitle{Privacy desiderata.}
   \only<article>{
     Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation on the data and publishes the result through a randomised algorithm $\pol$, where for any output $a$, and any dataset $x$, $\pol(a | x)$ is the probability that the algorithm generates $a$.
     The following properties are desirable from a general standpoint.
@@ -1748,7 +1771,7 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
   Combining the above two examples, we can replace releasing the average directly with first calculating the number of entries, adding Laplace noise with sensitivity $1$. We can then calculating the sum, adding Laplace noise with sensitivity $B$. We can then divide the two, and return the result. Intuitively, however, the Laplace noise in the denominator increases the variance of this estimate versus simply releasing the DP average.
   
   \begin{alertblock}{Sensitivity versus local sensitivity.}
-    The sensitivity is a global property of a function $f$. Sometimes it is confused with the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function. While local sensitivity is easier to calculate, we cannot directly use it to create differentially private algorithms. This is because calculation of local sensitivity depends on the data, and so we must use a differentially private mechanism to calculate it in the first place. For that reason~\citet{nissim2007smooth} proposed to instead calculate a smoothed value of the local sensitivity.
+    The sensitivity is a global property of a function $f$. It is related to the \alert{local} sensitivity of a function at a point $x$, which is simply $\max_{x': x \neigh x'} \|f(x) - f(x')\|$. Thus, local sensitivity at $x$ is analogous to the derivative of the function at $x$, while (global) sensitivity is the maximum local sensitivity over all possible points $x$. For that reason, it is generally impossible to calculate the sensitivity of a general function. While local sensitivity is easier to calculate, we cannot directly use it to create differentially private algorithms. This is because calculation of local sensitivity depends on the data, and so we must use a differentially private mechanism to calculate it in the first place. For that reason~\citet{nissim2007smooth} proposed to instead calculate a smoothed value of the local sensitivity.
   \end{alertblock}
 
 
@@ -1917,7 +1940,7 @@ In particular, it is easy to show that a guarantee of $\epsilon$-DP under the me
 \subsection{Utility of queries}
 
 \begin{frame}
-  \only<article>{Rather than saying that we wish to calculate a private version of some specific function $f$, sometimes it is more useful to consider the problem from the perspective of the utility of different answers to queries. More precisely, imagine the interaction between a database system and a user:}
+  \only<article>{Rather than saying that we wish to calculate a private version of some predetermined function $f$, sometimes it is more useful to consider the problem from the perspective of the utility of different answers to queries. More precisely, imagine the interaction between a database system and a user:}
   \begin{block}{Interactive queries}
     \only<article>{In this setting, we do not know \emph{a priori} what we want to compute on the data. We want to be able to reply to arbitrary queries, from a potentially adversarial party, in a useful manner. The interaction involves the following elements.}
     \begin{itemize}
