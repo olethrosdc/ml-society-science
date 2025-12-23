@@ -686,16 +686,19 @@
 \begin{frame}
   \frametitle{Privacy desiderata.}
   \only<article>{
+    What exactly do we want from a privacy-preserving computation? The computation must both guard privacy and remain useful. Let us make this more precise:
     Consider a scenario where $n$ persons give their data $x_1, \ldots, x_n$ to an analyst. This analyst then performs some calculation on the data and publishes the result through a randomised algorithm $\pol$, where for any output $a$, and any dataset $x$, $\pol(a | x)$ is the probability that the algorithm generates $a$.
-    The following properties are desirable from a general standpoint.
+    The following properties are desirable, both in terms of privacy, and in terms of utility.
 
-    \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database. So, if you do participate in the database, this cannot be easily detected.
+    \paragraph{Anonymity.} Individual participation in the study remains a secret. From the release of the calculations results, nobody can significantly increase their probability of identifying an individual in the database. So, if you do participate in the database, this cannot be easily detected using the output $a$.
 
-    \paragraph{Secrecy.} The data of individuals is not revealed. The release does not significantly increase the probability of inferring individual's information $x_i$. So, if you do participate in the database, it is not an easier to retrieve personal information compared to not participating.
+    \paragraph{Secrecy.} The data of individuals is not revealed. The release does not significantly increase the probability of inferring individual's information $x_i$. So, if you do participate in the database, it is not significantly easier to retrieve your  personal information compared to you not participating.
+    
+    \paragraph{Side-information.} Adversaries with additional information do not have an advantage. Even if an adversary has arbitrary side-information, such as another database containing some of the individuals, he cannot use that to amplify the amount of knowledge he would have obtained from the release. In other words, your participation to the database can only slightly increase the adversary's knowledge about you, irrespective of what other information they have. This means that linkage attacks are no longer possible.
 
-    \paragraph{Side-information.} Even if an adversary has arbitrary side-information, he cannot use that to amplify the amount of knowledge he would have obtained from the release. In other words, your participation to the database can only slightly increase the adversary's knowledge about you, irrespective of what other information they have.
-
-    \paragraph{Utility.} The released result has, with high probability, only a small error relative to a calculation that does not attempt to safeguard privacy. Consequently, there is an incentive to participate in the computation as long as its results are useful to you.
+    \paragraph{Utility.} The calculation remains useful. The released result has, with high probability, only a small error relative to a calculation that does not attempt to safeguard privacy. Consequently, there is an incentive to participate in the computation as long as its results are useful to you.
+    
+    However, not being able to learn $x_i$ from $a$ does not mean that the calculation itself does not reveal anything about you. Indeed, it might be possible to learn statistical relationships that involve you in some way. For example, if the dataset shows that smoking is highly correlated with lung cancer, then an adversary that knows you are smoking will learn that you have a higher chance of having lung cancer. However, they will not know if you do have cancer. Of course, statistical relationships such as this are going to hold no matter whether you participate in the database or not.
   }
   \only<presentation>{
     We wish to calculate something on some private data and publish a \alert{privacy-preserving}, but \alert{useful}, version of the result.
@@ -705,6 +708,7 @@
     \item Side-information: Linkage attacks are not possible.
     \item Utility: The calculation remains useful.
     \end{itemize}
+    Note: statistical relationships are revealed independently of individual participation.
   }
 \end{frame}
 
