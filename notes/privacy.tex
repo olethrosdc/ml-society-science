@@ -2282,7 +2282,7 @@ dataset.
 }
 \subsection{Privacy amplification}
 \only<article>{
-  Intuitively, the way we collect data in the first place can lead to better privacy guarantees. If for example we perform a study on a sample of one thousand individuals in the city, we should have better privacy guarantees if the city population is ten million, compared to when it is only one million. The randomisation inherent in the data sampling procedure amplifies the differential privacy guarantees we have. The simplest results that we can obtain in this setting involve uniform sampling for a fixed population, i.e. subsampling:
+  Intuitively, the way we collect data in the first place can lead to better privacy guarantees. If for example we perform a study on a sample of one thousand individuals in the city, we should have better privacy guarantees if the city population is ten million, compared to when it is only one million. The randomisation inherent in the data sampling procedure amplifies the differential privacy guarantees we have. The simplest results that we can obtain in this setting involve uniform sampling for a fixed population, i.e. subsampling. Two other common amplification methods include shuffling, which works with anonymous data and iteration, where noise is applied iteratively, as is done for example in stochastic gradient methods.
 }
 \only<article>{
   \paragraph{Subsampling.}  Let us consider obtaining a sample $y$ from a dataset $x$. One of the simplest methods for doing so is Poisson subsampling. Here, $y$ includes an element $x_i$ with probability $\gamma$ so that the probability of obtaining $y$ from $x$ is $\mu_x(y) \defn \mu(y | x) = \gamma^{|y|}(1 - \gamma)^{|x| - |y|}$. By itself, subsampling does not give us any guarantees, but we can combine it with a mechanism $\pol_y(z) \defn \pol(z | y)$ with privacy profile $\delta_{\pol}(\epsilon)$. Then the combined mechanism $\pol'$ obtained by first subsampling with $\mu$ and then applying $\pol$, has a privacy profile $\delta_{\pol'}$ satisfying:
@@ -2376,7 +2376,7 @@ dataset.
     \end{figure}
   }
 \end{example}
-
+\only<article>{
   Of course, in reality we are not really trying to learn the holdout
   set. Nevertheless, if we are optimising some hyperparameters using
   holdout performance metrics, we might be overconfident about how
