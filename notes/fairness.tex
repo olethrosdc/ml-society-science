@@ -4,9 +4,9 @@
 \label{ch:fairness}
 \only<article>{ When machine learning algorithms are applied at scale,
   it can be difficult to imagine what their effects in society might
-  be. In this part of the book, we consider notions of group and
-  individual fairness, through the prism of conditional independence
-  and meritocracy respectively.
+  be. In this chapter, we consider notions of group and individual
+  fairness, through the prism of conditional independence and
+  meritocracy respectively.
   
   The problem of fairness in machine learning and artificial
   intelligence has been widely recognised in the last decade. When any
@@ -15,16 +15,18 @@
   societal effects. In particular, when using an algorithmic solution
   to satisfy a narrow objective, it might have the side-effect of
   increasing inequality.
-    
-  In this chapter, we will look at two aspects of fairness. The first
-  has to do with disadvantaged populations that form distinct social
-  classes due to a shared income stratum, race or gender. The second
-  has to do with individual notions of fairness. This involve the
-  principle of equal treatment and of meritocracy. Unlike privacy,
-  there is no universally applicable concept of fairness. However, it
-  is important to understand what fairness ideals we can strive
-  towards in order to at least to be able to measure how close to
-  achieving them our systems are.
+
+
+  Unlike privacy, there is no universally applicable concept of
+  fairness. However, it is important to understand what fairness
+  ideals we can strive towards in order to at least to be able to
+  measure how close to achieving them our systems are.  We will look
+  at two broad concepts of fairness that arise in machine
+  learning. The first has to do with the treatment of disadvantaged
+  populations that form distinct social classes due to a shared income
+  stratum, race or gender. The second has to do with individual
+  notions of fairness. This involves the principle of equal treatment
+  and meritocracy.
 
   This chapter requires some knowledge of decision theory (See
   Appendix~\ref{ch:decision-problems}) to understand the principles of
@@ -35,19 +37,28 @@
 \section{Introduction.}
 
 
-\only<article>{ The very concept of fairness is not well-defined
-  and encompasses many different ideas. Some of those relate to fair
-  treatment of individuals: \emph{Meritocracy} is the idea that people
-  should receive rewards according to their merit. \emph{Equal
-    treatment} is the related notion that similar people should be
-  treated similarly under similar circumstances. Some concepts are
-  related more to the treatment of different groups:
+\only<article>{ Fairness encompasses many different ideas. For each
+  one of those ideas, multiple formal definitions can be given.  Some
+  of those ideas are about the fair treatment of individuals: \emph{Meritocracy}
+  is the idea that people should receive rewards according to their
+  merit. \emph{Equal treatment} is the somewhat weaker notion that similar
+  people should be treated similarly under similar circumstances. Some
+  concepts are related more to the treatment of different groups:
   \emph{Proportional representation} is the idea that proportions of
   different groups in society should be reflected in every facet of
-  society. On the other hand, \emph{non-discrimination} captures the notion of
-  not treating people differently depending on sensitive
-  characteristics. This encompasses both the concept of \emph{equality of opportunity} and \emph{equality of outcome}.}
+  society. The lack of proportional representation is obvious in
+  certain professions, for example. On the other hand,
+  \emph{non-discrimination} captures the notion of not treating people
+  differently depending on sensitive characteristics, such as
+  gender. This encompasses two main concepts: \emph{equality of
+    opportunity}, where e.g. people from all backgrounds should have
+  the same opportunities to attend university and \emph{equality of
+    outcome}, where university success rates should be equal for
+  people from all backgrounds.
 
+
+  Like privacy, we wish to define fairness as a property of the \emph{decision making process}. Thus, it does not necessarily make sense to deem an outcome as fair or not: it is the process through which we arrive at that outcome which is fair. However, unlike privacy, fairness is perceived notion, that  depends on the knowledge the observer has. Taking the example of meritocracy, if we want the actually 8 best chess players to participate in the world chess championship, is that the same as picking the top-8-ranked players? Is that the same as picking the top finishers in last year's tournaments and cups? Nobody really knows who the best players are, even if it was possible to rank them. This problem persists in all variants of fairness definitions, as we shall see below.
+}
 \only<presentation>{
   \begin{frame}
     \frametitle{Fairness}
@@ -62,9 +73,9 @@
 }
 
 \begin{frame}
-  \frametitle{Meritocracy}
-  \only<article>{
+  \frametitle{Meritocracy example}
 
+  \only<article>{
     Meritocracy embodies the principle that merit should be
     rewarded. A common example are admissions to universities. Some
     type of summary, typically a grade obtained from high school, is
@@ -144,7 +155,9 @@
 }
 
 \begin{frame}
-  \frametitle{Solutions}
+  \only<presentation>{
+    \frametitle{Solutions}
+  }
   \only<article>{These solution methods are not completely exclusive, and can be implemented simultaneously to some extent.}
   \begin{itemize}
   \item<1-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the \emph{qualified} students, as it drains resources that could have been used for them. This inefficiency is also unfair to the teaching staff, and eventually the taxpayer.}
