@@ -2328,7 +2328,7 @@ dataset.
 \subsection{Reproducibility}
 \only<article>{
   %Training and testing, overfitting on the test set. \cdcomment{stub}
-  Ideally, when we analyse data, we perform each analysis on a new sample. In practice, however, we perform an adaptive analysis of the same data multiple times. This inevitably makes all such analyses biased in some sense. To remove this bias we need to use some form of randomisation that removes the dependencies between the analyses. In fact, differential privacy offers a conceptually simple tool to achieve this.\cite{smith2017information}
+  Ideally, when we analyse data, we perform each analysis on a new sample. Ideally, we would carefully plan our data collection, and select a data analysis method before actually seeing the data. This could be an iterative procedure, whereby we perform a preliminary analysis on some data, and use that to guide further data collection and analysis. In practice, however, we perform an adaptive analysis of the same data multiple times.   This is because we typically wish to select and fine-tune the methodology used to analyse the data, without discarding any data.    This inevitably makes all such analyses biased in some sense. To remove this bias we need to use some form of randomisation that removes the dependencies between the analyses. In fact, differential privacy offers a conceptually simple tool to achieve this.\cite{smith2017information}
 
 }
 
@@ -2356,7 +2356,7 @@ dataset.
     \end{tikzpicture}
   \end{figure}
 }
-  \only<article>{In the ideal data analysis, we start from some prior hypothesis, then obtain some data, which we split into training and holdout. We then examine the training data and obtain a posterior that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
+  \only<article>{Here we will focus on the simplest data analysis scenario, which involves starting from some prior hypothesis and a fixed dataset. We split this data in two training and holdout. We then examine the training data and obtain a posterior or more generally a model that corresponds to our conclusions. We can then measure the quality of these conclusions in the independent holdout set.
 
     However, this is not what happens in general. Analysts typically
     use the same holdout repeatedly, in order to improve the
@@ -2389,28 +2389,29 @@ dataset.
     \end{figure}
   }
 \end{example}
-\only<article>{
-  Of course, in reality we are not really trying to learn the holdout
-  set. Nevertheless, if we are optimising some hyperparameters using
-  holdout performance metrics, we might be overconfident about how
-  well we will perform in a fresh sample. We can solve this problem if
-  we use differential privacy, so that the analyst can only perform
-  privacy-preserving queries on the holdout set. 
-
+\only<article>{ Of course, we are not really trying to learn the
+  holdout set. Nevertheless, if we are optimising some hyperparameters
+  or performing model selection using holdout performance metrics, we
+  might be overconfident about how well we will perform in a fresh
+  sample. We can solve this problem if we use differential privacy, so
+  that the analyst can only perform privacy-preserving queries on the
+  holdout set. This prevents them from learning a lot about the
+  holdout, but they can still use it to approximately measure the
+  quality of their analysis. One such method, the reusable holdout, is explained below.
   }
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{The reusable holdout~\cite{dwork2015reusable}\footnote{Also see \url{https://ai.googleblog.com/2015/08/the-reusable-holdout-preserving.html}}}
+  \frametitle{The reusable holdout~\citep{dwork2015reusable}\footnote{Also see \url{https://ai.googleblog.com/2015/08/the-reusable-holdout-preserving.html}}}
   \only<article>{One idea to solve this problem is to only allow the analyst to see a private version of the result. In particular, the analyst will only see whether or not the holdout result is $\tau$-close to the training result. We need to specify a number of parameters to fully define the algorithm.}
 
   \begin{block}{Algorithm parameters}
     \begin{itemize}
     \item Performance measure $\util$. \only<article>{In classification, this would typically be the classification accuracy, a number bounded in $[0,1]$. In regression, it could be the mean squared error. }
-    \item Threshold $\tau$. \only<article>{Since we can measure the error precisely on the training set, instead of asking the exact value of the error on the holdout, we can ask whether or not the error there is \emph{significantly} worse. This query has a binary answer, and is so relatively easy to answer privately. The threshold defines what we mean by 'significant'}
-    \item Noise $\sigma$. \only<article>{How much noise should we add? This defines the privacy of each query.}
-    \item Budget $B$. \only<article>{How much are we allowed to learn about the holdout set? If each query consumes a $\epsilon(\sigma)$ privacy budget, we can perform up to $B/\epsilon(\sigma)$ queries.}
+    \item Threshold $\tau$. \only<article>{Since we can measure the error precisely on the training set, instead of asking the exact value of the error on the holdout, we can ask whether or not the error there is \emph{significantly} worse. This query has a binary answer, and is so relatively easy to answer privately. The threshold defines what we mean by ``significant''.}
+    \item Noise $\sigma$. \only<article>{How much noise should we add to the answer? This defines the privacy of each query.}
+    \item Privacy budget $B$. \only<article>{How much are we allowed to learn about the holdout set? If each query consumes a $\epsilon(\sigma)$ privacy budget, we can perform up to $B/\epsilon(\sigma)$ queries.}
     \end{itemize}
   \end{block}
   \only<article>{Given all of the above, the algorithmic idea is rather simple. At each iteration, calculate the error of the model on the training set, and perform a DP query on the holdout set to see if performance is significantly worse, i.e. whether it overfits. Then the idea would be to pick the best-performing model in the training set that does not overfit.}
@@ -2423,7 +2424,7 @@ dataset.
       \State $\max \cset{U(\theta_i, \Training)}{\Delta_i = 0}$.
     \end{algorithmic}
   \end{block}
-  \only<article>{So instead of reporting the holdout performance at all, you just see if you are much worse than the training performance, i.e.\ if you're overfitting. The fact that the mechanism is DP makes it difficult to learn anything about individual examples in the holdout set}
+  \only<article>{So instead of reporting the holdout performance at all, you just see if you are much worse than the training performance, i.e.\ if you're overfitting. The fact that the mechanism is DP makes it difficult to learn anything about individual examples in the holdout set. This also means that it is harder for the model to overfit.}
 \end{frame}
 
 
@@ -2446,12 +2447,12 @@ protecting the privacy of individuals.  If we want to protect a
 different \emph{kind} of secret, then our privacy definition must
 differ. For this reason, two generalisations of differential privacy
 have been proposed, Pufferfish~\citep{pufferfish} and
-Blowfish~\citep{blowfish}, where we define specific \emph{secrets} to
+Blowfish~\citep{blowfish}, where we can define specific \emph{secrets} to
 protect.
 
 Another frontier for privacy is looking at different divergences other than the max-divergence for privacy. These include R\'{e}nyi differential privacy~\citep{renyi-dp} and zero-concentrated differential privacy (zCPD)~\citep{zc-dp}. These provide guarantees of $(\epsilon, \delta)$-DP for any value of $\delta$, with $\epsilon$ being a function of $\delta$.  Thus, they are closely linked to the the hypothesis-testing view of differential privacy and privacy profiles. The \emph{Gaussian mechanism} satisfies zCDP.
 
-Differential privacy is also linked to Bayesian inference. Firstly, differential privacy can be interpreted from a Bayesian point of view (see Example~\ref{ex:Bayesian-DP}). Secondly, we can analyse how posterior distributions change when a single datapoint changes. Under some mild conditions on the likelihood and prior, one can show that posteriors satisfy a differential privacy condition, as shown by \citet{bayesiandp}. This can then be leveraged to create a \emph{posterior sampling mechanism} that is differentially private. The idea of this is to simply take one or more samples from the posterior distribution. Each sample corresponds to a probabilistic models, which can then be used to answer queries.  Under similar conditions, \citet{pmlr-v37-wangg15} proved that approximate posterior sampling using MCMC can also satisfy differential privacy. \cite{foulds:bayesian-sampling:2016} took this idea in another direction, by making the sufficient statistics used in inference differentially private.
+Differential privacy is also linked to Bayesian inference. Firstly, differential privacy can be interpreted from a Bayesian point of view (see Example~\ref{ex:Bayesian-DP}). Secondly, we can analyse how posterior distributions change when a single datapoint changes. Under some mild conditions on the likelihood and prior, one can show that posteriors satisfy a differential privacy condition, as shown by \citet{bayesiandp}. This can then be leveraged to create a \emph{posterior sampling mechanism} that is differentially private. The idea of this is to simply take one or more samples from the posterior distribution. Each sample corresponds to a probabilistic model, which can then be used to answer queries.  Under similar conditions, \citet{pmlr-v37-wangg15} proved that approximate posterior sampling using MCMC can also satisfy differential privacy. \cite{foulds:bayesian-sampling:2016} took this idea in another direction, by making the sufficient statistics used in inference differentially private.
 
 Differential privacy can also be useful in game theory and mechanism design. In fact, the exponential mechanism was introduced by \citet{mcsherry2007mechanism}, with an application to approximately truthful mechanism design. This direction was further investigated by~\citet{kearns:md-privacy} and~\citet{nissim:ao-md:2012}.
 
@@ -2468,13 +2469,13 @@ privacy of individuals. Generally speaking, it is not entirely trivial
 to employ differential privacy in practice, but recently a number of
 publicly available libraries for differential privacy have been
 released. These include the \texttt{diffprivlib} python library by IBM
-and the \texttt{OpenDP} open source library.
+and the \texttt{OpenDP} open source library. There is also a programmer-focused primer on differential privacy \url{https://programming-dp.com/}
 
 %Local differential privacy and applications \cite{yang2020local}
 
 
 
-Another question is how fast can we actually learn from 
+
 \only<presentation>{
 \begin{frame}
   \begin{block}{The definition of differential privacy}
