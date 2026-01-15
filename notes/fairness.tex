@@ -915,24 +915,33 @@
     fairness constraint is much stricter than a similar requirement
     for policis. }
   \begin{definition}
-    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$, we have $w_i > w_j \Rightarrow u_i(a) \geq u_j(a)$.
+    A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$, we have $w_i > w_j \Leftrightarrow u_i(a) \geq u_j(a)$.
   \end{definition}
   \only<article>{In the above definition, a person with a higher worth than another is guaranteed to obtain at least as good an outcome as another person of lower worth. If we think about a single decision affecting multiple individuals, then such a fairness property is hard to satisfy: in some cases there may not exist any such fair decision, as shown in the example below.}
   \begin{example}
+    In this example, there are two decisions available, and there are three individuals. However, none of these decisions is allocating utilities according to the intrinsic worth of the individual. For $a = 0$, individual 2 obtains more utility than individual 1, even though the latter is worth more. For $a = 1$, individual 3 obtains less utility that individual 1, even though the latter is has less merit.
+    \centering
     \begin{tabular}{c||c|c|c}
       $w$ &  &  $a = 0 $ & $a = 1$\\
       \hline
       1  & $u_1$ & 0 & 1\\
-      0  & $u_2$ & 1 & 0
+      0  & $u_2$ & 1 & 0 \\
+      2  & $u_3$ & 2 & 0.5
     \end{tabular}
   \end{example}
 \end{frame}
 \begin{frame}
+  \only<article>{Problems like this can sometimes be avoided if we do not look at individual decisions, but policies. In the simplest case, a policy just randomises decisions.  Applying this to the above example, the policy would define a distribution $\pol(a)$ over the two possible decisions. In particular, having a policy that takes $a= 0$ with probability $0.4$ results in the following expected utilities for the three individuals: $0.6, 0.4, 1.1$. This policy satisfies the following fairness definition.}
   \begin{definition}
-    A \textbf{policy} $\pol$ is \textbf{fair} if, for all $i,j$ it holds that: $\E_\pol [u_i | w] > \E[u_j | w] \Rightarrow w_i > w_j$.
+    A \textbf{policy} $\pol$ is \textbf{fair} if, for all $i,j$ it holds that: $\E_\pol [u_i | w] > \E[u_j | w] \Leftrightarrow w_i > w_j$.
   \end{definition}
-  
-  \only<article>{ Let us consider problems where the decision maker
+  \only<article>{
+    In general, however, it is not always possible to find a policy satisfying this definition when the decisions have no structure.
+    In the following, we will take a look at certain specific decision problems, where actions and their effects can be factorised into individual components. The first one is selection problems, where individuals are selected from the population. The second one are matching problems, where individuals are matched with each other.}
+
+\frametitle{Allocation and selection.}
+  \only<article>{
+    Let us first consider problems where the decision maker
     has a binary choice, e.g. to accept or reject a loan
     application. In particular, the decision rule may be restricted so
     that the decision has to depend only on a \emph{score}, e.g. the
@@ -977,6 +986,11 @@
 }
 
 \begin{frame}
+  \frametitle{Matching.}
+
+  \only<article>{
+    Matching is a class of problems, whereby a set of individuals must be matched to each other. One of the simplest settings is called \emph{bipartite matching}, or the \emph{stable marriage} problem, where two groups of people (e.g. men and women) wish to form pairs. Each man has a preference over all women, and vice-versa. The goal is to find a good matching between them. The fairness concept used in the stable marriage problem is called \emph{stability}.... 
+  }
   \begin{example}{Matching problems.}
     \only<article>{ In classical matching problems, such as university
       admissions, each individual $i \in \{1, \ldots, n\}$ have an
