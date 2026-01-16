@@ -1075,16 +1075,21 @@
   that the DM has a simple payoff function
   $\rho : \CX \times \CA \to \Reals$, representing their expected
   payoff $\rho(x,a)$ for each possible observe feature and action
-  taken. We can then define the utility in terms of this payoff function.
+  taken. We can then define the utility in terms of this payoff function. This depends on how we define the decision and outcome space.
 
-  In the case where the policy is making separate decisions for each
-  individual, there are two possible problems. The first problem is to make individual decisions
-  for a finite given population $\CX = \{x_1, \ldots, x_T\}$. This allows us to define the utility
+
+  Let us first consider policies that making separate decisions for
+  each individual, e.g. whether or not somebody should be hired. There
+  are two settings in this case. The first is making individual
+  decisions for a finite given population
+  $\CX = \{x_1, \ldots, x_T\}$. This allows us to define the utility
   in terms of the sum of individual payoffs:
   \[
-    U(\pol) \defn \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
+    U(\pol, x) \defn \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
   \]
-  The second problem is to define a policy that will be applied in a
+  Here the decision maker may not know the actual payoff, but will have some expectation $\rho(x_t, a)$ of what it might be. This is sufficient for finding the optimal policy.
+  
+  The second setting is to define a policy that will be applied in a
   \emph{potential} population. This means that we do not have to make a
   decision now, but we will have to fix a policy that will be applied
   later to individuals drawn independently\footnote{This is only a mild assumption on the setting where decisions are made independently for each individual.} from some distribution
