@@ -953,8 +953,7 @@
     case when individuals appear sequentially, and we must make a
     decision for each one of them in turn, as long as the decision
     rule $\pol$ remains fixed.
-    
-    However, in some cases $\pol$ itself depends on a population of individuals. This is the case in cohort selection, when we need to select some individuals from a set.
+    However, in some cases $\pol$ itself acts on a population of individuals. This is the case in cohort selection, when we need to select some individuals from a set. 
   }
 
 
@@ -989,21 +988,21 @@
   \frametitle{Matching.}
 
   \only<article>{
-    Matching is a class of problems, whereby a set of individuals must be matched to each other. One of the simplest settings is called \emph{bipartite matching}, or the \emph{stable marriage} problem, where two groups of people (e.g. men and women) wish to form pairs. Each man has a preference over all women, and vice-versa. The goal is to find a good matching between them. The fairness concept used in the stable marriage problem is called \emph{stability}.... 
+    Matching is a class of problems, whereby a set of individuals must be matched to each other. One of the simplest settings is called \emph{bipartite matching}, or the \emph{stable marriage} problem, where two groups of people (e.g. men and women) wish to form pairs. Each man has a preference over all women, and vice-versa. The goal is to find a good matching between them. The fairness concept used in the stable marriage problem is called \emph{stability}. Intuitively, this means that after all persons have been matched, no two people would prefer to be matched with each other rather than their allocated pair. The concept of matching extends to many-to-one settings, whereby we allocate doctors to hospitals, and students to universities.
   }
-  \begin{example}{Matching problems.}
-    \only<article>{ In classical matching problems, such as university
-      admissions, each individual $i \in \{1, \ldots, n\}$ have an
-      individual evaluation $w_i$, calculated according to some
-      uniform criteria, calculated from individual features $x_i$,
-      such as test results, age, etc. Each individual $i$ also
-      generates a preference score $u_i$ so that they prefer
+  \begin{example}{Many-to-one matching problems.}
+    \only<article>{ Let us consider university admissions with no
+      capacity constraints, where each individual
+      $i \in \{1, \ldots, n\}$ has an individual evaluation $w_i$,
+      calculated according to some uniform criteria, e.g. from
+      features $x_i$, such as test results, age, etc. Each individual
+      $i$ also generates a preference score $u_i$ so that they prefer
       university $k$ to university $l$ if
       $u_i(k) \geq u_i(l)$.\footnote{In practice, it is sufficient to
         give a ranking of universities rather than numerical
         scores. In addition, universities may have inhomogeneous
-        preferences, but in this example they simply prefer students
-        with the highest score.}  The matching algorithm $\pol$
+        preferences, but in this example they simply prefer students $i$
+        with the highest score $w_i$.}  The matching algorithm $\pol$
       creates an allocation $a=(a_1, \ldots, a_n)$ so that $a_i$ is
       the university to which candidate $i$ is matched. The algorithm
       $\pol$ satisfies a \emph{stable matching} condition: this means
@@ -1042,7 +1041,7 @@
   $w_i$ for individuals with features $x_i$. Then we want our
   decisions to be fair in expectation. This expectation is taken with respect to both the randomness due to our modelling, and the potential randomness due to our decision rule.
 
-  What if two students had almost, but not exactly the same grades, and one was assigned a place, while the other not. Is that fair? Is it perhaps fairer to randomise to some extent, so that, while the best students are guaranteed a place, the ones further down the ranking might still have a chance? After all grades are not the absolute truth: they are but a noisy, biased measurement of an individual's academic capacity. In the section below, we will discuss how decision rules can be made smoother more generally, and not just through randomising over identical individuals.
+  Consider the that two students have almost, but not exactly the same grades, and one was assigned a place, while the other not. Is that fair? Is it perhaps fairer to randomise to some extent, so that, while the best students are guaranteed a place, the ones further down the ranking might still have a chance? After all, grades are not the absolute truth: they are but a noisy, biased measurement of an individual's academic capacity. In the section below, we will discuss how decision rules can be made smoother more generally, and not just through randomising over identical individuals.
 }
 
 
