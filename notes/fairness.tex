@@ -222,15 +222,16 @@
 }
 
 \begin{frame}
-  \frametitle{Bail decisions}
+  \frametitle{The structure of decision making}
 
-  \only<article>{ For a more detailed example, let us consider bail
-    decisions in the US court system. When a defendant is charged, the
+  \only<article>{ Let us now give a structured framework for decision
+    making and fairness. We will use bail decisions in the US court
+    system as a running example: When a defendant is charged, the
     judge has the option to either place them in jail pending trial,
     or set them free, under the condition that the defendant pays some
-    amount of 'bail', or guarantee. The amount of bail (if any) is set to deter
-    flight or a relapse, and is returned to the defendant after the
-    trial.
+    amount of 'bail', or guarantee. The amount of bail (if any) is set
+    to deter flight or a relapse, and is returned to the defendant
+    after the trial.
 
     This process sometimes includes the use of a software tool called
     \texttt{COMPAS}, which gives risk scores for the possibility of
@@ -278,30 +279,39 @@
     \end{columns}
   }
 
-  \only<article>{In this setting, a defendant $t$ appears before a
+  
+  \only<article>{
+    \paragraph{Policies.} In this setting, a defendant $t$ appears before a
     judge with observable features $x_t \in \CX$, and a sensitive group
     variable $z_t \in \CZ$. The judge employs a specific policy $\pol$ to
-    select a decision $a_t \in \CA$, with
+    select a decision $a_t \in \CA$, with:
     \begin{equation}
       \pol(a_t \mid x_t, z_t)
     \end{equation}
     denoting the probability of action $a_t$ given the individual's features, as well as the sensitive variable. We can assume that the policy is fixed ahead of time, and thereafter decisions are made according to the policy.
-    After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution with parameter $\theta$:
-    \begin{equation}
-      P_\theta(y_t \mid x_t, z_t), \qquad      P_\theta(y_t \mid x_t, z_t, a_t), 
-    \end{equation}
+
+    \paragraph{Outcomes.}
+    After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution $P_\theta$ with parameter $\theta$,
     denoting the probability of $y_t$ given the individual's features
-    and the action taken. Here, there are two possibilities. Either
-    the outcome $y_t$ depends only on the observed features, or the
-    action as well. The correct formulation depends on the meaning of
-    the action. Generally speaking, if the action is merely a
-    \emph{prediction}, then it does not affect the outcome, as it has
-    no direct effects at all. Other types of actions, such as deciding
-    whether or not to grant bail, do affect the outcome. Let us go
-    through this in some more detail.
+    and the action taken. Here, there are two possibilities. In the first case,
+    the outcome $y_t$ depends only on the observed features, i.e. the distribution of $y_t$ is given by
+    \begin{equation}
+      P_\theta(y_t \mid x_t, z_t).
+    \end{equation}
+    This is the correct formulation if the action does \emph{not}
+    affect the outcome. This will be generally the case if the action
+    is merely a \emph{prediction}.  However, when the action reflects
+    a \emph{decision} with downstream effects, it will have some
+    affect on the outcome. Hence, the conditional distribution of
+    outcomes in this case is:
+    \begin{equation}
+     P_\theta(y_t \mid x_t, z_t, a_t).
+    \end{equation}
+    In order to obtain some better intuition about when the outcome
+    should be affected by the actions, let us give some examples.
 
     \paragraph{Actions that affect the outcome.}
-    Let us start with the bail example. We can first consider a simple
+    Let us start with the bail example, involving only the defendant (who has characteristics $x_t, z_t$ and the judge, who makes decisions $a_t$. The question is whether or not the defendant will appear at the trial $(y_t)$. We can first consider a simple
     set of actions $\CA = \{0, 1\}$, where a defendant is granted
     $(a_t = 1)$ or denied $(a_t = 0)$ bail.  If a defendant is not
     given bail, they must remain in jail, and will always be at the
@@ -317,6 +327,11 @@
     \end{equation}
     While this weighs the judge's two main concerns equally, we can also imagine different formulations: e.g. if the judge thinks it is much more important to keep people out of jail than to prevent re-offences until trial, they might select a function such as : $U(a, y) = 10a - y$.
 
+    In general, if a prediction is revealed, it \emph{can} affect
+    outcomes. In particular, the COMPAS systems's predictions are
+    revealed to the judge, who takes them into account when deciding to grant bail. Hence, if we consider whether or not the COMPAS system is fair, the actions $a_t$ of the system are its predictions. However, the judge's decision and the final outcome depend on those actions. 
+
+    
     Let us continue with \emph{loan applications.} If the outcome we are
     interested in is the net worth of the individual after five years,
     it is clear that the loan decision will have some effect. However,
@@ -324,20 +339,26 @@
     it is up to them to properly invest the loan, if it is given, or
     to find the optimal course of action if the loan is denied.
 
-    \paragraph{Actions that do not affect the outcome.} In the bail
-    scenario, the only way for the actions to not affect the outcome
-    is if everybody is released, with the judge's action only being a
-    confidential note on the case file. Then their action cannot
-    affect the outcome, since it is only revealed to the judge. The
-    utility function can be based on the accuracy of predictions, so
-    we can simply set it to $U(a,y) = a - y$.
+    \paragraph{Actions that do not affect the outcome.} Generally
+    speaking, the only way for an action to not affect the outcome is
+    if it is a pure prediction. That means that it is not used
+    anywhere downstream in the process. However, once revealed, a
+    prediction might conceivably influence subsequent events.
 
+    In the bail scenario, the only way for the actions to not affect
+    the outcome is if everybody is granted bail, with the judge's
+    action being a confidential note on the case file. Then their
+    action cannot affect the outcome, since it is only revealed to the
+    judge. The utility function can be based on the accuracy of
+    predictions, so we can simply set it to $U(a,y) = a - y$.
+    
     The same thing holds for loan applications. If the action is
     merely a prediction, which is not used in the process, then it
     cannot influence the outcome. This will happen if somebody is
     asked to review a case for which a decision has already been made.
     
-    \paragraph{The optimisation problem.} For simplicity, let us assume we know the parameter $\param$ of the unknown distribution. Then we can find a decision rule $\pol$ maximising utility in expectation:
+    \subsubsection{Maximising utility.}
+    For simplicity, let us assume we know the parameter $\param$ of the unknown distribution. If we only cared about maximising expected utility $\util$, and not fairness at all, then we need to find a policy $\pol$ maximising:
     \begin{equation} 
       \label{eq:expected-utility-judge}
       \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
