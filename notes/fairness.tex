@@ -171,13 +171,14 @@
 
 \only<article>{
   \begin{example}[Hiring decisions.]
-    As a further example, consider gender balance in hiring decisions.
-    Typically, received applications are screened, so that some
-    applicants undergo through an interview process. At the end, some
-    of the interviewed applicants will be hired. There are two
-    decision points here, with most people being cut off at the first
-    point: the screening. To automate this process, Amazon worked on a
-    resume-screening program.~\footnote{\url{https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G}}
+    Consider gender balance in hiring decisions.  Typically, received
+    applications are screened, so that some applicants undergo through
+    an interview process. This screening process is sometimes
+    automated. At the end, some of the interviewed applicants will be
+    hired. There are two decision points here, with most people being
+    cut off at the first point: the screening. To automate this
+    process, Amazon worked on a resume-screening
+    program.~\footnote{\url{https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G}}
     However, this was scrapped after it was discovered that it
     predominantly favoured men. The reason is not entirely clear, but
     it was probably due to the fact that they trained the system on
@@ -185,7 +186,7 @@
     predominantly hires men in the first place, women were more likely
     to be rejected in the screening phase. The bias in the original
     training data was picked up by the machine learning model, and
-    then replicated.
+    then replicated. Automated resume-screening still persists\citep{monchak2025fairness}, even though large language models are known to exhibit strong biases both in general and in hiring decisions more particularly.\citep{an2024large,zhang2025hire,veldanda2023investigating,seshadri2025small}
   \end{example}
 }
 
