@@ -398,20 +398,21 @@
   \frametitle{Demographic parity and equality of opportunity.}
 
   \only<article>{Let us take a look at how many individuals are given
-    different scores in the COMPAS program. Figure~\ref{fig:risk-bias} shows the proportions
-    of individuals obtaining different risk scores as a function of
-    their ethnic group. While the general population, and Caucasians
-    in particular, have a distribution sharply concentrated in low
-    scores, Black defendants obtain much higher risk scores: they are
-    half as likely to have a score of 1 as Caucasian and twice as likely to have a score of 10. }
+    different scores in the COMPAS program. Figure~\ref{fig:risk-bias}
+    shows the proportions of individuals obtaining different risk
+    scores as a function of their ethnic group. While the general
+    population, and Caucasians in particular, have a distribution
+    sharply concentrated in low scores, Black defendants obtain much
+    higher risk scores: they are half as likely to have a score of 1
+    as Caucasian and twice as likely to have a score of 10. }
   \begin{figure}[H]
     \centering
     \includegraphics[width=\fwidth]{../figures/Scores-by-race}      
-    \label{fig:risk-bias}
     \caption{Apparent bias in risk scores towards black versus white defendants.}
+    \label{fig:risk-bias}
   \end{figure}
   \only<article>{ We can formalise the requirement for everybody to be
-    equally, either with respect to the decisions, or with
+    equally treated, either with respect to the decisions, or with
     respect to the outcomes.  Decision parity is called \emph{equality
       of opportunity} and satisfies the following condition: }
   \begin{equation}
@@ -442,15 +443,15 @@
         \hline
         10.8\% & 8.7\% & 6.5\% 
       \end{tabular}
-      \label{tab:recidivism}
       \caption{Recidivism rates across ethnic groups.}
+      \label{tab:recidivism}
     \end{table}
     Given that Caucasians both have lower recidivism rates and lower scores than African-Americans, could this simply be because people with a higher chance of recidivism obtain higher scores? To explore this further, we need to look at some \emph{conditional} independence fairness notions. This measure how the actions and outcomes depend on each other when conditional on group membership.
   }
 \end{frame}
 
 \begin{frame}
-  \frametitle{Calibration.}
+  \frametitle{Calibration: Conditional independence of outcome and protected attribute.}
   
   \only<article>{Let us first consider how well recidivism is
     predicted by the score across different groups. Perhaps partially
@@ -482,7 +483,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Balance}
+  \frametitle{Balance: Conditional independence of action and protected attribute.}
   \only<article>{While the system's predictions seem to be calibrated against the chance of recidivism, this does not mean that race plays no role. Figure~\ref{fig:imrs-risk} breaks down the population in people that re-offended and those that did. For each sub-population, we then plot the proportion of people receiving different scores by race. While people generally have a small probability of obtaining a high risk score, we see that Black defendants obtain much higher scores.}
   
   \begin{figure}[H]
@@ -575,7 +576,7 @@
       \end{itemize}
     }
     \only<article>{
-      One setting where the above discussion applies directly are classification problems. There, the outcomes $y$ are simply labels. the decision space $\CA$ is to just predicting a label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write
+      Classification problems are the simplest setting where the above problems appear. There, the outcomes $y$ are simply labels. the decision space $\CA$ is predictions about label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write
     }
     \[
       \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
@@ -585,7 +586,7 @@
       interested in slightly narrower concepts, such as equal false
       negative---$\Pr(a_t = 0 | y_t = 1, z_t = z)$---or false
       positive---$\Pr(a_t = 1 | y_t = 0, z_t = z)$---rates between groups
-      $z$.
+      $z$. These are special cases of the balance condition described above.
     }
   \end{example}
 \end{frame}
@@ -595,11 +596,10 @@
     \only<article>{
       We can also apply these ideas to regression problems. We are again
       asked to simply predict a latent variable $y$. For concreteness,
-      assume $y \in \Reals$. Then, the decision space $\CA = \Reals$ as
+      assume $y \in \Reals$. Then, the decision space is $\CA = \Reals$ as
       well. A standard utility function is the negative squared prediction
       error, so that $U(a, y) = - (a - y)^2$.
     }
-    
     In this setting we can also relax our framework to work with
     expectations instead of probabilities. For example, calibration and balance can be written as the conditions:
     \[
@@ -619,17 +619,9 @@
 \end{frame}
 \only<article>{
   \begin{theoryblock}{Conditional independence of $y, a$ given $z$.}
-    There is another possibility, which we have not mentioned: What if $y, a$ are conditionally independent given $z$? Can we use that as a fairness criterion? If you spend a few minutes of thought, you will find that this condition should always when $y$ is not directly depend on $a$. In particular, consider the following graphical model where a person's features depend on their group membership. If there is no direct connection between $y, a$, then they are already conditionally independent given the group.
-    \begin{tikzpicture}
-      \node[RV] at (0,0) (z) {$z$};
-      \node[RV] at (1,0) (x) {$x$};
-      \node[RV] at (2,-1) (a) {$a$};
-      \node[RV] at (2,1) (y) {$y$};
-      \draw[->] (z) to (x);
-      \draw[->] (x) to (a);
-      \draw[->] (x) to (y);
-    \end{tikzpicture}
-  \end{theoryblock}
+    There is another possibility, which we have not mentioned: What about $y, a$ being conditionally independent given $z$? Can we use that as a fairness criterion? While there is no reason why we technically could not, it is hard to justify its relation to fairness. In fact, we would like the actions to be related to outcomes, whether they be simple predictions, or decisions that affect them directly.
+\end{theoryblock}
+  
 }
 \subsection{Measuring group fairness.}
 
@@ -641,6 +633,8 @@
   need to estimate $\Pr_\theta^\pol$ somehow. Moreover, these conditions
   will not be perfectly satisfied. How can we measure the deviation from
   these conditions?
+
+  %Let us start by examining whether or not
 }
 
 \only<presentation>{
@@ -1293,6 +1287,21 @@ This is not really difficult to work with, but we have a potential problem when 
     Consider the following problem, where $z$ is Bernoulli(1/2) and $x \Reals^2$ is a normally distributed variable with mean $(0,z)$ and identity covariance matrix. There are two actions and outcomes, with the outcome being $y_t = 1$ with probability $1/(1 + e^{x_a})$.
     [Add more details]
   \end{exercise}
+
+  \begin{exercise}
+    Use a simple counterexample to show that the distributions of two random variables can be different, even when their expectations are the same.
+  \end{exercise}
+
+    \begin{exercise}
+      Construct two Bernoulli random variables $x, y$ which do not
+      have an independent structure, but for which
+      $P(x, y) = P(x)P(y)$.
+      In particular, assume $P(y = 1 \mid x = 1 = \theta_1$ and $P(y = 1 \mid x=0) = \theta_0$, with $\theta_1 \neq \theta_0$. If $P(x = 1) = \theta$, what should its value be so that $P(x, y) = P(x)P(y)$?
+    \end{exercise}
+    \begin{proof}
+      The solution is relatively simple. Consider that 
+    \end{proof}
+    
 }
 
 %%% Local Variables:
