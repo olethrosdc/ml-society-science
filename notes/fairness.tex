@@ -280,416 +280,345 @@
   }
 
   
-  \only<article>{
-    \paragraph{Policies.} In this setting, a defendant $t$ appears before a
-    judge with observable features $x_t \in \CX$, and a sensitive group
-    variable $z_t \in \CZ$. The judge employs a specific policy $\pol$ to
-    select a decision $a_t \in \CA$, with:
-    \begin{equation}
-      \pol(a_t \mid x_t, z_t)
-    \end{equation}
-    denoting the probability of action $a_t$ given the individual's features, as well as the sensitive variable. We can assume that the policy is fixed ahead of time, and thereafter decisions are made according to the policy.
-
-    \paragraph{Outcomes.}
-    After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution $P_\theta$ with parameter $\theta$,
-    denoting the probability of $y_t$ given the individual's features
-    and the action taken. Here, there are two possibilities. In the first case,
-    the outcome $y_t$ depends only on the observed features, i.e. the distribution of $y_t$ is given by
-    \begin{equation}
-      P_\theta(y_t \mid x_t, z_t).
-    \end{equation}
-    This is the correct formulation if the action does \emph{not}
-    affect the outcome. This will be generally the case if the action
-    is merely a \emph{prediction}.  However, when the action reflects
-    a \emph{decision} with downstream effects, it will have some
-    affect on the outcome. Hence, the conditional distribution of
-    outcomes in this case is:
-    \begin{equation}
-     P_\theta(y_t \mid x_t, z_t, a_t).
-    \end{equation}
-    In order to obtain some better intuition about when the outcome
-    should be affected by the actions, let us give some examples.
-
-    \paragraph{Actions that affect the outcome.}
-    Let us start with the bail example, involving only the defendant (who has characteristics $x_t, z_t$ and the judge, who makes decisions $a_t$. The question is whether or not the defendant will appear at the trial $(y_t)$. We can first consider a simple
-    set of actions $\CA = \{0, 1\}$, where a defendant is granted
-    $(a_t = 1)$ or denied $(a_t = 0)$ bail.  If a defendant is not
-    given bail, they must remain in jail, and will always be at the
-    trial $(y_t = 0)$. This costs both the government and the
-    defendant, so the judge prefers not to deny bail too often.  On
-    the other hand, if the defendant is granted bail, there is a
-    chance they will re-offend, or will fail to attend trial
-    $(y_t = 1)$. Consequently, we can define the following utility
-    function\footnote{See Appendix~\ref{ch:decision-problems}} for the
-    judge, that roughly reflects those preferences:
-    \begin{equation}
-      U(a, y) = a - y.
-    \end{equation}
-    While this weighs the judge's two main concerns equally, we can also imagine different formulations: e.g. if the judge thinks it is much more important to keep people out of jail than to prevent re-offences until trial, they might select a function such as : $U(a, y) = 10a - y$.
-
-    In general, if a prediction is revealed, it \emph{can} affect
-    outcomes. In particular, the COMPAS systems's predictions are
-    revealed to the judge, who takes them into account when deciding to grant bail. Hence, if we consider whether or not the COMPAS system is fair, the actions $a_t$ of the system are its predictions. However, the judge's decision and the final outcome depend on those actions. 
-
-    
-    Let us continue with \emph{loan applications.} If the outcome we are
-    interested in is the net worth of the individual after five years,
-    it is clear that the loan decision will have some effect. However,
-    it does not \emph{directly} determine the worth of the individual:
-    it is up to them to properly invest the loan, if it is given, or
-    to find the optimal course of action if the loan is denied.
-
-    \paragraph{Actions that do not affect the outcome.} Generally
-    speaking, the only way for an action to not affect the outcome is
-    if it is a pure prediction. That means that it is not used
-    anywhere downstream in the process. However, once revealed, a
-    prediction might conceivably influence subsequent events.
-
-    In the bail scenario, the only way for the actions to not affect
-    the outcome is if everybody is granted bail, with the judge's
-    action being a confidential note on the case file. Then their
-    action cannot affect the outcome, since it is only revealed to the
-    judge. The utility function can be based on the accuracy of
-    predictions, so we can simply set it to $U(a,y) = a - y$.
-    
-    The same thing holds for loan applications. If the action is
-    merely a prediction, which is not used in the process, then it
-    cannot influence the outcome. This will happen if somebody is
-    asked to review a case for which a decision has already been made.
-    
-    \subsubsection{Maximising utility.}
-    For simplicity, let us assume we know the parameter $\param$ of the unknown distribution. If we only cared about maximising expected utility $\util$, and not fairness at all, then we need to find a policy $\pol$ maximising:
-    \begin{equation} 
-      \label{eq:expected-utility-judge}
-      \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
-    \end{equation}
-    For the case of bail decisions, if $P_\theta(y | a, x, z) =P_\theta(y | x, z)$ and $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
-
-    \begin{theoryblock}{Implicit decision rules.}
-      If the decision rule $\pol$ is unrestricted, then there is no
-      need to explicitly optimise for it in this setting. It can be defined implicitly, by always picking the action maximising:
-      \[
-        \E[U \mid a, z] = \sum_y P_\theta(y | a, x, z) U(a,y).
-      \]
-      However, sometimes $\pol$ is restricted, e.g. to the class of logistic regression models. In addition, if we are also optimising for fairness, then we no longer can define the decision rule implicitly, but we must perform the explicit optimisation over $\pi$.
-\end{theoryblock}
-
-
-    
-    In practice, of course, $\param$ is not known but we have some training data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, collected with some historical policy $\pol_0$, and  we have to resort to one of the following solutions. Firstly, estimating some $\hat{\param}$ from the data and replacing that in the expectation. Secondly, calculating a posterior distribution $\beta(\param | D)$ and maximising $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. Thirdly, maximising an unbiased estimate of expected utility, as shown below:
-    \begin{align*}
-      \E^\pol_\param(U)
-      &=
-        \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y) \\
-      &\approx
-        \frac{1}{T} \sum_{t} \sum_a \pol(a | x_t, z_t) \sum_y P_\theta(y | a, x_t, z_t) U(a,y)
-        \approx
-        \frac{1}{T} \sum_{t} \frac{\pol(a_t | x_t, z_t)}{\pol_0(a_t | x_t, z_t)} U(a_t,y_t).
-    \end{align*}
-    The first approximation in the above equation replaces the feature distribution with its empirical approximation. Maximising this still requires a model $P_\theta(y | a, x_t, z_t)$.
-    The second approximation is a bit more delicate, and is a type of importance sampling,\index{importance sampling} as explained in more detail in Section~\ref{sec:monte-carlo}.
-    This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. For that reason, we must use importance sampling in order to estimate the utility of any policy $\pol$. Unfortunately, the policy $\pol_0$ may also be unknown and must be estimated from the data. So, we are left with deciding between modelling $P_\param(y | a, x, z)$ or $\pol_0(a | x, z)$.
-
-    The above problems appear even without taking fairness into account. We also need to add explicit fairness constraints to our optimisation problem. Finally, we may also need to take into account the fact that any previous historical policy may have violated some notion of fairness. We begin with defining some simple group fairness notions and later see how we can take them into account in our optimisation procedure.
-  }
-\end{frame}  
-
-\begin{frame}
-  \frametitle{Demographic parity and equality of opportunity.}
-
-  \only<article>{Let us take a look at how many individuals are given
-    different scores in the COMPAS program. Figure~\ref{fig:risk-bias}
-    shows the proportions of individuals obtaining different risk
-    scores as a function of their ethnic group. While the general
-    population, and Caucasians in particular, have a distribution
-    sharply concentrated in low scores, Black defendants obtain much
-    higher risk scores: they are half as likely to have a score of 1
-    as Caucasian and twice as likely to have a score of 10. }
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=\fwidth]{../figures/Scores-by-race}      
-    \caption{Apparent bias in risk scores towards black versus white defendants.}
-    \label{fig:risk-bias}
-  \end{figure}
-  \only<article>{ We can formalise the requirement for everybody to be
-    equally treated, either with respect to the decisions, or with
-    respect to the outcomes.  Decision parity is called \emph{equality
-      of opportunity} and satisfies the following condition: }
+  \paragraph{Policies.} In this setting, a defendant $t$ appears before a
+  judge with observable features $x_t \in \CX$, and a sensitive group
+  variable $z_t \in \CZ$. The judge employs a specific policy $\pol$ to
+  select a decision $a_t \in \CA$, with:
   \begin{equation}
-    \label{eq:equality-opportunity}
-    \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
+    \pol(a_t \mid x_t, z_t)
   \end{equation}
-  \only<article>{ Consequently, the action (risk score, in this case)
-    is independent of the group.  In other words, the distribution of
-    actions should be the same no matter what the group is. As we see
-    in Figure~\ref{fig:risk-bias}, these distributions are quite
-    different for the COMPAS example.  The curve for ``General'' corresponds to
-    $\Pr_\param^\pol(a_t )$, while the other two curves correspond to
-    $\Pr_\param^\pol(a_t | z_t)$ for $z_t$ being Caucasian and
-    African-American respectively.
-    
-    \emph{Demographic parity} instead relates to outcomes. If this
-    condition is satisfied, then the probability distribution of
-    outcomes is independent of group membership:
-    \begin{equation}
-      \label{eq:eqality-outcomes}
-      \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
-    \end{equation}
-    As we can see in Table~\ref{tab:recidivism}, the recidivism rates are not the same across groups. Caucasian rates are nearly half those of African-Americans. While in this particular case, the judge's policy may not significantly affect the distribution, in other scenarios, such as loan decisions or university admissions they clearly do. 
-    \begin{table}[h]
+  denoting the probability of action $a_t$ given the individual's features, as well as the sensitive variable. We can assume that the policy is fixed ahead of time, and thereafter decisions are made according to the policy.
+
+  \paragraph{Outcomes.}
+  After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution $P_\theta$ with parameter $\theta$,
+  denoting the probability of $y_t$ given the individual's features
+  and the action taken. Here, there are two possibilities. In the first case,
+  the outcome $y_t$ depends only on the observed features, i.e. the distribution of $y_t$ is given by
+  \begin{equation}
+    P_\theta(y_t \mid x_t, z_t).
+  \end{equation}
+  This is the correct formulation if the action does \emph{not}
+  affect the outcome. This will be generally the case if the action
+  is merely a \emph{prediction}.  However, when the action reflects
+  a \emph{decision} with downstream effects, it will have some
+  affect on the outcome. Hence, the conditional distribution of
+  outcomes in this case is:
+  \begin{equation}
+    P_\theta(y_t \mid x_t, z_t, a_t).
+  \end{equation}
+  In order to obtain some better intuition about when the outcome
+  should be affected by the actions, let us give some examples.
+
+  \paragraph{Actions that affect the outcome.}
+  Let us start with the bail example, involving only the defendant (who has characteristics $x_t, z_t$ and the judge, who makes decisions $a_t$. The question is whether or not the defendant will appear at the trial $(y_t)$. We can first consider a simple
+  set of actions $\CA = \{0, 1\}$, where a defendant is granted
+  $(a_t = 1)$ or denied $(a_t = 0)$ bail.  If a defendant is not
+  given bail, they must remain in jail, and will always be at the
+  trial $(y_t = 0)$. This costs both the government and the
+  defendant, so the judge prefers not to deny bail too often.  On
+  the other hand, if the defendant is granted bail, there is a
+  chance they will re-offend, or will fail to attend trial
+  $(y_t = 1)$. Consequently, we can define the following utility
+  function\footnote{See Appendix~\ref{ch:decision-problems}} for the
+  judge, that roughly reflects those preferences:
+  \begin{equation}
+    U(a, y) = a - y.
+  \end{equation}
+  While this weighs the judge's two main concerns equally, we can also imagine different formulations: e.g. if the judge thinks it is much more important to keep people out of jail than to prevent re-offences until trial, they might select a function such as : $U(a, y) = 10a - y$.
+
+  In general, if a prediction is revealed, it \emph{can} affect
+  outcomes. In particular, the COMPAS systems's predictions are
+  revealed to the judge, who takes them into account when deciding to grant bail. Hence, if we consider whether or not the COMPAS system is fair, the actions $a_t$ of the system are its predictions. However, the judge's decision and the final outcome depend on those actions. 
+
+  
+  Let us continue with \emph{loan applications.} If the outcome we are
+  interested in is the net worth of the individual after five years,
+  it is clear that the loan decision will have some effect. However,
+  it does not \emph{directly} determine the worth of the individual:
+  it is up to them to properly invest the loan, if it is given, or
+  to find the optimal course of action if the loan is denied.
+
+  \paragraph{Actions that do not affect the outcome.} Generally
+  speaking, the only way for an action to not affect the outcome is
+  if it is a pure prediction. That means that it is not used
+  anywhere downstream in the process. However, once revealed, a
+  prediction might conceivably influence subsequent events.
+
+  In the bail scenario, the only way for the actions to not affect
+  the outcome is if everybody is granted bail, with the judge's
+  action being a confidential note on the case file. Then their
+  action cannot affect the outcome, since it is only revealed to the
+  judge. The utility function can be based on the accuracy of
+  predictions, so we can simply set it to $U(a,y) = a - y$.
+  
+  The same thing holds for loan applications. If the action is
+  merely a prediction, which is not used in the process, then it
+  cannot influence the outcome. This will happen if somebody is
+  asked to review a case for which a decision has already been made.
+  
+  \subsubsection{Maximising utility.}
+  For simplicity, let us assume we know the parameter $\param$ of the unknown distribution. If we only cared about maximising expected utility $\util$, and not fairness at all, then we need to find a policy $\pol$ maximising:
+  \begin{equation} 
+    \label{eq:expected-utility-judge}
+    \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
+  \end{equation}
+  For the case of bail decisions, if $P_\theta(y | a, x, z) =P_\theta(y | x, z)$ and $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
+
+  \begin{theoryblock}{Implicit decision rules.}
+    If the decision rule $\pol$ is unrestricted, then there is no
+    need to explicitly optimise for it in this setting. It can be defined implicitly, by always picking the action maximising:
+    \[
+      \E[U \mid a, z] = \sum_y P_\theta(y | a, x, z) U(a,y).
+    \]
+    However, sometimes $\pol$ is restricted, e.g. to the class of logistic regression models. In addition, if we are also optimising for fairness, then we no longer can define the decision rule implicitly, but we must perform the explicit optimisation over $\pi$.
+  \end{theoryblock}
+
+\end{frame}
+
+  \begin{frame}
+    \frametitle{Demographic parity and equality of opportunity.}
+
+    \only<article>{Let us take a look at how many individuals are given
+      different scores in the COMPAS program. Figure~\ref{fig:risk-bias}
+      shows the proportions of individuals obtaining different risk
+      scores as a function of their ethnic group. While the general
+      population, and Caucasians in particular, have a distribution
+      sharply concentrated in low scores, Black defendants obtain much
+      higher risk scores: they are half as likely to have a score of 1
+      as Caucasian and twice as likely to have a score of 10. }
+    \begin{figure}[H]
       \centering
-      \begin{tabular}{r|r|r}
-        African-American& General & Caucasian\\
-        \hline
-        10.8\% & 8.7\% & 6.5\% 
-      \end{tabular}
-      \caption{Recidivism rates across ethnic groups.}
-      \label{tab:recidivism}
-    \end{table}
-    Given that Caucasians both have lower recidivism rates and lower scores than African-Americans, could this simply be because people with a higher chance of recidivism obtain higher scores? To explore this further, we need to look at some \emph{conditional} independence fairness notions. This measure how the actions and outcomes depend on each other when conditional on group membership.
-  }
-\end{frame}
-
-\begin{frame}
-  \frametitle{Calibration: Conditional independence of outcome and protected attribute.}
-  
-  \only<article>{Let us first consider how well recidivism is
-    predicted by the score across different groups. Perhaps partially
-    explaining what we have seen before, the scores generated by the
-    software seemed to be very predictive on whether or not defendants
-    would re-offend, independently of their
-    race. Figure~\ref{fig:imrs} shows that, if an individual obtains a
-    high score then they are very likely to re-offend, and conversely,
-    they are unlikely to re-offend when they have a low score. This
-    dependence is similar for both groups.}
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=\fwidth]{../figures/calibration-compas}
-    \caption{Recidivism rates by risk score.}
-    \label{fig:imrs}
-  \end{figure}
-  \only<article>{
-    This concept can be quantified in terms of the conditional distribution of outcomes given the score:}
-  \begin{equation}
-    \Pr_\param^\pol(y_t | a_t, z_t) =       \Pr_\param^\pol(y_t | a_t).
-    \label{eq:calibration}
-  \end{equation}
-  \only<article>{
-    This means that $y_t$ is conditionally independent of $z_t$ given
-    the score $a_t$. So, in some sense, the score is sufficient for us
-    to predict the outcome, and knowing the race does not help us
-    predict any better.
-  }
-\end{frame}
-
-\begin{frame}
-  \frametitle{Balance: Conditional independence of action and protected attribute.}
-  \only<article>{While the system's predictions seem to be calibrated against the chance of recidivism, this does not mean that race plays no role. Figure~\ref{fig:imrs-risk} breaks down the population in people that re-offended and those that did. For each sub-population, we then plot the proportion of people receiving different scores by race. While people generally have a small probability of obtaining a high risk score, we see that Black defendants obtain much higher scores.}
-  
-  \begin{figure}[H]
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=0.95\textwidth]{../figures/balance-non-recidivism-compas}
-      \caption{No recidivism}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=0.95\textwidth]{../figures/balance-recidivism-compas}
-      \caption{Recidivism}
-    \end{subfigure}
-    \caption{Score breakdown based on recidivism rates.}
-    \label{fig:imrs-risk}
-  \end{figure}
-  \only<article>{
-    Balance can also be interpreted as a probabilistic condition, of the following form:
-  }
-  \begin{equation}
-    \Pr_\param^\pol(a_t | y_t, z_t) =       \Pr_\param^\pol(a_t | y_t).
-    \label{eq:balance}
-  \end{equation}
-  \only<article>{
-    Here we have that $a_t$ is conditionally independent of $z_t$
-    given the outcome $y_t$. So, if we partition the population
-    according to their outcome, we should find that given the outcome,
-    the distribution of scores is the same no matter what their
-    race. However, this is not what the example shows: there is a
-    strong dependence on race.  }
-  
-\end{frame}
-
-\only<presentation>{
+      \includegraphics[width=\fwidth]{../figures/Scores-by-race}      
+      \caption{Apparent bias in risk scores towards black versus white defendants.}
+      \label{fig:risk-bias}
+    \end{figure}
+    \only<article>{ We can formalise the requirement for everybody to be
+      equally treated, either with respect to the decisions, or with
+      respect to the outcomes.  Decision parity is called \emph{equality
+        of opportunity} and satisfies the following condition: }
+    \begin{equation}
+      \label{eq:equality-opportunity}
+      \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
+    \end{equation}
+    \only<article>{ Consequently, the action (risk score, in this case)
+      is independent of the group.  In other words, the distribution of
+      actions should be the same no matter what the group is. As we see
+      in Figure~\ref{fig:risk-bias}, these distributions are quite
+      different for the COMPAS example.  The curve for ``General'' corresponds to
+      $\Pr_\param^\pol(a_t )$, while the other two curves correspond to
+      $\Pr_\param^\pol(a_t | z_t)$ for $z_t$ being Caucasian and
+      African-American respectively.
+      
+      \emph{Demographic parity} instead relates to outcomes. If this
+      condition is satisfied, then the probability distribution of
+      outcomes is independent of group membership:
+      \begin{equation}
+        \label{eq:eqality-outcomes}
+        \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
+      \end{equation}
+      As we can see in Table~\ref{tab:recidivism}, the recidivism rates are not the same across groups. Caucasian rates are nearly half those of African-Americans. While in this particular case, the judge's policy may not significantly affect the distribution, in other scenarios, such as loan decisions or university admissions they clearly do. 
+      \begin{table}[h]
+        \centering
+        \begin{tabular}{r|r|r}
+          African-American& General & Caucasian\\
+          \hline
+          10.8\% & 8.7\% & 6.5\% 
+        \end{tabular}
+        \caption{Recidivism rates across ethnic groups.}
+        \label{tab:recidivism}
+      \end{table}
+      Given that Caucasians both have lower recidivism rates and lower scores than African-Americans, could this simply be because people with a higher chance of recidivism obtain higher scores? To explore this further, we need to look at some \emph{conditional} independence fairness notions. This measure how the actions and outcomes depend on each other when conditional on group membership.
+    }
+  \end{frame}
 
   \begin{frame}
-    \frametitle{Graphical models and independence}
-    \begin{itemize}
-    \item<1-> Why is it not possible to be fair in all respects?
-    \item<2-> Different notions of \alert{conditional independence}.
-    \item<3-> Can only be satisfied rarely simultaneously.
-    \end{itemize}
-    \pause
-    \begin{center}
-      \begin{tikzpicture}
-        \node<5->[RV, hidden] at (-1,1) (p) {$\param$};
-        \node<6->[select] at (4,0) (pol) {$\pol$};
-        \node<7->[RV] at (0,0) (x) {$x_t$};
-        \node<8->[RV] at (2,0) (a) {$a_t$};
-        \node<9->[RV] at (1,1) (y) {$y_t$};
-        \node<10->[utility] at (3,1) (u) {$\util$};
-        \draw<8->[->] (x)--(a);
-        \draw<9->[->] (x)--(y);
-        \draw<9->[->] (a)--(y);
-        \draw<7->[->] (p) to (x);
-        \draw<9->[->] (p)--(y);
-        \draw<8->[->] (pol)--(a);
-        \draw<10->[->] (a)--(u);
-        \draw<10->[->] (y)--(u);
-      \end{tikzpicture}
-    \end{center}
-    \begin{itemize}
-    \item<5-> $\param$: environment parameters (\alert{latent} variable)
-    \item<6-> $\pol$: policy of the decision maker (\alert{decision} variable)
-    \item<7-> $x_t$: observation
-    \item<8-> $a_t$: action taken
-    \item<9-> $y_t$: outcome
-    \item<10-> $\util$: \alert{utility}
-    \end{itemize}
+    \frametitle{Calibration: Conditional independence of outcome and protected attribute.}
+    
+    \only<article>{Let us first consider how well recidivism is
+      predicted by the score across different groups. Perhaps partially
+      explaining what we have seen before, the scores generated by the
+      software seemed to be very predictive on whether or not defendants
+      would re-offend, independently of their
+      race. Figure~\ref{fig:imrs} shows that, if an individual obtains a
+      high score then they are very likely to re-offend, and conversely,
+      they are unlikely to re-offend when they have a low score. This
+      dependence is similar for both groups.}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\fwidth]{../figures/calibration-compas}
+      \caption{Recidivism rates by risk score.}
+      \label{fig:imrs}
+    \end{figure}
+    \only<article>{
+      This concept can be quantified in terms of the conditional distribution of outcomes given the score:}
+    \begin{equation}
+      \Pr_\param^\pol(y_t | a_t, z_t) =       \Pr_\param^\pol(y_t | a_t).
+      \label{eq:calibration}
+    \end{equation}
+    \only<article>{
+      This means that $y_t$ is conditionally independent of $z_t$ given
+      the score $a_t$. So, in some sense, the score is sufficient for us
+      to predict the outcome, and knowing the race does not help us
+      predict any better.
+    }
   \end{frame}
-}
 
-\only<article>{ How can we explain this discrepancy? We can show that
-  in fact, each one of these different measures of bias in our
-  decision rules can be seen as a notion of conditional
-  independence. Had $z_t$ been an independent variable, i.e. so that
-  $P_\param(x,z) = P_\param(x) P_\param(z)$ and
-  $P_\param(y | x,a,z) = P_\param(y | x,a)$, then it would have no
-  role. Unfortunately, though, it does influence the distributions of
-  the other variables.  }
-
-\begin{frame}
-
-  \begin{example}[Classification]
-    \only<presentation>{
-      \begin{itemize}
-      \item $y$: labels
-      \item $a$: label prediction
-      \item $U(a, y) = \ind{a = y}$.
-      \item Here the outcome is independent of the action:
-      \end{itemize}
-    }
-    \only<article>{
-      Classification problems are the simplest setting where the above problems appear. There, the outcomes $y$ are simply labels. the decision space $\CA$ is predictions about label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write
-    }
-    \[
-      \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
-    \]
-    \only<article>{
-      For binary classification problems in particular, we may be only
-      interested in slightly narrower concepts, such as equal false
-      negative---$\Pr(a_t = 0 | y_t = 1, z_t = z)$---or false
-      positive---$\Pr(a_t = 1 | y_t = 0, z_t = z)$---rates between groups
-      $z$. These are special cases of the balance condition described above.
-    }
-  \end{example}
-\end{frame}
-\begin{frame}
-
-  \begin{example}[Regression]
-    \only<article>{
-      We can also apply these ideas to regression problems. We are again
-      asked to simply predict a latent variable $y$. For concreteness,
-      assume $y \in \Reals$. Then, the decision space is $\CA = \Reals$ as
-      well. A standard utility function is the negative squared prediction
-      error, so that $U(a, y) = - (a - y)^2$.
-    }
-    In this setting we can also relax our framework to work with
-    expectations instead of probabilities. For example, calibration and balance can be written as the conditions:
-    \[
-      \E_\param^\pol(y_t | a_t, z_t) = \E_\param^\pol(y_t | a_t),
-      \qquad
-      \E_\param^\pol(a_t | y_t, z_t) = \E_\param^\pol(a_t | y_t),
-    \]
-    respectively.
-    \only<article>{
-      This is a useful definition in particular when our
-      action is the assignment of a numerical score, as in the COMPAS
-      recidivism example. However, this definition is weaker, as the
-      expectations of two random variables can be equal when their
-      distributions are different.
-    }
-  \end{example}
-\end{frame}
-\only<article>{
-  \begin{theoryblock}{Conditional independence of $y, a$ given $z$.}
-    There is another possibility, which we have not mentioned: What about $y, a$ being conditionally independent given $z$? Can we use that as a fairness criterion? While there is no reason why we technically could not, it is hard to justify its relation to fairness. In fact, we would like our actions (even if they are just predictions) to be related to outcomes.
-\end{theoryblock}
-  
-}
-\subsection{Measuring group fairness.}
-
-\only<article>{ The above discussion focused on the setting where we
-  have a precise model parameter $\param$ and policy $\pol$. However,
-  we frequently do not know at least one of those things. For example,
-  when we only have some observational data generated by some
-  historical policy $\pol$, we need to estimate $\Pr_\theta^\pol$
-  somehow without knowing $\pol$. Moreover, these conditions will not
-  be perfectly satisfied. How can we measure the deviation from these
-  conditions?
-
-  Let us start by considering the primary goal of the decision maker in terms of a utility function, when $\param$ is known. In particular, for a fixed parameter $\param$ and policy $\pol$, the expected utility
-  is $U(\pol, \param) \defn \E_\param^\pol(U)$, with the utility $U$ being a function of the stochastic action and outcomes. For a given policy/parameter pair $\pol, \param$ we also have a corresponding deviation for fairness $F(\pol, \param)$ and our goal is to maximise utility and minimise the fairness deviation in some sense.
-  Let us start with the problem of calculating expected utility from data, when $\param, \pol$ are not known.
-}
-
-\only<presentation>{
   \begin{frame}
-    \centering
-    {\Huge Measuring and optimising fairness and utility.}
+    \frametitle{Balance: Conditional independence of action and protected attribute.}
+    \only<article>{While the system's predictions seem to be calibrated against the chance of recidivism, this does not mean that race plays no role. Figure~\ref{fig:imrs-risk} breaks down the population in people that re-offended and those that did. For each sub-population, we then plot the proportion of people receiving different scores by race. While people generally have a small probability of obtaining a high risk score, we see that Black defendants obtain much higher scores.}
+    
+    \begin{figure}[H]
+      \centering
+      \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=0.95\textwidth]{../figures/balance-non-recidivism-compas}
+        \caption{No recidivism}
+      \end{subfigure}
+      \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=0.95\textwidth]{../figures/balance-recidivism-compas}
+        \caption{Recidivism}
+      \end{subfigure}
+      \caption{Score breakdown based on recidivism rates.}
+      \label{fig:imrs-risk}
+    \end{figure}
+    \only<article>{
+      Balance can also be interpreted as a probabilistic condition, of the following form:
+    }
+    \begin{equation}
+      \Pr_\param^\pol(a_t | y_t, z_t) =       \Pr_\param^\pol(a_t | y_t).
+      \label{eq:balance}
+    \end{equation}
+    \only<article>{
+      Here we have that $a_t$ is conditionally independent of $z_t$
+      given the outcome $y_t$. So, if we partition the population
+      according to their outcome, we should find that given the outcome,
+      the distribution of scores is the same no matter what their
+      race. However, this is not what the example shows: there is a
+      strong dependence on race.  }
+    
   \end{frame}
-}
-\begin{frame}
-  \frametitle{Expected utility from historical data.}
-  Here we consider the scenario where we have obtained data $(x_t, z_t, a_t, y_t)_{t=1}^T$,  from some \emph{unknown, historical} policy $\pol$, with $x_t, z_t \sim P_\param(x, z)$, $a_t \mid x_t \sim \pol(a | x)$ and $y_t \mid x_t, z_t, a_t \sim P_\param(y | x, z, a)$. The question is, what would the expected utility of an alternative policy $\pol'$ be?
-  
-  Let us write out expected utility, with $\Pr_\param^\pol(\cdot) \equiv \Pr(\cdot \mid \param, \pol)$
-  \[
-    \E_\param^\pol(U) = \sum_{x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y).
-  \]
-  The $y_t, a_t, x_t, z_t$ is already sampled from $\Pr_\param^\pol$, so we can approximate the expected utility of the \alert{historical policy} with
-  \[
-    \widehat{E}_n(U) = \sum_{t=1}^T U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^\pol.
-  \]
-  \only<article>{
-    Thus, estimating the expected utility of a particular policy is only possible, if we can sample actions and outcomes from $\Pr_\param^\pol$. Of course, this requires having some specific model for sampling outcomes for any given action, as the policy in historical data might have taken different actions from the ones we are taking.
-  }
-  
+
   \only<presentation>{
-    \begin{block}{Model specification}
-      For simplicity, assume $z = x_{1}$, i.e. one of the features.  Then
+
+    \begin{frame}
+      \frametitle{Graphical models and independence}
+      \begin{itemize}
+      \item<1-> Why is it not possible to be fair in all respects?
+      \item<2-> Different notions of \alert{conditional independence}.
+      \item<3-> Can only be satisfied rarely simultaneously.
+      \end{itemize}
+      \pause
+      \begin{center}
+        \begin{tikzpicture}
+          \node<5->[RV, hidden] at (-1,1) (p) {$\param$};
+          \node<6->[select] at (4,0) (pol) {$\pol$};
+          \node<7->[RV] at (0,0) (x) {$x_t$};
+          \node<8->[RV] at (2,0) (a) {$a_t$};
+          \node<9->[RV] at (1,1) (y) {$y_t$};
+          \node<10->[utility] at (3,1) (u) {$\util$};
+          \draw<8->[->] (x)--(a);
+          \draw<9->[->] (x)--(y);
+          \draw<9->[->] (a)--(y);
+          \draw<7->[->] (p) to (x);
+          \draw<9->[->] (p)--(y);
+          \draw<8->[->] (pol)--(a);
+          \draw<10->[->] (a)--(u);
+          \draw<10->[->] (y)--(u);
+        \end{tikzpicture}
+      \end{center}
+      \begin{itemize}
+      \item<5-> $\param$: environment parameters (\alert{latent} variable)
+      \item<6-> $\pol$: policy of the decision maker (\alert{decision} variable)
+      \item<7-> $x_t$: observation
+      \item<8-> $a_t$: action taken
+      \item<9-> $y_t$: outcome
+      \item<10-> $\util$: \alert{utility}
+      \end{itemize}
+    \end{frame}
+  }
+
+  \only<article>{ How can we explain this discrepancy? We can show that
+    in fact, each one of these different measures of bias in our
+    decision rules can be seen as a notion of conditional
+    independence. Had $z_t$ been an independent variable, i.e. so that
+    $P_\param(x,z) = P_\param(x) P_\param(z)$ and
+    $P_\param(y | x,a,z) = P_\param(y | x,a)$, then it would have no
+    role. Unfortunately, though, it does influence the distributions of
+    the other variables.  }
+
+  \begin{frame}
+
+    \begin{example}[Classification]
+      \only<presentation>{
+        \begin{itemize}
+        \item $y$: labels
+        \item $a$: label prediction
+        \item $U(a, y) = \ind{a = y}$.
+        \item Here the outcome is independent of the action:
+        \end{itemize}
+      }
+      \only<article>{
+        Classification problems are the simplest setting where the above problems appear. There, the outcomes $y$ are simply labels. the decision space $\CA$ is predictions about label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write
+      }
       \[
-        \Pr_\param^\pol(y,a,x,z)
-        =
-        \underbrace{\Pr_\param(y \mid a, x)}_{\textrm{outcome distribution}}
-        \underbrace{\pol(a \mid x)}_{\textrm{policy}}
-        \underbrace{\Pr_\param(x)}_{\textrm{feature distribution}}
+        \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
       \]
-    \end{block}
-    Using the model, we can estimate the expected utility of any policy.
-  }
-\end{frame}
+      \only<article>{
+        For binary classification problems in particular, we may be only
+        interested in slightly narrower concepts, such as equal false
+        negative---$\Pr(a_t = 0 | y_t = 1, z_t = z)$---or false
+        positive---$\Pr(a_t = 1 | y_t = 0, z_t = z)$---rates between groups
+        $z$. These are special cases of the balance condition described above.
+      }
+    \end{example}
+  \end{frame}
+  \begin{frame}
 
-\begin{frame}
-  \frametitle{Deviation from balance.}
+    \begin{example}[Regression]
+      \only<article>{
+        We can also apply these ideas to regression problems. We are again
+        asked to simply predict a latent variable $y$. For concreteness,
+        assume $y \in \Reals$. Then, the decision space is $\CA = \Reals$ as
+        well. A standard utility function is the negative squared prediction
+        error, so that $U(a, y) = - (a - y)^2$.
+      }
+      In this setting we can also relax our framework to work with
+      expectations instead of probabilities. For example, calibration and balance can be written as the conditions:
+      \[
+        \E_\param^\pol(y_t | a_t, z_t) = \E_\param^\pol(y_t | a_t),
+        \qquad
+        \E_\param^\pol(a_t | y_t, z_t) = \E_\param^\pol(a_t | y_t),
+      \]
+      respectively.
+      \only<article>{
+        This is a useful definition in particular when our
+        action is the assignment of a numerical score, as in the COMPAS
+        recidivism example. However, this definition is weaker, as the
+        expectations of two random variables can be equal when their
+        distributions are different.
+      }
+    \end{example}
+  \end{frame}
   \only<article>{
-    How about measuring whether balance is satisfied?  Unfortunately
-    none of these fairness conditions will be satisfied in practice. So
-    what are we going to do? A simple idea is to simply look at how far
-    away the distribution is from independence. In particular, let us
-    look at the difference between those distributions
+    \begin{theoryblock}{Conditional independence of $y, a$ given $z$.}
+      There is another possibility, which we have not mentioned: What about $y, a$ being conditionally independent given $z$? Can we use that as a fairness criterion? While there is no reason why we technically could not, it is hard to justify its relation to fairness. In fact, we would like our actions (even if they are just predictions) to be related to outcomes.
+    \end{theoryblock}
   }
 
+ 
+\begin{frame}
+  \frametitle{Measuring fairness deviation.}
+  \only<article>{
+    Unfortunately none of these fairness conditions will be satisfied in practice. So
+    we need a way to measure how much we deviate from them.A simple idea is to simply look at how far
+    away the distribution is from independence. In particular, let us
+    consider \emph{balance}, which requires that these distributions: 
+  }
   \[
     \Pr_\param^\pol(a | y, z), \qquad  \Pr_\param^\pol(a | y).
   \]
-  for all values of $y, z$. Let us first look at the total variation distance:
+  are equal for all values of $y, z$. A natural way to measure
+  deviation is to look at some type of statistical distance. Let us
+  first look at the total variation:
   \[
     \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
     =
@@ -792,19 +721,67 @@
 \end{frame}
 
 \only<article>{
-  \subsection{Dealing with unknown parameters $\param$.}
-
-  The above discussion assumed that we know what the underlying
-  parameter $\theta$ is. However, in practice this is never the case: We
-  only have some observational data $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, which
-  indirectly gives us information about $\theta$. There are three
-  methods for dealing with this problem. Using a point estimate of the
-  parameter, using a Bayes-optimal policy, or finding a policy that
-  guarantees utility and fairness with high probability. All approaches require some parametric model family for $\cset{[P_\param(y | a, x, z), P_\param(x, z)]}{\param \in \Param}$. For simplicity, let us consider the unconstrained optimisation of
+  \subsection{Dealing with uncertainty.}
+  The above discussion focused on the setting where we have a precise
+  model parameter $\param$ and policy $\pol$.  However, in practice
+  this is never the case: We only have some data
+  $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, which indirectly gives us
+  information about $\theta$. We may also not know the historical
+  policy $\pol_0$ with which the data was collected.
+  The problem we face is to optimise some mixture between fairness deviation and utility 
   \[
     V(\pol, \param) \defn (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param).
   \]
-  Maximising $V(\pol, \param)$ directly is not possible since $\param$ is not known. However, we can formulate the following concrete methods for solving it.
+  when $\param$ is unknown.
+  
+  There are four methods for dealing with this problem. The simplest
+  one is to use importance sampling. The remaining methods require us to build some \emph{model}. The first is a point estimate, which involves estimating some $\hat{\param}$ from the data and replacing that in the expectations defined in the previous section. The second is a Bayesian approach, where we calculate a posterior distribution $\beta(\param | D)$ and calculate $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. The third is to construct a high-probability confidence set $\hat{\Param}$, and use it to obtain a policy with some theoretical guarantees about its performance.
+
+  \subsubsection{Importance sampling.}
+    Here we consider the scenario where we have obtained data $(x_t, z_t, a_t, y_t)_{t=1}^T$,  from some \emph{historical} policy $\pol_0$, with $x_t, z_t \sim P_\param(x, z)$, $a_t \mid x_t \sim \pol_0(a | x)$ and $y_t \mid x_t, z_t, a_t \sim P_\param(y | x, z, a)$. The question is, what would the expected utility of an alternative policy $\pol$ be?
+  
+  Let us write out the expected utility of any policy, with $\Pr_\param^{\pol}(\cdot) \equiv \Pr(\cdot \mid \param, \pol)$, which in general looks like this:
+  \[
+    \E_\param^\pol(U) = \sum_{a,x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y) = \sum_{x,z} P(x,z) \sum_a \pol(a | x, z) \sum_y P_\param(y | a, x, z) .
+  \]
+  The $y_t, a_t, x_t, z_t$ tuple is already sampled from $\Pr_\param^{\pol_0}$, so we can approximate the expected utility of the \alert{historical policy} with:
+  \[
+    \widehat{E}_T(U) = \frac{1}{T} \sum_{t=1}^T U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^{\pol_0}.
+  \]
+  \only<article>{
+    Thus, estimating the expected utility of a particular policy $\pol$ is easily possible, if we can sample actions and outcomes from $\Pr_\param^\pol$. This requires having some specific model for sampling outcomes for any given action, as the policy in historical data might have taken different actions from the ones we are taking.
+  }
+  For that reason, we can instead use importance sampling:
+  \begin{align*}
+    \E^\pol_\param(U)
+    &=
+      \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y) \\
+    &\approx
+      \frac{1}{T} \sum_{t} \sum_a \pol(a | x_t, z_t) \sum_y P_\theta(y | a, x_t, z_t) U(a,y)
+      \approx
+      \frac{1}{T} \sum_{t} \frac{\pol(a_t | x_t, z_t)}{\pol_0(a_t | x_t, z_t)} U(a_t,y_t).
+  \end{align*}
+  The first approximation in the above equation replaces the feature distribution with its empirical approximation. Maximising this still requires a model $P_\theta(y | a, x_t, z_t)$.
+  The second approximation is a bit more delicate, and is a type of importance sampling,\index{importance sampling} as explained in more detail in Section~\ref{sec:monte-carlo}.
+  This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. Unfortunately, the policy $\pol_0$ may also be unknown and must be estimated from the data. So, in order for us to be able to approximate the utility of some unknown policy from data, we need to have some model for the outcome distribution $P_\param(y | a, x, z)$ or the historical policy $\pol_0(a | x, z)$.
+
+  Importance sampling may be hard to apply for fairness, because it represents a more complex interaction between the policy $\pol$ an the process $P_\theta$ than the expected utility, which a simple sum. 
+  
+  \only<presentation>{
+    \begin{block}{Model specification}
+      For simplicity, assume $z = x_{1}$, i.e. one of the features.  Then
+      \[
+        \Pr_\param^\pol(y,a,x,z)
+        =
+        \underbrace{\Pr_\param(y \mid a, x)}_{\textrm{outcome distribution}}
+        \underbrace{\pol(a \mid x)}_{\textrm{policy}}
+        \underbrace{\Pr_\param(x)}_{\textrm{feature distribution}}
+      \]
+    \end{block}
+    Using the model, we can estimate the expected utility of any policy.
+  }
+  
+
   
   \paragraph{Use an estimated $\hat{\param}$.} The idea here is to replace the unknown $\param$ with an estimated value $\hat{\param}$. Here, for example, we could perform maximum-likelihood inference to find an estimate for $\param$:
   \[
@@ -959,7 +936,7 @@
     In general, however, it is not always possible to find a policy satisfying this definition when the decisions have no structure.
     In the following, we will take a look at certain specific decision problems, where actions and their effects can be factorised into individual components. The first one is selection problems, where individuals are selected from the population. The second one are matching problems, where individuals are matched with each other.}
 
-\frametitle{Allocation and selection.}
+  \frametitle{Allocation and selection.}
   \only<article>{
     Let us first consider problems where the decision maker
     has a binary choice, e.g. to accept or reject a loan
@@ -1182,7 +1159,7 @@
       \]
     \end{definition}
   \end{frame}
-      
+  
 }
 
 \begin{frame}{Connection to meritocracy.}
@@ -1201,11 +1178,11 @@
     applicants that result in higher utility. In particular, hiring
     applicant $x$ results in utility $u(x)$. Let us now define the
     utility of a policy, when applied to a single applicant, as
-    }
-    \[
-      \E^\pi (u | x) = \pi(a = 1| x) u(x).
-    \]
-    \only<article>{
+  }
+  \[
+    \E^\pi (u | x) = \pi(a = 1| x) u(x).
+  \]
+  \only<article>{
     Trivially, our policy should be such that we tend to hire people with higher utility to us.
     If the utility function is $L$-Lipschitz, then $|u(x) - u(x')| \leq L d(x,x')$. Now consider the case where $x'$ can get an unfair advantage through nepotism. However, if our policy is smooth, it requires $\pi(a = 1 | x) \geq \pi(a = 1 | x') - d(x,x') \geq \pi(a = 1 | x') - |u(x) - u(x')|/L$. In addition, since our policy must be a maximising policy, if  $u(x) > u(x')$, then $\pi(a = 1 | x) \geq \pi(a=1 | x')$.
   }
@@ -1247,16 +1224,16 @@
 }
 \subsection{Unknown population policies.}
 \only<article>{
-If we need to fix a policy before seeing the population, then we must use a parametrised policy that can give us a probability distribution over $a$ for any possible $\bx \in \CX$ where $\CX$ is a compact subset of $\Reals^n$.
-A simple parametrisation is a linear-softmax network,\footnote{We cannot use a linear network, because then $\pol(a \mid \bx) = \vparam_a^\top x$, and the probabilities of different actions cannot sum to one.}
-with $\vparam_a \in \Reals^n$ for all actions $a$, given by:
-\[
-  \pol(a \mid \bx) = \frac{e^{\vparam_a^\top x}}{\sum_{a' \in \CA} e^{\vparam_{a'}^\top \bx}}.
-\]
-This is not really difficult to work with, but we have a potential problem when considering the smoothness constraints. If we let $d(\bx, \bx') = \|bx - \bx'\|$ then the Lipschitz condition is in fact a condition on the gradient:
-\[
-  \nabla_\bx \pol(a \mid \bx) \leq 1, \qquad \forall \bx \in \CX.
-\]
+  If we need to fix a policy before seeing the population, then we must use a parametrised policy that can give us a probability distribution over $a$ for any possible $\bx \in \CX$ where $\CX$ is a compact subset of $\Reals^n$.
+  A simple parametrisation is a linear-softmax network,\footnote{We cannot use a linear network, because then $\pol(a \mid \bx) = \vparam_a^\top x$, and the probabilities of different actions cannot sum to one.}
+  with $\vparam_a \in \Reals^n$ for all actions $a$, given by:
+  \[
+    \pol(a \mid \bx) = \frac{e^{\vparam_a^\top x}}{\sum_{a' \in \CA} e^{\vparam_{a'}^\top \bx}}.
+  \]
+  This is not really difficult to work with, but we have a potential problem when considering the smoothness constraints. If we let $d(\bx, \bx') = \|bx - \bx'\|$ then the Lipschitz condition is in fact a condition on the gradient:
+  \[
+    \nabla_\bx \pol(a \mid \bx) \leq 1, \qquad \forall \bx \in \CX.
+  \]
 }
 
 
@@ -1296,16 +1273,16 @@ This is not really difficult to work with, but we have a potential problem when 
     Use a simple counterexample to show that the distributions of two random variables can be different, even when their expectations are the same.
   \end{exercise}
 
-    \begin{exercise}
-      Construct two Bernoulli random variables $x, y$ which do not
-      have an independent structure, but for which
-      $P(x, y) = P(x)P(y)$.
-      In particular, assume $P(y = 1 \mid x = 1 = \theta_1$ and $P(y = 1 \mid x=0) = \theta_0$, with $\theta_1 \neq \theta_0$. If $P(x = 1) = \theta$, what should its value be so that $P(x, y) = P(x)P(y)$?
-    \end{exercise}
-    \begin{proof}
-      The solution is relatively simple. Consider that 
-    \end{proof}
-    
+  \begin{exercise}
+    Construct two Bernoulli random variables $x, y$ which do not
+    have an independent structure, but for which
+    $P(x, y) = P(x)P(y)$.
+    In particular, assume $P(y = 1 \mid x = 1 = \theta_1$ and $P(y = 1 \mid x=0) = \theta_0$, with $\theta_1 \neq \theta_0$. If $P(x = 1) = \theta$, what should its value be so that $P(x, y) = P(x)P(y)$?
+  \end{exercise}
+  \begin{proof}
+    The solution is relatively simple. Consider that 
+  \end{proof}
+  
 }
 
 %%% Local Variables:
