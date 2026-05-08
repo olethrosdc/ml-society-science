@@ -57,7 +57,7 @@
   people from all backgrounds.
 
 
-  Like privacy, we wish to define fairness as a property of the \emph{decision making process}. Thus, it does not necessarily make sense to deem an outcome as fair or not: it is the process through which we arrive at that outcome which is fair. However, unlike privacy, fairness is perceived notion, that  depends on the knowledge the observer has. Taking the example of meritocracy, if we want the actually 8 best chess players to participate in the world chess championship, is that the same as picking the top-8-ranked players? Is that the same as picking the top finishers in last year's tournaments and cups? Nobody really knows who the best players are, even if it was possible to rank them. This problem persists in all variants of fairness definitions, as we shall see below.
+  Like privacy, we wish to define fairness as a property of the \emph{decision making process}. Thus, it does not necessarily make sense to deem an outcome as fair or not: it is the process through which we arrive at that outcome which is fair. However, unlike privacy, fairness is perceived notion, that  depends on the knowledge the observer has. Taking the example of meritocracy, if we want the actually 8 best chess players to participate in the world chess championship, is that the same as picking the top-8-ranked players? Is that the same as picking the top finishers in last year's tournaments? Nobody \emph{really} knows who the best players are, or even if is was \emph{possible} to rank them. These problems persist in all variants of fairness definitions, as we shall see below.
 }
 \only<presentation>{
   \begin{frame}
@@ -73,7 +73,7 @@
 }
 
 \begin{frame}
-  \frametitle{Meritocracy example}
+  \frametitle{Meritocracy example.}
 
   \only<article>{
     Meritocracy embodies the principle that merit should be
@@ -162,7 +162,7 @@
   \begin{itemize}
   \item<1-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the \emph{qualified} students, as it drains resources that could have been used for them. This inefficiency is also unfair to the teaching staff, and eventually the taxpayer.}
   \item<2-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot. This corresponds to a type of equality of opportunity.}
-  \item<3-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect.}
+  \item<3-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect: they can be inaccurate, insufficient, or biased.}
   \item<4-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics and engineering. Another factor is wealth: prosperous families can afford specialised training for their children that allows them to have higher grades. This inequality could be partially corrected by allocating university places to students with underpriviliged backgrounds.}
   \end{itemize}
   
@@ -186,7 +186,7 @@
     predominantly hires men in the first place, women were more likely
     to be rejected in the screening phase. The bias in the original
     training data was picked up by the machine learning model, and
-    then replicated. Automated resume-screening still persists\citep{monchak2025fairness}, even though large language models are known to exhibit strong biases both in general and in hiring decisions more particularly.\citep{an2024large,zhang2025hire,veldanda2023investigating,seshadri2025small}
+    then replicated. Automated resume-screening still persists\citep{monchak2025fairness}, more recently using large language models, even though they are also known to exhibit strong biases both in general and in hiring decisions more particularly.\citep{an2024large,zhang2025hire,veldanda2023investigating,seshadri2025small}
   \end{example}
 }
 
@@ -217,8 +217,10 @@
   giving loans to people that are expected to repay them, but also
   that it does not create inequalities between different groups. As we
   will see later, depending on our fairness definition, and on the
-  societal dynamics, this is almost never easy.
-  
+  societal dynamics, this is almost never easy: unlike privacy, which
+  is a pure algorithmic property, the fairness of the process depends
+  not only on the algorithm itself but the underlying statistics and
+  societal dynamics.
 }
 
 \begin{frame}
@@ -226,12 +228,12 @@
 
   \only<article>{ Let us now give a structured framework for decision
     making and fairness. We will use bail decisions in the US court
-    system as a running example: When a defendant is charged, the
-    judge has the option to either place them in jail pending trial,
-    or set them free, under the condition that the defendant pays some
-    amount of 'bail', or guarantee. The amount of bail (if any) is set
-    to deter flight or a relapse, and is returned to the defendant
-    after the trial.
+    system as a running example: When a defendant is charged with a
+    crime, the judge has the option to either place them in jail
+    pending trial, or set them free, under the condition that the
+    defendant pays some amount of 'bail', or guarantee. The amount of
+    bail (if any) is set to deter flight or a relapse, and is returned
+    to the defendant after the trial.
 
     This process sometimes includes the use of a software tool called
     \texttt{COMPAS}, which gives risk scores for the possibility of
@@ -282,7 +284,7 @@
   
   \paragraph{Policies.} In this setting, a defendant $t$ appears before a
   judge with observable features $x_t \in \CX$, and a sensitive group
-  variable $z_t \in \CZ$. The judge employs a specific policy $\pol$ to
+  variable $z_t \in \CZ$. The judge employs some  policy $\pol$ to
   select a decision $a_t \in \CA$, with:
   \begin{equation}
     \pol(a_t \mid x_t, z_t)
@@ -309,29 +311,36 @@
   In order to obtain some better intuition about when the outcome
   should be affected by the actions, let us give some examples.
 
-  \paragraph{Actions that affect the outcome.}
-  Let us start with the bail example, involving only the defendant (who has characteristics $x_t, z_t$ and the judge, who makes decisions $a_t$. The question is whether or not the defendant will appear at the trial $(y_t)$. We can first consider a simple
+  \paragraph{Utility.} Fairness considerations aside, the DM wishes to design a policy that maximises expected utility. The utility function\footnote{See Appendix~\ref{ch:decision-problems}} can be simply defined as function $\util : \CA \times \CY \to \Reals$ of the action and outcomes.
+  For the above example, we may consider a simple
   set of actions $\CA = \{0, 1\}$, where a defendant is granted
-  $(a_t = 1)$ or denied $(a_t = 0)$ bail.  If a defendant is not
-  given bail, they must remain in jail, and will always be at the
-  trial $(y_t = 0)$. This costs both the government and the
-  defendant, so the judge prefers not to deny bail too often.  On
-  the other hand, if the defendant is granted bail, there is a
-  chance they will re-offend, or will fail to attend trial
-  $(y_t = 1)$. Consequently, we can define the following utility
-  function\footnote{See Appendix~\ref{ch:decision-problems}} for the
+  $(a_t = 0)$ or denied $(a_t = 1)$ bail and outcomes $y_t = 0$ meaning they go to trial and $y_t = 1$ meaning recidivism or failure to attend trial.
+  The judge does not want to keep people in jail, and prefers that they are outside and attend trial. However, she also does not want them to
+  Consequently, we may define the following utility function for the
   judge, that roughly reflects those preferences:
-  \begin{equation}
-    U(a, y) = a - y.
-  \end{equation}
-  While this weighs the judge's two main concerns equally, we can also imagine different formulations: e.g. if the judge thinks it is much more important to keep people out of jail than to prevent re-offences until trial, they might select a function such as : $U(a, y) = 10a - y$.
 
-  In general, if a prediction is revealed, it \emph{can} affect
-  outcomes. In particular, the COMPAS systems's predictions are
-  revealed to the judge, who takes them into account when deciding to grant bail. Hence, if we consider whether or not the COMPAS system is fair, the actions $a_t$ of the system are its predictions. However, the judge's decision and the final outcome depend on those actions. 
-
+  \begin{center}
+    \begin{tabular}{c|c|c}
+      $U(a, y)$ & $y_t = 0$& $y_t = 1$\\\hline
+      $a_t = 0$ &  1  &  c \\
+      $a_t = 1$ & 0   &  ?
+    \end{tabular}
+  \end{center}
+  where $c < 1$ is a constant that reflects how much the judge weights different possibilities: When $c < 0$, the judge prefers to have somebody in jail than them not to attend trial. Note that the utility for $a_t =1, y_t=1$ is not necessarily defined, because we can not ever observe this scenario.
   
-  Let us continue with \emph{loan applications.} If the outcome we are
+    \paragraph{Actions that affect the outcome.} In general, any action we take that is observed, can affect the outcome. 
+  Let us start with the bail example, involving only the defendant (who has characteristics $x_t, z_t$) and the judge, (who makes decisions $a_t$). The question is whether or not the defendant will appear at the trial $(y_t)$.
+  If the judge does not grant bail, they make the trial appearance certain. If they do, then the defendant may or may not appear. So $y_t$ here depends on $a_t$.
+  
+  However, even simple actions, such as predictions, can \emph{can}
+  affect outcomes. In particular, the COMPAS systems's predictions are
+  revealed to the judge, who takes them into account when deciding to
+  grant bail. Hence, if we consider whether or not the COMPAS system
+  is fair, the actions $a_t$ of the system are its
+  predictions. However, the judge's decision and the final outcome
+  depend on those actions.
+
+   Let us continue with \emph{loan applications.} If the outcome we are
   interested in is the net worth of the individual after five years,
   it is clear that the loan decision will have some effect. However,
   it does not \emph{directly} determine the worth of the individual:
@@ -339,9 +348,9 @@
   to find the optimal course of action if the loan is denied.
 
   \paragraph{Actions that do not affect the outcome.} Generally
-  speaking, the only way for an action to not affect the outcome is
-  if it is a pure prediction. That means that it is not used
-  anywhere downstream in the process. However, once revealed, a
+  speaking, the only way for an action to not affect the outcome is if
+  it is a pure prediction. That means that it is not used
+  \emph{anywhere} downstream in the process. However, once revealed, a
   prediction might conceivably influence subsequent events.
 
   In the bail scenario, the only way for the actions to not affect
@@ -349,12 +358,12 @@
   action being a confidential note on the case file. Then their
   action cannot affect the outcome, since it is only revealed to the
   judge. The utility function can be based on the accuracy of
-  predictions, so we can simply set it to $U(a,y) = a - y$.
+  predictions, so we can simply set it to $U(a,y) = |a - y|$.
   
   The same thing holds for loan applications. If the action is
   merely a prediction, which is not used in the process, then it
-  cannot influence the outcome. This will happen if somebody is
-  asked to review a case for which a decision has already been made.
+  cannot influence the outcome. This will only happen if somebody is
+  asked to review a case for which a decision has already been made. 
   
   \subsubsection{Maximising utility.}
   For simplicity, let us assume we know the parameter $\param$ of the unknown distribution. If we only cared about maximising expected utility $\util$, and not fairness at all, then we need to find a policy $\pol$ maximising:
