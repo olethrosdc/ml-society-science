@@ -224,7 +224,7 @@
 }
 
 \begin{frame}
-  \frametitle{The structure of decision making}
+  \subsection{The structure of decision making}
 
   \only<article>{ Let us now give a structured framework for decision
     making and fairness. We will use bail decisions in the US court
@@ -280,8 +280,8 @@
       \end{column}
     \end{columns}
   }
-
-  
+\end{frame}
+\begin{frame}
   \paragraph{Policies.} In this setting, a defendant $t$ appears before a
   judge with observable features $x_t \in \CX$, and a sensitive group
   variable $z_t \in \CZ$. The judge employs some  policy $\pol$ to
@@ -290,28 +290,35 @@
     \pol(a_t \mid x_t, z_t)
   \end{equation}
   denoting the probability of action $a_t$ given the individual's features, as well as the sensitive variable. We can assume that the policy is fixed ahead of time, and thereafter decisions are made according to the policy.
+\end{frame}
 
+\begin{frame}
   \paragraph{Outcomes.}
   After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution $P_\theta$ with parameter $\theta$,
   denoting the probability of $y_t$ given the individual's features
   and the action taken. Here, there are two possibilities. In the first case,
-  the outcome $y_t$ depends only on the observed features, i.e. the distribution of $y_t$ is given by
-  \begin{equation}
-    P_\theta(y_t \mid x_t, z_t).
-  \end{equation}
-  This is the correct formulation if the action does \emph{not}
-  affect the outcome. This will be generally the case if the action
-  is merely a \emph{prediction}.  However, when the action reflects
-  a \emph{decision} with downstream effects, it will have some
-  affect on the outcome. Hence, the conditional distribution of
-  outcomes in this case is:
+  the action reflects a \emph{decision} with downstream effects. Then it
+  will have affect outcome. Hence, the conditional
+  distribution of outcomes in this case is:
   \begin{equation}
     P_\theta(y_t \mid x_t, z_t, a_t).
   \end{equation}
+The second case is that only the observed features, and not the action, affect the outcome $y_t$, i.e. the distribution of $y_t$ is given by
+  \begin{equation}
+    P_\theta(y_t \mid x_t, z_t).
+  \end{equation}
+  This will be only the case if the action is merely a pure
+  \emph{prediction} that is never used to make decisions, even
+  indirectly.  This is rarely the case in practice.
+
+  
   In order to obtain some better intuition about when the outcome
   should be affected by the actions, let us give some examples.
+\end{frame}
 
-  \paragraph{Utility.} Fairness considerations aside, the DM wishes to design a policy that maximises expected utility. The utility function\footnote{See Appendix~\ref{ch:decision-problems}} can be simply defined as function $\util : \CA \times \CY \to \Reals$ of the action and outcomes.
+
+\begin{frame}
+\paragraph{Utility.} Fairness considerations aside, the DM wishes to design a policy that maximises expected utility. The utility function\footnote{See Appendix~\ref{ch:decision-problems}} can be simply defined as function $\util : \CA \times \CY \to \Reals$ of the action and outcomes.
   For the above example, we may consider a simple
   set of actions $\CA = \{0, 1\}$, where a defendant is granted
   $(a_t = 0)$ or denied $(a_t = 1)$ bail and outcomes $y_t = 0$ meaning they go to trial and $y_t = 1$ meaning recidivism or failure to attend trial.
@@ -327,8 +334,10 @@
     \end{tabular}
   \end{center}
   where $c < 1$ is a constant that reflects how much the judge weights different possibilities: When $c < 0$, the judge prefers to have somebody in jail than them not to attend trial. Note that the utility for $a_t =1, y_t=1$ is not necessarily defined, because we can not ever observe this scenario.
-  
-    \paragraph{Actions that affect the outcome.} In general, any action we take that is observed, can affect the outcome. 
+\end{frame}
+\begin{frame}
+\paragraph{Actions that affect the outcome.}
+  In general, any action we take that is observed, can affect the outcome. 
   Let us start with the bail example, involving only the defendant (who has characteristics $x_t, z_t$) and the judge, (who makes decisions $a_t$). The question is whether or not the defendant will appear at the trial $(y_t)$.
   If the judge does not grant bail, they make the trial appearance certain. If they do, then the defendant may or may not appear. So $y_t$ here depends on $a_t$.
   
@@ -364,26 +373,9 @@
   merely a prediction, which is not used in the process, then it
   cannot influence the outcome. This will only happen if somebody is
   asked to review a case for which a decision has already been made. 
-  
-  \subsubsection{Maximising utility.}
-  For simplicity, let us assume we know the parameter $\param$ of the unknown distribution. If we only cared about maximising expected utility $\util$, and not fairness at all, then we need to find a policy $\pol$ maximising:
-  \begin{equation} 
-    \label{eq:expected-utility-judge}
-    \E_\param^\pol(U) = \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y).
-  \end{equation}
-  For the case of bail decisions, if $P_\theta(y | a, x, z) =P_\theta(y | x, z)$ and $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
-
-  \begin{theoryblock}{Implicit decision rules.}
-    If the decision rule $\pol$ is unrestricted, then there is no
-    need to explicitly optimise for it in this setting. It can be defined implicitly, by always picking the action maximising:
-    \[
-      \E[U \mid a, z] = \sum_y P_\theta(y | a, x, z) U(a,y).
-    \]
-    However, sometimes $\pol$ is restricted, e.g. to the class of logistic regression models. In addition, if we are also optimising for fairness, then we no longer can define the decision rule implicitly, but we must perform the explicit optimisation over $\pi$.
-  \end{theoryblock}
-
 \end{frame}
-
+\subsection{Fairness notions.}
+For simplicity, in this section we first assume that we know the parameter $\param$ of the unknown distribution. The DM wants to find a policy maximising expected utility, while taking into account some fairness notions. Let us begin by considering different fairness metrics.
   \begin{frame}
     \frametitle{Demographic parity and equality of opportunity.}
 
@@ -615,7 +607,7 @@
 
  
 \begin{frame}
-  \frametitle{Measuring fairness deviation.}
+  \subsection{Measuring fairness deviation.}
   \only<article>{
     Unfortunately none of these fairness conditions will be satisfied in practice. So
     we need a way to measure how much we deviate from them.A simple idea is to simply look at how far
@@ -662,13 +654,28 @@
 \end{frame}
 \subsection{Trading off  utility and fairness.}
 \label{sec:trad-util-fairn}
-\only<article>{ We have now selected a notion of utility and of
-  fairness. We have also seen how to measure utility and fairness in
-  practice. How can we choose a policy $\pol$ that optimises for both? The
-  general idea is to formalise the problem in terms of a constrained
-  or unconstrained optimisation. }
+  If we only cared about maximising expected utility $\util$, and not fairness at all, then we need to find a policy $\pol$ maximising:
+  \begin{equation} 
+    \label{eq:expected-utility-judge}
+    U(\pol, \param) \defn \E_\param^\pol(U) = \sum_{x,z} P_\param(x, z) \sum_a \pol(a | x, z) \sum_y P_\param(y | a, x, z) U(a,y).
+  \end{equation}
+  Here we overloaded $U$ so that $U(\pol, \param)$ is the expected utility of a policy $\pol$ when $\param$ is the true parameter, and $U(a,y)$ is the actual utility of observing $y$ when playing action $a$.   For the case of bail decisions where the action does \emph{not} affect the outcome, i.e. $P_\param(y | a, x, z) =P_\param(y | x, z)$, and where the utility only relates to a correct prediction of recidivism, $U(a,y) = \ind{a = y}$ then the judge is merely solving a classification problem.
+  
+  \begin{theoryblock}{Implicit decision rules.}
+    If the decision rule $\pol$ is unrestricted, then there is no
+    need to explicitly optimise for it in this setting. If $P_\param$ is given, it can be defined implicitly, by always picking the action maximising:
+    \[
+      \E[U \mid a, z] = \sum_y P_\param(y | a, x, z) U(a,y).
+    \]
+    However, sometimes $\pol$ is restricted, e.g. to the class of logistic regression models. In addition, if we are also optimising for fairness, then we can no longer can define the decision rule implicitly, but we must perform the explicit optimisation over $\pi$.
+  \end{theoryblock}
+
+  \only<article>{ Given this notion of utility and one of the above
+    fairness deviations, how can we choose a policy $\pol$ that
+    optimises for both? The general idea is to formalise the problem
+    in terms of a constrained or unconstrained optimisation. }
 \begin{frame}
-  \frametitle{Formalisation of the problem}
+  \frametitle{Formalisation of the problem.}
 
   \only<article>{ Let us use $F(\pol, \param)$ for the measure of
     deviation from fairness and $U(\pol, \param)$ for utility. Since
@@ -735,7 +742,7 @@
   model parameter $\param$ and policy $\pol$.  However, in practice
   this is never the case: We only have some data
   $D = (x_t, z_t, a_t, y_t)_{t=1}^T$, which indirectly gives us
-  information about $\theta$. We may also not know the historical
+  information about $\param$. We may also not know the historical
   policy $\pol_0$ with which the data was collected.
   The problem we face is to optimise some mixture between fairness deviation and utility 
   \[
@@ -764,17 +771,17 @@
   \begin{align*}
     \E^\pol_\param(U)
     &=
-      \sum_{x,z} P_\theta(x, z) \sum_a \pol(a | x, z) \sum_y P_\theta(y | a, x, z) U(a,y) \\
+      \sum_{x,z} P_\param(x, z) \sum_a \pol(a | x, z) \sum_y P_\param(y | a, x, z) U(a,y) \\
     &\approx
-      \frac{1}{T} \sum_{t} \sum_a \pol(a | x_t, z_t) \sum_y P_\theta(y | a, x_t, z_t) U(a,y)
+      \frac{1}{T} \sum_{t} \sum_a \pol(a | x_t, z_t) \sum_y P_\param(y | a, x_t, z_t) U(a,y)
       \approx
       \frac{1}{T} \sum_{t} \frac{\pol(a_t | x_t, z_t)}{\pol_0(a_t | x_t, z_t)} U(a_t,y_t).
   \end{align*}
-  The first approximation in the above equation replaces the feature distribution with its empirical approximation. Maximising this still requires a model $P_\theta(y | a, x_t, z_t)$.
+  The first approximation in the above equation replaces the feature distribution with its empirical approximation. Maximising this still requires a model $P_\param(y | a, x_t, z_t)$.
   The second approximation is a bit more delicate, and is a type of importance sampling,\index{importance sampling} as explained in more detail in Section~\ref{sec:monte-carlo}.
   This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. Unfortunately, the policy $\pol_0$ may also be unknown and must be estimated from the data. So, in order for us to be able to approximate the utility of some unknown policy from data, we need to have some model for the outcome distribution $P_\param(y | a, x, z)$ or the historical policy $\pol_0(a | x, z)$.
 
-  Importance sampling may be hard to apply for fairness, because it represents a more complex interaction between the policy $\pol$ an the process $P_\theta$ than the expected utility, which a simple sum. 
+  Importance sampling may be hard to apply for fairness, because it represents a more complex interaction between the policy $\pol$ an the process $P_\param$ than the expected utility, which a simple sum. 
   
   \only<presentation>{
     \begin{block}{Model specification}
@@ -955,11 +962,11 @@
     individual. Typically, the decision $a_i$ about an individual $i$
     does not depend on the decision about any other individual. Hence,
     the decision rule can be factorised as
-    $\pol(a | w) = \prod_i \pol(a_i | w_i)$. This is typically the
+    $\pol(a | w) = \prod_i \pol(a_i | w_i)$. This is usually the
     case when individuals appear sequentially, and we must make a
     decision for each one of them in turn, as long as the decision
     rule $\pol$ remains fixed.
-    However, in some cases $\pol$ itself acts on a population of individuals. This is the case in cohort selection, when we need to select some individuals from a set. 
+    However, sometimes $\pol$ itself acts on a \emph{population} of individuals. This is the case in cohort selection, when we need to select some individuals from a set. 
   }
 
 
@@ -969,7 +976,7 @@
       individuals, with the $i$-th individual receiving an evaluation
       $w_i$. We need to choose individuals from the set so that
       $a_i = 1$ if we select an individual, and $0$ otherwise. We can
-      assume that all individuals prefer being selected.  The
+      assume that all individuals prefer being selected to not being selected.  The
       selection algorithm $\pol$ creates an allocation
       $a=(a_1, \ldots, a_n)$. A simple way to perform the allocation
       to first rank the individuals so that $w_{i} > w_{i+1}$. We then
@@ -987,7 +994,7 @@
   \end{example}
 \end{frame}
 \only<article>{
-  This, however, creates a problem. What if the $k$-th individual has value $w_k$, but there exist more individuals of equal value, so that e.g. $w_{k+1} = w$? Due to our constraint on only selecting $k$ individuals from the set, we now have a problem: if we select $k$ and not $k+1$, we are treating the individuals differently, even though their characteristics are exactly the same. The simplest way to fix that is to choose between $k$ or $k+1$ with probability $1/2$ each. The same problem occurs when we want to match multiple individuals to one of many possible allocations, as is done in university entrance. The obvious solution there is also randomisation. Even though some people find randomisation fundamentally unfair, it is the only method offering equitable treatment (though not equitable outcomes) for indistinguishable individuals.
+  This top-$k$ selection method creates a problem. What if the $k$-th individual has value $w_k$, but there exist more individuals of equal value, so that e.g. $w_{k+1} = w$? Due to our constraint on only selecting $k$ individuals from the set, we now have a problem: if we select $k$ and not $k+1$, we are treating the individuals differently, even though their characteristics are exactly the same. The simplest way to fix that is to choose between $k$ or $k+1$ with probability $1/2$ each. The same problem occurs when we want to match multiple individuals to one of many possible allocations, as is done in university entrance. The obvious solution there is also randomisation. Even though some people find randomisation fundamentally unfair, it is the only method offering equitable treatment (though not equitable outcomes) for indistinguishable individuals.
 }
 
 \begin{frame}
@@ -1061,7 +1068,7 @@
   have not been hired.
 
   To formalise this principle, we need to first assume that each
-  candidates $i$ is describe by some features $x_i \in \CX$, and that
+  candidates $i$ is described by some features $x_i \in \CX$, and that
   a metric $d : \CX \times \CX \to \Reals_+$ is defined on $\CX$, so
   that similar individuals $i, j$ will have a smaller distance $d(x_i, x_j)$.
 
@@ -1103,18 +1110,21 @@
   \[
     U(\pol) \defn \int_{\CX} dP(x) \left[\sum_{a \in \CA} \rho(x, a) \pol(a_t = a | x)\right].
   \]
-  For simplicity, we can assume that $P$ is known, but it could also have been estimated from data. Similarly, $\rho$ may be an arbitrary evaluation function, or it could be somehow estimated. For example, if we have a model of rewards $r \in \Reals$ for different action and observation combinations $p(r | x, a)$, then we can set the payoff function to be our expected reward $\rho(x, a) \defn \E[r | x,a] = \int_{-\infty}^\infty r p(r | x,a) dr$ for taking action $a$ for individual $x$.
+  For simplicity, we can assume that $P$ is known, but it could also have been estimated from data. Similarly, $\rho$ may be an evaluation function that we chose arbitrarily to fit the problem at hand, or it could be estimated from data.
   
-  To impose a smoothness constraint on the policy, we require it to be Lipschitz-smooth with respect to the metric on the observed features. Together with the objective of maximising utility, we can define the following constrained maximisation problem:
+  For now assume that $\util$ is well-defined. To impose a smoothness constraint on the policy, we require it to be Lipschitz-smooth with respect to the metric on the observed features. Together with the objective of maximising utility, we can define the following constrained maximisation problem, as was suggested by~\citet{dwork2012fairness}:
   \begin{block}{Treating similar individuals similarly.}
     For a given utility $U$, metric $d$ on $\CX$ and divergence $D$:
     \begin{equation}
-      \max_\pol  U(\pol), \qquad
+      \max_\pol  \util(\pol), \qquad
       \st  D[\pol(a_i | x_i), \pol(a_j | x_j)] \leq d(x_i,x_j). 
       \label{eq:lipschitz-fairness}
     \end{equation}
   \end{block}
-  Of course, in some cases the utility might not be known perfectly, and we can use a Bayesian approach. It is also possible that we have not settled on an appropriate metric $d$ with respect to the features. Finally, the policy may not have the independence property, so the above Lipschitz condition may not be properly defined. There are also differences in the available solutions for the optimisation problem when we are dealing with a fixed population versus a distribution over populations.  We will go through all of these later. 
+  This formulation suggests that similar individuals (in terms of $d$) are treated similarly (in terms of $D$). Hence, their choice dictates the semantic of ``similarly''. It is also possible that we have not settled on an appropriate metric $d$ with respect to the features. 
+  Finally, the policy may not have the independence property, so the above Lipschitz condition may not be properly defined. There are also differences in the available solutions for the optimisation problem when we are dealing with a fixed population versus a distribution over populations.
+
+  We will go through all of these later. 
 }
 \only<presentation>{
   \begin{frame}
@@ -1239,10 +1249,11 @@
   \[
     \pol(a \mid \bx) = \frac{e^{\vparam_a^\top x}}{\sum_{a' \in \CA} e^{\vparam_{a'}^\top \bx}}.
   \]
-  This is not really difficult to work with, but we have a potential problem when considering the smoothness constraints. If we let $d(\bx, \bx') = \|bx - \bx'\|$ then the Lipschitz condition is in fact a condition on the gradient:
+  This is not really difficult to work with, but we have a potential problem when considering the smoothness constraints. If we let $d(\bx, \bx') = \|\bx - \bx'\|$ then the Lipschitz condition is in fact a condition on the gradient:
   \[
     \nabla_\bx \pol(a \mid \bx) \leq 1, \qquad \forall \bx \in \CX.
   \]
+  Consequently, the optimisation of $\vparam$ must be such that this constraint is satisfied. It will usually be sufficient to constrain it to a bounded norm.
 }
 
 
@@ -1286,7 +1297,7 @@
     Construct two Bernoulli random variables $x, y$ which do not
     have an independent structure, but for which
     $P(x, y) = P(x)P(y)$.
-    In particular, assume $P(y = 1 \mid x = 1 = \theta_1$ and $P(y = 1 \mid x=0) = \theta_0$, with $\theta_1 \neq \theta_0$. If $P(x = 1) = \theta$, what should its value be so that $P(x, y) = P(x)P(y)$?
+    In particular, assume $P(y = 1 \mid x = 1 = \param_1$ and $P(y = 1 \mid x=0) = \param_0$, with $\param_1 \neq \param_0$. If $P(x = 1) = \param$, what should its value be so that $P(x, y) = P(x)P(y)$?
   \end{exercise}
   \begin{proof}
     The solution is relatively simple. Consider that 
