@@ -1221,13 +1221,13 @@ For simplicity, in this section we first assume that we know the parameter $\par
 \only<article>{
   Let us start with the simplest case, by defining the optimisation problem \eqref{eq:lipschitz-fairness} when we are asked to provide a policy for a finite population $\CX$. Then we need only consider the policy and constraint for all the people in $\CX$. More specifically, for the $i$-th person with data $x_i$ in the dataset $\CX$, the probability of taking action $a$ is $\pol(a \mid x_i)$. How should we parametrise the policy?
 
-  Let us look at the case of a finite number of actions. Then, the simplest method is to simply define a parameter vector $\vparam_t \in \Simplex^{|\CA|}$ for the $t$-th individual, so that
-  $\param_{t,a} \defn \pol(a \mid x_t)$. This leads to the optimisation problem
+  Let us look at the case of a finite set of actions $\CA$ for each individual. Then, we can simply define a parameter vector $\vparam_t \in \Simplex^{|\CA|}$ for the $t$-th individual, so that
+  $\param_{t,a} \defn \pol(a \mid x_t)$ is the probability that we take action $a$ for individual $t$. This leads to the optimisation problem
   \[
     \max_{\vparam} \sum_{t=1}^T  \sum_{a \in \CA} \rho(x_t, a) \param_{t,a},
     \qquad \st \sum_{a \in \CA} \param_{t,a} = 1, \param_{t,a} \geq 0 \forall t, a.
   \]
-  Here both the objective and the constraints are linear with respect to the parameters, hence the overall problem is a \emph{linear program}.
+  Here the features $x_t$ of each individual only interact with the policy making through the optimisation, i.e. the policy itself completely disregards the features, and considers each individual seprately. Both the objective and the constraints are linear with respect to the parameters, hence the overall problem is a \emph{linear program}.
 
   Let us look at the smoothness constraints now. If we limit ourselves only to the observed population, there is a finite number of constraints: $D[\pol(a \mid x_i)\|\pol(a \mid x_j)]$ for $i, j \in [T]$. The simplest choice for $D$ is total variation between two distributions:
   \[
@@ -1239,8 +1239,15 @@ For simplicity, in this section we first assume that we know the parameter $\par
   \]
   Since $d(x_i, x_j)$ does not depend on the parameters, the problem remains linear.
 
-  On the other hand, if we want to parametrise differently, e.g. by calculating the probabilities of different actions through a softmax distribution, then the problem becomes non-linear. This is something we must do anyway, in the case where the population is not fixed and so we will describe it in the next section.
-}
+
+  There are a number of problems with this approach. Firstly, if we
+  wanted to satisfy the smoothness constraint for arbitrary individual
+  features $x, x'$ then we cannot do so by ensuring that it holds only
+  for some pairs.  In addition, if we want to parametrise differently,
+  e.g. by calculating the probabilities of different actions through a
+  softmax distribution, then the problem becomes non-linear. This is
+  something we must do anyway, in the case where the population is not
+  fixed and so we will describe it in the next section.  }
 \subsection{Unknown population policies.}
 \only<article>{
   If we need to fix a policy before seeing the population, then we must use a parametrised policy that can give us a probability distribution over $a$ for any possible $\bx \in \CX$ where $\CX$ is a compact subset of $\Reals^n$.
