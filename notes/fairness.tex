@@ -609,7 +609,7 @@
   \end{frame}
   \only<article>{
     \begin{theoryblock}{Conditional independence of $y, a$ given $z$.}
-      There is another possibility, which we have not mentioned: What about $y, a$ being conditionally independent given $z$? Can we use that as a fairness criterion? While there is no reason why we technically could not, it is hard to justify its relation to fairness. In fact, we would like our actions (even if they are just predictions) to be related to outcomes.
+      There is another possibility, which we have not mentioned: What about $y, a$ being conditionally independent given $z$? Can we use that as a fairness criterion? While there is no reason why we technically could not, it is hard to justify its relation to fairness, as it would make the outcome only depend on the sensitive variable $z$ and not our action $a$, the opposite of what we want.
     \end{theoryblock}
   }
 
@@ -617,8 +617,7 @@
 \begin{frame}
   \frametitle{Measuring fairness deviation.}
   \only<article>{
-    Unfortunately none of these fairness conditions will be satisfied in practice. So
-    we need a way to measure how much we deviate from them.A simple idea is to simply look at how far
+    Unfortunately none of these fairness conditions will be satisfied in practice. So,   we need a way to measure how much we deviate from them.A simple idea is to simply look at how far
     away the distribution is from independence. In particular, let us
     consider \emph{balance}, which requires that these distributions: 
   }
@@ -650,22 +649,27 @@
     \approx
     \sum_a |\hat{P}_n (a| y, z) -   \hat{P}_n(a| y)|.
   \]
-  \only<article>{  
-    However, we can
-    use something else as well, such as the KL divergence:
-    \[
-      D(\Pr_\param^\pol(a | y, z)  \|   \Pr_\param^\pol(a | y))
-      =
-      \sum_a \ln \frac{\Pr_\param^\pol(a | y, z)}{\Pr_\param^\pol(a | y)} \Pr_\param^\pol(a | y, z)
-    \]
+  \only<article>{ This allow us to calculate the fairness (balance) of
+    a specific policy.
+    
+    \begin{exercise} In the following exercise. you need to calculate the empirical estimate for different fairness deviations and different metrics.
+      \begin{enumerate}
+      \item Calculate the corresponding empirical estimate for \emph{calibration} and \emph{parity}
+      \item Repeat the above for the KL divergence:
+      \[
+        D(\Pr_\param^\pol(a | y, z)  \|   \Pr_\param^\pol(a | y))
+        =
+        \sum_a \ln \frac{\Pr_\param^\pol(a | y, z)}{\Pr_\param^\pol(a | y)} \Pr_\param^\pol(a | y, z)
+      \]
+    \end{enumerate}
+  \end{exercise}
   }
 \end{frame}
 \subsection{Trading off  utility and fairness.}
 \label{sec:trad-util-fairn}
-\only<article>{ We have now selected a notion of utility and of
+\only<article>{ We have now examined some notions of utility and 
   fairness. We have also seen how to measure utility and fairness in
-  practice. How can we choose a policy $\pol$ that optimises for both? The
-  general idea is to formalise the problem in terms of a constrained
+  practice. How can we choose a policy $\pol$ that optimises for both? The  general idea is to formalise the problem in terms of a constrained
   or unconstrained optimisation. }
 \begin{frame}
   \frametitle{Formalisation of the problem}
@@ -677,36 +681,39 @@
 
     We can deal with the problem in two ways. The first is to
     formulate a combined objective that mixes the utility and fairness
-    objectives. Then we can formalise the problem as an unconstrained
+    objectives. Then we can formalise the problem as unconstrained
     optimisation. The second is to optimise one objective and place
     constrains on the other. For example, we can place a limit on how
     much unfairness we are willing to tolerate and maximise
     utility. Or, we can place a limit on how far away we want to be
-    from the solution that optimises for utility only, and optimises
+    from the solution that optimises for utility only, and optimise
     for fairness. Which method to use is application-dependent, but
-    also has some computational impact.  }
+    also has some computational impact. }
 
   \begin{block}{Unconstrained optimisation.}
     \only<article>{The simnplest idea is to treat the utility and fairness symetrically. Then we can simply optimise for their mixture.}
     Let $\lambda \in [0,1]$:
     \[
-      \max_\pol (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param)
+      \max_\pol (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param).
     \]
+    \only<article>{By setting $\lambda = 0$, we only care about minimising fairness deviation, and by setting $\lambda = 1$, we only maximise utility. By varying $\lambda$, we can change the relative emphasis we place on either aspect. }
   \end{block}
   \only<article>{
-    In this setting, we have an unconstrained optimisation problem. These are typically easier to solve, and we can use simple gradient methods. In particular, note that the gradient with respect to the policy of the unconstrained objective is
+    In this setting, we have an unconstrained optimisation problem. These are typically easier to solve, and we can use simple gradient methods to find local optima. In particular, note that the gradient with respect to the policy of the unconstrained objective is
     \[
       \nabla_\pol [(1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param)]
       =
       (1 - \lambda) \nabla_\pol U(\pol, \param) - \lambda \nabla_\pol F(\pol, \param).
     \]
     Consqeuently, we only need to move in the direction of the sum of
-    these gradients.  The only problem with this formulation is that
+    these gradients.  One difficulty with this formulation is that
     setting the $\lambda$ parameter is not very intuitive, in
     particular if one of the two quantities is more sensitive to the
-    policy than the other.  }
+    policy than the other. In particular, we should take the
+    \emph{relative scale} of each one into account: for example if
+    $U \in [0,1]$ but $F \in (\infty, 0)$ it may be difficult to set
+    $\lambda$ appropriately, so it is best to at the very least choose $F, U$ with the same range.}
 
-  
 
   \only<article>{Let us now look at two different ways of modelling the problem as constrained optimisation. This might be useful if we need to have guarantees on fairness or utility. In the first formulation, we maximise utility and constrain the fairness deviation. In the second, we minimise the fairness deviation and constrain the utility.}
   \begin{block}{Constrained fairness.}
@@ -717,7 +724,7 @@
     \end{align*}
   \end{block}
 
-  \only<article>{Since the best we can do for fairness deviation is to have $F(\pol, \param) = 0$, it makes sense to upper bound it by an amount $\epsilon$. Let us now look at the converse problem, maximising fairness, while making sure that the utility is not much worse than the best we can get. }
+  \only<article>{Since the best we can do for fairness deviation is to have $F(\pol, \param) = 0$, it makes sense to upper bound it by an amount $\epsilon \geq 0$. This can be done through some empirical evaluation Let us now look at the converse problem, maximising fairness, while making sure that the utility is not much worse than the best we can get. }
   \begin{block}{Constrained utility.}
     \only<article>{In this setting, we want to limit the amount of sub-optimality $\epsilon$ we have relative to the optimal policy that ignores fairness.}
     Let $\epsilon \geq 0$:
@@ -726,7 +733,7 @@
       \textrm{s.t.} U(\pol, \param) \geq  \max_{\pol' \in \Pol} U(\pol', \param) - \epsilon
     \end{align*}
   \end{block}
-  \only<article>{Here it's important to measure the loss in performance relative to the utility-maximising policy. To understand this, consider the case where $U : \Pol, \Param \to [0,1]$. Then we could have chosen the constrained $U(\pol, \param) \geq 1 - \epsilon$, i.e. that our policy is at least $\epsilon$-close to the highest possible utility. However, it might be impossible to find a policy with this value: indeed, it could be that $\max_{\pol'} U(\pol', \param) < 1 - \epsilon$, in which case we would never find a policy satisfying the constraint. For that reason, we specify the constraint in terms of the performance difference relative to the highest \emph{attenable} utility.}
+  \only<article>{Here it's important to measure the loss in performance relative to the utility-maximising policy. To understand this, consider the case where $U : \Pol, \Param \to [0,1]$. Then we could have chosen the constraint $U(\pol, \param) \geq 1 - \epsilon$, i.e. that our policy is at least $\epsilon$-close to the highest possible utility. However, it might be impossible to find a policy with this value: indeed, it could be that $\max_{\pol'} U(\pol', \param) < 1 - \epsilon$, in which case we would never find a policy satisfying the constraint. For that reason, we specify the constraint in terms of the performance difference relative to the highest \emph{attenable} utility.}
 \end{frame}
 
 \only<article>{
@@ -739,9 +746,9 @@
   policy $\pol_0$ with which the data was collected.
   The problem we face is to optimise some mixture between fairness deviation and utility 
   \[
-    V(\pol, \param) \defn (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param).
+    V(\pol, \param) \defn (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param),
   \]
-  when $\param$ is unknown.
+  where however the $\param$ is \emph{unknown}, and so the optimal policy has to be estimated from data.
   
   There are four methods for dealing with this problem. The simplest
   one is to use importance sampling. The remaining methods require us to build some \emph{model}. The first is a point estimate, which involves estimating some $\hat{\param}$ from the data and replacing that in the expectations defined in the previous section. The second is a Bayesian approach, where we calculate a posterior distribution $\beta(\param | D)$ and calculate $\int_\Param \E_\param^\pol(U) \dd \bel(\param | D)$. The third is to construct a high-probability confidence set $\hat{\Param}$, and use it to obtain a policy with some theoretical guarantees about its performance.
@@ -749,13 +756,13 @@
   \subsubsection{Importance sampling.}
     Here we consider the scenario where we have obtained data $(x_t, z_t, a_t, y_t)_{t=1}^T$,  from some \emph{historical} policy $\pol_0$, with $x_t, z_t \sim P_\param(x, z)$, $a_t \mid x_t \sim \pol_0(a | x)$ and $y_t \mid x_t, z_t, a_t \sim P_\param(y | x, z, a)$. The question is, what would the expected utility of an alternative policy $\pol$ be?
   
-  Let us write out the expected utility of any policy, with $\Pr_\param^{\pol}(\cdot) \equiv \Pr(\cdot \mid \param, \pol)$, which in general looks like this:
+  Let us write out the expected utility of any policy, with $\Pr_\param^{\pol}(\cdot) \equiv \Pr(\cdot \mid \param, \pol)$, which in general looks like this, where we use discrete variables for simplicity:
   \[
-    \E_\param^\pol(U) = \sum_{a,x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y) = \sum_{x,z} P(x,z) \sum_a \pol(a | x, z) \sum_y P_\param(y | a, x, z) .
+    \E_\param^\pol(U) = \sum_{a,x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y) = \sum_{x,z} P_\param(x,z) \sum_a \pol(a | x, z) \sum_y P_\param(y | a, x, z) .
   \]
-  The $y_t, a_t, x_t, z_t$ tuple is already sampled from $\Pr_\param^{\pol_0}$, so we can approximate the expected utility of the \alert{historical policy} with:
+  The $y_t, a_t, x_t, z_t$ tuple is already sampled from $\Pr_\param^{\pol_0}$, so we can approximate the expected utility of the \alert{historical policy} with a simple Monte-Carlo estimate:
   \[
-    \widehat{E}_T(U) = \frac{1}{T} \sum_{t=1}^T U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^{\pol_0}.
+    \widehat{E}_T(U) \defn \frac{1}{T} \sum_{t=1}^T U(a_t,y_t), \qquad a_t, y_t \sim \Pr_\param^{\pol_0}.
   \]
   \only<article>{
     Thus, estimating the expected utility of a particular policy $\pol$ is easily possible, if we can sample actions and outcomes from $\Pr_\param^\pol$. This requires having some specific model for sampling outcomes for any given action, as the policy in historical data might have taken different actions from the ones we are taking.
@@ -774,8 +781,20 @@
   The second approximation is a bit more delicate, and is a type of importance sampling,\index{importance sampling} as explained in more detail in Section~\ref{sec:monte-carlo}.
   This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. Unfortunately, the policy $\pol_0$ may also be unknown and must be estimated from the data. So, in order for us to be able to approximate the utility of some unknown policy from data, we need to have some model for the outcome distribution $P_\param(y | a, x, z)$ or the historical policy $\pol_0(a | x, z)$.
 
-  Importance sampling may be hard to apply for fairness, because it represents a more complex interaction between the policy $\pol$ an the process $P_\theta$ than the expected utility, which a simple sum. 
-  
+  \begin{exercise}
+    Unlike utility, which is a simple sum over independent outcomes, importance sampling may be hard to apply for fairness. This is because it represents a more complex interaction between the policy $\pol$ and the process $P_\theta$ than the expected utility. In this exercise, derive an importance sampling estimate for parity:
+    \[
+      \max_{z} \sum_a |\Pr_\param^\pol(a \mid z) - \Pr_\param^\pol(a)|.
+    \]
+    \begin{solution}
+      \begin{align*}
+        P(a|z) - P(z)
+        &= \sum_x P(a, x | z) - P(z, x)\\
+        &= \sum_x P(a | x, z) P(x|z) - P(z | x) P(x)
+      \end{align*}
+    \end{solution}
+  \end{exercise}
+
   \only<presentation>{
     \begin{block}{Model specification}
       For simplicity, assume $z = x_{1}$, i.e. one of the features.  Then
