@@ -19,8 +19,8 @@
 
   Unlike privacy, there is no universally applicable concept of
   fairness. However, it is important to understand what fairness
-  ideals we can strive towards in order to at least to be able to
-  measure how close to achieving them our systems are.  We will look
+  ideals we can strive towards in order to at least be able to
+  measure how close to achieving them our systems are. We will look
   at two broad concepts of fairness that arise in machine
   learning. The first has to do with the treatment of disadvantaged
   populations that form distinct social classes due to a shared income
@@ -42,7 +42,8 @@
   of those ideas are about the fair treatment of individuals: \emph{Meritocracy}
   is the idea that people should receive rewards according to their
   merit. \emph{Equal treatment} is the somewhat weaker notion that similar
-  people should be treated similarly under similar circumstances. Some
+  people should be treated similarly under similar circumstances.
+  Some
   concepts are related more to the treatment of different groups:
   \emph{Proportional representation} is the idea that proportions of
   different groups in society should be reflected in every facet of
@@ -56,8 +57,9 @@
     outcome}, where university success rates should be equal for
   people from all backgrounds.
 
+  The interplay between the legal and mathematical definitions of the above concepts are somewhat murky, as opportunity and outcomes are somewhat relative. In~\cite{griggs1971}, a company had instituted some cognitive tests for promotion. However, since these were unrelated to the work requirements and were denying promotion mostly to black employees, they were found to be discriminatory by the US supreme court.
 
-  Like privacy, we wish to define fairness as a property of the \emph{decision making process}. Thus, it does not necessarily make sense to deem an outcome as fair or not: it is the process through which we arrive at that outcome which is fair. However, unlike privacy, fairness is perceived notion, that  depends on the knowledge the observer has. Taking the example of meritocracy, if we want the actually 8 best chess players to participate in the world chess championship, is that the same as picking the top-8-ranked players? Is that the same as picking the top finishers in last year's tournaments? Nobody \emph{really} knows who the best players are, or even if is was \emph{possible} to rank them. These problems persist in all variants of fairness definitions, as we shall see below.
+  Like privacy, we wish to define fairness as a property of the \emph{decision making process}. Thus, it does not necessarily make sense to deem an outcome as fair or not: it is the process through which we arrive at that outcome which is fair. However, unlike privacy, fairness is a perceived notion that depends on the knowledge the observer has. Taking the example of meritocracy, if we want the actual 8 best chess players to participate in the world chess championship, is that the same as picking the top-8-ranked players? Is that the same as picking the top finishers in last year's tournaments? Nobody \emph{really} knows who the best players are, or even if it was \emph{possible} to rank them. These problems persist in all variants of fairness definitions, as we shall see below.
 }
 \only<presentation>{
   \begin{frame}
@@ -113,7 +115,7 @@
     do!}  \only<article>{ In particular, student B may very well
     protest that the only information specifically relating to them is
     their own grade. How previous Vasa graduates performed might be
-    irrelevant. Indeed, since these are only statistics, they not
+    irrelevant. Indeed, since these are only statistics, they are not
     necessarily predictive of an individual student's ability.
     Ideally, we would like to admit the students that we expect to do
     well, given the information that we have. However, this
@@ -163,7 +165,7 @@
   \item<1-> Admit \alert{everybody}? \only<article>{This suggests that everybody is admitted to at least one university, perhaps even their university of choice. However, it requires that there is enough teaching capacity for all students in the first year. Subsequently, we expect the students who were not qualified to drop out. Of course, this is unfair to the \emph{qualified} students, as it drains resources that could have been used for them. This inefficiency is also unfair to the teaching staff, and eventually the taxpayer.}
   \item<2-> Admit \alert{randomly}? \only<article>{Completely random decisions are not considered fair, because they do not take into account any information. However, randomisation can also be used in conjunction with grades to ensure that everybody has a shot. This corresponds to a type of equality of opportunity.}
   \item<3-> Use \alert{prediction} of individual academic performance? \only<article>{The more information we have, the better we can predict academic performance. A grade from high school is one indicator, but more data can be used to obtain better predictions. Of course, no prediction is perfect: they can be inaccurate, insufficient, or biased.}
-  \item<4-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics and engineering. Another factor is wealth: prosperous families can afford specialised training for their children that allows them to have higher grades. This inequality could be partially corrected by allocating university places to students with underpriviliged backgrounds.}
+  \item<4-> Should we take into account \alert{group membership} or other population information? \only<article>{For many reasons, students in some groups can perform differently in standardised tests, even though their innate talents may be no different than students not in the group. The classical example of this is high school teachers discouraging girls from mathematics and engineering. Another factor is wealth: prosperous families can afford specialised training for their children that allows them to have higher grades. This inequality could be partially corrected by allocating university places to students with underprivileged backgrounds.}
   \end{itemize}
   
 \end{frame}
@@ -171,8 +173,8 @@
 
 \only<article>{
   \begin{example}[Hiring decisions.]
-    Consider gender balance in hiring decisions.  Typically, received
-    applications are screened, so that some applicants undergo through
+    Consider gender balance in hiring decisions. Typically, received
+    applications are screened, so that some applicants go through
     an interview process. This screening process is sometimes
     automated. At the end, some of the interviewed applicants will be
     hired. There are two decision points here, with most people being
@@ -213,10 +215,10 @@
   surgeon; or simply earning enough to provide for their
   family. Crucially, these outcomes can be correlated with group
   membership, because of societal dynamics. The system designer should
-  make sure that not only the system does what it intends, such as
+  make sure that the system not only does what it intends, such as
   giving loans to people that are expected to repay them, but also
-  that it does not create inequalities between different groups. As we
-  will see later, depending on our fairness definition, and on the
+  does not create inequalities between different groups. As we
+  will see later, depending on our fairness definition and on the
   societal dynamics, this is almost never easy: unlike privacy, which
   is a pure algorithmic property, the fairness of the process depends
   not only on the algorithm itself but the underlying statistics and
@@ -294,18 +296,18 @@
 
 \begin{frame}
   \paragraph{Outcomes.}
-  After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution $P_\theta$ with parameter $\theta$,
+  After the judge makes their decision, they observe an outcome $y_t$ sampled from some potentially unknown distribution $P_\param$ with parameter $\param$,
   denoting the probability of $y_t$ given the individual's features
   and the action taken. Here, there are two possibilities. In the first case,
   the action reflects a \emph{decision} with downstream effects. Then it
-  will have affect outcome. Hence, the conditional
+  will affect the outcome. Hence, the conditional
   distribution of outcomes in this case is:
   \begin{equation}
-    P_\theta(y_t \mid x_t, z_t, a_t).
+    P_\param(y_t \mid x_t, z_t, a_t).
   \end{equation}
 The second case is that only the observed features, and not the action, affect the outcome $y_t$, i.e. the distribution of $y_t$ is given by
   \begin{equation}
-    P_\theta(y_t \mid x_t, z_t).
+    P_\param(y_t \mid x_t, z_t).
   \end{equation}
   This will be only the case if the action is merely a pure
   \emph{prediction} that is never used to make decisions, even
@@ -322,7 +324,7 @@ The second case is that only the observed features, and not the action, affect t
   For the above example, we may consider a simple
   set of actions $\CA = \{0, 1\}$, where a defendant is granted
   $(a_t = 0)$ or denied $(a_t = 1)$ bail and outcomes $y_t = 0$ meaning they go to trial and $y_t = 1$ meaning recidivism or failure to attend trial.
-  The judge does not want to keep people in jail, and prefers that they are outside and attend trial. However, she also does not want them to
+  The judge does not want to keep people in jail, and prefers that they are outside and attend trial. However, she also does not want them to commit another crime.
   Consequently, we may define the following utility function for the
   judge, that roughly reflects those preferences:
 
@@ -330,7 +332,7 @@ The second case is that only the observed features, and not the action, affect t
     \begin{tabular}{c|c|c}
       $U(a, y)$ & $y_t = 0$& $y_t = 1$\\\hline
       $a_t = 0$ &  1  &  c \\
-      $a_t = 1$ & 0   &  ?
+      $a_t = 1$ & 0   &  n/a
     \end{tabular}
   \end{center}
   where $c < 1$ is a constant that reflects how much the judge weights different possibilities: When $c < 0$, the judge prefers to have somebody in jail than them not to attend trial. Note that the utility for $a_t =1, y_t=1$ is not necessarily defined, because we can not ever observe this scenario.
@@ -341,8 +343,8 @@ The second case is that only the observed features, and not the action, affect t
   Let us start with the bail example, involving only the defendant (who has characteristics $x_t, z_t$) and the judge, (who makes decisions $a_t$). The question is whether or not the defendant will appear at the trial $(y_t)$.
   If the judge does not grant bail, they make the trial appearance certain. If they do, then the defendant may or may not appear. So $y_t$ here depends on $a_t$.
   
-  However, even simple actions, such as predictions, can \emph{can}
-  affect outcomes. In particular, the COMPAS systems's predictions are
+  However, even simple actions, such as predictions, can
+  affect outcomes. In particular, the COMPAS system's predictions are
   revealed to the judge, who takes them into account when deciding to
   grant bail. Hence, if we consider whether or not the COMPAS system
   is fair, the actions $a_t$ of the system are its
@@ -377,8 +379,7 @@ The second case is that only the observed features, and not the action, affect t
 \subsection{Fairness notions.}
 For simplicity, in this section we first assume that we know the parameter $\param$ of the unknown distribution. The DM wants to find a policy maximising expected utility, while taking into account some fairness notions. Let us begin by considering different fairness metrics.
   \begin{frame}
-    \frametitle{Demographic parity and equality of opportunity.}
-
+    \frametitle{Proportional representation.}
     \only<article>{Let us take a look at how many individuals are given
       different scores in the COMPAS program. Figure~\ref{fig:risk-bias}
       shows the proportions of individuals obtaining different risk
@@ -386,19 +387,20 @@ For simplicity, in this section we first assume that we know the parameter $\par
       population, and Caucasians in particular, have a distribution
       sharply concentrated in low scores, Black defendants obtain much
       higher risk scores: they are half as likely to have a score of 1
-      as Caucasian and twice as likely to have a score of 10. }
+      as Caucasians and twice as likely to have a score of 10. }
     \begin{figure}[H]
       \centering
       \includegraphics[width=\fwidth]{../figures/Scores-by-race}      
       \caption{Apparent bias in risk scores towards black versus white defendants.}
       \label{fig:risk-bias}
     \end{figure}
-    \only<article>{ We can formalise the requirement for everybody to be
-      equally treated, either with respect to the decisions, or with
-      respect to the outcomes.  Decision parity is called \emph{equality
-        of opportunity} and satisfies the following condition: }
+    \only<article>{ We can formalise the requirement for proportional
+      representation either with respect to the decisions, or with
+      respect to the outcomes.  \emph{Selection (or decision) parity}
+      says that our decisions should be independent of the sensitive
+      variable.}
     \begin{equation}
-      \label{eq:equality-opportunity}
+      \label{eq:equality-actions}
       \Pr_\param^\pol(a_t | z_t) =       \Pr_\param^\pol(a_t ).
     \end{equation}
     \only<article>{ Consequently, the action (risk score, in this case)
@@ -409,15 +411,17 @@ For simplicity, in this section we first assume that we know the parameter $\par
       $\Pr_\param^\pol(a_t )$, while the other two curves correspond to
       $\Pr_\param^\pol(a_t | z_t)$ for $z_t$ being Caucasian and
       African-American respectively.
+
       
-      \emph{Demographic parity} instead relates to outcomes. If this
-      condition is satisfied, then the probability distribution of
-      outcomes is independent of group membership:
+      \emph{Outcome parity} tells us that outcomes should be the same
+      for all groups. So, if this condition is satisfied, then the
+      probability distribution of outcomes is independent of group
+      membership:
       \begin{equation}
         \label{eq:eqality-outcomes}
         \Pr_\param^\pol(y_t | z_t) =       \Pr_\param^\pol(y_t ).
       \end{equation}
-      As we can see in Table~\ref{tab:recidivism}, the recidivism rates are not the same across groups. Caucasian rates are nearly half those of African-Americans. While in this particular case, the judge's policy may not significantly affect the distribution, in other scenarios, such as loan decisions or university admissions they clearly do. 
+      As we can see in Table~\ref{tab:recidivism}, the recidivism rates are not the same across groups. Caucasian rates are nearly half those of African-Americans. While in this particular case, the judge's policy may not significantly affect the distribution, in other scenarios, such as loan decisions or university admissions, they clearly do. 
       \begin{table}[h]
         \centering
         \begin{tabular}{r|r|r}
@@ -428,7 +432,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
         \caption{Recidivism rates across ethnic groups.}
         \label{tab:recidivism}
       \end{table}
-      Given that Caucasians both have lower recidivism rates and lower scores than African-Americans, could this simply be because people with a higher chance of recidivism obtain higher scores? To explore this further, we need to look at some \emph{conditional} independence fairness notions. This measure how the actions and outcomes depend on each other when conditional on group membership.
+      Given that Caucasians both have lower recidivism rates and lower scores than African-Americans, could this simply be because people with a higher chance of recidivism obtain higher scores? To explore this further, we need to look at some \emph{conditional} independence fairness notions. These measure how the actions and outcomes depend on each other when conditioned on group membership.
     }
   \end{frame}
 
@@ -451,7 +455,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
       \label{fig:imrs}
     \end{figure}
     \only<article>{
-      This concept can be quantified in terms of the conditional distribution of outcomes given the score:}
+      \emph{Calibration}, or \emph{predictive parity}, can be quantified in terms of the conditional distribution of outcomes given the score:}
     \begin{equation}
       \Pr_\param^\pol(y_t | a_t, z_t) =       \Pr_\param^\pol(y_t | a_t).
       \label{eq:calibration}
@@ -466,7 +470,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
 
   \begin{frame}
     \frametitle{Balance: Conditional independence of action and protected attribute.}
-    \only<article>{While the system's predictions seem to be calibrated against the chance of recidivism, this does not mean that race plays no role. Figure~\ref{fig:imrs-risk} breaks down the population in people that re-offended and those that did. For each sub-population, we then plot the proportion of people receiving different scores by race. While people generally have a small probability of obtaining a high risk score, we see that Black defendants obtain much higher scores.}
+    \only<article>{While the system's predictions seem to be calibrated against the chance of recidivism, this does not mean that race plays no role. Figure~\ref{fig:imrs-risk} breaks down the population into people who re-offended and those who did not. For each sub-population, we then plot the proportion of people receiving different scores by race. While people generally have a small probability of obtaining a high risk score, we see that Black defendants obtain much higher scores.}
     
     \begin{figure}[H]
       \centering
@@ -482,7 +486,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
       \label{fig:imrs-risk}
     \end{figure}
     \only<article>{
-      Balance can also be interpreted as a probabilistic condition, of the following form:
+      \emph{Balance}, or \emph{equalized odds} can also be interpreted as a probabilistic condition, of the following form:
     }
     \begin{equation}
       \Pr_\param^\pol(a_t | y_t, z_t) =       \Pr_\param^\pol(a_t | y_t).
@@ -558,7 +562,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
         \end{itemize}
       }
       \only<article>{
-        Classification problems are the simplest setting where the above problems appear. There, the outcomes $y$ are simply labels. the decision space $\CA$ is predictions about label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write
+        Classification problems are the simplest setting where the above problems appear. There, the outcomes $y$ are simply labels. The decision space $\CA$ is predictions about the label, and the utility function is the classification accuracy, so that $U(a, y) = \ind{a = y}$. In this setting, $y$ does not directly depend on $a$, since $a$ is just a prediction of the latent label.  More precisely, $y \indep a \mid x$. This allows us to write
       }
       \[
         \Pr_\param^\pol(y_t \mid a_t, x_t, z_t) =   \Pr_\param^\pol(y_t \mid x_t, z_t).
@@ -566,8 +570,8 @@ For simplicity, in this section we first assume that we know the parameter $\par
       \only<article>{
         For binary classification problems in particular, we may be only
         interested in slightly narrower concepts, such as equal false
-        negative---$\Pr(a_t = 0 | y_t = 1, z_t = z)$---or false
-        positive---$\Pr(a_t = 1 | y_t = 0, z_t = z)$---rates between groups
+        negative: $\Pr(a_t = 0 | y_t = 1, z_t = z)$, or false
+        positive: $\Pr(a_t = 1 | y_t = 0, z_t = z)$ rates between groups
         $z$. These are special cases of the balance condition described above.
       }
     \end{example}
@@ -609,7 +613,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
 \begin{frame}
   \subsection{Measuring fairness deviation.}
   \only<article>{
-    Unfortunately none of these fairness conditions will be satisfied in practice. So,   we need a way to measure how much we deviate from them.A simple idea is to simply look at how far
+    Unfortunately none of these fairness conditions will be satisfied in practice. So, we need a way to measure how much we deviate from them. A simple idea is to look at how far
     away the distribution is from independence. In particular, let us
     consider \emph{balance}, which requires that these distributions: 
   }
@@ -622,7 +626,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
   \[
     \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
     =
-    \sum_a |\Pr_\param^\pol(a| y, z) -   \Pr_\param^\pol(a | y)|_1.
+    \sum_a |\Pr_\param^\pol(a| y, z) -   \Pr_\param^\pol(a | y)|.
   \]
   \only<article>{
     We can then sum over all possible values of $y, z$ to obtain a
@@ -631,20 +635,20 @@ For simplicity, in this section we first assume that we know the parameter $\par
     obtain the empirical models:
   }
   \[
-    \hat{P}_n(a | y, z) = \sum_t \frac{\ind{a_t = a \wedge y_t = y \wedge z_t = z}}{\ind{y_t = y \wedge z_t = z}},
+    \hat{P}_n(a | y, z) = \frac{ \sum_t \ind{a_t = a \wedge y_t = y \wedge z_t = z}}{ \sum_t \ind{y_t = y \wedge z_t = z}},
     \qquad
-    \hat{P}_n(a | y) = \sum_t \frac{\ind{a_t = a \wedge y_t = y}}{\ind{y_t = y}},
+    \hat{P}_n(a | y) =  \frac{\sum_t \ind{a_t = a \wedge y_t = y}}{\sum_t \ind{y_t = y}},
   \]
   We can then plug those into our original measure:
   \[
-    \|\Pr_\param^\pol(a | y, z) -   \Pr_\param^\pol(a | y)\|_1
+    \|\Pr_\param^\pol(a | y, z) - \Pr_\param^\pol(a | y)\|_1
     \approx
     \sum_a |\hat{P}_n (a| y, z) -   \hat{P}_n(a| y)|.
   \]
-  \only<article>{ This allow us to calculate the fairness (balance) of
+  \only<article>{ This allows us to calculate the fairness (balance) of
     a specific policy.
     
-    \begin{exercise} In the following exercise. you need to calculate the empirical estimate for different fairness deviations and different metrics.
+    \begin{exercise} In the following exercise, you need to calculate the empirical estimate for different fairness deviations and different metrics.
       \begin{enumerate}
       \item Calculate the corresponding empirical estimate for \emph{calibration} and \emph{parity}
       \item Repeat the above for the KL divergence:
@@ -657,14 +661,8 @@ For simplicity, in this section we first assume that we know the parameter $\par
   \end{exercise}
   }
 \end{frame}
-\subsection{Trading off  utility and fairness.}
+\subsection{Trading off utility and fairness.}
 \label{sec:trad-util-fairn}
-<<<<<<< HEAD
-\only<article>{ We have now examined some notions of utility and 
-  fairness. We have also seen how to measure utility and fairness in
-  practice. How can we choose a policy $\pol$ that optimises for both? The  general idea is to formalise the problem in terms of a constrained
-  or unconstrained optimisation. }
-=======
   If we only cared about maximising expected utility $\util$, and not fairness at all, then we need to find a policy $\pol$ maximising:
   \begin{equation} 
     \label{eq:expected-utility-judge}
@@ -678,14 +676,13 @@ For simplicity, in this section we first assume that we know the parameter $\par
     \[
       \E[U \mid a, z] = \sum_y P_\param(y | a, x, z) U(a,y).
     \]
-    However, sometimes $\pol$ is restricted, e.g. to the class of logistic regression models. In addition, if we are also optimising for fairness, then we can no longer can define the decision rule implicitly, but we must perform the explicit optimisation over $\pi$.
+    However, sometimes $\pol$ is restricted, e.g. to the class of logistic regression models. In addition, if we are also optimising for fairness, then we can no longer define the decision rule implicitly, but we must perform the explicit optimisation over $\pi$.
   \end{theoryblock}
 
   \only<article>{ Given this notion of utility and one of the above
     fairness deviations, how can we choose a policy $\pol$ that
     optimises for both? The general idea is to formalise the problem
     in terms of a constrained or unconstrained optimisation. }
->>>>>>> b636ff6e4321f04d02e27bd252927c7390180533
 \begin{frame}
   \frametitle{Formalisation of the problem.}
 
@@ -706,7 +703,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
     also has some computational impact. }
 
   \begin{block}{Unconstrained optimisation.}
-    \only<article>{The simnplest idea is to treat the utility and fairness symetrically. Then we can simply optimise for their mixture.}
+    \only<article>{The simplest idea is to treat the utility and fairness symmetrically. Then we can simply optimise for their mixture.}
     Let $\lambda \in [0,1]$:
     \[
       \max_\pol (1 - \lambda) U(\pol, \param) - \lambda F(\pol, \param).
@@ -720,7 +717,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
       =
       (1 - \lambda) \nabla_\pol U(\pol, \param) - \lambda \nabla_\pol F(\pol, \param).
     \]
-    Consqeuently, we only need to move in the direction of the sum of
+    Consequently, we only need to move in the direction of the sum of
     these gradients.  One difficulty with this formulation is that
     setting the $\lambda$ parameter is not very intuitive, in
     particular if one of the two quantities is more sensitive to the
@@ -739,7 +736,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
     \end{align*}
   \end{block}
 
-  \only<article>{Since the best we can do for fairness deviation is to have $F(\pol, \param) = 0$, it makes sense to upper bound it by an amount $\epsilon \geq 0$. This can be done through some empirical evaluation Let us now look at the converse problem, maximising fairness, while making sure that the utility is not much worse than the best we can get. }
+  \only<article>{Since the best we can do for fairness deviation is to have $F(\pol, \param) = 0$, it makes sense to upper bound it by an amount $\epsilon \geq 0$. This can be done through some empirical evaluation. Let us now look at the converse problem, maximising fairness, while making sure that the utility is not much worse than the best we can get. }
   \begin{block}{Constrained utility.}
     \only<article>{In this setting, we want to limit the amount of sub-optimality $\epsilon$ we have relative to the optimal policy that ignores fairness.}
     Let $\epsilon \geq 0$:
@@ -773,7 +770,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
   
   Let us write out the expected utility of any policy, with $\Pr_\param^{\pol}(\cdot) \equiv \Pr(\cdot \mid \param, \pol)$, which in general looks like this, where we use discrete variables for simplicity:
   \[
-    \E_\param^\pol(U) = \sum_{a,x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y) = \sum_{x,z} P_\param(x,z) \sum_a \pol(a | x, z) \sum_y P_\param(y | a, x, z) .
+    \E_\param^\pol(U) = \sum_{a,x,z,y} \Pr_\param^\pol(y,a,x,z) U(a,y) = \sum_{x,z} P_\param(x,z) \sum_a \pol(a | x, z) \sum_y P_\param(y | a, x, z) U(a,y).
   \]
   The $y_t, a_t, x_t, z_t$ tuple is already sampled from $\Pr_\param^{\pol_0}$, so we can approximate the expected utility of the \alert{historical policy} with a simple Monte-Carlo estimate:
   \[
@@ -794,27 +791,31 @@ For simplicity, in this section we first assume that we know the parameter $\par
   \end{align*}
   The first approximation in the above equation replaces the feature distribution with its empirical approximation. Maximising this still requires a model $P_\param(y | a, x_t, z_t)$.
   The second approximation is a bit more delicate, and is a type of importance sampling,\index{importance sampling} as explained in more detail in Section~\ref{sec:monte-carlo}.
+
   This is because, in the original data we have only some specific $a_t, y_t$ for every individual $t$, where $a_t$ was selected by some historical policy $\pol_0$. Unfortunately, the policy $\pol_0$ may also be unknown and must be estimated from the data. So, in order for us to be able to approximate the utility of some unknown policy from data, we need to have some model for the outcome distribution $P_\param(y | a, x, z)$ or the historical policy $\pol_0(a | x, z)$.
 
-<<<<<<< HEAD
+    \begin{exercise}
+    Show that the above approximation is an unbiased estimator of the expected utility.
+  \end{exercise}
+  
+  
   \begin{exercise}
-    Unlike utility, which is a simple sum over independent outcomes, importance sampling may be hard to apply for fairness. This is because it represents a more complex interaction between the policy $\pol$ and the process $P_\theta$ than the expected utility. In this exercise, derive an importance sampling estimate for parity:
+    Unlike utility, which is a simple sum over independent outcomes, importance sampling may be hard to apply for fairness. This is because it represents a more complex interaction between the policy $\pol$ and the process $P_\param$ than the expected utility. In this exercise, derive an importance sampling estimate for parity:
     \[
       \max_{z} \sum_a |\Pr_\param^\pol(a \mid z) - \Pr_\param^\pol(a)|.
     \]
-    \begin{solution}
+    \iftrue
+      Solution:
+      Let us consider some arbitrary $z$. Then:
       \begin{align*}
-        P(a|z) - P(z)
-        &= \sum_x P(a, x | z) - P(z, x)\\
-        &= \sum_x P(a | x, z) P(x|z) - P(z | x) P(x)
+        \Pr_\param^\pol(a|z) - P_\param^\pol(a)
+        &= \sum_x \Pr_\param^\pol(a, x | z) - \sum_{x} \Pr^\pol_\param(a, x)\\
+        &= \sum_x \pol(a | x, z) P_\param(z | x) P_\param(x) - \sum_{x,z'} \pol(a | x, z') P_\param(z' | x) P_\param(x)\\
+        &\approx \frac{1}{T} \sum_{t=1}^T [\pol(a_t | x_t, z_t)  - 1]\ind{z_t=z},
       \end{align*}
-    \end{solution}
+      where $T_z$ is the number of examples with $z_t = z$.
+    \fi
   \end{exercise}
-
-=======
-  Importance sampling may be hard to apply for fairness, because it represents a more complex interaction between the policy $\pol$ an the process $P_\param$ than the expected utility, which a simple sum. 
-  
->>>>>>> b636ff6e4321f04d02e27bd252927c7390180533
   \only<presentation>{
     \begin{block}{Model specification}
       For simplicity, assume $z = x_{1}$, i.e. one of the features.  Then
@@ -855,11 +856,11 @@ For simplicity, in this section we first assume that we know the parameter $\par
   \]
   In the last step, we are approximating the integral with $n$ samples from the posterior, and taking the gradient separately for each one. This solution was implemented in \cite{dimitrakakis2017:subjective-fairness} and contrasted with a maximum likelihood approach.
 
-  \paragraph{High probability bounds.} It is also worth mentioning that it is typically possible to construct some confidence set $\hat{\Param}$ so that $\Pr(\param \notin \hat{\Param}) \leq \delta$. This means that high probability, we the true parameter lies in $\hat{\Param}$. Then we can instead solve the optimisation problem:
+  \paragraph{High probability bounds.} It is also worth mentioning that it is typically possible to construct some confidence set $\hat{\Param}$ so that $\Pr(\param \notin \hat{\Param}) \leq \delta$. This means that with high probability, the true parameter lies in $\hat{\Param}$. Then we can instead solve the optimisation problem:
   \[
     \max_{\pol \in \Pol} \min_{\param \in \hat{\Param}} V(\pol, \param),
   \]
-  which takes a \emph{pessimistic} view of the uncertainty. That is, for every possible choice of policy, it finds the best-case parameter among the plausible ones. This is not necessary: we could simply choose another parameter in $\hat{\Param}$, but with this methodology, we are quite sure that the actual value of the policy is not going to be worse. The only downside is that the maximin optimisation problem may not be easily solveable. It is also interesting to consider the $\max_{\pol \in \Pol} \max_{\param \in \hat{\Param}} V(\pol, \param)$ optimisation problem instead, which gives an \emph{optimistic} solution. This can turn out to be advantageous when we will actively collect data using our policy.
+  which takes a \emph{pessimistic} view of the uncertainty. That is, for every possible choice of policy, it finds the worst-case parameter among the plausible ones. This is not necessary: we could simply choose another parameter in $\hat{\Param}$, but with this methodology, we are quite sure that the actual value of the policy is not going to be worse. The only downside is that the maximin optimisation problem may not be easily solvable. It is also interesting to consider the $\max_{\pol \in \Pol} \max_{\param \in \hat{\Param}} V(\pol, \param)$ optimisation problem instead, which gives an \emph{optimistic} solution. This can turn out to be advantageous when we will actively collect data using our policy.
 }
 
 \section{Individual fairness}
@@ -889,15 +890,15 @@ For simplicity, in this section we first assume that we know the parameter $\par
   A lot of the variables we might be interested in are not
   observed. For example, we might want to know the true potential and
   skill of a student in Math. However, the only thing we have is their
-  exam or high-school grades, which are mere proxys for their true
+  exam or high-school grades, which are mere proxies for their true
   skills. While one of the easiest ways to deal with meritocracy is to
-  define worth precisely respect to those observed variables, it is a
+  define worth precisely with respect to those observed variables, it is a
   good idea to use inferred measures of worth if possible. However,
   this requires building some type of model.
 
   Finally, even though we are making decisions about individuals,
   frequently these are made about multiple individuals at once. This
-  is is the case in university placements, for example, where
+  is the case in university placements, for example, where
   thousands of students submit their preferences for different
   university programmes, and then they are placed depending on their
   own preferences, as well as their grades. Thus, the problem faced by
@@ -941,12 +942,12 @@ For simplicity, in this section we first assume that we know the parameter $\par
   (e.g. university placements), everybody prefers one of them to the
   other. However, we do not expect everybody to have the same
   preferences. Indeed, in university placements, each student
-  typically submits and ordered list of preferences and they are
+  typically submits an ordered list of preferences and they are
   matched to programs according to their preferences and their
   grades.
 
   In the definition below, we assume that every individual has a
-  specific, invariant, inereht worth. They also have a clear
+  specific, invariant, inherent worth. They also have a clear
   preference over the decision maker's actions.
 }
 
@@ -958,13 +959,13 @@ For simplicity, in this section we first assume that we know the parameter $\par
     that there is a distinction between decisions being fair and
     policies being fair. Requiring that individual decisions satisfy a
     fairness constraint is much stricter than a similar requirement
-    for policis. }
+    for policies. }
   \begin{definition}
     A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$, we have $w_i > w_j \Leftrightarrow u_i(a) \geq u_j(a)$.
   \end{definition}
   \only<article>{In the above definition, a person with a higher worth than another is guaranteed to obtain at least as good an outcome as another person of lower worth. If we think about a single decision affecting multiple individuals, then such a fairness property is hard to satisfy: in some cases there may not exist any such fair decision, as shown in the example below.}
   \begin{example}
-    In this example, there are two decisions available, and there are three individuals. However, none of these decisions is allocating utilities according to the intrinsic worth of the individual. For $a = 0$, individual 2 obtains more utility than individual 1, even though the latter is worth more. For $a = 1$, individual 3 obtains less utility that individual 1, even though the latter is has less merit.
+    In this example, there are two decisions available, and there are three individuals. However, none of these decisions is allocating utilities according to the intrinsic worth of the individual. For $a = 0$, individual 2 obtains more utility than individual 1, even though the latter is worth more. For $a = 1$, individual 3 obtains less utility than individual 1, even though the latter has less merit.
     \centering
     \begin{tabular}{c||c|c|c}
       $w$ &  &  $a = 0 $ & $a = 1$\\
@@ -1086,21 +1087,21 @@ For simplicity, in this section we first assume that we know the parameter $\par
   $w_i$ for individuals with features $x_i$. Then we want our
   decisions to be fair in expectation. This expectation is taken with respect to both the randomness due to our modelling, and the potential randomness due to our decision rule.
 
-  Consider the that two students have almost, but not exactly the same grades, and one was assigned a place, while the other not. Is that fair? Is it perhaps fairer to randomise to some extent, so that, while the best students are guaranteed a place, the ones further down the ranking might still have a chance? After all, grades are not the absolute truth: they are but a noisy, biased measurement of an individual's academic capacity. In the section below, we will discuss how decision rules can be made smoother more generally, and not just through randomising over identical individuals.
+  Consider that two students have almost, but not exactly, the same grades, and one was assigned a place, while the other not. Is that fair? Is it perhaps fairer to randomise to some extent, so that, while the best students are guaranteed a place, the ones further down the ranking might still have a chance? After all, grades are not the absolute truth: they are but a noisy, biased measurement of an individual's academic capacity. In the section below, we will discuss how decision rules can be made smoother more generally, and not just through randomising over identical individuals.
 }
 
 
 \subsection{Fairness as smoothness.}
 \only<article>{ Another principle for individual fairness is
   \emph{treating similar people similarly}. For example, consider a
-  company hiring for multiple positions. While there maybe a few
+  company hiring for multiple positions. While there may be a few
   outstanding candidates who are all hired, a relative of the CEO, who
   is a mediocre candidate, is also hired. The relative stands out
   because he is treated differently to other similar candidates who
   have not been hired.
 
   To formalise this principle, we need to first assume that each
-  candidates $i$ is described by some features $x_i \in \CX$, and that
+  candidate $i$ is described by some features $x_i \in \CX$, and that
   a metric $d : \CX \times \CX \to \Reals_+$ is defined on $\CX$, so
   that similar individuals $i, j$ will have a smaller distance $d(x_i, x_j)$.
 
@@ -1122,7 +1123,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
   taken. We can then define the utility in terms of this payoff function. This depends on how we define the decision and outcome space.
 
 
-  Let us first consider policies that making separate decisions for
+  Let us first consider policies that make separate decisions for
   each individual, e.g. whether or not somebody should be hired. There
   are two settings in this case. The first is making individual
   decisions for a finite given population
@@ -1188,7 +1189,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
     It is sufficient for  $\left|\frac{d}{dx} f(x)\right| < 1$
     for the function to be Lipschitz. One example is $\sin(x)$, whose derivative is $\cos(x)$.
     \begin{definition}[Lipschitz function]
-      A function $f: X \to Y$ is $(d, D)$-Lipshitz, where $d, D$ are (semi)-metrics on $X, Y$, iff
+      A function $f: X \to Y$ is $(d, D)$-Lipschitz, where $d, D$ are (semi)-metrics on $X, Y$, iff
       \[
         D[f(x), f(x')] \leq d(x, x').
       \]
@@ -1267,7 +1268,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
   \]
   This results in the following set of constraints for our problem:
   \[
-    \sum_{a \in \CA} |\param_{i,a} - \param_{i,j}| \leq d(x_i, x_j).
+    \sum_{a \in \CA} |\param_{i,a} - \param_{j,a}| \leq d(x_i, x_j).
   \]
   Since $d(x_i, x_j)$ does not depend on the parameters, the problem remains linear.
 
@@ -1290,7 +1291,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
   \]
   This is not really difficult to work with, but we have a potential problem when considering the smoothness constraints. If we let $d(\bx, \bx') = \|\bx - \bx'\|$ then the Lipschitz condition is in fact a condition on the gradient:
   \[
-    \nabla_\bx \pol(a \mid \bx) \leq 1, \qquad \forall \bx \in \CX.
+    \nabla_\bx \|\pol(a \mid \bx)\| \leq 1, \qquad \forall \bx \in \CX.
   \]
   Consequently, the optimisation of $\vparam$ must be such that this constraint is satisfied. It will usually be sufficient to constrain it to a bounded norm.
 }
@@ -1324,7 +1325,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
 
 \only<article>{
   \begin{exercise}
-    Consider the following problem, where $z$ is Bernoulli(1/2) and $x \Reals^2$ is a normally distributed variable with mean $(0,z)$ and identity covariance matrix. There are two actions and outcomes, with the outcome being $y_t = 1$ with probability $1/(1 + e^{x_a})$.
+    Consider the following problem, where $z$ is Bernoulli(1/2) and $x \in \Reals^2$ is a normally distributed variable with mean $(0,z)$ and identity covariance matrix. There are two actions and outcomes, with the outcome being $y_t = 1$ with probability $1/(1 + e^{x_a})$.
     [Add more details]
   \end{exercise}
 
@@ -1336,7 +1337,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
     Construct two Bernoulli random variables $x, y$ which do not
     have an independent structure, but for which
     $P(x, y) = P(x)P(y)$.
-    In particular, assume $P(y = 1 \mid x = 1 = \param_1$ and $P(y = 1 \mid x=0) = \param_0$, with $\param_1 \neq \param_0$. If $P(x = 1) = \param$, what should its value be so that $P(x, y) = P(x)P(y)$?
+    In particular, assume $P(y = 1 \mid x = 1) = \param_1$ and $P(y = 1 \mid x=0) = \param_0$, with $\param_1 \neq \param_0$. If $P(x = 1) = \param$, what should its value be so that $P(x, y) = P(x)P(y)$?
   \end{exercise}
   \begin{proof}
     The solution is relatively simple. Consider that 
