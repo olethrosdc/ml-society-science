@@ -365,12 +365,12 @@ The second case is that only the observed features, and not the action, affect t
   predictions. However, the judge's decision and the final outcome
   depend on those actions.
 
-   Let us continue with \emph{loan applications.} If the outcome we are
+  Another example is \emph{loan applications.} If the outcome we are
   interested in is the net worth of the individual after five years,
   it is clear that the loan decision will have some effect. However,
-  it does not \emph{directly} determine the worth of the individual:
-  it is up to them to properly invest the loan, if it is given, or
-  to find the optimal course of action if the loan is denied.
+  it does not \emph{fully} determine the worth of the individual:
+  it is up to them to properly invest the loan, if it is given, or to
+  find the optimal course of action if the loan is denied.
 
   \paragraph{Actions that do not affect the outcome.} Generally
   speaking, the only way for an action to not affect the outcome is if
@@ -814,20 +814,20 @@ For simplicity, in this section we first assume that we know the parameter $\par
   
   
   \begin{exercise}
-    Unlike utility, which is a simple sum over independent outcomes, importance sampling may be hard to apply for fairness. This is because it represents a more complex interaction between the policy $\pol$ and the process $P_\param$ than the expected utility. In this exercise, derive an importance sampling estimate for parity:
+    Unlike utility, which is a simple sum over independent outcomes, importance sampling may be hard to apply for fairness. This is because it represents a more complex interaction between the policy $\pol$ and the process $P_\param$ than the expected utility. In this exercise, try to derive an importance sampling estimate for parity, and point out the difficulty in doing so:
     \[
       \max_{z} \sum_a |\Pr_\param^\pol(a \mid z) - \Pr_\param^\pol(a)|.
     \]
-    \iftrue
+    \iffalse
       Solution:
       Let us consider some arbitrary $z$. Then:
       \begin{align*}
         \Pr_\param^\pol(a|z) - P_\param^\pol(a)
         &= \sum_x \Pr_\param^\pol(a, x | z) - \sum_{x} \Pr^\pol_\param(a, x)\\
         &= \sum_x \pol(a | x, z) P_\param(z | x) P_\param(x) - \sum_{x,z'} \pol(a | x, z') P_\param(z' | x) P_\param(x)\\
-        &\approx \frac{1}{T} \sum_{t=1}^T [\pol(a_t | x_t, z_t)  - 1]\ind{z_t=z},
+        &\approx \frac{1}{T} \sum_{t=1}^T \left(\pol(a_t | x_t, z_t) \ind{z_t=z} -  \sum_{z'} \pol(a_t | x_t, z') P_\param(z' | x_t) \right).
       \end{align*}
-      where $T_z$ is the number of examples with $z_t = z$.
+      Since we only have one sample from $P_\param(z' | x_t)$, i.e. $z_t$, this requires that we have the corresponding model, or for us to be able to re-sample $z'$ given $x_t$.
     \fi
   \end{exercise}
   \only<presentation>{
@@ -844,9 +844,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
     Using the model, we can estimate the expected utility of any policy.
   }
   
-
-  
-  \paragraph{Use an estimated $\hat{\param}$.} The idea here is to replace the unknown $\param$ with an estimated value $\hat{\param}$. Here, for example, we could perform maximum-likelihood inference to find an estimate for $\param$:
+  \paragraph{Use an estimated $\hat{\param}$.} Since we do not know the model, we can use an estimate. The idea here is to replace the unknown $\param$ with an estimated value $\hat{\param}$. Here, for example, we could perform maximum-likelihood inference to find an estimate for $\param$:
   \[
     \hat{\param} \defn \argmax_{\param \in \Param} \prod_{t=1}^T P_\param(y_t | a_t, x_t, z_t) P_\param(x_t, z_t).
   \]
@@ -856,11 +854,13 @@ For simplicity, in this section we first assume that we know the parameter $\par
   \]
   However, this approach completely ignores the uncertainty about $\param$. In practice, this makes a rather large difference, especially in some group fairness settings, where increased uncertainty makes the optimal policy quite different.
 
-  \paragraph{Bayesian decision theory.} The Bayesian solution is simple. Starting with a prior distribution $\bel$ on $\Param$, calculate the posterior $\bel(\param \mid D)$ using the data $D$. We now need to solve the following optimisation problem, which integrates over all possible values of the unknown parameter, weighted by their probability:
+  \paragraph{Bayesian decision theory.} The Bayesian solution is simple in principle, if not always in practice. Starting with a prior distribution $\bel$ on $\Param$, calculate the posterior $\bel(\param \mid D)$ using the data $D$. We now need to solve the following optimisation problem, which integrates over all possible values of the unknown parameter, weighted by their probability:
   \[
     \max_{\pol \in \Pol} \int_\Param V(\pol, \param) \dd \bel(\param \mid D).
   \]
-  For a given policy space $\Pol$ the introduction of an integral does not make things much harder than in the case where $\param$ is known. In fact, if we are using gradient descent to find the optimal policy, we only need to change the algorithm to \emph{stochastic} gradient descent, where the randomness comes from the fact that we sample parameters from the posterior distribution. This is because we can write the gradient as follows:
+  The main practical difficulty here is the calculation of the posterior distribution over parameters. Otherwise, for a given policy space $\Pol$ the introduction of an integral does not make things much harder than in the case where $\param$ is known. We can approximate the integral with samples from the posterior.
+
+  In fact, if we can use gradient algorithms to find the optimal policy, we can always replace them with \emph{stochastic} gradient algorithms. In this case the randomness comes from the fact that we sample parameters from the posterior distribution. This is because we can write the gradient as follows:
   \[
     \nabla_\param \int_\Param V(\pol, \param) \dd \bel(\param \mid D)
     =
@@ -868,13 +868,13 @@ For simplicity, in this section we first assume that we know the parameter $\par
     \approx
     \frac{1}{n} \sum_{i=1}^n \nabla_\param V(\pol, \param^{(i)}), \qquad \param^{(i)} \sim \bel(\param \mid D).
   \]
-  In the last step, we are approximating the integral with $n$ samples from the posterior, and taking the gradient separately for each one. This solution was implemented in \cite{dimitrakakis2017:subjective-fairness} and contrasted with a maximum likelihood approach.
+  In the last step, we are approximating the integral with $n$ samples from the posterior, and taking the gradient separately for each one. This solution, in the context of fairness, was implemented in \citep{dimitrakakis2017:subjective-fairness} where it was shown to perform significantly better than a maximum likelihood approach, because uncertainty was taken explicitly into account.
 
   \paragraph{High probability bounds.} It is also worth mentioning that it is typically possible to construct some confidence set $\hat{\Param}$ so that $\Pr(\param \notin \hat{\Param}) \leq \delta$. This means that with high probability, the true parameter lies in $\hat{\Param}$. Then we can instead solve the optimisation problem:
   \[
     \max_{\pol \in \Pol} \min_{\param \in \hat{\Param}} V(\pol, \param),
   \]
-  which takes a \emph{pessimistic} view of the uncertainty. That is, for every possible choice of policy, it finds the worst-case parameter among the plausible ones. This is not necessary: we could simply choose another parameter in $\hat{\Param}$, but with this methodology, we are quite sure that the actual value of the policy is not going to be worse. The only downside is that the maximin optimisation problem may not be easily solvable. It is also interesting to consider the $\max_{\pol \in \Pol} \max_{\param \in \hat{\Param}} V(\pol, \param)$ optimisation problem instead, which gives an \emph{optimistic} solution. This can turn out to be advantageous when we will actively collect data using our policy.
+  which takes a \emph{pessimistic} view of the uncertainty. That is, for every possible choice of policy, it finds the worst-case parameter among the plausible ones. This is not necessary: we could simply choose another parameter in $\hat{\Param}$, but with this methodology, we are quite sure that the actual value of the policy is not going to be worse. The only downside is that the maximin optimisation problem may not be easily solvable. For that reason, it is also interesting to consider the $\max_{\pol \in \Pol} \max_{\param \in \hat{\Param}} V(\pol, \param)$ optimisation problem instead, which gives an \emph{optimistic} solution. This can turn out to be advantageous when we will actively collect data using our policy.
 }
 
 \section{Individual fairness}
@@ -951,29 +951,34 @@ For simplicity, in this section we first assume that we know the parameter $\par
   of each individual, as well as how much each one values possible
   rewards.
 
-  In addition, we have to have a notion of the worth of rewards. The
-  simplest assumption is that for any pair of possible rewards
-  (e.g. university placements), everybody prefers one of them to the
-  other. However, we do not expect everybody to have the same
-  preferences. Indeed, in university placements, each student
-  typically submits an ordered list of preferences and they are
-  matched to programs according to their preferences and their
-  grades.
+  Each person should also be able to evaluate rewards. The simplest
+  assumption is that for any pair of possible rewards (e.g. university
+  placements), everybody prefers one of them to the other. However, we
+  do not expect everybody to have the same preferences. Indeed, in
+  university placements, each student typically submits an ordered
+  list of preferences and they are matched to programs according to
+  their preferences and their grades. While some institutes are
+  generally recognised as being more illustrious, or desired, each
+  individual has their own personal criteria that determines how much
+  they value each university, and indeed, the departments within a
+  university.
 
-  In the definition below, we assume that every individual has a
-  specific, invariant, inherent worth. They also have a clear
+  In all of the definitions below, we assume that every individual has
+  a specific, invariant, inherent worth. They also have a clear
   preference over the decision maker's actions.
+  In particular, let the DM's action be $a \in \CA$ and some individual $i$ in the population, with inherent worths $w_i \in \Reals$ and individual evaluations $u_i : \CA \to \Reals$, so that they (weakly) prefer $a$ to $a'$ iff $u_i(a) \geq u_i(a')$. This results in a linear order among all elements of $\CA$.
 }
 
 
 \begin{frame}
   \frametitle{Meritocracy for given utilities and worths.}
-  \only<article>{ The following definitions are applicable for any
-    type of decision making over individuals. An important point is
-    that there is a distinction between decisions being fair and
-    policies being fair. Requiring that individual decisions satisfy a
-    fairness constraint is much stricter than a similar requirement
-    for policies. }
+  \only<article>{ We are now ready to give some meritocracy
+    definitions. These are applicable for any type of decision making
+    over individuals. An important point is that there is a
+    distinction between decisions being fair and policies being
+    fair. Requiring that individual decisions satisfy a fairness
+    constraint is much stricter than a similar requirement for
+    policies. }
   \begin{definition}
     A \textbf{decision} $a$ is \textbf{fair} if, for all $i,j$, we have $w_i > w_j \Leftrightarrow u_i(a) \geq u_j(a)$.
   \end{definition}
@@ -1137,15 +1142,16 @@ For simplicity, in this section we first assume that we know the parameter $\par
   taken. We can then define the utility in terms of this payoff function. This depends on how we define the decision and outcome space.
 
 
-  Let us first consider policies that make separate decisions for
-  each individual, e.g. whether or not somebody should be hired. There
-  are two settings in this case. The first is making individual
-  decisions for a finite given population
-  $\CX = \{x_1, \ldots, x_T\}$. This allows us to define the utility
-  in terms of the sum of individual payoffs:
-  \[
-    U(\pol, x) \defn \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
-  \]
+  Let us first consider policies that make separate decisions for each
+  individual, e.g. whether or not somebody should be hired. There are
+  two settings in this case. The first is making individual decisions
+  for a finite given population $X = \{x_1, \ldots, x_T\}$, with
+  $X \subset \CX$. This allows us to define the utility in terms of
+  the sum of individual payoffs:
+  \begin{equation}
+    U(\pol) \defn \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
+    \label{eq:population-policy}
+  \end{equation}
   Here the decision maker may not know the actual payoff, but will have some expectation $\rho(x_t, a)$ of what it might be. This is sufficient for finding the optimal policy.
   
   The second setting is to define a policy that will be applied in a
@@ -1153,13 +1159,14 @@ For simplicity, in this section we first assume that we know the parameter $\par
   decision now, but we will have to fix a policy that will be applied
   later to individuals drawn independently\footnote{This is only a mild assumption on the setting where decisions are made independently for each individual.} from some distribution
   $P$. Then the utility of any policy $\pol$ over some distribution $P$
-  can be written as:
-  \[
+  on $\CX$ can be written as:
+  \begin{equation}
     U(\pol) \defn \int_{\CX} dP(x) \left[\sum_{a \in \CA} \rho(x, a) \pol(a_t = a | x)\right].
-  \]
+    \label{eq:distribution-policy}
+  \end{equation}
   For simplicity, we can assume that $P$ is known, but it could also have been estimated from data. Similarly, $\rho$ may be an evaluation function that we chose arbitrarily to fit the problem at hand, or it could be estimated from data.
   
-  For now assume that $\util$ is well-defined. To impose a smoothness constraint on the policy, we require it to be Lipschitz-smooth with respect to the metric on the observed features. Together with the objective of maximising utility, we can define the following constrained maximisation problem, as was suggested by~\citet{dwork2012fairness}:
+  For now assume that $\util$ is well-defined according to one of the above. To impose a smoothness constraint on the policy, we require it to be Lipschitz-smooth with respect to the metric on the observed features. Together with the objective of maximising utility, we can define the following constrained maximisation problem, as was suggested by~\citet{dwork2012fairness}:
   \begin{block}{Treating similar individuals similarly.}
     For a given utility $U$, metric $d$ on $\CX$ and divergence $D$:
     \begin{equation}
@@ -1168,10 +1175,17 @@ For simplicity, in this section we first assume that we know the parameter $\par
       \label{eq:lipschitz-fairness}
     \end{equation}
   \end{block}
-  This formulation suggests that similar individuals (in terms of $d$) are treated similarly (in terms of $D$). Hence, their choice dictates the semantic of ``similarly''. It is also possible that we have not settled on an appropriate metric $d$ with respect to the features. 
-  Finally, the policy may not have the independence property, so the above Lipschitz condition may not be properly defined. There are also differences in the available solutions for the optimisation problem when we are dealing with a fixed population versus a distribution over populations.
+  This formulation suggests that similar individuals (in terms of $d$) are treated similarly (in terms of $D$). Hence, the choice of these metrics dictates the semantic of ``similarly''. This condition mainly makes sense for policies which have the independence property.
 
-  We will go through all of these later. 
+  When we are considering a \emph{fixed} population $X$, we have a finite set of constraints for each $x_i, x_j \in X$. We can also define the policy a set of action probabilities $\pol_{i,a}$ for each individual $x_i \in X$ and each action $a$. When $D$ is the total variation, this results in a linear program.
+
+  When we want to pre-define a policy that can be applied to a \emph{potential} population, the situation is rather different. Firstly, we cannot assign individuals action probabilities, as we do not have a set of individuals. Instead, we must define a policy that assigns a probability $\pol(a \mid x)$ for any possible $x \in \CX$. The simplest way to do this would be a linear-softmax classifier. This would result in a policy making decisions independently for each individual. The final difficulty is ensuring that it is not trivial to satisfy the constraints. One plausible method for the case of total-variation, is to constrain the gradient $\nabla_x \pol$. Another is to sample a set $X \subset \CX$ from $P$ and then enforce pairwise constraints on that set.
+  
+  \begin{exercise}
+    Prove that \eqref{eq:lipschitz-fairness} results in a linear program when 
+
+  \end{exercise}
+  % We will go through all of these later. 
 }
 \only<presentation>{
   \begin{frame}
@@ -1243,7 +1257,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
     not being hired. On the other hand, the DM prefers to hire
     applicants that result in higher utility. In particular, hiring
     applicant $x$ results in utility $u(x)$. Let us now define the
-    utility of a policy, when applied to a single applicant, as
+    utility of a policy, when applied to a single applicant, as:2
   }
   \[
     \E^\pi (u | x) = \pi(a = 1| x) u(x).
