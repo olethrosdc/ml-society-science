@@ -1,25 +1,88 @@
-\begin{tabular}{cc}
-  $\Reals$ & the real numbers\\
-  $\Simplex(A)$ & the simplex (i.e. set of distributions) over a set $A$\\
-  $\Naturals$ & the natural numbers\\
-  $[m]$ & $1, 2, \ldots, m$\\
-  $\Pr$ & probability (informally)\\
-  $\E$ & expectation operator\\
-  $\defn$ & definition\\
-  $\st$ & such that\\
-  $\then$ & implies\\
-  $\Leftrightarrow$ & if and only if\\
-  $\param \in Param$ & a parameter\\
-  $\pol \in \Pol$ & a policy \\
-  $\mdp \in \MDP$ & a model or parameter\\
-  $\ind{X}$ & indicator function, equals one when $X$ is true, 0 otherwise\\
-  $\indep$ & independence operator\\
-  $\eqpref$ & prefers equally\\
-  $\gtpref$ & strictly prefers more\\
-  $\ltpref$ & strictly prefers less\\
-  $\gepref$ & prefers more \\
-  $\lepref$ & prefers less
-\end{tabular}
+\begin{table}
+  \begin{subtable}[t]{0.95\textwidth}
+      %\centering
+      \begin{tabular}{cc}
+        \hline  
+      $\Naturals$ & the natural numbers\\
+      $[m]$ & $\{1, 2, \ldots, m\}$\\
+      $\Reals$ & the real numbers\\
+      $\Simplex(A)$ & the simplex (i.e. set of distributions) over a set $A$\\
+      $\ind{X}$ & indicator function, equals one when $X$ is true, 0 otherwise\\
+      $\st$ & such that\\
+      $\defn$ & definition\\
+      $\forall$ & for all\\
+      $\exists$ & there exists\\\hline
+    \end{tabular}
+    \caption{General symbols and functions}
+  \end{subtable}
+  \begin{subtable}[h]{0.45\textwidth}
+    %\centering
+    \begin{tabular}{cc}
+      \hline  
+      $\then$ & implies\\
+      $\Leftrightarrow$ & if and only if\\
+      $\wedge$ & and\\
+      $\vee$ & or\\
+      $\neg$ & not\\\hline
+    \end{tabular}
+    \caption{Logic}
+  \end{subtable}
+  \begin{subtable}[h]{0.45\textwidth}
+    \begin{tabular}{cc}
+      \hline  
+      $\emptyset$ & the empty set\\
+      $x \in A$ & $x$ is in $A$\\
+      $A \subseteq B$ & $A$ is a subset of $B$\\
+      $A \subset B$ & $A$ is a strict subset of $B$\\
+      $A \cap B$ &  intersection: $\{x \in A \wedge x \in B\}$\\
+      $A \cup B$ &  union $\{x \in A \vee x \in B\}$\\
+      $A \setminus B$ &  set difference: $\{x \in A \wedge x \notin B\}$\\  
+      $\Omega$ & The universal set\\
+      $\compl{A}$ & The complement: $\Omega \setminus A$\\\hline
+    \end{tabular}
+    \caption{Sets}
+  \end{subtable}
+  \begin{subtable}[t]{0.95\textwidth}
+    %\centering
+    \begin{tabular}{cc}
+      \hline  
+      $\Pr$ & probability (informally)\\
+      $\E$ & expectation operator\\
+      $A \indep B$  & A and B are independent\\
+      $A \indep B \mid C $  & A and B are independent given C\\
+      $P(A | B)$ & conditional probability measure $P$ of $A$ given $B$\\
+      $\Pr(x | y=j)$ & conditional probability of r.v. $x$ given $y$ takes the value j\\\hline
+    \end{tabular}
+    \caption{Probability}
+  \end{subtable}
+  \begin{subtable}{0.45\textwidth}
+    %\centering
+    \begin{tabular}{cc}
+      \hline  
+      $\eqpref$ & prefers equally\\
+      $\gtpref$ & strictly prefers more\\
+      $\ltpref$ & strictly prefers less\\
+      $\gepref$ & prefers more \\
+      $\lepref$ & prefers less\\\hline
+    \end{tabular}
+    \caption{Preferences}
+  \end{subtable}
+  \begin{subtable}{0.45\textwidth}
+    %\centering
+    \begin{tabular}{cc}
+      \hline  
+      $\util$ & utility\\
+      $a \in \CA$ & an action or decision\\
+      $\param \in \Param$ & a parameter\\
+      $\pol \in \Pol$ & a policy \\
+      $\mdp \in \MDP$ & a model or parameter\\
+      $w, x, y, z$ & other random variables\\
+      $t$ & time, or data index\\
+      $T$ & Horizon, or amount of data\\\hline
+    \end{tabular}
+    \caption{Common variable names}
+  \end{subtable}
+\end{table}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "book"

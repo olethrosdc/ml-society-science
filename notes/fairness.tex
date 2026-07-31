@@ -1146,7 +1146,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
   individual, e.g. whether or not somebody should be hired. There are
   two settings in this case. The first is making individual decisions
   for a finite given population $X = \{x_1, \ldots, x_T\}$, with
-  $X \subset \CX$. This allows us to define the utility in terms of
+  $X \subseteq \CX$. This allows us to define the utility in terms of
   the sum of individual payoffs:
   \begin{equation}
     U(\pol) \defn \sum_{t=1}^T \sum_{a \in \CA} \rho(x_t, a) \pol(a_t = a | x_t).
@@ -1179,7 +1179,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
 
   When we are considering a \emph{fixed} population $X$, we have a finite set of constraints for each $x_i, x_j \in X$. We can also define the policy a set of action probabilities $\pol_{i,a}$ for each individual $x_i \in X$ and each action $a$. When $D$ is the total variation, this results in a linear program.
 
-  When we want to pre-define a policy that can be applied to a \emph{potential} population, the situation is rather different. Firstly, we cannot assign individuals action probabilities, as we do not have a set of individuals. Instead, we must define a policy that assigns a probability $\pol(a \mid x)$ for any possible $x \in \CX$. The simplest way to do this would be a linear-softmax classifier. This would result in a policy making decisions independently for each individual. The final difficulty is ensuring that it is not trivial to satisfy the constraints. One plausible method for the case of total-variation, is to constrain the gradient $\nabla_x \pol$. Another is to sample a set $X \subset \CX$ from $P$ and then enforce pairwise constraints on that set.
+  When we want to pre-define a policy that can be applied to a \emph{potential} population, the situation is rather different. Firstly, we cannot assign individuals action probabilities, as we do not have a set of individuals. Instead, we must define a policy that assigns a probability $\pol(a \mid x)$ for any possible $x \in \CX$. The simplest way to do this would be a linear-softmax classifier. This would result in a policy making decisions independently for each individual. The final difficulty is ensuring that it is not trivial to satisfy the constraints. One plausible method for the case of total-variation, is to constrain the gradient $\nabla_x \pol$. Another is to sample a set $X \subseteq \CX$ from $P$ and then enforce pairwise constraints on that set.
   
   \begin{exercise}
     Prove that \eqref{eq:lipschitz-fairness} results in a linear program when 
@@ -1229,7 +1229,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
     If $P, Q$ are distributions on $\Omega$, we define
     \begin{definition}[Total variation]
       \[
-        D_{TV}(P, Q) \defn \max_{A \subset \Omega} |P(A) - Q(A)|= \frac{1}{2} \|P - Q\|_1 = \frac{1}{2} \sum_\omega |P(\omega) - Q(\omega)|
+        D_{TV}(P, Q) \defn \max_{A \subseteq \Omega} |P(A) - Q(A)|= \frac{1}{2} \|P - Q\|_1 = \frac{1}{2} \sum_\omega |P(\omega) - Q(\omega)|
       \]
     \end{definition}
     \begin{definition}[KL-divergence]
@@ -1292,7 +1292,7 @@ For simplicity, in this section we first assume that we know the parameter $\par
 
   Let us look at the smoothness constraints now. If we limit ourselves only to the observed population, there is a finite number of constraints: $D[\pol(a \mid x_i)\|\pol(a \mid x_j)]$ for $i, j \in [T]$. The simplest choice for $D$ is total variation between two distributions:
   \[
-    D_{TV}(P\|Q) \defn \max_{A \subset \Omega} |P(A) - Q(A)| = \frac{1}{2} \|P - Q\|_1 = \frac{1}{2} \sum_{\omega \in \Omega} |P(\omega) - Q(\omega)|.
+    D_{TV}(P\|Q) \defn \max_{A \subseteq \Omega} |P(A) - Q(A)| = \frac{1}{2} \|P - Q\|_1 = \frac{1}{2} \sum_{\omega \in \Omega} |P(\omega) - Q(\omega)|.
   \]
   This results in the following set of constraints for our problem:
   \[
@@ -1326,28 +1326,28 @@ For simplicity, in this section we first assume that we know the parameter $\par
 
 
 \subsection{Group fairness properties of smooth policies.}
-\begin{frame}\frametitle{Smoothness and parity.}
-  Can group fairness be satisfied in this setting?
-  To define groups, we select $S, T \subset \CX$. We can say a policy satisfies approximate parity between the groups if:
-  \begin{definition}{$\epsilon$-parity}
+\begin{frame}
+  Can group fairness be satisfied in this setting?   We define two distinct groups  $S, T \subseteq \CX$. We can say a policy satisfies approximate parity between the groups if the action distribution is similar for both, for example:
+  \begin{definition}{$\epsilon$-parity} of a policy $\pol$ with respect to two groups $S \cap T = \emptyset$ and parameter $\param$:
     \[
-      \|\pol(a | x \in S) - \pol(a | x \in T)\|_1 \leq \epsilon.
+      \|\pol(A | x \in S) - \pol(A | x \in T)\|_1 \leq \epsilon, \quad \forall A \subseteq \CA, x \in \CX
+      \qquad 
+      |\Pr_\pol^\param(x \in S \mid a)\epsilon - \Pr_\pol^\param(x \in T \mid a)| \leq \epsilon.
     \]
+    \label{def:epsilon-parity}
   \end{definition}
-  We can also similarly define the worst-case bias for some action:
-  \begin{definition}{Bias for some action $a$:}
-    \[
-      \max_\pol \pol(a | x \in S) - \pol(a | x \in T)
-      \qquad
-      \textrm{s.t. $\pol$ is Lipschitz}
-    \]
-  \end{definition}
-  \only<article>{The main problem here is that if we are required to be smooth, but one set has most of its members in one subset.}
+  \only<article>{If the policy is required to be smooth, it may be hard to satisfy these conditions without loss of utility. For example, let $Y \subseteq \CX$ and $Z = \compl{Y}$, so that the $U(a,x) = 0$ when $a=0, x\in Y$ or $a=1, x \in Z$, but $U(a,x)=1$ otherwise. Then, we must play action $1$ when $x \in Y$, and action $0$ when $x \in Z$ to maximise utility. If in addition, $S = Y$ and $T = Z$ our choices are maximally different for individuals in the two groups. }
+
+  % We can also similarly define the worst-case bias for some specific action $a$:
+  % \begin{definition}{Bias for some action $a$:}
+  %   \[
+  %     \max_\pol |\pol(a | x \in S) - \pol(a | x \in T)|
+  %     \qquad
+  %     \textrm{s.t. $\pol$ is Lipschitz}
+  %   \]
+  % \end{definition}
 \end{frame}
 
-\subsection{Fair ranking.}
-
-\subsection{Fair cohort selection.}
 
 \section{Exercises}
 
@@ -1367,9 +1367,24 @@ For simplicity, in this section we first assume that we know the parameter $\par
     $P(x, y) = P(x)P(y)$.
     In particular, assume $P(y = 1 \mid x = 1) = \param_1$ and $P(y = 1 \mid x=0) = \param_0$, with $\param_1 \neq \param_0$. If $P(x = 1) = \param$, what should its value be so that $P(x, y) = P(x)P(y)$?
   \end{exercise}
-  \begin{proof}
-    The solution is relatively simple. Consider that 
-  \end{proof}
+
+  \begin{exercise}
+    Consider a setting where $Y \subseteq \CX$ and $Z = \compl{Y}$
+    with a utility function such that $U(a,x) = 0$ when $a=0, x\in Y$
+    or $a=1, x \in Z$, but $U(a,x)=1$ otherwise. Then, we must play
+    action $1$ when $x \in Y$, and action $0$ when $x \in Z$ to
+    maximise utility.
+
+    If $\pol$ is $1$-Lipschitz with respect to the
+    $d(x,y) = \|x - y\|_1$ and $D(P, Q) = \|P - Q\|_1$, and the
+    distribution $P_\param(x)$ is uniform, what is the maximum
+    expected utility achievable?
+
+    What is the $\epsilon$-parity 
+
+    Solution: There must be a part of $Y$ where the sets are 
+
+  \end{exercise}
   
 }
 
