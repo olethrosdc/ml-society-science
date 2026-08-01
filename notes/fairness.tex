@@ -1325,8 +1325,10 @@ For simplicity, in this section we first assume that we know the parameter $\par
 }
 
 
-\subsection{Group fairness properties of smooth policies.}
+\subsection{The effect of smooth policies on utility and fairness.}
 \begin{frame}
+If the policy is required to be smooth, it can lead to a loss of utility. For example, let $Y \subseteq \CX$ and $Z = \compl{Y}$, so that the $U(a,x) = 0$ when $a=0, x\in Y$ or $a=1, x \in Z$, but $U(a,x)=1$ otherwise. Then, we must play action $1$ when $x \in Y$, and action $0$ when $x \in Z$ to maximise utility. 
+  
   Can group fairness be satisfied in this setting?   We define two distinct groups  $S, T \subseteq \CX$. We can say a policy satisfies approximate parity between the groups if the action distribution is similar for both, for example:
   \begin{definition}{$\epsilon$-parity} of a policy $\pol$ with respect to two groups $S \cap T = \emptyset$ and parameter $\param$:
     \[
@@ -1336,7 +1338,10 @@ For simplicity, in this section we first assume that we know the parameter $\par
     \]
     \label{def:epsilon-parity}
   \end{definition}
-  \only<article>{If the policy is required to be smooth, it may be hard to satisfy these conditions without loss of utility. For example, let $Y \subseteq \CX$ and $Z = \compl{Y}$, so that the $U(a,x) = 0$ when $a=0, x\in Y$ or $a=1, x \in Z$, but $U(a,x)=1$ otherwise. Then, we must play action $1$ when $x \in Y$, and action $0$ when $x \in Z$ to maximise utility. If in addition, $S = Y$ and $T = Z$ our choices are maximally different for individuals in the two groups. }
+  \only<article>{
+    Consider the example above. If in addition, $S = Y$ and $T = Z$ our choices are maximally different for individuals in the two groups.
+    
+  }
 
   % We can also similarly define the worst-case bias for some specific action $a$:
   % \begin{definition}{Bias for some action $a$:}
